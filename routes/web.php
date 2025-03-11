@@ -24,6 +24,9 @@ Route::get('lang/{lang}', [languageController::class, 'switchLang'])->name('swit
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
+//----------------------------LOGOUT-------------------------------//
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 //----------------------------REGISTER-------------------------------//
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [LoginController::class, 'register']);
@@ -39,6 +42,5 @@ Route::middleware('auth')->get('/Calculator', [calculatorController::class, 'ind
 
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------PRINCIPAL-------------------------------//
-Route::get('/Admin', [adminController::class, 'index']);
-
+Route::get('/Admin', [adminController::class, 'index']);    
 

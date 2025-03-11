@@ -1,0 +1,130 @@
+* {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    margin-top: 10px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 1.22rem;
+}
+
+.logo-container {
+    background:linear-gradient(to bottom,
+                #ffffff 0%,
+                #ffffff 15%,
+                #003d6b 34%);
+       
+    width: 20%;
+}
+
+.logo{
+    border-bottom-right-radius: 30px;
+    background: white;
+}
+
+.logo img {
+    width: 180px;
+    height: auto;
+    display: block;
+}
+
+.nav-icons {
+    display: flex;
+    gap: 9rem;
+    justify-content: center;
+    align-items: center;
+    background: #003d6b;
+    width: calc(100% - 200px);
+    height: 100%;
+    padding: 1rem 2rem;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+.nav-icon {
+    width: 50px;
+    height: 50px;
+    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.nav-logout-icon {
+    width: 30px;
+    height: 30px;
+    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.nav-icon:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+    .nav-icons {
+        gap: 2rem;
+    }
+
+    .nav-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        width: 100px;
+    }
+
+    .nav-icons {
+        gap: 1.5rem;
+        padding: 0.5rem;
+    }
+
+    .nav-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-icons {
+        width: 100%;
+        border-radius: 0;
+        gap: 1rem;
+    }
+
+    .nav-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+/* Estilos para la burbuja emergente */
+.tooltip-bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    display: none;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    animation: fadeIn 0.2s ease-in-out;
+}

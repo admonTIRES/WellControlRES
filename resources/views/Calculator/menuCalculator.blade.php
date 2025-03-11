@@ -1,733 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Layout</title>
-    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Niconne&family=Jura:wght@400;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Jura', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(to bottom,
-                    #003d6b 0%,
-                    #003d6b 45%,
-                    #ffffff 100%);
-            min-height: 100vh;
-            display: flex;
-        }
-
-        .main-container {
-            display: flex;
-            gap: 10px;
-            max-width: 1450px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 20px 0 20px 0;
-        }
-
-        .sidebar-container {
-            width: 350px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            animation: fadeInUp 0.8s ease forwards;
-            flex-shrink: 0;
-            height: 95vh;
-            margin-left: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nav-list-container {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        /* Estilo para el scrollbar */
-        .nav-list-container::-webkit-scrollbar {
-            width: 2px;
-        }
-
-        .nav-list-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .nav-list-container::-webkit-scrollbar-thumb {
-            background: #003d6b;
-            border-radius: 4px;
-        }
-
-        .nav-list-container::-webkit-scrollbar-thumb:hover {
-            background: #002d4f;
-        }
-
-        .content-container {
-            flex: 1;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            animation: fadeInUp 0.8s ease forwards;
-            animation-delay: 0.2s;
-            opacity: 0;
-            margin-right: 20px;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            /* Aumentado de 1.3rem a 1.5rem */
-            font-weight: 600;
-            color: #003d6b;
-            margin: 10px 0 5px 0;
-            padding: 0 5px;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            /* Aumentado de 1rem a 1.1rem */
-            color: #003d6b;
-            margin-bottom: 10px;
-            padding: 0 5px;
-            font-weight: 500;
-        }
-
-        .nav-list {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin: 6px 0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            background: rgba(0, 61, 107, 0.03);
-        }
-
-        .nav-item.active {
-            background: white;
-            border: 1px solid #003d6b;
-            box-shadow: 0 4px 15px rgba(0, 61, 107, 0.1);
-        }
-
-        .nav-item:hover {
-            background: white;
-            border: 1px solid #003d6b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 61, 107, 0.1);
-        }
-
-        .nav-item-content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .nav-item-title {
-            font-size: 1rem;
-            /* Aumentado de 0.9rem a 1rem */
-            color: #003d6b;
-            margin-bottom: 2px;
-            font-weight: 500;
-        }
-
-        .nav-item-subtitle {
-            font-size: 0.9rem;
-            /* Aumentado de 0.8rem a 0.9rem */
-            color: #666;
-        }
-
-        .star-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 25px;
-            height: 25px;
-            margin-right: 12px;
-            color: #003d6b;
-            background: rgba(0, 61, 107, 0.1);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .star-icon::before {
-            content: "★";
-            font-size: 14px;
-        }
-
-        .nav-item:hover .star-icon {
-            background: #003d6b;
-            color: white;
-            transform: rotate(360deg);
-        }
-
-        .content-section {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .content-section.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .content-title {
-            font-size: 1.8rem;
-            color: #003d6b;
-            margin-bottom: 20px;
-        }
-
-        .content-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #444;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 968px) {
-            .main-container {
-                flex-direction: column;
-                padding: 20px;
-            }
-
-            .sidebar-container {
-                width: 100%;
-                height: auto;
-                max-height: 60vh;
-            }
-
-            .content-container {
-                width: 100%;
-                margin-right: 0;
-            }
-        }
-
-        .content-section {
-            padding: 20px;
-        }
-
-        .calculator-layout {
-            display: flex;
-            gap: 32px;
-            align-items: flex-start;
-        }
-
-        .calculator-preview {
-            width: 400px;
-            height: 560px;
-            background-color: #666666;
-            border-radius: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-
-        .content-text {
-            flex: 1;
-        }
-
-        .content-text h2 {
-            font-size: 1.3rem;
-            color: #003d6b;
-            margin-bottom: 16px;
-            font-weight: 500;
-        }
-
-        .content-text p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #444;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 24px;
-        }
-
-        .hero-column {
-            position: relative;
-            height: 300px;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 32px;
-            color: white;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero-column::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
-
-        .hero-column:first-child {
-            background-color: #003d6b;
-        }
-
-        .hero-column:last-child {
-            background-color: #005694;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .hero-text {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        scrollbar        .hero-button {
-            display: inline-block;
-            padding: 10px 24px;
-            background: white;
-            color: #003d6b;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .hero-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .content-section {
-            padding: 25px;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s;
-        }
-
-        .content-section.active {
-            opacity: 1;
-            visibility: visible;
-            position: relative;
-        }
-
-
-        .fade-in {
-            animation: fadeIn 0.5s forwards;
-        }
-
-        .fade-out {
-            animation: fadeOut 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        .exercise-container {
-            display: flex;
-            gap: 32px;
-            margin-top: 24px;
-        }
-
-        .exercise-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .calculator-preview {
-            width: 320px;
-            height: 500px;
-            background-color: #666666;
-            border-radius: 24px;
-            flex-shrink: 0;
-        }
-
-        .exercise-title {
-            font-size: 1.8rem;
-            margin-bottom: 16px;
-            color: #333;
-        }
-
-        .exercise-description {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 24px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        .result-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .result-input {
-            width: 100%;
-            max-width: 200px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .submit-button {
-            background-color: #2b3137;
-            color: white;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .text-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-            background-color: #2b3137;
-            padding: 16px;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .text-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 8px;
-        }
-
-        .options-list {
-            background-color: #f8f9fa;
-            padding: 20px 40px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .options-list li {
-            margin-bottom: 12px;
-            color: #333;
-        }
-
-        .result-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #666;
-            text-align: center;
-        }
-
-        .math-drilling-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2rem;
-            text-align: center;
-            color: #003D6B;
-            
-        }
-
-        .math-drilling-subtitle {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            color: #AD453B;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
- p       .math-drilling-section {
-            margin-bottom: 40px;
-        }
-/
-        .math-drilling-text {
-            font-family: 'Jura', sans-serif;
-            font-size: 1.1rem;
-            color: #27272A;
-            margin-bottom: 20px;
-        }
-
-        .math-drilling-list {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-
-        .math-drilling-list li {
-            margin-bottom: 10px;
-        }
-
-        .math-drilling-exercise {
-            background-color: #F0F4F8;
-            padding: 15px;
-            border-left: 5px solid #AD453B;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .math-drilling-exercise-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            color: #003D6B;
-            margin-top: 0;
-        }
-
-        .math-drilling-exercise-text {
-            font-family: 'Jura', sans-serif;
-            font-size: 1rem;
-            color: #27272A;
-            margin: 10px 0;
-        }
-
-        .math-drilling-color-palette {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-
-        .math-drilling-color-box {
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .math-drilling-color-box.primary {
-            background-color: #AD453B;
-        }
-
-        .math-drilling-color-box.secondary {
-            background-color: #B2B4B2;
-        }
-
-        .math-drilling-color-box.accent {
-            background-color: #CDEAFF;
-        }
-
-        .math-drilling-color-box.dark {
-            background-color: #003D6B;
-        }
-
-        .math-drilling-color-box.dark-gray {
-            background-color: #27272A;
-        }
-
-        .scrollable-content {
-            max-height: 640px; 
-            overflow-y: auto;
-            padding-right: 10px; 
-        }
-
-        .scrollable-content::-webkit-scrollbar {
-            width: 2px;
-        }
-
-        .scrollable-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .scrollable-content::-webkit-scrollbar-thumb {
-            background: #AD453B; 
-            border-radius: 4px;
-        }
-
-        .scrollable-content::-webkit-scrollbar-thumb:hover {
-            background: #8c362e; 
-        }
-
-        .voice-button {
-            background-color: #003D6B; 
-            color: white; 
-            border: none; 
-            padding: 15px 30px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            border-radius: 25px; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, box-shadow 0.3s; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px; 
-            outline: none;
-            margin-top: 20px;
-        }
-
-       
-        .voice-button.active {
-            background-color: #f44336; 
-            box-shadow: 0 4px 6px rgba(244, 67, 54, 0.4);
-        }
-
-        
-        .voice-button:hover {
-            background-color: #003D6B; 
-        }
-
-        
-        .voice-button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .voice-button:focus, 
-        .voice-button:active, 
-        .voice-button:focus-visible {
-            outline: none;
-        }
-
-       
-        .material-icons {
-            font-size: 24px; 
-            vertical-align: middle; 
-        }
-
-        .math-drilling-list {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px; /* Ajusta el espacio entre elementos */
-        }
-
-        .math-drilling-list li {
-            display: inline-block; /* Evita que se generen espacios inesperados */
-            overflow: hidden; /* Previene el crecimiento inesperado */
-            transition: transform 0.3s, font-weight 0.3s;
-        }
-
-        .math-drilling-list li:hover {
-            transform: scale(1.1);
-            font-weight: bold;
-        }
-
-        .calculator-parts-list {
-            list-style: none;
-            padding: 0;
-            width: 100%;
-        }
-
-        /* Colores pastel claros */
-        .pantalla { background-color: #FFDDE5; } /* Rosa pastel claro */
-        .seccion-principal { background-color: #FFEBCC; } /* Naranja pastel claro */
-        .funciones-avanzadas { background-color: #D6F8D6; } /* Verde pastel claro */
-        .teclado-numerico { background-color: #CCF0FF; } /* Azul pastel claro */
-        .interruptor-borrado { background-color: #E2D4FF; } /* Morado pastel claro */
-        .operaciones-basicas { background-color: #FFFACD; } /* Amarillo pastel claro */
-        .resultado-ans { background-color: #F5D1FF; } /* Lila pastel claro */
-
-
-        .calculator-part {
-            display: flex;
-            flex-direction: column; /* Apila los elementos verticalmente */
-            align-items: flex-start; /* Alinea el texto a la izquierda */
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: left;
-            transition: all 0.3s ease-in-out;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
-            width: fit-content;
-            height: auto;
-            margin-bottom: 5px;
-            cursor: pointer; /* Hace que parezca interactivo */
-        }
-
-        /* Efecto al pasar el mouse o hacer clic */
-        .calculator-part:hover,
-        .calculator-part:active {
-            transform: scale(1.1); /* Agranda el li */
-        }
-
-        /* Estilo para el span (descripción) */
-        .desc {
-            display: block;
-            opacity: 0;
-            max-width: 100%;
-            overflow: hidden;
-            white-space: normal; /* Permite saltos de línea */
-            height: 0;
-            margin-top: 5px; /* Espacio entre el strong y el span */
-            transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out;
-        }
-
-        /* Expandir la descripción al pasar el mouse */
-        .calculator-part:hover .desc,
-        .calculator-part:active .desc {
-            opacity: 1;
-            height: auto;
-        }
-
-
-
-        
-
-    </style>
-</head>
-
-<body>
+@extends('Template/maestraUser')
+@section('contenido') 
+ 
     <div class="main-container"> 
         <div class="sidebar-container">
             <div class="section-title">Contenido</div>
@@ -1074,166 +347,166 @@
                     <span>Escuchar</span>
                 </button>
                 <div class="math-drilling-section">
-    <h2 class="math-drilling-subtitle">Unidades de medida en el control de pozos</h2>
-    <p class="math-drilling-text">
-        En el control de pozos, es fundamental comprender y convertir entre diferentes unidades de medida para garantizar la precisión en los cálculos y operaciones. A continuación, se presentan las unidades más comunes y su aplicación.
-    </p>
-</div>
+                    <h2 class="math-drilling-subtitle">Unidades de medida en el control de pozos</h2>
+                    <p class="math-drilling-text">
+                        En el control de pozos, es fundamental comprender y convertir entre diferentes unidades de medida para garantizar la precisión en los cálculos y operaciones. A continuación, se presentan las unidades más comunes y su aplicación.
+                    </p>
+                </div>
 
-<div class="math-drilling-section">
-    <div class="math-drilling-exercise">
-        <h3 class="math-drilling-subtitle">Unidades de longitud</h3>
-        <ul class="math-drilling-list">
-            <li><strong>Pies (ft)</strong>: Utilizados para medir profundidades de perforación.</li>
-            <li><strong>Metros (m)</strong>: Comúnmente usados en sistemas métricos.</li>
-            <li><strong>Conversión</strong>: 1 pie = 0.3048 metros.</li>
-        </ul>
-        <p class="math-drilling-text">
-            
-        </p>
-        <img src="/assets/images/calculator/piesametros.jpg" alt="Conversión de pies a metros" class="math-drilling-image">
-    </div>
-</div>
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">Unidades de longitud</h3>
+                        <ul class="math-drilling-list">
+                            <li><strong>Pies (ft)</strong>: Utilizados para medir profundidades de perforación.</li>
+                            <li><strong>Metros (m)</strong>: Comúnmente usados en sistemas métricos.</li>
+                            <li><strong>Conversión</strong>: 1 pie = 0.3048 metros.</li>
+                        </ul>
+                        <p class="math-drilling-text">
+                            
+                        </p>
+                        <img src="/assets/images/calculator/piesametros.jpg" alt="Conversión de pies a metros" class="math-drilling-image">
+                    </div>
+                </div>
 
-<div class="math-drilling-section">
-    <div class="math-drilling-exercise">
-        <h3 class="math-drilling-subtitle">Unidades de volumen</h3>
-        <ul class="math-drilling-list">
-            <li><strong>Barriles (bbl)</strong>: Usados para medir volúmenes de fluidos.</li>
-            <li><strong>Galones (gal)</strong>: Comunes en operaciones de bombeo.</li>
-            <li><strong>Conversión</strong>: 1 barril = 42 galones.</li>
-        </ul>
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">Unidades de volumen</h3>
+                        <ul class="math-drilling-list">
+                            <li><strong>Barriles (bbl)</strong>: Usados para medir volúmenes de fluidos.</li>
+                            <li><strong>Galones (gal)</strong>: Comunes en operaciones de bombeo.</li>
+                            <li><strong>Conversión</strong>: 1 barril = 42 galones.</li>
+                        </ul>
 
-    </div>
-</div>
+                    </div>
+                </div>
 
-<div class="math-drilling-section">
-    <div class="math-drilling-exercise">
-        <h3 class="math-drilling-subtitle">Unidades de presión</h3>
-        <ul class="math-drilling-list">
-            <li><strong>Libras por pulgada cuadrada (psi)</strong>: Utilizadas para medir presión en el pozo.</li>
-            <li><strong>Bares (bar)</strong>: Comunes en sistemas internacionales.</li>
-            <li><strong>Conversión</strong>: 1 bar = 14.5038 psi.</li>
-        </ul>
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">Unidades de presión</h3>
+                        <ul class="math-drilling-list">
+                            <li><strong>Libras por pulgada cuadrada (psi)</strong>: Utilizadas para medir presión en el pozo.</li>
+                            <li><strong>Bares (bar)</strong>: Comunes en sistemas internacionales.</li>
+                            <li><strong>Conversión</strong>: 1 bar = 14.5038 psi.</li>
+                        </ul>
 
-    </div>
-</div>
+                    </div>
+                </div>
 
-<p class="math-drilling-text">
-    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
-</p>
-<div class="math-drilling-video">
-        <iframe width="760" height="515" src="https://www.youtube.com/embed/V_N_mALVOgM?si=VyZazYyc32j5r8wH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+                <p class="math-drilling-text">
+                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                </p>
+                <div class="math-drilling-video">
+                        <iframe width="760" height="515" src="https://www.youtube.com/embed/V_N_mALVOgM?si=VyZazYyc32j5r8wH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
             </div>
 
             <div id="fraccion" class="content-section scrollable-content">
-    <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
-    <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-        <span class="material-icons">volume_up</span> 
-        <span>Escuchar</span>
-    </button>
+                <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
+                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
+                    <span class="material-icons">volume_up</span> 
+                    <span>Escuchar</span>
+                </button>
 
-    <div class="math-drilling-section">
-        <h2 class="math-drilling-subtitle">¿Qué es una fracción y cómo convertirla a decimal?</h2>
-        <p class="math-drilling-text">
-            Una fracción representa una parte de un todo. En el control de pozos, es común trabajar con fracciones para medir diámetros, profundidades y otros parámetros. Convertir una fracción a decimal es esencial para realizar cálculos precisos.
-        </p>
-    </div>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">¿Qué es una fracción y cómo convertirla a decimal?</h2>
+                    <p class="math-drilling-text">
+                        Una fracción representa una parte de un todo. En el control de pozos, es común trabajar con fracciones para medir diámetros, profundidades y otros parámetros. Convertir una fracción a decimal es esencial para realizar cálculos precisos.
+                    </p>
+                </div>
 
-    <div class="math-drilling-section">
-        <div class="math-drilling-exercise">
-            <h3 class="math-drilling-subtitle">Pasos para convertir una fracción a decimal</h3>
-            <ul class="math-drilling-list">
-                <li>Divide el numerador (el número de arriba) entre el denominador (el número de abajo).</li>
-                <li>Ejemplo: Para convertir <code>3/4</code> a decimal, divide 3 entre 4. El resultado es <code>0.75</code>.</li>
-                <li>Si la fracción es mixta (por ejemplo, <code>1 3/4</code>), convierte primero la parte fraccionaria y luego súmala al número entero.</li>
-                <li>Ejemplo: <code>1 3/4</code> se convierte en <code>1 + 0.75 = 1.75</code>.</li>
-            </ul>
-        </div>
-    </div>
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">Pasos para convertir una fracción a decimal</h3>
+                        <ul class="math-drilling-list">
+                            <li>Divide el numerador (el número de arriba) entre el denominador (el número de abajo).</li>
+                            <li>Ejemplo: Para convertir <code>3/4</code> a decimal, divide 3 entre 4. El resultado es <code>0.75</code>.</li>
+                            <li>Si la fracción es mixta (por ejemplo, <code>1 3/4</code>), convierte primero la parte fraccionaria y luego súmala al número entero.</li>
+                            <li>Ejemplo: <code>1 3/4</code> se convierte en <code>1 + 0.75 = 1.75</code>.</li>
+                        </ul>
+                    </div>
+                </div>
 
-    <div class="math-drilling-section">
-        <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
-        <p class="math-drilling-text">
-            Aquí tienes algunos ejemplos comunes de conversión de fracciones a decimales:
-        </p>
-        <ul class="math-drilling-list">
-            <li><code>1/2</code> = 0.5</li>
-            <li><code>3/8</code> = 0.375</li>
-            <li><code>5/16</code> = 0.3125</li>
-            <li><code>7/8</code> = 0.875</li>
-        </ul>
-    </div>
+                <div class="math-drilling-section">
+                    <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
+                    <p class="math-drilling-text">
+                        Aquí tienes algunos ejemplos comunes de conversión de fracciones a decimales:
+                    </p>
+                    <ul class="math-drilling-list">
+                        <li><code>1/2</code> = 0.5</li>
+                        <li><code>3/8</code> = 0.375</li>
+                        <li><code>5/16</code> = 0.3125</li>
+                        <li><code>7/8</code> = 0.875</li>
+                    </ul>
+                </div>
 
-    <div class="math-drilling-section">
-        <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
-        <p class="math-drilling-text">
-            En el control de pozos, las fracciones se utilizan para medir diámetros de tuberías, tamaños de brocas y otros parámetros. Convertir estas fracciones a decimales facilita los cálculos de presión, volumen y profundidad.
-        </p>
-    </div>
+                <div class="math-drilling-section">
+                    <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
+                    <p class="math-drilling-text">
+                        En el control de pozos, las fracciones se utilizan para medir diámetros de tuberías, tamaños de brocas y otros parámetros. Convertir estas fracciones a decimales facilita los cálculos de presión, volumen y profundidad.
+                    </p>
+                </div>
 
-    <p class="math-drilling-text">
-        Para una explicación más detallada, consulta el siguiente video:
-    </p>
-    <div class="math-drilling-video">
-            <iframe width="760" height="515" src="https://www.youtube.com/embed/pOm1azhMuYM?si=21a84f3bWjt4aJhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-</div>
+                <p class="math-drilling-text">
+                    Para una explicación más detallada, consulta el siguiente video:
+                </p>
+                <div class="math-drilling-video">
+                        <iframe width="760" height="515" src="https://www.youtube.com/embed/pOm1azhMuYM?si=21a84f3bWjt4aJhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
 
-<div id="despeje" class="content-section scrollable-content">
-    <h1 class="math-drilling-title">Despejes</h1>
-    <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-        <span class="material-icons">volume_up</span> 
-        <span>Escuchar</span>
-    </button>
+            <div id="despeje" class="content-section scrollable-content">
+                <h1 class="math-drilling-title">Despejes</h1>
+                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
+                    <span class="material-icons">volume_up</span> 
+                    <span>Escuchar</span>
+                </button>
 
-    <div class="math-drilling-section">
-        <h2 class="math-drilling-subtitle">¿Qué es un despeje y por qué es importante?</h2>
-        <p class="math-drilling-text">
-            Despejar una variable en una fórmula es fundamental en el control de pozos, ya que permite calcular valores desconocidos a partir de datos conocidos. Esto es especialmente útil en cálculos de presión, volumen y profundidad.
-        </p>
-    </div>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">¿Qué es un despeje y por qué es importante?</h2>
+                    <p class="math-drilling-text">
+                        Despejar una variable en una fórmula es fundamental en el control de pozos, ya que permite calcular valores desconocidos a partir de datos conocidos. Esto es especialmente útil en cálculos de presión, volumen y profundidad.
+                    </p>
+                </div>
 
-    <div class="math-drilling-section">
-        <div class="math-drilling-exercise">
-            <h3 class="math-drilling-subtitle">Pasos para despejar una variable</h3>
-            <ul class="math-drilling-list">
-                <li>Identifica la variable que deseas despejar.</li>
-                <li>Aplica operaciones inversas (suma/resta, multiplicación/división) para aislar la variable.</li>
-                <li>Simplifica la ecuación hasta que la variable quede sola en un lado de la igualdad.</li>
-                <li>Verifica tu resultado sustituyendo los valores conocidos en la ecuación original.</li>
-            </ul>
-        </div>
-    </div>
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">Pasos para despejar una variable</h3>
+                        <ul class="math-drilling-list">
+                            <li>Identifica la variable que deseas despejar.</li>
+                            <li>Aplica operaciones inversas (suma/resta, multiplicación/división) para aislar la variable.</li>
+                            <li>Simplifica la ecuación hasta que la variable quede sola en un lado de la igualdad.</li>
+                            <li>Verifica tu resultado sustituyendo los valores conocidos en la ecuación original.</li>
+                        </ul>
+                    </div>
+                </div>
 
-    <div class="math-drilling-section">
-        <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
-        <p class="math-drilling-text">
-            Aquí tienes algunos ejemplos comunes de despejes en fórmulas utilizadas en el control de pozos:
-        </p>
-        <ul class="math-drilling-list">
-            <li><strong>Presión hidrostática</strong>: Despejar la profundidad (<code>h</code>) en la fórmula <code>P = ρ * g * h</code>.</li>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/khfgU8a0ZRY?si=sdDxSXCtWJ3VtJu6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <li><strong>Volumen de fluido</strong>: Despejar el radio (<code>r</code>) en la fórmula <code>V = π * r² * h</code>.</li>
-            <li><strong>Gradiente de presión</strong>: Despejar la densidad (<code>ρ</code>) en la fórmula <code>GP = ρ * g</code>.</li>
-        </ul>
-    </div>
+                <div class="math-drilling-section">
+                    <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
+                    <p class="math-drilling-text">
+                        Aquí tienes algunos ejemplos comunes de despejes en fórmulas utilizadas en el control de pozos:
+                    </p>
+                    <ul class="math-drilling-list">
+                        <li><strong>Presión hidrostática</strong>: Despejar la profundidad (<code>h</code>) en la fórmula <code>P = ρ * g * h</code>.</li>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/khfgU8a0ZRY?si=sdDxSXCtWJ3VtJu6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <li><strong>Volumen de fluido</strong>: Despejar el radio (<code>r</code>) en la fórmula <code>V = π * r² * h</code>.</li>
+                        <li><strong>Gradiente de presión</strong>: Despejar la densidad (<code>ρ</code>) en la fórmula <code>GP = ρ * g</code>.</li>
+                    </ul>
+                </div>
 
-    <div class="math-drilling-section">
-        <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
-        <p class="math-drilling-text">
-            En el control de pozos, los despejes se utilizan para calcular variables críticas como la presión, el volumen de fluidos y la profundidad. Estas operaciones son esenciales para garantizar la seguridad y eficiencia en las operaciones de perforación.
-        </p>
-    </div>
+                <div class="math-drilling-section">
+                    <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
+                    <p class="math-drilling-text">
+                        En el control de pozos, los despejes se utilizan para calcular variables críticas como la presión, el volumen de fluidos y la profundidad. Estas operaciones son esenciales para garantizar la seguridad y eficiencia en las operaciones de perforación.
+                    </p>
+                </div>
 
-    <p class="math-drilling-text">
-        Para una explicación más detallada, consulta el siguiente video:
-    </p>
-    <div class="math-drilling-video">
-    <iframe width="760" height="515" src="https://www.youtube.com/embed/NTRMq6nI4OU?si=wdOa9wVdwBGzeU4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-</div>
+                <p class="math-drilling-text">
+                    Para una explicación más detallada, consulta el siguiente video:
+                </p>
+                <div class="math-drilling-video">
+                <iframe width="760" height="515" src="https://www.youtube.com/embed/NTRMq6nI4OU?si=wdOa9wVdwBGzeU4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
             <!-- Fracciones Section -->
             <div id="fracciones" class="content-section scrollable-content">
                 <h1 class="content-title">Fracciones a decimal</h1>
@@ -1364,23 +637,22 @@
                 </div>
             </div>
         </div>
-        
     </div>
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content rounded-lg">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <img id="modal-image" src="" alt="Descripción de la imagen" style="height: 80%; display: none;">
-                    <div id="exampleModalLText" class="modal-body">
-                    </div>
+    <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <img id="modal-image" src="" alt="Descripción de la imagen" style="height: 80%; display: none;">
+                <div id="exampleModalLText" class="modal-body">
                 </div>
             </div>
         </div>
+    </div> -->
 
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -2293,6 +1565,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <!-- texzt to voice -->
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=El1RpEuf"></script>
+@endsection  
+
     
-</body>
-</html>
+@php
+    $css_identifier = 'calculator';
+@endphp

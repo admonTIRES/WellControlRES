@@ -22,7 +22,33 @@ use Illuminate\Support\Str;
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet">
+
+
+        <!-- <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+
+         <!-- Estilos específicos para pantallas grandes (escritorio) -->
+         <link rel="stylesheet" href="{{ asset('css/web.css') }}" media="(min-width: 1024px)">
+
+        <!-- Estilos específicos para pantallas móviles -->
+        <link rel="stylesheet" href="{{ asset('css/mobile.css') }}" media="(max-width: 1023px)">
         
+         <!-- CSS dinámico según el contenido -->
+        @if (isset($css_identifier))
+            @switch($css_identifier)
+                @case('principal')
+                    <!-- Estilos específicos para pantallas grandes (escritorio) -->
+                    <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}" media="(min-width: 1024px)">
+                    <!-- Estilos específicos para pantallas móviles -->
+                    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}" media="(max-width: 1023px)">
+                    @break
+                @case('calculator')
+                    <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}" media="(min-width: 1024px)">
+                    <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}" media="(max-width: 1023px)">
+                    @break
+            @endswitch
+        @endif
         <title>WellControl RES</title>
     </head>
     <body>
@@ -52,32 +78,8 @@ use Illuminate\Support\Str;
         <!-- SCRIPTS -->
         <!-- /SCRIPTS -->
     </body>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    const navItems = document.querySelectorAll(".nav-item");
-    const tooltip = document.getElementById("tooltip");
-
-    navItems.forEach(item => {
-        item.addEventListener("mouseenter", function(event) {
-            const title = item.getAttribute("data-title");
-            if (title) {
-                tooltip.textContent = title;
-                tooltip.style.display = "block";
-                const rect = item.getBoundingClientRect();
-                tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
-                tooltip.style.left = `${rect.left + rect.width / 2}px`;
-            }
-        });
-
-        item.addEventListener("mouseleave", function() {
-            tooltip.style.display = "none";
-        });
-
-        item.addEventListener("click", function(event) {
-            event.preventDefault();
-            window.location.href = item.href;
-        });
-    });
-});
-    </script>
+    <script src="{{ asset('js/Principal/Principal.js') }}"></script>
+    @if(request()->is('Calculator'))
+        <script src="{{ asset('js/Calculator.js') }}"></script>
+    @endif
 </html>

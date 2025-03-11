@@ -1,702 +1,131 @@
 @extends('Template/maestraUser')
 @section('contenido') 
-<style>
-  
 
-    ::-webkit-scrollbar {
-        width: 1px;
-        height: 1px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f0f0f0;
-        border-radius: 5px;
-    }
-
-
-    body {
-        font-family: Arial, sans-serif;
-        min-height: 100vh;
-        margin: 10px;
-        border-top-left-radius: 40px;
-        padding: 0;
-        background: linear-gradient(to bottom,
-                #003d6b 0%,
-                #003d6b 15%,
-                #ffffff 34%);
-       
-    }
-
-    .main-content {
-        width: 100%;
-        max-width: 1400px;
-        margin: 0 auto; 
-        position: relative;
-        margin-top: 80px;
-    }
-
-    .header-text {
-        padding-top: 3%;
-        text-align: center;
-        color: white;
-    }
-
-    .header-text h1 {
-        font-size: clamp(1rem, 5vw, 5rem);
-        font-weight: 800;
-    }
-
-    .header-text h2 {
-        font-size: clamp(2rem, 5vw, 5rem);
-        font-weight: 200;
-        color: transparent;
-        -webkit-text-stroke: 0.5px white;
-    }
-
-    .content-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2rem 4rem;
-        margin: 0 auto;
-        position: relative;
-        min-height: 500px;
-        gap: 2rem;
-    }
-
-    .content-box {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 3rem;
-        border: 2px solid #a9a9a9ac;
-        border-radius: 20px;
-        width: 400px;
-        backdrop-filter: blur(15px);
-        position: relative;
-        z-index: 2;
-        flex-shrink: 0;
-    }
-
-    .number {
-        font-size: clamp(1.5rem, 2vw, 2rem);
-        font-weight: 800;
-        color: white;
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-    }
-
-    .content-box h3 {
-        font-size: clamp(0.875rem, 1vw, 1rem);
-        color: white;
-        margin-bottom: 1rem;
-    }
-
-    .content-box p {
-        line-height: 1.6;
-        color: white;
-        font-size: clamp(0.875rem, 1vw, 1rem);
-    }
-
-    .team-image {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-
-    .team-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .info-text {
-        width: 300px;
-        text-align: left;
-        line-height: 1.6;
-        color: white;
-        position: relative;
-        z-index: 2;
-        flex-shrink: 0;
-    }
-
-    .arrow-icon {
-        position: absolute;
-        bottom: -2rem;
-        right: 0;
-        width: 24px;
-        height: 24px;
-        transform: rotate(45deg);
-    }
-
-    .arrow-icon svg {
-        width: 100%;
-        height: 100%;
-        fill: none;
-        stroke: white;
-        stroke-width: 2;
-    }
-
-    /* Respons */
-    @media (max-width: 1200px) {
-        .nav-icons {
-            gap: 8rem;
-        }
-
-        .content-wrapper {
-            padding: 2rem;
-        }
-    }
-
-    @media (max-width: 1024px) {
-        .nav-icons {
-            gap: 3rem;
-            margin-right: 2rem;
-        }
-
-        .content-wrapper {
-            flex-direction: column;
-            padding: 2rem 1rem;
-            min-height: auto;
-        }
-
-        .content-box,
-        .info-text {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .team-image {
-            position: fixed;
-            opacity: 0.3;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .logo-container {
-            border-bottom-right-radius: 15rem;
-            padding: 1rem;
-            width: 20%;
-        }
-
-        .nav-icons {
-            gap: 2rem;
-            width: 80%;
-        }
-
-        .nav-icon {
-            width: 40px;
-            height: 50px;
-        }
-
-        .header-text {
-            padding-top: 10%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .logo-container {
-            border-bottom-right-radius: 8rem;
-            padding: 0.5rem;
-            width: 25%;
-        }
-
-        .logo {
-            width: 100px;
-        }
-
-        .nav-icons {
-            gap: 1rem;
-            margin-right: 1rem;
-        }
-
-        .nav-icon {
-            width: 30px;
-            height: 40px;
-        }
-
-        .content-box {
-            padding: 2rem;
-        }
-    }
-
-    .learning-container {
-        max-width: 1900px;
-        background: #ffffff;
-    }
-
-    .cont-card {
-        width: 80%;
-        margin: 2rem auto;
-        padding-top: 1%;
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 1rem;
-
-    }
-
-
-    .dashboard-header {
-        grid-column: 1 / -1;
-        color: #003B67;
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
-
-    /* Left Container Styles */
-    .container-left {
-        padding: 0;
-        margin: 0;
-    }
-
-    .left-card {
-        background: #E8F4FF;
-        border-radius: 1.5rem;
-        padding: 2rem;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1rem;
-    }
-
-    .left-card h2 {
-        color: #003B67;
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .left-card p {
-        color: #003B67;
-        line-height: 1.6;
-        font-size: 1rem;
-        max-width: 90%;
-        margin-bottom: 2rem;
-    }
-
-    .arrow-button {
-        width: 100%;
-        max-width: 300px;
-        height: 3rem;
-        background: #003B67;
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 0 1rem;
-        margin-top: auto;
-        border: none;
-        cursor: pointer;
-        align-self: center;
-    }
-
-
-    .arrow-button svg {
-        color: #ffffff;
-        width: 24px;
-        height: 24px;
-        transform: rotate(-45deg);
-
-    }
-
-    .bottom-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .bottom-card {
-        aspect-ratio: 1;
-        border-radius: 1.5rem;
-        overflow: hidden;
-    }
-
-    .bottom-card.empty {
-        background: #E8F4FF;
-    }
-
-    .bottom-card.controller {
-        background: #003B67;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .bottom-card.controller img {
-        width: 244px;
-        height: 244px;
-        object-fit: contain;
-
-    }
-
-    .bottom-card.oil img {
-        width: 100%;
-        height: 100%;
-        object-fit: cocver;
-    }
-
-    /* Right Container Styles */
-    .container-right {
-        padding: 0;
-        margin: 0;
-        display: grid;
-        gap: 12px;
-    }
-
-    .top-section {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 12px;
-    }
-
-    .main-card {
-        background: #003B67;
-        border-radius: 32px;
-        padding: 0px 4px;
-        position: relative;
-        min-height: 180px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .main-card h2 {
-        color: white;
-        font-size: 38px;
-        line-height: 1.2;
-        font-weight: normal;
-        max-width: 90%;
-        text-align: center;
-        margin: 0 auto;
-    }
-
-    .nivel {
-        font-family: "Niconne", serif;
-        font-weight: 400;
-        font-style: normal;
-        text-align: center;
-    }
-
-    .arrow-icon {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        width: 44px;
-        height: 44px;
-    }
-
-    .arrow-icon svg {
-        width: 100%;
-        height: 100%;
-        stroke: #003B67;
-        border-radius: 50%;
-        transform: rotate(-45deg);
-        background-color: white;
-
-    }
-
-    .right-cards {
-        display: grid;
-        gap: 12px;
-    }
-
-    .small-card {
-        background: #E8F4FF;
-        border-radius: 16px;
-        aspect-ratio: 1;
-    }
-
-    .circle-card {
-        background: #E8F4FF;
-        border-radius: 50%;
-        aspect-ratio: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .circle-card svg {
-        width: 74px;
-        height: 74px;
-        stroke: #003B67;
-        transform: rotate(-10deg);
-
-    }
-
-    .calculator-card {
-        background: #E8F4FF;
-        border-radius: 32px;
-        padding-top: 40px;
-        display: flex;
-        min-height: 100px;
-    }
-
-    .calculator-card img {
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-        .learning-container {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .container-left,
-        .container-right {
-            max-width: 100%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .bottom-cards {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-        }
-
-        .top-section {
-            grid-template-columns: 1fr;
-        }
-
-        .learning-container {
-            padding: 1rem;
-        }
-
-        .left-card,
-        .main-card {
-            padding: 1.5rem;
-        }
-    }
-
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            padding: 80px 140px;
-            max-width: 100%; 
-            margin: 0; 
-            background: #1F2937; 
-            box-sizing: border-box;
-        }
-    
-        .card {
-            background: linear-gradient(120deg, #87CEEB, #003B67);
-            border-radius: 16px;
-            padding: 24px;
-            position: relative;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-    
-        .card:hover {
-            transform: translateY(-5px);
-        }
-    
-        .card-title {
-            color: white;
-            font-size: 32px;
-            margin-bottom: 16px;
-            font-weight: normal;
-            z-index: 2;
-        }
-    
-        .card-image {
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            width: 350px;
-            height: auto;
-            opacity: 0.9;
-        }
-    
-        .card-link {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            z-index: 2;
-        }
-    
-        .card-link:hover {
-            text-decoration: underline;
-        }
-    
-        /* Respons */
-        @media (max-width: 768px) {
-            .cards-container {
-                grid-template-columns: 1fr;
-            }
-    
-            .card {
-                min-height: 180px;
-            }
-    
-            .card-title {
-                font-size: 24px;
-            }
-    
-            .card-image {
-                width: 120px;
-            }
-        }
-</style>
 <div class="main">
     <section class="main-content">
-    <div class="header-text">
-        <h1>El sitio que te conecta con la</h1>
-        <h2>excelencia profesional.</h2>
-    </div>
-
-    <div class="content-wrapper">
-        <div class="content-box">
-            <div class="number">01</div>
-            <h3>Damián</h3>
-            <p>Ya sea que busques fortalecer tu experiencia o iniciar una carrera nueva, te ofrecemos las
-                herramientas
-                necesarias para avanzar.</p>
+        <div class="header-text">
+            <h1>{{ __('The site that connects you with') }}</h1>
+            <h2>{{ __('professional excellence.') }}</h2>
         </div>
 
-        <div class="team-image">
-            <img src="/assets/images/principal/personas.png" alt="Equipo profesional">
-        </div>
+        <div class="content-wrapper">
+            <div class="content-box">
+                <div class="number">01</div>
+                <h3>{{ __('Damian') }}</h3>
+                <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
+            </div>
 
-        <div class="info-text">
-            <p>Ofrecemos formación especializada y certificada para garantizar la seguridad y eficiencia en
-                operaciones de
-                perforación en roca. Con un método único y respaldado por expertos en la industria.</p>
-            <div class="arrow-icon">
-                <svg viewBox="0 0 24 24">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+            <div class="team-image">
+                <img src="/assets/images/principal/personas.png" alt="{{ __('Professional team') }}">
+            </div>
+
+            <div class="info-text">
+                <p>{{ __('We offer specialized and certified training to ensure safety and efficiency in rock drilling operations. With a unique method backed by industry experts.') }}</p>
             </div>
         </div>
-    </div>
     </section>
 
     <section class="learning-container">
-    <div class="cont-card">
-        <h1 class="dashboard-header">Hola, John Doe</h1>
+        <div class="cont-card">
+            <h1 class="dashboard-header">{{ __('Hello, John Doe') }}</h1>
 
-        <div class="container-left">
-            <div class="left-card">
-                <h2>Aprendizaje</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo,
-                    iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo,
-                    iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo,
-                    iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna</p>
-                <button class="arrow-button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="bottom-cards">
-                <div class="bottom-card empty"></div>
-
-                <div class="bottom-card controller">
-                    <img src="/assets/images/principal/bocapozo.png" alt="Game controller" class="card-image-game">
-                </div>
-
-                <div class="bottom-card oil">
-                    <img src="/assets/images/principal/drill_perforator.jpg" alt="Oil pumps">
-                </div>
-            </div>
-        </div>
-
-        <div class="container-right">
-            <div class="top-section">
-                <div class="main-card">
-                    <h2>Eleva tu comprensión al siguiente <span class="nivel">Nivel</span></h2>
-                    <div class="arrow-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17l9.2-9.2M17 17V8H8" />
+            <div class="container-left">
+                <div class="left-card">
+                    <h2>{{ __('Learning') }}</h2>
+                    <p>{{ __('Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.') }}</p>
+                    <button class="arrow-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
+                    </button>
+                </div>
+
+                <div class="bottom-cards">
+                    <div class="bottom-card empty"></div>
+
+                    <div class="bottom-card controller">
+                        <img src="/assets/images/principal/bocapozo.png" alt="{{ __('Game controller') }}" class="card-image-game">
                     </div>
-                </div>
 
-                <div class="right-cards">
-                    <div class="small-card"></div>
-                    <div class="circle-card">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17l9.2-9.2M17 17V8H8" />
-                        </svg>
+                    <div class="bottom-card oil">
+                        <img src="/assets/images/principal/drill_perforator.jpg" alt="{{ __('Oil pumps') }}">
                     </div>
                 </div>
             </div>
 
-            <!-- Calculator card -->
-            <div class="calculator-card">
-                <img src="/assets/images/principal/casio_calculadora.png" alt="Casio Calculator">
+            <div class="container-right">
+                <div class="top-section">
+                    <div class="main-card">
+                        <h2>{{ __('Take your understanding to the next') }} <span class="nivel">{{ __('Level') }}</span></h2>
+                    </div>
+
+                    <div class="right-cards">
+                        <div class="small-card"></div>
+                        <div class="circle-card">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17l9.2-9.2M17 17V8H8" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator card -->
+                <div class="calculator-card">
+                    <img src="/assets/images/principal/casio_calculadora.png" alt="{{ __('Casio Calculator') }}">
+                </div>
             </div>
         </div>
-    </div>
-
-    </section> 
+    </section>
 
     <section class="cards-container">
-    <div id="calculadoraDiv" class="card">
-        <h2 class="card-title">Calculadora</h2>
-        <img src="/assets/images/principal/calculadoraBlanca2.png" alt="Documentos" class="card-image">
-        <a href="#" class="card-link">
-            Saber más
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
+        <div id="calculadoraDiv" class="card">
+            <h2 class="card-title">{{ __('Drilling Mathematics') }}</h2>
+            <img src="/assets/images/principal/calculadoraBlanca2.png" alt="{{ __('Documents') }}" class="card-image">
+            <a href="#" class="card-link">
+                {{ __('Learn more') }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
 
-    <div class="card">
-        <h2 class="card-title">Hoja de matar</h2>
-        <img src="/assets/images/principal/pozo 1.png" alt="Recursos" class="card-image">
-        <a href="#" class="card-link">
-            Saber más
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
+        <div class="card">
+            <h2 class="card-title">{{ __('Kill Sheet') }}</h2>
+            <img src="/assets/images/principal/pozo 1.png" alt="{{ __('Resources') }}" class="card-image">
+            <a href="#" class="card-link">
+                {{ __('Learn more') }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
 
-    <div class="card">
-        <h2 class="card-title">Simuladores</h2>
-        <img src="/assets/images/principal/casco.png" alt="Reportes" class="card-image">
-        <a href="#" class="card-link">
-            Saber más
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
+        <div class="card">
+            <h2 class="card-title">{{ __('Simulators') }}</h2>
+            <img src="/assets/images/principal/casco.png" alt="{{ __('Reports') }}" class="card-image">
+            <a href="#" class="card-link">
+                {{ __('Learn more') }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
 
-    <div class="card">
-        <h2 class="card-title">Evaluación</h2>
-        <img src="/assets/images/principal/laptop.png" alt="Estadísticas" class="card-image">
-        <a href="#" class="card-link">
-            Saber más
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
+        <div class="card">
+            <h2 class="card-title">{{ __('Evaluation') }}</h2>
+            <img src="/assets/images/principal/laptop.png" alt="{{ __('Statistics') }}" class="card-image">
+            <a href="#" class="card-link">
+                {{ __('Learn more') }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
     </section>
 </div>
 <script src="/js/Principal/Principal.js?v=1.0"></script>
+@endsection
+
+@php
+    $css_identifier = 'principal';
+@endphp

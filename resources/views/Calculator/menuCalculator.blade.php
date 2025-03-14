@@ -12,7 +12,7 @@
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Introducción</span>
-                            <span class="nav-item-subtitle">Todo lo que necesitas saber</span>
+                            <span class="nav-item-subtitle">Todo lo que necesitas saber.</span>
                         </div>
                     </li>
 
@@ -64,6 +64,14 @@
                         </div>
                     </li>
 
+                    <li class="nav-item" data-section="jerarquia">
+                        <span class="star-icon"></span>
+                        <div class="nav-item-content">
+                            <span class="nav-item-title">Jerarquia de Operaciones</span>
+                            <span class="nav-item-subtitle">Orden para resolver ecuaciones.</span>
+                        </div>
+                    </li>
+
                     <li class="nav-item" data-section="despeje">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
@@ -71,7 +79,16 @@
                             <span class="nav-item-subtitle">Despejar formulas.</span>
                         </div>
                     </li>
+                     <li class="nav-item" data-section="formulas">
+                        <span class="star-icon"></span>
+                        <div class="nav-item-content">
+                            <span class="nav-item-title">Fórmulas</span>
+                            <span class="nav-item-subtitle">Libro de formulas.</span>
+                        </div>
+                    </li>
                 </ul>
+
+              
 
                 <div class="section-title">Ejercicios</div>
                 <div class="section-subtitle">Operaciones de pozo</div>
@@ -81,7 +98,7 @@
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Fracciones a decimal</span>
-                            <span class="nav-item-subtitle">lorem.</span>
+                            <span class="nav-item-subtitle">Practica la conversión de fracciones a decimales.</span>
                         </div>
                     </li>
 
@@ -89,47 +106,23 @@
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Elevar al cuadrado</span>
-                            <span class="nav-item-subtitle">lorem.</span>
+                            <span class="nav-item-subtitle">Practica la elevación de números al cuadrado.</span>
                         </div>
                     </li>
 
-                    <li class="nav-item" data-section="jerarquia">
+                    <li class="nav-item" data-section="jerarquiaO">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">lorem.</span>
+                            <span class="nav-item-subtitle">Practica la jerarquia de operaciones.</span>
                         </div>
                     </li>
 
-                    <li class="nav-item" data-section="jerarquia">
+                    <li class="nav-item" data-section="despejes">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">lorem.</span>
-                        </div>
-                    </li>
-
-                    <li class="nav-item" data-section="jerarquia">
-                        <span class="star-icon"></span>
-                        <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">lorem.</span>
-                        </div>
-                    </li>
-
-                    <li class="nav-item" data-section="jerarquia">
-                        <span class="star-icon"></span>
-                        <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">lorem.</span>
-                        </div>
-                    </li>
-
-                    <li class="nav-item" data-section="jerarquia">
-                        <span class="star-icon"></span>
-                        <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">lorem.</span>
+                            <span class="nav-item-title">Despejes</span>
+                            <span class="nav-item-subtitle">Practica los despejes de fórmulas.</span>
                         </div>
                     </li>
                 </ul>
@@ -362,17 +355,28 @@
             </div>
 
             <div id="unidades" class="content-section scrollable-content">
-                <h1 class="math-drilling-title">Unidades de medida</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Unidades de medida</h1>
+                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Unidades de medida en el control de pozos</h2>
                     <p class="math-drilling-text">
                         En el control de pozos, es fundamental comprender y convertir entre diferentes unidades de medida para garantizar la precisión en los cálculos y operaciones. A continuación, se presentan las unidades más comunes y su aplicación.
                     </p>
                 </div>
+
+                
+                <iframe allowfullscreen="" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 1030px; height: 625px;" src="https://heyzine.com/flip-book/09a8bd58bd.html"></iframe>
+                        
+      
+                <iframe allowfullscreen="" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 1030px; height: 625px;" src="https://heyzine.com/flip-book/cfabd8084d.html"></iframe>
+                        
+                <a href="https://online.flippingbook.com/view/1004572368/" class="fbo-embed" data-fbo-id="5c936405ec" data-fbo-ratio="3:2" data-fbo-lightbox="yes" data-fbo-width="100%" data-fbo-height="auto" data-fbo-version="1" style="max-width: 100%">Your demo flipbook</a><script async defer src="https://online.flippingbook.com/EmbedScriptUrl.aspx?m=redir&hid=1004572368"></script>
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
@@ -422,12 +426,14 @@
             </div>
 
             <div id="fraccion" class="content-section scrollable-content">
-                <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
-
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
+                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">¿Qué es una fracción y cómo convertirla a decimal?</h2>
                     <p class="math-drilling-text">
@@ -472,6 +478,42 @@
                 </p>
                 <div class="math-drilling-video">
                         <iframe width="760" height="515" src="https://www.youtube.com/embed/pOm1azhMuYM?si=21a84f3bWjt4aJhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div id="jerarquia" class="content-section scrollable-content">
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Jerarquía de Operaciones</h1>
+                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                </div>
+                <!-- <h1 class="math-drilling-title">Jerarquía de Operaciones</h1>
+                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
+                    <span class="material-icons">volume_up</span> 
+                    <span>Escuchar</span>
+                </button> -->
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">El orden en que se deben resolver las ecuaciones</h2>
+                    <p class="math-drilling-text">
+                    La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto.
+                    </p>
+                </div>
+
+                <div class="math-drilling-section">
+                    <div class="math-drilling-exercise">
+                        <h3 class="math-drilling-subtitle">PEMDAS</h3>
+                        <img src="/assets/images/calculator/pemdas.webp" alt="Conversión de pies a metros" class="math-drilling-image">
+                    </div>
+                </div>
+
+                <p class="math-drilling-text">
+                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                </p>
+                <div class="math-drilling-video">
+                <iframe width="760" height="515" src="https://www.youtube.com/embed/XV5PiV2-91U?si=QB9NeqFzGztOC0ix" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             </div>
 
@@ -528,13 +570,40 @@
                 <iframe width="760" height="515" src="https://www.youtube.com/embed/NTRMq6nI4OU?si=wdOa9wVdwBGzeU4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
             </div>
-            <!-- Fracciones Section -->
+
+            <div id="formulas" class="content-section scrollable-content">
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Fórmulas</h1>
+                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                </div>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IWCF</h2>
+                </div>
+
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/99431bfc85.html" style="border: 0px; width: 1030px; height: 625px;"></iframe>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IADC</h2>
+                </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/8bd0b3bf0e.html" style="border: 1px solid lightgray; width: 1030px; height: 625px;"></iframe>
+                        <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IADC - redondeo</h2>
+                </div>
+                        <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/5a68b9cd5e.html" style="border: 1px solid lightgray; width: 1030px; height: 625px;"></iframe>
+            </div>
+
+                    <!-- exercices section -->
             <div id="fracciones" class="content-section scrollable-content">
-                <h1 class="content-title">Fracciones a decimal</h1>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Conversión de Fracción a Decimal</h2>
+                </div>
                 <div class="exercise-container">
                     <div class="exercise-content">
                         <p class="exercise-description">
-                            <strong>Para convertir de una fracción a un decimal, divida el numerador entre el denominador</strong>
+                            <strong>Escriba la respuesta correcta:</strong>
                         </p>
                         <h2 class="exercise-title">Ejercicio 1</h2>
                         <p class="exercise-description">
@@ -591,7 +660,6 @@
                 </div>
             </div>
 
-            <!-- Cuadrado Section -->
             <div id="cuadrado" class="content-section scrollable-content">
                 <h1 class="content-title">Elevar al cuadrado</h1>
                 <div class="exercise-container">
@@ -622,11 +690,11 @@
                 </div>
             </div>
 
-            <div id="jerarquia" class="content-section scrollable-content">
-                <h1 class="content-title">Jerarquía de operaciones</h1>
+            <div id="jerarquias" class="content-section scrollable-content">
+                <h1 class="content-title">Jerarquía de Operaciones</h1>
                 <div class="exercise-container">
                     <div class="exercise-content">
-                        <h2 class="exercise-title">Ejercicio 3</h2>
+                        <h2 class="exercise-title">El orden en que se deben resolver las ecuaciones</h2>
                         <p class="exercise-description">
                         La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto. Es fundamental seguir este orden:
                         </p>
@@ -1608,6 +1676,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <!-- texzt to voice -->
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=El1RpEuf"></script>
+    <!-- visor pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.js"></script>
 @endsection  
 
     

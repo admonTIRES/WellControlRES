@@ -423,7 +423,7 @@ scrollbar        .hero-button {
 
 .result-input {
     width: 100%;
-    max-width: 200px;
+    max-width: 150px;
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;

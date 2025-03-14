@@ -25,8 +25,8 @@ use Illuminate\Support\Str;
 
 
         <!-- <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
          <!-- Estilos específicos para pantallas grandes (escritorio) -->
          <link rel="stylesheet" href="{{ asset('css/web.css') }}" media="(min-width: 1024px)">
@@ -49,7 +49,7 @@ use Illuminate\Support\Str;
                     @break
             @endswitch
         @endif
-        <title>WellControl RES</title>
+        <title>WellControlLearningExperience </title>
     </head>
     <body>
          <!-- DIV PRINCIPAL -->

@@ -16,7 +16,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item " data-section="config">
+                    <li class="nav-item" data-section="config">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Configuración de la calculadora</span>
@@ -140,16 +140,14 @@
         <div class="content-container">
 
             <div id="introduction" class="content-section active scrollable-content">
-                <h1 class="math-drilling-title">Bienvenido a "Matemáticas para Perforación"</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
-                <button id="voiceButton2" class="voice-button" onclick="toggleSpeakText2()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
-                <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Bienvenido a "Matemáticas para Perforación"</h1>
+                    <button id="voiceButton2" class="voice-button" onclick="toggleSpeakText2()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">¿Qué encontrarás en este módulo?</h2>
                     <p class="math-drilling-text">En este módulo, <strong>"Matemáticas para Perforación"</strong>, hemos diseñado un contenido completo y dinámico para apoyarte en tu curso de <strong>Control de Pozos</strong>. Aquí encontrarás una combinación de recursos multimedia, explicaciones claras y ejercicios prácticos que te ayudarán a dominar los conceptos matemáticos esenciales y el uso de la calculadora en este campo.</p>
@@ -189,11 +187,13 @@
             </div>
 
             <div id="config" class="content-section scrollable-content">
-                <h1 class="math-drilling-title">Configuración de calculadora científica</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Configuración de calculadora científica</h1>
+                    <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Ajuste de decimales para el curso de control de pozos</h2>
                     <p class="math-drilling-text">
@@ -273,32 +273,36 @@
                             </p>
                             <ul class="calculator-parts-list">
                                 <li data-section="sum" class="calculator-part pantalla">
-                                    <strong>Suma</strong>
+                                    <strong>+ Suma</strong>
                                     <span class="desc">Permite realizar cálculos de sumas entre diferentes valores,<br> como la adición de profundidades de perforación, volúmenes<br> de fluidos y otros datos relevantes.</span>
                                 </li>
                                 <li data-section="rest" class="calculator-part seccion-principal">
-                                    <strong>Resta</strong>
+                                    <strong>- Resta</strong>
                                     <span class="desc">Herramienta esencial para calcular diferencias entre valores, <br>como la reducción de profundidades, la disminución de volúmenes <br>de fluidos o la comparación de presiones en diferentes etapas<br> de la perforación.</span>
                                 </li>
                                 <li data-section="multiplicate" class="calculator-part funciones-avanzadas">
-                                    <strong>Multiplicación</strong>
+                                    <strong>x Multiplicación</strong>
                                     <span class="desc">Función utilizada para calcular operaciones como la multiplicación <br>de presiones, volúmenes o cualquier otro dato crítico que requiera una <br>proporción entre variables.</span>
                                 </li>
                                 <li data-section="division" class="calculator-part teclado-numerico">
-                                    <strong>División</strong>
+                                    <strong>÷ División</strong>
                                     <span class="desc">Permite dividir valores como caudales, volúmenes de fluidos <br>y otros elementos necesarios para las operaciones de perforación.</span>
                                 </li>
                                 <li data-section="elevate" class="calculator-part interruptor-borrado">
-                                    <strong>Elevación al cuadrado</strong>
+                                    <strong>x² Elevación al cuadrado</strong>
                                     <span class="desc">Una función útil para realizar cálculos relacionados con la <br>resistencia de materiales, áreas de perforación o cálculo de presión en <br>funciones cuadráticas.</span>
                                 </li>
                                 <li data-section="parentesis" class="calculator-part operaciones-basicas">
-                                    <strong>Paréntesis</strong>
+                                    <strong>() Paréntesis</strong>
                                     <span class="desc">Permite agrupar operaciones para priorizar cálculos complejos, <br>como la combinación de presiones, volúmenes y profundidades <br>en ecuaciones avanzadas de control de pozos.</span>
                                 </li>
                                 <li data-section="result" class="calculator-part resultado-ans">
-                                    <strong>Resultado</strong>
+                                    <strong>= Resultado</strong>
                                     <span class="desc">Muestra el resultado final de los cálculos realizados, proporcionando <br>un valor preciso para la toma de decisiones en operaciones <br>de perforación y control de pozos.</span>
+                                </li>
+                                <li data-section="percent" class="calculator-part porcentaje-ans">
+                                    <strong>% Porcentaje</strong>
+                                    <span class="desc">Obtiene el procentaje del valor escrito a su izquierda, <br>útil en obtención de porcentajes de operaciones de <br>de perforación y control de pozos.</span>
                                 </li>
                             </ul>
                         </div>
@@ -307,7 +311,24 @@
             </div>
 
             <div id="uso" class="content-section scrollable-content">
-                <h1 class="content-title">Uso</h1>
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Uso</h1>
+                </div> 
+                <!-- <div class="content-wrapper">
+                    <div class="content-box">
+                        <h3>{{ __('John Doe') }}</h3>
+                        <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
+                    </div>
+
+                    <div class="team-image">
+                        <img src="/assets/images/calculator/uses_image.jpg" alt="{{ __('Professional team') }}">
+                    </div>
+
+                    <div class="content-box">
+                        <h3>{{ __('Practice') }}</h3>
+                        <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
+                    </div>
+                </div>            -->
                 <div class="hero-grid">
                     <div class="hero-column">
                         <div class="hero-content">
@@ -1374,94 +1395,107 @@
 
             if (section === "screen") {
                 document.querySelectorAll(".screen").forEach(div => {
-                    div.style.border = "4px solid rgb(250, 161, 182)"; // Resaltar sección
+                    div.style.border = "4px solid #d2ff93"; // Resaltar sección
                 });
             }
             if (section === "seccion1") {
                 document.querySelectorAll(".seccion1").forEach(div => {
-                    div.style.border = "4px solid rgb(255, 148, 77)"; // Resaltar sección
+                    div.style.border = "4px solid #A4D65E"; // Resaltar sección
                 });
             }
             if (section === "seccion2") {
                 document.querySelectorAll(".seccion2").forEach(div => {
-                    div.style.border = "4px solid rgb(141, 255, 141)"; // Resaltar sección
+                    div.style.border = "4px solid #5fbae8"; // Resaltar sección
                 });
             }
             if (section === "seccion3") {
                 document.querySelectorAll(".seccion3").forEach(div => {
-                    div.style.border = "4px solid rgb(129, 214, 250)"; // Resaltar sección
+                    div.style.border = "4px solid #007DBA"; // Resaltar sección
                 });
             }
             if (section === "seccion4") {
                 document.querySelectorAll(".seccion4").forEach(div => {
-                    div.style.border = "4px solid rgb(181, 144, 255)"; // Resaltar sección
+                    div.style.border = "4px solid #236192"; // Resaltar sección
                 });
             }
             if (section === "seccion5") {
                 document.querySelectorAll(".seccion5").forEach(div => {
-                    div.style.border = "4px solid rgb(255, 239, 95)"; // Resaltar sección
+                    div.style.border = "4px solid #FF585D"; // Resaltar sección
                 });
             }
             if (section === "seccion6") {
                 document.querySelectorAll(".seccion6").forEach(div => {
-                    div.style.border = "4px solid rgb(226, 122, 255)"; // Resaltar sección
+                    div.style.border = "4px solid #ff9da0"; // Resaltar sección
                 });
             }
             if (section === "sum") {
                 document.querySelectorAll(".sum").forEach(div => {
-                    div.style.border = "4px solid rgb(250, 161, 182)"; 
-                    div.style.background = "rgb(250, 161, 182)";
+                    div.style.border = "4px solid #d2ff93"; 
+                    div.style.background = "#d2ff93";
                     div.style.color = "black";
                 });
                 showExampleFunctions('sum');
             }
             if (section === "rest") {
                 document.querySelectorAll(".rest").forEach(div => {
-                    div.style.border = "4px solid rgb(255, 148, 77)"; 
-                    div.style.background = "rgb(255, 148, 77)";
+                    div.style.border = "4px solid #A4D65E"; 
+                    div.style.background = "#A4D65E";
                     div.style.color = "black";
                 });
                 showExampleFunctions('rest');
             }
             if (section === "multiplicate") {
                 document.querySelectorAll(".multiplicate").forEach(div => {
-                    div.style.border = "4px solid rgb(141, 255, 141)";
-                    div.style.background = "rgb(141, 255, 141)";
+                    div.style.border = "4px solid #5fbae8";
+                    div.style.background = "#5fbae8";
                     div.style.color = "black";
                 });
                 showExampleFunctions('multiplicate');
             }
             if (section === "division") {
                 document.querySelectorAll(".division").forEach(div => {
-                    div.style.border = "4px solid rgb(129, 214, 250)";
-                    div.style.background = "rgb(129, 214, 250)";
+                    div.style.border = "4px solid #007DBA";
+                    div.style.background = "#007DBA";
                     div.style.color = "black";
                 });
                 showExampleFunctions('division');
             }
             if (section === "elevate") {
                 document.querySelectorAll(".elevate").forEach(div => {
-                    div.style.border = "4px solid rgb(181, 144, 255)";
-                    div.style.background = "rgb(181, 144, 255)";
+                    div.style.border = "4px solid #236192";
+                    div.style.background = "#236192";
                     div.style.color = "black";
                 });
                 showExampleFunctions('elevate');
             }
             if (section === "parentesis") {
                 document.querySelectorAll(".parentesis").forEach(div => {
-                    div.style.border = "4px solid rgb(255, 239, 95)"; 
-                    div.style.background = "rgb(255, 239, 95)";
+                    div.style.border = "4px solid #FF585D"; 
+                    div.style.background = "#FF585D";
                     div.style.color = "black";
                 });
                 showExampleFunctions('parentesis');
             }
             if (section === "result") {
                 document.querySelectorAll(".result").forEach(div => {
-                    div.style.border = "4px solid rgb(226, 122, 255)";
-                    div.style.background = "rgb(226, 122, 255)";
+                    div.style.border = "4px solid #ff9da0";
+                    div.style.background = "#ff9da0";
                     div.style.color = "black";
                 });
                 showExampleFunctions('result');
+            }
+            if (section === "percent") {
+                document.querySelectorAll(".result").forEach(div => {
+                    div.style.border = "4px solid #ff9da0";
+                    div.style.background = "#ff9da0";
+                    div.style.color = "black";
+                });
+                document.querySelectorAll(".shift").forEach(div => {
+                    div.style.border = "4px solid #ff9da0";
+                    div.style.background = "#ff9da0";
+                    div.style.color = "black";
+                });
+                showExampleFunctions('percent');
             }
         }
 
@@ -1535,6 +1569,15 @@
                 case 'result':
                     screen.textContent =  '';
                     break;
+                case 'percent':
+                    const percentLine1 = document.createElement('div');
+                    percentLine1.textContent = '100 x 50%';
+                    const percentLine2 = document.createElement('div');
+                    percentLine2.textContent = '50';
+                    percentLine2.style.marginLeft = '200px'; // Sangría
+                    screen.appendChild(percentLine1);
+                    screen.appendChild(percentLine2);
+                    break;  
                 default:
                     break;
             }
@@ -1550,7 +1593,7 @@
                 div.style.background = "linear-gradient(145deg,rgb(42, 37, 37), rgb(0, 0, 0))";
                 div.style.color = "white";
             });
-            document.querySelectorAll(".sum, .rest, .multiplicate, .division, .result").forEach(div => {
+            document.querySelectorAll(".sum, .rest, .multiplicate, .division, .result, .shift").forEach(div => {
                 div.style.border = "none";
                 div.style.background = " linear-gradient(145deg, rgba(200, 196, 196, 1), rgb(135, 135, 135))";
                 div.style.color = "black";

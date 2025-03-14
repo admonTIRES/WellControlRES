@@ -13,5 +13,8 @@ class principalController extends Controller
     public function index()
     {
         return view('Principal.principal');
+        // return view('Auth.login');
+        // return view('Killsheet.iwcf');
+
     }
 }

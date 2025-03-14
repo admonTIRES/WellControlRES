@@ -1,3 +1,7 @@
+
+
+
+
 * {
     padding: 0;
     box-sizing: border-box;
@@ -22,30 +26,30 @@ body {
 
 .logo-container {
     background:linear-gradient(to bottom,
-                white 0%,
-                white 15%,
-                #003d6b 34%);
+                #cecdcd 0%,
+                #cecdcd 15%,
+                #FF585D 34%);
        
     width: 20%;
 }
 
 .logo{
     border-bottom-right-radius: 30px;
-    background: white;
+    background: #fbfbfb;
 }
 
 .logo img {
-    width: 180px;
+    width: 250px;
     height: auto;
     display: block;
 }
 
 .nav-icons {
     display: flex;
-    gap: 7rem;
+    gap: 4rem ;
     justify-content: center;
     align-items: center;
-    background: #003d6b;
+    background: #FF585D;
     width: calc(100% - 200px);
     height: 100%;
     padding: 1rem 2rem;
@@ -86,3 +90,15 @@ body {
     white-space: nowrap;
     animation: fadeIn 0.2s ease-in-out;
 }
+
+/* CONTAINERS */
+
+
+
+/* ------- */
+
+/* IMAGES */
+
+
+/* ------- */
+

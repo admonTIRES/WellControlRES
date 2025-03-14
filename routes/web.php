@@ -33,7 +33,7 @@ Route::post('/register', [LoginController::class, 'register']);
 //---------------------------               USER              -------------------------------//
 //----------------------------PRINCIPAL-------------------------------//
 // Route::get('/', function () { return view('Principal.index'); });
-Route::middleware('auth')->get('/', [PrincipalController::class, 'index']);
+Route::middleware('auth')->get('/', [PrincipalController::class, 'index'])->name('home');
 //Route::get('/', [principalController::class, 'index']);
 
 //----------------------------CALCULATOR-------------------------------//

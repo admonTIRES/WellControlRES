@@ -11,7 +11,7 @@
         <div class="content-wrapper">
             <div class="content-box">
                 <div class="number">01</div>
-                <h3>{{ __('Damian') }}</h3>
+                <h3>{{ __('John Doe') }}</h3>
                 <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
 
@@ -19,9 +19,14 @@
                 <img src="/assets/images/principal/personas.png" alt="{{ __('Professional team') }}">
             </div>
 
-            <div class="info-text">
-                <p>{{ __('We offer specialized and certified training to ensure safety and efficiency in rock drilling operations. With a unique method backed by industry experts.') }}</p>
+            <div class="content-box">
+                <div class="number">02</div>
+                <h3>{{ __('Practice') }}</h3>
+                <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
+            <!-- <div class="info-text">
+                <p>{{ __('We offer specialized and certified training to ensure safety and efficiency in rock drilling operations. With a unique method backed by industry experts.') }}</p>
+            </div> -->
         </div>
     </section>
 
@@ -32,12 +37,12 @@
             <div class="container-left">
                 <div class="left-card">
                     <h2>{{ __('Learning') }}</h2>
-                    <p>{{ __('Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.') }}</p>
-                    <button class="arrow-button">
+                    <p>{{ __('Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.') }}</p>
+                    <!-- <button class="arrow-button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
-                    </button>
+                    </button> -->
                 </div>
 
                 <div class="bottom-cards">
@@ -79,7 +84,7 @@
 
     <section class="cards-container">
         <div id="calculadoraDiv" class="card">
-            <h2 class="card-title">{{ __('Drilling Mathematics') }}</h2>
+            <h2 class="card-title">{{ __('Drilling ') }}<br>{{ __('Mathematics') }}</h2>
             <img src="/assets/images/principal/calculadoraBlanca2.png" alt="{{ __('Documents') }}" class="card-image">
             <a href="#" class="card-link">
                 {{ __('Learn more') }}

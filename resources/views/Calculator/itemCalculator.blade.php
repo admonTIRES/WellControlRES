@@ -73,7 +73,7 @@
 
         .btn {
             position: relative;
-            padding: 8px 4px;
+            padding: 8px 2px;
             border-radius: 6px;
             border: none;
             cursor: pointer;
@@ -111,11 +111,12 @@
         }
 
         .shift-text {
-            color: #ffd700;
+            color:rgb(255, 166, 0);
             position: absolute;
             top: 2px;
             left: 3px;
             font-size: 0.6em;
+            font-weight: bold;
         }
 
         .secondary-text {
@@ -143,6 +144,11 @@
 
         .alpha-text {
             color: #ff4757;
+            font-weight: bold;
+        }
+        .shift-title {
+            color:rgb(255, 137, 20);
+            font-weight: bold;
         }
 
         .letter-label {
@@ -193,7 +199,7 @@
     <div class="top-section">
         <div class="parButtons">
             <div class="topButtons seccion1">
-                <button id="shift" class="btn top-row"><span class="shift-text">SHIFT</span></button>
+                <button id="shift" class="btn top-row shift"><span class="shift-title">SHIFT</span></button>
                 <button id="alpha" class="btn top-row"><span class="alpha-text">ALPHA</span></button>
             </div>
             <div class="topButtons seccion2">
@@ -204,7 +210,7 @@
         <div class="display-circle">REPLAY</div>
         <div class="parButtons">
             <div class="topButtons seccion1">
-                <button id="mode-clear" class="btn top-row">MODE CLR</button>
+                <button id="mode-clear" class="btn top-row">MODE<span class="shift-text">CLR</span></button>
                 <button id="on" class="btn top-row">ON</button>
             </div>
             <div class="topButtons seccion2">

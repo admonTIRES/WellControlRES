@@ -87,7 +87,7 @@
             <h2 class="card-title">{{ __('Drilling ') }}<br>{{ __('Mathematics') }}</h2>
             <img src="/assets/images/principal/calculadoraBlanca2.png" alt="{{ __('Documents') }}" class="card-image">
             <a href="#" class="card-link">
-                {{ __('Learn more') }}
+                {{ __('Learn more') }}   
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>

@@ -110,7 +110,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item" data-section="jerarquiaO">
+                    <li class="nav-item" data-section="jerarquias">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Jerarquía de operaciones</span>
@@ -322,13 +322,16 @@
                         <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
                     </div>
                 </div>            -->
+                
                 <div class="hero-grid">
-                    <div class="hero-column">
-                        <div class="hero-content">
-                            <h2 class="hero-title">Cálculo de presiones hidrostáticas</h2>
-                            <p class="hero-text">Esencial para garantizar la estabilidad del pozo. La calculadora permite resolver rápidamente la presión ejercida por el fluido de perforación, evitando sobrepresiones o colapsos en las formaciones. Se usa la fórmulaP=ρ⋅g⋅h, donde se consideran la densidad del lodo, la gravedad y la profundidad.</p>
-                        </div>
+                <div class="card">
+                    <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
+                    <div class="overlay"></div>
+                    <div class="text-content">
+                        <h2>Cálculo de presiones hidrostáticas</h2>
+                        <p class="hero-text">Esencial para garantizar la estabilidad del pozo. La calculadora permite resolver rápidamente la presión ejercida por el fluido de perforación, evitando sobrepresiones o colapsos en las formaciones. Se usa la fórmulaP=ρ⋅g⋅h, donde se consideran la densidad del lodo, la gravedad y la profundidad.</p>
                     </div>
+                </div>
                     <div class="hero-column">
                         <div class="hero-content">
                             <h2 class="hero-title">Conversión de unidades</h2>
@@ -602,91 +605,238 @@
                 </div>
                 <div class="exercise-container">
                     <div class="exercise-content">
-                        <p class="exercise-description">
-                            <strong>Escriba la respuesta correcta:</strong>
-                        </p>
                         <h2 class="exercise-title">Ejercicio 1</h2>
                         <p class="exercise-description">
-                            Convertir a decimal:
+                            Convierta las siguiente fracciones a decimal y escriba el resultado en el cuadro correspondiente:
                         </p>
                         <div class="exercise-container">
                             <p class="exercise-description">
                                7 ÷ 8 =
                             </p>
-                            <label class="result-label" for="result-1">Escribir resultado:</label>
+                            <label class="result-label" for="result-1"></label>
                             <input type="number" class="result-input" id="result-1">
                             <span class="feedback" id="feedback-1"></span>
+                        </div>
+                        <div class="math-answer-exercise">
+                            <p class="math-drilling-text">
+                                La respuesta correcta es <strong> 0.8758</strong> 
+                            </p>
+                            <button id="fraccion_1" class="answer-button" onclick="showExample(0,7,8)">Ver en calculadora</button>
                         </div>
 
                         <div class="exercise-container">
                             <p class="exercise-description">
                             8 1/2" =
                             </p>
-                            <label class="result-label" for="result-2">Escribir resultado:</label>
                             <input type="number" class="result-input" id="result-2">
                             <span class="feedback" id="feedback-2"></span>
+                        </div>
+                        <div class="math-answer-exercise">
+                            <p class="math-drilling-text">
+                                La respuesta correcta es <strong> 8.5</strong> 
+                            </p>
+                            <button id="fraccion_2" class="answer-button" onclick="showExample(8,1,2)">Ver en calculadora</button>
                         </div>
 
                         <div class="exercise-container">
                             <p class="exercise-description">
                                 9 1/4" =
                             </p>
-                            <label class="result-label" for="result-3">Escribir resultado:</label>
                             <input type="number" class="result-input" id="result-3">
                             <span class="feedback" id="feedback-3"></span>
+                        </div>
+                        <div class="math-answer-exercise">
+                            <p class="math-drilling-text">
+                                La respuesta correcta es <strong> 9.25</strong> 
+                            </p>
+                            <button id="fraccion_3" class="answer-button" onclick="showExample(9,1,4)">Ver en calculadora</button>
                         </div>
 
                         <div class="exercise-container">
                             <p class="exercise-description">
                                 3 ÷ 8 =
                             </p>
-                            <label class="result-label" for="result-4">Escribir resultado:</label>
                             <input type="number" class="result-input" id="result-4">
                             <span class="feedback" id="feedback-4"></span>
+                        </div>
+                        <div class="math-answer-exercise">
+                            <p class="math-drilling-text">
+                                La respuesta correcta es <strong> 0.375</strong> 
+                            </p>
+                            <button id="fraccion_4" class="answer-button" onclick="showExample(0,3,8)">Ver en calculadora</button>
                         </div>
 
                         <div class="exercise-container">
                             <p class="exercise-description">
                                 15 ÷ 4 =
                             </p>
-                            <label class="result-label" for="result-5">Escribir resultado:</label>
                             <input type="number" class="result-input" id="result-5">
                             <span class="feedback" id="feedback-5"></span>
                         </div>
+                        <div class="math-answer-exercise">
+                            <p class="math-drilling-text">
+                                La respuesta correcta es <strong> 3.75</strong> 
+                            </p>
+                            <button id="fraccion_5" class="answer-button" onclick="showExample(0,15,4)">Ver en calculadora</button>
+                        </div>
 
-                        <button id="ejercicio1_btn" class="submit-button">Revisar</button>
+                        <div class="button-container">
+                            <button id="ejercicio1_btn" class="submit-button">
+                            <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
+                                    
+                                </span> Revisar
+                            </button>
+                            <button id="reset_btn" class="reset-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Reiniciar
+                            </button>
+                        </div>
                     </div>
-                    @include('Calculator.itemCalculator', ['id' => 'calculator3'])
+                    <div class="calculator-container">
+                    @include('Calculator.itemCalculator', ['id' => 'calculator3', 'name' => 'calculator3'])
+                    </div>
                 </div>
             </div>
 
             <div id="cuadrado" class="content-section scrollable-content">
-                <h1 class="content-title">Elevar al cuadrado</h1>
+                <h1 class="content-title">Ejercicios de elevaciones al cuadrado</h1>
                 <div class="exercise-container">
                     <div class="exercise-content">
-                        <p class="exercise-description">
-                        <strong>Para elevar un número al cuadrado, presione la tecla del número seguido por la tecla x²</strong>
-                        </p>
-                        <h2 class="exercise-title">Ejercicio 2</h2>
-                        <p class="exercise-description">
-                            Encuentra el siguiente volúmen anular:
-                        </p>
-                        <div class="text-grid">
-                            <div>ID² - OD² ÷ 1029.4 </div>
+                        <!-- Pregunta 1 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 1</h2>
+                            <p class="exercise-description">
+                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q1"></span>
+                            <div class="math-answer-exercise" id="answer-1">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
+                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution1" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-row">
-                            <div>Tamaño del agujero:</div>
-                            <div> 8.5 pulg.</div>
+
+                                <!-- Pregunta 2 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 2</h2>
+                            <p class="exercise-description">
+                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q2"></span>
+                            <div class="math-answer-exercise" id="answer-2">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
+                                <button id="solution2_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
                         </div>
-                        <div class="text-row">
-                            <div>Tamaño de la tubería DP:</div>
-                            <div> 5 pulg. OD</div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 3</h2>
+                            <p class="exercise-description">
+                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q3"></span>
+                            <div class="math-answer-exercise" id="answer-3">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
+                                <button id="solution3_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
                         </div>
-                        <label class="result-label">Escribir resultado:</label>
-                        <input type="text" class="result-input">
-                        <button id="ejercicio2_btn" class="submit-button">Revisar</button>
+                        <div class="calculator-container">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator4', 'name' => 'calculator3'])
+                        </div>
+
+                        <!-- Botones de Revisar y Reiniciar -->
+                        <div class="button-container">
+                            <button id="revisar-btn" class="submit-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
+                                </span> Revisar
+                            </button>
+                            <button id="reset_btn" class="reset-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Reiniciar
+                            </button>
+                        </div>
                     </div>
-                    @include('Calculator.itemCalculator', ['id' => 'calculator4'])
                 </div>
             </div>
 
@@ -722,7 +872,9 @@
                         <input type="text" class="result-input">
                         <button id="ejercicio3_btn" class="submit-button">Revisar</button>
                     </div>
-                    @include('Calculator.itemCalculator', ['id' => 'calculator5'])
+                    <div class="calculator-container">
+                    @include('Calculator.itemCalculator', ['id' => 'calculator5', 'name' => 'calculator3'])
+                    </div>
                 </div>
             </div>
         </div>
@@ -1115,8 +1267,17 @@
                 });
             }
 
-            const calculator3 = document.getElementById('calculator3');
-            if (calculator3) {
+            const calculator_3 = document.getElementById('calculator3'); 
+            const calculator4 = document.getElementById('calculator4'); 
+            const calculator5 = document.getElementById('calculator5'); 
+            const calculator6 = document.getElementById('calculator6'); 
+
+            initializeCalculator(calculator_3);
+            initializeCalculator(calculator4);
+            initializeCalculator(calculator5);
+            initializeCalculator(calculator6);
+
+            function initializeCalculator (calculator3) {
                 // Variables para el estado de la calculadora
                 let currentInput = '';
                 let shouldResetScreen = false;
@@ -1313,77 +1474,250 @@
                             feedback.style.color = "red";
                             input.style.borderColor = "red";
                             allCorrect = false;
-                            explanationHtml += `<p><strong>${input.value}</strong> es incorrecto. La respuesta correcta es <strong>${correctAnswers[id]}</strong>.</p>`;
+                            // explanationHtml += `<p><strong>${input.value}</strong> es incorrecto. La respuesta correcta es <strong>${correctAnswers[id]}</strong>.</p>`;
                         }
                     }
+                    const answerDivs = document.querySelectorAll('.math-answer-exercise');
+                    answerDivs.forEach(div => {
+                        div.style.display = 'flex'; 
+                    });
 
                     // Mostrar SweetAlert con los resultados
                     Swal.fire({
                         title: allCorrect ? '¡Excelente!' : 'Algunos errores',
                         text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
                         icon: allCorrect ? 'success' : 'error',
-                        html: allCorrect ? answersHtml : explanationHtml,
-                        showCancelButton: true,
-                        confirmButtonText: 'Continuar',
-                        cancelButtonText: 'Ver Explicación',
+                        // html: allCorrect ? answersHtml : explanationHtml,
+                        // showCancelButton: true,
+                        confirmButtonText: 'OK',
+                        // cancelButtonText: 'Ver Explicación',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                        
-                        } else {
-                            // Mostrar modal de explicación
-                            showExplanation();
-                        }
+                            // showExample();
+                        } 
+                        // else {
+                        //     // Mostrar modal de explicación
+                        //     showExplanation();
+                        // }
                     });
                 });
 
+                document.getElementById('revisar-btn').addEventListener('click', function () {
+                    // Definir las respuestas correctas
+                    const correctAnswers = {
+                        'q1': 'B', // Respuesta correcta para la pregunta 1
+                        'q2': 'B', // Respuesta correcta para la pregunta 2
+                        'q3': 'A'  // Respuesta correcta para la pregunta 3
+                    };
 
-                // Función para mostrar modal con explicación
-                function showExplanation() {
+                    let allCorrect = true;
+                    let explanationHtml = '';
+                    let answersHtml = '';
+
+                    // Verificar cada pregunta
+                    for (let question in correctAnswers) {
+                        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                        const feedback = document.getElementById('feedback-q' + question.split('q')[1]);
+
+                        if (selectedOption) {
+                            // Comparar el valor seleccionado con la respuesta correcta
+                            if (selectedOption.value === correctAnswers[question]) {
+                                feedback.textContent = "Correcto!";
+                                feedback.style.color = "green";
+                                selectedOption.parentElement.style.color = "green";
+                                answersHtml += `<p><strong>${selectedOption.value}</strong> es correcto.</p>`;
+                            } else {
+                                feedback.textContent = "Incorrecto!";
+                                feedback.style.color = "red";
+                                selectedOption.parentElement.style.color = "red";
+                                allCorrect = false;
+                            }
+                        } else {
+                            feedback.textContent = "No seleccionaste una opción.";
+                            feedback.style.color = "red";
+                            allCorrect = false;
+                        }
+                    }
+
+                    const answerDivs = document.querySelectorAll('.math-answer-exercise');
+                    answerDivs.forEach(div => {
+                        div.style.display = 'flex'; 
+                    });
+
+                    // Mostrar SweetAlert con los resultados
                     Swal.fire({
-                        title: 'Explicación de la Conversión',
-                        html: `
-                            <p><strong>Recuerda que debes dividir la fracción y sumarle el entero que lo acompaña </strong></p>
-                            <p><strong>7 ÷ 8</strong> = 0.875</p>
-                            <p><strong>8 + 1 ÷ 2</strong> = 8.5</p>
-                            <p><strong>9 + 1 ÷ 4</strong> = 9.25</p>
-                            <p><strong>3 ÷ 8</strong> = 0.375</p>
-                            <p><strong>15 ÷ 4</strong> = 3.75</p>
-                        `,
-                        showCancelButton: true,
-                        confirmButtonText: 'Ver ejemplo en calculadora',
-                        cancelButtonText: 'Cerrar',
+                        title: allCorrect ? '¡Excelente!' : 'Algunos errores',
+                        text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
+                        icon: allCorrect ? 'success' : 'error',
+                        // html: allCorrect ? answersHtml : explanationHtml,
+                        // showCancelButton: true,
+                        confirmButtonText: 'OK',
+                        // cancelButtonText: 'Ver Explicación',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            showExample();
-                        } else {
-                            
-                        }
+                            // showExample();
+                        } 
+                        // else {
+                        //     // Mostrar modal de explicación
+                        //     showExplanation();
+                        // }
                     });
-                }
+                });
 
-                // Función para mostrar modal con explicación
-                function showExample() {
-                    const button6 = calculator3.querySelector(`#all-clear`)
-                    button6.click();
+            }
 
-                    const button1 = calculator3.querySelector(`#eight`)
-                    button1.click();
+            
 
-                    const button2 = calculator3.querySelector(`#add`)
-                    button2.click();
+        });
 
-                    const button3 = calculator3.querySelector(`#one`)
-                    button3.click();
+        const calculator3 = document.getElementById('calculator3');
+        function showExample(entero, numerador, denominador) {
+            const calculator = calculator3; // Asegúrate de que "calculator3" sea tu calculadora
+            const buttons = {
+                '0': calculator.querySelector('#zero'),
+                '1': calculator.querySelector('#one'),
+                '2': calculator.querySelector('#two'),
+                '3': calculator.querySelector('#three'),
+                '4': calculator.querySelector('#four'),
+                '5': calculator.querySelector('#five'),
+                '6': calculator.querySelector('#six'),
+                '7': calculator.querySelector('#seven'),
+                '8': calculator.querySelector('#eight'),
+                '9': calculator.querySelector('#nine'),
+                '+': calculator.querySelector('#add'),
+                '÷': calculator.querySelector('#divide'),
+                '(': calculator.querySelector('#open-parenthesis'),
+                ')': calculator.querySelector('#close-parenthesis'),
+                'C': calculator.querySelector('#all-clear')
+            };
 
-                    const button4 = calculator3.querySelector(`#divide`)
-                    button4.click();
+            // Limpiar la calculadora
+            buttons['C'].click();
 
-                    const button5 = calculator3.querySelector(`#two`)
-                    button5.click();
+            // Función para hacer clic en un botón
+            function clickButton(character) {
+                if (buttons[character]) {
+                    buttons[character].click();
+                } else {
+                    console.error(`Botón no encontrado para el carácter: ${character}`);
                 }
             }
 
-        });
+            // Función para ingresar un número de varios dígitos
+            function enterNumber(number) {
+                const digits = String(number).split('');
+                digits.forEach(digit => clickButton(digit));
+            }
+
+            // Ingresar la fracción
+            if (entero >= 1) {
+                enterNumber(entero); // Ingresar el entero
+                clickButton('+'); // Ingresar el operador de suma
+                clickButton('('); // Abrir paréntesis
+                enterNumber(numerador); // Ingresar el numerador
+                clickButton('÷'); // Ingresar el operador de división
+                enterNumber(denominador); // Ingresar el denominador
+                clickButton(')'); // Cerrar paréntesis
+            } else {
+                enterNumber(numerador); // Ingresar el numerador
+                clickButton('÷'); // Ingresar el operador de división
+                enterNumber(denominador); // Ingresar el denominador
+            }
+        }
+
+        const calculator4 = document.getElementById('calculator4');
+        function showExampleElevate(identificador) {
+            const calculator = calculator4;
+            const buttons = {
+                '0': calculator.querySelector('#zero'),
+                '1': calculator.querySelector('#one'),
+                '2': calculator.querySelector('#two'),
+                '3': calculator.querySelector('#three'),
+                '4': calculator.querySelector('#four'),
+                '5': calculator.querySelector('#five'),
+                '6': calculator.querySelector('#six'),
+                '7': calculator.querySelector('#seven'),
+                '8': calculator.querySelector('#eight'),
+                '9': calculator.querySelector('#nine'),
+                '+': calculator.querySelector('#add'),
+                '÷': calculator.querySelector('#divide'),
+                '*': calculator.querySelector('#multiply'),
+                '.': calculator.querySelector('#decimal'),
+                '(': calculator.querySelector('#open-parenthesis'),
+                ')': calculator.querySelector('#close-parenthesis'),
+                'C': calculator.querySelector('#all-clear')
+            };
+
+            // Limpiar la calculadora
+            buttons['C'].click();
+
+            // Función para hacer clic en un botón
+            function clickButton(character) {
+                if (buttons[character]) {
+                    buttons[character].click();
+                } else {
+                    console.error(`Botón no encontrado para el carácter: ${character}`);
+                }
+            }
+
+            // Función para ingresar un número de varios dígitos
+            function enterNumber(number) {
+                const digits = String(number).split('');
+                digits.forEach(digit => clickButton(digit));
+            }
+
+            // Ingresar la fracción
+            if (identificador === 1) {
+                clickButton('(');
+                enterNumber('7'); // Ingresar el entero
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('7');
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('*'); // Abrir paréntesis
+                enterNumber('12'); // Ingresar el numerador
+                clickButton('*'); // Ingresar el operador de división
+                enterNumber('0'); // Ingresar el denominador
+                clickButton('.');
+                enterNumber('000243'); // Ingresar el denominador
+            } 
+        }
+
+        function showSolution(id) {
+    // Obtener el elemento que se debe mostrar
+    const solutionElement = document.getElementById(`solution${id}`);
+
+    // Verificar si el elemento existe
+    if (solutionElement) {
+        // Cambiar el estilo display a flex
+        solutionElement.style.display = 'flex';
+    } else {
+        console.error(`No se encontró el elemento con ID solution${id}`);
+    }
+}
+
+        function resetFormElevate() {
+            // Limpiar todos los campos de entrada
+            const inputs = document.querySelectorAll('.result-input');
+            inputs.forEach(input => {
+                input.value = ''; // Vaciar el valor del input
+                input.style.borderColor = '';
+            });
+
+            const answerDivs = document.querySelectorAll('.math-answer-exercise');
+                answerDivs.forEach(div => {
+                    div.style.display = 'none'; 
+                });
+
+            // Ocultar todos los mensajes de retroalimentación
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = ''; // Limpiar el contenido del span
+                feedback.style.display = 'none'; // Ocultar el span
+            });
+        }
+
+        // Asignar la función al botón de "Reset"
+        document.getElementById('reset_btn').addEventListener('click', resetForm);
 
         let isSpeaking = false; // Estado del botón (activo/inactivo)
 

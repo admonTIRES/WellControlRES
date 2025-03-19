@@ -3,12 +3,12 @@
     <div class="logo-container">
         <div class="logo">
         <a href="{{ route('home') }}" style="display: contents;"> <!-- display: contents hace que el enlace no afecte el diseño -->
-            <img src="/assets/images/Tecnicas@4x.png" alt="Results in Performance">
+            <img src="/assets/images/logo.png" alt="Results in Performance">
         </a>
         </div>
     </div>
     <div class="nav-icons">
-        <a href="/" class="nav-item" data-title="Inicio">
+        <a href="{{ route('home') }}" class="nav-item" data-title="Inicio">
             <img src="/assets/images/principal/home.png" alt="home" class="nav-icon">
         </a>
         <a href="/calculadora" class="nav-item" data-title="Matemáticas para perforación">

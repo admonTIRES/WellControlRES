@@ -381,8 +381,16 @@ scrollbar        .hero-button {
 
 .exercise-container {
     display: flex;
-    gap: 32px;
-    margin-top: 24px;
+    gap: 12px;
+    margin-top: 44px;
+}
+
+.calculator-container {
+    position: fixed; /* Fija la calculadora en la pantalla */
+    top: 20px; /* Distancia desde la parte superior */
+    right: 20px; /* Distancia desde la derecha */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 330px;
 }
 
 .exercise-content {
@@ -390,6 +398,7 @@ scrollbar        .hero-button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 350px;
 }
 
 .calculator-preview {
@@ -401,9 +410,10 @@ scrollbar        .hero-button {
 }
 
 .exercise-title {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     margin-bottom: 16px;
     color: #333;
+    text-align: center;
 }
 
 .exercise-description {
@@ -424,7 +434,7 @@ scrollbar        .hero-button {
 .result-input {
     width: 100%;
     max-width: 150px;
-    padding: 8px 12px;
+    padding: 6px 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 16px;
@@ -439,12 +449,13 @@ scrollbar        .hero-button {
     border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
+    margin-top: 1rem;
 }
 
 .text-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    text-align: center;
     margin-bottom: 24px;
     background-color: #2b3137;
     padding: 16px;
@@ -528,6 +539,62 @@ scrollbar        .hero-button {
     border-left: 5px solid #007DBA;
     margin: 20px 0;
     border-radius: 5px;
+}
+
+.math-drilling-solution {
+    background-color: #F0F4F8;
+    padding: 15px;
+    border-left: 5px solid #20ac29;
+    margin: 20px 0;
+    border-radius: 5px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.math-answer-exercise {
+    /* display: flex;  */
+    display: none;
+    align-items: center; 
+    justify-content: space-between; 
+    background-color: #F0F4F8;
+    padding: 10px;
+    gap: 10px;
+    border-left: 5px solid #00a648;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.answer-button {
+    background-color: #28a745; 
+    color: white; 
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    font-size: 14px;
+}
+
+.solution-button {
+    background-color: #236192; 
+    color: white; 
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    font-size: 14px;
+}
+
+.answer-button::before {
+    content: "\f06e";
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
 }
 
 .math-drilling-exercise-title {
@@ -799,4 +866,89 @@ scrollbar        .hero-button {
         opacity: 1;
         transform: translateY(0); /* Termina en su posición original */
     }
+}
+
+/* Estilos para ambos botones dentro del div.exercise-container */
+.exercise-container .submit-button,
+.exercise-container .reset-button {
+    display: inline-flex; /* Colocar icono y texto en línea */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo específico para el botón de Revisar */
+.exercise-container .submit-button {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.exercise-container .submit-button:hover {
+    background-color: #218838; /* Verde oscuro al pasar el mouse */
+}
+
+/* Estilo específico para el botón de Reiniciar */
+.exercise-container .reset-button {
+    background-color: #333; /* Negro */
+    color: white;
+    margin-left: 10px; /* Espacio entre los botones */
+}
+
+.exercise-container .reset-button:hover {
+    background-color: #222; /* Negro más oscuro al pasar el mouse */
+}
+
+/* Estilos para los iconos dentro del div.exercise-container */
+.exercise-container .icon {
+    margin-right: 8px; /* Espacio entre el icono y el texto */
+    font-size: 5px; /* Tamaño del icono */
+}
+
+.options label {
+    display: block; /* Hace que cada label ocupe su propia línea */
+    margin-bottom: 10px; /* Espacio entre los labels */
+}
+
+.card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+}
+
+.text-content {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.5em;
 }

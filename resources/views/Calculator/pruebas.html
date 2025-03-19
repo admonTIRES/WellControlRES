@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Perfil</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+      
+
+.card {
+    position: relative;
+    width: 200px;
+    height: 280px;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(255, 0, 0, 0.8), transparent);
+}
+
+.text-content {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.5em;
+}
+
+    </style>
+    <div class="card">
+        <img src="../../../public/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
+        <div class="overlay"></div>
+        <div class="text-content">
+            <h2>Hannah<br>Laurent</h2>
+        </div>
+    </div>
+</body>
+</html>

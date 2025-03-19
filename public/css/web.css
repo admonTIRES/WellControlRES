@@ -40,7 +40,8 @@ body {
 
 .logo img {
     width: 250px;
-    height: auto;
+    /* height: auto; descomentar en el nuevo logo*/
+    height: 80px;
     display: block;
 }
 

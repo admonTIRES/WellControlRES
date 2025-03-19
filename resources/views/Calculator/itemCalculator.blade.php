@@ -190,7 +190,7 @@
             color:rgb(255, 255, 255); 
         }
     </style>
-<div id="{{ $id }}" class="calculator">
+<div id="{{ $id }}" name="{{ $id }}" class="calculator">
     <div class="information">
         <p class="calculator-brand">CASIO</p>
         <p class="calculator-model">fx-82MS</p>
@@ -263,8 +263,8 @@
         <button id="add" class="btn operator seccion5 sum">+</button>
         <button id="subtract" class="btn operator seccion5 rest">−</button>
 
-        <button id="zero" class="btn number seccion3">0<span class="shift-text">Rnd</span></button>
-        <button id="decimal" class="btn number seccion6">.<span class="shift-text">Ran#</span></button>
+        <button id="zero" class="btn number seccion3">0</button>
+        <button id="decimal" class="btn number seccion6">.</button>
         <button id="exponent" class="btn number seccion6">EXP<span class="shift-text">π</span></button>
         <button id="answer" class="btn number seccion6">Ans<span class="shift-text">DRG▶</span></button>
         <button id="equals" class="btn operator seccion6 result">=<span class="shift-text">%</span></button>

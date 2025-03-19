@@ -4,6 +4,7 @@
         <div class="logo">
         <a href="{{ route('home') }}" style="display: contents;"> <!-- display: contents hace que el enlace no afecte el diseño -->
             <img src="/assets/images/l" alt="Results in Performance">
+            LOGOS
         </a>
         </div>
     </div>

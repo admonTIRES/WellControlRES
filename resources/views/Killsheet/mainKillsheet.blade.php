@@ -340,9 +340,9 @@
             
             <div class="options">
                 <div class="option-card">
-                    <h3 class="option-title" data-company="smith">Smith Mason & Co</h3>
+                    <h3 class="option-title" data-company="smith">IADC</h3>
                     <p class="option-text">Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis in commodo sed pellentesque hendrerit natum accumsan facilisis erat vel placerat commodo.</p>
-                    <img class="option-image" src="/assets/images/Smith_Mason_Co_Logo.svg" alt="Check icon" />
+                    <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
                     <button class="select-btn">
                         <img src="/assets/images/Principal/flecha.png" alt="Check icon" /> Seleccionar
                     </button>
@@ -448,7 +448,7 @@
                         Swal.fire({
         html: `
             <div class="modal-content">
-                <img src="${companyLogo}" alt="${companyName} Logo" class="modal-logo">
+                <img src="/assets/images/iadc.png" alt="${companyName} Logo" class="modal-logo">
                 <h3 class="modal-subtitle">Hoja de matar por Smith Mason & Co</h3>
                 <p class="modal-text">Hoja de matar para pozos verticales.</p>
                 <div class="modal-buttons">

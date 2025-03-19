@@ -94,7 +94,7 @@
             </a>
         </div>
 
-        <div class="card">
+        <div id="hojasDiv" class="card">
             <h2 class="card-title">{{ __('Kill Sheet') }}</h2>
             <img src="/assets/images/principal/pozo 1.png" alt="{{ __('Resources') }}" class="card-image">
             <a href="#" class="card-link">

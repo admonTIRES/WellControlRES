@@ -695,7 +695,7 @@
                         </div>
                     </div>
                     <div class="calculator-container">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator3', 'name' => 'calculator3'])
+                    @include('Calculator.itemCalculator', ['id' => 'calculator3'])
                     </div>
                 </div>
             </div>
@@ -820,7 +820,7 @@
                             </div>
                         </div>
                         <div class="calculator-container">
-                        @include('Calculator.itemCalculator', ['id' => 'calculator4', 'name' => 'calculator3'])
+                        @include('Calculator.itemCalculator', ['id' => 'calculator4'])
                         </div>
 
                         <!-- Botones de Revisar y Reiniciar -->
@@ -873,7 +873,7 @@
                         <button id="ejercicio3_btn" class="submit-button">Revisar</button>
                     </div>
                     <div class="calculator-container">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator5', 'name' => 'calculator3'])
+                    @include('Calculator.itemCalculator', ['id' => 'calculator5'])
                     </div>
                 </div>
             </div>
@@ -1270,12 +1270,17 @@
             const calculator_3 = document.getElementById('calculator3'); 
             const calculator4 = document.getElementById('calculator4'); 
             const calculator5 = document.getElementById('calculator5'); 
-            const calculator6 = document.getElementById('calculator6'); 
 
+            if (calculator_3) {
             initializeCalculator(calculator_3);
+            }
+
+            if (calculator4) {
             initializeCalculator(calculator4);
+            }
+            if (calculator5) {
             initializeCalculator(calculator5);
-            initializeCalculator(calculator6);
+            }
 
             function initializeCalculator (calculator3) {
                 // Variables para el estado de la calculadora
@@ -1683,19 +1688,19 @@
         }
 
         function showSolution(id) {
-    // Obtener el elemento que se debe mostrar
-    const solutionElement = document.getElementById(`solution${id}`);
+            // Obtener el elemento que se debe mostrar
+            const solutionElement = document.getElementById(`solution${id}`);
 
-    // Verificar si el elemento existe
-    if (solutionElement) {
-        // Cambiar el estilo display a flex
-        solutionElement.style.display = 'flex';
-    } else {
-        console.error(`No se encontró el elemento con ID solution${id}`);
-    }
-}
+            // Verificar si el elemento existe
+            if (solutionElement) {
+                // Cambiar el estilo display a flex
+                solutionElement.style.display = 'flex';
+            } else {
+                console.error(`No se encontró el elemento con ID solution${id}`);
+            }
+        }
 
-        function resetFormElevate() {
+        function resetForm() {
             // Limpiar todos los campos de entrada
             const inputs = document.querySelectorAll('.result-input');
             inputs.forEach(input => {

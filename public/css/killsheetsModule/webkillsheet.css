@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Niconne&family=Jura:wght@400;700&display=swap');
+@import url('../colors.css');
+
+
+::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 5px;
+}
+
+.logo-container {
+    background:linear-gradient(to bottom,
+                #cecdcd 0%,
+                #cecdcd 15%,
+                #236192 34%); 
+       
+}
+
+
+.nav-icons {
+    background: #236192;
+}
+
+body {  
+    margin-top: 70px;
+    width: 98.7%;
+    margin-left: 10px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 0;
+    background:  linear-gradient(to bottom,
+    #236192 0%,
+    #236192 15%,
+    white 94%);
+}
+
+.sidebar-container {
+    width: 350px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    animation: fadeInUp 0.8s ease forwards;
+    flex-shrink: 0;
+    height: 85vh;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+

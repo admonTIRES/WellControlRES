@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formularios de Perforación</title>
+  <title>Killsheet</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -176,10 +176,153 @@
     .underline {
       text-decoration: underline;
     }
+
+    .pozo-data-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    background-color: #ffffff;
+    max-width: 500px;
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid #eaeaea;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .card-title {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-footer {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eaeaea;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  /* Estilos para los inputs */
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .form-group label {
+    flex-basis: 40%;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  input {
+    width: 60%;
+    text-align: center;
+    margin: 0 5px;
+    border: none;
+    min-width: 40px;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+  }
+  
+  .underline-input:focus {
+    border-bottom: 2px solid #007bff;
+  }
+  
+  /* Estilos para botones */
+  .btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .container-centered {
+    display: flex;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 20px;
+  }
   </style>
 </head>
 <body>
   <!-- First form: Volume Calculator -->
+  <div class="container-centered">
+  <div class="card pozo-data-card">
+  <div class="card-header">
+    <h3 class="card-title">Datos del Pozo</h3>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="nombrePozo">Nombre del Pozo:</label>
+      <input type="text" id="nombrePozo" class="underline-input">
+    </div>
+    
+    <div class="form-group">
+      <label for="profundidad">Profundidad (m):</label>
+      <input type="number" id="profundidad" class="underline-input">
+    </div>
+    
+    <div class="form-group">
+      <label for="diametro">Diámetro (pulg):</label>
+      <input type="number" id="diametro" class="underline-input">
+    </div>
+    
+    <div class="form-group">
+      <label for="temperatura">Temperatura (°C):</label>
+      <input type="number" id="temperatura" class="underline-input">
+    </div>
+    
+    <div class="form-group">
+      <label for="presion">Presión (psi):</label>
+      <input type="number" id="presion" class="underline-input">
+    </div>
+    
+    <div class="form-group">
+      <label for="tipo">Tipo de Pozo:</label>
+      <select id="tipo" class="underline-input">
+        <option value="vertical">Vertical</option>
+        <option value="desviado">Desviado</option>
+        <option value="horizontal">Horizontal</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="fechaPerforacion">Fecha de Perforación:</label>
+      <input type="date" id="fechaPerforacion" class="underline-input">
+    </div>
+  </div>
+</div>
+</div>
   <div class="container">
     <!-- Left section: Well diagram (would be an image) -->
     <div class="well-diagram">
@@ -211,10 +354,10 @@
           <div class="label">Tubería pesada (HWDP)</div>
           <div class="formula">
             <span>Capacidad</span>
-            <input type="text"> BBL/PIE x
+            <input type="text">      BBL/PIE x
             <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+            <input type="text">      PIES = 
+            <input type="text">      BBL
           </div>
         </div>
         

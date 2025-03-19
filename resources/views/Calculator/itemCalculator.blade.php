@@ -190,7 +190,7 @@
             color:rgb(255, 255, 255); 
         }
     </style>
-<div id="{{ $id }}" name="{{ $id }}" class="calculator">
+<div id="{{ $id }}" class="calculator">
     <div class="information">
         <p class="calculator-brand">CASIO</p>
         <p class="calculator-model">fx-82MS</p>

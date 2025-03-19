@@ -2,6 +2,10 @@ document.getElementById('calculadoraDiv').addEventListener('click', function() {
     window.location.href = '/Calculator';
 });
 
+document.getElementById('hojasDiv').addEventListener('click', function() {
+    window.location.href = '/Killsheet';
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     const navItems = document.querySelectorAll(".nav-item");
     const tooltip = document.getElementById("tooltip");

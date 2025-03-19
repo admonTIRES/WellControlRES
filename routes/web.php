@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\loginController;
 // USER
 use App\Http\Controllers\Principal\principalController;
 use App\Http\Controllers\Calculator\calculatorController;
+use App\Http\Controllers\Killsheet\killsheetController;
+
 
 
 // ADMIN
@@ -39,7 +41,11 @@ Route::middleware('auth')->get('/', [PrincipalController::class, 'index'])->name
 //----------------------------CALCULATOR-------------------------------//
 Route::middleware('auth')->get('/Calculator', [calculatorController::class, 'index']);
 
-
+//----------------------------CALCULATOR-------------------------------//
+Route::middleware('auth')->get('/Killsheet', [killsheetController::class, 'index']);
+Route::get('/Killsheet/iadc', [KillsheetController::class, 'iadc'])->name('killsheet.iadc');
+Route::get('/Killsheet/iwcf', [KillsheetController::class, 'iwcf'])->name('killsheet.iwcf');
+Route::get('/Killsheet/iwcf-desviado', [KillsheetController::class, 'iwcfdesviado'])->name('killsheet.iwcfdesviado');
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------PRINCIPAL-------------------------------//
 Route::get('/Admin', [adminController::class, 'index']);    

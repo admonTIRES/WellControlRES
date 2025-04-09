@@ -22,8 +22,6 @@ use Illuminate\Support\Str;
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet">
-
-
         <!-- <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -54,20 +52,15 @@ use Illuminate\Support\Str;
             @endswitch
     @endif
     <title>WellControlLearningExperience </title>
-
     </head>
     <body>
          <!-- DIV PRINCIPAL -->
-        
-
         <div id="main-wrapper">
              <!-- HEADER -->
             <header>
             @include('Principal.navbar')
             </header>
             <!-- /HEADER -->
-            <!-- NAVBAR -->
-            <!-- /NAVBAR -->
             <!-- CONTENIDO Y FOOTER -->
             <div class="page-wrapper">
                 <div class="container-fluid">
@@ -83,6 +76,7 @@ use Illuminate\Support\Str;
         <!-- SCRIPTS -->
         <!-- /SCRIPTS -->
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/Principal/Principal.js') }}"></script>
     @if(request()->is('Calculator'))
         <script src="{{ asset('js/Calculator.js') }}"></script>

@@ -307,49 +307,39 @@
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Uso</h1>
                 </div> 
-                <!-- <div class="content-wrapper">
-                    <div class="content-box">
-                        <h3>{{ __('John Doe') }}</h3>
-                        <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
-                    </div>
-
-                    <div class="team-image">
-                        <img src="/assets/images/calculator/uses_image.jpg" alt="{{ __('Professional team') }}">
-                    </div>
-
-                    <div class="content-box">
-                        <h3>{{ __('Practice') }}</h3>
-                        <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
-                    </div>
-                </div>            -->
-                
                 <div class="hero-grid">
-                <div class="card">
-                    <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
-                    <div class="overlay"></div>
-                    <div class="text-content">
-                        <h2>Cálculo de presiones hidrostáticas</h2>
-                        <p class="hero-text">Esencial para garantizar la estabilidad del pozo. La calculadora permite resolver rápidamente la presión ejercida por el fluido de perforación, evitando sobrepresiones o colapsos en las formaciones. Se usa la fórmulaP=ρ⋅g⋅h, donde se consideran la densidad del lodo, la gravedad y la profundidad.</p>
+                    <div class="card">
+                        <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
+                        <div class="overlay"></div>
+                        <div class="text-content">
+                            <h2>Cálculo de presiones hidrostáticas</h2>
+                            <p class="hero-text">Esencial para garantizar la estabilidad del pozo. La calculadora permite resolver rápidamente la presión ejercida por el fluido de perforación, evitando sobrepresiones o colapsos en las formaciones. Se usa la fórmulaP=ρ⋅g⋅h, donde se consideran la densidad del lodo, la gravedad y la profundidad.</p>
+                        </div>
                     </div>
-                </div>
-                    <div class="hero-column">
-                        <div class="hero-content">
-                            <h2 class="hero-title">Conversión de unidades</h2>
+                    <div class="card">
+                        <img src="/assets/images/calculator/uses_image2.jpg" alt="Hannah Laurent" class="profile-img">
+                        <div class="overlay"></div>
+                        <div class="text-content">
+                        <h2 class="hero-title">Conversión de unidades</h2>
                             <p class="hero-text">En la industria petrolera, es común trabajar con unidades mixtas (métricas e imperiales). La calculadora agiliza la conversión entre psi y bar, metros y pies, o galones y litros, asegurando precisión en los informes y operaciones.
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="hero-grid">
-                    <div class="hero-column">
-                        <div class="hero-content">
-                            <h2 class="hero-title">Cálculo de volúmenes de lodo:</h2>
+                    <div class="card">
+                        <img src="/assets/images/calculator/uses_image3.jpg" alt="Hannah Laurent" class="profile-img">
+                        <div class="overlay"></div>
+                        <div class="text-content">
+                        <h2 class="hero-title">Cálculo de volúmenes de lodo:</h2>
                             <p class="hero-text">Permite determinar cuánto lodo se necesita para llenar el pozo o realizar desplazamientos. Con la fórmula del volumen de un cilindro (V=π⋅r 2⋅h), se calcula el espacio que ocupará el fluido en el pozo, evitando desbalances.</p>
                         </div>
                     </div>
-                    <div class="hero-column">
-                        <div class="hero-content">
-                            <h2 class="hero-title">Análisis de gradientes de presión</h2>
+                    <div class="card">
+                        <img src="/assets/images/calculator/uses_image4.jpeg" alt="Hannah Laurent" class="profile-img">
+                        <div class="overlay"></div>
+                        <div class="text-content">
+                        <h2 class="hero-title">Análisis de gradientes de presión</h2>
                             <p class="hero-text">Permite evaluar cómo cambia la presión con la profundidad, lo que es vital para prevenir fracturas en la formación o derrumbes. Con la calculadora, se pueden resolver rápidamente estos gradientes y tomar decisiones operativas.
                             </p>
                         </div>

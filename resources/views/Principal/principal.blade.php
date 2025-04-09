@@ -1,6 +1,5 @@
 @extends('Template/maestraUser')
 @section('contenido') 
-
 <div class="main">
     <section class="main-content">
         <div class="header-text">
@@ -10,7 +9,7 @@
 
         <div class="content-wrapper">
             <div class="content-box">
-                <div class="number">01</div>
+            <div class="number">01</div>
                 <h3>{{ __('John Doe') }}</h3>
                 <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
@@ -128,6 +127,7 @@
         </div>
     </section>
 </div>
+
 <script src="/js/Principal/Principal.js?v=1.0"></script>
 @endsection
 

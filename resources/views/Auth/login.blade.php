@@ -67,6 +67,9 @@
                                         <select id="language-selector" data-route="{{ route('switch.lang', '') }}">
                                             <option value="es" {{ app()->getLocale() === 'es' ? 'selected' : '' }}>🇪🇸 Español</option>
                                             <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>🇺🇸 English</option>
+                                            <option value="ar" {{ app()->getLocale() === 'ar' ? 'selected' : '' }}>ar عربي</option>
+                                            <option value="pt_BR" {{ app()->getLocale() === 'pt_BR' ? 'selected' : '' }}>pt Português</option>
+
                                         </select>
                                     </div>
                                     

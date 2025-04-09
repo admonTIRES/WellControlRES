@@ -93,6 +93,54 @@ body {
 }
 
 /* CONTAINERS */
+/* Estilos para el menú flotante */
+.dropdown-menu-container {
+    position: relative;
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu {
+    position: absolute;
+    top: 80%;
+    left: 0;
+    transform: translateX(-50%);
+    background-color: rgba(6, 6, 6, 0.102);
+    border-radius: 10px; /* Más redondeado */
+    padding: 20px 0; /* Más margen */
+    width: 180px; /* Ancho un poco mayor */
+    display: none;
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.072);
+    z-index: 1000;
+    backdrop-filter: blur(12px); /* Blur más suave */
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición más fluida */
+}
+
+/* Estilo de los enlaces del menú */
+.dropdown-menu a {
+    display: block;
+    padding: 12px 20px; /* Más espacio dentro de cada opción */
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-size: 18px; /* Letra más grande */
+    font-weight: 400; /* Letra más gruesa */
+}
+
+/* Estilo al pasar el mouse sobre los enlaces */
+.dropdown-menu a:hover {
+    background-color: #ffffff;
+    color: #FF585D;
+
+}
+
+/* Mostrar el menú con efecto fade-in y leve desplazamiento */
+.dropdown-menu-container:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(5px); /* Movimiento suave hacia abajo */
+}
+
 
 
 

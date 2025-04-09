@@ -22,7 +22,13 @@ class loginController extends Controller
         ]);
     
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->intended('/'); // Redirige directamente
+            $user = Auth::user();
+            
+            if ($user->rol === 1) { // Usuario normal
+                return redirect()->intended('/')->with('user_role', 1);
+            } else { // Administrador (0)
+                return redirect()->intended('/')->with('user_role', 0);
+            }
         }
     
         $userExists = \App\Models\User::where('username', $request->username)->exists();
@@ -35,6 +41,7 @@ class loginController extends Controller
             $errorMessage = (app()->getLocale() === 'es') ? 'Error desconocido' : 'Unknown error';
         }
     
+    
         return back()->withErrors(['message' => $errorMessage]); // Devuelve el error
     }
     // Cerrar sesión
@@ -43,6 +50,6 @@ class loginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

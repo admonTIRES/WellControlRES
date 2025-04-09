@@ -14,4 +14,153 @@ class adminController extends Controller
     {
         return view('Admin.index');
     }
+
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function dashboardInstructor()
+    {
+        return view('Admin.content.Instructor.dashboard.dashboard')->with('user_role', 0);
+    }
+
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function students()
+    {
+        return view('Admin.content.Instructor.students.studentsPanel')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function asignaments()
+    {
+        return view('Admin.content.Instructor.students.asignaments')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function exercises()
+    {
+        return view('Admin.content.Instructor.exercises.exercisePanel')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function math()
+    {
+        return view('Admin.content.Instructor.exercises.math')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function killsheets()
+    {
+        return view('Admin.content.Instructor.exercises.killsheets')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function catalogs()
+    {
+        return view('Admin.content.Instructor.catalogs.catalogs')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function users()
+    {
+        return view('Admin.content.Admin.users.usersPanel')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function enterprise()
+    {
+        return view('Admin.content.Admin.users.enterprise')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function individual()
+    {
+        return view('Admin.content.Admin.users.individual')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function membership()
+    {
+        return view('Admin.content.Admin.users.membership')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function access()
+    {
+        return view('Admin.content.Admin.access.accessPanel')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function instructors()
+    {
+        return view('Admin.content.Admin.access.instructors')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function external()
+    {
+        return view('Admin.content.Admin.access.external')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function roles()
+    {
+        return view('Admin.content.Admin.access.roles')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function recovery()
+    {
+        return view('Admin.content.Admin.access.recoveryPassword')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function reports()
+    {
+        return view('Admin.content.Admin.reports.reports')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function profile()
+    {
+        return view('Admin.content.Public.profile')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function configuration()
+    {
+        return view('Admin.content.Public.configuration')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function notifications()
+    {
+        return view('Admin.content.Public.notifications')->with('user_role', 0);
+    }
+        /**
+     * @return \Illuminate\View\View
+     */
+    public function messages()
+    {
+        return view('Admin.content.Public.messages')->with('user_role', 0);
+    }   
 }

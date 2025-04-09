@@ -324,12 +324,12 @@
                 <p>Lo que <span class="highlight-hoy">hoy</span> parece difícil, mañana será tu mayor <span class="highlight-logro">logro</span></p>
             </div>
             
-            <img src="/assets/images/Principal/castorFeliz.png" alt="Beaver mascot" class="beaver" />
+            <img src="/assets/images/principal/castorFeliz.png" alt="Beaver mascot" class="beaver" />
             
-            <img src="/assets/images/Principal/nube2.png" alt="Cloud" class="cloud cloud-1" />
-            <img src="/assets/images/Principal/nube1.png" alt="Cloud" class="cloud cloud-2" />
-            <img src="/assets/images/Principal/nube3.png" alt="Cloud" class="cloud cloud-3" />
-            <img src="/assets/images/Principal/nube4.png" alt="Cloud" class="cloud cloud-4" />
+            <img src="/assets/images/principal/nube2.png" alt="Cloud" class="cloud cloud-1" />
+            <img src="/assets/images/principal/nube1.png" alt="Cloud" class="cloud cloud-2" />
+            <img src="/assets/images/principal/nube3.png" alt="Cloud" class="cloud cloud-3" />
+            <img src="/assets/images/principal/nube4.png" alt="Cloud" class="cloud cloud-4" />
         </div>
         
         <div class="steps-section">
@@ -343,7 +343,7 @@
                     <p class="option-text">Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis in commodo sed pellentesque hendrerit natum accumsan facilisis erat vel placerat commodo.</p>
                     <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
                     <button class="select-btn">
-                        <img src="/assets/images/Principal/flecha.png" alt="Check icon" /> Seleccionar
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> Seleccionar
                     </button>
                 </div>
                 
@@ -352,7 +352,7 @@
                     <p class="option-text">Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis in commodo sed pellentesque hendrerit natum accumsan facilisis erat vel placerat commodo.</p>
                     <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
                     <button class="select-btn">
-                        <img src="/assets/images/Principal/flecha.png" alt="Check icon" /> Seleccionar
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> Seleccionar
                     </button>
                 </div>
 

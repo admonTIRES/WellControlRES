@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Calculator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Language\LanguageController;
+use App\Http\Controllers\Language\languageController;
 
 use Illuminate\Http\Request;
 
@@ -34,7 +34,5 @@ class calculatorController extends Controller
         }
         
         return view('Calculator.menuCalculator', $audioPaths);
-
-       // return view('Calculator.menuCalculator', compact('audioIntroPath', 'audioConfigPath', 'audioPartsPath', 'audioFunctionsPath', 'audioUsePath', 'audioUnitPath',  'audioFractionPath', 'audioHierarchyPath', 'audioClearancePath', 'audioFormulaPath'));
     }
 }

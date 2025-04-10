@@ -320,7 +320,13 @@
                         Para una guía visual detallada, consulta el siguiente video:
                 </p>
                 <div id="video-container" class="math-drilling-video">
-
+                <iframe 
+                    src="https://drive.google.com/file/d/1o5N8sYIQjEPkJ8pYI7OtHA7B63/preview" 
+                    width="760" 
+                    height="515"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe>
                 </div>
                 <div id="secure-video-container" class="video-container">
                     <!-- El iframe estará oculto y se cargará dinámicamente -->

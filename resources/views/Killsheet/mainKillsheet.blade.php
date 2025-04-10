@@ -391,10 +391,10 @@
                 <p class="modal-text">Hoja de matar para pozos verticales y desviados.</p>
                 <div class="modal-buttons">
                     <button class="modal-btn modal-btn-secondary" id="iwcfVertical">
-                        <img src="/assets/images/Principal/flecha.png" alt="Icon"> Pozo Vertical
+                        <img src="/assets/images/principal/flecha.png" alt="Icon"> Pozo Vertical
                     </button>
                     <button class="modal-btn modal-btn-primary" id="iwcfDesviado">
-                        <img src="/assets/images/Principal/flecha.png" alt="Icon"> Pozo Desviado
+                        <img src="/assets/images/principal/flecha.png" alt="Icon"> Pozo Desviado
                     </button>
                 </div>
             </div>
@@ -452,7 +452,7 @@
                 <p class="modal-text">Hoja de matar para pozos verticales.</p>
                 <div class="modal-buttons">
                     <button class="modal-btn modal-btn-primary" id="smithButton">
-                        <img src="/assets/images/Principal/flecha.png" alt="Check icon"> Pozo Vertical
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon"> Pozo Vertical
                     </button>
                 </div>
             </div>

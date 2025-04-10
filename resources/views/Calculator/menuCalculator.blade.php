@@ -135,11 +135,11 @@
             <div id="introduction" class="content-section active scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Bienvenido a "Matemáticas para Perforación"</h1>
-                    <button id="voiceButton2" class="voice-button" onclick="toggleSpeakText2()">
+                    <button id="voiceButtonIntro" class="voice-button" onclick="toggleSpeakText('audioIntro')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
-                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                    <audio id="audioIntro" src="{{ $audioIntroPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">¿Qué encontrarás en este módulo?</h2>
@@ -178,14 +178,125 @@
                     </div>
                 </div>
             </div>
+            <style>
+        .video-container {
+            position: relative;
+            width: 760px;
+            height: 515px;
+            background-color: #000;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: transparent;
+            z-index: 10;
+            pointer-events: auto; /* Esto bloquea los clics en la barra superior */
+        }
+        
+        .logo-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 60px;
+            z-index: 15;
+            pointer-events: auto; /* Esto bloquea los clics en el logo */
+            background-color: transparent;
+        }
+        
+        /* Nuevo bloqueador de clic derecho que cubre todo el reproductor */
+        .right-click-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; /* Por debajo de los otros controles pero encima del iframe */
+            background-color: transparent;
+            pointer-events: none; /* Permitimos que los clics pasen a través por defecto */
+        }
+        
+        .custom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        
+        .play-pause {
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 5px;
+            background-color: #444;
+            margin: 0 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #f00;
+            width: 0%;
+        }
+        
+        .volume-control {
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
+        .watermark {
+            position: absolute;
+            bottom: 50px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.42);
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
             <div id="config" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Configuración de calculadora científica</h1>
-                    <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
+                    <button id="voiceButtonConfig" class="voice-button" onclick="toggleSpeakText('audioConfig')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
+                    <audio id="audioConfig" src="{{ $audioConfigPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Ajuste de decimales para el curso de control de pozos</h2>
@@ -208,9 +319,25 @@
                 <p class="math-drilling-text">
                         Para una guía visual detallada, consulta el siguiente video:
                 </p>
-                <p class="math-drilling-video">
-                    <iframe width="760" height="515" src="https://www.youtube.com/embed/U3GWeguCfaU" frameborder="0" allowfullscreen></iframe>
-                </p>
+                <div id="video-container" class="math-drilling-video">
+                <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+                </div>
+                <div id="secure-video-container" class="video-container">
+                    <!-- El iframe estará oculto y se cargará dinámicamente -->
+                    <div id="video-frame-container"></div>
+                    
+                    <!-- Bloqueo específico para la parte superior -->
+                    <div class="controls-overlay"></div>
+                    
+                    <!-- Bloqueo específico para el logo -->
+                    <div class="logo-blocker"></div>
+                    <div class="right-click-blocker" id="right-click-blocker"></div>
+                    <!-- Marca de agua personalizada -->
+                    <div class="watermark">Contenido exclusivo</div>
+                    <div class="custom-controls">
+                    </div>
+
+                </div>
             </div>
 
             <div id="partes" class="content-section scrollable-content">
@@ -250,6 +377,13 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="content-title-voice">
+                        <button id="voiceButtonParts" class="voice-button" onclick="toggleSpeakText('audioParts')">
+                            <span class="material-icons">volume_up</span> 
+                            <span>Escuchar</span>
+                        </button>
+                        <audio id="audioParts" src="{{ $audioPartsPath }}"></audio>
                     </div>
                 </div>
             </div>
@@ -300,13 +434,25 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="content-title-voice">
+                        <button id="voiceButtonFunctions" class="voice-button" onclick="toggleSpeakText('audioFunctions')">
+                            <span class="material-icons">volume_up</span> 
+                            <span>Escuchar</span>
+                        </button>
+                        <audio id="audioFunctions" src="{{ $audioFunctionsPath }}"></audio>
+                    </div>
                 </div>
             </div>
 
             <div id="uso" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Uso</h1>
-                </div> 
+                    <button id="voiceButtonUse" class="voice-button" onclick="toggleSpeakText('audioUse')">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioUse" src="{{ $audioUsePath }}"></audio>
+                </div>
                 <div class="hero-grid">
                     <div class="card">
                         <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
@@ -350,11 +496,11 @@
             <div id="unidades" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Unidades de medida</h1>
-                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                    <button id="voiceButtonUnit" class="voice-button" onclick="toggleSpeakText('audioUnit')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
-                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                    <audio id="audioUnit" src="{{ $audioUnitPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Unidades de medida en el control de pozos</h2>
@@ -421,11 +567,11 @@
             <div id="fraccion" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
-                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                    <button id="voiceButtonFraction" class="voice-button" onclick="toggleSpeakText('audioFraction')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
-                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                    <audio id="audioFraction" src="{{ $audioFractionPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">¿Qué es una fracción y cómo convertirla a decimal?</h2>
@@ -477,17 +623,12 @@
             <div id="jerarquia" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Jerarquía de Operaciones</h1>
-                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                    <button id="voiceButtonHierarchy" class="voice-button" onclick="toggleSpeakText('audioHierarchy')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
-                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                    <audio id="audioHierarchy" src="{{ $audioHierarchyPath }}"></audio>
                 </div>
-                <!-- <h1 class="math-drilling-title">Jerarquía de Operaciones</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button> -->
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">El orden en que se deben resolver las ecuaciones</h2>
                     <p class="math-drilling-text">
@@ -511,12 +652,14 @@
             </div>
 
             <div id="despeje" class="content-section scrollable-content">
-                <h1 class="math-drilling-title">Despejes</h1>
-                <button id="voiceButton" class="voice-button" onclick="toggleSpeakText()">
-                    <span class="material-icons">volume_up</span> 
-                    <span>Escuchar</span>
-                </button>
-
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Despejes</h1>
+                    <button id="voiceButtonClearance" class="voice-button" onclick="toggleSpeakText('audioClearance')">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioClearance" src="{{ $audioClearancePath }}"></audio>
+                </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">¿Qué es un despeje y por qué es importante?</h2>
                     <p class="math-drilling-text">
@@ -567,11 +710,11 @@
             <div id="formulas" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Fórmulas</h1>
-                    <button id="voiceButton3" class="voice-button" onclick="toggleSpeakText2()">
+                    <button id="voiceButtonFormula" class="voice-button" onclick="toggleSpeakText('audioFormula')">
                         <span class="material-icons">volume_up</span> 
                         <span>Escuchar</span>
                     </button>
-                    <audio id="audioPlayer" src="/assets/audio/calculator/introduction/calculator_intro_01.mp3"></audio>
+                    <audio id="audioFormula" src="{{ $audioFormulaPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IWCF</h2>
@@ -588,7 +731,7 @@
                         <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/5a68b9cd5e.html" style="border: 1px solid lightgray; width: 1030px; height: 625px;"></iframe>
             </div>
 
-                    <!-- exercices section -->
+            <!-- exercices section -->
             <div id="fracciones" class="content-section scrollable-content">
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Conversión de Fracción a Decimal</h2>
@@ -886,6 +1029,7 @@
     </div> -->
 
     <script>
+        document.oncontextmenu = function(){return false}
             document.addEventListener('DOMContentLoaded', function () {
                 const navItems = document.querySelectorAll('.nav-item');
 
@@ -916,7 +1060,166 @@
                     });
                 });
             });
-
+        
+            loadSecureVideo('BbqXKcUUT44');
+        
+        // Bloquear clic derecho en todo el contenedor
+        document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Bloquear también clic derecho específicamente en el iframe
+        document.addEventListener('DOMNodeInserted', function(e) {
+            if (e.target.id === 'youtube-frame') {
+                e.target.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                    return false;
+                });
+            }
+        });
+        
+        // Carga el video de manera segura
+        function loadSecureVideo(videoId) {
+            const container = document.getElementById('video-frame-container');
+            
+            // Crear el iframe con todos los parámetros de seguridad
+            container.innerHTML = `
+                <iframe 
+                id="youtube-frame"
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+                </iframe>
+            `;
+            
+            // Inicializar el reproductor de YouTube
+            let player;
+            
+            // Cargar la API de YouTube
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+            // Esta función será llamada cuando la API esté lista
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('youtube-frame', {
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            };
+            
+            // Cuando el reproductor esté listo
+            function onPlayerReady(event) {
+                // Configurar controles personalizados
+                setupCustomControls(player);
+                
+                // Configurar bloqueo de clic derecho en el iframe
+                const iframe = document.getElementById('youtube-frame');
+                if (iframe) {
+                    // Intento adicional de bloqueo de clic derecho en el iframe
+                    try {
+                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                        iframeDocument.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            return false;
+                        });
+                    } catch (e) {
+                        // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
+                        console.log("No se puede acceder directamente al documento del iframe");
+                    }
+                }
+            }
+            
+            // Cuando cambie el estado del reproductor
+            function onPlayerStateChange(event) {
+                // Actualizar estado de los controles personalizados
+                updateCustomControls(event.data);
+            }
+        }
+        
+        // Configurar los controles personalizados
+        function setupCustomControls(player) {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progress = document.getElementById('progress');
+            const volumeBtn = document.getElementById('volume-btn');
+            
+            // Botón de reproducción/pausa
+            playPauseBtn.addEventListener('click', function() {
+                const state = player.getPlayerState();
+                if (state === 1) { // reproduciendo
+                    player.pauseVideo();
+                    playPauseBtn.textContent = '▶';
+                } else {
+                    player.playVideo();
+                    playPauseBtn.textContent = '⏸';
+                }
+            });
+            
+            // Control de volumen
+            volumeBtn.addEventListener('click', function() {
+                if (player.isMuted()) {
+                    player.unMute();
+                    volumeBtn.textContent = '🔊';
+                } else {
+                    player.mute();
+                    volumeBtn.textContent = '🔇';
+                }
+            });
+            
+            // Barra de progreso
+            progressBar.addEventListener('click', function(e) {
+                const percent = (e.offsetX / progressBar.offsetWidth);
+                player.seekTo(player.getDuration() * percent);
+            });
+            
+            // Actualizar la barra de progreso
+            setInterval(function() {
+                if (player && typeof player.getCurrentTime === 'function') {
+                    const currentTime = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    const percentage = (currentTime / duration) * 100;
+                    progress.style.width = percentage + '%';
+                }
+            }, 1000);
+            
+            // Configuración adicional para el bloqueador de clic derecho
+            const rightClickBlocker = document.getElementById('right-click-blocker');
+            
+            // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
+            rightClickBlocker.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Permitir que los clics normales pasen a través
+            rightClickBlocker.addEventListener('mousedown', function(e) {
+                if (e.button === 2) { // 2 es clic derecho
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                // Los demás tipos de clic pasan a través
+            });
+        }
+        
+        // Actualizar estado de los controles personalizados
+        function updateCustomControls(playerState) {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            
+            if (playerState === 1) { // reproduciendo
+                playPauseBtn.textContent = '⏸';
+            } else {
+                playPauseBtn.textContent = '▶';
+            }
+        }
                 // Obtener el modal y sus elementos
             const modal = document.getElementById("exampleModalCenter");
             const modalTitle = document.getElementById("exampleModalLongTitle");
@@ -1714,61 +2017,49 @@
         // Asignar la función al botón de "Reset"
         document.getElementById('reset_btn').addEventListener('click', resetForm);
 
-        let isSpeaking = false; // Estado del botón (activo/inactivo)
+     
 
-        function toggleSpeakText() {
-            const button = document.getElementById("voiceButton");
-            const texto = `Bienvenido a Matemáticas para Perforación. En este módulo, Matemáticas para Perforación, hemos diseñado un contenido completo y dinámico para apoyarte en tu curso de Control de Pozos. Aquí encontrarás una combinación de recursos multimedia, explicaciones claras y ejercicios prácticos que te ayudarán a dominar los conceptos matemáticos y el uso de la calculadora en este campo.
-            algunos de los Recursos disponibles son
-            Videos explicativos con Tutoriales paso a paso para entender conceptos clave y resolver problemas.
-            Audios con Explicaciones breves y claras para repasar en cualquier momento.
-            Conceptos teóricos con Explicaciones detalladas de los fundamentos matemáticos aplicados a la perforación.
-            Ejemplos de Problemas resueltos con explicaciones claras para que sigas el proceso.
-            Ejercicios prácticos diseñados para que apliques lo aprendido.`;
-
-            if (isSpeaking) {
-                // Detener la reproducción
-                responsiveVoice.cancel();
-                button.classList.remove("active"); // Desactivar el estilo "activo"
-                button.innerHTML = '<span class="material-icons">volume_up</span> <span>Escuchar</span>'; // Cambiar el ícono y el texto
-            } else {
-                // Reproducir el texto
-                responsiveVoice.speak(
-                    texto,
-                    "Spanish Latin American Male", // Voz en español latinoamericano masculino
-                    {
-                        rate: 1.1, // Velocidad
-                        pitch: 1.0, // Tono
-                        volume: 1.0, // Volumen
-                        onend: function () {
-                            // Cuando termine la reproducción, desactivar el botón
-                            button.classList.remove("active");
-                            button.innerHTML = '<span class="material-icons">volume_up</span> <span>Escuchar</span>';
-                            isSpeaking = false;
-                        }
+        function toggleSpeakText(audioId) {
+            const audioPlayer = document.getElementById(audioId);
+            const button = document.querySelector(`button[onclick="toggleSpeakText('${audioId}')"]`);
+            
+            document.querySelectorAll('audio').forEach(audio => {
+                if (audio.id !== audioId) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    const otherButton = document.querySelector(`button[onclick="toggleSpeakText('${audio.id}')"]`);
+                    if (otherButton) {
+                        otherButton.querySelector('.material-icons').textContent = 'volume_up';
+                        otherButton.querySelector('span:last-child').textContent = 'Escuchar';
                     }
-                );
-                button.classList.add("active"); // Activar el estilo "activo"
-                button.innerHTML = '<span class="material-icons">volume_off</span> <span>Detener</span>'; // Cambiar el ícono y el texto
-            }
-
-            isSpeaking = !isSpeaking; // Cambiar el estado del botón
-        }
-
-        function toggleSpeakText2() {
-            const audioPlayer = document.getElementById('audioPlayer');
+                }
+            });
 
             if (audioPlayer.paused) {
                 audioPlayer.play();
-                document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_off';
-                document.querySelector('#voiceButton2 span:last-child').textContent = 'Detener';
+                button.querySelector('.material-icons').textContent = 'volume_off';
+                button.querySelector('span:last-child').textContent = 'Detener';
             } else {
                 audioPlayer.pause();
-                audioPlayer.currentTime = 0; // Reinicia el audio al principio
-                document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_up';
-                document.querySelector('#voiceButton2 span:last-child').textContent = 'Escuchar';
+                audioPlayer.currentTime = 0;
+                button.querySelector('.material-icons').textContent = 'volume_up';
+                button.querySelector('span:last-child').textContent = 'Escuchar';
             }
         }
+        // function toggleSpeakText2() {
+        //     const audioPlayer = document.getElementById('audioPlayer');
+
+        //     if (audioPlayer.paused) {
+        //         audioPlayer.play();
+        //         document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_off';
+        //         document.querySelector('#voiceButton2 span:last-child').textContent = 'Detener';
+        //     } else {
+        //         audioPlayer.pause();
+        //         audioPlayer.currentTime = 0; // Reinicia el audio al principio
+        //         document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_up';
+        //         document.querySelector('#voiceButton2 span:last-child').textContent = 'Escuchar';
+        //     }
+        // }
 
         document.querySelectorAll("li").forEach((item) => {
             item.addEventListener("click", function () {
@@ -2003,8 +2294,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-     <!-- texzt to voice -->
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=El1RpEuf"></script>
+
     <!-- visor pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.js"></script>
 @endsection  

@@ -252,7 +252,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bottom-card.empty {
-    background: #FF585D;
+    background: rgb(60, 152, 222);
 }
 
 .bottom-card.controller {
@@ -343,7 +343,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .small-card {
-    background: #FF585D;
+    background: #007DBA;
     border-radius: 16px;
     aspect-ratio: 1;
 }
@@ -366,7 +366,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .calculator-card {
-    background: #FF585D;
+    background: #A4D65E;
     border-radius: 32px;
     padding-top: 40px;
     display: flex;
@@ -390,7 +390,7 @@ h1, h2, h3, h4, h5, h6 {
     box-sizing: border-box;
 }
 
-.card {
+/* .card {
     background: linear-gradient(120deg, #ffa3a6, #FF585D);
     border-radius: 16px;
     padding: 24px;
@@ -402,7 +402,38 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
     transition: transform 0.3s ease;
     cursor: pointer;
+} */
+.card {
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    color: white; 
 }
+
+
+#calculadoraDiv {
+    background: linear-gradient(120deg, #ffa3a6, #FF585D);
+}
+
+#hojasDiv {
+    background: linear-gradient(120deg, #5d89ab, #236192); 
+}
+
+#simuladoresDiv {
+    background: linear-gradient(120deg, #75b6d7, #007DBA); 
+}
+
+#evaluacionesDiv {
+    background: linear-gradient(120deg, #bfd1a5, #A4D65E);
+}
+
 
 .card:hover {
     transform: translateY(-5px);

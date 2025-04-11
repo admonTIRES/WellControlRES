@@ -104,7 +104,7 @@
             </a>
         </div>
 
-        <div class="card">
+        <div id="simuladoresDiv" class="card">
             <h2 class="card-title">{{ __('Simulators') }}</h2>
             <img src="/assets/images/principal/casco.png" alt="{{ __('Reports') }}" class="card-image">
             <a href="#" class="card-link">
@@ -115,7 +115,7 @@
             </a>
         </div>
 
-        <div class="card">
+        <div id="evaluacionesDiv" class="card">
             <h2 class="card-title">{{ __('Evaluation') }}</h2>
             <img src="/assets/images/principal/laptop.png" alt="{{ __('Statistics') }}" class="card-image">
             <a href="#" class="card-link">

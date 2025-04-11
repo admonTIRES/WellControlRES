@@ -77,8 +77,9 @@ use Illuminate\Support\Str;
         <!-- /SCRIPTS -->
     </body>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/Principal/Principal.js') }}"></script>
+    <script src="{{ asset('js/index.js') }}"></script>
     @if(request()->is('Calculator'))
         <script src="{{ asset('js/Calculator.js') }}"></script>
     @endif
+    <script src="{{ asset('js/Principal/Principal.js') }}"></script>
 </html>

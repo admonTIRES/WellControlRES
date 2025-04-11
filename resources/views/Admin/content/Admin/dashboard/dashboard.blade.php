@@ -324,7 +324,7 @@
                             <div class="card overflow-hidden">
                                 <div class="card-header d-flex justify-content-between flex-wrap">
                                     <div class="header-title">
-                                        <h4 class="card-title mb-2">Transactions</h4>
+                                        <h4 class="card-title mb-2">Progreso estudiantes</h4>
                                     </div>
                                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                         <input type="checkbox" class="btn-check" id="btncheck1">
@@ -342,18 +342,19 @@
                                         <table id="basic-table" class="table table-striped mb-0 transactions-table" role="grid">
                                             <thead>
                                                 <tr>
-                                                    <th>COMPANIES</th>
-                                                    <th>IMPERSSIONS</th>
-                                                    <th>VISITOR</th>
-                                                    <th>ACTION</th>
+                                                    <th>USER</th>
+                                                    <th>ID</th>
+                                                    <th>VISITAS</th>
+                                                    <th>PROGRESO</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid me-3" src="../assets/images/pages/01.png" alt="profile">
-                                                            <h6>Addidis Sportwear</h6>
+                                                            <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+                                                            <h6>USER 1</h6>
+
                                                         </div>
                                                     </td>
                                                     <td>
@@ -372,8 +373,10 @@
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid me-3" src="../assets/images/pages/02.png" alt="profile">
-                                                            <h6>Netflixer Platforms</h6>
+                                                        <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                        <h6>USER 2</h6>
+
                                                         </div>
                                                     </td>
                                                     <td>
@@ -392,8 +395,10 @@
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid me-3" src="../assets/images/pages/03.png" alt="profile">
-                                                            <h6>Shopifi Stores</h6>
+                                                        <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                        <h6>USER 3</h6>
+
                                                         </div>
                                                     </td>
                                                     <td>
@@ -412,8 +417,10 @@
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid me-3" src="../assets/images/pages/04.png" alt="profile">
-                                                            <h6>Bootstrap Technologies</h6>
+                                                        <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                        <h6>USER 4</h6>
+
                                                         </div>
                                                     </td>
                                                     <td>
@@ -432,8 +439,9 @@
                                                 <tr>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid me-3" src="../assets/images/pages/05.png" alt="profile">
-                                                            <h6>Community First</h6>
+                                                        <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                            <h6>USER 5</h6>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -630,17 +638,17 @@
                                         <div class="swiper-wrapper">
                                             <div class="swiper-slide">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <img src="../assets/images/dashboard/02.png" class="img-fluid w-75" alt="img8">
+                                                    <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
                                                 </div>
                                             </div>
                                             <div class="swiper-slide">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <img src="../assets/images/dashboard/03.png" class="img-fluid w-75" alt="img8">
+                                                    <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
                                                 </div>
                                             </div>
                                             <div class="swiper-slide">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <img src="../assets/images/dashboard/04.png" class="img-fluid w-75" alt="img8">
+                                                    <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
                                                 </div>
                                             </div>
                                         </div>

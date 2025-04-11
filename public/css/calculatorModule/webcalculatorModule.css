@@ -955,3 +955,115 @@ scrollbar        .hero-button {
     right: 15px;
     font-size: 1.5em;
 }
+
+/* Video YT */
+.video-container {
+    position: relative;
+    width: 760px;
+    height: 515px;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.controls-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: transparent;
+    z-index: 10;
+    pointer-events: auto; /* Esto bloquea los clics en la barra superior */
+}
+
+.logo-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 60px;
+    z-index: 15;
+    pointer-events: auto; /* Esto bloquea los clics en el logo */
+    background-color: transparent;
+}
+
+/* Nuevo bloqueador de clic derecho que cubre todo el reproductor */
+.right-click-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5; /* Por debajo de los otros controles pero encima del iframe */
+    background-color: transparent;
+    pointer-events: none; /* Permitimos que los clics pasen a través por defecto */
+}
+
+.custom-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.play-pause {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 5px;
+    background-color: #444;
+    margin: 0 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress {
+    height: 100%;
+    background-color: #f00;
+    width: 0%;
+}
+
+.volume-control {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.watermark {
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.42);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    z-index: 5;
+    pointer-events: none;
+}
+/* video yt */

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Calculator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Language\LanguageController;
+use App\Http\Controllers\Language\languageController;
 
 use Illuminate\Http\Request;
 

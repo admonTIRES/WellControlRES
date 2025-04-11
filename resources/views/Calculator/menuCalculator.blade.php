@@ -16,14 +16,6 @@
                         </div>
                     </li>
 
-                    <li class="nav-item" data-section="config">
-                        <span class="star-icon"></span>
-                        <div class="nav-item-content">
-                            <span class="nav-item-title">Configuración de la calculadora</span>
-                            <span class="nav-item-subtitle">Ajuste de decimales.</span>
-                        </div>
-                    </li>
-
                     <li class="nav-item " data-section="partes">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
@@ -39,6 +31,15 @@
                             <span class="nav-item-subtitle">Funciones escenciales.</span>
                         </div>
                     </li>
+
+                    <li class="nav-item" data-section="config">
+                        <span class="star-icon"></span>
+                        <div class="nav-item-content">
+                            <span class="nav-item-title">Configuración de la calculadora</span>
+                            <span class="nav-item-subtitle">Ajuste de decimales.</span>
+                        </div>
+                    </li>
+
 
                     <li class="nav-item" data-section="uso">
                         <span class="star-icon"></span>
@@ -86,6 +87,13 @@
                             <span class="nav-item-subtitle">Libro de formulas.</span>
                         </div>
                     </li>
+                    <li class="nav-item" data-section="redondeo">
+                        <span class="star-icon"></span>
+                        <div class="nav-item-content">
+                            <span class="nav-item-title">Redondeo</span>
+                            <span class="nav-item-subtitle">Reglas de redondeo en el curso.</span>
+                        </div>
+                    </li>
                 </ul>
 
               
@@ -123,6 +131,14 @@
                         <div class="nav-item-content">
                             <span class="nav-item-title">Despejes</span>
                             <span class="nav-item-subtitle">Practica los despejes de fórmulas.</span>
+                        </div>
+                    </li>
+
+                    <li class="nav-item" data-section="redondeos">
+                        <span class="star-icon"></span>
+                        <div class="nav-item-content">
+                            <span class="nav-item-title">Redondeos</span>
+                            <span class="nav-item-subtitle">Practica la forma de redondear en el curso.</span>
                         </div>
                     </li>
                 </ul>
@@ -178,117 +194,7 @@
                     </div>
                 </div>
             </div>
-            <style>
-        .video-container {
-            position: relative;
-            width: 760px;
-            height: 515px;
-            background-color: #000;
-            overflow: hidden;
-        }
         
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .controls-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: transparent;
-            z-index: 10;
-            pointer-events: auto; /* Esto bloquea los clics en la barra superior */
-        }
-        
-        .logo-blocker {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 150px;
-            height: 60px;
-            z-index: 15;
-            pointer-events: auto; /* Esto bloquea los clics en el logo */
-            background-color: transparent;
-        }
-        
-        /* Nuevo bloqueador de clic derecho que cubre todo el reproductor */
-        .right-click-blocker {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5; /* Por debajo de los otros controles pero encima del iframe */
-            background-color: transparent;
-            pointer-events: none; /* Permitimos que los clics pasen a través por defecto */
-        }
-        
-        .custom-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-color: rgba(0, 0, 0, 0);
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
-        
-        .play-pause {
-            width: 30px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-        .progress-bar {
-            flex-grow: 1;
-            height: 5px;
-            background-color: #444;
-            margin: 0 15px;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .progress {
-            height: 100%;
-            background-color: #f00;
-            width: 0%;
-        }
-        
-        .volume-control {
-            width: 30px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .watermark {
-            position: absolute;
-            bottom: 50px;
-            right: 20px;
-            color: rgba(255, 255, 255, 0.42);
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            z-index: 5;
-            pointer-events: none;
-        }
-    </style>
             <div id="config" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Configuración de calculadora científica</h1>
@@ -319,11 +225,14 @@
                 <p class="math-drilling-text">
                         Para una guía visual detallada, consulta el siguiente video:
                 </p>
-                <div id="video-container" class="math-drilling-video">
+                <div  class="math-drilling-video">
+                <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+                </div>
+                <div class="math-drilling-video">
                 <iframe 
-                    src="https://drive.google.com/file/d/1o5N8sYIQjEPkJ8pYI7OtHA7B63/preview" 
-                    width="760" 
-                    height="515"
+                    src="https://drive.google.com/file/d/1GFG8jLJgZF_0y-z6vNBDVsASMKjJv9nx/preview" 
+                   width="100%" 
+                    height="700px"
                     frameborder="0" 
                     allowfullscreen>
                     </iframe>
@@ -514,15 +423,10 @@
                         En el control de pozos, es fundamental comprender y convertir entre diferentes unidades de medida para garantizar la precisión en los cálculos y operaciones. A continuación, se presentan las unidades más comunes y su aplicación.
                     </p>
                 </div>
-
-                
-                <iframe allowfullscreen="" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 1030px; height: 625px;" src="https://heyzine.com/flip-book/09a8bd58bd.html"></iframe>
-                        
-      
-                <iframe allowfullscreen="" scrolling="no" class="fp-iframe" style="border: 1px solid lightgray; width: 1030px; height: 625px;" src="https://heyzine.com/flip-book/cfabd8084d.html"></iframe>
-                        
-                <a href="https://online.flippingbook.com/view/1004572368/" class="fbo-embed" data-fbo-id="5c936405ec" data-fbo-ratio="3:2" data-fbo-lightbox="yes" data-fbo-width="100%" data-fbo-height="auto" data-fbo-version="1" style="max-width: 100%">Your demo flipbook</a><script async defer src="https://online.flippingbook.com/EmbedScriptUrl.aspx?m=redir&hid=1004572368"></script>
-
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Tabla de conversión de unidades</h2>
+                </div>
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/972f88a3f7.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>   
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
                         <h3 class="math-drilling-subtitle">Unidades de longitud</h3>
@@ -565,8 +469,14 @@
                 <p class="math-drilling-text">
                     Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
                 </p>
-                <div class="math-drilling-video">
-                        <iframe width="760" height="515" src="https://www.youtube.com/embed/V_N_mALVOgM?si=VyZazYyc32j5r8wH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div  class="math-drilling-video">
+                <iframe 
+                    src="https://drive.google.com/file/d/1du0CTCxMcc5MEyBBNpbGsLe2mEo0GiFw/preview" 
+                   width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe>
                 </div>
             </div>
 
@@ -621,8 +531,14 @@
                 <p class="math-drilling-text">
                     Para una explicación más detallada, consulta el siguiente video:
                 </p>
-                <div class="math-drilling-video">
-                        <iframe width="760" height="515" src="https://www.youtube.com/embed/pOm1azhMuYM?si=21a84f3bWjt4aJhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div  class="math-drilling-video">
+                <iframe 
+                    src="https://drive.google.com/file/d/1h62gKVHFIsasA9Kwc0gOYlxBJR55NUOy/preview" 
+                   width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe>
                 </div>
             </div>
 
@@ -642,18 +558,24 @@
                     </p>
                 </div>
 
-                <div class="math-drilling-section">
+                <!-- <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
                         <h3 class="math-drilling-subtitle">PEMDAS</h3>
                         <img src="/assets/images/calculator/pemdas.webp" alt="Conversión de pies a metros" class="math-drilling-image">
                     </div>
-                </div>
+                </div> -->
 
                 <p class="math-drilling-text">
                     Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
                 </p>
-                <div class="math-drilling-video">
-                <iframe width="760" height="515" src="https://www.youtube.com/embed/XV5PiV2-91U?si=QB9NeqFzGztOC0ix" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div  class="math-drilling-video">
+                <iframe 
+                    src="https://drive.google.com/file/d/1YsHtXHcAcgi2PF0jtSF70cEv_g39IDsz/preview" 
+                   width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe>
                 </div>
             </div>
 
@@ -692,7 +614,15 @@
                     </p>
                     <ul class="math-drilling-list">
                         <li><strong>Presión hidrostática</strong>: Despejar la profundidad (<code>h</code>) en la fórmula <code>P = ρ * g * h</code>.</li>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/khfgU8a0ZRY?si=sdDxSXCtWJ3VtJu6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div  class="math-drilling-video">
+                            <iframe 
+                                src="https://drive.google.com/file/d/1G2OuIxnxAtjvkz_BllddiTnmsBxXNIrO/preview" 
+                                width="1030px" 
+                                height="600px"
+                                frameborder="0" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
                         <li><strong>Volumen de fluido</strong>: Despejar el radio (<code>r</code>) en la fórmula <code>V = π * r² * h</code>.</li>
                         <li><strong>Gradiente de presión</strong>: Despejar la densidad (<code>ρ</code>) en la fórmula <code>GP = ρ * g</code>.</li>
                     </ul>
@@ -708,11 +638,50 @@
                 <p class="math-drilling-text">
                     Para una explicación más detallada, consulta el siguiente video:
                 </p>
-                <div class="math-drilling-video">
-                <iframe width="760" height="515" src="https://www.youtube.com/embed/NTRMq6nI4OU?si=wdOa9wVdwBGzeU4A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div  class="math-drilling-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1iikIoc9Gh5ISW7S4_plJ0bmxXvefV6On/preview" 
+                        width="100%" 
+                        height="700px"
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
 
+            <div id="redondeo" class="content-section scrollable-content">
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">Redondeo de resultados</h1>
+                    <button id="voiceButtonRounding" class="voice-button" onclick="toggleSpeakText('audioRounding')">
+                        <span class="material-icons">volume_up</span> 
+                        <span>Escuchar</span>
+                    </button>
+                    <audio id="audioRounding" src="{{ $audioRoundingPath }}"></audio>
+                </div>
+                <div class="math-drilling-section">
+                    <p class="math-drilling-text">
+                    Esta sección establece la forma en la que debemos redondear los resultados para obtener un resultado correcto.
+                    </p>
+                </div>
+                <div class="math-drilling-section">
+                    <h2 class="math-drilling-subtitle">Libro de reglas de redondeo en el curso de control de pozos - IADC</h2>
+                </div>
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/a95df69293.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
+                <p class="math-drilling-text">
+                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                </p>
+                <div  class="math-drilling-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1GFG8jLJgZF_0y-z6vNBDVsASMKjJv9nx/preview" 
+                        width="100%" 
+                        height="700px"
+                        frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+            </div>
+            
             <div id="formulas" class="content-section scrollable-content">
                 <div class="content-title-voice">
                     <h1 class="math-drilling-title">Fórmulas</h1>
@@ -725,16 +694,11 @@
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IWCF</h2>
                 </div>
-
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/99431bfc85.html" style="border: 0px; width: 1030px; height: 625px;"></iframe>
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/55f1a0f37b.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IADC</h2>
                 </div>
-                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/8bd0b3bf0e.html" style="border: 1px solid lightgray; width: 1030px; height: 625px;"></iframe>
-                        <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IADC - redondeo</h2>
-                </div>
-                        <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/5a68b9cd5e.html" style="border: 1px solid lightgray; width: 1030px; height: 625px;"></iframe>
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/7586ad21ae.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
             </div>
 
             <!-- exercices section -->
@@ -823,13 +787,17 @@
                             <button id="ejercicio1_btn" class="submit-button">
                             <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
-                                    
                                 </span> Revisar
                             </button>
                             <button id="reset_btn" class="reset-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
                                 </span> Reiniciar
+                            </button>
+                            <button id="new_btn" class="new-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Nuevo Ejercicio
                             </button>
                         </div>
                     </div>
@@ -969,10 +937,15 @@
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
                                 </span> Revisar
                             </button>
-                            <button id="reset_btn" class="reset-button">
+                            <button id="reset2_btn" class="reset-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
                                 </span> Reiniciar
+                            </button>
+                            <button id="new2_btn" class="new-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Nuevo Ejercicio
                             </button>
                         </div>
                     </div>
@@ -994,47 +967,441 @@
                             <li><strong>4. Suma y Resta</strong></li>
                              
                         </ul>
-                        <p class="exercise-description">
-                            Encuentra el siguiente volúmen anular:
-                        </p>
-                        <div class="text-grid">
-                            <div>ID² - OD² ÷ 1029.4 </div>   
-                        <div class="text-row">
-                            <div>Tamaño del agujero:</div>
-                            <div> 8.5 pulg.</div>
+                        <!-- Pregunta 1 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 1</h2>
+                            <p class="exercise-description">
+                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q1"></span>
+                            <div class="math-answer-exercise" id="answer-1">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
+                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution1" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-row">
-                            <div>Tamaño de la tubería DP:</div>
-                            <div> 5 pulg. OD</div>
+
+                                <!-- Pregunta 2 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 2</h2>
+                            <p class="exercise-description">
+                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q2"></span>
+                            <div class="math-answer-exercise" id="answer-2">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
+                                <button id="solution2_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
                         </div>
-                        <label class="result-label">Escribir resultado:</label>
-                        <input type="text" class="result-input">
-                        <button id="ejercicio3_btn" class="submit-button">Revisar</button>
+
+                        <!-- Pregunta 3 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 3</h2>
+                            <p class="exercise-description">
+                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q3"></span>
+                            <div class="math-answer-exercise" id="answer-3">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
+                                <button id="solution3_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calculator-container">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator5'])
+                        </div>
+
+                        <!-- Botones de Revisar y Reiniciar -->
+                        <div class="button-container">
+                            <button id="revisar3-btn" class="submit-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
+                                </span> Revisar
+                            </button>
+                            <button id="reset3_btn" class="reset-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Reiniciar
+                            </button>
+                            <button id="new3_btn" class="new-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Nuevo Ejercicio
+                            </button>
+                        </div>
                     </div>
-                    <div class="calculator-container">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator5'])
+                </div>
+            </div>
+
+            <div id="despejes" class="content-section scrollable-content">
+                <h1 class="content-title">Ejercicios de despejes en el curso de control de pozos</h1>
+                <div class="exercise-container">
+                    <div class="exercise-content">
+                        <!-- Pregunta 1 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 1</h2>
+                            <p class="exercise-description">
+                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q1"></span>
+                            <div class="math-answer-exercise" id="answer-1">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
+                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution1" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
+                        </div>
+
+                                <!-- Pregunta 2 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 2</h2>
+                            <p class="exercise-description">
+                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q2"></span>
+                            <div class="math-answer-exercise" id="answer-2">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
+                                <button id="solution2_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 3</h2>
+                            <p class="exercise-description">
+                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q3"></span>
+                            <div class="math-answer-exercise" id="answer-3">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
+                                <button id="solution3_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calculator-container">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator4'])
+                        </div>
+
+                        <!-- Botones de Revisar y Reiniciar -->
+                        <div class="button-container">
+                            <button id="revisar4-btn" class="submit-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
+                                </span> Revisar
+                            </button>
+                            <button id="reset4_btn" class="reset-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Reiniciar
+                            </button>
+                            <button id="new4_btn" class="new-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Nuevo Ejercicio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="redondeos" class="content-section scrollable-content">
+                <h1 class="content-title">Ejercicios de redondeos</h1>
+                <div class="exercise-container">
+                    <div class="exercise-content">
+                        <!-- Pregunta 1 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 1</h2>
+                            <p class="exercise-description">
+                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                </label>
+                                <label>
+                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q1"></span>
+                            <div class="math-answer-exercise" id="answer-1">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
+                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution1" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
+                        </div>
+
+                                <!-- Pregunta 2 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 2</h2>
+                            <p class="exercise-description">
+                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                </label>
+                                <label>
+                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q2"></span>
+                            <div class="math-answer-exercise" id="answer-2">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
+                                <button id="solution2_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="question">
+                            <h2 class="exercise-title">Pregunta 3</h2>
+                            <p class="exercise-description">
+                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                            </p>
+                            <div class="text-grid">
+                                <div>Pistón² x longitud x 0.000243 </div>
+                            </div>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                </label>
+                                <label>
+                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                </label>
+                            </div>
+                            <span class="feedback" id="feedback-q3"></span>
+                            <div class="math-answer-exercise" id="answer-3">
+                                <p class="math-drilling-text">
+                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                </p>
+                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
+                                <button id="solution3_btn" class="solution-button">
+                                    <span class="icon">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                    </span> Ver solución
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calculator-container">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator4'])
+                        </div>
+
+                        <!-- Botones de Revisar y Reiniciar -->
+                        <div class="button-container">
+                            <button id="revisar5-btn" class="submit-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
+                                </span> Revisar
+                            </button>
+                            <button id="reset5_btn" class="reset-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Reiniciar
+                            </button>
+                            <button id="new5_btn" class="new-button">
+                                <span class="icon">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
+                                </span> Nuevo Ejercicio
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content rounded-lg">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <img id="modal-image" src="" alt="Descripción de la imagen" style="height: 80%; display: none;">
-                <div id="exampleModalLText" class="modal-body">
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <script>
+
         document.oncontextmenu = function(){return false}
             document.addEventListener('DOMContentLoaded', function () {
                 const navItems = document.querySelectorAll('.nav-item');
@@ -1986,6 +2353,7 @@
             } 
         }
 
+       
         function showSolution(id) {
             // Obtener el elemento que se debe mostrar
             const solutionElement = document.getElementById(`solution${id}`);

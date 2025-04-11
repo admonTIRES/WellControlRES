@@ -455,6 +455,7 @@ scrollbar        .hero-button {
     margin-top: 1rem;
 }
 
+
 .text-grid {
     display: grid;
     gap: 16px;
@@ -873,6 +874,7 @@ scrollbar        .hero-button {
 
 /* Estilos para ambos botones dentro del div.exercise-container */
 .exercise-container .submit-button,
+.exercise-container .new-button,
 .exercise-container .reset-button {
     display: inline-flex; /* Colocar icono y texto en línea */
     align-items: center; /* Centrar verticalmente */
@@ -894,6 +896,14 @@ scrollbar        .hero-button {
 
 .exercise-container .submit-button:hover {
     background-color: #218838; /* Verde oscuro al pasar el mouse */
+}
+
+.exercise-container .new-button {
+    background-color: #347ed8; /* Verde */
+    color: white;
+}
+.exercise-container .new-button:hover {
+    background-color: #347ed8; /* Verde oscuro al pasar el mouse */
 }
 
 /* Estilo específico para el botón de Reiniciar */

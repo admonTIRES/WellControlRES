@@ -26,6 +26,8 @@ class calculatorController extends Controller
             'audioHierarchyPath' => 'calculator_hierarchy_08.mp3',
             'audioClearancePath' => 'calculator_clearance_09.mp3',
             'audioFormulaPath' => 'calculator_formula_10.mp3',
+            'audioRoundingPath' => 'calculator_formula_10.mp3',
+
         ];
         
         $audioPaths = [];

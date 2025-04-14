@@ -138,7 +138,7 @@
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
                             <span class="nav-item-title">Redondeos</span>
-                            <span class="nav-item-subtitle">Practica la forma de redondear en el curso.</span>
+                            <span class="nav-item-subtitle">Practica la forma de redondear en el curso</span>
                         </div>
                     </li>
                 </ul>

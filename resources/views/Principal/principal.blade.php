@@ -128,7 +128,7 @@
     </section>
 </div>
 
-<script src="/js/Principal/Principal.js?v=1.0"></script>
+<script src="/js/Principal/Principal.js?v=1.1"></script>
 @endsection
 
 @php

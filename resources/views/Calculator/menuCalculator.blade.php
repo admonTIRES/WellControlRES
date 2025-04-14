@@ -228,7 +228,7 @@
                 <div  class="math-drilling-video">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
                 </div>
-                <div class="math-drilling-video">
+                <!-- <div class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1GFG8jLJgZF_0y-z6vNBDVsASMKjJv9nx/preview" 
                    width="100%" 
@@ -238,21 +238,17 @@
                     </iframe>
                 </div>
                 <div id="secure-video-container" class="video-container">
-                    <!-- El iframe estará oculto y se cargará dinámicamente -->
                     <div id="video-frame-container"></div>
                     
-                    <!-- Bloqueo específico para la parte superior -->
                     <div class="controls-overlay"></div>
                     
-                    <!-- Bloqueo específico para el logo -->
                     <div class="logo-blocker"></div>
                     <div class="right-click-blocker" id="right-click-blocker"></div>
-                    <!-- Marca de agua personalizada -->
                     <div class="watermark">Contenido exclusivo</div>
                     <div class="custom-controls">
                     </div>
 
-                </div>
+                </div> -->
             </div>
 
             <div id="partes" class="content-section scrollable-content">
@@ -672,7 +668,7 @@
                 </p>
                 <div  class="math-drilling-video">
                     <iframe 
-                        src="https://drive.google.com/file/d/1GFG8jLJgZF_0y-z6vNBDVsASMKjJv9nx/preview" 
+                        src="https://drive.google.com/file/d/1Kgtk2bvyf-bbiQ0dnmdHZxs0VrLTdwOi/preview" 
                         width="100%" 
                         height="700px"
                         frameborder="0" 

@@ -35,6 +35,7 @@ class calculatorController extends Controller
             $audioPaths[$key] = $languageController->getAudioBasePath() . $file;
         }
         
+        
         return view('Calculator.menuCalculator', $audioPaths);
 
     }

@@ -2158,23 +2158,14 @@
                         title: allCorrect ? '¡Excelente!' : 'Algunos errores',
                         text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
                         icon: allCorrect ? 'success' : 'error',
-                        // html: allCorrect ? answersHtml : explanationHtml,
-                        // showCancelButton: true,
                         confirmButtonText: 'OK',
-                        // cancelButtonText: 'Ver Explicación',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // showExample();
                         } 
-                        // else {
-                        //     // Mostrar modal de explicación
-                        //     showExplanation();
-                        // }
                     });
                 });
 
                 document.getElementById('revisar-btn').addEventListener('click', function () {
-                    // Definir las respuestas correctas
                     const correctAnswers = {
                         'q1': 'B', // Respuesta correcta para la pregunta 1
                         'q2': 'B', // Respuesta correcta para la pregunta 2
@@ -2215,23 +2206,14 @@
                         div.style.display = 'flex'; 
                     });
 
-                    // Mostrar SweetAlert con los resultados
                     Swal.fire({
                         title: allCorrect ? '¡Excelente!' : 'Algunos errores',
                         text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
                         icon: allCorrect ? 'success' : 'error',
-                        // html: allCorrect ? answersHtml : explanationHtml,
-                        // showCancelButton: true,
                         confirmButtonText: 'OK',
-                        // cancelButtonText: 'Ver Explicación',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // showExample();
                         } 
-                        // else {
-                        //     // Mostrar modal de explicación
-                        //     showExplanation();
-                        // }
                     });
                 });
 
@@ -2243,7 +2225,7 @@
 
         const calculator3 = document.getElementById('calculator3');
         function showExample(entero, numerador, denominador) {
-            const calculator = calculator3; // Asegúrate de que "calculator3" sea tu calculadora
+            const calculator = calculator3;
             const buttons = {
                 '0': calculator.querySelector('#zero'),
                 '1': calculator.querySelector('#one'),
@@ -2262,10 +2244,8 @@
                 'C': calculator.querySelector('#all-clear')
             };
 
-            // Limpiar la calculadora
             buttons['C'].click();
 
-            // Función para hacer clic en un botón
             function clickButton(character) {
                 if (buttons[character]) {
                     buttons[character].click();
@@ -2274,13 +2254,11 @@
                 }
             }
 
-            // Función para ingresar un número de varios dígitos
             function enterNumber(number) {
                 const digits = String(number).split('');
                 digits.forEach(digit => clickButton(digit));
             }
 
-            // Ingresar la fracción
             if (entero >= 1) {
                 enterNumber(entero); // Ingresar el entero
                 clickButton('+'); // Ingresar el operador de suma

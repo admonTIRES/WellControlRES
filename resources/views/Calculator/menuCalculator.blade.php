@@ -1215,7 +1215,6 @@
                 </div>
             </div>
 
-
             <div id="redondeos" class="content-section scrollable-content">
                 <h1 class="content-title">Ejercicios de redondeos</h1>
                 <div class="exercise-container">
@@ -2509,6 +2508,12 @@
 
         // Asignar la función al botón de "Reset"
         document.getElementById('reset_btn').addEventListener('click', resetForm);
+        document.getElementById('reset2_btn').addEventListener('click', resetForm);
+        document.getElementById('reset3_btn').addEventListener('click', resetForm);
+        document.getElementById('reset4_btn').addEventListener('click', resetForm);
+        document.getElementById('reset5_btn').addEventListener('click', resetForm);
+
+
 
         // jerarquia
         const calculator5 = document.getElementById('calculator5');

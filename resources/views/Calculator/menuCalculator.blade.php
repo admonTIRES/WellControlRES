@@ -964,14 +964,8 @@
                     <div class="exercise-content">
                         <h2 class="exercise-title">El orden en que se deben resolver las ecuaciones</h2>
                         <p class="exercise-description">
-                        La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto. Es fundamental seguir este orden en cálculos de control de pozos:
+                        La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto. Es fundamental seguir el orden PEMDAS
                         </p>
-                        <ul class="options-list">
-                            <li><strong>1. Paréntesis:</strong> Siempre resolver primero las operaciones dentro de paréntesis</li>
-                            <li><strong>2. Exponentes:</strong> Realizar cálculos con potencias o raíces</li>
-                            <li><strong>3. Multiplicación y División:</strong> De izquierda a derecha</li>
-                            <li><strong>4. Suma y Resta:</strong> Por último, operaciones de suma y resta</li>
-                        </ul>
 
                         <!-- Pregunta 1 -->
                         <div class="question">
@@ -1017,8 +1011,11 @@
                             <h2 class="exercise-title">Pregunta 2</h2>
                             <p class="exercise-description">
                                 ¿Cuál es el orden correcto para resolver?<br>
-                                <strong>12.5 × (10,000 × 0.052) + (500 ÷ 2)</strong>
+                               
                             </p>
+                            <div class="text-grid">
+                                <div> <strong>12.5 × (10,000 × 0.052) + (500 ÷ 2)</strong></div>
+                            </div>
                             <div class="options">
                                 <label>
                                     <input id="jerarquia_2" type="radio" name="q2" value="A"> A) Multiplicaciones → Paréntesis → Suma
@@ -1053,8 +1050,11 @@
                             <h2 class="exercise-title">Pregunta 3</h2>
                             <p class="exercise-description">
                                 Seleccione el orden correcto para:<br>
-                                <strong>√(9.8 × 0.052) + (3² ÷ 2)</strong>
                             </p>
+                            <div class="text-grid">
+                                <div>                                <strong>√(9.8 × 0.052) + (3² ÷ 2)</strong>
+                                </div>
+                            </div>
                             <div class="options">
                                 <label>
                                     <input id="jerarquia_3" type="radio" name="q3" value="A"> A) Exponente → Raíz → Multiplicación → División → Suma
@@ -1112,87 +1112,54 @@
                 <h1 class="content-title">Ejercicios de despejes en el curso de control de pozos</h1>
                 <div class="exercise-container">
                     <div class="exercise-content">
+
                         <!-- Pregunta 1 -->
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 1</h2>
                             <p class="exercise-description">
-                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                                Despeja la variable "p" de la fórmula: <strong>p = MW × TVD × 0.052</strong>
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>Dado: MW = 10.5 ppg, TVD = 8000 ft</div>
                             </div>
                             <div class="options">
-                                <label>
-                                    <input id="despejes_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
-                                </label>
+                                <label><input id="despejes_1" type="radio" name="q1" value="A"> A) 4,368 psi</label>
+                                <label><input id="despejes_1" type="radio" name="q1" value="B"> B) 3,250 psi</label>
+                                <label><input id="despejes_1" type="radio" name="q1" value="C"> C) 5,000 psi</label>
+                                <label><input id="despejes_1" type="radio" name="q1" value="D"> D) 2,800 psi</label>
                             </div>
                             <span class="feedback" id="feedbackDespejes-q1"></span>
                             <div class="math-answer-exercise despejes" id="answerDespejes-1">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                    La respuesta correcta es <strong>4,368 psi</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleDespejes(1)">Ver en calculadora</button>
-                                <button id="solution1Despejes_btn" class="solution-button" onclick="showSolutionDespejes(1)">
-                                    <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
-                                </button>
-                            </div>
-                            <div class="math-drilling-section">
-                                <div id="solution1_despejes" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
-                                </div>
+                                <button id="solution1Despejes_btn" class="solution-button">Ver solución</button>
                             </div>
                         </div>
 
-                                <!-- Pregunta 2 -->
+                        <!-- Pregunta 2 -->
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 2</h2>
                             <p class="exercise-description">
-                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                                Despeja la variable "MW" de la fórmula: <strong>SIDPP = (MW - FMW) × TVD × 0.052</strong>
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>SIDPP = 650 psi, TVD = 5000 ft, FMW = 9.0 ppg</div>
                             </div>
                             <div class="options">
-                                <label>
-                                    <input id="despejes_2" type="radio" name="q2" value="A"> A) 5,200 psi
-                                </label>
-                                <label>
-                                    <input id="despejes_2" type="radio" name="q2" value="B"> B) 6,500 psi
-                                </label>
-                                <label>
-                                    <input id="despejes_2" type="radio" name="q2" value="C"> C) 7,800 psi
-                                </label>
-                                <label>
-                                    <input id="despejes_2" type="radio" name="q2" value="D"> D) 8,100 psi
-                                </label>
+                                <label><input id="despejes_2" type="radio" name="q2" value="A"> A) 11.5 ppg</label>
+                                <label><input id="despejes_2" type="radio" name="q2" value="B"> B) 10.5 ppg</label>
+                                <label><input id="despejes_2" type="radio" name="q2" value="C"> C) 9.5 ppg</label>
+                                <label><input id="despejes_2" type="radio" name="q2" value="D"> D) 12.0 ppg</label>
                             </div>
                             <span class="feedback" id="feedbackDespejes-q2"></span>
                             <div class="math-answer-exercise despejes" id="answerDespejes-2">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                    La respuesta correcta es <strong>11.5 ppg</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleDespejes(2)">Ver en calculadora</button>
-                                <button id="solution2Despejes_btn" class="solution-button">
-                                    <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
-                                </button>
-                            </div>
-                            <div class="math-drilling-section">
-                                <div id="solution2_despejes" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
-                                </div>
+                                <button id="solution2Despejes_btn" class="solution-button">Ver solución</button>
                             </div>
                         </div>
 
@@ -1200,50 +1167,34 @@
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 3</h2>
                             <p class="exercise-description">
-                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                                Despeja la variable "TVD" de la fórmula: <strong>p = MW × TVD × 0.052</strong>
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>Dado: MW = 12.0 ppg, p = 3,120 psi</div>
                             </div>
                             <div class="options">
-                                <label>
-                                    <input id="despejes_3" type="radio" name="q3" value="A"> A) 0.52 psi/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_3" type="radio" name="q3" value="B"> B) 0.65 psi/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_3" type="radio" name="q3" value="C"> C) 0.78 psi/ft
-                                </label>
-                                <label>
-                                    <input id="despejes_3" type="radio" name="q3" value="D"> D) 0.81 psi/ft
-                                </label>
+                                <label><input id="despejes_3" type="radio" name="q3" value="A"> A) 4,000 ft</label>
+                                <label><input id="despejes_3" type="radio" name="q3" value="B"> B) 5,000 ft</label>
+                                <label><input id="despejes_3" type="radio" name="q3" value="C"> C) 6,000 ft</label>
+                                <label><input id="despejes_3" type="radio" name="q3" value="D"> D) 7,000 ft</label>
                             </div>
                             <span class="feedback" id="feedbackDespejes-q3"></span>
                             <div class="math-answer-exercise despejes" id="answerDespejes-3">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                    La respuesta correcta es <strong>5,000 ft</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleDespejes(3)">Ver en calculadora</button>
-                                <button id="solution3Despejes_btn" class="solution-button">
-                                    <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
-                                </button>
+                                <button id="solution3Despejes_btn" class="solution-button">Ver solución</button>
                             </div>
-                            <div class="math-drilling-section">
-                                <div id="solution3_despejes" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="calculator-container">
-                        @include('Calculator.itemCalculator', ['id' => 'calculator6'])
                         </div>
 
-                        <!-- Botones de Revisar y Reiniciar -->
+                        <div class="calculator-container">
+                            @include('Calculator.itemCalculator', ['id' => 'calculator6'])
+                        </div>
+
+                        <!-- Botones -->
                         <div class="button-container">
-                            <button id="revisar4-btn" class="submit-button">
+                            <button id="revisar4_btn" class="submit-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
                                 </span> Revisar
@@ -1259,9 +1210,11 @@
                                 </span> Nuevo Ejercicio
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
+
 
             <div id="redondeos" class="content-section scrollable-content">
                 <h1 class="content-title">Ejercicios de redondeos</h1>
@@ -2246,6 +2199,60 @@
                     });
                 });
 
+
+                // DESPEJES
+                document.getElementById('revisar4_btn').addEventListener('click', function () {
+                    const correctAnswers = {
+                        'q1': 'A', // Respuesta correcta para la pregunta 1
+                        'q2': 'A', // Respuesta correcta para la pregunta 2
+                        'q3': 'B'  // Respuesta correcta para la pregunta 3
+                    };
+
+                    let allCorrect = true;
+                    let explanationHtml = '';
+                    let answersHtml = '';
+
+                    // Verificar cada pregunta
+                    for (let question in correctAnswers) {
+                        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                        const feedback = document.getElementById('feedbackDespejes-q' + question.split('q')[1]);
+
+                        if (selectedOption) {
+                            // Comparar el valor seleccionado con la respuesta correcta
+                            if (selectedOption.value === correctAnswers[question]) {
+                                feedback.textContent = "Correcto!";
+                                feedback.style.color = "green";
+                                selectedOption.parentElement.style.color = "green";
+                                answersHtml += `<p><strong>${selectedOption.value}</strong> es correcto.</p>`;
+                            } else {
+                                feedback.textContent = "Incorrecto!";
+                                feedback.style.color = "red";
+                                selectedOption.parentElement.style.color = "red";
+                                allCorrect = false;
+                            }
+                        } else {
+                            feedback.textContent = "No seleccionaste una opción.";
+                            feedback.style.color = "red";
+                            allCorrect = false;
+                        }
+                    }
+
+                    const answerDivs = document.querySelectorAll('.despejes');
+                    answerDivs.forEach(div => {
+                        div.style.display = 'flex'; 
+                    });
+
+                    Swal.fire({
+                        title: allCorrect ? '¡Excelente!' : 'Algunos errores',
+                        text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
+                        icon: allCorrect ? 'success' : 'error',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        } 
+                    });
+                });
+
             }
 
             
@@ -2519,8 +2526,8 @@
         document.getElementById('reset3_btn').addEventListener('click', resetFormJerarquia);
 
     //  despejes
-    const calculator6 = document.getElementById('calculator6');
-        function showExampleElevate(identificador) {
+        const calculator6 = document.getElementById('calculator6');
+        function showExampleDespejes(identificador) {
             const calculator = calculator6;
             const buttons = {
                 '0': calculator.querySelector('#zero'),

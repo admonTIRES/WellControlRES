@@ -1088,7 +1088,7 @@
                         </div>
                         <!-- Botones de Revisar y Reiniciar -->
                         <div class="button-container">
-                            <button id="revisar3-btn" class="submit-button">
+                            <button id="revisar3_btn" class="submit-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
                                 </span> Revisar
@@ -1228,7 +1228,7 @@
                                 Diámetro del hoyo: 8.5", Diámetro de tubería: 5", Profundidad: 10,000 ft
                             </p>
                             <div class="text-grid">
-                                <div>(Diámetro hoyo² - Diámetro tubería²) x Profundidad x 0.000971</div>
+                                <div>(Diámetro hoyo² - Diámetro tubería²) x Profundidad x 0.000603</div>
                             </div>
                             <div class="options">
                                 <label>
@@ -2199,6 +2199,58 @@
                     });
                 });
 
+            // JERARQUIAS
+                document.getElementById('revisar3_btn').addEventListener('click', function () {
+                    const correctAnswers = {
+                        'q1': 'C', // Respuesta correcta para la pregunta 1
+                        'q2': 'B', // Respuesta correcta para la pregunta 2
+                        'q3': 'B'  // Respuesta correcta para la pregunta 3
+                    };
+
+                    let allCorrect = true;
+                    let explanationHtml = '';
+                    let answersHtml = '';
+
+                    // Verificar cada pregunta
+                    for (let question in correctAnswers) {
+                        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                        const feedback = document.getElementById('feedbackJerarquia-q' + question.split('q')[1]);
+
+                        if (selectedOption) {
+                            // Comparar el valor seleccionado con la respuesta correcta
+                            if (selectedOption.value === correctAnswers[question]) {
+                                feedback.textContent = "Correcto!";
+                                feedback.style.color = "green";
+                                selectedOption.parentElement.style.color = "green";
+                                answersHtml += `<p><strong>${selectedOption.value}</strong> es correcto.</p>`;
+                            } else {
+                                feedback.textContent = "Incorrecto!";
+                                feedback.style.color = "red";
+                                selectedOption.parentElement.style.color = "red";
+                                allCorrect = false;
+                            }
+                        } else {
+                            feedback.textContent = "No seleccionaste una opción.";
+                            feedback.style.color = "red";
+                            allCorrect = false;
+                        }
+                    }
+
+                    const answerDivs = document.querySelectorAll('.jerarquia');
+                    answerDivs.forEach(div => {
+                        div.style.display = 'flex'; 
+                    });
+
+                    Swal.fire({
+                        title: allCorrect ? '¡Excelente!' : 'Algunos errores',
+                        text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
+                        icon: allCorrect ? 'success' : 'error',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        } 
+                    });
+                });
 
                 // DESPEJES
                 document.getElementById('revisar4_btn').addEventListener('click', function () {
@@ -2238,6 +2290,59 @@
                     }
 
                     const answerDivs = document.querySelectorAll('.despejes');
+                    answerDivs.forEach(div => {
+                        div.style.display = 'flex'; 
+                    });
+
+                    Swal.fire({
+                        title: allCorrect ? '¡Excelente!' : 'Algunos errores',
+                        text: allCorrect ? 'Has respondido correctamente a todas las preguntas.' : 'Hay respuestas incorrectas. Revisa los campos resaltados.',
+                        icon: allCorrect ? 'success' : 'error',
+                        confirmButtonText: 'OK',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        } 
+                    });
+                });
+
+                // REDONDEOS
+                document.getElementById('revisar5_btn').addEventListener('click', function () {
+                    const correctAnswers = {
+                        'q1': 'C', // Respuesta correcta para la pregunta 1
+                        'q2': 'B', // Respuesta correcta para la pregunta 2
+                        'q3': 'B'  // Respuesta correcta para la pregunta 3
+                    };
+
+                    let allCorrect = true;
+                    let explanationHtml = '';
+                    let answersHtml = '';
+
+                    // Verificar cada pregunta
+                    for (let question in correctAnswers) {
+                        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                        const feedback = document.getElementById('feedbackRedondeos-q' + question.split('q')[1]);
+
+                        if (selectedOption) {
+                            // Comparar el valor seleccionado con la respuesta correcta
+                            if (selectedOption.value === correctAnswers[question]) {
+                                feedback.textContent = "Correcto!";
+                                feedback.style.color = "green";
+                                selectedOption.parentElement.style.color = "green";
+                                answersHtml += `<p><strong>${selectedOption.value}</strong> es correcto.</p>`;
+                            } else {
+                                feedback.textContent = "Incorrecto!";
+                                feedback.style.color = "red";
+                                selectedOption.parentElement.style.color = "red";
+                                allCorrect = false;
+                            }
+                        } else {
+                            feedback.textContent = "No seleccionaste una opción.";
+                            feedback.style.color = "red";
+                            allCorrect = false;
+                        }
+                    }
+
+                    const answerDivs = document.querySelectorAll('.redondeos');
                     answerDivs.forEach(div => {
                         div.style.display = 'flex'; 
                     });

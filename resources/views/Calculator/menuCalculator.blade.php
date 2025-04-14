@@ -2148,7 +2148,7 @@
 
                 document.getElementById('revisar-btn').addEventListener('click', function () {
                     const correctAnswers = {
-                        'q1': 'B', // Respuesta correcta para la pregunta 1
+                        'q1': 'A', // Respuesta correcta para la pregunta 1
                         'q2': 'B', // Respuesta correcta para la pregunta 2
                         'q3': 'A'  // Respuesta correcta para la pregunta 3
                     };

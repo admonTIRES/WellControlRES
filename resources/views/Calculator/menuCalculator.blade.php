@@ -844,7 +844,7 @@
                             </div>
                             <div class="math-drilling-section">
                                 <div id="solution1" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                    <img src="/assets/images/calculator/solutions/1.png" alt="Conversión de pies a metros" class="solution-image">
                                 </div>
                             </div>
                         </div>

@@ -556,6 +556,10 @@ scrollbar        .hero-button {
     align-items: center;
 }
 
+.math-drilling-solution img{
+    max-width: 500px;
+}
+
 .math-answer-exercise {
     /* display: flex;  */
     display: none;

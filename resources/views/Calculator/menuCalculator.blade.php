@@ -878,7 +878,7 @@
                                     La respuesta correcta es <strong>6,500 psi</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
-                                <button id="solution2_btn" class="solution-button">
+                                <button id="solution2_btn" class="solution-button" onclick="showSolution(2)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
@@ -886,7 +886,7 @@
                             </div>
                             <div class="math-drilling-section">
                                 <div id="solution2" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                    <img src="/assets/images/calculator/solutions/2.png" alt="Conversión de pies a metros" class="solution-image">
                                 </div>
                             </div>
                         </div>
@@ -920,7 +920,7 @@
                                     La respuesta correcta es <strong>0.52 psi/ft</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
-                                <button id="solution3_btn" class="solution-button">
+                                <button id="solution3_btn" class="solution-button" onclick="showSolution(3)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
@@ -928,7 +928,7 @@
                             </div>
                             <div class="math-drilling-section">
                                 <div id="solution3" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                    <img src="/assets/images/calculator/solutions/3.png" alt="Conversión de pies a metros" class="solution-image">
                                 </div>
                             </div>
                         </div>
@@ -998,11 +998,16 @@
                                     Orden correcto: 1) Exponentes (8.5² y 5²), 2) Resta dentro paréntesis, 3) Multiplicaciones de izquierda a derecha.
                                 </p>
                                 <button class="answer-button" onclick="showExampleJerarquia(1)">Ver en calculadora</button>
-                                <button id="solution1Jerarquia_btn" class="solution-button" onclick="showSolutionJerarquia(1)">
+                                <button id="solution1Jerarquia_btn" class="solution-button" onclick="showSolution(4)">
                                     <span class="icon">
                                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution4" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/4.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
 
@@ -1037,11 +1042,16 @@
                                     Orden: 1) Ambos paréntesis (10,000×0.052 y 500÷2), 2) Multiplicación (12.5×resultado), 3) Suma final.
                                 </p>
                                 <button class="answer-button" onclick="showExampleJerarquia(2)">Ver en calculadora</button>
-                                <button id="solution2Jerarquia_btn" class="solution-button">
+                                <button id="solution2Jerarquia_btn" class="solution-button" onclick="showSolution(5)">
                                     <span class="icon">
                                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution5" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/5.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
 
@@ -1076,11 +1086,16 @@
                                     Orden: 1) Paréntesis (9.8×0.052 y 3²), 2) Exponente (3²), 3) Raíz cuadrada, 4) División (÷2), 5) Suma final.
                                 </p>
                                 <button class="answer-button" onclick="showExampleJerarquia(3)">Ver en calculadora</button>
-                                <button id="solution3Jerarquia_btn" class="solution-button">
+                                <button id="solution3Jerarquia_btn" class="solution-button" onclick="showSolution(6)">
                                     <span class="icon">
                                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution6" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/6.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
                         <div class="calculator-container">
@@ -1136,6 +1151,12 @@
                                 <button class="answer-button" onclick="showExampleDespejes(1)">Ver en calculadora</button>
                                 <button id="solution1Despejes_btn" class="solution-button">Ver solución</button>
                             </div>
+                            <div class="math-drilling-section">
+                                <div id="solution6" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/3.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <!-- Pregunta 2 -->

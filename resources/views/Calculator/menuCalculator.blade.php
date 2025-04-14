@@ -831,7 +831,7 @@
                                 </label>
                             </div>
                             <span class="feedback" id="feedback-q1"></span>
-                            <div class="math-answer-exercise" id="answer-1">
+                            <div class="math-answer-exercise cuadrado" id="answer-1">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
                                 </p>
@@ -873,7 +873,7 @@
                                 </label>
                             </div>
                             <span class="feedback" id="feedback-q2"></span>
-                            <div class="math-answer-exercise" id="answer-2">
+                            <div class="math-answer-exercise cuadrado" id="answer-2">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>6,500 psi</strong>.
                                 </p>
@@ -883,6 +883,11 @@
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution2" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
 
@@ -910,7 +915,7 @@
                                 </label>
                             </div>
                             <span class="feedback" id="feedback-q3"></span>
-                            <div class="math-answer-exercise" id="answer-3">
+                            <div class="math-answer-exercise cuadrado" id="answer-3">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>0.52 psi/ft</strong>.
                                 </p>
@@ -920,6 +925,11 @@
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution3" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
                         <div class="calculator-container">
@@ -954,89 +964,85 @@
                     <div class="exercise-content">
                         <h2 class="exercise-title">El orden en que se deben resolver las ecuaciones</h2>
                         <p class="exercise-description">
-                        La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto. Es fundamental seguir este orden:
+                        La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto. Es fundamental seguir este orden en cálculos de control de pozos:
                         </p>
                         <ul class="options-list">
-                            <li><strong>1. Paréntesis: </strong></li>
-                            <li><strong>2. Exponentes: </strong></li>
-                            <li><strong>3. Multiplicación y División: </strong></li>
-                            <li><strong>4. Suma y Resta</strong></li>
-                             
+                            <li><strong>1. Paréntesis:</strong> Siempre resolver primero las operaciones dentro de paréntesis</li>
+                            <li><strong>2. Exponentes:</strong> Realizar cálculos con potencias o raíces</li>
+                            <li><strong>3. Multiplicación y División:</strong> De izquierda a derecha</li>
+                            <li><strong>4. Suma y Resta:</strong> Por último, operaciones de suma y resta</li>
                         </ul>
+
                         <!-- Pregunta 1 -->
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 1</h2>
                             <p class="exercise-description">
-                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                                Calcule el volumen de lodo (bbl) con la siguiente fórmula:<br>
+                                
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div><strong>(8.5² - 5²) × 10,000 × 0.000971</strong></div>
                             </div>
                             <div class="options">
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                    <input id="jerarquia_1" type="radio" name="q1" value="A"> A) Primero se resuelven las multiplicaciones
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                    <input id="jerarquia_1" type="radio" name="q1" value="B"> B) Primero se resuelve la resta dentro del paréntesis
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                    <input id="jerarquia_1" type="radio" name="q1" value="C"> C) Primero se resuelven los exponentes
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                    <input id="jerarquia_1" type="radio" name="q1" value="D"> D) Primero se resuelve la multiplicación más a la derecha
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q1"></span>
-                            <div class="math-answer-exercise" id="answer-1">
+                            <span class="feedback" id="feedbackJerarquia-q1"></span>
+                            <div class="math-answer-exercise jerarquia" id="answerJerarquia-1">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                    La respuesta correcta es <strong>C) Primero se resuelven los exponentes</strong>.<br>
+                                    Orden correcto: 1) Exponentes (8.5² y 5²), 2) Resta dentro paréntesis, 3) Multiplicaciones de izquierda a derecha.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
-                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                <button class="answer-button" onclick="showExampleJerarquia(1)">Ver en calculadora</button>
+                                <button id="solution1Jerarquia_btn" class="solution-button" onclick="showSolutionJerarquia(1)">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
-                            <div class="math-drilling-section">
-                                <div id="solution1" class="math-drilling-solution">
-                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
-                                </div>
-                            </div>
                         </div>
 
-                                <!-- Pregunta 2 -->
+                        <!-- Pregunta 2 -->
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 2</h2>
                             <p class="exercise-description">
-                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                                ¿Cuál es el orden correcto para resolver?<br>
+                                <strong>12.5 × (10,000 × 0.052) + (500 ÷ 2)</strong>
                             </p>
-                            <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
-                            </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                    <input id="jerarquia_2" type="radio" name="q2" value="A"> A) Multiplicaciones → Paréntesis → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                    <input id="jerarquia_2" type="radio" name="q2" value="B"> B) Paréntesis → Multiplicación → División → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                    <input id="jerarquia_2" type="radio" name="q2" value="C"> C) Paréntesis → División → Multiplicación → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                    <input id="jerarquia_2" type="radio" name="q2" value="D"> D) División → Paréntesis → Multiplicación → Suma
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q2"></span>
-                            <div class="math-answer-exercise" id="answer-2">
+                            <span class="feedback" id="feedbackJerarquia-q2"></span>
+                            <div class="math-answer-exercise jerarquia" id="answerJerarquia-2">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                    La respuesta correcta es <strong>B) Paréntesis → Multiplicación → División → Suma</strong>.<br>
+                                    Orden: 1) Ambos paréntesis (10,000×0.052 y 500÷2), 2) Multiplicación (12.5×resultado), 3) Suma final.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
-                                <button id="solution2_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleJerarquia(2)">Ver en calculadora</button>
+                                <button id="solution2Jerarquia_btn" class="solution-button">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
@@ -1046,34 +1052,33 @@
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 3</h2>
                             <p class="exercise-description">
-                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                                Seleccione el orden correcto para:<br>
+                                <strong>√(9.8 × 0.052) + (3² ÷ 2)</strong>
                             </p>
-                            <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
-                            </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                    <input id="jerarquia_3" type="radio" name="q3" value="A"> A) Exponente → Raíz → Multiplicación → División → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                    <input id="jerarquia_3" type="radio" name="q3" value="B"> B) Paréntesis → Exponente → Raíz → División → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                    <input id="jerarquia_3" type="radio" name="q3" value="C"> C) Multiplicación → Exponente → Raíz → División → Suma
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                    <input id="jerarquia_3" type="radio" name="q3" value="D"> D) Raíz → Exponente → Multiplicación → División → Suma
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q3"></span>
-                            <div class="math-answer-exercise" id="answer-3">
+                            <span class="feedback" id="feedbackJerarquia-q3"></span>
+                            <div class="math-answer-exercise jerarquia" id="answerJerarquia-3">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                    La respuesta correcta es <strong>B) Paréntesis → Exponente → Raíz → División → Suma</strong>.<br>
+                                    Orden: 1) Paréntesis (9.8×0.052 y 3²), 2) Exponente (3²), 3) Raíz cuadrada, 4) División (÷2), 5) Suma final.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
-                                <button id="solution3_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleJerarquia(3)">Ver en calculadora</button>
+                                <button id="solution3Jerarquia_btn" class="solution-button">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
@@ -1081,7 +1086,6 @@
                         <div class="calculator-container">
                         @include('Calculator.itemCalculator', ['id' => 'calculator5'])
                         </div>
-
                         <!-- Botones de Revisar y Reiniciar -->
                         <div class="button-container">
                             <button id="revisar3-btn" class="submit-button">
@@ -1119,32 +1123,32 @@
                             </div>
                             <div class="options">
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                    <input id="despejes_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                    <input id="despejes_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                    <input id="despejes_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                    <input id="despejes_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q1"></span>
-                            <div class="math-answer-exercise" id="answer-1">
+                            <span class="feedback" id="feedbackDespejes-q1"></span>
+                            <div class="math-answer-exercise despejes" id="answerDespejes-1">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
-                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                <button class="answer-button" onclick="showExampleDespejes(1)">Ver en calculadora</button>
+                                <button id="solution1Despejes_btn" class="solution-button" onclick="showSolutionDespejes(1)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
                             <div class="math-drilling-section">
-                                <div id="solution1" class="math-drilling-solution">
+                                <div id="solution1_despejes" class="math-drilling-solution">
                                     <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
                                 </div>
                             </div>
@@ -1161,29 +1165,34 @@
                             </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                    <input id="despejes_2" type="radio" name="q2" value="A"> A) 5,200 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                    <input id="despejes_2" type="radio" name="q2" value="B"> B) 6,500 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                    <input id="despejes_2" type="radio" name="q2" value="C"> C) 7,800 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                    <input id="despejes_2" type="radio" name="q2" value="D"> D) 8,100 psi
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q2"></span>
-                            <div class="math-answer-exercise" id="answer-2">
+                            <span class="feedback" id="feedbackDespejes-q2"></span>
+                            <div class="math-answer-exercise despejes" id="answerDespejes-2">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>6,500 psi</strong>.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
-                                <button id="solution2_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleDespejes(2)">Ver en calculadora</button>
+                                <button id="solution2Despejes_btn" class="solution-button">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution2_despejes" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
 
@@ -1198,33 +1207,38 @@
                             </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                    <input id="despejes_3" type="radio" name="q3" value="A"> A) 0.52 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                    <input id="despejes_3" type="radio" name="q3" value="B"> B) 0.65 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                    <input id="despejes_3" type="radio" name="q3" value="C"> C) 0.78 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                    <input id="despejes_3" type="radio" name="q3" value="D"> D) 0.81 psi/ft
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q3"></span>
-                            <div class="math-answer-exercise" id="answer-3">
+                            <span class="feedback" id="feedbackDespejes-q3"></span>
+                            <div class="math-answer-exercise despejes" id="answerDespejes-3">
                                 <p class="math-drilling-text">
                                     La respuesta correcta es <strong>0.52 psi/ft</strong>.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
-                                <button id="solution3_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleDespejes(3)">Ver en calculadora</button>
+                                <button id="solution3Despejes_btn" class="solution-button">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
+                            <div class="math-drilling-section">
+                                <div id="solution3_despejes" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
                         </div>
                         <div class="calculator-container">
-                        @include('Calculator.itemCalculator', ['id' => 'calculator4'])
+                        @include('Calculator.itemCalculator', ['id' => 'calculator6'])
                         </div>
 
                         <!-- Botones de Revisar y Reiniciar -->
@@ -1257,78 +1271,84 @@
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 1</h2>
                             <p class="exercise-description">
-                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                                Calcule el volumen de lodo en el espacio anular (bbl) con los siguientes datos:<br>
+                                Diámetro del hoyo: 8.5", Diámetro de tubería: 5", Profundidad: 10,000 ft
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>(Diámetro hoyo² - Diámetro tubería²) x Profundidad x 0.000971</div>
                             </div>
                             <div class="options">
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="A"> A) 0.1428 bbl/ft
+                                    <input id="redondeo_1" type="radio" name="q1" value="A"> A) 285.4 bbl
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="B"> B) 0.0525 bbl/ft
+                                    <input id="redondeo_1" type="radio" name="q1" value="B"> B) 290 bbl
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="C"> C) 0.0612 bbl/ft
+                                    <input id="redondeo_1" type="radio" name="q1" value="C"> C) 285 bbl
                                 </label>
                                 <label>
-                                    <input id="cuadrado_1" type="radio" name="q1" value="D"> D) 0.0723 bbl/ft
+                                    <input id="redondeo_1" type="radio" name="q1" value="D"> D) 284.9 bbl
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q1"></span>
-                            <div class="math-answer-exercise" id="answer-1">
+                            <span class="feedback" id="feedbackRedondeos-q1"></span>
+                            <div class="math-answer-exercise redondeos" id="answerRedondeos-1">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                    La respuesta correcta es <strong>285 bbl</strong> (redondeo a 0 decimales según tabla IADC).
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
-                                <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
+                                <button class="answer-button" onclick="showExampleRedondeo(1)">Ver en calculadora</button>
+                                <button id="solution1Redondeos_btn" class="solution-button" onclick="showSolutionRedondeo(1)">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
                             <div class="math-drilling-section">
-                                <div id="solution1" class="math-drilling-solution">
+                                <div id="solution1_redondeos" class="math-drilling-solution">
                                     <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
                                 </div>
                             </div>
                         </div>
 
-                                <!-- Pregunta 2 -->
+                        <!-- Pregunta 2 -->
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 2</h2>
                             <p class="exercise-description">
-                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                                Calcule la presión hidrostática (psi) con densidad de lodo de 13.2 ppg a 7,500 ft de profundidad.
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>Densidad (ppg) x Profundidad (ft) x 0.052</div>
                             </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q2" value="A"> A) 5,200 psi
+                                    <input id="redondeo_2" type="radio" name="q2" value="A"> A) 5,148 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="B"> B) 6,500 psi
+                                    <input id="redondeo_2" type="radio" name="q2" value="B"> B) 5,150 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="C"> C) 7,800 psi
+                                    <input id="redondeo_2" type="radio" name="q2" value="C"> C) 5,100 psi
                                 </label>
                                 <label>
-                                    <input type="radio" name="q2" value="D"> D) 8,100 psi
+                                    <input id="redondeo_2" type="radio" name="q2" value="D"> D) 5,147.6 psi
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q2"></span>
-                            <div class="math-answer-exercise" id="answer-2">
+                            <span class="feedback" id="feedbackRedondeos-q2"></span>
+                            <div class="math-answer-exercise redondeos" id="answerRedondeos-2">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                    La respuesta correcta es <strong>5,150 psi</strong> (redondeo a 10 psi según tabla IADC).
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
-                                <button id="solution2_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleRedondeo(2)">Ver en calculadora</button>
+                                <button id="solution2Redondeos_btn" class="solution-button" onclick="showSolutionRedondeo(2)">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
+                            </div>
+                            <div class="math-drilling-section">
+                                <div id="solution2_redondeos" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
                             </div>
                         </div>
 
@@ -1336,45 +1356,49 @@
                         <div class="question">
                             <h2 class="exercise-title">Pregunta 3</h2>
                             <p class="exercise-description">
-                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                                Calcule el gradiente de presión (psi/ft) para un lodo de 9.8 ppg.
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>Densidad (ppg) x 0.052</div>
                             </div>
                             <div class="options">
                                 <label>
-                                    <input type="radio" name="q3" value="A"> A) 0.52 psi/ft
+                                    <input id="redondeo_3" type="radio" name="q3" value="A"> A) 0.510 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="B"> B) 0.65 psi/ft
+                                    <input id="redondeo_3" type="radio" name="q3" value="B"> B) 0.51 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="C"> C) 0.78 psi/ft
+                                    <input id="redondeo_3" type="radio" name="q3" value="C"> C) 0.5096 psi/ft
                                 </label>
                                 <label>
-                                    <input type="radio" name="q3" value="D"> D) 0.81 psi/ft
+                                    <input id="redondeo_3" type="radio" name="q3" value="D"> D) 0.5 psi/ft
                                 </label>
                             </div>
-                            <span class="feedback" id="feedback-q3"></span>
-                            <div class="math-answer-exercise" id="answer-3">
+                            <span class="feedback" id="feedbackRedondeos-q3"></span>
+                            <div class="math-answer-exercise redondeos" id="answerRedondeos-3">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                    La respuesta correcta es <strong>0.51 psi/ft</strong> (redondeo a 2 decimales según tabla IADC).
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
-                                <button id="solution3_btn" class="solution-button">
+                                <button class="answer-button" onclick="showExampleRedondeo(3)">Ver en calculadora</button>
+                                <button id="solution3Redondeos_btn" class="solution-button" onclick="showSolutionRedondeo(3)">
                                     <span class="icon">
-                                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
                                     </span> Ver solución
                                 </button>
                             </div>
+                            <div class="math-drilling-section">
+                                <div id="solution3_redondeos" class="math-drilling-solution">
+                                    <img src="/assets/images/calculator/solutions/sol 1.png" alt="Conversión de pies a metros" class="solution-image">
+                                </div>
+                            </div>
                         </div>
                         <div class="calculator-container">
-                        @include('Calculator.itemCalculator', ['id' => 'calculator4'])
+                        @include('Calculator.itemCalculator', ['id' => 'calculator7'])
                         </div>
-
                         <!-- Botones de Revisar y Reiniciar -->
                         <div class="button-container">
-                            <button id="revisar5-btn" class="submit-button">
+                            <button id="revisar5_btn" class="submit-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
                                 </span> Revisar
@@ -1430,165 +1454,165 @@
                 });
             });
         
-            loadSecureVideo('BbqXKcUUT44');
+            // loadSecureVideo('BbqXKcUUT44');
         
         // Bloquear clic derecho en todo el contenedor
-        document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
+        // document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
+        //     e.preventDefault();
+        //     return false;
+        // });
         
         // Bloquear también clic derecho específicamente en el iframe
-        document.addEventListener('DOMNodeInserted', function(e) {
-            if (e.target.id === 'youtube-frame') {
-                e.target.addEventListener('contextmenu', function(event) {
-                    event.preventDefault();
-                    return false;
-                });
-            }
-        });
+        // document.addEventListener('DOMNodeInserted', function(e) {
+        //     if (e.target.id === 'youtube-frame') {
+        //         e.target.addEventListener('contextmenu', function(event) {
+        //             event.preventDefault();
+        //             return false;
+        //         });
+        //     }
+        // });
         
         // Carga el video de manera segura
-        function loadSecureVideo(videoId) {
-            const container = document.getElementById('video-frame-container');
+        // function loadSecureVideo(videoId) {
+        //     const container = document.getElementById('video-frame-container');
             
-            // Crear el iframe con todos los parámetros de seguridad
-            container.innerHTML = `
-                <iframe 
-                id="youtube-frame"
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-                </iframe>
-            `;
+        //     // Crear el iframe con todos los parámetros de seguridad
+        //     container.innerHTML = `
+        //         <iframe 
+        //         id="youtube-frame"
+        //         width="100%" 
+        //         height="100%" 
+        //         src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
+        //         frameborder="0" 
+        //         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        //         allowfullscreen>
+        //         </iframe>
+        //     `;
             
-            // Inicializar el reproductor de YouTube
-            let player;
+        //     // Inicializar el reproductor de YouTube
+        //     let player;
             
-            // Cargar la API de YouTube
-            const tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        //     // Cargar la API de YouTube
+        //     const tag = document.createElement('script');
+        //     tag.src = "https://www.youtube.com/iframe_api";
+        //     const firstScriptTag = document.getElementsByTagName('script')[0];
+        //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             
-            // Esta función será llamada cuando la API esté lista
-            window.onYouTubeIframeAPIReady = function() {
-                player = new YT.Player('youtube-frame', {
-                    events: {
-                        'onReady': onPlayerReady,
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            };
+        //     // Esta función será llamada cuando la API esté lista
+        //     window.onYouTubeIframeAPIReady = function() {
+        //         player = new YT.Player('youtube-frame', {
+        //             events: {
+        //                 'onReady': onPlayerReady,
+        //                 'onStateChange': onPlayerStateChange
+        //             }
+        //         });
+        //     };
             
-            // Cuando el reproductor esté listo
-            function onPlayerReady(event) {
-                // Configurar controles personalizados
-                setupCustomControls(player);
+        //     // Cuando el reproductor esté listo
+        //     function onPlayerReady(event) {
+        //         // Configurar controles personalizados
+        //         setupCustomControls(player);
                 
-                // Configurar bloqueo de clic derecho en el iframe
-                const iframe = document.getElementById('youtube-frame');
-                if (iframe) {
-                    // Intento adicional de bloqueo de clic derecho en el iframe
-                    try {
-                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                        iframeDocument.addEventListener('contextmenu', function(e) {
-                            e.preventDefault();
-                            return false;
-                        });
-                    } catch (e) {
-                        // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
-                        console.log("No se puede acceder directamente al documento del iframe");
-                    }
-                }
-            }
+        //         // Configurar bloqueo de clic derecho en el iframe
+        //         const iframe = document.getElementById('youtube-frame');
+        //         if (iframe) {
+        //             // Intento adicional de bloqueo de clic derecho en el iframe
+        //             try {
+        //                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        //                 iframeDocument.addEventListener('contextmenu', function(e) {
+        //                     e.preventDefault();
+        //                     return false;
+        //                 });
+        //             } catch (e) {
+        //                 // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
+        //                 console.log("No se puede acceder directamente al documento del iframe");
+        //             }
+        //         }
+        //     }
             
-            // Cuando cambie el estado del reproductor
-            function onPlayerStateChange(event) {
-                // Actualizar estado de los controles personalizados
-                updateCustomControls(event.data);
-            }
-        }
+        //     // Cuando cambie el estado del reproductor
+        //     function onPlayerStateChange(event) {
+        //         // Actualizar estado de los controles personalizados
+        //         updateCustomControls(event.data);
+        //     }
+        // }
         
         // Configurar los controles personalizados
-        function setupCustomControls(player) {
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            const progressBar = document.getElementById('progress-bar');
-            const progress = document.getElementById('progress');
-            const volumeBtn = document.getElementById('volume-btn');
+        // function setupCustomControls(player) {
+        //     const playPauseBtn = document.getElementById('play-pause-btn');
+        //     const progressBar = document.getElementById('progress-bar');
+        //     const progress = document.getElementById('progress');
+        //     const volumeBtn = document.getElementById('volume-btn');
             
-            // Botón de reproducción/pausa
-            playPauseBtn.addEventListener('click', function() {
-                const state = player.getPlayerState();
-                if (state === 1) { // reproduciendo
-                    player.pauseVideo();
-                    playPauseBtn.textContent = '▶';
-                } else {
-                    player.playVideo();
-                    playPauseBtn.textContent = '⏸';
-                }
-            });
+        //     // Botón de reproducción/pausa
+        //     playPauseBtn.addEventListener('click', function() {
+        //         const state = player.getPlayerState();
+        //         if (state === 1) { // reproduciendo
+        //             player.pauseVideo();
+        //             playPauseBtn.textContent = '▶';
+        //         } else {
+        //             player.playVideo();
+        //             playPauseBtn.textContent = '⏸';
+        //         }
+        //     });
             
-            // Control de volumen
-            volumeBtn.addEventListener('click', function() {
-                if (player.isMuted()) {
-                    player.unMute();
-                    volumeBtn.textContent = '🔊';
-                } else {
-                    player.mute();
-                    volumeBtn.textContent = '🔇';
-                }
-            });
+        //     // Control de volumen
+        //     volumeBtn.addEventListener('click', function() {
+        //         if (player.isMuted()) {
+        //             player.unMute();
+        //             volumeBtn.textContent = '🔊';
+        //         } else {
+        //             player.mute();
+        //             volumeBtn.textContent = '🔇';
+        //         }
+        //     });
             
-            // Barra de progreso
-            progressBar.addEventListener('click', function(e) {
-                const percent = (e.offsetX / progressBar.offsetWidth);
-                player.seekTo(player.getDuration() * percent);
-            });
+        //     // Barra de progreso
+        //     progressBar.addEventListener('click', function(e) {
+        //         const percent = (e.offsetX / progressBar.offsetWidth);
+        //         player.seekTo(player.getDuration() * percent);
+        //     });
             
-            // Actualizar la barra de progreso
-            setInterval(function() {
-                if (player && typeof player.getCurrentTime === 'function') {
-                    const currentTime = player.getCurrentTime();
-                    const duration = player.getDuration();
-                    const percentage = (currentTime / duration) * 100;
-                    progress.style.width = percentage + '%';
-                }
-            }, 1000);
+        //     // Actualizar la barra de progreso
+        //     setInterval(function() {
+        //         if (player && typeof player.getCurrentTime === 'function') {
+        //             const currentTime = player.getCurrentTime();
+        //             const duration = player.getDuration();
+        //             const percentage = (currentTime / duration) * 100;
+        //             progress.style.width = percentage + '%';
+        //         }
+        //     }, 1000);
             
-            // Configuración adicional para el bloqueador de clic derecho
-            const rightClickBlocker = document.getElementById('right-click-blocker');
+        //     // Configuración adicional para el bloqueador de clic derecho
+        //     const rightClickBlocker = document.getElementById('right-click-blocker');
             
-            // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
-            rightClickBlocker.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
+        //     // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
+        //     rightClickBlocker.addEventListener('contextmenu', function(e) {
+        //         e.preventDefault();
+        //         return false;
+        //     });
             
-            // Permitir que los clics normales pasen a través
-            rightClickBlocker.addEventListener('mousedown', function(e) {
-                if (e.button === 2) { // 2 es clic derecho
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-                // Los demás tipos de clic pasan a través
-            });
-        }
+        //     // Permitir que los clics normales pasen a través
+        //     rightClickBlocker.addEventListener('mousedown', function(e) {
+        //         if (e.button === 2) { // 2 es clic derecho
+        //             e.preventDefault();
+        //             e.stopPropagation();
+        //             return false;
+        //         }
+        //         // Los demás tipos de clic pasan a través
+        //     });
+        // }
         
         // Actualizar estado de los controles personalizados
-        function updateCustomControls(playerState) {
-            const playPauseBtn = document.getElementById('play-pause-btn');
+        // function updateCustomControls(playerState) {
+        //     const playPauseBtn = document.getElementById('play-pause-btn');
             
-            if (playerState === 1) { // reproduciendo
-                playPauseBtn.textContent = '⏸';
-            } else {
-                playPauseBtn.textContent = '▶';
-            }
-        }
+        //     if (playerState === 1) { // reproduciendo
+        //         playPauseBtn.textContent = '⏸';
+        //     } else {
+        //         playPauseBtn.textContent = '▶';
+        //     }
+        // }
                 // Obtener el modal y sus elementos
             const modal = document.getElementById("exampleModalCenter");
             const modalTitle = document.getElementById("exampleModalLongTitle");
@@ -1932,6 +1956,9 @@
             const calculator_3 = document.getElementById('calculator3'); 
             const calculator4 = document.getElementById('calculator4'); 
             const calculator5 = document.getElementById('calculator5'); 
+            const calculator6 = document.getElementById('calculator6'); 
+            const calculator7 = document.getElementById('calculator7'); 
+
 
             if (calculator_3) {
             initializeCalculator(calculator_3);
@@ -1942,6 +1969,12 @@
             }
             if (calculator5) {
             initializeCalculator(calculator5);
+            }
+            if (calculator6) {
+            initializeCalculator(calculator6);
+            }
+            if (calculator7) {
+            initializeCalculator(calculator7);
             }
 
             function initializeCalculator (calculator3) {
@@ -2365,6 +2398,223 @@
         // Asignar la función al botón de "Reset"
         document.getElementById('reset_btn').addEventListener('click', resetForm);
 
+        // jerarquia
+        const calculator5 = document.getElementById('calculator5');
+        function showExampleJerarquia(identificador) {
+            const calculator = calculator5;
+            const buttons = {
+                '0': calculator.querySelector('#zero'),
+                '1': calculator.querySelector('#one'),
+                '2': calculator.querySelector('#two'),
+                '3': calculator.querySelector('#three'),
+                '4': calculator.querySelector('#four'),
+                '5': calculator.querySelector('#five'),
+                '6': calculator.querySelector('#six'),
+                '7': calculator.querySelector('#seven'),
+                '8': calculator.querySelector('#eight'),
+                '9': calculator.querySelector('#nine'),
+                '+': calculator.querySelector('#add'),
+                '÷': calculator.querySelector('#divide'),
+                '*': calculator.querySelector('#multiply'),
+                '.': calculator.querySelector('#decimal'),
+                '(': calculator.querySelector('#open-parenthesis'),
+                ')': calculator.querySelector('#close-parenthesis'),
+                'C': calculator.querySelector('#all-clear')
+            };
+
+            // Limpiar la calculadora
+            buttons['C'].click();
+
+            // Función para hacer clic en un botón
+            function clickButton(character) {
+                if (buttons[character]) {
+                    buttons[character].click();
+                } else {
+                    console.error(`Botón no encontrado para el carácter: ${character}`);
+                }
+            }
+
+            // Función para ingresar un número de varios dígitos
+            function enterNumber(number) {
+                const digits = String(number).split('');
+                digits.forEach(digit => clickButton(digit));
+            }
+
+            // Ingresar la fracción
+            if (identificador === 1) {
+                clickButton('(');
+                enterNumber('7'); 
+                clickButton('*'); 
+                enterNumber('7');
+                clickButton(')'); 
+                clickButton('*'); 
+                enterNumber('12'); 
+                clickButton('*'); 
+                enterNumber('0'); 
+                clickButton('.');
+                enterNumber('000243'); 
+            }else if(identificador === 2){
+                clickButton('(');
+                enterNumber('7'); 
+                clickButton('*'); 
+                enterNumber('7');
+                clickButton(')'); 
+                clickButton('*'); 
+                enterNumber('12'); 
+                clickButton('*'); 
+                enterNumber('0'); 
+                clickButton('.');
+                enterNumber('000243'); 
+            }else if(identificador === 3){
+                clickButton('(');
+                enterNumber('7'); 
+                clickButton('*'); 
+                enterNumber('7');
+                clickButton(')'); 
+                clickButton('*'); 
+                enterNumber('12'); 
+                clickButton('*'); 
+                enterNumber('0'); 
+                clickButton('.');
+                enterNumber('000243'); 
+            }
+        }
+
+       
+        function showSolutionJerarquia(id) {
+            // Obtener el elemento que se debe mostrar
+            const solutionElement = document.getElementById(`solution${id}_jerarquia`);
+
+            // Verificar si el elemento existe
+            if (solutionElement) {
+                // Cambiar el estilo display a flex
+                solutionElement.style.display = 'flex';
+            } else {
+                console.error(`No se encontró el elemento con ID solution${id}_jerarquia`);
+            }
+        }
+
+        function resetFormJerarquia() {
+            // Limpiar todos los campos de entrada
+            const inputs = document.querySelectorAll('.result-input');
+            inputs.forEach(input => {
+                input.value = ''; // Vaciar el valor del input
+                input.style.borderColor = '';
+            });
+
+            const answerDivs = document.querySelectorAll('.math-answer-exercise jerarquia');
+                answerDivs.forEach(div => {
+                    div.style.display = 'none'; 
+                });
+
+            // Ocultar todos los mensajes de retroalimentación
+            const feedbacks = document.querySelectorAll('.feedback jerarquia');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = ''; // Limpiar el contenido del span
+                feedback.style.display = 'none'; // Ocultar el span
+            });
+        }
+
+        // Asignar la función al botón de "Reset"
+        document.getElementById('reset3_btn').addEventListener('click', resetFormJerarquia);
+
+    //  despejes
+    const calculator6 = document.getElementById('calculator6');
+        function showExampleElevate(identificador) {
+            const calculator = calculator6;
+            const buttons = {
+                '0': calculator.querySelector('#zero'),
+                '1': calculator.querySelector('#one'),
+                '2': calculator.querySelector('#two'),
+                '3': calculator.querySelector('#three'),
+                '4': calculator.querySelector('#four'),
+                '5': calculator.querySelector('#five'),
+                '6': calculator.querySelector('#six'),
+                '7': calculator.querySelector('#seven'),
+                '8': calculator.querySelector('#eight'),
+                '9': calculator.querySelector('#nine'),
+                '+': calculator.querySelector('#add'),
+                '÷': calculator.querySelector('#divide'),
+                '*': calculator.querySelector('#multiply'),
+                '.': calculator.querySelector('#decimal'),
+                '(': calculator.querySelector('#open-parenthesis'),
+                ')': calculator.querySelector('#close-parenthesis'),
+                'C': calculator.querySelector('#all-clear')
+            };
+
+            // Limpiar la calculadora
+            buttons['C'].click();
+
+            // Función para hacer clic en un botón
+            function clickButton(character) {
+                if (buttons[character]) {
+                    buttons[character].click();
+                } else {
+                    console.error(`Botón no encontrado para el carácter: ${character}`);
+                }
+            }
+
+            // Función para ingresar un número de varios dígitos
+            function enterNumber(number) {
+                const digits = String(number).split('');
+                digits.forEach(digit => clickButton(digit));
+            }
+
+            // Ingresar la fracción
+            if (identificador === 1) {
+                clickButton('(');
+                enterNumber('7'); // Ingresar el entero
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('7');
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('*'); // Abrir paréntesis
+                enterNumber('12'); // Ingresar el numerador
+                clickButton('*'); // Ingresar el operador de división
+                enterNumber('0'); // Ingresar el denominador
+                clickButton('.');
+                enterNumber('000243'); // Ingresar el denominador
+            } 
+        }
+
+       
+        function showSolutionDespejes(id) {
+            // Obtener el elemento que se debe mostrar
+            const solutionElement = document.getElementById(`solution${id}_despejes`);
+
+            // Verificar si el elemento existe
+            if (solutionElement) {
+                // Cambiar el estilo display a flex
+                solutionElement.style.display = 'flex';
+            } else {
+                console.error(`No se encontró el elemento con ID solution${id}_despejes`);
+            }
+        }
+
+        function resetFormDespejes() {
+            // Limpiar todos los campos de entrada
+            const inputs = document.querySelectorAll('.result-input');
+            inputs.forEach(input => {
+                input.value = ''; // Vaciar el valor del input
+                input.style.borderColor = '';
+            });
+
+            const answerDivs = document.querySelectorAll('.math-answer-exercise despejes');
+                answerDivs.forEach(div => {
+                    div.style.display = 'none'; 
+                });
+
+            // Ocultar todos los mensajes de retroalimentación
+            const feedbacks = document.querySelectorAll('.feedback despejes');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = ''; // Limpiar el contenido del span
+                feedback.style.display = 'none'; // Ocultar el span
+            });
+        }
+
+        // Asignar la función al botón de "Reset"
+        document.getElementById('reset5_btn').addEventListener('click', resetFormDespejes);
+
+     
      
 
         function toggleSpeakText(audioId) {

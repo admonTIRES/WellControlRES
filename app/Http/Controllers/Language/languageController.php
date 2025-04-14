@@ -41,7 +41,7 @@ class languageController extends Controller
         }
         
         $audioLangCode = ($currentLocale === 'pt_BR') ? 'pt_BR' : $currentLocale;
-        return "/assets/audio/" . strtoupper($audioLangCode) . "/calculator/";
+        return "/assets/audio/Calculadora/" . strtoupper($audioLangCode) . "/";
 
     }
          

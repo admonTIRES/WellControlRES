@@ -3,182 +3,182 @@
  
     <div class="main-container"> 
         <div class="sidebar-container">
-            <div class="section-title">Contenido</div>
-            <div class="section-subtitle">Matemáticas para perforación</div>
+            <div class="section-title">{{ __('Content') }}</div>
+            <div class="section-subtitle">{{ __('Mathematics for drilling') }}</div>
 
             <div class="nav-list-container">
                 <ul class="nav-list">
                     <li class="nav-item active" data-section="introduction">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Introducción</span>
-                            <span class="nav-item-subtitle">Todo lo que necesitas saber.</span>
+                            <span class="nav-item-title">{{ __('Introduction') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Everything you need to know.') }}</span>
                         </div>
                     </li>
 
-                    <li class="nav-item " data-section="partes">
+                    <li class="nav-item" data-section="partes">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Partes de la calculadora</span>
-                            <span class="nav-item-subtitle">Teclado principal.</span>
+                            <span class="nav-item-title">{{ __('Calculator parts') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Main keyboard.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="funciones">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Funciones</span>
-                            <span class="nav-item-subtitle">Funciones escenciales.</span>
+                            <span class="nav-item-title">{{ __('Functions') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Essential functions.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="config">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Configuración de la calculadora</span>
-                            <span class="nav-item-subtitle">Ajuste de decimales.</span>
+                            <span class="nav-item-title">{{ __('Calculator settings') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Decimal adjustment.') }}</span>
                         </div>
                     </li>
-
 
                     <li class="nav-item" data-section="uso">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Uso</span>
-                            <span class="nav-item-subtitle">Uso de la calculadora en el curso.</span>
+                            <span class="nav-item-title">{{ __('Usage') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Calculator use in the course.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="unidades">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Unidades de medida</span>
-                            <span class="nav-item-subtitle">Conoce las unidades de medida que usaras en este curso.</span>
+                            <span class="nav-item-title">{{ __('Measurement units') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Learn the measurement units you will use in this course.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="fraccion">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Fracción a decimal</span>
-                            <span class="nav-item-subtitle">Conversión de fracción a decimal.</span>
+                            <span class="nav-item-title">{{ __('Fraction to decimal') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Fraction to decimal conversion.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="jerarquia">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquia de Operaciones</span>
-                            <span class="nav-item-subtitle">Orden para resolver ecuaciones.</span>
+                            <span class="nav-item-title">{{ __('Operation Hierarchy') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Order to solve equations.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="despeje">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Despejes</span>
-                            <span class="nav-item-subtitle">Despejar formulas.</span>
+                            <span class="nav-item-title">{{ __('Clearing formulas') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Clear formulas.') }}</span>
                         </div>
                     </li>
-                     <li class="nav-item" data-section="formulas">
+                    
+                    <li class="nav-item" data-section="formulas">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Fórmulas</span>
-                            <span class="nav-item-subtitle">Libro de formulas.</span>
+                            <span class="nav-item-title">{{ __('Formulas') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Formula book.') }}</span>
                         </div>
                     </li>
+                    
                     <li class="nav-item" data-section="redondeo">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Redondeo</span>
-                            <span class="nav-item-subtitle">Reglas de redondeo en el curso.</span>
+                            <span class="nav-item-title">{{ __('Rounding') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Rounding rules in the course.') }}</span>
                         </div>
                     </li>
                 </ul>
 
-              
-
-                <div class="section-title">Ejercicios</div>
-                <div class="section-subtitle">Operaciones de pozo</div>
+                <div class="section-title">{{ __('Exercises') }}</div>
+                <div class="section-subtitle">{{ __('Well operations') }}</div>
 
                 <ul class="nav-list">
                     <li class="nav-item" data-section="fracciones">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Fracciones a decimal</span>
-                            <span class="nav-item-subtitle">Practica la conversión de fracciones a decimales.</span>
+                            <span class="nav-item-title">{{ __('Fractions to decimal') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Practice converting fractions to decimals.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="cuadrado">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Elevar al cuadrado</span>
-                            <span class="nav-item-subtitle">Practica la elevación de números al cuadrado.</span>
+                            <span class="nav-item-title">{{ __('Square numbers') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Practice squaring numbers.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="jerarquias">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Jerarquía de operaciones</span>
-                            <span class="nav-item-subtitle">Practica la jerarquia de operaciones.</span>
+                            <span class="nav-item-title">{{ __('Operation hierarchy') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Practice the operation hierarchy.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="despejes">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Despejes</span>
-                            <span class="nav-item-subtitle">Practica los despejes de fórmulas.</span>
+                            <span class="nav-item-title">{{ __('Clearing formulas') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Practice clearing formulas.') }}</span>
                         </div>
                     </li>
 
                     <li class="nav-item" data-section="redondeos">
                         <span class="star-icon"></span>
                         <div class="nav-item-content">
-                            <span class="nav-item-title">Redondeos</span>
-                            <span class="nav-item-subtitle">Practica la forma de redondear en el curso</span>
+                            <span class="nav-item-title">{{ __('Rounding') }}</span>
+                            <span class="nav-item-subtitle">{{ __('Practice how to round in the course') }}</span>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
 
+
          <!-- Content Area -->
         <div class="content-container">
 
             <div id="introduction" class="content-section active scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Bienvenido a "Matemáticas para Perforación"</h1>
+                    <h1 class="math-drilling-title">{{ __('Welcome to "Mathematics for Drilling"') }}</h1>
                     <button id="voiceButtonIntro" class="voice-button" onclick="toggleSpeakText('audioIntro')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioIntro" src="{{ $audioIntroPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">¿Qué encontrarás en este módulo?</h2>
-                    <p class="math-drilling-text">En este módulo, <strong>"Matemáticas para Perforación"</strong>, hemos diseñado un contenido completo y dinámico para apoyarte en tu curso de <strong>Control de Pozos</strong>. Aquí encontrarás una combinación de recursos multimedia, explicaciones claras y ejercicios prácticos que te ayudarán a dominar los conceptos matemáticos esenciales y el uso de la calculadora en este campo.</p>
+                    <h2 class="math-drilling-subtitle">{{ __('What will you find in this module?') }}</h2>
+                    <p class="math-drilling-text">{{ __('In this module, "Mathematics for Drilling", we have designed comprehensive and dynamic content to support you in your Well Control course. Here you will find a combination of multimedia resources, clear explanations, and practical exercises that will help you master essential mathematical concepts and calculator usage in this field.') }}</p>
                 </div>
 
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Recursos disponibles</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Available resources') }}</h2>
                     <ul class="math-drilling-list">
-                        <li><strong>Videos explicativos</strong>: Tutoriales paso a paso para entender conceptos clave y resolver problemas.</li>
-                        <li><strong>Audios</strong>: Explicaciones breves y claras para repasar en cualquier momento.</li>
-                        <li><strong>Conceptos teóricos</strong>: Explicaciones detalladas de los fundamentos matemáticos aplicados a la perforación.</li>
-                        <li><strong>Ejemplos guiados</strong>: Problemas resueltos con explicaciones claras para que sigas el proceso.</li>
-                        <li><strong>Ejercicios prácticos</strong>: Actividades diseñadas para que apliques lo aprendido.</li>
+                        <li><strong>{{ __('Explanatory videos') }}</strong>: {{ __('Step-by-step tutorials to understand key concepts and solve problems.') }}</li>
+                        <li><strong>{{ __('Audios') }}</strong>: {{ __('Brief and clear explanations to review at any time.') }}</li>
+                        <li><strong>{{ __('Theoretical concepts') }}</strong>: {{ __('Detailed explanations of mathematical fundamentals applied to drilling.') }}</li>
+                        <li><strong>{{ __('Guided examples') }}</strong>: {{ __('Solved problems with clear explanations so you can follow the process.') }}</li>
+                        <li><strong>{{ __('Practical exercises') }}</strong>: {{ __('Activities designed for you to apply what you have learned.') }}</li>
                     </ul>
                 </div>
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-exercise-title">Funciones del módulo:</h3>
-                        <p class="math-drilling-exercise-text">Diseño interactivo:</p>
+                        <h3 class="math-drilling-exercise-title">{{ __('Module features:') }}</h3>
+                        <p class="math-drilling-exercise-text">{{ __('Interactive design:') }}</p>
                         <ul class="math-drilling-list">
-                            <li>Podrás descubrir funciones especiales al hacer click sobre los elementos de este módulo</li>
+                            <li>{{ __('You will discover special features by clicking on elements in this module') }}</li>
                             <li></li>
                         </ul>
                     </div>
@@ -187,51 +187,51 @@
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle"></h2>
                     <div class="math-drilling-color-palette">
-                        <div class="math-drilling-color-box primary">Interacción</div>
-                        <div class="math-drilling-color-box secondary">Teoría</div>
-                        <div class="math-drilling-color-box dark">Práctica</div>
-                        <div class="math-drilling-color-box dark-gray">Repaso</div>
+                        <div class="math-drilling-color-box primary">{{ __('Interaction') }}</div>
+                        <div class="math-drilling-color-box secondary">{{ __('Theory') }}</div>
+                        <div class="math-drilling-color-box dark">{{ __('Practice') }}</div>
+                        <div class="math-drilling-color-box dark-gray">{{ __('Review') }}</div>
                     </div>
                 </div>
             </div>
-        
+
             <div id="config" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Configuración de calculadora científica</h1>
+                    <h1 class="math-drilling-title">{{ __('Scientific calculator configuration') }}</h1>
                     <button id="voiceButtonConfig" class="voice-button" onclick="toggleSpeakText('audioConfig')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioConfig" src="{{ $audioConfigPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Ajuste de decimales para el curso de control de pozos</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Decimal adjustment for well control course') }}</h2>
                     <p class="math-drilling-text">
-                        Para configurar tu calculadora científica Casio y mostrar tres decimales en los resultados, sigue estos pasos:
+                        {{ __('To configure your Casio scientific calculator to display three decimal places in results, follow these steps:') }}
                     </p>
-                    
-                    
                 </div>
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
                         <ul class="math-drilling-list">
-                            <li>Enciende la calculadora y presiona la tecla <code>MODE</code> varias veces hasta que aparezca la opción de configuración.</li>
-                            <li>Cuando veas las opciones <code>Fix</code>, <code>Sci</code> y <code>Norm</code> en la pantalla, selecciona <code>Fix</code> para establecer un número fijo de decimales.</li>
-                            <li>Después de seleccionar <code>Fix</code>, ingresa el número <code>3</code> para que la calculadora muestre tres decimales en los resultados.</li>
-                            <li>Si deseas volver al formato de visualización estándar, repite el proceso y selecciona <code>Norm</code> en lugar de <code>Fix</code>.</li>
+                            <li>{{ __('Turn on the calculator and press the MODE key several times until the configuration option appears.') }}</li>
+                            <li>{{ __('When you see the Fix, Sci, and Norm options on the screen, select Fix to set a fixed number of decimal places.') }}</li>
+                            <li>{{ __('After selecting Fix, enter the number 3 so the calculator shows three decimal places in results.') }}</li>
+                            <li>{{ __('If you want to return to the standard display format, repeat the process and select Norm instead of Fix.') }}</li>
                         </ul>
                     </div>
                 </div>
                 <p class="math-drilling-text">
-                        Para una guía visual detallada, consulta el siguiente video:
+                    {{ __('For a detailed visual guide, check the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
-                <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+                <div class="math-drilling-video">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                    </div>
                 </div>
-                <!-- <div class="math-drilling-video">
+                <div class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1GFG8jLJgZF_0y-z6vNBDVsASMKjJv9nx/preview" 
-                   width="100%" 
+                    width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
@@ -248,7 +248,7 @@
                     <div class="custom-controls">
                     </div>
 
-                </div> -->
+                </div>
             </div>
 
             <div id="partes" class="content-section scrollable-content">
@@ -256,35 +256,35 @@
                     @include('Calculator.itemCalculator', ['id' => 'calculator1'])
                     <div class="math-drilling-section">
                         <div class="math-drilling-exercise">
-                            <h3 class="math-drilling-exercise-title">Partes de la calculadora:</h3>
+                            <h3 class="math-drilling-exercise-title">{{ __('Calculator parts:') }}</h3>
                             <ul class="calculator-parts-list">
                                 <li data-section="screen" class="calculator-part pantalla">
-                                    <strong>Pantalla</strong>
-                                    <span class="desc">Donde se muestran los resultados y las operaciones.</span>
+                                    <strong>{{ __('Screen') }}</strong>
+                                    <span class="desc">{{ __('Where results and operations are displayed.') }}</span>
                                 </li>
                                 <li data-section="seccion1" class="calculator-part seccion-principal">
-                                    <strong>Sección principal</strong>
-                                    <span class="desc">Suma, resta, multiplicación y división.</span>
+                                    <strong>{{ __('Main section') }}</strong>
+                                    <span class="desc">{{ __('Shift, MODE and ON interruptor.') }}</span>
                                 </li>
                                 <li data-section="seccion2" class="calculator-part funciones-avanzadas">
-                                    <strong>Funciones avanzadas</strong>
-                                    <span class="desc">Elevar al cuadrado, calcular raíces cuadradas y funciones trigonométricas.</span>
+                                    <strong>{{ __('Advanced functions') }}</strong>
+                                    <span class="desc">{{ __('Square, square roots and trigonometric functions.') }}</span>
                                 </li>
                                 <li data-section="seccion3" class="calculator-part teclado-numerico">
-                                    <strong>Teclado numérico</strong>
-                                    <span class="desc">Para ingresar números.</span>
+                                    <strong>{{ __('Numeric keypad') }}</strong>
+                                    <span class="desc">{{ __('Used to enter numbers.') }}</span>
                                 </li>
                                 <li data-section="seccion4" class="calculator-part interruptor-borrado">
-                                    <strong>Interruptor y borrado</strong>
-                                    <span class="desc">Permite borrar el contenido de la calculadora o apagarla.</span>
+                                    <strong>{{ __('Switch and delete') }}</strong>
+                                    <span class="desc">{{ __('Used to clear the calculator or turn it off.') }}</span>
                                 </li>
                                 <li data-section="seccion5" class="calculator-part operaciones-basicas">
-                                    <strong>Operaciones matemáticas básicas</strong>
-                                    <span class="desc">Operadores básicos para realizar sumas, restas, multiplicaciones y divisiones.</span>
+                                    <strong>{{ __('Basic math operations') }}</strong>
+                                    <span class="desc">{{ __('Basic operators for addition, subtraction, multiplication, and division.') }}</span>
                                 </li>
                                 <li data-section="seccion6" class="calculator-part resultado-ans">
-                                    <strong>Resultado y ANS</strong>
-                                    <span class="desc">Para calcular el resultado de una operación y obtener la última respuesta (Ans).</span>
+                                    <strong>{{ __('Result and ANS') }}</strong>
+                                    <span class="desc">{{ __('Used to calculate the result and get the last answer (Ans).') }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -292,63 +292,64 @@
                     <div class="content-title-voice">
                         <button id="voiceButtonParts" class="voice-button" onclick="toggleSpeakText('audioParts')">
                             <span class="material-icons">volume_up</span> 
-                            <span>Escuchar</span>
+                            <span>{{ __('Listen') }}</span>
                         </button>
                         <audio id="audioParts" src="{{ $audioPartsPath }}"></audio>
                     </div>
                 </div>
             </div>
+
             
             <div id="funciones" class="content-section scrollable-content">
                 <div class="calculator-layout">
-                    <!-- <div class="calculator-preview"></div> -->
                     @include('Calculator.itemCalculator', ['id' => 'calculator2'])
                     <div class="math-drilling-section">
                         <div class="math-drilling-exercise">
-                            <h3 class="math-drilling-exercise-title">Funciones principales de la calculadora:</h3>
+                            <h3 class="math-drilling-exercise-title">{{ __('Main calculator functions:') }}</h3>
                             <p>
-                            La calculadora científica cuenta con diversas funciones que te serán útiles<br> en este curso.  Estas funciones te ayudarán a realizar cálculos relacionados <br>con las operaciones de perforación, presión, temperatura y otros <br>aspectos críticos en la industria. <br><br>Las funciones principales incluyen:
+                                {{ __('The scientific calculator includes several functions that will be useful during this course. These functions will help you perform calculations related to drilling operations, pressure, temperature, and other critical aspects in the industry.') }}
+                                <br><br>{{ __('The main functions include:') }}
                             </p>
                             <ul class="calculator-parts-list">
                                 <li data-section="sum" class="calculator-part pantalla">
-                                    <strong>+ Suma</strong>
-                                    <span class="desc">Permite realizar cálculos de sumas entre diferentes valores,<br> como la adición de profundidades de perforación, volúmenes<br> de fluidos y otros datos relevantes.</span>
+                                    <strong>{{ __('+ Addition') }}</strong>
+                                    <span class="desc">{{ __('Performs addition calculations between different values, such as drilling depths, fluid volumes, and other relevant data.') }}</span>
                                 </li>
                                 <li data-section="rest" class="calculator-part seccion-principal">
-                                    <strong>- Resta</strong>
-                                    <span class="desc">Herramienta esencial para calcular diferencias entre valores, <br>como la reducción de profundidades, la disminución de volúmenes <br>de fluidos o la comparación de presiones en diferentes etapas<br> de la perforación.</span>
+                                    <strong>{{ __('- Subtraction') }}</strong>
+                                    <span class="desc">{{ __('Essential for calculating differences between values, such as depth reductions, fluid volume decreases, or pressure comparisons during drilling stages.') }}</span>
                                 </li>
                                 <li data-section="multiplicate" class="calculator-part funciones-avanzadas">
-                                    <strong>x Multiplicación</strong>
-                                    <span class="desc">Función utilizada para calcular operaciones como la multiplicación <br>de presiones, volúmenes o cualquier otro dato crítico que requiera una <br>proporción entre variables.</span>
+                                    <strong>{{ __('x Multiplication') }}</strong>
+                                    <span class="desc">{{ __('Used to perform operations like multiplying pressures, volumes, or any other critical data requiring proportional relationships.') }}</span>
                                 </li>
                                 <li data-section="division" class="calculator-part teclado-numerico">
-                                    <strong>÷ División</strong>
-                                    <span class="desc">Permite dividir valores como caudales, volúmenes de fluidos <br>y otros elementos necesarios para las operaciones de perforación.</span>
+                                    <strong>{{ __('÷ Division') }}</strong>
+                                    <span class="desc">{{ __('Allows division of values such as flow rates, fluid volumes, and other elements needed for drilling operations.') }}</span>
                                 </li>
                                 <li data-section="elevate" class="calculator-part interruptor-borrado">
-                                    <strong>x² Elevación al cuadrado</strong>
-                                    <span class="desc">Una función útil para realizar cálculos relacionados con la <br>resistencia de materiales, áreas de perforación o cálculo de presión en <br>funciones cuadráticas.</span>
+                                    <strong>{{ __('x² Square') }}</strong>
+                                    <span class="desc">{{ __('Useful for calculations involving material resistance, drilling areas, or pressure using quadratic functions.') }}</span>
                                 </li>
                                 <li data-section="parentesis" class="calculator-part operaciones-basicas">
-                                    <strong>() Paréntesis</strong>
-                                    <span class="desc">Permite agrupar operaciones para priorizar cálculos complejos, <br>como la combinación de presiones, volúmenes y profundidades <br>en ecuaciones avanzadas de control de pozos.</span>
+                                    <strong>{{ __('() Parentheses') }}</strong>
+                                    <span class="desc">{{ __('Groups operations to prioritize complex calculations, like combining pressures, volumes, and depths in advanced well control equations.') }}</span>
                                 </li>
                                 <li data-section="result" class="calculator-part resultado-ans">
-                                    <strong>= Resultado</strong>
-                                    <span class="desc">Muestra el resultado final de los cálculos realizados, proporcionando <br>un valor preciso para la toma de decisiones en operaciones <br>de perforación y control de pozos.</span>
+                                    <strong>{{ __('= Result') }}</strong>
+                                    <span class="desc">{{ __('Displays the final result of calculations, providing accurate values for decision-making in drilling and well control operations.') }}</span>
                                 </li>
                                 <li data-section="percent" class="calculator-part porcentaje-ans">
-                                    <strong>% Porcentaje</strong>
-                                    <span class="desc">Obtiene el procentaje del valor escrito a su izquierda, <br>útil en obtención de porcentajes de operaciones de <br>de perforación y control de pozos.</span>
+                                    <strong>{{ __('% Percentage') }}</strong>
+                                    <span class="desc">{{ __('Gets the percentage of the value to its left, useful for percentage-based operations in drilling and well control.') }}</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="content-title-voice">
                         <button id="voiceButtonFunctions" class="voice-button" onclick="toggleSpeakText('audioFunctions')">
-                            <span class="material-icons">volume_up</span> 
-                            <span>Escuchar</span>
+                            <span class="material-icons">volume_up</span>
+                            <span>{{ __('Listen') }}</span>
                         </button>
                         <audio id="audioFunctions" src="{{ $audioFunctionsPath }}"></audio>
                     </div>
@@ -357,10 +358,10 @@
 
             <div id="uso" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Uso</h1>
+                    <h1 class="math-drilling-title">{{ __('Use') }}</h1>
                     <button id="voiceButtonUse" class="voice-button" onclick="toggleSpeakText('audioUse')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioUse" src="{{ $audioUsePath }}"></audio>
                 </div>
@@ -369,16 +370,16 @@
                         <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
                         <div class="overlay"></div>
                         <div class="text-content">
-                            <h2>Cálculo de presiones hidrostáticas</h2>
-                            <p class="hero-text">Esencial para garantizar la estabilidad del pozo. La calculadora permite resolver rápidamente la presión ejercida por el fluido de perforación, evitando sobrepresiones o colapsos en las formaciones. Se usa la fórmulaP=ρ⋅g⋅h, donde se consideran la densidad del lodo, la gravedad y la profundidad.</p>
+                            <h2>{{ __('Hydrostatic pressure calculation') }}</h2>
+                            <p class="hero-text">{{ __('Essential to ensure well stability. The calculator allows quick resolution of the pressure exerted by the drilling fluid, preventing overpressures or collapses in formations. The formula P=ρ⋅g⋅h is used, considering mud density, gravity and depth.') }}</p>
                         </div>
                     </div>
                     <div class="card">
                         <img src="/assets/images/calculator/uses_image2.jpg" alt="Hannah Laurent" class="profile-img">
                         <div class="overlay"></div>
                         <div class="text-content">
-                        <h2 class="hero-title">Conversión de unidades</h2>
-                            <p class="hero-text">En la industria petrolera, es común trabajar con unidades mixtas (métricas e imperiales). La calculadora agiliza la conversión entre psi y bar, metros y pies, o galones y litros, asegurando precisión en los informes y operaciones.
+                        <h2 class="hero-title">{{ __('Unit conversion') }}</h2>
+                            <p class="hero-text">{{ __('In the oil industry, it is common to work with mixed units (metric and imperial). The calculator streamlines conversion between psi and bar, meters and feet, or gallons and liters, ensuring accuracy in reports and operations.') }}
                             </p>
                         </div>
                     </div>
@@ -388,16 +389,16 @@
                         <img src="/assets/images/calculator/uses_image3.jpg" alt="Hannah Laurent" class="profile-img">
                         <div class="overlay"></div>
                         <div class="text-content">
-                        <h2 class="hero-title">Cálculo de volúmenes de lodo:</h2>
-                            <p class="hero-text">Permite determinar cuánto lodo se necesita para llenar el pozo o realizar desplazamientos. Con la fórmula del volumen de un cilindro (V=π⋅r 2⋅h), se calcula el espacio que ocupará el fluido en el pozo, evitando desbalances.</p>
+                        <h2 class="hero-title">{{ __('Mud volume calculation:') }}</h2>
+                            <p class="hero-text">{{ __('Allows determining how much mud is needed to fill the well or perform displacements. With the cylinder volume formula (V=π⋅r 2⋅h), the space the fluid will occupy in the well is calculated, avoiding imbalances.') }}</p>
                         </div>
                     </div>
                     <div class="card">
                         <img src="/assets/images/calculator/uses_image4.jpeg" alt="Hannah Laurent" class="profile-img">
                         <div class="overlay"></div>
                         <div class="text-content">
-                        <h2 class="hero-title">Análisis de gradientes de presión</h2>
-                            <p class="hero-text">Permite evaluar cómo cambia la presión con la profundidad, lo que es vital para prevenir fracturas en la formación o derrumbes. Con la calculadora, se pueden resolver rápidamente estos gradientes y tomar decisiones operativas.
+                        <h2 class="hero-title">{{ __('Pressure gradient analysis') }}</h2>
+                            <p class="hero-text">{{ __('Allows evaluating how pressure changes with depth, which is vital to prevent formation fractures or collapses. With the calculator, these gradients can be quickly resolved and operational decisions made.') }}
                             </p>
                         </div>
                     </div>
@@ -406,45 +407,45 @@
 
             <div id="unidades" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Unidades de medida</h1>
+                    <h1 class="math-drilling-title">{{ __('Measurement units') }}</h1>
                     <button id="voiceButtonUnit" class="voice-button" onclick="toggleSpeakText('audioUnit')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioUnit" src="{{ $audioUnitPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Unidades de medida en el control de pozos</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Measurement units in well control') }}</h2>
                     <p class="math-drilling-text">
-                        En el control de pozos, es fundamental comprender y convertir entre diferentes unidades de medida para garantizar la precisión en los cálculos y operaciones. A continuación, se presentan las unidades más comunes y su aplicación.
+                        {{ __('In well control, it is essential to understand and convert between different units of measurement to ensure accuracy in calculations and operations. Below are the most common units and their application.') }}
                     </p>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Tabla de conversión de unidades</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Unit conversion table') }}</h2>
                 </div>
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/972f88a3f7.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>   
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">Unidades de longitud</h3>
+                        <h3 class="math-drilling-subtitle">{{ __('Length units') }}</h3>
                         <ul class="math-drilling-list">
-                            <li><strong>Pies (ft)</strong>: Utilizados para medir profundidades de perforación.</li>
-                            <li><strong>Metros (m)</strong>: Comúnmente usados en sistemas métricos.</li>
-                            <li><strong>Conversión</strong>: 1 pie = 0.3048 metros.</li>
+                            <li><strong>{{ __('Feet (ft)') }}</strong>: {{ __('Used to measure drilling depths.') }}</li>
+                            <li><strong>{{ __('Meters (m)') }}</strong>: {{ __('Commonly used in metric systems.') }}</li>
+                            <li><strong>{{ __('Conversion') }}</strong>: {{ __('1 foot = 0.3048 meters.') }}</li>
                         </ul>
                         <p class="math-drilling-text">
                             
                         </p>
-                        <img src="/assets/images/calculator/piesametros.jpg" alt="Conversión de pies a metros" class="math-drilling-image">
+                        <img src="/assets/images/calculator/piesametros.jpg" alt="{{ __('Feet to meters conversion') }}" class="math-drilling-image">
                     </div>
                 </div>
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">Unidades de volumen</h3>
+                        <h3 class="math-drilling-subtitle">{{ __('Volume units') }}</h3>
                         <ul class="math-drilling-list">
-                            <li><strong>Barriles (bbl)</strong>: Usados para medir volúmenes de fluidos.</li>
-                            <li><strong>Galones (gal)</strong>: Comunes en operaciones de bombeo.</li>
-                            <li><strong>Conversión</strong>: 1 barril = 42 galones.</li>
+                            <li><strong>{{ __('Barrels (bbl)') }}</strong>: {{ __('Used to measure fluid volumes.') }}</li>
+                            <li><strong>{{ __('Gallons (gal)') }}</strong>: {{ __('Common in pumping operations.') }}</li>
+                            <li><strong>{{ __('Conversion') }}</strong>: {{ __('1 barrel = 42 gallons.') }}</li>
                         </ul>
 
                     </div>
@@ -452,23 +453,23 @@
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">Unidades de presión</h3>
+                        <h3 class="math-drilling-subtitle">{{ __('Pressure units') }}</h3>
                         <ul class="math-drilling-list">
-                            <li><strong>Libras por pulgada cuadrada (psi)</strong>: Utilizadas para medir presión en el pozo.</li>
-                            <li><strong>Bares (bar)</strong>: Comunes en sistemas internacionales.</li>
-                            <li><strong>Conversión</strong>: 1 bar = 14.5038 psi.</li>
+                            <li><strong>{{ __('Pounds per square inch (psi)') }}</strong>: {{ __('Used to measure well pressure.') }}</li>
+                            <li><strong>{{ __('Bars (bar)') }}</strong>: {{ __('Common in international systems.') }}</li>
+                            <li><strong>{{ __('Conversion') }}</strong>: {{ __('1 bar = 14.5038 psi.') }}</li>
                         </ul>
 
                     </div>
                 </div>
 
                 <p class="math-drilling-text">
-                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                    {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
                 <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1du0CTCxMcc5MEyBBNpbGsLe2mEo0GiFw/preview" 
-                   width="100%" 
+                width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
@@ -478,36 +479,36 @@
 
             <div id="fraccion" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Convertir de fracción a decimal</h1>
+                    <h1 class="math-drilling-title">{{ __('Convert from fraction to decimal') }}</h1>
                     <button id="voiceButtonFraction" class="voice-button" onclick="toggleSpeakText('audioFraction')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioFraction" src="{{ $audioFractionPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">¿Qué es una fracción y cómo convertirla a decimal?</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('What is a fraction and how to convert it to decimal?') }}</h2>
                     <p class="math-drilling-text">
-                        Una fracción representa una parte de un todo. En el control de pozos, es común trabajar con fracciones para medir diámetros, profundidades y otros parámetros. Convertir una fracción a decimal es esencial para realizar cálculos precisos.
+                        {{ __('A fraction represents a part of a whole. In well control, it is common to work with fractions to measure diameters, depths and other parameters. Converting a fraction to decimal is essential to perform accurate calculations.') }}
                     </p>
                 </div>
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">Pasos para convertir una fracción a decimal</h3>
+                        <h3 class="math-drilling-subtitle">{{ __('Steps to convert a fraction to decimal') }}</h3>
                         <ul class="math-drilling-list">
-                            <li>Divide el numerador (el número de arriba) entre el denominador (el número de abajo).</li>
-                            <li>Ejemplo: Para convertir <code>3/4</code> a decimal, divide 3 entre 4. El resultado es <code>0.75</code>.</li>
-                            <li>Si la fracción es mixta (por ejemplo, <code>1 3/4</code>), convierte primero la parte fraccionaria y luego súmala al número entero.</li>
-                            <li>Ejemplo: <code>1 3/4</code> se convierte en <code>1 + 0.75 = 1.75</code>.</li>
+                            <li>{{ __('Divide the numerator (top number) by the denominator (bottom number).') }}</li>
+                            <li>{{ __('Example: To convert 3/4 to decimal, divide 3 by 4. The result is 0.75.') }}</li>
+                            <li>{{ __('If the fraction is mixed (for example, 1 3/4), first convert the fractional part and then add it to the whole number.') }}</li>
+                            <li>{{ __('Example: 1 3/4 becomes 1 + 0.75 = 1.75.') }}</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="math-drilling-section">
-                    <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
+                    <h3 class="math-drilling-subtitle">{{ __('Practical examples') }}</h3>
                     <p class="math-drilling-text">
-                        Aquí tienes algunos ejemplos comunes de conversión de fracciones a decimales:
+                        {{ __('Here are some common examples of fraction to decimal conversion:') }}
                     </p>
                     <ul class="math-drilling-list">
                         <li><code>1/2</code> = 0.5</li>
@@ -518,19 +519,19 @@
                 </div>
 
                 <div class="math-drilling-section">
-                    <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
+                    <h3 class="math-drilling-subtitle">{{ __('Use in well control') }}</h3>
                     <p class="math-drilling-text">
-                        En el control de pozos, las fracciones se utilizan para medir diámetros de tuberías, tamaños de brocas y otros parámetros. Convertir estas fracciones a decimales facilita los cálculos de presión, volumen y profundidad.
+                        {{ __('In well control, fractions are used to measure pipe diameters, bit sizes and other parameters. Converting these fractions to decimals facilitates pressure, volume and depth calculations.') }}
                     </p>
                 </div>
 
                 <p class="math-drilling-text">
-                    Para una explicación más detallada, consulta el siguiente video:
+                    {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
                 <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1h62gKVHFIsasA9Kwc0gOYlxBJR55NUOy/preview" 
-                   width="100%" 
+                width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
@@ -540,34 +541,27 @@
 
             <div id="jerarquia" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Jerarquía de Operaciones</h1>
+                    <h1 class="math-drilling-title">{{ __('Order of Operations') }}</h1>
                     <button id="voiceButtonHierarchy" class="voice-button" onclick="toggleSpeakText('audioHierarchy')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioHierarchy" src="{{ $audioHierarchyPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">El orden en que se deben resolver las ecuaciones</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('The order in which equations should be solved') }}</h2>
                     <p class="math-drilling-text">
-                    La jerarquía de operaciones establece el orden en el que debemos realizar las operaciones matemáticas para obtener un resultado correcto.
+                    {{ __('The order of operations establishes the sequence in which we must perform mathematical operations to obtain a correct result.') }}
                     </p>
                 </div>
 
-                <!-- <div class="math-drilling-section">
-                    <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">PEMDAS</h3>
-                        <img src="/assets/images/calculator/pemdas.webp" alt="Conversión de pies a metros" class="math-drilling-image">
-                    </div>
-                </div> -->
-
                 <p class="math-drilling-text">
-                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                    {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
                 <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1YsHtXHcAcgi2PF0jtSF70cEv_g39IDsz/preview" 
-                   width="100%" 
+                width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
@@ -577,39 +571,39 @@
 
             <div id="despeje" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Despejes</h1>
+                    <h1 class="math-drilling-title">{{ __('Variable Isolation') }}</h1>
                     <button id="voiceButtonClearance" class="voice-button" onclick="toggleSpeakText('audioClearance')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioClearance" src="{{ $audioClearancePath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">¿Qué es un despeje y por qué es importante?</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('What is variable isolation and why is it important?') }}</h2>
                     <p class="math-drilling-text">
-                        Despejar una variable en una fórmula es fundamental en el control de pozos, ya que permite calcular valores desconocidos a partir de datos conocidos. Esto es especialmente útil en cálculos de presión, volumen y profundidad.
+                        {{ __('Isolating a variable in a formula is fundamental in well control, as it allows calculating unknown values from known data. This is especially useful in pressure, volume and depth calculations.') }}
                     </p>
                 </div>
 
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
-                        <h3 class="math-drilling-subtitle">Pasos para despejar una variable</h3>
+                        <h3 class="math-drilling-subtitle">{{ __('Steps to isolate a variable') }}</h3>
                         <ul class="math-drilling-list">
-                            <li>Identifica la variable que deseas despejar.</li>
-                            <li>Aplica operaciones inversas (suma/resta, multiplicación/división) para aislar la variable.</li>
-                            <li>Simplifica la ecuación hasta que la variable quede sola en un lado de la igualdad.</li>
-                            <li>Verifica tu resultado sustituyendo los valores conocidos en la ecuación original.</li>
+                            <li>{{ __('Identify the variable you want to isolate.') }}</li>
+                            <li>{{ __('Apply inverse operations (addition/subtraction, multiplication/division) to isolate the variable.') }}</li>
+                            <li>{{ __('Simplify the equation until the variable remains alone on one side of the equality.') }}</li>
+                            <li>{{ __('Verify your result by substituting the known values into the original equation.') }}</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="math-drilling-section">
-                    <h3 class="math-drilling-subtitle">Ejemplos prácticos</h3>
+                    <h3 class="math-drilling-subtitle">{{ __('Practical examples') }}</h3>
                     <p class="math-drilling-text">
-                        Aquí tienes algunos ejemplos comunes de despejes en fórmulas utilizadas en el control de pozos:
+                        {{ __('Here are some common examples of variable isolation in formulas used in well control:') }}
                     </p>
                     <ul class="math-drilling-list">
-                        <li><strong>Presión hidrostática</strong>: Despejar la profundidad (<code>h</code>) en la fórmula <code>P = ρ * g * h</code>.</li>
+                        <li><strong>{{ __('Hydrostatic pressure') }}</strong>: {{ __('Isolate depth (h) in the formula P = ρ * g * h.') }}</li>
                         <div  class="math-drilling-video">
                             <iframe 
                                 src="https://drive.google.com/file/d/1G2OuIxnxAtjvkz_BllddiTnmsBxXNIrO/preview" 
@@ -619,20 +613,20 @@
                                 allowfullscreen>
                             </iframe>
                         </div>
-                        <li><strong>Volumen de fluido</strong>: Despejar el radio (<code>r</code>) en la fórmula <code>V = π * r² * h</code>.</li>
-                        <li><strong>Gradiente de presión</strong>: Despejar la densidad (<code>ρ</code>) en la fórmula <code>GP = ρ * g</code>.</li>
+                        <li><strong>{{ __('Fluid volume') }}</strong>: {{ __('Isolate radius (r) in the formula V = π * r² * h.') }}</li>
+                        <li><strong>{{ __('Pressure gradient') }}</strong>: {{ __('Isolate density (ρ) in the formula GP = ρ * g.') }}</li>
                     </ul>
                 </div>
 
                 <div class="math-drilling-section">
-                    <h3 class="math-drilling-subtitle">Uso en el control de pozos</h3>
+                    <h3 class="math-drilling-subtitle">{{ __('Use in well control') }}</h3>
                     <p class="math-drilling-text">
-                        En el control de pozos, los despejes se utilizan para calcular variables críticas como la presión, el volumen de fluidos y la profundidad. Estas operaciones son esenciales para garantizar la seguridad y eficiencia en las operaciones de perforación.
+                        {{ __('In well control, variable isolation is used to calculate critical variables such as pressure, fluid volume and depth. These operations are essential to ensure safety and efficiency in drilling operations.') }}
                     </p>
                 </div>
 
                 <p class="math-drilling-text">
-                    Para una explicación más detallada, consulta el siguiente video:
+                    {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
                 <div  class="math-drilling-video">
                     <iframe 
@@ -647,24 +641,24 @@
 
             <div id="redondeo" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Redondeo de resultados</h1>
+                    <h1 class="math-drilling-title">{{ __('Result rounding') }}</h1>
                     <button id="voiceButtonRounding" class="voice-button" onclick="toggleSpeakText('audioRounding')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioRounding" src="{{ $audioRoundingPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <p class="math-drilling-text">
-                    Esta sección establece la forma en la que debemos redondear los resultados para obtener un resultado correcto.
+                    {{ __('This section establishes how we should round results to obtain a correct result.') }}
                     </p>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Libro de reglas de redondeo en el curso de control de pozos - IADC</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IADC') }}</h2>
                 </div>
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/a95df69293.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
                 <p class="math-drilling-text">
-                    Para una explicación más detallada sobre las unidades de medida en el control de pozos, consulta el siguiente video:
+                    {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
                 <div  class="math-drilling-video">
                     <iframe 
@@ -677,22 +671,22 @@
                 </div>
                 
             </div>
-            
+
             <div id="formulas" class="content-section scrollable-content">
                 <div class="content-title-voice">
-                    <h1 class="math-drilling-title">Fórmulas</h1>
+                    <h1 class="math-drilling-title">{{ __('Formulas') }}</h1>
                     <button id="voiceButtonFormula" class="voice-button" onclick="toggleSpeakText('audioFormula')">
                         <span class="material-icons">volume_up</span> 
-                        <span>Escuchar</span>
+                        <span>{{ __('Listen') }}</span>
                     </button>
                     <audio id="audioFormula" src="{{ $audioFormulaPath }}"></audio>
                 </div>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IWCF</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IWCF well control course') }}</h2>
                 </div>
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/55f1a0f37b.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Libro de fórmulas para el curso de control de pozos IADC</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IADC well control course') }}</h2>
                 </div>
                 <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/7586ad21ae.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
             </div>
@@ -1427,165 +1421,165 @@
                 });
             });
         
-            // loadSecureVideo('BbqXKcUUT44');
+        loadSecureVideo('BbqXKcUUT44');
         
         // Bloquear clic derecho en todo el contenedor
-        // document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
-        //     e.preventDefault();
-        //     return false;
-        // });
+        document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
         
         // Bloquear también clic derecho específicamente en el iframe
-        // document.addEventListener('DOMNodeInserted', function(e) {
-        //     if (e.target.id === 'youtube-frame') {
-        //         e.target.addEventListener('contextmenu', function(event) {
-        //             event.preventDefault();
-        //             return false;
-        //         });
-        //     }
-        // });
+        document.addEventListener('DOMNodeInserted', function(e) {
+            if (e.target.id === 'youtube-frame') {
+                e.target.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                    return false;
+                });
+            }
+        });
         
         // Carga el video de manera segura
-        // function loadSecureVideo(videoId) {
-        //     const container = document.getElementById('video-frame-container');
+        function loadSecureVideo(videoId) {
+            const container = document.getElementById('video-frame-container');
             
-        //     // Crear el iframe con todos los parámetros de seguridad
-        //     container.innerHTML = `
-        //         <iframe 
-        //         id="youtube-frame"
-        //         width="100%" 
-        //         height="100%" 
-        //         src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
-        //         frameborder="0" 
-        //         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        //         allowfullscreen>
-        //         </iframe>
-        //     `;
+            // Crear el iframe con todos los parámetros de seguridad
+            container.innerHTML = `
+                <iframe 
+                id="youtube-frame"
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+                </iframe>
+            `;
             
-        //     // Inicializar el reproductor de YouTube
-        //     let player;
+            // Inicializar el reproductor de YouTube
+            let player;
             
-        //     // Cargar la API de YouTube
-        //     const tag = document.createElement('script');
-        //     tag.src = "https://www.youtube.com/iframe_api";
-        //     const firstScriptTag = document.getElementsByTagName('script')[0];
-        //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            // Cargar la API de YouTube
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             
-        //     // Esta función será llamada cuando la API esté lista
-        //     window.onYouTubeIframeAPIReady = function() {
-        //         player = new YT.Player('youtube-frame', {
-        //             events: {
-        //                 'onReady': onPlayerReady,
-        //                 'onStateChange': onPlayerStateChange
-        //             }
-        //         });
-        //     };
+            // Esta función será llamada cuando la API esté lista
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('youtube-frame', {
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            };
             
-        //     // Cuando el reproductor esté listo
-        //     function onPlayerReady(event) {
-        //         // Configurar controles personalizados
-        //         setupCustomControls(player);
+            // Cuando el reproductor esté listo
+            function onPlayerReady(event) {
+                // Configurar controles personalizados
+                setupCustomControls(player);
                 
-        //         // Configurar bloqueo de clic derecho en el iframe
-        //         const iframe = document.getElementById('youtube-frame');
-        //         if (iframe) {
-        //             // Intento adicional de bloqueo de clic derecho en el iframe
-        //             try {
-        //                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        //                 iframeDocument.addEventListener('contextmenu', function(e) {
-        //                     e.preventDefault();
-        //                     return false;
-        //                 });
-        //             } catch (e) {
-        //                 // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
-        //                 console.log("No se puede acceder directamente al documento del iframe");
-        //             }
-        //         }
-        //     }
+                // Configurar bloqueo de clic derecho en el iframe
+                const iframe = document.getElementById('youtube-frame');
+                if (iframe) {
+                    // Intento adicional de bloqueo de clic derecho en el iframe
+                    try {
+                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                        iframeDocument.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            return false;
+                        });
+                    } catch (e) {
+                        // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
+                        console.log("No se puede acceder directamente al documento del iframe");
+                    }
+                }
+            }
             
-        //     // Cuando cambie el estado del reproductor
-        //     function onPlayerStateChange(event) {
-        //         // Actualizar estado de los controles personalizados
-        //         updateCustomControls(event.data);
-        //     }
-        // }
+            // Cuando cambie el estado del reproductor
+            function onPlayerStateChange(event) {
+                // Actualizar estado de los controles personalizados
+                updateCustomControls(event.data);
+            }
+        }
         
         // Configurar los controles personalizados
-        // function setupCustomControls(player) {
-        //     const playPauseBtn = document.getElementById('play-pause-btn');
-        //     const progressBar = document.getElementById('progress-bar');
-        //     const progress = document.getElementById('progress');
-        //     const volumeBtn = document.getElementById('volume-btn');
+        function setupCustomControls(player) {
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progress = document.getElementById('progress');
+            const volumeBtn = document.getElementById('volume-btn');
             
-        //     // Botón de reproducción/pausa
-        //     playPauseBtn.addEventListener('click', function() {
-        //         const state = player.getPlayerState();
-        //         if (state === 1) { // reproduciendo
-        //             player.pauseVideo();
-        //             playPauseBtn.textContent = '▶';
-        //         } else {
-        //             player.playVideo();
-        //             playPauseBtn.textContent = '⏸';
-        //         }
-        //     });
+            // Botón de reproducción/pausa
+            playPauseBtn.addEventListener('click', function() {
+                const state = player.getPlayerState();
+                if (state === 1) { // reproduciendo
+                    player.pauseVideo();
+                    playPauseBtn.textContent = '▶';
+                } else {
+                    player.playVideo();
+                    playPauseBtn.textContent = '⏸';
+                }
+            });
             
-        //     // Control de volumen
-        //     volumeBtn.addEventListener('click', function() {
-        //         if (player.isMuted()) {
-        //             player.unMute();
-        //             volumeBtn.textContent = '🔊';
-        //         } else {
-        //             player.mute();
-        //             volumeBtn.textContent = '🔇';
-        //         }
-        //     });
+            // Control de volumen
+            volumeBtn.addEventListener('click', function() {
+                if (player.isMuted()) {
+                    player.unMute();
+                    volumeBtn.textContent = '🔊';
+                } else {
+                    player.mute();
+                    volumeBtn.textContent = '🔇';
+                }
+            });
             
-        //     // Barra de progreso
-        //     progressBar.addEventListener('click', function(e) {
-        //         const percent = (e.offsetX / progressBar.offsetWidth);
-        //         player.seekTo(player.getDuration() * percent);
-        //     });
+            // Barra de progreso
+            progressBar.addEventListener('click', function(e) {
+                const percent = (e.offsetX / progressBar.offsetWidth);
+                player.seekTo(player.getDuration() * percent);
+            });
             
-        //     // Actualizar la barra de progreso
-        //     setInterval(function() {
-        //         if (player && typeof player.getCurrentTime === 'function') {
-        //             const currentTime = player.getCurrentTime();
-        //             const duration = player.getDuration();
-        //             const percentage = (currentTime / duration) * 100;
-        //             progress.style.width = percentage + '%';
-        //         }
-        //     }, 1000);
+            // Actualizar la barra de progreso
+            setInterval(function() {
+                if (player && typeof player.getCurrentTime === 'function') {
+                    const currentTime = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    const percentage = (currentTime / duration) * 100;
+                    progress.style.width = percentage + '%';
+                }
+            }, 1000);
             
-        //     // Configuración adicional para el bloqueador de clic derecho
-        //     const rightClickBlocker = document.getElementById('right-click-blocker');
+            // Configuración adicional para el bloqueador de clic derecho
+            const rightClickBlocker = document.getElementById('right-click-blocker');
             
-        //     // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
-        //     rightClickBlocker.addEventListener('contextmenu', function(e) {
-        //         e.preventDefault();
-        //         return false;
-        //     });
+            // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
+            rightClickBlocker.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
             
-        //     // Permitir que los clics normales pasen a través
-        //     rightClickBlocker.addEventListener('mousedown', function(e) {
-        //         if (e.button === 2) { // 2 es clic derecho
-        //             e.preventDefault();
-        //             e.stopPropagation();
-        //             return false;
-        //         }
-        //         // Los demás tipos de clic pasan a través
-        //     });
-        // }
+            // Permitir que los clics normales pasen a través
+            rightClickBlocker.addEventListener('mousedown', function(e) {
+                if (e.button === 2) { // 2 es clic derecho
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                // Los demás tipos de clic pasan a través
+            });
+        }
         
         // Actualizar estado de los controles personalizados
-        // function updateCustomControls(playerState) {
-        //     const playPauseBtn = document.getElementById('play-pause-btn');
+        function updateCustomControls(playerState) {
+            const playPauseBtn = document.getElementById('play-pause-btn');
             
-        //     if (playerState === 1) { // reproduciendo
-        //         playPauseBtn.textContent = '⏸';
-        //     } else {
-        //         playPauseBtn.textContent = '▶';
-        //     }
-        // }
+            if (playerState === 1) { // reproduciendo
+                playPauseBtn.textContent = '⏸';
+            } else {
+                playPauseBtn.textContent = '▶';
+            }
+        }
                 // Obtener el modal y sus elementos
             const modal = document.getElementById("exampleModalCenter");
             const modalTitle = document.getElementById("exampleModalLongTitle");

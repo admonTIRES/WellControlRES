@@ -179,7 +179,7 @@
     "Click here to reset your password:": "Haga clic aquí para restaurar su contraseña:",
     "Click to choose": "Haga click para elegir",
     "Close": "Cerrar",
-    "coaching": "entrenamiento",
+    "coaching": "experiencia de aprendizaje",
     "Cocos (Keeling) Islands": "Islas Cocos (Keeling)",
     "Code": "Código",
     "Colombia": "Colombia",
@@ -1300,8 +1300,17 @@
         "This section establishes how we should round results to obtain a correct result.": "Esta sección establece la forma en la que debemos redondear los resultados para obtener un resultado correcto.",
         "Rounding rules book in the well control course - IADC": "Libro de reglas de redondeo en el curso de control de pozos - IADC",
         "Formulas book for the IWCF well control course": "Libro de fórmulas para el curso de control de pozos IWCF",
-        "Formulas book for the IADC well control course": "Libro de fórmulas para el curso de control de pozos IADC"
-    
-
-    
+        "Formulas book for the IADC well control course": "Libro de fórmulas para el curso de control de pozos IADC",
+        "Accrediting Entity": "Ente acreditador",
+        "Description": "Descripción",
+        "Accreditation Level": "Nivel de acreditación",
+        "BOP Type": "Tipo de BOP",
+        "Abbreviation": "Abreviatura",
+        "Question Topic": "Tema para preguntas",
+        "Topic": "Tema",
+        "Certification": "Certificación",
+        "Exam Language": "Idioma para exámenes",
+        "Language": "Idioma",
+        "Memberships": "Membresías"
+  
 }

@@ -37,7 +37,7 @@
             </a>
             <div class="dropdown-menu">
                 <a href="#" id="profile">Perfil</a>
-                <a href="#" id="config">Ajustes</a>
+                <a href="#" id="ajust">Ajustes</a>
                 <a href="#" id="logout" class="menu-item">Cerrar Sesión</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

@@ -32,12 +32,12 @@
         </a> -->
         <!-- Menú desplegable -->
         <div class="nav-item dropdown-menu-container no-tooltip">
-            <a href="{{ route('home') }}" class="nav-item no-tooltip" data-title="Menú">
+            <a href="#"  id="menu" class="nav-item no-tooltip" data-title="Menú">
                 <img src="/assets/images/principal/menu_icon.png" alt="Menú" class="nav-logout-icon">
             </a>
             <div class="dropdown-menu">
-                <a href="/perfil">Perfil</a>
-                <a href="/ajustes">Ajustes</a>
+                <a href="#" id="profile">Perfil</a>
+                <a href="#" id="config">Ajustes</a>
                 <a href="#" id="logout" class="menu-item">Cerrar Sesión</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

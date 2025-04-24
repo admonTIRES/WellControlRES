@@ -82,5 +82,5 @@ use Illuminate\Support\Str;
     @if(request()->is('Calculator'))
         <script src="{{ asset('js/Calculator.js') }}"></script>
     @endif
-    <script src="{{ asset('js/Principal/Principal.js') }}"></script>
+    <script src="{{ asset('js/Principal/Principal.js') }}?v=1.0"></script>
 </html>

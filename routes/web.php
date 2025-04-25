@@ -54,8 +54,9 @@ Route::get('/asignaments', [adminController::class, 'asignaments'])->name('asign
 Route::get('/exercises', [adminController::class, 'exercises'])->name('exercises'); 
 Route::get('/math', [adminController::class, 'math'])->name('math'); 
 Route::get('/killsheets', [adminController::class, 'killsheets'])->name('killsheets');  
-
+// ----------------------------CATALOGS--------------------------------------- //
 Route::get('/catalogs', [adminController::class, 'catalogs'])->name('catalogs');  
+Route::post('/enteSave', [adminController::class, 'store']);
 
 Route::get('/users', [adminController::class, 'users'])->name('users');   
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');   

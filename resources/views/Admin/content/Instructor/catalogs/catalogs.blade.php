@@ -875,22 +875,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="entesForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Accrediting Entity') }}</label>
-                                    <input type="text" class="form-control" id="enteInput">
+                                    <input type="text" class="form-control" id="enteInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionEnteInput">
+                                    <input type="text" class="form-control" id="descripcionEnteInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="entesbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -904,22 +904,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="nivelForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Accreditation Level') }}</label>
-                                    <input type="text" class="form-control" id="nivelInput">
+                                    <input type="text" class="form-control" id="nivelInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionNivelInput">
+                                    <input type="text" class="form-control" id="descripcionNivelInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="nivelbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -933,22 +933,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="tipobopForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Abbreviation') }}</label>
-                                    <input type="text" class="form-control" id="abreviaturaInput">
+                                    <input type="text" class="form-control" id="abreviaturaInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionBopInput">
+                                    <input type="text" class="form-control" id="descripcionBopInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="tipobopbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -962,22 +962,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="temasForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Topic') }}</label>
-                                    <input type="text" class="form-control" id="temaInput">
+                                    <input type="text" class="form-control" id="temaInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Certification') }}</label>
-                                    <input type="text" class="form-control" id="certificacionInput">
+                                    <input type="text" class="form-control" id="certificacionInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="temabtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -991,22 +991,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="idiomaForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Language') }}</label>
-                                    <input type="text" class="form-control" id="idiomaInput">
+                                    <input type="text" class="form-control" id="idiomaInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionIdiomaInput">
+                                    <input type="text" class="form-control" id="descripcionIdiomaInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="idiomabtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -1020,26 +1020,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="membresiasForm" action="#">
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="nombreMembresiaInput">
+                                    <input type="text" class="form-control" id="nombreMembresiaInput" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionMembresiaInput">
+                                    <input type="text" class="form-control" id="descripcionMembresiaInput" required>
                                 </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="membresiasbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
     </div>
-  
+ 
 </main>
 @endsection

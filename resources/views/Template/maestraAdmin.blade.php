@@ -15,6 +15,8 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}">
     <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body class="  ">
@@ -351,7 +353,6 @@ use Illuminate\Support\Str;
     <!-- mapchart JavaScript -->
     <script src="../assets/js/charts/vectore-chart.js"></script>
     <script src="../assets/js/charts/dashboard.js"></script>
-    <script src="../js/Admin/admin.js"></script>
 
     <!-- fslightbox JavaScript -->
     <script src="../assets/js/fslightbox.js"></script>
@@ -361,8 +362,15 @@ use Illuminate\Support\Str;
     <script src="../assets/js/form-wizard.js"></script>
     <!-- app JavaScript -->
     <script src="../assets/js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="../js/Admin/admin.js"></script>
+    @if(request()->is('catalogs'))
+    <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.0"></script>
+    @endif
+    
 
 </body>
 

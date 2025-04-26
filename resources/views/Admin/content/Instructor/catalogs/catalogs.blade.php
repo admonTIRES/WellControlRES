@@ -282,58 +282,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
-                                                        <tr class="ligth">
-                                                            <th>Ente</th>
-                                                            <th>Descripción</th>
-                                                            <th style="min-width: 100px">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>IADC</td>
-                                                            <td>Asociación Internacional de Contratistas de Perforación</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>IWCF</td>
-                                                            <td>International Well Control Forum</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch2" checked>
-                                                                        <label class="form-check-label" for="statusSwitch2">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
+                                                <table id="entes-list-table" class="table table-striped" role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -347,8 +296,8 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
+                                                <table id="nivelacreditacion-list-table" class="table table-striped" role="grid">
+                                                    <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Nivel</th>
                                                             <th>Descripción</th>
@@ -461,7 +410,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -475,8 +424,8 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
+                                                <table id="tiposbop-list-table" class="table table-striped" role="grid" >
+                                                    <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Abreviatura</th>
                                                             <th>Descripción</th>
@@ -526,7 +475,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -540,8 +489,8 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
+                                                <table id="temas-list-table" class="table table-striped" role="grid" >
+                                                    <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Name</th>
                                                             <th>Tema</th>
@@ -660,7 +609,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -674,8 +623,8 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
+                                                <table id="idiomas-list-table" class="table table-striped" role="grid">
+                                                    <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Lang</th>
                                                             <th>Descripción</th>
@@ -704,7 +653,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -718,8 +667,8 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                                    <thead>
+                                                <table id="membresias-list-table" class="table table-striped" role="grid">
+                                                    <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Name</th>
                                                             <th>Tipo</th>
@@ -838,7 +787,7 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    </tbody>
+                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -875,15 +824,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="entesForm" action="#">
+                    <form id="entesForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Accrediting Entity') }}</label>
-                                    <input type="text" class="form-control" id="enteInput" required>
+                                    <input type="text" class="form-control" name="NOMBRE_ENTE" id="NOMBRE_ENTE" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionEnteInput" required>
+                                    <input type="text" class="form-control"  name="DESCRIPCION_ENTE" id="DESCRIPCION_ENTE" required>
                                 </div>
                         </div>
                     </form>
@@ -904,15 +854,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="nivelForm" action="#">
+                    <form id="nivelForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Accreditation Level') }}</label>
-                                    <input type="text" class="form-control" id="nivelInput" required>
+                                    <input type="text" class="form-control" name="NOMBRE_NIVEL" id="NOMBRE_NIVEL" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionNivelInput" required>
+                                    <input type="text" class="form-control" name="DESCRIPCION_NIVEL" id="DESCRIPCION_NIVEL" required>
                                 </div>
                         </div>
                     </form>
@@ -933,15 +884,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="tipobopForm" action="#">
+                    <form id="tipobopForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Abbreviation') }}</label>
-                                    <input type="text" class="form-control" id="abreviaturaInput" required>
+                                    <input type="text" class="form-control" name="ABREVIATURA" id="ABREVIATURA" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionBopInput" required>
+                                    <input type="text" class="form-control" name="DESCRIPCION_TIPOBOP" id="DESCRIPCION_TIPOBOP" required>
                                 </div>
                         </div>
                     </form>
@@ -962,15 +914,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="temasForm" action="#">
+                    <form id="temasForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Topic') }}</label>
-                                    <input type="text" class="form-control" id="temaInput" required>
+                                    <input type="text" class="form-control" name="NOMBRE_TEMA" id="NOMBRE_TEMA" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Certification') }}</label>
-                                    <input type="text" class="form-control" id="certificacionInput" required>
+                                    <input type="text" class="form-control" name="CERTIFICACION_TEMA" id="CERTIFICACION_TEMA" required>
                                 </div>
                         </div>
                     </form>
@@ -991,15 +944,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="idiomaForm" action="#">
+                    <form id="idiomaForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Language') }}</label>
-                                    <input type="text" class="form-control" id="idiomaInput" required>
+                                    <input type="text" class="form-control" name="NOMBRE_IDIOMA" id="NOMBRE_IDIOMA" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionIdiomaInput" required>
+                                    <input type="text" class="form-control" name="DESCRIPCION_IDIOMAS" id="DESCRIPCION_IDIOMAS" required>
                                 </div>
                         </div>
                     </form>
@@ -1020,15 +974,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="membresiasForm" action="#">
+                    <form id="membresiasForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Name') }}</label>
-                                    <input type="text" class="form-control" id="nombreMembresiaInput" required>
+                                    <input type="text" class="form-control" name="NOMBRE_MEMBRESIA" id="NOMBRE_MEMBRESIA" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Description') }}</label>
-                                    <input type="text" class="form-control" id="descripcionMembresiaInput" required>
+                                    <input type="text" class="form-control" name="DESCRIPCION_MEMBRESIA" id="DESCRIPCION_MEMBRESIA" required>
                                 </div>
                         </div>
                     </form>

@@ -18,6 +18,9 @@ use App\Http\Controllers\Killsheet\killsheetController;
 // ADMIN
 use App\Http\Controllers\Admin\adminController;
 
+// CATALOGS
+use App\Http\Controllers\Admin\Catalogs\CatalogsController;
+
 //---------------------------               ALL              -------------------------------//
 //----------------------------LANGUAGE-------------------------------//
 Route::get('lang/{lang}', [languageController::class, 'switchLang'])->name('switch.lang');
@@ -56,7 +59,31 @@ Route::get('/math', [adminController::class, 'math'])->name('math');
 Route::get('/killsheets', [adminController::class, 'killsheets'])->name('killsheets');  
 // ----------------------------CATALOGS--------------------------------------- //
 Route::get('/catalogs', [adminController::class, 'catalogs'])->name('catalogs');  
-Route::post('/enteSave', [adminController::class, 'store']);
+Route::post('/enteSave', [CatalogsController::class, 'store']);
+Route::get('/enteActive', [CatalogsController::class, 'store']);
+Route::get('/entesDatatable', [ CatalogsController::class, 'entesDatatable']);
+
+Route::get('/nivelesDatatable', [ CatalogsController::class, 'nivelesDatatable']);
+Route::post('/nivelSave', [CatalogsController::class, 'store']);
+Route::get('/nivelActive', [CatalogsController::class, 'store']);
+
+Route::get('/tiposbopDatatable', [ CatalogsController::class, 'tiposbopDatatable']);
+Route::post('/tipobopSave', [CatalogsController::class, 'store']);
+Route::get('/tipobopActive', [CatalogsController::class, 'store']);
+
+Route::get('/temasDatatable', [ CatalogsController::class, 'temasDatatable']);
+Route::post('/temaSave', [CatalogsController::class, 'store']);
+Route::get('/temaActive', [CatalogsController::class, 'store']);
+
+Route::get('/idiomasDatatable', [ CatalogsController::class, 'idiomasDatatable']);
+Route::post('/idiomaSave', [CatalogsController::class, 'store']);
+Route::get('/idiomaActive', [CatalogsController::class, 'store']);
+
+Route::get('/membresiasDatatable', [ CatalogsController::class, 'membresiasDatatable']);
+Route::post('/membresiaSave', [CatalogsController::class, 'store']);
+Route::get('/membresiaActive', [CatalogsController::class, 'store']);
+
+
 
 Route::get('/users', [adminController::class, 'users'])->name('users');   
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');   

@@ -21,8 +21,8 @@ document.getElementById("logout").addEventListener('click', function(event) {
 
 function loaderbtn(btn) {
     return new Promise(function (resolve, reject) { 
-        $('#' + btn).html('Guardando... <img src="/assets/images/loaderbtn.gif" alt="" style="max-width: 100%; max-height: 40px;">').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
-        if ($('#' + btn +' img').length > 0) {
+        $('#' + btn).html('Guardando...').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
+        if ($('#' + btn).length > 0) {
             resolve(1)                    
         } else {
             loaderbtn(btn)  
@@ -47,7 +47,7 @@ const Toast = Swal.mixin({
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
-  });
+});
 
 function alertToast(msj = 'No ha seleccionado ningún registro', icon = 'error', timer = 3000) {
     Toast.fire({
@@ -167,6 +167,224 @@ function validarFormulario(form) {
     return formularioValido;
 }
 
+function eliminarDatoTabla(data, arregloTable, url) {
+  var accion = data.ACTIVAR == 1 ? 'desactivar' : 'activar'; 
+  var accion1 = data.ACTIVAR == 1 ? 'desactivado' : 'activado'; 
+
+  
+  alertMensajeConfirm({
+      title: "Confirme para " + accion + " este registro",
+      text: "Esta acción cambiará el estado del registro",
+      icon: "warning",
+  }, function () { 
+      $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url, 
+          data: data,
+          cache: false,
+          success:function(dato) {
+              for (var i = 0; i < arregloTable.length; i++) {
+                  arregloTable[i].ajax.reload();
+              }
+
+              setTimeout(() => {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Registro ' + accion1,
+                      text: 'La acción fue realizada exitosamente',
+                      timer: 2000,
+                      timerProgressBar: true
+                  });
+              }, 1000);
+          },
+          error: function(dato) {
+              return false;
+          }
+      });
+  }, 1);
+}
+
+function ifnull(data, siNull = '', values =
+  [
+    'option1',
+    {
+      'option2': [
+        'suboption1',
+        {
+          'suboption2': ['valor']
+        }
+      ],
+      'option3': 'suboption1'
+    },
+    'option4',
+  ], callback = (bool) => { return bool }) {
+
+  values = ((typeof values === 'object' && !Array.isArray(values)) || (typeof values === 'string'))
+    ? [values]
+    : values;
+
+  // Comprobar si el dato es nulo o no es un objeto
+  if (!data || typeof data !== 'object') {
+    if (data === undefined || data === null || data === 'NaN' || data === '' || data === NaN) {
+      switch (siNull) {
+        case 'number': return callback(0)
+        case 'boolean': return callback(data ? true : false)
+        default: return callback(siNull)
+      }
+    } else {
+
+      let data_modificado = escapeHtmlEntities(`${data}`);
+
+      switch (siNull) {
+        case 'number':
+          // No hará modificaciones
+          break;
+        case 'boolean': return callback(ifnull(data, false) ? true : false)
+        default:
+          //Agregará las modificaciones nuevas
+          data = data_modificado
+          break;
+      }
+
+      return callback(data)
+    }
+  }
+  // Iterar a través de las claves en values
+  for (const key of values) {
+    if (typeof key === 'string' && key in data) {
+      return callback(data[key] || siNull)
+    } else if (typeof key === 'object') {
+      for (const nestedKey in key) {
+        const result = ifnull(data[nestedKey], siNull, key[nestedKey]);
+        if (result) return callback(ifnull(result, siNull))
+      }
+    }
+  }
+
+  return callback(siNull)
+}
+
+function mensajeAjax(data, modulo = null) {
+  if (modulo != null) {
+    text = ' No pudimos cargar'
+  }
+
+  try {
+    switch (data['code']) {
+      case 1:
+        return 1;
+        break;
+      case 2:
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '¡Ha ocurrido un error!',
+          footer: 'Respuesta: ' + data['response']['msj']
+        });
+        break;
+      case "repetido":
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '¡Usted ya está registrado!',
+          footer: 'Utilice su CURP para registrarse en una nueva prueba'
+        });
+        break;
+      case "login":
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Respuesta: ' + data['response']['msj']
+        });
+        break;
+      case "Token": case "Usernovalid":
+        alertMensajeConfirm({
+          title: "¡Sesión no valida!",
+          text: "El token de su sesión ha caducado, vuelva iniciar sesión",
+          footer: "Redireccionando pantalla...",
+          icon: "info",
+          confirmButtonColor: "#d33",
+          confirmButtonText: "Aceptar",
+          cancelButtonText: false,
+          allowOutsideClick: false,
+          timer: 4000,
+          timerProgressBar: true,
+        }, function () {
+          destroySession();
+          window.location.replace(http + servidor + "/" + appname + "/vista/login/");
+        });
+        break;
+      case "turnero":
+        alertMensajeConfirm({
+          title: "Oops",
+          text: `${data['response']['msj']}`,
+          footer: "Tal vez deberías intentarlo nuevamente",
+          icon: "warning",
+        });
+        break;
+        case 0:
+          // Caso específico para la postulación a una vacante
+          if (data.msj === 'Ya te has postulado a esta vacante') {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Ya estás postulado a esta vacante',
+              text: 'Nos pondremos en contacto contigo pronto.',
+              confirmButtonText: 'Entendido'
+            });
+          } else {
+            // Manejo general de otros posibles errores con code 0
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: data.msj || 'Hubo un problema!',
+              footer: 'Por favor, reporta este problema...'
+            });
+          }
+          break;
+      
+      
+      default:
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Hubo un problema!',
+          footer: 'No sabemos qué pasó, reporta este problema...'
+        });
+    }
+  } catch (error) {
+    alertMensaje('warning', 'Error:', 'No se pudo resolver un conflicto interno con la validación, si el problema persiste reporte al encargado de área de esto.', '[Error: api no valida, "response: {code: XXXX}", no existe]');
+    return 0;
+  }
+  return 0;
+}
+
+function alertMensaje(icon = 'success', title = '¡Completado!', text = 'Datos completados', footer = null, html = null, timer = null) {
+  Swal.fire({
+    icon: icon,
+    title: title,
+    text: text,
+    html: html,
+    footer: footer,
+    timer: timer
+    // width: 'auto',
+  })
+}
+
+function alertMensaje1(icon = 'success', title = '¡Completado!', text = 'Datos completados', footer = null, html = null, timer = null) {
+  Swal.fire({
+    icon: icon,
+    title: title,
+    text: text,
+    html: html,
+    footer: footer,
+    timer: timer,
+    showConfirmButton: false,  // No muestra el botón "OK"
+    timerProgressBar: true,    // Muestra una barra de progreso
+    
+  });
+}
+
 
 function configAjaxAwait(config) {
     //valores por defecto de la funcion ajaxAwait y ajaxAwaitFormData
@@ -188,8 +406,24 @@ function configAjaxAwait(config) {
     return config;
 }
 
-//Ajax Async FormData
+function alertErrorAJAX(jqXHR, exception, data) {
+  var msg = '';
+  switch (jqXHR.status) {
+    case 0:
+      if (exception != 'abort') {
+        alertToast('Sin conexión a internet', 'warning'); return 0
+      };
+    case 404:
+    case 500: alertToast('Internal Server Error', 'info'); return 0;
+  }
+  switch (exception) {
+    case 'parsererror': alertMensaje('info', 'Error del servidor', 'Algo ha pasado, estamos trabajando para resolverlo', 'Mensaje de error: ' + data); return 0
+    case 'timeout': 
+    case 'abort': return 0
+  }
+}
 
+//Ajax Async FormData
 async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyForm'  /* <-- Formulario sin # */, btn = 'OnlyBtn',
     config = {
         alertBefore: false
@@ -264,4 +498,91 @@ async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyFor
             },
         })
     });
+}
+
+function editarDatoTabla( data, form = 'OnlyForm', modalID = 'ModalID', formComplete = 0) {
+  
+$('#'+ form).each(function(){
+    this.reset();
+});
+
+if (formComplete == 0) {
+for (var key in data) {
+  if (data.hasOwnProperty(key)) {
+    if (!key.startsWith("btn") && key !== "created_at" && key !== "updated_at") {
+          
+      var input = $('#' + form).find(`input[name='${key}']`);
+      if (input.length) {
+        input.val(data[key]);
+      } else {
+        $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+      }
+    }
+  }
+}
+
+$('#' + modalID).modal('show');
+
+} else {
+  
+for (var key in data) {
+if (data.hasOwnProperty(key)) {
+
+
+  if (!key.startsWith("BTN") && key !== "created_at" && key !== "updated_at") {
+        
+    var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number']`);
+    var email = $('#' + form).find(`input[name='${key}'][type='email']`);
+    var date = $('#' + form).find(`input[name='${key}'][type='date']`);
+    var time = $('#' + form).find(`input[name='${key}'][type='time']`);
+    var textarea = $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+    var select = $('#' + form).find(`select[name='${key}']`).val(data[key]);
+    var hidden = $('#' + form).find(`input[name='${key}'][type='hidden']`);
+
+    
+    if (input.length) {
+      input.val(data[key]);
+      
+    } else if (textarea.length) {
+      textarea.val(data[key]);
+      
+    }
+    else if (email.length) {
+      email.val(data[key]);
+      
+    } else if (select.length) {
+
+      select.val(data[key])
+
+    }  else if (date.length) {
+
+      date.val(data[key])
+
+    }else if (time.length) {
+
+      time.val(data[key])
+
+    }else if (hidden.length) {
+
+      hidden.val(data[key])
+
+    } else {
+
+      $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='radio']`).prop('checked', true)
+              
+      $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='checkbox']`).prop('checked', true)
+    }
+    
+  }
+}
+}
+
+
+//Abrimos el modal
+$('#' + modalID).modal('show');
+  
+}
+
+  
+
 }

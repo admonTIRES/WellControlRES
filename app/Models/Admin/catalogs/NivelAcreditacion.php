@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class NivelAcreditacion extends Model
 {
     protected $table = 'nivel_acreditacion';
+    protected $primaryKey = 'ID_CATALOGO_NIVELACREDITACION';
     protected $fillable = [
-        'nivel', 
-        'descripcion', 
-        'activo'
+        'NOMBRE_NIVEL', 
+        'DESCRIPCION_NIVEL', 
+        'ACTIVO_NIVEL'
     ];
 }

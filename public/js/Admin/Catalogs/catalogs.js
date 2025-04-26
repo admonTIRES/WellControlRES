@@ -9,94 +9,401 @@ ID_CATALOGO_MEMBRESIA = 0
 
 
 
-// RESET MODALS
+
 $(document).ready(function() {
-    // Modal de Entes Acreditadores
+    // RESET MODALS
     $('#entesModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_ENTE = 0;
         $('#entesForm')[0].reset();
         $('#entesModal .modal-title').text('Nuevo ente acreditador');
     });
 
-    // Modal de Niveles de Acreditación
     $('#nivelModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_NIVELACREDITACION = 0;
         $('#nivelForm')[0].reset();
         $('#nivelModal .modal-title').text('Nuevo nivel de acreditacion');
     });
 
-    // Modal de Tipos de BOP
     $('#tipobopModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_TIPOBOP = 0;
         $('#tipobopForm')[0].reset();
         $('#tipobopModal .modal-title').text('Nuevo tipo de BOP');
     });
 
-    // Modal de Temas
     $('#temaModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_TEMAPREGUNTA = 0;
         $('#temasForm')[0].reset();
         $('#temaModal .modal-title').text('Nuevo tema');
     });
 
-    // Modal de Idiomas para Examen
     $('#idiomaModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_IDIOMAEXAMEN = 0;
         $('#idiomaForm')[0].reset();
         $('#idiomaModal .modal-title').text('Nuevo idioma para examen');
     });
 
-    // Modal de Membresías
     $('#membresiasModal').on('hidden.bs.modal', function() {
         ID_CATALOGO_MEMBRESIA = 0;
         $('#membresiasForm')[0].reset();
         $('#membresiasModal .modal-title').text('Nueva membresia');
     });
+    // RESET MODALS - END
+   
 });
+
+ // DATATABLES
+var entesDatatable = $("#entes-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/entesDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            entesDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_ENTE' },
+        { data: 'DESCRIPCION_ENTE' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Ente', className: 'text-center' },
+        { targets: 2, title: 'Descripción', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+    
+});
+var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/nivelesDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            nivelesDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_NIVEL' },
+        { data: 'DESCRIPCION_NIVEL' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Nivel', className: 'text-center' },
+        { targets: 2, title: 'Descripción', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+    
+});
+var tiposbopDatatable = $("#tiposbop-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/tiposbopDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            tiposbopDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'ABREVIATURA' },
+        { data: 'DESCRIPCION_TIPOBOP' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Abreviatura', className: 'text-center' },
+        { targets: 2, title: 'Descripción', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+    
+});
+var temasDatatable = $("#temas-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/temasDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            temasDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_TEMA' },
+        { data: 'CERTIFICACION_TEMA' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Ente', className: 'text-center' },
+        { targets: 2, title: 'Certificación', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+    
+});
+var idiomasDatatable = $("#idiomas-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/idiomasDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            idiomasDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_IDIOMA' },
+        { data: 'DESCRIPCION_IDIOMAS' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Idioma', className: 'text-center' },
+        { targets: 2, title: 'Descripción', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+    
+});
+var membresiasDatatable = $("#membresias-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/membresiasDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            membresiasDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_MEMBRESIA' },
+        { data: 'DESCRIPCION_MEMBRESIA' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Nombre', className: 'text-center' },
+        { targets: 2, title: 'Descripción', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
+});
+
 
 // Guardar catalogos
 $("#entesbtnModal").click(function (e) {
     e.preventDefault();
-
     formularioValido = validarFormulario($('#entesForm'))
-
     if (formularioValido) {
-
     if (ID_CATALOGO_ENTE == 0) {
-        
         alertMensajeConfirm({
             title: "¿Desea guardar la información?",
-            text: "Al guardarla, se podra usar",
+            text: "El ente se agregará al catálogo",
             icon: "question",
         },async function () { 
-
             await loaderbtn('entesbtnModal')
-            await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ENTE: ID_CATALOGO_ENTE }, 'asesorSave', 'entesForm', 'entesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
-        
-               
-
+            await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ENTE: ID_CATALOGO_ENTE }, 'enteSave', 'entesForm', 'entesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                 Swal.fire({
                     icon: 'info',
                     title: 'Espere un momento',
                     text: 'Estamos guardando la información',
                     showConfirmButton: false
                 })
-
                 $('.swal2-popup').addClass('ld ld-breath')
-        
-                
             }, function (data) {
-                    
-
-                    ID_CATALOGO_ASESOR = data.asesor.ID_CATALOGO_ASESOR
-                    alertMensaje('success','Información guardada correctamente', 'Esta información esta lista para usarse',null,null, 1500)
-                     $('#miModal_ASESORES').modal('hide')
-                    document.getElementById('formularioASESOR').reset();
-                    Tablaasesores.ajax.reload()
+                    ID_CATALOGO_ENTE = data.ente.ID_CATALOGO_ENTE
+                    alertMensaje('success','Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
+                     $('#entesModal').modal('hide')
+                    document.getElementById('entesForm').reset();
+                    entesDatatable.ajax.reload()
             })
-            
-            
-            
         }, 1)
         
     } else {
@@ -106,8 +413,8 @@ $("#entesbtnModal").click(function (e) {
             icon: "question",
         },async function () { 
 
-            await loaderbtn('guardarFormASESOR')
-            await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ASESOR: ID_CATALOGO_ASESOR }, 'asesorSave', 'formularioASESOR', 'guardarFormASESOR', { callbackAfter: true, callbackBefore: true }, () => {
+            await loaderbtn('entesbtnModal')
+            await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ENTE: ID_CATALOGO_ENTE }, 'enteSave', 'entesForm', 'entesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
         
                 Swal.fire({
                     icon: 'info',
@@ -124,13 +431,11 @@ $("#entesbtnModal").click(function (e) {
                 setTimeout(() => {
 
                     
-                    ID_CATALOGO_ASESOR = data.asesor.ID_CATALOGO_ASESOR
+                    ID_CATALOGO_ENTE = data.ente.ID_CATALOGO_ENTE
                     alertMensaje('success', 'Información editada correctamente', 'Información guardada')
-                     $('#miModal_ASESORES').modal('hide')
-                    document.getElementById('formularioASESOR').reset();
-                    Tablaasesores.ajax.reload()
-
-
+                     $('#entesModal').modal('hide')
+                    document.getElementById('entesForm').reset();
+                    entesDatatable.ajax.reload()
                 }, 300);  
             })
         }, 1)
@@ -142,3 +447,445 @@ $("#entesbtnModal").click(function (e) {
 }
     
 });
+
+$("#nivelbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#nivelForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_NIVELACREDITACION == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El nivel se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('nivelbtnModal')
+                await ajaxAwaitFormData({ api: 2, ID_CATALOGO_NIVELACREDITACION }, 'enteSave', 'nivelForm', 'nivelbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_NIVELACREDITACION = data.nivel.ID_CATALOGO_NIVELACREDITACION
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse')
+                    $('#nivelModal').modal('hide')
+                    document.getElementById('nivelForm').reset()
+                    nivelesDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('nivelbtnModal')
+                await ajaxAwaitFormData({ api: 2, ID_CATALOGO_NIVELACREDITACION }, 'nivelSave', 'nivelForm', 'nivelbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_NIVELACREDITACION = data.nivel.ID_CATALOGO_NIVELACREDITACION
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#nivelModal').modal('hide')
+                        document.getElementById('nivelForm').reset()
+                        nivelesDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#tipobopbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#tipobopForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_TIPOBOP == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El tipo de BOP se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('tipobopbtnModal')
+                await ajaxAwaitFormData({ api: 3, ID_CATALOGO_TIPOBOP }, 'tipobopSave', 'tipobopForm', 'tipobopbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_TIPOBOP = data.tipobop.ID_CATALOGO_TIPOBOP
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#tipobopModal').modal('hide')
+                    document.getElementById('tipobopForm').reset()
+                    tiposbopDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('tipobopbtnModal')
+                await ajaxAwaitFormData({ api: 3, ID_CATALOGO_TIPOBOP }, 'tipobopSave', 'tipobopForm', 'tipobopbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_TIPOBOP = data.tipobop.ID_CATALOGO_TIPOBOP
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#tipobopModal').modal('hide')
+                        document.getElementById('tipobopForm').reset()
+                        tiposbopDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#temabtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#temasForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_TEMAPREGUNTA == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El tema de pregunta se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('temabtnModal')
+                await ajaxAwaitFormData({ api: 4, ID_CATALOGO_TEMAPREGUNTA }, 'temaSave', 'temasForm', 'temabtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_TEMAPREGUNTA = data.tema.ID_CATALOGO_TEMAPREGUNTA
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#temasModal').modal('hide')
+                    document.getElementById('temasForm').reset()
+                    temasDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('temabtnModal')
+                await ajaxAwaitFormData({ api: 4, ID_CATALOGO_TEMAPREGUNTA }, 'temaSave', 'temasForm', 'temabtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_TEMAPREGUNTA = data.tema.ID_CATALOGO_TEMAPREGUNTA
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#temasModal').modal('hide')
+                        document.getElementById('temasForm').reset()
+                        temasDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#idiomabtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#idiomaForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_IDIOMAEXAMEN == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El idioma del examen se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('idiomabtnModal')
+                await ajaxAwaitFormData({ api: 5, ID_CATALOGO_IDIOMAEXAMEN }, 'idiomaSave', 'idiomaForm', 'idiomabtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_IDIOMAEXAMEN = data.idioma.ID_CATALOGO_IDIOMAEXAMEN
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#idiomasModal').modal('hide')
+                    document.getElementById('idiomaForm').reset()
+                    idiomasDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('idiomabtnModal')
+                await ajaxAwaitFormData({ api: 5, ID_CATALOGO_IDIOMAEXAMEN }, 'idiomaSave', 'idiomaForm', 'idiomabtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_IDIOMAEXAMEN = data.idioma.ID_CATALOGO_IDIOMAEXAMEN
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#idiomasModal').modal('hide')
+                        document.getElementById('idiomaForm').reset()
+                        idiomasDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#membresiasbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#membresiasForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_MEMBRESIA == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "La membresía se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('membresiasbtnModal')
+                await ajaxAwaitFormData({ api: 6, ID_CATALOGO_MEMBRESIA }, 'membresiaSave', 'membresiasForm', 'membresiasbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_MEMBRESIA = data.membresia.ID_CATALOGO_MEMBRESIA
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#membresiasModal').modal('hide')
+                    document.getElementById('membresiasForm').reset()
+                    membresiasDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('membresiasbtnModal')
+                await ajaxAwaitFormData({ api: 6, ID_CATALOGO_MEMBRESIA }, 'membresiaSave', 'membresiasForm', 'membresiasbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_MEMBRESIA = data.membresia.ID_CATALOGO_MEMBRESIA
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#membresiasModal').modal('hide')
+                        document.getElementById('membresiasForm').reset()
+                        membresiasDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+
+
+// activar - desactivar 
+$('#entes-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = entesDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 1,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_ENTE: row.data().ID_CATALOGO_ENTE
+    };
+
+    eliminarDatoTabla(data, [entesDatatable], 'enteActive');
+});
+
+$('#nivelacreditacion-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = nivelesDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 2,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_NIVELACREDITACION: row.data().ID_CATALOGO_NIVELACREDITACION
+    };
+
+    eliminarDatoTabla(data, [nivelesDatatable], 'nivelActive');
+});
+
+$('#tiposbop-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = tiposbopDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 3,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_TIPOBOP: row.data().ID_CATALOGO_TIPOBOP
+    };
+
+    eliminarDatoTabla(data, [tiposbopDatatable], 'tipobopActive');
+});
+
+$('#temas-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = temasDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 4,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_TEMAPREGUNTA: row.data().ID_CATALOGO_TEMAPREGUNTA
+    };
+
+    eliminarDatoTabla(data, [temasDatatable], 'temaActive');
+});
+
+$('#idiomas-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = idiomasDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 5,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_IDIOMAEXAMEN: row.data().ID_CATALOGO_IDIOMAEXAMEN
+    };
+
+    eliminarDatoTabla(data, [idiomasDatatable], 'idiomaActive');
+});
+
+$('#membresias-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = membresiasDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 6,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_MEMBRESIA: row.data().ID_CATALOGO_MEMBRESIA
+    };
+
+    eliminarDatoTabla(data, [membresiasDatatable], 'membresiaActive');
+});
+
+// editar
+$('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = entesDatatable.row(tr);
+    ID_CATALOGO_ENTE = row.data().ID_CATALOGO_ENTE;
+    console.log("entro aqui");
+    editarDatoTabla(row.data(), 'entesForm', 'entesModal',1);
+
+    $('#entesModal .modal-title').html(row.data().NOMBRE_ENTE);
+
+});
+
+$('#nivelacreditacion-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = nivelesDatatable.row(tr);
+    ID_CATALOGO_NIVELACREDITACION = row.data().ID_CATALOGO_NIVELACREDITACION;
+    editarDatoTabla(row.data(), 'nivelForm', 'nivelModal',1);
+    $('#nivelModal .modal-title').html(row.data().NOMBRE_NIVEL);
+});
+
+$('#tiposbop-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = tiposbopDatatable.row(tr);
+    ID_CATALOGO_TIPOBOP = row.data().ID_CATALOGO_TIPOBOP;
+
+    editarDatoTabla(row.data(), 'tipobopForm', 'tipobopModal',1);
+
+    $('#tipobopModal .modal-title').html(row.data().ABREVIATURA);
+
+});
+
+$('#temas-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = temasDatatable.row(tr);
+    ID_CATALOGO_TEMAPREGUNTA = row.data().ID_CATALOGO_TEMAPREGUNTA;
+
+    editarDatoTabla(row.data(), 'temasForm', 'temaModal',1);
+
+    $('#temaModal .modal-title').html(row.data().NOMBRE_TEMA);
+
+});
+
+$('#idiomas-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = idiomasDatatable.row(tr);
+    ID_CATALOGO_IDIOMAEXAMEN = row.data().ID_CATALOGO_IDIOMAEXAMEN;
+
+    editarDatoTabla(row.data(), 'idiomaForm', 'idiomaModal',1);
+
+    $('#idiomaModal .modal-title').html(row.data().NOMBRE_IDIOMA);
+
+});
+
+$('#membresias-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = membresiasDatatable.row(tr);
+    ID_CATALOGO_MEMBRESIA = row.data().ID_CATALOGO_MEMBRESIA;
+
+    editarDatoTabla(row.data(), 'membresiasForm', 'membresiasModal',1);
+
+    $('#membresiasModal .modal-title').html(row.data().NOMBRE_MEMBRESIA);
+
+});
+

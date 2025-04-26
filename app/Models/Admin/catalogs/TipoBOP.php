@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TipoBOP extends Model
 {
     protected $table = 'tipo_bop';
+    protected $primaryKey = 'ID_CATALOGO_TIPOBOP';
     protected $fillable = [
-        'abreviatura', 
-        'descripcion', 
-        'activo'
+        'ABREVIATURA', 
+        'DESCRIPCION_TIPOBOP', 
+        'ACTIVO_TIPOBOP'
     ];
 }

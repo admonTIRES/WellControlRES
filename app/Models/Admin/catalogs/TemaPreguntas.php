@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TemaPreguntas extends Model
 {
     protected $table = 'tema_pregunta';
+    protected $primaryKey = 'ID_CATALOGO_TEMAPREGUNTA';
     protected $fillable = [
-        'tema', 
-        'certificacion', 
-        'activo'
+        'NOMBRE_TEMA', 
+        'CERTIFICACION_TEMA', 
+        'ACTIVO_TEMA'
     ];
 }

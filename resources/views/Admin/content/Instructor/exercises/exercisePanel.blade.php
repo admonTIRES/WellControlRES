@@ -200,139 +200,56 @@
     <div class="conatiner-fluid content-inner mt-5 py-0">
         <div>
             <div class="row">
+            <div class="col-md-12">
+                    <div class="card banner">
+                        <div class="card-body ">
+                            <div class="row justify-content-center align-items-center banner-container">
+                                <div class="col-lg-6 banner-item">
+                                    <div class="banner-text">
+                                        <h1 class="fw-bold mb-4">
+                                        <span class="text-secondary">Exam </span>  Panel
+                                        </h1>
+                                    </div>
+                                    <p class="mb-4">You can create exercises, questions and exam.</p>
+                                </div>
+                                <div class="col-lg-6 banner-img">
+                                    <div class="img">
+                                        <img src="../assets/images/principal/killsheets1.png" class="img-fluid w-55" alt="img8">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h4 class="card-title mb-0">Lista de preguntas</h4> 
+                            <h4 class="card-title mb-0">{{ __('Exam list') }}</h4> 
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                Nueva preguntas
+                            {{ __('New exam') }}
                             </button>
                         </div>
                         </div>
                         <div class="card-body px-0">
                             <div class="table-responsive">
-                                <table id="user-list-table" class="table table-striped" role="grid" data-toggle="data-table">
-                                    <thead>
-                                        <tr class="ligth">
-                                            <th>Name</th>
-                                            <th>Tema</th>
-                                            <th>Certificación</th>
-                                            <th style="min-width: 100px">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Ejercicio 1</td>
-                                            <td>Presión Hidrostática</td>
-                                            <td>IADC</td>
-                                            <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ejercicio 2</td>
-                                            <td>Control de Pozos</td>
-                                            <td>IWCF</td>
-                                            <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="statusSwitch2" checked>
-                                                        <label class="form-check-label" for="statusSwitch2">Activo</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ejercicio 3</td>
-                                            <td>Densidad de Fluidos</td>
-                                            <td>IADC</td>
-                                            <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="statusSwitch3" checked>
-                                                        <label class="form-check-label" for="statusSwitch3">Activo</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ejercicio 4</td>
-                                            <td>Presión de Formación</td>
-                                            <td>IWCF</td>
-                                            <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="statusSwitch4" checked>
-                                                        <label class="form-check-label" for="statusSwitch4">Activo</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ejercicio 5</td>
-                                            <td>Gradiente de Fractura</td>
-                                            <td>IADC</td>
-                                            <td>
-                                                <div class="flex align-items-center list-user-action">
-                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                        <span class="btn-inner">
-                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="statusSwitch5" checked>
-                                                        <label class="form-check-label" for="statusSwitch5">Activo</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                <table id="question-list-table" class="table table-striped" role="grid" >
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                            <h4 class="card-title mb-0">{{ __('Question list') }}</h4> 
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
+                            {{ __('New question') }}
+                            </button>
+                        </div>
+                        </div>
+                        <div class="card-body px-0">
+                            <div class="table-responsive">
+                                <table id="exam-list-table" class="table table-striped" role="grid">
                                 </table>
                             </div>
                         </div>
@@ -531,54 +448,4 @@
     position: relative;
 }
 </style>
-<script>
-// Función para agregar preguntas adicionales
-function agregarPreguntaAdicional() {
-    const container = document.getElementById('preguntasAdicionalesContainer');
-    const newIndex = container.children.length + 1;
-    
-    const div = document.createElement('div');
-    div.className = 'pregunta-texto-adicional mb-2';
-    div.innerHTML = `
-        <div class="input-group">
-            <textarea class="form-control" placeholder="Pregunta/texto adicional ${newIndex}"></textarea>
-            <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.parentElement.remove()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-</svg>
-            </button>
-        </div>
-    `;
-    
-    container.appendChild(div);
-}
-
-// Función para agregar opciones de respuesta
-function agregarOpcion() {
-    const container = document.getElementById('opcionesContainer');
-    const opciones = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    const newIndex = container.children.length;
-    
-    if(newIndex < opciones.length) {
-        const div = document.createElement('div');
-        div.className = 'opcion-item mb-2';
-        div.innerHTML = `
-            <div class="input-group">
-                <div class="input-group-text">
-                    <input class="form-check-input mt-0" type="checkbox" name="correcta">
-                </div>
-                <input type="text" class="form-control" placeholder="Opción ${opciones[newIndex]}">
-                <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.parentElement.remove()">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-        `;
-        
-        container.appendChild(div);
-    } else {
-        alert('Máximo de opciones alcanzado');
-    }
-}
-</script>
 @endsection

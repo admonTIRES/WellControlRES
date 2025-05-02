@@ -47,6 +47,8 @@ Route::middleware('auth')->get('/Killsheet', [killsheetController::class, 'index
 Route::get('/Killsheet/iadc', [KillsheetController::class, 'iadc'])->name('killsheet.iadc');
 Route::get('/Killsheet/iwcf', [KillsheetController::class, 'iwcf'])->name('killsheet.iwcf');
 Route::get('/Killsheet/iwcf-desviado', [KillsheetController::class, 'iwcfdesviado'])->name('killsheet.iwcfdesviado');
+
+
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
@@ -54,9 +56,11 @@ Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor
 Route::get('/students', [adminController::class, 'students'])->name('students');   
 Route::get('/asignaments', [adminController::class, 'asignaments'])->name('asignaments'); 
 
+// --------------------------EXERCISES-------------------------------------- //
 Route::get('/exercises', [adminController::class, 'exercises'])->name('exercises'); 
 Route::get('/math', [adminController::class, 'math'])->name('math'); 
 Route::get('/killsheets', [adminController::class, 'killsheets'])->name('killsheets');  
+
 // ----------------------------CATALOGS--------------------------------------- //
 Route::get('/catalogs', [adminController::class, 'catalogs'])->name('catalogs');  
 Route::post('/enteSave', [CatalogsController::class, 'store']);

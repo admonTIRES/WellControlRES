@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+//modelos
+use App\Models\Admin\catalogs\EnteAcreditador;
+use App\Models\Admin\catalogs\NivelAcreditacion;
+use App\Models\Admin\catalogs\TipoBop;
+
 class adminController extends Controller
 {
        /**
@@ -49,7 +54,10 @@ class adminController extends Controller
      */
     public function math()
     {
-        return view('Admin.content.Instructor.exercises.math')->with('user_role', 0);
+        $entes = EnteAcreditador::all();
+        $niveles = NivelAcreditacion::all();
+        $bops = TipoBop::all();
+        return view('Admin.content.Instructor.exercises.math', compact('entes', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

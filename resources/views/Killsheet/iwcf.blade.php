@@ -1,525 +1,514 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Killsheet</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 800px;
-            margin: 0 auto;
-            border: 2px solid #333;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 2px solid #333;
-            padding: 10px;
-        }
-        .header-left {
-            width: 70%;
-        }
-        .header-right {
-            width: 30%;
-            border-left: 2px solid #333;
-            padding-left: 10px;
-        }
-        .title {
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .page-number {
-            text-align: right;
-            font-size: 12px;
-        }
-        .form-section {
-            display: flex;
-            border-bottom: 1px solid #333;
-        }
-        .form-box {
-            border: 1px solid #333;
-            margin: 5px;
-            padding: 10px;
-            flex: 1;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .form-row {
-            display: flex;
-            margin-bottom: 5px;
-            align-items: center;
-        }
-        .form-label {
-            flex: 3;
-        }
-        .form-input {
-            flex: 1;
-        }
-        .form-unit {
-            flex: 1;
-            padding-left: 5px;
-        }
-        input {
-            width: 90%;
-            padding: 2px;
-        }
-        .formula {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-        }
-        .formula-eq {
-            margin: 0 5px;
-        }
-        .equal {
-            margin: 0 5px;
-        }
-        .pumps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .pump-box {
-            flex: 1;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            padding: 5px;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .table th, .table td {
-            border: 1px solid #333;
-            padding: 5px;
-            text-align: center;
-        }
-        .diagram {
-            text-align: center;
-            margin: 10px;
-        }
-        .volumes-grid {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;
-            gap: 2px;
-            margin-top: 10px;
-        }
-        .volumes-grid > div {
-            border: 1px solid #333;
-            padding: 5px;
-            text-align: center;
-        }
-        .volumes-row {
-            display: flex;
-        }
-        .volumes-label {
-            flex: 3;
-            border: 1px solid #333;
-            padding: 5px;
-        }
-        .volumes-calc {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #333;
-        }
-        .kill-mud-box {
-            border: 1px solid #333;
-            margin: 5px;
-            padding: 10px;
-        }
-        .graph-container {
-            display: flex;
-            margin-top: 10px;
-        }
-        .graph-labels {
-            flex: 1;
-            border: 1px solid #333;
-        }
-        .graph {
-            flex: 4;
-            border: 1px solid #333;
-        }
-    </style>
-</head>
-<body>
-    <!-- Page 1 -->
-    <div class="container">
-        <div class="page-number">Página 1 de 2</div>
-        <div class="header">
-            <div class="header-left">
-                <div class="title">International Well Control Forum</div>
-                <div class="subtitle">(Unidades de Campo API)</div>
-                <div class="subtitle">Hoja de control de pozo (Hoja para matar) - BOP de superficie pozo vertical</div>
-            </div>
-            <div class="header-right">
-                <div class="form-row">
-                    <div class="form-label">FECHA:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">NOMBRE:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-            </div>
-        </div>
+@extends('Template/maestraUser')
+@section('contenido') 
+<style>
+   .sp-path-container {
+        position: relative;
+        max-width: 100%;
+        min-height: 200vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10vw 0;
+        animation: sp-fade-in 1.5s ease-out forwards;
+    }
 
-        <div class="form-section">
-            <div class="form-box">
-                <div class="section-title">Datos de resistencia de la formación:</div>
-                <div class="form-row">
-                    <div class="form-label">Presión de fuga (leak-off) en la superficie obtenida con la prueba de resistencia de la formación</div>
-                    <div class="form-input">(A) <input type="text"></div>
-                    <div class="form-unit">psi</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Densidad del lodo durante la prueba</div>
-                    <div class="form-input">(B) <input type="text"></div>
-                    <div class="form-unit">ppg</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Máxima densidad del lodo permitida = (A) ÷ </div>
-                    <div class="form-input">(C) <input type="text"></div>
-                    <div class="form-unit">ppg</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">(B) + ____ = </div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Profundidad vertical de la zapata x 0.052</div>
-                </div>
-                
-                <div class="section-title">MAASP inicial (Presión anular máxima permitida en la superficie)</div>
-                <div class="form-row">
-                    <div class="form-label">(C) - Densidad del lodo actual) x Profundidad vertical de zapata x 0.052</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label"> = </div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">psi</div>
-                </div>
-                
-                <div class="pumps">
-                    <div class="pump-box">Desplazamiento de la bomba No.1</div>
-                    <div class="pump-box">Desplazamiento de la bomba No. 2</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label" style="text-align: center; font-size: 12px;">bbls / emboladas (Estroques)</div>
-                </div>
-                
-                <div class="section-title">(PL) Caída de presión dinámica (psi)</div>
-                <table class="table">
-                    <tr>
-                        <th>Datos de la tasa reducida (Emboladas)</th>
-                        <th>BOMBA NO. 1</th>
-                        <th>BOMBA NO. 2</th>
-                    </tr>
-                    <tr>
-                        <td>SPM</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td>SPM</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="form-box">
-                <div class="section-title">Datos actuales del pozo:</div>
-                <div class="diagram">
-                    <img src="/assets/images/killsheets/pozoiwcf.png" alt="Diagrama de pozo">
-                </div>
-                <div class="section-title">Lado de perforación actual:</div>
-                <div class="form-row">
-                    <div class="form-label">Densidad</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">ppg</div>
-                </div>
-                
-                <div class="section-title">Datos de la zapata del revestidor (revestimiento):</div>
-                <div class="form-row">
-                    <div class="form-label">Tamaño</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pulg.</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Profundidad medida</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pies</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Profundidad vertical verdadera</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pies</div>
-                </div>
-                
-                <div class="section-title">Datos del hoyo:</div>
-                <div class="form-row">
-                    <div class="form-label">Tamaño</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pulg.</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Profundidad medida</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pies</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Profundidad vertical verdadera</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">pies</div>
+    @keyframes sp-fade-in {
+   from {
+        opacity: 0;
+   }
+   to {
+        opacity: 1;
+   }
+}
+
+
+    .sp-step {
+        position: relative;
+        margin: 3vw 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    /* Step alignment classes */
+    .sp-step-left {
+        display: flex;
+        justify-content: flex-start;
+        margin-left: 10vw;
+        animation: sp-slide-in-left 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    .sp-step-center {
+        display: flex;
+        justify-content: center;
+        animation: sp-slide-in-center 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    .sp-step-right {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 10vw;
+        animation: sp-slide-in-right 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes sp-slide-in-left {
+        0% {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes sp-slide-in-center {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes sp-slide-in-right {
+        0% {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Staggered animation delays */
+    .sp-delay-1 { animation-delay: 0.2s; }
+    .sp-delay-2 { animation-delay: 0.4s; }
+    .sp-delay-3 { animation-delay: 0.6s; }
+    .sp-delay-4 { animation-delay: 0.8s; }
+    .sp-delay-5 { animation-delay: 1.0s; }
+    .sp-delay-6 { animation-delay: 1.2s; }
+    .sp-delay-7 { animation-delay: 1.4s; }
+    .sp-delay-8 { animation-delay: 1.6s; }
+    .sp-delay-9 { animation-delay: 1.8s; }
+    .sp-delay-10 { animation-delay: 2.0s; }
+    .sp-delay-11 { animation-delay: 2.2s; }
+    .sp-delay-12 { animation-delay: 2.4s; }
+
+    .sp-button {
+        width: 10vw;
+        height: 10vw;
+        background: linear-gradient(to bottom, #c2e6ff, #66c2ff);
+        border-radius: 50%;
+        box-shadow: 0 0.5vw 1vw rgba(0, 100, 200, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        z-index: 2;
+    }
+
+    .sp-button:hover {
+        transform: translateY(-0.5vw);
+        box-shadow: 0 1vw 1.5vw rgba(0, 100, 200, 0.3);
+    }
+
+    .sp-button-play::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-top: 1.5vw solid transparent;
+        border-bottom: 1.5vw solid transparent;
+        border-left: 2.5vw solid #1a88ff;
+        margin-left: 0.5vw;
+    }
+
+    .sp-button-menu::after {
+        content: '';
+        width: 3vw;
+        height: 0.6vw;
+        background-color: #1a88ff;
+        box-shadow: 0 1vw 0 #1a88ff, 0 2vw 0 #1a88ff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .sp-button-check::after {
+        content: '';
+        width: 1.5vw;
+        height: 3vw;
+        border-right: 0.8vw solid #1a88ff;
+        border-bottom: 0.8vw solid #1a88ff;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .sp-behavor-container {
+        position: absolute;
+        width: 12vw;
+        height: 12vw;
+    }
+
+    .sp-behavor {
+        width: 100%;
+        height: 100%;
+        animation: sp-float 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes sp-float {
+        0% {
+            transform: translateY(0) rotate(-5deg);
+        }
+        50% {
+            transform: translateY(-1vw) rotate(0deg);
+        }
+        100% {
+            transform: translateY(-0.5vw) rotate(5deg);
+        }
+    }
+
+    .sp-behavor-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .sp-behavor-image img{
+        min-height:25vw;
+        margin-left:7vw;
+    }
+
+    .sp-grass-base {
+        position: absolute;
+        bottom: -5vw;
+        left: 0;
+        width: 100%;
+        height: 3vw;
+        z-index: -1;
+    }
+    
+    .sp-section-title {
+        text-align: center;
+        width: 100%;
+        animation: sp-title-fade-in 1s ease-out forwards;
+        opacity: 0;
+    }
+    
+    @keyframes sp-title-fade-in {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .sp-section-title h2 {
+        font-size: 2.5vw;
+        color:rgb(255, 255, 255);
+        margin-bottom: 1vw;
+    }
+    
+    .sp-section-title h3 {
+        font-size: 1.5vw;
+        color:rgb(255, 255, 255);
+    }
+
+    .sp-delay-title-1 { animation-delay: 0.3s; }
+    .sp-delay-title-2 { animation-delay: 0.9s; }
+    .sp-delay-title-3 { animation-delay: 1.5s; }
+    .sp-delay-title-4 { animation-delay: 2.1s; }
+
+    /* Add diagonal connector lines between steps */
+    .sp-connector {
+        /* position: absolute; */
+        background: linear-gradient(to bottom, #a8d8ff, #66c2ff);
+        /* transform-origin: top center;
+        z-index: 0; */
+        pointer-events: none;
+    }
+
+    /* Prevent any global styles from affecting our Three.js canvas */
+    .sp-three-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+  
+</style>
+<div class="main-container"> 
+    <div class="sp-path-container">
+        <!-- Three.js background container -->
+        <div id="sp-three-container" class="sp-three-container"></div>
+        
+        <!-- Section 1 -->
+        <div class="sp-section-title sp-delay-title-1">
+            <h2>{{ __('Introduction') }}</h2>
+            <h3>Start your journey here</h3>
+        </div>
+        
+        <!-- Steps 1-3 -->
+        <div class="sp-step sp-step-center sp-delay-1">
+            <div class="sp-button"></div>
+        </div>
+        
+        <div class="sp-step sp-step-right sp-delay-2">
+            <div class="sp-button sp-button-play"></div>
+            <div class="sp-behavor-container" style="left: 5vw; top: -5vw;">
+                <div class="sp-behavor">
+                    <div class="sp-behavor-image">
+                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                    </div>
+                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
                 </div>
             </div>
         </div>
         
-        <div class="volumes-grid">
-            <div>Datos pre -registrados del volumen</div>
-            <div>LONGITUD Pies</div>
-            <div>CAPACIDAD bbls / pie</div>
-            <div>VOLUMEN Barriles</div>
-            <div>EMBOLADAS (ESTROQUES) DE LA BOMBA Emboladas (Estroques)</div>
-            <div>TIEMPO Minutos</div>
-            
-            <div>Tubería de perforación</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=</div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Tubería de perforación extra pesada</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=</div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Collares (Portamechas) de perforación</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=</div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Volumen de la sarta de perforación</div>
-            <div></div>
-            <div></div>
-            <div>(D) <input type="text"></div>
-            <div>(E) <input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Collares de perforación en el hoyo (Hueco) abierto</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=</div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Tubería de perforación / tubería extra pesada en el hoyo (Hueco) abierto</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=</div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Volumen del hoyo (hueco) abierto</div>
-            <div></div>
-            <div></div>
-            <div>(F) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Tubería de perforación en el revestidor (Revestimiento)</div>
-            <div><input type="text"></div>
-            <div>x</div>
-            <div>=(G) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Volumen total del anular</div>
-            <div></div>
-            <div></div>
-            <div>(F + G) = (H) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Volumen total del sistema de pozo</div>
-            <div></div>
-            <div></div>
-            <div>(D + H) = (I) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Volumen activo en la superficie</div>
-            <div></div>
-            <div></div>
-            <div>(J) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
-            
-            <div>Fluido total en el sistema activo</div>
-            <div></div>
-            <div></div>
-            <div>(I + J) <input type="text"></div>
-            <div><input type="text"></div>
-            <div><input type="text"></div>
+        <div class="sp-step sp-step-center sp-delay-3">
+            <div class="sp-button"></div>
         </div>
         
-        <div class="footer" style="text-align: right; font-size: 10px; margin-top: 10px;">
-            Dr No SV 04 / 01 (Field Units)<br>
-            27-01-2006
+        <!-- Section 2 -->
+        <div class="sp-section-title sp-delay-title-2">
+            <h2>Path Section 2</h2>
+            <h3>Continue exploring</h3>
+            <div class="sp-behavor-container" style="right: 12vw; top: -5vw;">
+                <div class="sp-behavor">
+                    <div class="sp-behavor-image">
+                        <img src="/assets/images/principal/castorSaludandoDeLado.png" alt="Character 2" >
+                    </div>
+                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Steps 4-6 -->
+        <div class="sp-step sp-step-left sp-delay-4">
+            <div class="sp-button sp-button-play"></div>
+        </div>
+        
+        <div class="sp-step sp-step-center sp-delay-5">
+            <div class="sp-button sp-button-menu"></div>
+            
+        </div>
+        
+        <div class="sp-step sp-step-right sp-delay-6">
+            <div class="sp-button"></div>
+            <div class="sp-behavor-container" style="left: 8vw; top: -5vw;">
+                <div class="sp-behavor">
+                    <div class="sp-behavor-image">
+                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                    </div>
+                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section 3 -->
+        <div class="sp-section-title sp-delay-title-3">
+            <h2>Path Section 3</h2>
+            <h3>Master the challenges</h3>
+        </div>
+        
+        <!-- Steps 7-9 -->
+        <div class="sp-step sp-step-center sp-delay-7">
+            <div class="sp-button"></div>
+        </div>
+        
+        <div class="sp-step sp-step-left sp-delay-8">
+            <div class="sp-button sp-button-check"></div>
+           
+        </div>
+        
+        <div class="sp-step sp-step-center sp-delay-9">
+            <div class="sp-button"></div>
+        </div>
+        
+        <!-- Section 4 -->
+        <div class="sp-section-title sp-delay-title-4">
+            <h2>Path Section 4</h2>
+            <h3>Complete your journey</h3>
+            <div class="sp-behavor-container" style="left: 8vw; top: -5vw;">
+                <div class="sp-behavor">
+                    <div class="sp-behavor-image">
+                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                    </div>
+                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Steps 10-12 -->
+        <div class="sp-step sp-step-right sp-delay-10">
+            <div class="sp-button"></div>
+        </div>
+        
+        <div class="sp-step sp-step-center sp-delay-11">
+            <div class="sp-button sp-button-play"></div>
+        </div>
+        
+        <div class="sp-step sp-step-center sp-delay-12">
+            <div class="sp-button"></div>
         </div>
     </div>
+</div>
+ <!-- Import Three.js library -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.sp-step');
+            const container = document.querySelector('.sp-path-container');
+            container.style.position = 'relative'; // importante
 
-    <!-- Page 2 -->
-    <div class="container" style="margin-top: 20px;">
-        <div class="page-number">Página 2 de 2</div>
-        <div class="header">
-            <div class="header-left">
-                <div class="title">International Well Control Forum</div>
-                <div class="subtitle">(Unidades de Campo API)</div>
-                <div class="subtitle">Hoja de control de pozo (Hoja para matar) - BOP de superficie pozo vertical</div>
-            </div>
-            <div class="header-right">
-                <div class="form-row">
-                    <div class="form-label">FECHA:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">NOMBRE:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-            </div>
-        </div>
+            steps.forEach((step, index) => {
+                if (index === steps.length - 1) return;
 
-        <div class="kill-mud-box">
-            <div class="section-title">Datos de la arremetida (del amago):</div>
-            <div class="form-row">
-                <div class="form-label">SIDP (Presión de cierre en la tubería de perforación)</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">psi</div>
-                <div class="form-label">SICP (Presión de cierre en revestimiento)</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">psi</div>
-                <div class="form-label">Aumento del volumen en los tanques (Ganancia en superficie)</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">bbls</div>
-            </div>
+                const currentBtn = step.querySelector('.sp-button');
+                const nextBtn = steps[index + 1].querySelector('.sp-button');
 
-            <div class="form-row">
-                <div class="form-label">Densidad del lodo para matar</div>
-                <div class="form-label">Densidad del lodo actual +</div>
-                <div class="form-label">SIDPP</div>
-                <div class="form-label">Profundidad vertical verdadera x 0.052</div>
-            </div>
-            <div class="form-row">
-                <div class="form-label">KMD</div>
-                <div class="form-label">..................... +</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-label">x 0.052</div>
-                <div class="form-label">=</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">ppg</div>
-            </div>
+                const currentRect = currentBtn.getBoundingClientRect();
+                const nextRect = nextBtn.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
 
-            <div class="form-row">
-                <div class="form-label">Presión inicial de circulación</div>
-                <div class="form-label">Caída de presión dinámica + SIDPP</div>
-            </div>
-            <div class="form-row">
-                <div class="form-label">ICP</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-label">+</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-label">=</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">psi</div>
-            </div>
+                const startX = currentRect.left + currentRect.width / 2 - containerRect.left;
+                const startY = currentRect.top + currentRect.height / 2 - containerRect.top;
+                const endX = nextRect.left + nextRect.width / 2 - containerRect.left;
+                const endY = nextRect.top + nextRect.height / 2 - containerRect.top;
 
-            <div class="form-row">
-                <div class="form-label">Presión final de circulación</div>
-                <div class="form-label">KMD</div>
-                <div class="form-label">Densidad del lodo actual</div>
-                <div class="form-label">x Caída de presión dinámica</div>
-            </div>
-            <div class="form-row">
-                <div class="form-label">FCP</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-label">x</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-label">=</div>
-                <div class="form-input"><input type="text"></div>
-                <div class="form-unit">psi</div>
-            </div>
+                const dx = endX - startX;
+                const dy = endY - startY;
+                const length = Math.hypot(dx, dy);
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            <div style="display: flex; margin-top: 20px;">
-                <div style="flex: 1; border: 1px solid #333; padding: 10px;">
-                    <div class="form-row">
-                        <div class="form-label">(K) = ICP - FCP = ................. - ................. =</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">psi</div>
-                    </div>
-                </div>
-                <div style="flex: 1; border: 1px solid #333; padding: 10px;">
-                    <div class="form-row">
-                        <div class="form-label">(K) x 100</div>
-                        <div class="form-label">=</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-label">x 100</div>
-                        <div class="form-label">=</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">psi / 100 emb. (Estroques)</div>
-                    </div>
-                </div>
-            </div>
+                const connector = document.createElement('div');
+                connector.className = 'sp-connector';
 
-            <div class="graph-container">
-                <div class="graph-labels" style="display: flex; flex-direction: column;">
-                    <div style="border-bottom: 1px solid #333; padding: 5px; display: flex;">
-                        <div style="flex: 1;">EMBOLADAS (ESTROQUES)</div>
-                        <div style="flex: 1;">PRESIÓN (psi)</div>
-                    </div>
-                    <div style="flex-grow: 1; display: flex;">
-                        <div style="flex: 1; position: relative;">
-                            <div style="position: absolute; bottom: 5px; transform: rotate(-90deg); transform-origin: left; white-space: nowrap; font-size: 10px;">
-                                PRESIÓN ESTÁTICA Y DINÁMICA EN LA TUBERÍA DE PERFORACIÓN (psi)
-                            </div>
-                        </div>
-                        <div style="flex: 1;"></div>
-                    </div>
-                </div>
-                <div class="graph" style="display: grid; grid-template-columns: repeat(22, 1fr);">
-                    <!-- Grid for the graph - 22x22 cells -->
-                    <!-- Fill with 22*22=484 empty cells for the graph grid -->
-                    <script>
-                        document.write(Array(484).fill('<div style="border: 1px solid #eee; height: 10px;"></div>').join(''));
-                    </script>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 5px;">Emboladas (Estroques) ⟶</div>
-        </div>
+                Object.assign(connector.style, {
+                    position: 'absolute',
+                    top: `${startY}px`,
+                    left: `${startX}px`,
+                    width: `${length}px`,
+                    height: '2px',
+                    backgroundColor: '#89CFF0',
+                    transform: `rotate(${angle}deg)`,
+                    transformOrigin: '0 0',
+                    opacity: '0',
+                    animation: `sp-fade-in 0.8s forwards ${0.2 + index * 0.2}s`,
+                    zIndex: 0,
+                });
+
+                container.appendChild(connector);
+            });
+            initThree();
+        });
         
-        <div class="footer" style="text-align: right; font-size: 10px; margin-top: 10px;">
-            Dr No SV 04 / 02 (Field Units) 27-01-2006
-        </div>
-    </div>
-</body>
-</html>
+        function initThree() {
+            // Get container dimensions
+            const container = document.getElementById('sp-three-container');
+            const width = window.innerWidth;
+            const height = window.innerHeight * 3; // Make it taller than viewport
+            
+            // Create Three.js scene
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            
+            renderer.setSize(width, height);
+            renderer.setClearColor(0x000000, 0); // Transparent background
+            container.appendChild(renderer.domElement);
+            
+            // Add some particles floating in the background
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 100;
+            
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                // Position
+                positions[i] = (Math.random() - 0.5) * width * 0.05;
+                positions[i + 1] = Math.random() * height * 0.5 - height * 0.25;
+                positions[i + 2] = Math.random() * 10 - 50;
+                
+                // Color (light blue)
+                colors[i] = 0.7 + Math.random() * 0.3;
+                colors[i + 1] = 0.8 + Math.random() * 0.2;
+                colors[i + 2] = 0.9 + Math.random() * 0.1;
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 7,
+                transparent: true,
+                opacity: 0.8,
+                vertexColors: true
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+            
+            // Position camera
+            camera.position.z = 100;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Animate particles
+                const positions = particles.geometry.attributes.position.array;
+                
+                for (let i = 0; i < particleCount * 3; i += 3) {
+                    // Small movement
+                    positions[i] += Math.sin(Date.now() * 0.001 + i) * 0.05;
+                    positions[i + 1] += Math.cos(Date.now() * 0.002 + i) * 0.05;
+                }
+                
+                particles.geometry.attributes.position.needsUpdate = true;
+                
+                // Render scene
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const width = window.innerWidth;
+                const height = window.innerHeight * 3;
+                
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                
+                renderer.setSize(width, height);
+            });
+        }
+</script>
+    
+@endsection  
+
+@php
+    $css_identifier = 'killSheets';
+@endphp
+
+
+   

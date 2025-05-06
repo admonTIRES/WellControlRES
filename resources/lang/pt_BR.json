@@ -131,7 +131,7 @@
     "Billing": "Faturamento",
     "Billing Information": "Informações sobre faturamento",
     "Billing Management": "Gestão de Faturamento",
-    "Bolivia": "Bolívia",
+    "Your session has expired. Please log in to continue where you left off.": "Sua sessão expirou. Efetue seu login para continuar de onde você parou.",
     "Bolivia, Plurinational State of": "Estado Plurinacional de Bolívia",
     "Bonaire, Sint Eustatius and Saba": "Bonaire, Santo Eustáquio e Saba",
     "Bosnia And Herzegovina": "Bósnia E Herzegovina",
@@ -1275,7 +1275,8 @@
     "This section establishes how we should round results to obtain a correct result.": "Esta seção estabelece como devemos arredondar os resultados para obter um resultado correto.",
     "Rounding rules book in the well control course - IADC": "Livro de regras de arredondamento no curso de controle de poço - IADC",
     "Formulas book for the IWCF well control course": "Livro de fórmulas para o curso de controle de poço IWCF",
-    "Formulas book for the IADC well control course": "Livro de fórmulas para o curso de controle de poço IADC"
+    "Formulas book for the IADC well control course": "Livro de fórmulas para o curso de controle de poço IADC",
+    "In this Kill Sheet module, you will find interactive tools to practice and learn how to complete kill sheets effectively. The content includes a guided video to support your learning process. This module is developed by Results in Performance in collaboration with Smith Mason & Co., a recognized partner for well control certification training.": "Neste módulo de Folhas de Controle, você encontrará ferramentas interativas para praticar e aprender a completá-las de forma eficaz. O conteúdo inclui um vídeo guiado para apoiar seu processo de aprendizagem. Este módulo foi desenvolvido pela Results in Performance em colaboração com a Smith Mason & Co., um parceiro reconhecido em treinamentos certificados de controle de poços."
 
 
 }

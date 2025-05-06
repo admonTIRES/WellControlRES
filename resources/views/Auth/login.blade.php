@@ -81,6 +81,12 @@
                                         <div class="form-group">
                                             <input type="password" name="password" placeholder="{{ __('Password') }}" required>
                                         </div>
+                                        @if(session('message'))
+                                            <div class="alert alert-danger">
+                                                {{ __('Your session has expired. Please log in to continue where you left off.') }}
+                                            </div>
+                                        @endif
+
                                         @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 {{ $errors->first('message') }}

@@ -132,7 +132,7 @@
     "Billing": "Facturación",
     "Billing Information": "Información de facturación",
     "Billing Management": "Gestión de facturación",
-    "Bolivia": "Bolivia",
+    "Your session has expired. Please log in to continue where you left off.": "Tu sesión ha expirado. Por favor, inicia sesión de nuevo.",
     "Bolivia, Plurinational State of": "Bolivia, Estado Plurinacional de",
     "Bonaire, Sint Eustatius and Saba": "Bonaire, San Eustaquio y Saba",
     "Bosnia And Herzegovina": "Bosnia y Herzegovina",
@@ -1311,6 +1311,7 @@
         "Certification": "Certificación",
         "Exam Language": "Idioma para exámenes",
         "Language": "Idioma",
-        "Memberships": "Membresías"
+        "Memberships": "Membresías",
+        "In this Kill Sheet module, you will find interactive tools to practice and learn how to complete kill sheets effectively. The content includes a guided video to support your learning process. This module is developed by Results in Performance in collaboration with Smith Mason & Co., a recognized partner for well control certification training.": "En este módulo de Hojas de Matar encontrarás herramientas interactivas para practicar y aprender a completarlas de forma eficaz. El contenido incluye un video guiado que apoya tu proceso de aprendizaje. Este módulo ha sido desarrollado por Results in Performance en colaboración con Smith Mason & Co., un socio reconocido en la formación certificada en control de pozos."
   
 }

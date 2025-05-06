@@ -131,7 +131,7 @@
     "Billing": "الفوترة",
     "Billing Information": "معلومات الفوترة",
     "Billing Management": "إدارة الفواتير",
-    "Bolivia": "بوليفيا",
+    "Your session has expired. Please log in to continue where you left off.": "انتهت جلسة العمل الخاصة بك. الرجاء تسجيل الدخول للاستمرار من المكان الذي غادرته.",
     "Bolivia, Plurinational State of": "بوليفيا",
     "Bonaire, Sint Eustatius and Saba": "بونير، سانت يوستاتيوس وسابا",
     "Bosnia And Herzegovina": "البوسنة والهرسك",
@@ -1275,6 +1275,9 @@
     "This section establishes how we should round results to obtain a correct result.": "يحدد هذا القسم كيف يجب تقريب النتائج للحصول على نتيجة صحيحة.",
     "Rounding rules book in the well control course - IADC": "كتاب قواعد التقريب في دورة التحكم في الآبار - IADC",
     "Formulas book for the IWCF well control course": "كتاب الصيغ لدورة التحكم في الآبار IWCF",
-    "Formulas book for the IADC well control course": "كتاب الصيغ لدورة التحكم في الآبار IADC"
+    "Formulas book for the IADC well control course": "كتاب الصيغ لدورة التحكم في الآبار IADC",
+    "In this Kill Sheet module, you will find interactive tools to practice and learn how to complete kill sheets effectively. The content includes a guided video to support your learning process. This module is developed by Results in Performance in collaboration with Smith Mason & Co., a recognized partner for well control certification training.": "في هذا القسم من أوراق القتل، ستجد أدوات تفاعلية للتدريب وتعلم كيفية إكمالها بشكل فعال. يتضمن المحتوى فيديو إرشادي لدعم عملية التعلم الخاصة بك. تم تطوير هذا القسم بواسطة Results in Performance بالتعاون مع Smith Mason & Co.، الشريك المعتمد لتدريب شهادات السيطرة على الآبار."
+    
+      
       
 }

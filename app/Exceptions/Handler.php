@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+//sesion exprada
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +39,15 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            // Si la sesión expiró (error 419)
+            return redirect()->route('login')->with('message', 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
+        }
+
+        return parent::render($request, $exception);
     }
 }

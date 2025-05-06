@@ -207,10 +207,10 @@
                                 <div class="col-lg-6 banner-item">
                                     <div class="banner-text">
                                         <h1 class="fw-bold mb-4">
-                                        <span class="text-secondary">Exam </span>  Panel
+                                        <span class="text-secondary"> {{ __('Exam ') }}</span>   {{ __('Panel') }}
                                         </h1>
                                     </div>
-                                    <p class="mb-4">You can create exercises, questions and exam.</p>
+                                    <p class="mb-4"> {{ __('You can create exercises, questions and exam.') }}</p>
                                 </div>
                                 <div class="col-lg-6 banner-img">
                                     <div class="img">

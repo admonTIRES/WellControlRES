@@ -34,6 +34,14 @@ class killsheetController extends Controller
       /**
      * @return \Illuminate\View\View
      */
+    public function iwcfvideo()
+    {
+        return view('Killsheet.iwcfVideo');
+    }
+
+      /**
+     * @return \Illuminate\View\View
+     */
     public function iwcfdesviado()
     {
         return view('Killsheet.iwcfDesviado');

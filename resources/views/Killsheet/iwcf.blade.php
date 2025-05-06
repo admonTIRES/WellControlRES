@@ -13,13 +13,13 @@
     }
 
     @keyframes sp-fade-in {
-   from {
-        opacity: 0;
-   }
-   to {
-        opacity: 1;
-   }
-}
+        from {
+                opacity: 0;
+        }
+        to {
+                opacity: 1;
+        }
+    }
 
 
     .sp-step {
@@ -137,7 +137,7 @@
         background-color: #1a88ff;
         box-shadow: 0 1vw 0 #1a88ff, 0 2vw 0 #1a88ff;
         position: absolute;
-        top: 50%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -266,11 +266,14 @@
         
         <!-- Steps 1-3 -->
         <div class="sp-step sp-step-center sp-delay-1">
-            <div class="sp-button"></div>
+            <div class="sp-button sp-button-menu"></div>
         </div>
         
         <div class="sp-step sp-step-right sp-delay-2">
+        <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
             <div class="sp-button sp-button-play"></div>
+        </a>
+
             <div class="sp-behavor-container" style="left: 5vw; top: -5vw;">
                 <div class="sp-behavor">
                     <div class="sp-behavor-image">
@@ -287,8 +290,8 @@
         
         <!-- Section 2 -->
         <div class="sp-section-title sp-delay-title-2">
-            <h2>Path Section 2</h2>
-            <h3>Continue exploring</h3>
+            <h2>Practice</h2>
+            <h3>Level 1</h3>
             <div class="sp-behavor-container" style="right: 12vw; top: -5vw;">
                 <div class="sp-behavor">
                     <div class="sp-behavor-image">
@@ -323,8 +326,8 @@
         
         <!-- Section 3 -->
         <div class="sp-section-title sp-delay-title-3">
-            <h2>Path Section 3</h2>
-            <h3>Master the challenges</h3>
+            <h2>Practice</h2>
+            <h3>Level 2</h3>
         </div>
         
         <!-- Steps 7-9 -->
@@ -343,8 +346,8 @@
         
         <!-- Section 4 -->
         <div class="sp-section-title sp-delay-title-4">
-            <h2>Path Section 4</h2>
-            <h3>Complete your journey</h3>
+            <h2>Practice</h2>
+            <h3>Level hard (time)</h3>
             <div class="sp-behavor-container" style="left: 8vw; top: -5vw;">
                 <div class="sp-behavor">
                     <div class="sp-behavor-image">

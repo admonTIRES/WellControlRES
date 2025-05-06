@@ -48,6 +48,7 @@ Route::get('/Killsheet/iadc', [KillsheetController::class, 'iadc'])->name('kills
 Route::get('/Killsheet/iwcf', [KillsheetController::class, 'iwcf'])->name('killsheet.iwcf');
 Route::get('/Killsheet/iwcf-desviado', [KillsheetController::class, 'iwcfdesviado'])->name('killsheet.iwcfdesviado');
 
+Route::get('/Killsheet/iwcf/video', [KillsheetController::class, 'iwcfvideo'])->name('killsheet.iwcf.video');
 
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//

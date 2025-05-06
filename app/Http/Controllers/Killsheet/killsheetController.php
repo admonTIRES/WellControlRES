@@ -44,6 +44,6 @@ class killsheetController extends Controller
      */
     public function iwcfdesviado()
     {
-        return view('Killsheet.iwcfDesviado');
+        return view('Killsheet.iwcfVerticalK');
     }
 }

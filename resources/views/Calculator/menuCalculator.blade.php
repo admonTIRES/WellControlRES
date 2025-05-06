@@ -694,13 +694,13 @@
             <!-- exercices section -->
             <div id="fracciones" class="content-section scrollable-content">
                 <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">Conversión de Fracción a Decimal</h2>
+                    <h2 class="math-drilling-subtitle">{{ __('Fraction to Decimal Conversion') }}</h2>
                 </div>
                 <div class="exercise-container">
                     <div class="exercise-content">
-                        <h2 class="exercise-title">Ejercicio 1</h2>
+                        <h2 class="exercise-title">{{ __('Exercise 1') }}</h2>
                         <p class="exercise-description">
-                            Convierta las siguiente fracciones a decimal y escriba el resultado en el cuadro correspondiente:
+                        {{ __('Convert the following fractions to decimal and write the result in the corresponding box:') }}
                         </p>
                         <div class="exercise-container">
                             <p class="exercise-description">
@@ -712,9 +712,9 @@
                         </div>
                         <div class="math-answer-exercise">
                             <p class="math-drilling-text">
-                                La respuesta correcta es <strong> 0.8758</strong> 
+                            {{ __('The correct answer is ') }}<strong> 0.8758</strong> 
                             </p>
-                            <button id="fraccion_1" class="answer-button" onclick="showExample(0,7,8)">Ver en calculadora</button>
+                            <button id="fraccion_1" class="answer-button" onclick="showExample(0,7,8)"> {{ __('View in calculator') }}</button>
                         </div>
 
                         <div class="exercise-container">
@@ -726,9 +726,9 @@
                         </div>
                         <div class="math-answer-exercise">
                             <p class="math-drilling-text">
-                                La respuesta correcta es <strong> 8.5</strong> 
+                            {{ __('The correct answer is ') }} <strong> 8.5</strong> 
                             </p>
-                            <button id="fraccion_2" class="answer-button" onclick="showExample(8,1,2)">Ver en calculadora</button>
+                            <button id="fraccion_2" class="answer-button" onclick="showExample(8,1,2)"> {{ __('View in calculator') }}</button>
                         </div>
 
                         <div class="exercise-container">
@@ -740,9 +740,9 @@
                         </div>
                         <div class="math-answer-exercise">
                             <p class="math-drilling-text">
-                                La respuesta correcta es <strong> 9.25</strong> 
+                            {{ __('The correct answer is ') }} <strong> 9.25</strong> 
                             </p>
-                            <button id="fraccion_3" class="answer-button" onclick="showExample(9,1,4)">Ver en calculadora</button>
+                            <button id="fraccion_3" class="answer-button" onclick="showExample(9,1,4)"> {{ __('View in calculator') }}</button>
                         </div>
 
                         <div class="exercise-container">
@@ -754,9 +754,9 @@
                         </div>
                         <div class="math-answer-exercise">
                             <p class="math-drilling-text">
-                                La respuesta correcta es <strong> 0.375</strong> 
+                            {{ __('The correct answer is ') }} <strong> 0.375</strong> 
                             </p>
-                            <button id="fraccion_4" class="answer-button" onclick="showExample(0,3,8)">Ver en calculadora</button>
+                            <button id="fraccion_4" class="answer-button" onclick="showExample(0,3,8)"> {{ __('View in calculator') }}</button>
                         </div>
 
                         <div class="exercise-container">
@@ -768,26 +768,26 @@
                         </div>
                         <div class="math-answer-exercise">
                             <p class="math-drilling-text">
-                                La respuesta correcta es <strong> 3.75</strong> 
+                            {{ __('The correct answer is ') }} <strong> 3.75</strong> 
                             </p>
-                            <button id="fraccion_5" class="answer-button" onclick="showExample(0,15,4)">Ver en calculadora</button>
+                            <button id="fraccion_5" class="answer-button" onclick="showExample(0,15,4)"> {{ __('View in calculator') }}</button>
                         </div>
 
                         <div class="button-container">
                             <button id="ejercicio1_btn" class="submit-button">
                             <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjY0IiBzdHJva2UtZGFzaG9mZnNldD0iNjQiIGQ9Ik0zIDEyYzAgLTQuOTcgNC4wMyAtOSA5IC05YzQuOTcgMCA5IDQuMDMgOSA5YzAgNC45NyAtNC4wMyA5IC05IDljLTQuOTcgMCAtOSAtNC4wMyAtOSAtOVoiPjxhbmltYXRlIGZpbGw9ImZyZWV6ZSIgYXR0cmlidXRlTmFtZT0ic3Ryb2tlLWRhc2hvZmZzZXQiIGR1cj0iMC42cyIgdmFsdWVzPSI2NDswIi8+PC9wYXRoPjxwYXRoIHN0cm9rZS1kYXNoYXJyYXk9IjE0IiBzdHJva2UtZGFzaG9mZnNldD0iMTQiIGQ9Ik04IDEybDMgM2w1IC01Ij48YW5pbWF0ZSBmaWxsPSJmcmVlemUiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iMC42cyIgZHVyPSIwLjJzIiB2YWx1ZXM9IjE0OzAiLz48L3BhdGg+PC9nPjwvc3ZnPg==" alt="Revisar">
-                                </span> Revisar
+                                </span> {{ __('Check') }}
                             </button>
                             <button id="reset_btn" class="reset-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
-                                </span> Reiniciar
+                                </span> {{ __('Reset') }}
                             </button>
                             <button id="new_btn" class="new-button">
                                 <span class="icon">
                                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIzMiIgZD0ibTQwMCAxNDhsLTIxLjEyLTI0LjU3QTE5MS40MyAxOTEuNDMgMCAwIDAgMjQwIDY0QzEzNCA2NCA0OCAxNTAgNDggMjU2czg2IDE5MiAxOTIgMTkyYTE5Mi4wOSAxOTIuMDkgMCAwIDAgMTgxLjA3LTEyOCIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik00NjQgOTcuNDJWMjA4YTE2IDE2IDAgMCAxLTE2IDE2SDMzNy40MmMtMTQuMjYgMC0yMS40LTE3LjIzLTExLjMyLTI3LjMxTDQzNi42OSA4Ni4xQzQ0Ni43NyA3NiA0NjQgODMuMTYgNDY0IDk3LjQyIi8+PC9zdmc+" alt="Reiniciar">
-                                </span> Nuevo Ejercicio
+                                </span> {{ __('New Exercise') }}
                             </button>
                         </div>
                     </div>
@@ -798,14 +798,14 @@
             </div>
 
             <div id="cuadrado" class="content-section scrollable-content">
-                <h1 class="content-title">Ejercicios de elevaciones al cuadrado</h1>
+                <h1 class="content-title">{{ __('Square Elevation Exercises') }}</h1>
                 <div class="exercise-container">
                     <div class="exercise-content">
                         <!-- Pregunta 1 -->
                         <div class="question">
-                            <h2 class="exercise-title">Pregunta 1</h2>
+                            <h2 class="exercise-title">{{ __('Question 1') }}</h2>
                             <p class="exercise-description">
-                                Encuentre la salida bbl/emb al 100% de la bomba triplex. Pistón 7" x 12 long
+                            {{ __('Find the output in bbl/stk at 100% efficiency of a triplex pump. 7" piston x 12” stroke') }}
                             </p>
                             <div class="text-grid">
                                 <div>Pistón² x longitud x 0.000243 </div>
@@ -827,13 +827,13 @@
                             <span class="feedback" id="feedback-q1"></span>
                             <div class="math-answer-exercise cuadrado" id="answer-1">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.0525 bbl/ft</strong>.
+                                {{ __('The correct answer is ') }} <strong>0.0525 bbl/ft</strong>.
                                 </p>
                                 <button class="answer-button" onclick="showExampleElevate(1)">Ver en calculadora</button>
                                 <button id="solution1_btn" class="solution-button" onclick="showSolution(1)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
+                                    </span> {{ __('Show solution ') }}
                                 </button>
                             </div>
                             <div class="math-drilling-section">
@@ -845,12 +845,12 @@
 
                                 <!-- Pregunta 2 -->
                         <div class="question">
-                            <h2 class="exercise-title">Pregunta 2</h2>
+                            <h2 class="exercise-title">{{ __('Question 2') }}</h2>
                             <p class="exercise-description">
-                                Calcule la presión hidrostática a 10,000 pies si la densidad del lodo es 12.5 ppg.
+                            {{ __('Calculate hydrostatic pressure at 10,000 ft if the mud density is 12.5 ppg.') }}
                             </p>
                             <div class="text-grid">
-                                <div>Pistón² x longitud x 0.000243 </div>
+                                <div>{{ __('Piston² x length x 0.000243') }} </div>
                             </div>
                             <div class="options">
                                 <label>
@@ -869,13 +869,13 @@
                             <span class="feedback" id="feedback-q2"></span>
                             <div class="math-answer-exercise cuadrado" id="answer-2">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>6,500 psi</strong>.
+                                {{ __('The correct answer is ') }} <strong>6,500 psi</strong>.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(2)">Ver en calculadora</button>
+                                <button class="answer-button" onclick="showExampleElevate(2)"> {{ __('View in calculator') }}</button>
                                 <button id="solution2_btn" class="solution-button" onclick="showSolution(2)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
+                                    </span>  {{ __('Show solution ') }}
                                 </button>
                             </div>
                             <div class="math-drilling-section">
@@ -887,9 +887,9 @@
 
                         <!-- Pregunta 3 -->
                         <div class="question">
-                            <h2 class="exercise-title">Pregunta 3</h2>
+                            <h2 class="exercise-title">{{ __('Question 3') }}</h2>
                             <p class="exercise-description">
-                                ¿Cuál es el gradiente de presión para un lodo con densidad de 10 ppg?
+                            {{ __('What is the pressure gradient for a mud with a density of 10 ppg?') }}
                             </p>
                             <div class="text-grid">
                                 <div>Pistón² x longitud x 0.000243 </div>
@@ -911,13 +911,13 @@
                             <span class="feedback" id="feedback-q3"></span>
                             <div class="math-answer-exercise cuadrado" id="answer-3">
                                 <p class="math-drilling-text">
-                                    La respuesta correcta es <strong>0.52 psi/ft</strong>.
+                                {{ __('The correct answer is ') }} <strong>0.52 psi/ft</strong>.
                                 </p>
-                                <button class="answer-button" onclick="showExampleElevate(3)">Ver en calculadora</button>
+                                <button class="answer-button" onclick="showExampleElevate(3)"> {{ __('View in calculator') }}</button>
                                 <button id="solution3_btn" class="solution-button" onclick="showSolution(3)">
                                     <span class="icon">
                                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik00IDIwaDRMMTguNSA5LjVhMi44MjggMi44MjggMCAxIDAtNC00TDQgMTZ6bTkuNS0xMy41bDQgNE0xNSAxOWwyIDJsNC00Ii8+PC9zdmc+" alt="Revisar">    
-                                    </span> Ver solución
+                                    </span>  {{ __('Show solution ') }}
                                 </button>
                             </div>
                             <div class="math-drilling-section">

@@ -261,7 +261,7 @@
         <!-- Section 1 -->
         <div class="sp-section-title sp-delay-title-1">
             <h2>{{ __('Introduction') }}</h2>
-            <h3>Start your journey here</h3>
+            <h3>Start your learn experience here</h3>
         </div>
         
         <!-- Steps 1-3 -->
@@ -308,8 +308,9 @@
         </div>
         
         <div class="sp-step sp-step-center sp-delay-5">
+        <a href="{{ route('killsheet.iwcfdesviado') }}" target="_blank">
             <div class="sp-button sp-button-menu"></div>
-            
+        </a>  
         </div>
         
         <div class="sp-step sp-step-right sp-delay-6">

@@ -21,7 +21,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 720px;
+        width: 520px;
     }
 
     .video-title {
@@ -31,8 +31,8 @@
 
     .video-wrapper {
         position: relative;
-        width: 700px;
-        height: 500px;
+        width: 500px;
+        height: 300px;
     }
 
     .cover-image,
@@ -40,8 +40,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 700px;
-        height: 500px;
+        width: 500px;
+        height: 300px;
         transition: opacity 0.3s ease;
         border-radius: 8px;
     }
@@ -109,18 +109,10 @@
         </div>
     </div>
 </div>
-        <div class="white-section steps-section">
-            
-            <h2 class="steps-title">
-                <img src="/assets/images/principal/logoSmithMasonCO.png" />
-            </h2>
-            
-        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection  
-
 @php
     $css_identifier = 'killSheets';
 @endphp

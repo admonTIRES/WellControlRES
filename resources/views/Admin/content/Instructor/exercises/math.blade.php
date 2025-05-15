@@ -268,11 +268,11 @@
                     <form action="#">
                         <div class="row">
                             <!-- Columna Izquierda -->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <!-- Tipo de Ejercicio -->
                                 <div class="mb-3">
                                     <label class="form-label">Tipo de Ejercicio</label>
-                                    <select class="form-select" id="TIPO_MATH" name="tipo" required>
+                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH" required>
                                         <option value="">Seleccionar...</option>
                                         <option value="1">Despejes</option>
                                         <option value="2">Jerarquía</option>
@@ -285,7 +285,7 @@
                                 <!-- Ente Acreditador -->
                                 <div class="mb-3"> 
                                     <label class="form-label">Ente Acreditador</label>
-                                    <select class="form-select" id="ENTE_MATH" name="ente_id" required>
+                                    <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" required>
                                         <option value="">Seleccionar...</option>
                                         @foreach ($entes as $ente)
                                             <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
@@ -299,7 +299,7 @@
                                     <div id="NIVELES_MATH">
                                         @foreach ($niveles as $nivel)
                                             <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}" name="niveles[]" value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
+                                            <input class="form-check-input" type="checkbox" id="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}" name="NIVELES_MATH[]" value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
                                                 <label class="form-check-label" for="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
                                                     {{ $nivel->NOMBRE_NIVEL }}
                                                 </label>
@@ -311,7 +311,7 @@
                                 <!-- BOP -->
                                 <div class="mb-3">
                                     <label class="form-label">BOP</label>
-                                    <select class="form-select" id="BOP_MATH" name="bop_id" required>
+                                    <select class="form-select" id="BOP_MATH" name="BOP_MATH" required>
                                         <option value="">Seleccionar...</option>
                                         @foreach ($bops as $bop)
                                             <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
@@ -321,7 +321,7 @@
 
                             </div>
                             <!-- Columna Derecha si es fracciones-->
-                            <div class="col-md-6 ejercicio-fraccion d-none">
+                            <div class="col-md-4 ejercicio-fraccion d-none">
                                 <!-- Pregunta Principal -->
                                 <div class="mb-3">
                                     <label class="form-label">Fracción</label>
@@ -334,24 +334,20 @@
                                     <textarea class="form-control" id="DECIMAL_MATH" name="DECIMAL_MATH" rows="1"></textarea>
                                 </div>
 
-                                <div class="calculator-container">
-                                    @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
-                                </div>
-                                <button type="button" class="btn btn-primary">Guardar pasos en calculadora</button>
                             </div>
 
                             <!-- Para los otros tipos -->
-                            <div class="col-md-6 ejercicio-general d-none">
+                            <div class="col-md-4 ejercicio-general d-none">
                                 <!-- Pregunta Principal -->
                                 <div class="mb-3">
                                     <label class="form-label">Pregunta</label>
-                                    <textarea class="form-control" id="PREGUNTA_MATH" name="DECIMAL_MATH" rows="3"></textarea>
+                                    <textarea class="form-control" id="PREGUNTA_MATH" name="PREGUNTA_MATH" rows="3"></textarea>
                                 </div>
 
                                 <!-- Fórmula -->
                                 <div class="mb-3">
                                     <label class="form-label">Fórmula</label>
-                                    <textarea class="form-control" id="FORMULA_MATH" name="DECIMAL_MATH" rows="3"></textarea>
+                                    <textarea class="form-control" id="FORMULA_MATH" name="FORMULA_MATH" rows="3"></textarea>
                                 </div>
 
                                 <!-- Opciones -->
@@ -377,7 +373,7 @@
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]"">
+                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
                                                 </div>
                                                 <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción C">
                                             </div>
@@ -405,11 +401,16 @@
                                     <input class="form-control" type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" accept="image/*">
                                 </div>
 
-                                <div class="calculator-container">
-                                    @include('Calculator.itemCalculator', ['id' => 'calculatorMath2'])
-                                </div>
-                                <button type="button" class="btn btn-primary">Guardar pasos en calculadora</button>
+                                
                             </div>
+
+                            <div class="col-md-4">
+                              
+                                <div class="calculator-container d-none">
+                                        @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
+                                </div>
+                            </div>
+
 
                         </div>
                     </form>

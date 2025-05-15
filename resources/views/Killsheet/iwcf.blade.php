@@ -1,6 +1,14 @@
 @extends('Template/maestraUser')
 @section('contenido') 
 <style>
+    .center-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+    gap: 10px;
+    padding: 20px;
+}
+
+
    .sp-path-container {
         position: relative;
         max-width: 100%;
@@ -24,7 +32,8 @@
 
     .sp-step {
         position: relative;
-        margin: 3vw 0;
+        margin-bottom: 15vw;
+        /* margin: 13vw 0; */    
         width: 100%;
         z-index: 1;
     }
@@ -32,7 +41,7 @@
     /* Step alignment classes */
     .sp-step-left {
         display: flex;
-        justify-content: flex-start;
+        justify-content: flex-start;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      justify-content: flex-start;
         margin-left: 10vw;
         animation: sp-slide-in-left 0.8s ease-out forwards;
         opacity: 0;
@@ -87,7 +96,7 @@
     }
 
     /* Staggered animation delays */
-    .sp-delay-1 { animation-delay: 0.2s; }
+    .sp-delay-1 { animation-delay: 0.1s; }
     .sp-delay-2 { animation-delay: 0.4s; }
     .sp-delay-3 { animation-delay: 0.6s; }
     .sp-delay-4 { animation-delay: 0.8s; }
@@ -99,13 +108,31 @@
     .sp-delay-10 { animation-delay: 2.0s; }
     .sp-delay-11 { animation-delay: 2.2s; }
     .sp-delay-12 { animation-delay: 2.4s; }
-
+/* 
     .sp-button {
         width: 10vw;
         height: 10vw;
         background: linear-gradient(to bottom, #c2e6ff, #66c2ff);
         border-radius: 50%;
         box-shadow: 0 0.5vw 1vw rgba(0, 100, 200, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        z-index: 2;
+    }
+
+    .sp-button:hover {
+        transform: translateY(-0.5vw);
+        box-shadow: 0 1vw 1.5vw rgba(0, 100, 200, 0.3);
+    } */
+
+    
+    .sp-button {
+        width: 20vw;
+        height: 10vw;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -156,8 +183,40 @@
 
     .sp-behavor-container {
         position: absolute;
-        width: 12vw;
-        height: 12vw;
+        width: 5vw;
+        height: 5vw;
+    }
+
+    .sp-item {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sp-item-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 1vw;
+    }
+    .sp-item-image img{
+        max-height: 7vw;
+    }
+
+    .sp-item-container {
+        position: absolute;
+        width: 5vw;
+        height: 5vw;
+    }
+    .sp-item-base {
+        position: absolute;
+        width: 100%;
+        height: 3vw;
+        left: -3vw;
+        z-index: -1;
+    }
+    .sp-item-base img{
+        height: 7vw;
+     
     }
 
     .sp-behavor {
@@ -184,17 +243,21 @@
         position: relative;
     }
     .sp-behavor-image img{
-        min-height:25vw;
+        max-height: 18vw;
         margin-left:7vw;
     }
 
     .sp-grass-base {
         position: absolute;
-        bottom: -5vw;
-        left: 0;
+        bottom: -10vw;
+        left: 5vw;
         width: 100%;
         height: 3vw;
         z-index: -1;
+    }
+
+    .sp-grass-base img{
+        height: 10vw;
     }
     
     .sp-section-title {
@@ -254,123 +317,273 @@
   
 </style>
 <div class="main-container"> 
-    <div class="sp-path-container">
-        <!-- Three.js background container -->
-        <div id="sp-three-container" class="sp-three-container"></div>
-        
-        <!-- Section 1 -->
-        <div class="sp-section-title sp-delay-title-1">
-            <h2>{{ __('Introduction') }}</h2>
-            <h3>Start your learn experience here</h3>
-        </div>
-        
-        <!-- Steps 1-3 -->
-        <div class="sp-step sp-step-center sp-delay-1">
-            <div class="sp-button sp-button-menu"></div>
-        </div>
-        
-        <div class="sp-step sp-step-right sp-delay-2">
-        <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-            <div class="sp-button sp-button-play"></div>
-        </a>
+    <div class="center-container"> 
+        <div class="sp-path-container">
+            <!-- Three.js background container -->
+            <div id="sp-three-container" class="sp-three-container"></div>
+            
+            <!-- Section 1 -->
+            <!-- <div class="sp-section-title sp-delay-title-1">
+                <h2>{{ __('IWCF Vertical Well') }}</h2>
+                <h3>Interactive Kill Sheet</h3>
+            </div>
+             -->
+            <!-- Steps 1-3 -->
+            <!-- <div class="sp-step sp-step-center sp-delay-1" style="top:3vw">
+               
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" style="right: -1vw;">
+                            <img src="/assets/images/killsheets/information.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
+                </div>
+            </div> -->
 
-            <div class="sp-behavor-container" style="left: 5vw; top: -5vw;">
-                <div class="sp-behavor">
-                    <div class="sp-behavor-image">
-                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+            <div class="sp-step sp-step-center sp-delay-2">
+                <!-- <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: 2vw;">
+                                <img src="/assets/images/killsheets/video.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
                     </div>
-                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </a> -->
+                <div class="sp-behavor-container" style="left: 6vw; top: -5vw;">
+                    <div class="sp-behavor">
+                        <div class="sp-behavor-image">
+                            <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                        </div>
+                        <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="sp-step sp-step-center sp-delay-3">
-            <div class="sp-button"></div>
-        </div>
-        
-        <!-- Section 2 -->
-        <div class="sp-section-title sp-delay-title-2">
-            <h2>Practice</h2>
-            <h3>Level 1</h3>
-            <div class="sp-behavor-container" style="right: 12vw; top: -5vw;">
-                <div class="sp-behavor">
-                    <div class="sp-behavor-image">
-                        <img src="/assets/images/principal/castorSaludandoDeLado.png" alt="Character 2" >
+            
+            <!-- <div class="sp-step sp-step-center sp-delay-3" style="top: -2vw;">
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" >
+                            <img src="/assets/images/killsheets/lapizmodel.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
                     </div>
-                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </div>
+            </div> -->
+            
+            <!-- <div class="sp-section-title sp-delay-title-2">
+                <h2>Practice</h2>
+                <h3>Level 1</h3>
+            </div>
+            
+        
+            <div class="sp-section-title sp-delay-title-3">
+                <h2>Practice</h2>
+                <h3>Level 2</h3>
+            </div>
+            
+        
+            <div class="sp-section-title sp-delay-title-4">
+                <h2>Practice</h2>
+                <h3>Level hard (time)</h3>
+            </div> -->
+            
+            
+        </div>
+        
+        <div class="sp-path-container">
+            <!-- Three.js background container -->
+            <div id="sp-three-container" class="sp-three-container"></div>
+            
+            <!-- Section 1 -->
+            <div class="sp-section-title sp-delay-title-1">
+                <h2>{{ __('IWCF Vertical Well') }}</h2>
+                <h3>Interactive Kill Sheet</h3>
+            </div>
+            
+            <!-- Steps 1-3 -->
+            <div class="sp-step sp-step-center sp-delay-1" style="top:3vw">
+                <!-- <div class="sp-button sp-button-menu"></div> -->
+                <!-- <img  class="sp-button" src="/assets/images/principal/pasto.png"> -->
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" style="right: -1vw;">
+                            <img src="/assets/images/killsheets/information.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Steps 4-6 -->
-        <div class="sp-step sp-step-left sp-delay-4">
-            <div class="sp-button sp-button-play"></div>
-        </div>
-        
-        <div class="sp-step sp-step-center sp-delay-5">
-        <a href="{{ route('killsheet.iwcfdesviado') }}" target="_blank">
-            <div class="sp-button sp-button-menu"></div>
-        </a>  
-        </div>
-        
-        <div class="sp-step sp-step-right sp-delay-6">
-            <div class="sp-button"></div>
-            <div class="sp-behavor-container" style="left: 8vw; top: -5vw;">
-                <div class="sp-behavor">
-                    <div class="sp-behavor-image">
-                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+            <div class="sp-step sp-step-right sp-delay-2">
+                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: 2vw;">
+                                <img src="/assets/images/killsheets/video.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
                     </div>
-                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </a>
+                <!-- <div class="sp-behavor-container" style="left: 6vw; top: -5vw;">
+                    <div class="sp-behavor">
+                        <div class="sp-behavor-image">
+                            <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                        </div>
+                        <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
+                </div> -->
+            </div>
+            
+            <div class="sp-step sp-step-center sp-delay-3">
+                <!-- <div class="sp-button"></div> -->
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" >
+                            <img src="/assets/images/killsheets/lapizmodel.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Section 3 -->
-        <div class="sp-section-title sp-delay-title-3">
-            <h2>Practice</h2>
-            <h3>Level 2</h3>
-        </div>
-        
-        <!-- Steps 7-9 -->
-        <div class="sp-step sp-step-center sp-delay-7">
-            <div class="sp-button"></div>
-        </div>
-        
-        <div class="sp-step sp-step-left sp-delay-8">
-            <div class="sp-button sp-button-check"></div>
-           
-        </div>
-        
-        <div class="sp-step sp-step-center sp-delay-9">
-            <div class="sp-button"></div>
-        </div>
-        
-        <!-- Section 4 -->
-        <div class="sp-section-title sp-delay-title-4">
-            <h2>Practice</h2>
-            <h3>Level hard (time)</h3>
-            <div class="sp-behavor-container" style="left: 8vw; top: -5vw;">
-                <div class="sp-behavor">
-                    <div class="sp-behavor-image">
-                        <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+
+            <div class="sp-step sp-step-left sp-delay-4">
+                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="top: 3vw; right: 1vw;">
+                                <img src="/assets/images/killsheets/hojamatar.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
                     </div>
-                    <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                </a>
+            </div>
+            <div class="sp-step sp-step-center sp-delay-5">
+                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" >
+                                <img src="/assets/images/killsheets/lapizmodel.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="sp-step sp-step-right sp-delay-6">
+                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" >
+                                <img src="/assets/images/killsheets/lapizmodel.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Section 2 -->
+            <div class="sp-section-title sp-delay-title-2">
+                <h2>Practice</h2>
+                <h3>Level 1</h3>
+            </div>
+            
+        
+            <!-- Section 3 -->
+            <div class="sp-section-title sp-delay-title-3">
+                <h2>Practice</h2>
+                <h3>Level 2</h3>
+            </div>
+            
+        
+            <!-- Section 4 -->
+            <div class="sp-section-title sp-delay-title-4">
+                <h2>Practice</h2>
+                <h3>Level hard (time)</h3>
+            </div>
+            
+            
+        </div>
+        <div class="sp-path-container">
+            <!-- Three.js background container -->
+            <div id="sp-three-container" class="sp-three-container"></div>
+            
+            <!-- Section 1 -->
+            <!-- <div class="sp-section-title sp-delay-title-1">
+                <h2>{{ __('IWCF Vertical Well') }}</h2>
+                <h3>Interactive Kill Sheet</h3>
+            </div>
+             -->
+            <!-- Steps 1-3 -->
+            <!-- <div class="sp-step sp-step-center sp-delay-1" style="top:3vw">
+               
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" style="right: -1vw;">
+                            <img src="/assets/images/killsheets/information.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="sp-step sp-step-center sp-delay-2">
+                <!-- <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: 2vw;">
+                                <img src="/assets/images/killsheets/video.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a> -->
+                <div class="sp-behavor-container" style="left: 6vw; top: -5vw;">
+                    <div class="sp-behavor">
+                        <div class="sp-behavor-image">
+                            <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+                        </div>
+                        <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
                 </div>
             </div>
+            
+            <!-- <div class="sp-step sp-step-center sp-delay-3" style="top: -2vw;">
+                <div class="sp-item-container">
+                    <div class="sp-item">
+                        <div class="sp-item-image" >
+                            <img src="/assets/images/killsheets/lapizmodel.png">
+                        </div>
+                        <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
+                </div>
+            </div> -->
+            
+            <!-- <div class="sp-section-title sp-delay-title-2">
+                <h2>Practice</h2>
+                <h3>Level 1</h3>
+            </div>
+            
+        
+            <div class="sp-section-title sp-delay-title-3">
+                <h2>Practice</h2>
+                <h3>Level 2</h3>
+            </div>
+            
+        
+            <div class="sp-section-title sp-delay-title-4">
+                <h2>Practice</h2>
+                <h3>Level hard (time)</h3>
+            </div> -->
+            
+            
         </div>
         
-        <!-- Steps 10-12 -->
-        <div class="sp-step sp-step-right sp-delay-10">
-            <div class="sp-button"></div>
-        </div>
-        
-        <div class="sp-step sp-step-center sp-delay-11">
-            <div class="sp-button sp-button-play"></div>
-        </div>
-        
-        <div class="sp-step sp-step-center sp-delay-12">
-            <div class="sp-button"></div>
-        </div>
     </div>
 </div>
  <!-- Import Three.js library -->
@@ -410,12 +623,12 @@
                     top: `${startY}px`,
                     left: `${startX}px`,
                     width: `${length}px`,
-                    height: '2px',
+                    height: '25px',
                     backgroundColor: '#89CFF0',
                     transform: `rotate(${angle}deg)`,
                     transformOrigin: '0 0',
                     opacity: '0',
-                    animation: `sp-fade-in 0.8s forwards ${0.2 + index * 0.2}s`,
+                    animation: `sp-fade-in 0.8s forwards ${0.2 + index * 0.8}s`,
                     zIndex: 0,
                 });
 

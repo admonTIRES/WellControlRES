@@ -14,6 +14,7 @@ $(document).ready(function () {
         // Ocultar ambos bloques y eliminar required de todos los campos
         $('.ejercicio-fraccion').addClass('d-none');
         $('.ejercicio-general').addClass('d-none');
+        $('.calculator-container').addClass('d-none');
 
         // Limpiar required
         $('#preguntaFraccion, #respuestaFraccion, #preguntaGeneral, #formula, #justificacionGeneral').prop('required', false);
@@ -22,13 +23,13 @@ $(document).ready(function () {
         if (valor === '3') {
             // Mostrar sección Fracción
             $('.ejercicio-fraccion').removeClass('d-none');
-
+            $('.calculator-container').removeClass('d-none');
             // Activar required solo para campos de fracción
             $('#preguntaFraccion, #respuestaFraccion').prop('required', true);
         } else if (valor === '1' || valor === '2' || valor === '4' || valor === '5') {
             // Mostrar sección general
             $('.ejercicio-general').removeClass('d-none');
-
+            $('.calculator-container').removeClass('d-none');
             // Activar required solo para campos generales
             $('#preguntaGeneral, #formula, #justificacionGeneral').prop('required', true);
             $('#imagenEjercicio').prop('required', true); // Si la imagen es obligatoria

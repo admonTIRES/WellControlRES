@@ -455,7 +455,7 @@ $("#nivelbtnModal").click(function (e) {
                 icon: "question",
             }, async function () {
                 await loaderbtn('nivelbtnModal')
-                await ajaxAwaitFormData({ api: 2, ID_CATALOGO_NIVELACREDITACION }, 'enteSave', 'nivelForm', 'nivelbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await ajaxAwaitFormData({ api: 2, ID_CATALOGO_NIVELACREDITACION }, 'nivelSave', 'nivelForm', 'nivelbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                     Swal.fire({
                         icon: 'info',
                         title: 'Espere un momento',

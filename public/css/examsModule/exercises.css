@@ -1,0 +1,89 @@
+* Estilos para los checkboxes y los campos de tiempo/puntaje */
+.checkbox-container {
+    margin-bottom: 15px;
+    display: none; /* Ocultos por defecto */
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.checkbox-wrapper input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.checkbox-wrapper input[type="text"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Clases para los estados de los checkboxes */
+.checkbox-wrapper.correct {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+}
+
+.checkbox-wrapper.incorrect {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+
+/* Estilos para los campos de tiempo y puntaje */
+.score-time-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.time-input-container, .score-input-container {
+    width: 48%;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.time-input-container {
+    background-color: #f8f9fa;
+    border-left: 4px solid #17a2b8;
+}
+
+.score-input-container {
+    background-color: #f8f9fa;
+    border-left: 4px solid #ffc107;
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+}
+
+.input-icon i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.input-icon input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

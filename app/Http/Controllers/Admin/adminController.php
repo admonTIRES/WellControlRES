@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBop;
+use App\Models\Admin\catalogs\TemaPreguntas;
+
 
 class adminController extends Controller
 {
@@ -47,7 +49,12 @@ class adminController extends Controller
      */
     public function exercises()
     {
-        return view('Admin.content.Instructor.exercises.exercisePanel')->with('user_role', 0);
+
+        $temas = TemaPreguntas::all();
+        $entes = EnteAcreditador::all();
+        $niveles = NivelAcreditacion::all();
+        $bops = TipoBop::all();
+        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View
@@ -64,7 +71,10 @@ class adminController extends Controller
      */
     public function killsheets()
     {
-        return view('Admin.content.Instructor.exercises.killsheets')->with('user_role', 0);
+        $entes = EnteAcreditador::all();
+        $niveles = NivelAcreditacion::all();
+        $bops = TipoBop::all();
+        return view('Admin.content.Instructor.exercises.killsheets', compact('entes', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

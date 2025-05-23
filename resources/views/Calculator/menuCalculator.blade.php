@@ -1,3 +1,30 @@
+@php
+    $pdfLinksFormuleIADC = [
+        'en' => 'https://heyzine.com/flip-book/ad7fb63e8d.html',
+        'es' => 'https://heyzine.com/flip-book/a95df69293.html',
+        'pt_BR' => 'https://heyzine.com/flip-book/5867d11ce9.html',
+        'ar' => 'https://heyzine.com/flip-book/ad7fb63e8d.html',
+    ];
+    $pdfLinksFormuleIWCF = [
+        'en' => 'https://heyzine.com/flip-book/62311e760f.html',
+        'es' => 'https://heyzine.com/flip-book/55f1a0f37b.html',
+        'pt_BR' => 'https://heyzine.com/flip-book/1a4ca78d45.html',
+        'ar' => 'https://heyzine.com/flip-book/a886157781.html',
+    ];
+    $pdfLinksConversion = [
+        'en' => 'https://heyzine.com/flip-book/972f88a3f7.html',
+        'es' => 'https://heyzine.com/flip-book/972f88a3f7.html',
+        'pt_BR' => 'https://heyzine.com/flip-book/1a4ca78d45.html.html',
+        'ar' => 'https://heyzine.com/flip-book/1a4ca78d45.html.html',
+    ];
+
+    $locale = app()->getLocale();
+
+    $iframeSrcFormuleIADC = $pdfLinksFormuleIADC[$locale] ?? $pdfLinksFormuleIADC['en'];
+    $iframeSrcFormuleIWCF = $pdfLinksFormuleIWCF[$locale] ?? $pdfLinksFormuleIWCF['en'];
+    $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en'];
+
+@endphp
 @extends('Template/maestraUser')
 @section('contenido') 
  
@@ -155,7 +182,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioIntro" src="{{ $audioIntroPath }}"></audio>
+                    <audio id="audioIntro" src="{{ $audioPaths['audioIntroPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('What will you find in this module?') }}</h2>
@@ -202,7 +229,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioConfig" src="{{ $audioConfigPath }}"></audio>
+                    <audio id="audioConfig" src="{{ $audioPaths['audioConfigPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('Decimal adjustment for well control course') }}</h2>
@@ -294,7 +321,7 @@
                             <span class="material-icons">volume_up</span> 
                             <span>{{ __('Listen') }}</span>
                         </button>
-                        <audio id="audioParts" src="{{ $audioPartsPath }}"></audio>
+                        <audio id="audioParts" src="{{$audioPaths['audioPartsPath'] }}"></audio>
                     </div>
                 </div>
             </div>
@@ -351,7 +378,7 @@
                             <span class="material-icons">volume_up</span>
                             <span>{{ __('Listen') }}</span>
                         </button>
-                        <audio id="audioFunctions" src="{{ $audioFunctionsPath }}"></audio>
+                        <audio id="audioFunctions" src="{{ $audioPaths['audioFunctionsPath'] }}"></audio>
                     </div>
                 </div>
             </div>
@@ -363,7 +390,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioUse" src="{{ $audioUsePath }}"></audio>
+                    <audio id="audioUse" src="{{ $audioPaths['audioUsePath']  }}"></audio>
                 </div>
                 <div class="hero-grid">
                     <div class="card">
@@ -412,7 +439,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioUnit" src="{{ $audioUnitPath }}"></audio>
+                    <audio id="audioUnit" src="{{ $audioPaths['audioUnitPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('Measurement units in well control') }}</h2>
@@ -423,7 +450,11 @@
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('Unit conversion table') }}</h2>
                 </div>
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/972f88a3f7.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>   
+                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                        src="{{ $iframeSrcConversion }}"
+                        style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                </iframe>
+                <!-- <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/972f88a3f7.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>    -->
                 <div class="math-drilling-section">
                     <div class="math-drilling-exercise">
                         <h3 class="math-drilling-subtitle">{{ __('Length units') }}</h3>
@@ -484,7 +515,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioFraction" src="{{ $audioFractionPath }}"></audio>
+                    <audio id="audioFraction" src="{{ $audioPaths['audioFractionPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('What is a fraction and how to convert it to decimal?') }}</h2>
@@ -546,7 +577,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioHierarchy" src="{{ $audioHierarchyPath }}"></audio>
+                    <audio id="audioHierarchy" src="{{ $audioPaths['audioHierarchyPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('The order in which equations should be solved') }}</h2>
@@ -576,7 +607,7 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioClearance" src="{{ $audioClearancePath }}"></audio>
+                    <audio id="audioClearance" src="{{ $audioPaths['audioClearancePath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('What is variable isolation and why is it important?') }}</h2>
@@ -646,17 +677,55 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioRounding" src="{{ $audioRoundingPath }}"></audio>
+                    <audio id="audioRounding" src="{{ $audioPaths['audioRoundingPath'] }}"></audio>
                 </div>
                 <div class="math-drilling-section">
                     <p class="math-drilling-text">
                     {{ __('This section establishes how we should round results to obtain a correct result.') }}
                     </p>
                 </div>
-                <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IADC') }}</h2>
-                </div>
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/a95df69293.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
+
+                @switch($enteAcreditador)
+                    @case(1)
+                    <!-- cuando es IADC -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IADC') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIADC }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                        @break
+
+                    @case(2)
+                    <!-- cuando es IWCF -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IWCF') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIWCF }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                        @break
+                        
+                    @default
+                    <!-- cuando es AMBOS -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IADC') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIADC }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IWCF') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIWCF }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                @endswitch
+                
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
@@ -679,16 +748,49 @@
                         <span class="material-icons">volume_up</span> 
                         <span>{{ __('Listen') }}</span>
                     </button>
-                    <audio id="audioFormula" src="{{ $audioFormulaPath }}"></audio>
+                    <audio id="audioFormula" src="{{ $audioPaths['audioFormulaPath'] }}"></audio>
                 </div>
-                <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IWCF well control course') }}</h2>
-                </div>
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/55f1a0f37b.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
-                <div class="math-drilling-section">
-                    <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IADC well control course') }}</h2>
-                </div>
-                <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/7586ad21ae.html" style="border: 0px; width: 100%; height: 100%; min-height: 625px;"></iframe>
+                
+                @switch($enteAcreditador)
+                    @case(1)
+                    <!-- cuando es IADC -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IADC well control course') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIADC }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                        @break
+
+                    @case(2)
+                    <!-- cuando es IWCF -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IWCF well control course') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIWCF }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                        @break
+                        
+                    @default
+                    <!-- cuando es AMBOS -->
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IADC well control course') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIADC }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                    <div class="math-drilling-section">
+                        <h2 class="math-drilling-subtitle">{{ __('Formulas book for the IWCF well control course') }}</h2>
+                    </div>
+                    <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+                            src="{{ $iframeSrcFormuleIWCF }}"
+                            style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
+                    </iframe>
+                @endswitch
             </div>
 
             <!-- exercices section -->

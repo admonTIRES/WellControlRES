@@ -222,11 +222,11 @@
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <div class="card">
+                    <div class="card">                                                                              
                         <div class="card-header d-flex justify-content-between">
                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                             <h4 class="card-title mb-0">{{ __('Killsheets list') }}</h4> 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#killsheetModal">
                             {{ __('New killsheet') }}
                             </button>
                         </div>
@@ -257,165 +257,161 @@
         </div>
     </footer>
     <!-- Modal Fullscreen -->
-    <div class="modal fade" id="ejerciciosModal" tabindex="-1" aria-labelledby="ejerciciosModalLabel" aria-hidden="true">
+    <div class="modal fade" id="killsheetModal" tabindex="-1" aria-labelledby="killsheetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ejerciciosModalLabel">Editar Ejercicio</h5>
+                    <h5 class="modal-title" id="killsheetModalLabel">{{ __('Killsheet')  }} </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="#">
                         <div class="row">
                             <!-- Columna Izquierda -->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <!-- Tipo de Ejercicio -->
                                 <div class="mb-3">
                                     <label class="form-label">Tipo de Ejercicio</label>
-                                    <select class="form-select" id="tipoEjercicio">
+                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH" required>
                                         <option value="">Seleccionar...</option>
-                                        <option value="calculadora-despejes">Calculadora - Despejes</option>
-                                        <option value="calculadora-jerarquia">Calculadora - Jerarquía</option>
-                                        <option value="calculadora-fracciones">Calculadora - Fracciones</option>
-                                        <option value="calculadora-elevacion">Calculadora - Elevación</option>
-                                        <option value="calculadora-redondeos">Calculadora - Redondeos</option>
-                                        <option value="evaluacion">Evaluación</option>
+                                        <option value="1">Despejes</option>
+                                        <option value="2">Jerarquía</option>
+                                        <option value="3">Fracciones</option>
+                                        <option value="4">Elevación</option>
+                                        <option value="5">Redondeos</option>
                                     </select>
                                 </div>
                                 
                                 <!-- Ente Acreditador -->
-                                <div class="mb-3">
+                                <div class="mb-3"> 
                                     <label class="form-label">Ente Acreditador</label>
-                                    <select class="form-select" id="enteAcreditador">
+                                    <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" required>
                                         <option value="">Seleccionar...</option>
-                                        <option value="IADC">IADC</option>
-                                        <option value="IWCF">IWCF</option>
+                                        @foreach ($entes as $ente)
+                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                
-                                <!-- Niveles de Certificación (Checkboxes) -->
+
+                                <!-- Niveles -->
                                 <div class="mb-3">
                                     <label class="form-label">Niveles</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="nivel1">
-                                        <label class="form-check-label" for="nivel1">Nivel 1 - Conciencia en control d3 pozos</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="nivel2">
-                                        <label class="form-check-label" for="nivel2">Nivel 2 - Introductorio</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="nivel3">
-                                        <label class="form-check-label" for="nivel3">Nivel 3 - Perforador</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="nivel4">
-                                        <label class="form-check-label" for="nivel4">Nivel 4 - Supervisor</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="nivel5">
-                                        <label class="form-check-label" for="nivel5">Nivel 5 - Ingeniero</label>
+                                    <div id="NIVELES_MATH">
+                                        @foreach ($niveles as $nivel)
+                                            <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}" name="NIVELES_MATH[]" value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
+                                                <label class="form-check-label" for="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
+                                                    {{ $nivel->NOMBRE_NIVEL }}
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                
+
                                 <!-- BOP -->
                                 <div class="mb-3">
                                     <label class="form-label">BOP</label>
-                                    <select class="form-select" id="tipoBOP">
+                                    <select class="form-select" id="BOP_MATH" name="BOP_MATH" required>
                                         <option value="">Seleccionar...</option>
-                                        <option value="SO">Surface Only (SO)</option>
-                                        <option value="SS">Surface and Subsea (SS)</option>
+                                        @foreach ($bops as $bop)
+                                            <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                
-                                <!-- Tema con búsqueda -->
-                                <div class="mb-3">
-                                    <label class="form-label">Tema</label>
-                                    <input type="text" class="form-control" id="tema" list="temasList" placeholder="Buscar tema...">
-                                    <datalist id="temasList">
-                                        <option value="Presión Hidrostática">
-                                        <option value="Control de Pozos">
-                                        <option value="Densidad de Fluidos">
-                                        <option value="Presión de Formación">
-                                        <option value="Gradiente de Fractura">
-                                        <option value="Equipos de Superficie">
-                                        <option value="Prevención de Reventones">
-                                    </datalist>
-                                </div>
-                                
-                                <!-- Tiempo en minutos -->
-                                <div class="mb-3">
-                                    <label class="form-label">Tiempo (minutos)</label>
-                                    <input type="number" class="form-control" id="tiempo" min="1" value="5">
-                                </div>
-                                
-                                <!-- Puntaje -->
-                                <div class="mb-3">
-                                    <label class="form-label">Puntaje (pts)</label>
-                                    <input type="number" class="form-control" id="puntaje" min="1" value="10">
-                                </div>
+
                             </div>
-                            
-                            <!-- Columna Derecha -->
-                            <div class="col-md-6">
+                            <!-- Columna Derecha si es fracciones-->
+                            <div class="col-md-4 ejercicio-fraccion d-none">
+                                <!-- Pregunta Principal -->
+                                <div class="mb-3">
+                                    <label class="form-label">Fracción</label>
+                                    <textarea class="form-control" id="FRACCION_MATH" name="FRACCION_MATH" rows="1"></textarea>
+                                </div>
+
+                                <!-- Respuesta -->
+                                <div class="mb-3">
+                                    <label class="form-label">Respuesta</label>
+                                    <textarea class="form-control" id="DECIMAL_MATH" name="DECIMAL_MATH" rows="1"></textarea>
+                                </div>
+
+                            </div>
+
+                            <!-- Para los otros tipos -->
+                            <div class="col-md-4 ejercicio-general d-none">
                                 <!-- Pregunta Principal -->
                                 <div class="mb-3">
                                     <label class="form-label">Pregunta</label>
-                                    <textarea class="form-control" id="pregunta" rows="3"></textarea>
+                                    <textarea class="form-control" id="PREGUNTA_MATH" name="PREGUNTA_MATH" rows="3"></textarea>
                                 </div>
-                                
-                                <!-- Pregunta Adicional (Dinámica) -->
+
+                                <!-- Fórmula -->
                                 <div class="mb-3">
-                                    <label class="form-label">Pregunta/Texto Adicional</label>
-                                    <div id="preguntasAdicionalesContainer">
-                                        <!-- Las preguntas adicionales se agregarán aquí -->
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-primary mt-2" onclick="agregarPreguntaAdicional()">
-                                        + Agregar Pregunta Adicional
-                                    </button>
+                                    <label class="form-label">Fórmula</label>
+                                    <textarea class="form-control" id="FORMULA_MATH" name="FORMULA_MATH" rows="3"></textarea>
                                 </div>
-                                
-                                <!-- Opciones de Respuesta (Dinámico) -->
+
+                                <!-- Opciones -->
                                 <div class="mb-3">
-                                    <label class="form-label">Opciones de Respuesta (seleccione la(s) respuesta(s) correcta(s))</label>
-                                    <div id="opcionesContainer">
+                                    <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
+                                    <div id="OPCIONES_MATH">
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="correcta">
+                                                    <input class="form-check-input mt-0" type="checkbox" name="correctas[]">
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Opción A">
+                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción A">
                                             </div>
                                         </div>
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="correcta">
+                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Opción B">
+                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción B">
                                             </div>
                                         </div>
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-primary mt-2" onclick="agregarOpcion()">
-                                        + Agregar Opción
-                                    </button>
+                                        <div class="opcion-item mb-2">
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
+                                                </div>
+                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción C">
+                                            </div>
+                                        </div>
+                                        <div class="opcion-item mb-2">
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
+                                                </div>
+                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción D">
+                                            </div>
+                                        </div>
+                                    </div>                
                                 </div>
-                                
-                                <!-- Justificación -->
+
+                                <!-- Solución -->
                                 <div class="mb-3">
-                                    <label class="form-label">Justificación del Ejercicio</label>
-                                    <textarea class="form-control" id="justificacion" rows="3"></textarea>
+                                    <label class="form-label">Explicación de la solución</label>
+                                    <textarea class="form-control" id="EXPLICACION_MATH" name="EXPLICACION_MATH" rows="3"></textarea>
                                 </div>
-                                
+
                                 <!-- Imagen -->
                                 <div class="mb-3">
-                                    <label for="imagenEjercicio" class="form-label">Imagen del Ejercicio</label>
-                                    <input class="form-control" type="file" id="imagenEjercicio" accept="image/*">
+                                    <label for="imagenEjercicio" class="form-label">Imagen con solución</label>
+                                    <input class="form-control" type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" accept="image/*">
                                 </div>
-                                <div class="calculator-container">
-                                @include('Calculator.itemCalculator', ['id' => 'calculatorAdmin'])
+
+                                
+                            </div>
+
+                            <div class="col-md-4">
+                              
+                                <div class="calculator-container d-none">
+                                        @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
                                 </div>
                             </div>
+
+
                         </div>
                     </form>
                 </div>

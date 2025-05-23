@@ -311,21 +311,24 @@ class CatalogsController extends Controller
                             if ($request->ACTIVAR == 1) {
                                 $enteAcreditador = EnteAcreditador::where('ID_CATALOGO_ENTE', $request['ID_CATALOGO_ENTE'])->update(['ACTIVO_ENTE' => 0]);
                                 $response['code'] = 1;
-                                $response['ente'] = 'Desactivada';
+                                $response['ente'] = 'Desactivado';
                             } else {
                                 $enteAcreditador = EnteAcreditador::where('ID_CATALOGO_ENTE', $request['ID_CATALOGO_ENTE'])->update(['ACTIVO_ENTE' => 1]);
                                 $response['code'] = 1;
-                                $response['ente'] = 'Activada';
+                                $response['ente'] = 'Activado';
                             }
                         } else {
                             $enteAcreditador = EnteAcreditador::find($request->ID_CATALOGO_ENTE);
                             $enteAcreditador->update($request->all());
                             $response['code'] = 1;
-                            $response['ente'] = 'Actualizada';
+                            $response['ente'] = 'Actualizado';
                         }
                         return response()->json($response);
                     }
-                    break;
+                $response['code']  = 1;
+                $response['ente']  = $enteAcreditador;
+                return response()->json($response);
+                break;
 
                 // Caso para Nivel de Acreditación
                 case 2:
@@ -348,9 +351,12 @@ class CatalogsController extends Controller
                             $response['code'] = 1;
                             $response['nivel'] = 'Actualizado';
                         }
+                        return response()->json($response);
                     }
-                    return response()->json($response);
-                    break;
+                $response['code']  = 1;
+                $response['nivel']  = $nivelAcreditacion;
+                return response()->json($response);
+                break;
 
                 // Caso para Tipo de BOP
                 case 3:
@@ -373,9 +379,12 @@ class CatalogsController extends Controller
                             $response['code'] = 1;
                             $response['tipobop'] = 'Actualizado';
                         }
+                        return response()->json($response);
                     }
-                    return response()->json($response);
-                    break;
+                $response['code']  = 1;
+                $response['tipobop']  = $tipoBop;
+                return response()->json($response);
+                break;
 
                 // Caso para Tema de Preguntas
                 case 4:
@@ -398,9 +407,12 @@ class CatalogsController extends Controller
                             $response['code'] = 1;
                             $response['tema'] = 'Actualizado';
                         }
+                        return response()->json($response);
                     }
-                    return response()->json($response);
-                    break;
+                $response['code']  = 1;
+                $response['tema']  = $temaPregunta;
+                return response()->json($response);
+                break;
 
                 // Caso para Idiomas de Examen
                 case 5:
@@ -423,9 +435,12 @@ class CatalogsController extends Controller
                             $response['code'] = 1;
                             $response['idioma'] = 'Actualizado';
                         }
+                        return response()->json($response);
                     }
-                    return response()->json($response);
-                    break;
+                $response['code']  = 1;
+                $response['idioma']  = $idiomaExamen;
+                return response()->json($response);
+                break;
 
                 // Caso para Membresías
                 case 6:
@@ -448,9 +463,12 @@ class CatalogsController extends Controller
                             $response['code'] = 1;
                             $response['membresia'] = 'Actualizado';
                         }
+                        return response()->json($response);
                     }
-                    return response()->json($response);
-                    break;
+                $response['code']  = 1;
+                $response['membresia']  = $membresia;
+                return response()->json($response);
+                break;
 
                 default:
                     $response['code'] = 1;

@@ -36,7 +36,9 @@ class calculatorController extends Controller
         }
         
         
-        return view('Calculator.menuCalculator', $audioPaths);
+        // return view('Calculator.menuCalculator', $audioPaths);
+        $enteAcreditador = 3;
 
+        return view('Calculator.menuCalculator', compact('audioPaths', 'enteAcreditador'));
     }
 }

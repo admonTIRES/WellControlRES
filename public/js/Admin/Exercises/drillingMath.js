@@ -1,6 +1,42 @@
 ID_MATH_EXERCISE = 0
 
 $(document).ready(function () {
+    var $select = $('#ENTE_MATH').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance = $select[0].selectize;
+    var $select2 = $('#NIVEL_MATH').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance2 = $select2[0].selectize;
+    var $select3 = $('#BOP_MATH').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance3 = $select3[0].selectize;
     // RESET MODALS
     $('#mathModal').on('hidden.bs.modal', function () {
         ID_MATH_EXERCISE = 0;

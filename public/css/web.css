@@ -39,9 +39,9 @@ body {
 }
 
 .logo img {
-    width: 250px;
-    /* height: auto; descomentar en el nuevo logo*/
-    height: 80px;
+    width: 200px;
+    height: auto; 
+    /* height: 80px; */
     display: block;
 }
 
@@ -141,6 +141,13 @@ body {
     transform: translateY(5px); /* Movimiento suave hacia abajo */
 }
 
+#form-wizard1 fieldset {
+  display: none;
+}
+
+#form-wizard1 fieldset.active {
+  display: block;
+}
 
 
 

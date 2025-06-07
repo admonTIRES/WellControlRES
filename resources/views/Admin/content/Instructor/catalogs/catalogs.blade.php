@@ -282,7 +282,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="entes-list-table" class="table table-striped" role="grid" >
+                                                <table id="entes-list-table" class="table table-striped table-wrap" role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -296,7 +296,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="nivelacreditacion-list-table" class="table table-striped" role="grid">
+                                                <table id="nivelacreditacion-list-table" class="table table-striped table-wrap" role="grid">
                                                     <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Nivel</th>
@@ -424,7 +424,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="tiposbop-list-table" class="table table-striped" role="grid" >
+                                                <table id="tiposbop-list-table" class="table table-striped table-wrap" role="grid" >
                                                     <!-- <thead>
                                                         <tr class="ligth">
                                                             <th>Abreviatura</th>

@@ -37,12 +37,36 @@ class adminController extends Controller
     {
         return view('Admin.content.Instructor.students.studentsPanel')->with('user_role', 0);
     }
+
+     /**
+     * @return \Illuminate\View\View
+     */
+
+    public function projectsManagement(Request $request)
+    {
+        // $projectId = $request->input('project_id'); 
+
+        // if ($projectId) {
+        //     $project = Project::find($projectId);
+        //     return view('admin.projects-management', compact('project'));
+        // }
+
+        $FOLIO = "RES-001";
+        $NOMBRE_PROYECTO = "Nivel 2 - IWCF - PERENCO MEXICO";
+
+        return view('Admin.content.Instructor.students.projectAdmin', compact('FOLIO', 'NOMBRE_PROYECTO'));
+    }
+
         /**
      * @return \Illuminate\View\View
      */
     public function asignaments()
     {
-        return view('Admin.content.Instructor.students.asignaments')->with('user_role', 0);
+        $temas = TemaPreguntas::all();
+        $entes = EnteAcreditador::all();
+        $niveles = NivelAcreditacion::all();
+        $bops = TipoBop::all();
+        return view('Admin.content.Instructor.students.asignaments', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

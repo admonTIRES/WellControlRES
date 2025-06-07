@@ -372,6 +372,22 @@ var membresiasDatatable = $("#membresias-list-table").DataTable({
     ]
 });
 
+$('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
+    const target = $(e.target).attr("data-bs-target");
+
+    if (target === "#v-pills-nivel") {
+        nivelesDatatable.columns.adjust().draw();
+    } else if (target === "#v-pills-bop") {
+        bopDatatable.columns.adjust().draw();
+    } else if (target === "#v-pills-temas") {
+        temasDatatable.columns.adjust().draw();
+    } else if (target === "#v-pills-idiomas") {
+        idiomasDatatable.columns.adjust().draw();
+    } else if (target === "#v-pills-membresias") {
+        membresiasDatatable.columns.adjust().draw();
+    }
+});
+
 
 // Guardar catalogos
 $("#entesbtnModal").click(function (e) {

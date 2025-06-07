@@ -200,7 +200,7 @@
     <div class="conatiner-fluid content-inner mt-5 py-0">
         <div>
             <div class="row">
-            <div class="col-md-12">
+                <div class="col-md-12">
                     <div class="card banner">
                         <div class="card-body ">
                             <div class="row justify-content-center align-items-center banner-container">
@@ -283,40 +283,40 @@
                                 </div>
                                 
                                 <!-- Ente Acreditador -->
-                                <div class="mb-3"> 
-                                    <label class="form-label">Ente Acreditador</label>
-                                    <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" required>
-                                        <option value="">Seleccionar...</option>
+                                <div class="mb-3 d-flex"> 
+                                    <div class="col-12 me-1 text-center">
+                                        <label>Ente Acreditador</label>
+                                        <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" multiple >
+                                        <option selected disabled></option>
                                         @foreach ($entes as $ente)
-                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                        @endforeach
-                                    </select>
+                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <!-- Niveles -->
                                 <div class="mb-3">
-                                    <label class="form-label">Niveles</label>
-                                    <div id="NIVELES_MATH">
+                                    <div class="col-12 me-1 text-center">
+                                        <label>Niveles</label>
+                                        <select class="form-select" id="NIVEL_MATH" name="NIVEL_MATH" multiple >
+                                        <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
-                                            <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}" name="NIVELES_MATH[]" value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
-                                                <label class="form-check-label" for="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
-                                                    {{ $nivel->NOMBRE_NIVEL }}
-                                                </label>
-                                            </div>
+                                                <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
                                         @endforeach
+                                        </select>
                                     </div>
                                 </div>
-
-                                <!-- BOP -->
                                 <div class="mb-3">
-                                    <label class="form-label">BOP</label>
-                                    <select class="form-select" id="BOP_MATH" name="BOP_MATH" required>
-                                        <option value="">Seleccionar...</option>
+                                    <div class="col-12 me-1 text-center">
+                                        <label>BOP</label>
+                                        <select class="form-select" id="BOP_MATH" name="BOP_MATH" multiple >
+                                        <option selected disabled></option>
                                         @foreach ($bops as $bop)
-                                            <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                                        <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
                                         @endforeach
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
 
                             </div>
@@ -424,3 +424,6 @@
     </div>
 </main>
 @endsection
+@php
+    $css_identifier = 'math';
+@endphp

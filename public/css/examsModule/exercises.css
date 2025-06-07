@@ -1,4 +1,122 @@
-* Estilos para los checkboxes y los campos de tiempo/puntaje */
+ .tema-container {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.tema-container:hover {
+    border-color: #007DBA;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+}
+
+.tema-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+}
+
+.tema-header:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+.tema-header.active {
+    background: linear-gradient(135deg, #236192 0%, #0056b3 100%);
+    color: white !important;
+    font-weight: bold;
+}
+
+.subtemas-container {
+    display: none;
+    padding: 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.subtema-item {
+    border-bottom: 1px solid #f8f9fa;
+    padding: 15px 20px;
+    background: white;
+    transition: background-color 0.2s ease;
+}
+
+.subtema-item:hover {
+    background-color: #f8f9fa;
+}
+
+.subtema-item:last-child {
+    border-bottom: none;
+    border-radius: 0 0 6px 6px;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+.expand-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.resumen-tema {
+    background: linear-gradient(45deg,#236192, #007DBA);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 0 0 6px 6px;
+    font-weight: bold;
+}
+
+.resumen-total {
+    background: linear-gradient(45deg, #236192, #007DBA);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-control.small {
+    width: 80px;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tema-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.subtema-title {
+    font-weight: 500;
+    margin: 0;
+}
+
+.badge {
+    font-size: 0.8em;
+}
+
 .checkbox-container {
     margin-bottom: 15px;
     display: none; /* Ocultos por defecto */
@@ -87,3 +205,196 @@
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
+.pastel-box {
+    background-color: #f0f9ff; /* Azul pastel claro */
+    border: 2px dotted #90caf9; /* Borde punteado azul */
+    border-radius: 8px; /* Bordes suavemente redondeados */
+    padding: 16px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.selectize-control.multi .selectize-input {
+    padding: 6px 8px;
+    min-height: 45px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.selectize-control.multi .selectize-input > input {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+/* Estilo para cada etiqueta seleccionada */
+.selectize-control.multi .selectize-input > div {
+    background-color: #FF585D; /* Azul Bootstrap */
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin: 3px 4px 3px 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para la "x" de eliminar */
+.selectize-control.multi .selectize-input > div .remove {
+    color: #fff;
+    margin-left: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Efecto al enfocar */
+.selectize-input.focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+.tema-header.active,
+.tema-header.active * {
+    color: white !important;
+}
+
+.resumen-total * {
+    color: white !important;
+}
+
+.input-sin-estilo {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    font-weight: bold; /* opcional */
+    text-align: center;
+}
+.input-sin-estilo:focus {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+
+
+
+ #calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .fc-event {
+            border-radius: 8px !important;
+            border: none !important;
+            padding: 2px 8px !important;
+            font-weight: 500 !important;
+        }
+        
+        .fc-toolbar-title {
+            color: #333 !important;
+            font-weight: 700 !important;
+        }
+        
+        .btn-create {
+            background: linear-gradient(45deg, #A4D65E, #A4D65E);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .modal-header {
+            /* background: linear-gradient(45deg, #A4D65E, #a4d65e); */
+            color: white;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            border-bottom: none;
+        }
+        
+        .time-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .time-inputs input {
+            width: 60px;
+            text-align: center;
+        }
+
+          .timezone-select {
+            max-width: 200px;
+        }
+        
+        .events-list {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .event-item {
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .event-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .event-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .event-groups {
+            margin-top: 10px;
+        }
+        
+        .group-badge {
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+        
+        .delete-event {
+            color: #dc3545;
+            cursor: pointer;
+            float: right;
+            font-size: 1.1em;
+        }
+        
+        .delete-event:hover {
+            color: #c82333;
+        }

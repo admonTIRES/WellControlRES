@@ -53,6 +53,8 @@ Route::get('/Killsheet/iwcf/video', [KillsheetController::class, 'iwcfvideo'])->
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
+Route::get('/projectsManagement', [adminController::class, 'projectsManagement'])->name('projects.management');
+
 
 Route::get('/students', [adminController::class, 'students'])->name('students');   
 Route::get('/asignaments', [adminController::class, 'asignaments'])->name('asignaments'); 

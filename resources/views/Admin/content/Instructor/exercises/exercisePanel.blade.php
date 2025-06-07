@@ -200,7 +200,7 @@
     <div class="conatiner-fluid content-inner mt-5 py-0">
         <div>
             <div class="row">
-            <div class="col-md-12">
+                <div class="col-md-12">
                     <div class="card banner">
                         <div class="card-body ">
                             <div class="row justify-content-center align-items-center banner-container">
@@ -273,160 +273,303 @@
         </div>
     </footer>
     <!-- Modal Fullscreen -->
-    <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
+     <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="examModalLabel">{{ __('Assessment')  }} </h5>
+                    <h5 class="modal-title" id="assessmentModalLabel">{{ __('Assessment')  }} </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="#">
                         <div class="row">
-                            <!-- Columna Izquierda -->
-                            <div class="col-md-4">
-                                <!-- Tipo de Ejercicio -->
-                                <div class="mb-3">
-                                    <label class="form-label">Tipo de Ejercicio</label>
-                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH" required>
-                                        <option value="">Seleccionar...</option>
-                                        <option value="1">Despejes</option>
-                                        <option value="2">Jerarquía</option>
-                                        <option value="3">Fracciones</option>
-                                        <option value="4">Elevación</option>
-                                        <option value="5">Redondeos</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Ente Acreditador -->
-                                <div class="mb-3"> 
-                                    <label class="form-label">Ente Acreditador</label>
-                                    <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" required>
-                                        <option value="">Seleccionar...</option>
+
+                            <div class="col-md-12 text-center pastel-box">
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalidades') }}
+                                </h4>
+                                <!-- Agrupación horizontal -->
+                                <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
+                                    <!-- Ente Acreditador -->
+                                    <div class="col-md-3 text-start">
+                                        <label>Ente Acreditador</label>
+                                        <select class="form-select" id="ENTE1_MATH" name="ENTE_MATH" multiple >
+                                        <option selected disabled></option>
                                         @foreach ($entes as $ente)
-                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                 <!-- Niveles -->
-                                <div class="mb-3">
-                                    <label class="form-label">Niveles</label>
-                                    <div id="NIVELES_MATH">
+                                     <div class="col-md-3 text-start">
+                                        <label>Niveles</label>
+                                        <select class="form-select" id="NIVEL1_MATH" name="NIVEL_MATH" multiple >
+                                        <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
-                                            <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}" name="NIVELES_MATH[]" value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
-                                                <label class="form-check-label" for="nivel{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
-                                                    {{ $nivel->NOMBRE_NIVEL }}
-                                                </label>
-                                            </div>
+                                                <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
                                         @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 text-start">
+                                        <label>BOP</label>
+                                        <select class="form-select" id="BOP1_MATH" name="BOP_MATH" multiple >
+                                        <option selected disabled></option>
+                                        @foreach ($bops as $bop)
+                                        <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                                        @endforeach
+                                        </select>
                                     </div>
                                 </div>
+                                <!-- Ente Acreditador -->
+                               
 
-                                <!-- BOP -->
-                                <div class="mb-3">
-                                    <label class="form-label">BOP</label>
-                                    <select class="form-select" id="BOP_MATH" name="BOP_MATH" required>
-                                        <option value="">Seleccionar...</option>
-                                        @foreach ($bops as $bop)
-                                            <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                            </div>
-                            <!-- Columna Derecha si es fracciones-->
-                            <div class="col-md-4 ejercicio-fraccion d-none">
-                                <!-- Pregunta Principal -->
-                                <div class="mb-3">
-                                    <label class="form-label">Fracción</label>
-                                    <textarea class="form-control" id="FRACCION_MATH" name="FRACCION_MATH" rows="1"></textarea>
-                                </div>
-
-                                <!-- Respuesta -->
-                                <div class="mb-3">
-                                    <label class="form-label">Respuesta</label>
-                                    <textarea class="form-control" id="DECIMAL_MATH" name="DECIMAL_MATH" rows="1"></textarea>
-                                </div>
-
-                            </div>
-
-                            <!-- Para los otros tipos -->
-                            <div class="col-md-4 ejercicio-general d-none">
-                                <!-- Pregunta Principal -->
-                                <div class="mb-3">
-                                    <label class="form-label">Pregunta</label>
-                                    <textarea class="form-control" id="PREGUNTA_MATH" name="PREGUNTA_MATH" rows="3"></textarea>
-                                </div>
-
-                                <!-- Fórmula -->
-                                <div class="mb-3">
-                                    <label class="form-label">Fórmula</label>
-                                    <textarea class="form-control" id="FORMULA_MATH" name="FORMULA_MATH" rows="3"></textarea>
-                                </div>
-
-                                <!-- Opciones -->
-                                <div class="mb-3">
-                                    <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
-                                    <div id="OPCIONES_MATH">
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="correctas[]">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción A">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción B">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción C">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción D">
-                                            </div>
-                                        </div>
-                                    </div>                
-                                </div>
-
-                                <!-- Solución -->
-                                <div class="mb-3">
-                                    <label class="form-label">Explicación de la solución</label>
-                                    <textarea class="form-control" id="EXPLICACION_MATH" name="EXPLICACION_MATH" rows="3"></textarea>
-                                </div>
-
-                                <!-- Imagen -->
-                                <div class="mb-3">
-                                    <label for="imagenEjercicio" class="form-label">Imagen con solución</label>
-                                    <input class="form-control" type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" accept="image/*">
-                                </div>
-
+                                                        <!-- Contenedor para Tiempo y Puntaje -->
                                 
                             </div>
-
-                            <div class="col-md-4">
-                              
-                                <div class="calculator-container d-none">
-                                        @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
+                            <!-- Columna Izquierda -->
+                             <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('2. ') }}</span>   {{ __('Idioma') }}
+                                </h4>
+                                 <div class="mb-3 d-flex"> 
+                                    <div class="col-12 me-1 text-center">
+                                        <label>¿Cuál es el idioma de la pregunta?*</label>
+                                        <select class="form-select" id="IDIOMAEXAM_QUESTION" name="IDIOMAEXAM_QUESTION">
+                                        <option selected disabled></option>
+                                        <option value="0">Seleccionar...</option>
+                                        <option value="2">Spanish</option>
+                                        <option value="3">English</option>
+                                        <option value="4">Arabic</option>
+                                        <option value="5">Portuguese</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('3. ') }}</span>   {{ __('Tipo de exámen') }}
+                                </h4>
+                                 <div class="mb-3">
+                                    <label class="form-label">¿Qué tipo de exámen es?*</label>
+                                    <select class="form-select" id="TIPOEXAM_QUESTION" name="TIPOEXAM_QUESTION" multiple>
+                                         <option value="1">Diagnóstica</option>
+                                        <option value="2">Intermedia</option>
+                                        <option value="3">Final</option>
+                                        <option value="4">N/A</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                 <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('4. ') }}</span>   {{ __('Nombre del exámen') }}
+                                </h4>
+                                <div class="mb-3" id="nombreTexto">
+                                    <label class="form-label">Ingresa el nombre de este exámen:*</label>
+                                    <input type="text" class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION">
+                                </div>
+                            </div>
+                            <!-- Columna Derecha si es fracciones-->
+                            <div class="col-md-12 text-center ejercicio-fraccion pastel-box">
+                                <!-- Pregunta Principal -->
+                               
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Temas y subtemas') }}
+                                </h4>
+                                <div id="temas-container">
+                                <!-- Tema 1: Presión hidrostática -->
+                                <div class="tema-container" data-tema="1">
+                                    <div class="tema-header" onclick="toggleTema(1)">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="tema1-check" onchange="toggleAllSubtemas(1, this.checked)">
+                                                <h5 class="tema-title">Presión hidrostática</h5>
+                                            </div>
+                                            <i class="fas fa-chevron-down expand-icon" id="icon-1"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="subtemas-container" id="subtemas-1">
+                                        <div class="subtema-item">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="subtema1-1-check" onchange="updateCalculos()">
+                                                <h6 class="subtema-title">Fundamentos de la presión hidrostática</h6>
+                                            </div>
+                                            <div class="control-row">
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Preguntas:</label>
+                                                    <input type="number" class="form-control small" min="1" max="50" value="5" onchange="updateCalculos()">
+                                                </div>
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="300" value="3" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="300" value="6" onchange="updateCalculos()">
+                                                </div>
+                                                 <div class="time-input-group">
+                                                    <label class="form-label small">Puntajes (pts):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="subtema-item">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="subtema1-2-check" onchange="updateCalculos()">
+                                                <h6 class="subtema-title">Cálculos de presión en fluidos</h6>
+                                            </div>
+                                            <div class="control-row">
+                                                <div>
+                                                    <label class="form-label small">Preguntas:</label>
+                                                    <input type="number" class="form-control small" min="1" max="50" value="8" onchange="updateCalculos()">
+                                                </div>
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="9" onchange="updateCalculos()">
+                                                </div>
+                                                 <div class="time-input-group">
+                                                    <label class="form-label small">Puntajes (pts):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resumen-tema" id="resumen-tema-1">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Subtotal Tema 1:</span>
+                                            <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Tema 2: Densidad del lodo -->
+                                <div class="tema-container" data-tema="2">
+                                    <div class="tema-header" onclick="toggleTema(2)">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="tema2-check" onchange="toggleAllSubtemas(2, this.checked)">
+                                                <h5 class="tema-title">Densidad del lodo</h5>
+                                            </div>
+                                            <i class="fas fa-chevron-down expand-icon" id="icon-2"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="subtemas-container" id="subtemas-2">
+                                        <div class="subtema-item">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="subtema2-1-check" onchange="updateCalculos()">
+                                                <h6 class="subtema-title">Propiedades del lodo de perforación</h6>
+                                            </div>
+                                            <div class="control-row">
+                                                <div>
+                                                    <label class="form-label small">Preguntas:</label>
+                                                    <input type="number" class="form-control small" min="1" max="50" value="6" onchange="updateCalculos()">
+                                                </div>
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="7" onchange="updateCalculos()">
+                                                </div>
+                                                 <div class="time-input-group">
+                                                    <label class="form-label small">Puntajes (pts):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="subtema-item">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="subtema2-2-check" onchange="updateCalculos()">
+                                                <h6 class="subtema-title">Control de densidad</h6>
+                                            </div>
+                                            <div class="control-row">
+                                                <div>
+                                                    <label class="form-label small">Preguntas:</label>
+                                                    <input type="number" class="form-control small" min="1" max="50" value="4" onchange="updateCalculos()">
+                                                </div>
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="3" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="6" onchange="updateCalculos()">
+                                                </div>
+                                                 <div class="time-input-group">
+                                                    <label class="form-label small">Puntajes (pts):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="subtema-item">
+                                            <div class="checkbox-wrapper">
+                                                <input type="checkbox" id="subtema2-3-check" onchange="updateCalculos()">
+                                                <h6 class="subtema-title">Volumen de la sarta de perforación</h6>
+                                            </div>
+                                            <div class="control-row">
+                                                <div>
+                                                    <label class="form-label small col-8">Preguntas:</label>
+                                                    <input type="number" class="form-control small" min="1" max="50" value="7" onchange="updateCalculos()">
+                                                </div>
+                                                <div class="time-input-group">
+                                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="5" onchange="updateCalculos()">
+                                                </div>
+                                                 <div class="time-input-group">
+                                                    <label class="form-label small">Puntajes (pts):</label>
+                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                    <span>-</span>
+                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="resumen-tema" id="resumen-tema-2">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Subtotal Tema 2:</span>
+                                             <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts máximos</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="resumen-total" id="resumen-total">
+                                <h4 >TOTAL GENERAL</h4>
+                                <div class="d-flex justify-content-around mt-3">
+                                    <div>
+                                        <i class="fas fa-question-circle"></i>
+                                        <strong id="total-preguntas">0</strong> Preguntas
+                                    </div>
+                                    <div class="d-flex">
+                                        <i class="fas fa-clock"></i>
+                                        <!-- <strong id="total-tiempo">0</strong> -->
+                                        <input id="total-tiempo" type="number" class="form-control small input-sin-estilo" placeholder="Max" min="1" max="100" value="10"> Minutos
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <strong id="total-puntaje">0</strong> Puntos
+                                    </div>
                                 </div>
                             </div>
 
+                            </div>
 
                         </div>
                     </form>
@@ -448,45 +591,110 @@
                 <div class="modal-body">
                     <form action="#">
                         <div class="row">
+
+                            <div class="col-md-12 text-center pastel-box">
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('1. ') }}</span> {{ __('Generalidades') }}
+                                </h4>
+
+                                <!-- Agrupación horizontal -->
+                                <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
+                                    <!-- Ente Acreditador -->
+                                    <div class="col-md-3 text-start">
+                                        <label>Ente Acreditador*</label>
+                                        <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" multiple>
+                                            <option selected disabled></option>
+                                            @foreach ($entes as $ente)
+                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Niveles -->
+                                    <div class="col-md-3 text-start">
+                                        <label>Niveles*</label>
+                                        <select class="form-select" id="NIVEL_MATH" name="NIVEL_MATH" multiple>
+                                            <option selected disabled></option>
+                                            @foreach ($niveles as $nivel)
+                                                <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- BOP -->
+                                    <div class="col-md-3 text-start">
+                                        <label>BOP*</label>
+                                        <select class="form-select" id="BOP_MATH" name="BOP_MATH" multiple>
+                                            <option selected disabled></option>
+                                            @foreach ($bops as $bop)
+                                                <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Columna Izquierda -->
-                            <div class="col-md-4">
+                             <div class="col-md-4 text-center pastel-box">
                                 <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('2. ') }}</span>   {{ __('Idioma') }}
+                                </h4>
+                                 <div class="mb-3 d-flex"> 
+                                    <div class="col-12 me-1 text-center">
+                                        <label>¿Cuál es el idioma de la pregunta?*</label>
+                                        <select class="form-select" id="IDIOMA_QUESTION" name="IDIOMA_QUESTION">
+                                        <option selected disabled></option>
+                                        <option value="0">Seleccionar...</option>
+                                        <option value="2">Spanish</option>
+                                        <option value="3">English</option>
+                                        <option value="4">Arabic</option>
+                                        <option value="5">Portuguese</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('3. ') }}</span>   {{ __('Temas') }}
+                                </h4>
+                                 <div class="mb-3 d-flex"> 
+                                    <div class="col-12 me-1 text-center">
+                                        <label>¿Cuál es el o los tema(s) de la pregunta?*</label>
+                                        <select class="form-select" id="TEMA_QUESTION" name="TEMA_QUESTION" multiple>
+                                        <option selected disabled></option>
+                                        @foreach ($temas as $tema)
+                                            <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                 <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('4. ') }}</span>   {{ __('Subtemas') }}
+                                </h4>
                                 <div class="mb-3"> 
-                                    <label class="form-label">1. ¿Cuál es el tema de la pregunta?*</label>
-                                    <select class="form-select" id="TEMA_QUESTION" name="TEMA_QUESTION" required>
+                                    <label class="form-label">¿Cuál es el o los subtema(s) de la pregunta? (solo si aplica)</label>
+                                    <select class="form-select" id="SUBTEMA_QUESTION" name="SUBTEMA_QUESTION" required>
                                         <option value="">Seleccionar...</option>
                                         @foreach ($temas as $tema)
                                             <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
-                                                        <!-- Contenedor para Tiempo y Puntaje -->
-                                <div class="score-time-container">
-                                    <!-- Campo de Tiempo -->
-                                    <div class="time-input-container">
-                                        <label class="form-label">Tiempo (minutos)*</label>
-                                        <div class="input-icon">
-                                            <i class="fas fa-clock"></i>
-                                            <input type="number" id="tiempo_question" name="tiempo_question" min="1" step="1" class="form-control" placeholder="Ej: 5" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Campo de Puntaje -->
-                                    <div class="score-input-container">
-                                        <label class="form-label">Puntaje*</label>
-                                        <div class="input-icon">
-                                            <i class="fas fa-star"></i>
-                                            <input type="number" id="puntaje_question" name="puntaje_question" min="1" step="1" class="form-control" placeholder="Ej: 10" required>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- Columna Derecha si es fracciones-->
-                            <div class="col-md-4 ejercicio-fraccion">
+                            <div class="col-md-6 text-center ejercicio-fraccion pastel-box">
                                 <!-- Pregunta Principal -->
+                               
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Estructura de la pregunta') }}
+                                </h4>
                                 <div class="mb-3">
-                                    <label class="form-label">2. ¿Este campo es texto o imagen?*</label>
+                                    <label class="form-label">¿Este campo es texto o imagen?*</label>
                                     <select class="form-select" id="TIPO1_QUESTION" name="TIPO1_QUESTION" required>
                                         <option value="">Seleccionar...</option>
                                         <option value="1">Texto</option>
@@ -497,7 +705,8 @@
                                 <!-- Campo de Texto -->
                                 <div class="mb-3 d-none" id="campoTexto">
                                     <label class="form-label">Ingresa el texto:*</label>
-                                    <input type="text" class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION">
+                                    <!-- <input type="text" class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION"> -->
+                                    <textarea class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION" rows="4"></textarea>
                                 </div>
 
                                 <!-- Campo de Imagen -->
@@ -524,7 +733,8 @@
 
                                     <div class="mb-3 d-none" id="campoTexto2">
                                         <label class="form-label">Ingresa el texto:</label>
-                                        <input type="text" class="form-control" name="TEXTO2_QUESTION" id="TEXTO2_QUESTION" disabled>
+                                        <!-- <input type="text" class="form-control" name="TEXTO2_QUESTION" id="TEXTO2_QUESTION" disabled> -->
+                                        <textarea class="form-control campo-requerido" name="TEXTO2_QUESTION" id="TEXTO2_QUESTION" rows="4"></textarea>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoImagen2">
@@ -550,7 +760,8 @@
 
                                     <div class="mb-3 d-none" id="campoTexto3">
                                         <label class="form-label">Ingresa el texto:</label>
-                                        <input type="text" class="form-control" name="TEXTO3_QUESTION" id="TEXTO3_QUESTION" disabled>
+                                        <!-- <input type="text" class="form-control" name="TEXTO3_QUESTION" id="TEXTO3_QUESTION" disabled> -->
+                                        <textarea class="form-control campo-requerido" name="TEXTO3_QUESTION" id="TEXTO3_QUESTION" rows="4"></textarea>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoImagen3">
@@ -562,9 +773,28 @@
                             </div>
 
                             <!-- Para los otros tipos -->
-                            <div class="col-md-4">
+                            <div class="col-md-6 text-center pastel-box">
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('6. ') }}</span>   {{ __('Respuestas') }}
+                                </h4>
                                 <div class="mb-3">
-                                    <label class="form-label">3. ¿Cuántas opciones de respuestas desea?*</label>
+                                    <label class="form-label">¿Qué tipo de respuesta es?*</label>
+                                   <select class="form-select" id="TIPO_RESPUESTA_QUESTION" name="TIPO_RESPUESTA_QUESTION" required>
+                                        <option value="0">Seleccionar...</option>
+                                        <option value="1">Número (Hoja de matar)</option>
+                                        <option value="2">Opciones de respuesta</option>
+                                    </select>
+                                </div>
+                                <div class="time-input-group d-none" id="rangoRespuesta">
+                                    <label class="form-label small">Rango de respuesta:</label>
+                                    <input type="number" class="form-control small" placeholder="Min" value="4">
+                                    <span>-</span>
+                                    <input type="number" class="form-control small" placeholder="Max" value="9">
+                                </div>
+
+                                <!-- Segundo selector: número de opciones -->
+                                <div class="mb-3 d-none" id="selectorOpciones">
+                                    <label class="form-label">¿Cuántas opciones de respuestas desea?*</label>
                                     <select class="form-select" id="NOPTIONS_QUESTION" name="NOPTIONS_QUESTION" required>
                                         <option value="0">Seleccionar...</option>
                                         <option value="2">2</option>
@@ -573,8 +803,9 @@
                                         <option value="5">5</option>
                                     </select>
                                 </div>
-                                
-                                <div class="mb-3">
+
+                                <!-- Tercer selector: número de respuestas correctas -->
+                                <div class="mb-3 d-none" id="selectorCorrectas">
                                     <label class="form-label">¿Cuántas respuestas correctas?*</label>
                                     <select class="form-select" id="CORRECTOPTIONS_QUESTION" name="CORRECTOPTIONS_QUESTION" required>
                                         <option value="0">Seleccionar...</option>
@@ -631,18 +862,162 @@
                             
                             </div>
 
-                            <div class="col-md-4">
-                              
-                              
+                           
+
+                            <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('7. ') }}</span>   {{ __('Tiempo y puntaje') }}
+                                </h4>
+                                <div class="score-time-container">
+                                    <!-- Campo de Tiempo -->
+                                    <div class="time-input-container">
+                                        <label class="form-label">Tiempo (minutos)*</label>
+                                        <div class="input-icon">
+                                            <i class="fas fa-clock"></i>
+                                            <input type="number" id="tiempo_question" name="tiempo_question" min="1" step="1" class="form-control" placeholder="Ej: 5" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Campo de Puntaje -->
+                                    <div class="score-input-container">
+                                        <label class="form-label">Puntaje*</label>
+                                        <div class="input-icon">
+                                            <i class="fas fa-star"></i>
+                                            <input type="number" id="puntaje_question" name="puntaje_question" min="1" step="1" class="form-control" placeholder="Ej: 10" required>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
+                            <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('8. ') }}</span>   {{ __('Tipo de evaluación') }}
+                                </h4>
+                                 <div class="mb-3">
+                                    <label class="form-label">¿Para qué tipo de evaluación es?*</label>
+                                    <select class="form-select" id="TIPOEVA_QUESTION" name="TIPOEVA_QUESTION" multiple>
+                                        <option value="1">Diagnóstica</option>
+                                        <option value="2">Intermedia</option>
+                                        <option value="3">Final</option>
+                                        <option value="4">N/A</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center pastel-box">
+                                <!-- Ente Acreditador -->
+                                <h4 class="fw-bold mb-4">
+                                    <span class="text-secondary"> {{ __('9. ') }}</span>   {{ __('Retroalimentación') }}
+                                </h4>
+                                 <div class="mb-3">
+                                    <label class="form-label">¿Desea añadir retroalimentación para esta pregunta?*</label>
+                                    <select class="form-select" id="RETROALIMENTACION_QUESTION" name="RETROALIMENTACION_QUESTION" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="1">Si</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Campo de Texto -->
+                               <div class="mb-3 d-none" id="retroText">
+                                    <label class="form-label">Escribe la retroalimentación:*</label>
+                                    <textarea class="form-control campo-requerido" name="RETROTEXT_QUESTION" id="TEXTO1_QUESTION" rows="4"></textarea>
+                                </div>
 
+
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary">Guardar Ejercicio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eventModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-calendar-plus"></i> Plazo y Activación de Examen</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label"><i class="fas fa-file-alt"></i> Título del Examen</label>
+                                <input type="text" class="form-control" id="eventTitle" required placeholder="Ej: Examen de Matemáticas - Módulo 1">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="fas fa-play"></i> Fecha y Hora de Inicio</label>
+                                <input type="date" class="form-control mb-2" id="startDate" required>
+                                <div class="time-inputs">
+                                    <input type="number" class="form-control" id="startHour" min="0" max="23" placeholder="HH" required>
+                                    <span>:</span>
+                                    <input type="number" class="form-control" id="startMin" min="0" max="59" placeholder="MM" required>
+                                    <span>:</span>
+                                    <input type="number" class="form-control" id="startSec" min="0" max="59" placeholder="SS" value="0">
+                                </div>
+                                <select class="form-select mt-2 timezone-select" id="startTimezone">
+                                    <option value="America/Mexico_City">UTC-6 (México Central)</option>
+                                    <option value="America/Tijuana">UTC-8 (México Pacífico)</option>
+                                    <option value="America/Cancun">UTC-5 (México Este)</option>
+                                    <option value="America/New_York">UTC-5 (Este EUA)</option>
+                                    <option value="America/Chicago">UTC-6 (Central EUA)</option>
+                                    <option value="America/Denver">UTC-7 (Montaña EUA)</option>
+                                    <option value="America/Los_Angeles">UTC-8 (Pacífico EUA)</option>
+                                    <option value="Europe/Madrid">UTC+1 (España)</option>
+                                    <option value="Europe/London">UTC+0 (Reino Unido)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><i class="fas fa-stop"></i> Fecha y Hora de Fin</label>
+                                <input type="date" class="form-control mb-2" id="endDate" required>
+                                <div class="time-inputs">
+                                    <input type="number" class="form-control" id="endHour" min="0" max="23" placeholder="HH" required>
+                                    <span>:</span>
+                                    <input type="number" class="form-control" id="endMin" min="0" max="59" placeholder="MM" required>
+                                    <span>:</span>
+                                    <input type="number" class="form-control" id="endSec" min="0" max="59" placeholder="SS" value="0">
+                                </div>
+                                <select class="form-select mt-2 timezone-select" id="endTimezone">
+                                    <option value="America/Mexico_City">UTC-6 (México Central)</option>
+                                    <option value="America/Tijuana">UTC-8 (México Pacífico)</option>
+                                    <option value="America/Cancun">UTC-5 (México Este)</option>
+                                    <option value="America/New_York">UTC-5 (Este EUA)</option>
+                                    <option value="America/Chicago">UTC-6 (Central EUA)</option>
+                                    <option value="America/Denver">UTC-7 (Montaña EUA)</option>
+                                    <option value="America/Los_Angeles">UTC-8 (Pacífico EUA)</option>
+                                    <option value="Europe/Madrid">UTC+1 (España)</option>
+                                    <option value="Europe/London">UTC+0 (Reino Unido)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-users"></i> Grupos Asignados</label>
+                            <select id="gruposSelect" multiple placeholder="Selecciona los grupos...">
+                                <option value="grupo1">Fontis - Grupo A</option>
+                                <option value="grupo2">Fontis - Grupo B</option>
+                                <option value="grupo3">Fontis - Grupo C</option>
+                                <option value="grupo4">Fontis - Grupo D</option>
+                                <option value="grupo5">Fontis - Grupo E</option>
+                                <option value="grupo6">Perenco - Grupo F</option>
+                                <option value="grupo7">Perenco - Grupo G</option>
+                                <option value="grupo8">Perenco - Grupo H</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-create" id="saveEvent">Guardar Evento</button>
                 </div>
             </div>
         </div>

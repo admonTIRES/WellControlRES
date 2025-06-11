@@ -900,14 +900,14 @@
             </div>
 
             <div id="cuadrado" class="content-section scrollable-content">
-                <h1 class="content-title">{{ __('Square Elevation Exercises') }}</h1>
+                <h1 class="content-title">{{ __('Ejercicios de elevar al cuadrado') }}</h1>
                 <div class="exercise-container">
                     <div class="exercise-content">
                         <!-- Pregunta 1 -->
                         <div class="question">
-                            <h2 class="exercise-title">{{ __('Question 1') }}</h2>
+                            <h2 class="exercise-title">{{ __('Pregunta 1') }}</h2>
                             <p class="exercise-description">
-                            {{ __('Find the output in bbl/stk at 100% efficiency of a triplex pump. 7" piston x 12” stroke') }}
+                            {{ __('Encuentre el rendimiento en bbl/stk con una eficiencia del 100% de una bomba triplex. Pistón de 7" x 12" emboladas.') }}
                             </p>
                             <div class="text-grid">
                                 <div>Pistón² x longitud x 0.000243 </div>
@@ -2575,16 +2575,29 @@
             // Ingresar la fracción
             if (identificador === 1) {
                 clickButton('(');
-                enterNumber('7'); // Ingresar el entero
-                clickButton('*'); // Ingresar el operador de suma
-                enterNumber('7');
-                clickButton(')'); // Cerrar paréntesis
-                clickButton('*'); // Abrir paréntesis
-                enterNumber('12'); // Ingresar el numerador
-                clickButton('*'); // Ingresar el operador de división
-                enterNumber('0'); // Ingresar el denominador
+                clickButton('(');
+                enterNumber('8'); 
                 clickButton('.');
-                enterNumber('000243'); // Ingresar el denominador
+                enterNumber('5'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('^'); // Cerrar paréntesis
+                enterNumber('2'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('1');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('0');
+                clickButton('.');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('9');
+                enterNumber('7');
+                enterNumber('1');
             } 
         }
 
@@ -2676,17 +2689,31 @@
 
             // Ingresar la fracción
             if (identificador === 1) {
+                 clickButton('(');
                 clickButton('(');
-                enterNumber('7'); 
-                clickButton('*'); 
-                enterNumber('7');
-                clickButton(')'); 
-                clickButton('*'); 
-                enterNumber('12'); 
-                clickButton('*'); 
-                enterNumber('0'); 
+                enterNumber('8'); 
                 clickButton('.');
-                enterNumber('000243'); 
+                enterNumber('5'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('^'); // Cerrar paréntesis
+                enterNumber('2'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('1');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('0');
+                clickButton('.');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('9');
+                enterNumber('7');
+                enterNumber('1');
+            
             }else if(identificador === 2){
                 clickButton('(');
                 enterNumber('7'); 
@@ -2796,17 +2823,31 @@
 
             // Ingresar la fracción
             if (identificador === 1) {
+                  clickButton('(');
                 clickButton('(');
-                enterNumber('7'); // Ingresar el entero
-                clickButton('*'); // Ingresar el operador de suma
-                enterNumber('7');
-                clickButton(')'); // Cerrar paréntesis
-                clickButton('*'); // Abrir paréntesis
-                enterNumber('12'); // Ingresar el numerador
-                clickButton('*'); // Ingresar el operador de división
-                enterNumber('0'); // Ingresar el denominador
+                enterNumber('8'); 
                 clickButton('.');
-                enterNumber('000243'); // Ingresar el denominador
+                enterNumber('5'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('^'); // Cerrar paréntesis
+                enterNumber('2'); 
+                clickButton(')'); // Cerrar paréntesis
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('1');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                clickButton('*'); // Ingresar el operador de suma
+                enterNumber('0');
+                clickButton('.');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('0');
+                enterNumber('9');
+                enterNumber('7');
+                enterNumber('1');
+        
             } 
         }
 

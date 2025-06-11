@@ -3,7 +3,7 @@
     <div class="logo-container">
         <div class="logo">
         <a href="{{ route('home') }}" style="display: contents;"> <!-- display: contents hace que el enlace no afecte el diseño -->
-            <img src="/assets/images/Color@4x.png" alt="Results in Performance">
+            <img src="/assets/images/Color@4.png" alt="Results in Performance">
         </a>
         </div>
     </div>

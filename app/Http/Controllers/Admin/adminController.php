@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 //modelos
 use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\NivelAcreditacion;
-use App\Models\Admin\catalogs\TipoBop;
+use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\TemaPreguntas;
 
 
@@ -65,7 +65,7 @@ class adminController extends Controller
         $temas = TemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
-        $bops = TipoBop::all();
+        $bops = TipoBOP::all();
         return view('Admin.content.Instructor.students.asignaments', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
@@ -77,7 +77,7 @@ class adminController extends Controller
         $temas = TemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
-        $bops = TipoBop::all();
+        $bops = TipoBOP::all();
         return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
@@ -87,7 +87,7 @@ class adminController extends Controller
     {
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
-        $bops = TipoBop::all();
+        $bops = TipoBOP::all();
         return view('Admin.content.Instructor.exercises.math', compact('entes', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
@@ -97,7 +97,7 @@ class adminController extends Controller
     {
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
-        $bops = TipoBop::all();
+        $bops = TipoBOP::all();
         return view('Admin.content.Instructor.exercises.killsheets', compact('entes', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**

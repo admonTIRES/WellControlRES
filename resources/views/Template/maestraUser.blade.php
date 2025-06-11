@@ -39,8 +39,6 @@ use Illuminate\Support\Str;
     @if (isset($css_identifier))
     @switch($css_identifier)
     @case('principal')
-
-
     <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.2" media="(min-width: 1024px)">
     <!-- Estilos específicos para pantallas móviles -->
     <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.2" media="(max-width: 1023px)">

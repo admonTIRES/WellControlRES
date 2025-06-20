@@ -404,7 +404,7 @@
                         <img src="/assets/images/calculator/uses_image.jpg" alt="Hannah Laurent" class="profile-img">
                         <div class="overlay"></div>
                         <div class="text-content">
-                            <h2>{{ __('Hydrostatic pressure calculation') }}</h2>
+                            <h2 class="hero-title">{{ __('Hydrostatic pressure calculation') }}</h2>
                             <p class="hero-text">{{ __('Essential to ensure well stability. The calculator allows quick resolution of the pressure exerted by the drilling fluid, preventing overpressures or collapses in formations. The formula P=ρ⋅g⋅h is used, considering mud density, gravity and depth.') }}</p>
                         </div>
                     </div>
@@ -504,13 +504,20 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
+                <!-- <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1du0CTCxMcc5MEyBBNpbGsLe2mEo0GiFw/preview" 
-                width="100%" 
+                    width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
+                    </iframe>
+                </div> -->
+                <div class="responsive-video">
+                    <iframe
+                        src="https://drive.google.com/file/d/1du0CTCxMcc5MEyBBNpbGsLe2mEo0GiFw/preview"
+                        frameborder="0"
+                        allowfullscreen>
                     </iframe>
                 </div>
             </div>

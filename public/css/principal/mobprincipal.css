@@ -385,7 +385,7 @@ h1, h2, h3, h4, h5, h6 {
 .cards-container {
     padding: 20px 20px;
     max-width: 100%; 
-    min-height: 1950px;
+    /* min-height: 1950px; */
     box-sizing: border-box;
 }
 

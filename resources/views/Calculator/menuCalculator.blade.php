@@ -341,13 +341,8 @@
                     <audio id="audioFunctions" src="{{ $audioPaths['audioFunctionsPath'] }}"></audio>
                 </div>
                 <div class="calculator-layout">
-                     <div class="math-drilling-section">
+                    <div class="math-drilling-section">
                         <div class="math-drilling-exercise">
-                            <h3 class="math-drilling-exercise-title">{{ __('Main calculator functions:') }}</h3>
-                            <p>
-                                {{ __('The scientific calculator includes several functions that will be useful during this course. These functions will help you perform calculations related to drilling operations, pressure, temperature, and other critical aspects in the industry.') }}
-                                <br><br>{{ __('The main functions include:') }}
-                            </p>
                             <ul class="calculator-parts-list">
                                 <li data-section="sum" class="calculator-part pantalla">
                                     <strong>{{ __('+ Addition') }}</strong>
@@ -384,9 +379,10 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="calculator-item">
+                   
+                </div>
+                <div class="calculator-item">
                         @include('Calculator.itemCalculator', ['id' => 'calculator2'])
-                   </div>
                 </div>
             </div>
 
@@ -573,13 +569,20 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
+                <!-- <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1h62gKVHFIsasA9Kwc0gOYlxBJR55NUOy/preview" 
                 width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
+                    </iframe>
+                </div> -->
+                <div class="responsive-video">
+                    <iframe
+                        src="https://drive.google.com/file/d/1h62gKVHFIsasA9Kwc0gOYlxBJR55NUOy/preview" 
+                        frameborder="0"
+                        allowfullscreen>
                     </iframe>
                 </div>
             </div>
@@ -603,13 +606,20 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
+                <!-- <div  class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1YsHtXHcAcgi2PF0jtSF70cEv_g39IDsz/preview" 
                 width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
+                    </iframe>
+                </div> -->
+                <div class="responsive-video">
+                    <iframe
+                       src="https://drive.google.com/file/d/1YsHtXHcAcgi2PF0jtSF70cEv_g39IDsz/preview" 
+                        frameborder="0"
+                        allowfullscreen>
                     </iframe>
                 </div>
             </div>
@@ -649,12 +659,19 @@
                     </p>
                     <ul class="math-drilling-list">
                         <li><strong>{{ __('Hydrostatic pressure') }}</strong>: {{ __('Isolate depth (h) in the formula P = ρ * g * h.') }}</li>
-                        <div  class="math-drilling-video">
+                        <!-- <div  class="math-drilling-video">
                             <iframe 
                                 src="https://drive.google.com/file/d/1G2OuIxnxAtjvkz_BllddiTnmsBxXNIrO/preview" 
                                 width="1030px" 
                                 height="600px"
                                 frameborder="0" 
+                                allowfullscreen>
+                            </iframe>
+                        </div> -->
+                        <div class="responsive-video">
+                            <iframe
+                                src="https://drive.google.com/file/d/1G2OuIxnxAtjvkz_BllddiTnmsBxXNIrO/preview" 
+                                frameborder="0"
                                 allowfullscreen>
                             </iframe>
                         </div>
@@ -673,12 +690,19 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
+                <!-- <div  class="math-drilling-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1iikIoc9Gh5ISW7S4_plJ0bmxXvefV6On/preview" 
                         width="100%" 
                         height="700px"
                         frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div> -->
+                <div class="responsive-video">
+                    <iframe
+                       src="https://drive.google.com/file/d/1iikIoc9Gh5ISW7S4_plJ0bmxXvefV6On/preview" 
+                        frameborder="0"
                         allowfullscreen>
                     </iframe>
                 </div>
@@ -743,12 +767,19 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <div  class="math-drilling-video">
+                <!-- <div  class="math-drilling-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1Kgtk2bvyf-bbiQ0dnmdHZxs0VrLTdwOi/preview" 
                         width="100%" 
                         height="700px"
                         frameborder="0" 
+                        allowfullscreen>
+                    </iframe>
+                </div> -->
+                <div class="responsive-video">
+                    <iframe
+                        src="https://drive.google.com/file/d/1Kgtk2bvyf-bbiQ0dnmdHZxs0VrLTdwOi/preview" 
+                        frameborder="0"
                         allowfullscreen>
                     </iframe>
                 </div>

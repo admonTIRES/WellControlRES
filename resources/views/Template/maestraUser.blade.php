@@ -30,10 +30,10 @@ use Illuminate\Support\Str;
     <!-- libreria del l=visor de libro -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.css">
     <!-- Estilos específicos para pantallas grandes (escritorio) -->
-    <link rel="stylesheet" href="{{ asset('css/web.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.2" media="(min-width: 1024px)">
 
     <!-- Estilos específicos para pantallas móviles -->
-    <link rel="stylesheet" href="{{ asset('css/mobile.css') }}" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1.2" media="(max-width: 1023px)">
 
     <!-- CSS dinámico según el contenido -->
     @if (isset($css_identifier))

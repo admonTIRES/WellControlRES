@@ -41,7 +41,7 @@ use Illuminate\Support\Str;
     @case('principal')
     <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.2" media="(min-width: 1024px)">
     <!-- Estilos específicos para pantallas móviles -->
-    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.9" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
     @break
     @case('calculator')
     <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.1"

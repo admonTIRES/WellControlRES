@@ -4,14 +4,14 @@
     <section class="main-content">
         <div class="header-text">
             <h1>{{ __('The site that connects you with') }}</h1>
-            <h2>{{ __('professional excellence.') }}</h2>
+            <h2>{{ __('professional excellence') }}</h2>
         </div>
 
         <div class="content-wrapper">
             <div class="content-box">
-            <div class="number">01</div>
-                <h3>{{ __('John Doe') }}</h3>
-                <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
+                <div class="number">01</div>
+                    <h3>{{ __('John Doe') }}</h3>
+                    <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
 
             <div class="team-image">

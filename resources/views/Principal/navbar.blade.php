@@ -34,7 +34,7 @@
         <!-- Menú desplegable -->
         <div class="nav-item dropdown-menu-container no-tooltip">
             <a href="#"  id="menu" class="nav-item no-tooltip" data-title="Menú">
-                <img src="/assets/images/principal/menu_icon.png" alt="Menú" class="nav-logout-icon">
+                <img src="/assets/images/principal/menu2.png" alt="Menú" class="nav-logout-icon">
             </a>
             <div class="dropdown-menu">
                 <a href="#" id="profile">Perfil</a>

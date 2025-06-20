@@ -5,7 +5,6 @@
 * {
     padding: 0;
     box-sizing: border-box;
-    max-width: 500px;
 }
 
 body {
@@ -22,7 +21,7 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    /* padding: 0 1.22rem; */
+    padding: 0 1.22rem;
 }
 
 .logo-container {
@@ -30,19 +29,13 @@ body {
                 #cecdcd 0%,
                 #cecdcd 15%,
                 #FF585D 34%);
-    width: 10%;
+    width: 20%;
 }
 
 .logo{
     border-bottom-right-radius: 30px;
     background: #fbfbfb;
 }
-
-/* .logo img {
-    width: 200px;
-    height: auto; 
-    display: block;
-} */
 
 .logo-img {
     width: 50px; /* o el tamaño que tenía la imagen */
@@ -53,30 +46,36 @@ body {
     background-position: center;
 }
 
+/* .logo img {
+    width: 200px;
+    height: auto; 
+    display: block;
+} */
+
 .nav-icons {
     display: flex;
-    gap: 1rem ;
+    gap: 3vw ;
     justify-content: center;
     align-items: center;
     background: #FF585D;
-    width: calc(100% - 10px);
+    width: calc(100% - 70px);
     height: 100%;
-    /* padding: 1rem 2rem; */
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
 }
 
 .nav-icon {
     margin-top: 8px;
-    width: 37px;
-    height: 40px;
+    width: 27px;
+    height: 30px;
     opacity: 0.9;
     filter: brightness(0) invert(1);
     transition: transform 0.2s ease-in-out;
 }
 
 .nav-logout-icon {
-    width: 30px;
+    margin-top: 8px;
+    width: 27px;
     height: 30px;
     opacity: 0.9;
     filter: brightness(0) invert(1);
@@ -109,13 +108,13 @@ body {
 /* Estilo del menú desplegable */
 .dropdown-menu {
     position: absolute;
-    top: 80%;
-    left: 0;
+    top: 100%;
+    right: 0;
     transform: translateX(-50%);
     background-color: rgba(6, 6, 6, 0.102);
     border-radius: 10px; /* Más redondeado */
-    padding: 20px 0; /* Más margen */
-    width: 180px; /* Ancho un poco mayor */
+    padding: 10px 0; /* Más margen */
+    width: 160px; /* Ancho un poco mayor */
     display: none;
     box-shadow: 0 6px 12px rgba(255, 255, 255, 0.072);
     z-index: 1000;
@@ -131,8 +130,9 @@ body {
     color: #ffffff;
     text-decoration: none;
     transition: background-color 0.2s;
-    font-size: 18px; /* Letra más grande */
+    font-size: 14px; /* Letra más grande */
     font-weight: 400; /* Letra más gruesa */
+    text-align: center;
 }
 
 /* Estilo al pasar el mouse sobre los enlaces */

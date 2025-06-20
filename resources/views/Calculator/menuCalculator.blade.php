@@ -30,11 +30,10 @@
  
     <div class="main-container"> 
         <div class="sidebar-container">
-            <div class="section-title">{{ __('Content') }}</div>
-                <div class="section-subtitle">{{ __('Mathematics for drilling') }}</div>
-
+            
             <div class="nav-list-container">
-               
+               <div class="section-title">{{ __('Content') }}</div>
+                <div class="section-subtitle">{{ __('Mathematics for drilling') }}</div>
                 <ul class="nav-list">
                     <li class="nav-item active" data-section="introduction">
                         <span class="star-icon"></span>

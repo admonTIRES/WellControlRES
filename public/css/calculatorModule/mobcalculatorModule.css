@@ -85,7 +85,7 @@ body {
     animation: fadeInUp 0.8s ease forwards;
     animation-delay: 0.2s;
     opacity: 0;
-    height: 85vh;
+    height: 100vw;
 }
 
 .section-title {
@@ -238,6 +238,7 @@ body {
     .content-container {
         width: 100%;
         margin-right: 0;
+        max-height: 900vw;
     }
 }
 
@@ -408,7 +409,6 @@ body {
     border: 0;
 }
 
-
 .exercise-container {
     display: flex;
     gap: 12px;
@@ -416,10 +416,7 @@ body {
 }
 
 .calculator-container {
-    position: fixed; /* Fija la calculadora en la pantalla */
-    top: 20px; /* Distancia desde la parte superior */
-    right: 20px; /* Distancia desde la derecha */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    position: absolute; /* Fija la calculadora en la pantalla */
     width: 330px;
 }
 
@@ -428,7 +425,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 350px;
 }
 
 .calculator-preview {

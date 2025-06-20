@@ -49,7 +49,7 @@ use Illuminate\Support\Str;
     @break
     @case('killSheets')
     <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
-    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.0" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.1" media="(max-width: 1023px)">
     @break
     @endswitch
     @endif

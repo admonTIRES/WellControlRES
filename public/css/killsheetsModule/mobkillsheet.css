@@ -60,14 +60,14 @@ body {
 }
 
 .sidebar-container {
-    width: 350px;
+    width: 450px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     padding: 10px;
     animation: fadeInUp 0.8s ease forwards;
     flex-shrink: 0;
-    height: 85vh;
+    height: 100vh;
     margin-left: 0;
     display: flex;
     flex-direction: column;
@@ -102,14 +102,7 @@ body {
     text-align: center;
 }
 
-.container2 {
-    margin-right: 10%;
-    margin-bottom: 0px;
-    margin-left: auto;
-    position: relative;
-    top: -70%;
-    transform: translateY(30%);
-}
+
 
 header h1{
     color: white;
@@ -134,21 +127,21 @@ header h1{
     z-index: 2;
     flex-shrink: 0;
     margin: 20px auto;
-    width: 50vw; /* la mitad del ancho de la pantalla */
-    height: 25vw; /* mantiene proporción */
+    width: 80vw; /* la mitad del ancho de la pantalla */
+    height: 85vw; /* mantiene proporción */
     overflow: visible;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .message {
     position: absolute;          /* ← corregido */
-    left: 2.08vw;
-    width: 30vw;
+    left: 3.08vw;
+    width: 70vw;
 }
 
 .message p {
     text-align: left;
-    font-size: 1.55vw;
+    font-size: 5.55vw;
     color: rgb(255, 255, 255);
     font-family: 'Poppins', sans-serif; 
     margin: 0;                    /* elimina margen superior e inferior */
@@ -156,14 +149,14 @@ header h1{
 }
 
 .highlight-hoy {
-    font-size: 2.8vw;
+    font-size: 8.8vw;
     color: rgb(134, 200, 255);
     font-family: 'Niconne', cursive;
     line-height: 1;
     vertical-align: baseline;       /* evita que estire la línea */
 }
 .highlight-logro {
-    font-size: 3vw;
+    font-size: 9vw;
     color: rgb(134, 200, 255);
     font-family: 'Niconne', cursive;
     line-height: 1;
@@ -177,7 +170,7 @@ header h1{
     position: absolute;
     right: 2.13vw;         /* 60px ≈ 3.13vw */
     bottom:  4.13vw;
-    width: 18.46vw;        /* 220px ≈ 11.46vw */
+    width: 32.46vw;        /* 220px ≈ 11.46vw */
     animation: wave 2s infinite alternate;
     z-index: 5;
 }
@@ -194,31 +187,31 @@ header h1{
 }
 
 .cloud-1 {
-    width: 20.63vw;        /* 300px ≈ 15.63vw */
-    left: -3.6vw;          /* -50px ≈ -2.6vw */
-    bottom: -2.08vw;       /* -40px ≈ -2.08vw */
+    width: 30.63vw;        /* 300px ≈ 15.63vw */
+    left: -5.6vw;          /* -50px ≈ -2.6vw */
+    bottom: -6.08vw;       /* -40px ≈ -2.08vw */
     animation: float-1 8s infinite alternate ease-in-out;
 }
 
 .cloud-2 {
-    width: 21.1vw;         /* 290px ≈ 15.1vw */
-    left: 8.29vw;          /* 140px ≈ 7.29vw */
-    bottom: -4.13vw;       /* -60px ≈ -3.13vw */
+    width: 31.1vw;         /* 290px ≈ 15.1vw */
+    left: 12.29vw;          /* 140px ≈ 7.29vw */
+    bottom: -7.13vw;       /* -60px ≈ -3.13vw */
     animation: float-2 8s infinite alternate ease-in-out;
 }
 
 .cloud-3 {
-    width: 19.58vw;        /* 280px ≈ 14.58vw */
-    right: -5.17vw;        /* -80px ≈ -4.17vw */
+    width: 29.58vw;        /* 280px ≈ 14.58vw */
+    right: -6.17vw;        /* -80px ≈ -4.17vw */
     bottom: -1.28vw;       /* -40px ≈ -2.08vw */
     z-index: 6;
     animation: float-3 8s infinite alternate ease-in-out;
 }
 
 .cloud-4 {
-    width: 19.58vw;        /* 280px ≈ 14.58vw */
-    right: 6.13vw;         /* 60px ≈ 3.13vw */
-    bottom: -3.13vw;       /* -60px ≈ -3.13vw */
+    width: 30.58vw;        /* 280px ≈ 14.58vw */
+    right: 13.13vw;         /* 60px ≈ 3.13vw */
+    bottom: -6.13vw;       /* -60px ≈ -3.13vw */
     z-index: 6;
     animation: float-4 8s infinite alternate ease-in-out;
 }
@@ -245,26 +238,39 @@ header h1{
 
 /* Steps section */
 .steps-section {
-    margin-top: 10%;
+    margin-top: 40%;
 }
 
 .steps-title {
     font-size: 20px;
-    color:rgb(230, 74, 74);;
+    color:rgb(230, 74, 74);
     margin-bottom: 30px;
 }
+.steps-title img{
+    width: 500px;
+}
+
+.container2 {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: -60%;
+    right: 10px;
+    transform: translateY(30%);
+}
+
 
 .options {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-  
+    flex-direction: column; /* acomoda .option-card uno arriba del otro */
+    align-items: flex-end;  /* alinea los .option-card a la derecha */
+    gap: 1rem; /* espacio entre tarjetas */
 }
 
 .option-card {
     background-color:  white;
     border-radius: 10px;
-    padding: 30px;
+    padding: 10px;
     width: 50%;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -307,10 +313,10 @@ header h1{
 }
 
 .option-image {
-    width: 200px;
+    width: 700px;
     height: auto;
     display: block;
-    margin-right:40px;
+    margin-right:10px;
     margin-top: auto;
 
 }      

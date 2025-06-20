@@ -27,7 +27,7 @@ document.getElementById("profile").addEventListener('click', function (event) {
     event.stopPropagation();
 });
 
-document.getElementById("config").addEventListener('click', function (event) {
+document.getElementById("ajust").addEventListener('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
 });

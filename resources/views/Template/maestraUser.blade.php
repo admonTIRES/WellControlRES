@@ -41,7 +41,7 @@ use Illuminate\Support\Str;
     @case('principal')
     <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.2" media="(min-width: 1024px)">
     <!-- Estilos específicos para pantallas móviles -->
-    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.5" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.6" media="(max-width: 1023px)">
     @break
     @case('calculator')
     <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.1"
@@ -81,7 +81,7 @@ use Illuminate\Support\Str;
     <!-- /SCRIPTS -->
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/index.js') }}"></script>
+<script src="{{ asset('js/index.js') }}?v=1.1"></script>
 @if(request()->is('Calculator'))
 <script src="{{ asset('js/Calculator.js') }}"></script>
 @endif

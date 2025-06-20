@@ -8,7 +8,7 @@
         </div>
 
         <div class="content-wrapper">
-            <div class="content-box">
+            <div class="content-box tarjeta1">
                 <div class="number">01</div>
                     <h3>{{ __('John Doe') }}</h3>
                     <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>

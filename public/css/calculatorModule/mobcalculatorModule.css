@@ -36,14 +36,16 @@ body {
 }
 
 .sidebar-container {
-    width: 350px;
     background: white;
-    border-radius: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     padding: 10px;
     animation: fadeInUp 0.8s ease forwards;
     flex-shrink: 0;
-    height: 85vh;
+    max-height: 50px;
     margin-left: 0;
     display: flex;
     flex-direction: column;
@@ -77,31 +79,31 @@ body {
 .content-container {
     flex: 1;
     background: white;
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    padding: 25px;
+    padding: 10px;
     animation: fadeInUp 0.8s ease forwards;
     animation-delay: 0.2s;
     opacity: 0;
-    margin-right: 20px;
     height: 85vh;
 }
 
 .section-title {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     /* Aumentado de 1.3rem a 1.5rem */
     font-weight: 600;
     color: #353535;
-    margin: 10px 0 5px 0;
+    margin: 5px 0 2px 0;
     padding: 0 5px;
+    text-align: center;
 }
 
 .section-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     /* Aumentado de 1rem a 1.1rem */
     color: #343434;
-    margin-bottom: 10px;
     padding: 0 5px;
+    text-align: center;
     font-weight: 500;
 }
 
@@ -221,16 +223,16 @@ body {
     }
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1023px) {
     .main-container {
         flex-direction: column;
-        padding: 20px;
+        padding: 10px;
     }
 
     .sidebar-container {
         width: 100%;
         height: auto;
-        max-height: 60vh;
+        max-height: 23vh;
     }
 
     .content-container {
@@ -495,15 +497,14 @@ scrollbar        .hero-button {
 }
 
 .content-title-voice {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-items: center;
     margin-right: 1rem;
 }
 
 .math-drilling-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     text-align: center;
     color: #2C2A29;
     
@@ -511,10 +512,11 @@ scrollbar        .hero-button {
 
 .math-drilling-subtitle {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #FF585D;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .math-drilling-section {
@@ -522,18 +524,20 @@ scrollbar        .hero-button {
 }
 
 .math-drilling-text {
-    font-family: 'Jura', sans-serif;
-    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
     color: #27272A;
     margin-bottom: 20px;
+    text-align: justify;
 }
 
 .math-drilling-list {
     list-style-type: disc;
-    margin-left: 20px;
 }
 
 .math-drilling-list li {
+      font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
     margin-bottom: 10px;
 }
 
@@ -607,7 +611,7 @@ scrollbar        .hero-button {
 
 .math-drilling-exercise-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     color: #FF585D;
     margin-top: 0;
 }
@@ -657,9 +661,8 @@ scrollbar        .hero-button {
 }
 
 .scrollable-content {
-   height: 80vh;; 
+   height: 80vh;
     overflow-y: auto;
-    padding-right: 10px; 
 }
 
 .scrollable-content::-webkit-scrollbar {
@@ -681,11 +684,11 @@ scrollbar        .hero-button {
 }
 
 .voice-button {
-    background-color: #007DBA; 
+    background-color: #FF585D; 
     color: white; 
     border: none; 
-    padding: 10px 20px; 
-    font-size: 16px; 
+    padding: 5px 10px; 
+    font-size: 14px; 
     cursor: pointer; 
     border-radius: 25px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -721,7 +724,7 @@ scrollbar        .hero-button {
 
 
 .material-icons {
-    font-size: 24px; 
+    font-size: 18px; 
     vertical-align: middle; 
 }
 

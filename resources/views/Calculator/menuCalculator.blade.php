@@ -31,9 +31,10 @@
     <div class="main-container"> 
         <div class="sidebar-container">
             <div class="section-title">{{ __('Content') }}</div>
-            <div class="section-subtitle">{{ __('Mathematics for drilling') }}</div>
+                <div class="section-subtitle">{{ __('Mathematics for drilling') }}</div>
 
             <div class="nav-list-container">
+               
                 <ul class="nav-list">
                     <li class="nav-item active" data-section="introduction">
                         <span class="star-icon"></span>
@@ -279,9 +280,16 @@
             </div>
 
             <div id="partes" class="content-section scrollable-content">
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">{{ __('Scientific calculator parts') }}</h1>
+                    <button id="voiceButtonParts" class="voice-button" onclick="toggleSpeakText('audioParts')">
+                        <span class="material-icons">volume_up</span> 
+                        <span>{{ __('Listen') }}</span>
+                    </button>
+                    <audio id="audioParts" src="{{$audioPaths['audioPartsPath'] }}"></audio>
+                </div>
                 <div class="calculator-layout">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator1'])
-                    <div class="math-drilling-section">
+                     <div class="math-drilling-section">
                         <div class="math-drilling-exercise">
                             <h3 class="math-drilling-exercise-title">{{ __('Calculator parts:') }}</h3>
                             <ul class="calculator-parts-list">
@@ -316,21 +324,24 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="content-title-voice">
-                        <button id="voiceButtonParts" class="voice-button" onclick="toggleSpeakText('audioParts')">
-                            <span class="material-icons">volume_up</span> 
-                            <span>{{ __('Listen') }}</span>
-                        </button>
-                        <audio id="audioParts" src="{{$audioPaths['audioPartsPath'] }}"></audio>
+                    <div class="calculator-item">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator1'])
                     </div>
                 </div>
             </div>
 
             
             <div id="funciones" class="content-section scrollable-content">
+                <div class="content-title-voice">
+                    <h1 class="math-drilling-title">{{ __('Scientific calculator functions') }}</h1>
+                    <button id="voiceButtonFunctions" class="voice-button" onclick="toggleSpeakText('audioFunctions')">
+                        <span class="material-icons">volume_up</span>
+                        <span>{{ __('Listen') }}</span>
+                    </button>
+                    <audio id="audioFunctions" src="{{ $audioPaths['audioFunctionsPath'] }}"></audio>
+                </div>
                 <div class="calculator-layout">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator2'])
-                    <div class="math-drilling-section">
+                     <div class="math-drilling-section">
                         <div class="math-drilling-exercise">
                             <h3 class="math-drilling-exercise-title">{{ __('Main calculator functions:') }}</h3>
                             <p>
@@ -373,13 +384,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="content-title-voice">
-                        <button id="voiceButtonFunctions" class="voice-button" onclick="toggleSpeakText('audioFunctions')">
-                            <span class="material-icons">volume_up</span>
-                            <span>{{ __('Listen') }}</span>
-                        </button>
-                        <audio id="audioFunctions" src="{{ $audioPaths['audioFunctionsPath'] }}"></audio>
-                    </div>
+                    <div class="calculator-item">
+                        @include('Calculator.itemCalculator', ['id' => 'calculator2'])
+                   </div>
                 </div>
             </div>
 

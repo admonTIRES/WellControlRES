@@ -1,5 +1,5 @@
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 1px;
     height: 1px;
 }
@@ -7,7 +7,10 @@
 ::-webkit-scrollbar-track {
     background: #f0f0f0;
     border-radius: 5px;
-}
+} */
+
+
+
 
 
 body {

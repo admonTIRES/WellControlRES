@@ -37,13 +37,20 @@ body {
     border-bottom-right-radius: 30px;
     background: #fbfbfb;
 }
+.logo-img {
+    width: 150px; /* o el tamaño que tenía la imagen */
+    height: 60px;
+    background-image: url('/assets/images/Color@4x.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
-.logo img {
+/* .logo img {
     width: 200px;
     height: auto; 
-    /* height: 80px; */
     display: block;
-}
+} */
 
 .nav-icons {
     display: flex;

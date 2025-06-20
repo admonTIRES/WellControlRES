@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuidado Visual y Postura Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #FF585D;
+            --primary-green: #A4D65E;
+            --primary-blue: #007DBA;
+            --secondary-blue: #236192;
+            --bg-dark: #2C2A29;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navegación */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(44, 42, 41, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: auto;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+        }
+        .logo img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-green));
+            transform: translateY(-2px);
+        }
+
+        /* Secciones principales */
+        .section {
+            min-height: 100vh;
+            padding: 120px 2rem 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            align-items: center;
+            justify-content: space-between;
+            justify-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+            justify-items: center;
+            min-width: 300px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-green), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: morph 3s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(1deg); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #cccccc;
+        }
+
+        .hero-visual {
+            flex: 1;
+            width: 900px;
+            height: 600px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .placeholder-img {
+            width: auto;
+            height:auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+           .placeholder-img img{
+            width: 120%;
+            height: 100%;
+        }
+
+        /* Tarjetas de contenido */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 88, 93, 0.1), rgba(164, 214, 94, 0.1));
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-green), var(--primary-blue));
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+        }
+
+        /* Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 125, 186, 0.1);
+            border-radius: 15px;
+            border: 1px solid var(--primary-blue);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            display: block;
+        }
+
+        /* Actividades interactivas */
+        .activity-container {
+            background: rgba(35, 97, 146, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--secondary-blue);
+        }
+
+        .timer-display {
+            font-size: 4rem;
+            text-align: center;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-green));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-blue));
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ejercicios visuales */
+        .exercise-visual {
+            width: 100%;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-blue), var(--bg-dark));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .focus-point {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            position: absolute;
+            animation: focusMove 4s ease-in-out infinite;
+        }
+
+        @keyframes focusMove {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(100px, -50px); }
+            50% { transform: translate(-100px, -50px); }
+            75% { transform: translate(-100px, 50px); }
+        }
+
+        /* Tooltips y información emergente */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip-content {
+            visibility: hidden;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--primary-blue);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            width: 250px;
+        }
+
+        .tooltip:hover .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animaciones personalizadas */
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInFromLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInFromRight 0.8s ease-out;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-green), var(--primary-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de progreso -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navegación -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo"> <img src="../../../public/assets/images/Colorlargo.png" alt="Results in Performance"> Results In Performance</div>
+            <ul class="nav-links">
+                <li><a href="#inicio" onclick="scrollToSection('inicio')">Inicio</a></li>
+                <li><a href="#salud-visual" onclick="scrollToSection('salud-visual')">Salud Visual</a></li>
+                <li><a href="#ergonomia" onclick="scrollToSection('ergonomia')">Ergonomía</a></li>
+                <li><a href="#pausas-activas" onclick="scrollToSection('pausas-activas')">Pausas Activas</a></li>
+                <li><a href="#ejercicios" onclick="scrollToSection('ejercicios')">Ejercicios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sección Inicio -->
+    <section id="inicio" class="section active">
+        <div class="hero">
+            <div class="hero-content slide-in-left">
+                <h1 class="hero-title">Cuidado Visual y Postura Digital</h1>
+                <p class="hero-subtitle">Protege tu salud en el entorno laboral digital. Aprende técnicas profesionales para mantener una postura correcta y cuidar tu visión durante largas jornadas frente a las pantallas.</p>
+                <button class="btn btn-primary" onclick="scrollToSection('salud-visual')">Comenzar Aprendizaje</button>
+            </div>
+            <div class="hero-visual slide-in-right">
+                <div class="placeholder-img">
+                    <div>
+                         <img src="../../../public/assets/images/postura.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Salud Visual -->
+    <section id="salud-visual" class="section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem; color: var(--primary-blue);">👁️ Salud Visual y Oftalmología Digital</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">70%</span>
+                <p>de trabajadores sufren fatiga visual digital</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">20-20-20</span>
+                <p>Regla oftalmológica básica</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">68%</span>
+                <p>experimenta síndrome visual informático</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">2-4x</span>
+                <p>menos parpadeo frente a pantallas</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-icon">👁️</div>
+                <h3>Síndrome Visual Informático (SVI)</h3>
+                <p><strong>Síntomas principales:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Fatiga y cansancio ocular</li>
+                    <li>Sequedad e irritación</li>
+                    <li>Visión borrosa o doble</li>
+                    <li>Dolor de cabeza</li>
+                    <li>Dolor cervical y de hombros</li>
+                </ul>
+                <p><strong>Causas oftalmológicas:</strong> Reducción del parpadeo de 22 a 7 veces por minuto, esfuerzo de acomodación constante, y exposición a luz azul de alta energía.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>📊 Gráfico SVI</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💧</div>
+                <h3>Película Lagrimal y Lubricación</h3>
+                <p><strong>Función de las lágrimas:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Lubricación corneal</li>
+                    <li>Protección antimicrobiana</li>
+                    <li>Nutrición del epitelio corneal</li>
+                    <li>Refracción óptica estable</li>
+                </ul>
+                <p><strong>Recomendación médica:</strong> Uso de lágrimas artificiales sin conservantes cada 2-3 horas en jornadas intensivas de pantalla.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🔬 Anatomía del ojo</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔵</div>
+                <h3>Luz Azul y Filtros Ópticos</h3>
+                <p><strong>Espectro de luz azul:</strong> 380-500 nm, con pico dañino en 415-455 nm.</p>
+                <p><strong>Efectos biológicos:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Alteración del ritmo circadiano</li>
+                    <li>Estrés oxidativo retinal</li>
+                    <li>Fatiga visual acelerada</li>
+                    <li>Supresión de melatonina</li>
+                </ul>
+                <p><strong>Solución:</strong> Filtros con bloqueo del 20-30% de luz azul y activación de modo nocturno después de las 18:00h.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>📈 Espectro lumínico</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📏</div>
+                <h3>Distancias y Ángulos Óptimos</h3>
+                <p><strong>Medidas oftalmológicas recomendadas:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Distancia:</strong> 50-70 cm de la pantalla</li>
+                    <li><strong>Ángulo visual:</strong> 10-20° por debajo de la horizontal</li>
+                    <li><strong>Altura:</strong> Tercio superior de la pantalla a nivel de los ojos</li>
+                    <li><strong>Inclinación:</strong> 10-20° hacia atrás</li>
+                </ul>
+                <p><strong>Base científica:</strong> Reduce el esfuerzo de los músculos extraoculares y mantiene la curvatura natural del cristalino.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>📐 Diagrama ergonómico visual</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-container">
+            <h3 style="text-align: center; color: var(--primary-green);">🎯 Test de Agudeza Visual Rápido</h3>
+            <div class="exercise-visual">
+                <div style="text-align: center; color: white;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">E</div>
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">F P</div>
+                    <div style="font-size: 1.5rem; margin-bottom: 1rem;">T O Z</div>
+                    <div style="font-size: 1rem; margin-bottom: 1rem;">L P E D</div>
+                    <div style="font-size: 0.8rem;">P E C F D</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem;">
+                <span class="tooltip">
+                    ℹ️ Información del test
+                    <span class="tooltip-content">Debe poder leer hasta la línea 4 a distancia normal de trabajo. Si tiene dificultades, consulte a su oftalmólogo.</span>
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Sección Ergonomía -->
+    <section id="ergonomia" class="section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem; color: var(--primary-green);">🪑 Ergonomía y Postura Corporal</h2>
+        
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-icon">🏗️</div>
+                <h3>Biomecánica de la Columna</h3>
+                <p><strong>Curvaturas fisiológicas:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Lordosis cervical:</strong> 20-40° (C5-C6)</li>
+                    <li><strong>Cifosis torácica:</strong> 20-50° (T4-T9)</li>
+                    <li><strong>Lordosis lumbar:</strong> 40-60° (L1-L5)</li>
+                </ul>
+                <p><strong>Presión intradiscal:</strong> Aumenta 40% en posición sentada incorrecta vs. bipedestación. La flexión cervical de 60° genera sobrecarga de 27kg en C7.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🦴 Anatomía columna vertebral</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💺</div>
+                <h3>Configuración del Puesto de Trabajo</h3>
+                <p><strong>Medidas antropométricas estándar:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Altura silla:</strong> Pies apoyados, rodillas 90-110°</li>
+                    <li><strong>Respaldo:</strong> Soporte lumbar en L3-L4</li>
+                    <li><strong>Reposabrazos:</strong> Codos 90°, hombros relajados</li>
+                    <li><strong>Mesa:</strong> 72-76 cm altura estándar</li>
+                </ul>
+                <p><strong>Normativa:</strong> Cumplimiento ISO 9241-5 para estaciones de trabajo con pantallas.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>📏 Medidas ergonómicas</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⌨️</div>
+                <h3>Posición de Muñecas y Manos</h3>
+                <p><strong>Prevención de TME (Trastornos Musculoesqueléticos):</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Muñecas:</strong> Posición neutra (0° flexión/extensión)</li>
+                    <li><strong>Teclado:</strong> Inclinación negativa -5° a -15°</li>
+                    <li><strong>Ratón:</strong> Altura igual al teclado</li>
+                    <li><strong>Dedos:</strong> Curvatura natural, sin tensión</li>
+                </ul>
+                <p><strong>Patologías asociadas:</strong> Síndrome del túnel carpiano, tendinitis de Quervain, epicondilitis.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🖐️ Anatomía mano y muñeca</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <h3>Rotación y Variabilidad Postural</h3>
+                <p><strong>Principio de movilidad dinámica:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Cambio postural cada 30-45 minutos</li>
+                    <li>Alternancia sedente-bipedestación</li>
+                    <li>Micro-movimientos cada 10 minutos</li>
+                    <li>Activación muscular progresiva</li>
+                </ul>
+                <p><strong>Base fisiológica:</strong> Previene la fatiga muscular estática y mejora el retorno venoso y linfático.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🔄 Secuencia de movimientos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">54%</span>
+                <p>de trabajadores con dolor de espalda</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">38%</span>
+                <p>desarrolla síndrome túnel carpiano</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">90°</span>
+                <p>Ángulo ideal rodillas y codos</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">30min</span>
+                <p>Máximo tiempo en misma postura</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Pausas Activas -->
+    <section id="pausas-activas" class="section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem; color: var(--primary-red);">⏰ Pausas Activas y Descanso Terapéutico</h2>
+        
+        <div class="activity-container">
+            <h3 style="text-align: center; color: var(--primary-green);">⏱️ Temporizador de Pausas Profesional</h3>
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="startPomodoro()">🍅 Pomodoro (25min)</button>
+                <button class="btn btn-secondary" onclick="startShortBreak()">☕ Pausa Corta (5min)</button>
+                <button class="btn btn-primary" onclick="startLongBreak()">🛌 Pausa Larga (15min)</button>
+                <button class="btn btn-secondary" onclick="resetTimer()">🔄 Reiniciar</button>
+            </div>
+            <div style="text-align: center;">
+                <p><strong>Técnica Pomodoro Adaptada:</strong> 25 min trabajo + 5 min pausa + cada 4 ciclos = 15 min pausa</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-icon">🧠</div>
+                <h3>Fundamentos Neurocientíficos</h3>
+                <p><strong>Bases neurológicas del descanso:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Atención sostenida:</strong> Declina tras 20-30 minutos</li>
+                    <li><strong>Red neuronal por defecto:</strong> Se activa en reposo</li>
+                    <li><strong>Consolidación memoria:</strong> Mejora con pausas espaciadas</li>
+                    <li><strong>Neurotransmisores:</strong> Recarga dopamina y acetilcolina</li>
+                </ul>
+                <p><strong>Evidencia científica:</strong> Estudios muestran 23% mejor rendimiento con pausas regulares vs. trabajo continuo.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🧠 Neuroimagen cerebral</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💪</div>
+                <h3>Activación Muscular Progresiva</h3>
+                <p><strong>Protocolo de activación por grupos musculares:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Cervicales:</strong> Rotaciones controladas 8x</li>
+                    <li><strong>Hombros:</strong> Elevaciones y retracciones 10x</li>
+                    <li><strong>Dorsales:</strong> Extensiones y lateralizaciones 8x</li>
+                    <li><strong>Lumbares:</strong> Anteversión/retroversión pélvica 10x</li>
+                    <li><strong>Extremidades:</strong> Movilización articular global</li>
+                </ul>
+                <p><strong>Duración recomendada:</strong> 3-5 minutos cada hora, 10-15 minutos cada 2 horas.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🤸‍♀️ Secuencia ejercicios</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🫁</div>
+                <h3>Técnicas de Respiración Consciente</h3>
+                <p><strong>Protocolo respiratorio 4-7-8:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Inspiración:</strong> 4 segundos por la nariz</li>
+                    <li><strong>Retención:</strong> 7 segundos</li>
+                    <li><strong>Espiración:</strong> 8 segundos por la boca</li>
+                    <li><strong>Repetir:</strong> 4-6 ciclos</li>
+                </ul>
+                <p><strong>Beneficios fisiológicos:</strong> Activación del sistema parasimpático, reducción del cortisol, oxigenación cerebral óptima.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🫁 Diagrama respiratorio</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🚶</div>
+                <h3>Movilidad y Caminata Activa</h3>
+                <p><strong>Protocolos de actividad física:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Micro-caminatas:</strong> 2-3 minutos cada 30 min</li>
+                    <li><strong>Escaleras:</strong> 1-2 pisos, 2-3 veces/día</li>
+                    <li><strong>Estiramientos:</strong> Cadena posterior y anterior</li>
+                    <li><strong>Hidratación:</strong> Pretexto para movilidad</li>
+                </ul>
+                <p><strong>Impacto metabólico:</strong> Mejora glucemia, circulación y gasto energético basal.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🚶‍♂️ Rutina de movilidad</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-container">
+            <h3 style="text-align: center; color: var(--primary-blue);">🎯 Rutina de Pausa Activa Guiada</h3>
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="startGuidedBreak()">▶️ Iniciar Rutina</button>
+                <button class="btn btn-secondary" onclick="pauseGuidedBreak()">⏸️ Pausar</button>
+                <button class="btn btn-primary" onclick="stopGuidedBreak()">⏹️ Detener</button>
+            </div>
+            <div id="exerciseInstructions" style="text-align: center; margin: 2rem 0; font-size: 1.2rem; color: var(--primary-green);">
+                Presiona "Iniciar Rutina" para comenzar tu pausa activa guiada
+            </div>
+            <div class="placeholder-img" style="height: 200px; margin-top: 1rem;">
+                <p>🎬 Video demonstrativo de ejercicios</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Ejercicios -->
+    <section id="ejercicios" class="section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem; color: var(--primary-blue);">🏃‍♀️ Ejercicios Terapéuticos Específicos</h2>
+        
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-icon">👀</div>
+                <h3>Ejercicios Oculomotores</h3>
+                <p><strong>Rutina de fortalecimiento visual:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Seguimientos:</strong> Movimientos oculares en H, O, ∞</li>
+                    <li><strong>Convergencia:</strong> Enfoque cerca-lejos alternado</li>
+                    <li><strong>Sacádicos:</strong> Saltos visuales rápidos</li>
+                    <li><strong>Parpadeo:</strong> 20 parpadeos lentos y completos</li>
+                </ul>
+                <p><strong>Frecuencia:</strong> 2-3 series, 3 veces/día</p>
+                <div class="exercise-visual">
+                    <div class="focus-point"></div>
+                    <div style="position: absolute; color: white; bottom: 20px;">
+                        Sigue el punto verde con los ojos sin mover la cabeza
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <h3>Movilidad Cervical Terapéutica</h3>
+                <p><strong>Ejercicios de rango articular:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Flexión-extensión:</strong> 10 repeticiones lentas</li>
+                    <li><strong>Rotación:</strong> 8 giros completos cada lado</li>
+                    <li><strong>Lateralización:</strong> Oreja hacia hombro 8x</li>
+                    <li><strong>Retracción:</strong> "Papada" 10 segundos</li>
+                </ul>
+                <p><strong>Precauciones:</strong> Movimientos controlados, sin dolor, evitar hiperextensión.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🔄 Secuencia cervical</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🤲</div>
+                <h3>Ejercicios de Manos y Antebrazos</h3>
+                <p><strong>Prevención de TME:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Flexores:</strong> Estiramiento con brazo extendido</li>
+                    <li><strong>Extensores:</strong> Flexión de muñeca asistida</li>
+                    <li><strong>Tendón de Aquiles:</strong> Deslizamientos tendinosos</li>
+                    <li><strong>Movilidad:</strong> Círculos de muñeca y dedos</li>
+                </ul>
+                <p><strong>Duración:</strong> 30 segundos por estiramiento, 2-3 repeticiones.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🤲 Ejercicios de manos</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🧘</div>
+                <h3>Mindfulness y Relajación</h3>
+                <p><strong>Técnicas de reducción del estrés:</strong></p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Escaneo corporal:</strong> 5 minutos</li>
+                    <li><strong>Respiración diafragmática:</strong> 4-7-8</li>
+                    <li><strong>Relajación progresiva:</strong> Jacobson modificado</li>
+                    <li><strong>Visualización:</strong> Imágenes de calma</li>
+                </ul>
+                <p><strong>Beneficios:</strong> Reducción del cortisol, mejora del sueño, menor tensión muscular.</p>
+                <div class="placeholder-img" style="margin-top: 1rem; height: 150px;">
+                    <p>🧘‍♀️ Técnicas de relajación</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-container">
+            <h3 style="text-align: center; color: var(--primary-green);">🎯 Ejercicio Interactivo: Regla 20-20-20</h3>
+            <div class="timer-display" id="twentyTimer">20:00</div>
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="start2020Rule()">▶️ Iniciar 20-20-20</button>
+                <button class="btn btn-secondary" onclick="reset2020Rule()">🔄 Reiniciar</button>
+            </div>
+            <div id="ruleInstructions" style="text-align: center; margin: 2rem 0; font-size: 1.1rem;">
+                <p><strong>Cada 20 minutos, mira algo a 20 pies (6 metros) durante 20 segundos</strong></p>
+                <p>Esta regla oftalmológica reduce la fatiga visual y relaja los músculos de acomodación</p>
+            </div>
+            <div class="exercise-visual">
+                <div style="text-align: center; color: white; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                    <p>Enfoca tu vista en un objeto lejano</p>
+                    <p>Mantén la mirada durante 20 segundos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">15min</span>
+                <p>Ejercicios diarios recomendados</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">47%</span>
+                <p>Reducción de dolor con ejercicios</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">6x</span>
+                <p>Menos fatiga visual con 20-20-20</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">85%</span>
+                <p>Mejora postural con rutina</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Variables globales
+        let currentTimer = null;
+        let currentSection = 'inicio';
+        let guidedBreakTimer = null;
+        let guidedBreakStep = 0;
+        let twenty20Timer = null;
+
+        // Navegación y scroll
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Actualizar sección activa
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            section.classList.add('active');
+            currentSection = sectionId;
+            
+            // Actualizar barra de progreso
+            updateProgressBar();
+        }
+
+        // Actualizar barra de progreso
+        function updateProgressBar() {
+            const sections = ['inicio', 'salud-visual', 'ergonomia', 'pausas-activas', 'ejercicios'];
+            const currentIndex = sections.indexOf(currentSection);
+            const progress = ((currentIndex + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Detección de scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const scrollPos = window.scrollY + 200;
+            
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                
+                if (scrollPos >= top && scrollPos < top + height) {
+                    if (currentSection !== id) {
+                        currentSection = id;
+                        updateProgressBar();
+                        
+                        // Activar animaciones
+                        section.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Temporizadores
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function startPomodoro() {
+            startTimer(25 * 60, 'timerDisplay', 'Tiempo de trabajo completado! Toma un descanso.');
+        }
+
+        function startShortBreak() {
+            startTimer(5 * 60, 'timerDisplay', 'Pausa corta completada! Vuelve al trabajo.');
+        }
+
+        function startLongBreak() {
+            startTimer(15 * 60, 'timerDisplay', 'Pausa larga completada! Listo para continuar.');
+        }
+
+        function resetTimer() {
+            if (currentTimer) {
+                clearInterval(currentTimer);
+                currentTimer = null;
+            }
+            document.getElementById('timerDisplay').textContent = '25:00';
+        }
+
+        function startTimer(duration, displayId, completionMessage) {
+            if (currentTimer) {
+                clearInterval(currentTimer);
+            }
+            
+            let timeLeft = duration;
+            const display = document.getElementById(displayId);
+            
+            currentTimer = setInterval(() => {
+                display.textContent = formatTime(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(currentTimer);
+                    currentTimer = null;
+                    alert(completionMessage);
+                    return;
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Pausa activa guiada
+        const guidedExercises = [
+            "Prepárate para comenzar tu pausa activa...",
+            "Realiza 5 respiraciones profundas",
+            "Rota tus hombros hacia atrás 8 veces",
+            "Inclina la cabeza hacia la derecha por 10 segundos",
+            "Inclina la cabeza hacia la izquierda por 10 segundos",
+            "Rota la cabeza suavemente 5 veces",
+            "Estira los brazos hacia arriba por 10 segundos",
+            "Entrelaza los dedos y estira hacia adelante",
+            "Parpadea 20 veces lentamente",
+            "¡Pausa activa completada! Vuelve al trabajo renovado."
+        ];
+
+        function startGuidedBreak() {
+            guidedBreakStep = 0;
+            const instructions = document.getElementById('exerciseInstructions');
+            
+            function nextExercise() {
+                if (guidedBreakStep < guidedExercises.length) {
+                    instructions.textContent = guidedExercises[guidedBreakStep];
+                    guidedBreakStep++;
+                    
+                    if (guidedBreakStep < guidedExercises.length) {
+                        guidedBreakTimer = setTimeout(nextExercise, 15000); // 15 segundos por ejercicio
+                    }
+                }
+            }
+            
+            nextExercise();
+        }
+
+        function pauseGuidedBreak() {
+            if (guidedBreakTimer) {
+                clearTimeout(guidedBreakTimer);
+                guidedBreakTimer = null;
+            }
+        }
+
+        function stopGuidedBreak() {
+            if (guidedBreakTimer) {
+                clearTimeout(guidedBreakTimer);
+                guidedBreakTimer = null;
+            }
+            guidedBreakStep = 0;
+            document.getElementById('exerciseInstructions').textContent = 
+                "Presiona 'Iniciar Rutina' para comenzar tu pausa activa guiada";
+        }
+
+        // Regla 20-20-20
+        function start2020Rule() {
+            if (twenty20Timer) {
+                clearInterval(twenty20Timer);
+            }
+            
+            let timeLeft = 20 * 60; // 20 minutos
+            const display = document.getElementById('twentyTimer');
+            const instructions = document.getElementById('ruleInstructions');
+            
+            twenty20Timer = setInterval(() => {
+                display.textContent = formatTime(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(twenty20Timer);
+                    twenty20Timer = null;
+                    instructions.innerHTML = `
+                        <p style="color: var(--primary-red); font-size: 1.5rem; font-weight: bold;">
+                            ¡HORA DE DESCANSAR! 👀
+                        </p>
+                        <p>Mira algo a 6 metros de distancia durante 20 segundos</p>
+                        <p>Parpadea varias veces para hidratar tus ojos</p>
+                    `;
+                    
+                    // Reiniciar automáticamente después de 20 segundos
+                    setTimeout(() => {
+                        start2020Rule();
+                        instructions.innerHTML = `
+                            <p><strong>Cada 20 minutos, mira algo a 20 pies (6 metros) durante 20 segundos</strong></p>
+                            <p>Esta regla oftalmológica reduce la fatiga visual y relaja los músculos de acomodación</p>
+                        `;
+                    }, 20000);
+                    
+                    return;
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        function reset2020Rule() {
+            if (twenty20Timer) {
+                clearInterval(twenty20Timer);
+                twenty20Timer = null;
+            }
+            document.getElementById('twentyTimer').textContent = '20:00';
+            document.getElementById('ruleInstructions').innerHTML = `
+                <p><strong>Cada 20 minutos, mira algo a 20 pies (6 metros) durante 20 segundos</strong></p>
+                <p>Esta regla oftalmológica reduce la fatiga visual y relaja los músculos de acomodación</p>
+            `;
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressBar();
+            
+            // Activar primera sección
+            document.getElementById('inicio').classList.add('active');
+            
+            // Añadir efectos de hover dinámicos
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Efecto de escritura en el título
+            const title = document.querySelector('.hero-title');
+            if (title) {
+                title.style.animation = 'morph 3s ease-in-out infinite';
+            }
+        });
+
+        // Variables para el estado del sonido (si se quisiera agregar)
+        let soundEnabled = true;
+        
+        // Función para toggle de sonido
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            // Aquí se podría implementar sonidos de notificación
+        }
+
+        // Función para exportar configuración personal
+        function exportSettings() {
+            const settings = {
+                pomodoroTime: 25,
+                shortBreakTime: 5,
+                longBreakTime: 15,
+                soundEnabled: soundEnabled,
+                exerciseReminders: true
+            };
+            
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'configuracion-salud-visual.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Función para crear recordatorios visuales
+        function createVisualReminder(message, duration = 5000) {
+            const reminder = document.createElement('div');
+            reminder.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--primary-red), var(--primary-blue));
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 10000;
+                animation: slideInFromRight 0.5s ease-out;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            `;
+            reminder.textContent = message;
+            
+            document.body.appendChild(reminder);
+            
+            setTimeout(() => {
+                reminder.style.animation = 'slideInFromRight 0.5s ease-out reverse';
+                setTimeout(() => {
+                    document.body.removeChild(reminder);
+                }, 500);
+            }, duration);
+        }
+
+        // Detección de inactividad para recordatorios
+        let inactivityTimer = null;
+        let lastActivity = Date.now();
+
+        function resetInactivityTimer() {
+            lastActivity = Date.now();
+            
+            if (inactivityTimer) {
+                clearTimeout(inactivityTimer);
+            }
+            
+            inactivityTimer = setTimeout(() => {
+                createVisualReminder('💡 Recuerda tomar una pausa activa cada 30 minutos');
+            }, 30 * 60 * 1000); // 30 minutos
+        }
+
+        // Detectar actividad del usuario
+        ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+            document.addEventListener(event, resetInactivityTimer, true);
+        });
+
+        // Inicializar timer de inactividad
+        resetInactivityTimer();
+    </script>
+</body>
+</html>

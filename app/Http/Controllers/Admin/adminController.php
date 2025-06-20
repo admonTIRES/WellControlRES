@@ -71,7 +71,7 @@ class adminController extends Controller
         /**
      * @return \Illuminate\View\View
      */
-    public function exercises()
+    public function exercises() 
     {
 
         $temas = TemaPreguntas::all();

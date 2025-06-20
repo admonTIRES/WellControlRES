@@ -2,11 +2,13 @@
 <nav class="navbar">
     <div class="logo-container">
         <div class="logo">
-        <a href="{{ route('home') }}" style="display: contents;"> <!-- display: contents hace que el enlace no afecte el diseño -->
-            <img src="/assets/images/Color@4.png" alt="Results in Performance">
+        <a href="{{ route('home') }}" style="display: contents;">
+            <div class="logo-img"></div>
+            <!-- <img src="/assets/images/Color@4x.png" alt="Results in Performance"> -->
         </a>
         </div>
     </div>
+    
     <div class="nav-icons">
         <a href="{{ route('home') }}" class="nav-item" data-title="Inicio">
             <img src="/assets/images/principal/home.png" alt="home" class="nav-icon">

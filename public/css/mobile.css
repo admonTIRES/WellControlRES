@@ -1,11 +1,16 @@
+
+
+
+
 * {
     padding: 0;
     box-sizing: border-box;
+    max-width: 500px;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: white;
 }
 
 .navbar {
@@ -13,49 +18,58 @@ body {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 80px;
+    height: 60px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    padding: 0 1.22rem;
+    /* padding: 0 1.22rem; */
 }
 
 .logo-container {
     background:linear-gradient(to bottom,
-                #ffffff 0%,
-                #ffffff 15%,
-                #003d6b 34%);
-       
-    width: 20%;
+                #cecdcd 0%,
+                #cecdcd 15%,
+                #FF585D 34%);
+    width: 10%;
 }
 
 .logo{
     border-bottom-right-radius: 30px;
-    background: white;
+    background: #fbfbfb;
 }
 
-.logo img {
-    width: 180px;
-    height: auto;
+/* .logo img {
+    width: 200px;
+    height: auto; 
     display: block;
+} */
+
+.logo-img {
+    width: 50px; /* o el tamaño que tenía la imagen */
+    height: 60px;
+    background-image: url('/assets/images/ColorLargo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .nav-icons {
     display: flex;
-    gap: 9rem;
+    gap: 1rem ;
     justify-content: center;
     align-items: center;
-    background: #003d6b;
-    width: calc(100% - 200px);
+    background: #FF585D;
+    width: calc(100% - 10px);
     height: 100%;
-    padding: 1rem 2rem;
+    /* padding: 1rem 2rem; */
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
 }
 
 .nav-icon {
-    width: 50px;
-    height: 50px;
+    margin-top: 8px;
+    width: 37px;
+    height: 40px;
     opacity: 0.9;
     filter: brightness(0) invert(1);
     transition: transform 0.2s ease-in-out;
@@ -73,49 +87,6 @@ body {
     transform: scale(1.1);
 }
 
-@media (max-width: 1024px) {
-    .nav-icons {
-        gap: 2rem;
-    }
-
-    .nav-icon {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-@media (max-width: 768px) {
-    .logo img {
-        width: 100px;
-    }
-
-    .nav-icons {
-        gap: 1.5rem;
-        padding: 0.5rem;
-    }
-
-    .nav-icon {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-icons {
-        width: 100%;
-        border-radius: 0;
-        gap: 1rem;
-    }
-
-    .nav-icon {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-
-
-/* Estilos para la burbuja emergente */
 .tooltip-bubble {
     position: absolute;
     background: rgba(255, 255, 255, 0.8);
@@ -128,3 +99,70 @@ body {
     white-space: nowrap;
     animation: fadeIn 0.2s ease-in-out;
 }
+
+/* CONTAINERS */
+/* Estilos para el menú flotante */
+.dropdown-menu-container {
+    position: relative;
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu {
+    position: absolute;
+    top: 80%;
+    left: 0;
+    transform: translateX(-50%);
+    background-color: rgba(6, 6, 6, 0.102);
+    border-radius: 10px; /* Más redondeado */
+    padding: 20px 0; /* Más margen */
+    width: 180px; /* Ancho un poco mayor */
+    display: none;
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.072);
+    z-index: 1000;
+    backdrop-filter: blur(12px); /* Blur más suave */
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición más fluida */
+}
+
+/* Estilo de los enlaces del menú */
+.dropdown-menu a {
+    display: block;
+    padding: 12px 20px; /* Más espacio dentro de cada opción */
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-size: 18px; /* Letra más grande */
+    font-weight: 400; /* Letra más gruesa */
+}
+
+/* Estilo al pasar el mouse sobre los enlaces */
+.dropdown-menu a:hover {
+    background-color: #ffffff;
+    color: #FF585D;
+
+}
+
+/* Mostrar el menú con efecto fade-in y leve desplazamiento */
+.dropdown-menu-container:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(5px); /* Movimiento suave hacia abajo */
+}
+
+#form-wizard1 fieldset {
+  display: none;
+}
+
+#form-wizard1 fieldset.active {
+  display: block;
+}
+
+
+
+/* ------- */
+
+/* IMAGES */
+
+
+/* ------- */
+

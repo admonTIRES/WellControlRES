@@ -216,7 +216,7 @@
                                     <div class="img">
                                         <img src="../assets/images/principal/math2.png" class="img-fluid w-55" alt="img8">
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </div>
                     </div>

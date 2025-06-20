@@ -40,7 +40,7 @@ body {
 .logo-img {
     width: 50px; /* o el tamaño que tenía la imagen */
     height: 60px;
-    background-image: url('/assets/images/ColorLargo.png');
+    background-image: url('/assets/images/Colorlargo.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

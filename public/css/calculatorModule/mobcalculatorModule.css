@@ -410,14 +410,15 @@ body {
 }
 
 .exercise-container {
-    display: flex;
+    /* display: flex; */
     gap: 12px;
     margin-top: 44px;
 }
 
 .calculator-container {
-    position: absolute; /* Fija la calculadora en la pantalla */
+    position: relative; 
     width: 330px;
+    margin-top: 1rem;
 }
 
 .exercise-content {
@@ -872,6 +873,11 @@ body {
     height: 100%; */
     z-index: 1;
     overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+}
+
+.button-container{
+    align-items: center;
+    justify-content: center;
 }
 
 .team-image img {

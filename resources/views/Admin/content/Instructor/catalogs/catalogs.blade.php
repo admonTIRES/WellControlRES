@@ -249,6 +249,15 @@
                                         role="tab"
                                         aria-controls="v-pills-tema"
                                         aria-selected="false">Temas</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-subtema-tab"
+                                        data-topic="subtema-preguntas"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-subtema"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-subtema"
+                                        aria-selected="false">Subtemas</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">Exámenes</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
@@ -271,6 +280,17 @@
                                         role="tab"
                                         aria-controls="v-pills-membresias"
                                         aria-selected="false">Membresías</button>
+                                         <hr class="hr-horizontal mt-4 mb-2">
+                                    <p class=" mt-3 mb-2">Tipo de operacion</p>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-operacion-tab"
+                                        data-topic="operacion"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-operacion"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-operacion"
+                                        aria-selected="false">Tipo de operacion</button>
                                 </div>
                                 <div class="tab-content pt-md-0 flex-grow-1" id="v-pills-tabContent">
                                     <div class="tab-pane fade show active" id="v-pills-acreditadores" role="tabpanel" aria-labelledby="v-pills-acreditadores-tab">
@@ -296,121 +316,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="nivelacreditacion-list-table" class="table table-striped table-wrap" role="grid">
-                                                    <!-- <thead>
-                                                        <tr class="ligth">
-                                                            <th>Nivel</th>
-                                                            <th>Descripción</th>
-                                                            <th style="min-width: 100px">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Lv 1</td>
-                                                            <td>Conciencia en control de pozos</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#nivelModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lv 2</td>
-                                                            <td>Introductorio</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch2" checked>
-                                                                        <label class="form-check-label" for="statusSwitch2">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lv 3</td>
-                                                            <td>Perforador</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch3" checked>
-                                                                        <label class="form-check-label" for="statusSwitch3">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lv 4</td>
-                                                            <td>Supervisor</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch4" checked>
-                                                                        <label class="form-check-label" for="statusSwitch4">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lv 5</td>
-                                                            <td>Ingeniero</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch5" checked>
-                                                                        <label class="form-check-label" for="statusSwitch5">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody> -->
+                                                <table id="nivelacreditacion-list-table" class="table table-striped" style="width:100%">
                                                 </table>
                                             </div>
                                         </div>
@@ -424,58 +330,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-responsive">
-                                                <table id="tiposbop-list-table" class="table table-striped table-wrap" role="grid" >
-                                                    <!-- <thead>
-                                                        <tr class="ligth">
-                                                            <th>Abreviatura</th>
-                                                            <th>Descripción</th>
-                                                            <th style="min-width: 100px">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>SO</td>
-                                                            <td>Surface Only</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#tipobopModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>SS</td>
-                                                            <td>Surface and Subsea</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch2" checked>
-                                                                        <label class="form-check-label" for="statusSwitch2">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody> -->
+                                                <table id="tiposbop-list-table" class="table table-striped" role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -614,6 +469,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="v-pills-subtema" role="tabpanel" aria-labelledby="v-pills-subtema-tab">
+                                        <div class="w-100 h-100">
+                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0">Catálogo de subtemas para preguntas</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subtemaModal">
+                                                    Nuevo subtema
+                                                </button>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table id="subtemas-list-table" class="table table-striped" role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="tab-pane fade" id="v-pills-lang" role="tabpanel" aria-labelledby="v-pills-lang-tab">
                                         <div class="w-100 h-100">
                                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
@@ -624,36 +493,6 @@
                                             </div>
                                             <div class="table-responsive">
                                                 <table id="idiomas-list-table" class="table table-striped" role="grid">
-                                                    <!-- <thead>
-                                                        <tr class="ligth">
-                                                            <th>Lang</th>
-                                                            <th>Descripción</th>
-                                                            <th style="min-width: 100px">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Inglés</td>
-                                                            <td>Idioma inglés</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#idiomaModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody> -->
                                                 </table>
                                             </div>
                                         </div>
@@ -668,126 +507,20 @@
                                             </div>
                                             <div class="table-responsive">
                                                 <table id="membresias-list-table" class="table table-striped" role="grid">
-                                                    <!-- <thead>
-                                                        <tr class="ligth">
-                                                            <th>Name</th>
-                                                            <th>Tipo</th>
-                                                            <th>Certificación</th>
-                                                            <th style="min-width: 100px">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Membresia 1</td>
-                                                            <td>Básica</td>
-                                                            <td>IADC</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch1" checked>
-                                                                        <label class="form-check-label" for="statusSwitch1">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Membresia 2</td>
-                                                            <td></td>
-                                                            <td>IWCF</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#membresiasModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch2" checked>
-                                                                        <label class="form-check-label" for="statusSwitch2">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ejercicio 3</td>
-                                                            <td>Densidad de Fluidos</td>
-                                                            <td>IADC</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch3" checked>
-                                                                        <label class="form-check-label" for="statusSwitch3">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ejercicio 4</td>
-                                                            <td>Presión de Formación</td>
-                                                            <td>IWCF</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch4" checked>
-                                                                        <label class="form-check-label" for="statusSwitch4">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ejercicio 5</td>
-                                                            <td>Gradiente de Fractura</td>
-                                                            <td>IADC</td>
-                                                            <td>
-                                                                <div class="flex align-items-center list-user-action">
-                                                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#ejerciciosModal">
-                                                                        <span class="btn-inner">
-                                                                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="statusSwitch5" checked>
-                                                                        <label class="form-check-label" for="statusSwitch5">Activo</label>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody> -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-operacion" role="tabpanel" aria-labelledby="v-pills-operacion-tab">
+                                        <div class="w-100 h-100">
+                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0">Catálogo de tipo de operacion</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#operacionModal">
+                                                    Nuevo tipo de operacion
+                                                </button>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table id="operacion-list-table" class="table table-striped" role="grid">
                                                 </table>
                                             </div>
                                         </div>
@@ -921,9 +654,13 @@
                                     <label class="form-label"> {{ __('Topic') }}</label>
                                     <input type="text" class="form-control" name="NOMBRE_TEMA" id="NOMBRE_TEMA" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Certification') }}</label>
-                                    <input type="text" class="form-control" name="CERTIFICACION_TEMA" id="CERTIFICACION_TEMA" required>
+                                 <div class="mb-3">
+                                        <label>{{ __('Certification') }}</label>
+                                        <select class="form-select selectize-multiple" id="CERTIFICACION_TEMA" name="CERTIFICACION_TEMA[]" multiple>
+                                            @foreach ($entes as $ente)
+                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
                         </div>
                     </form>
@@ -931,6 +668,48 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button id="temabtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="subtemaModal" tabindex="-1" aria-labelledby="subtemaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subtemaModalLabel">{{ __('Question Subtopic') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="subtemasForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                        <div class="row">
+                                 <div class="mb-3">
+                                    <label>{{ __('Topic') }}</label>
+                                    <select class="form-select" id="TEMAPREGUNTA_ID" name="TEMAPREGUNTA_ID" required>
+                                        @foreach ($temas as $tema)
+                                            <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Subtopic') }}</label>
+                                    <input type="text" class="form-control" name="NOMBRE_SUBTEMA" id="NOMBRE_SUBTEMA" required>
+                                </div>
+                                <div class="mb-3">
+                                        <label>{{ __('Certification') }}</label>
+                                        <select class="form-select selectize-multiple" id="CERTIFICACION_SUBTEMA" name="CERTIFICACION_SUBTEMA[]" multiple>
+                                            @foreach ($entes as $ente)
+                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                            @endforeach
+                                        </select>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="subtemabtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -995,6 +774,34 @@
             </div>
         </div>
     </div>
+     <div class="modal fade" id="operacionModal" tabindex="-1" aria-labelledby="operacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="operacionModalLabel">{{ __('Operation Type') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="operacionForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                        <div class="row">
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Operation Type') }}</label>
+                                    <input type="text" class="form-control" name="NOMBRE_OPERACION" id="NOMBRE_OPERACION" required>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="operacionbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
  
 </main>
 @endsection
+@php
+    $css_identifier = 'catalogs';
+@endphp

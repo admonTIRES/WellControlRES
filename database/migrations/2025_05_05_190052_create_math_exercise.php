@@ -26,7 +26,7 @@ class CreateMathExercise extends Migration
             $table->longText('OPCIONES_MATH')->nullable();
             $table->text('EXPLICACION_MATH')->nullable();
             $table->string('SOLUCIONIMG_MATH')->nullable();
-            $table->string('CALCULADORA_MATH')->nullable();
+            $table->longText('CALCULADORA_MATH')->nullable();
             $table->timestamps();
         });
     }

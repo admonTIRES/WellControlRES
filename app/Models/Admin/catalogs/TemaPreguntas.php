@@ -14,4 +14,8 @@ class TemaPreguntas extends Model
         'CERTIFICACION_TEMA', 
         'ACTIVO_TEMA'
     ];
+
+     protected $casts = [
+        'CERTIFICACION_TEMA' => 'array'
+    ];
 }

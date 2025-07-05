@@ -105,7 +105,9 @@ class adminController extends Controller
      */
     public function catalogs()
     {
-        return view('Admin.content.Instructor.catalogs.catalogs')->with('user_role', 0);
+        $temas = TemaPreguntas::all();
+        $entes = EnteAcreditador::all();
+        return view('Admin.content.Instructor.catalogs.catalogs', compact('entes', 'temas'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

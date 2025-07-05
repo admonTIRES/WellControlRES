@@ -13,6 +13,9 @@ use App\Http\Controllers\Principal\principalController;
 use App\Http\Controllers\Calculator\calculatorController;
 use App\Http\Controllers\Killsheet\killsheetController;
 
+use App\Http\Controllers\Admin\Exercises\ExamController;
+
+
 
 
 // ADMIN
@@ -61,6 +64,7 @@ Route::get('/asignaments', [adminController::class, 'asignaments'])->name('asign
 
 // --------------------------EXERCISES-------------------------------------- //
 Route::get('/exercises', [adminController::class, 'exercises'])->name('exercises'); 
+Route::post('/questionSave', [ExamController::class, 'store']);
 Route::get('/math', [adminController::class, 'math'])->name('math'); 
 Route::get('/killsheets', [adminController::class, 'killsheets'])->name('killsheets');  
 
@@ -82,6 +86,10 @@ Route::get('/temasDatatable', [ CatalogsController::class, 'temasDatatable']);
 Route::post('/temaSave', [CatalogsController::class, 'store']);
 Route::get('/temaActive', [CatalogsController::class, 'store']);
 
+Route::get('/subtemasDatatable', [ CatalogsController::class, 'subtemasDatatable']);
+Route::post('/subtemaSave', [CatalogsController::class, 'store']);
+Route::get('/subtemaActive', [CatalogsController::class, 'store']);
+
 Route::get('/idiomasDatatable', [ CatalogsController::class, 'idiomasDatatable']);
 Route::post('/idiomaSave', [CatalogsController::class, 'store']);
 Route::get('/idiomaActive', [CatalogsController::class, 'store']);
@@ -89,6 +97,16 @@ Route::get('/idiomaActive', [CatalogsController::class, 'store']);
 Route::get('/membresiasDatatable', [ CatalogsController::class, 'membresiasDatatable']);
 Route::post('/membresiaSave', [CatalogsController::class, 'store']);
 Route::get('/membresiaActive', [CatalogsController::class, 'store']);
+
+Route::get('/operacionDatatable', [ CatalogsController::class, 'operacionDatatable']);
+Route::post('/operacionSave', [CatalogsController::class, 'store']);
+Route::get('/operacionActive', [CatalogsController::class, 'store']);
+
+
+Route::get('/questionDatatable', [ ExamController::class, 'questionDatatable']);
+Route::post('/questionSave', [ExamController::class, 'store']);
+Route::get('/questionActive', [ExamController::class, 'store']);
+
 
 
 

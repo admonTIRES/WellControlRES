@@ -20,6 +20,7 @@
                     </p>
                 </div>
                 
+                       
                 <img src="/assets/images/principal/castorFeliz.png" alt="Beaver mascot" class="beaver" />
                 
                 <img src="/assets/images/principal/nube2.png" alt="Cloud" class="cloud cloud-1" />

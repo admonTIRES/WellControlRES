@@ -54,10 +54,12 @@ use Illuminate\Support\Str;
             @switch($css_identifier)
                 @case('exercises')
                     <link rel="stylesheet" href="{{ asset('css/examsModule/exercises.css') }}" media="(min-width: 1024px)">
-
                     @break
                 @case('math')
                     <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}" media="(min-width: 1024px)">
+                    @break
+                @case('catalogs')
+                    <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}" media="(min-width: 1024px)">
                     @break
                 @case('projects')
                         <!-- Flatpickr CSS -->

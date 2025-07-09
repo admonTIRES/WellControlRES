@@ -181,9 +181,9 @@ $(document).ready(function() {
         $('#campoImagen3').toggleClass('d-none', tipo !== '2');
     });
 
-        $('#HAS_FEEDBACK_QUESTION').on('change', function () {
+    $('#HAS_FEEDBACK_QUESTION').on('change', function () {
         const tipo = $(this).val();
-        $('#retroText').toggleClass('d-none', tipo !== '1');
+        $('#feedbackTextContainer').toggleClass('d-none', tipo !== '1');
     });
 
     // Activar segunda sección
@@ -507,11 +507,11 @@ var questionDatatable = $("#question-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'TOPICS_QUESTION' },
-        { data: 'SUBTOPICS_QUESTION' },
+        { data: 'TEMAS_NOMBRES' },
+        { data: 'SUBTEMAS_NOMBRES' },
         { data: 'EVALUATION_TYPES_QUESTION' },
-        { data: 'ACCREDITATION_ENTITIES_QUESTION' },
-        { data: 'LANGUAGE_ID_QUESTION' },
+        { data: 'CERTIFICACIONES_NOMBRES' },
+        { data: 'IDIOMA_NOMBRE' },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
@@ -527,8 +527,8 @@ var questionDatatable = $("#question-list-table").DataTable({
     ]
 
 });
-
 // DATATABLES-END
+
 let calendar;
 let selectizeInstance;
 let events = [];
@@ -763,345 +763,117 @@ $('#eventModal').on('hidden.bs.modal', function () {
 });
 
 
-//ajax
-$(document).ready(function() {
-    // Manejar el evento de clic en el botón de guardar
-    $('#saveQuestionBtn').click(async function(e) {
-        e.preventDefault();
-        
-        // Validar el formulario antes de enviar
-        if (!validarFormulario($('#questionForm'))) {
-            alertToast('Por favor complete todos los campos obligatorios', 'error');
-            return;
-        }
-        
-        // Validación adicional para selects múltiples obligatorios
-        if (!validateMultiSelects()) {
-            return;
-        }
-        
-        // Validación de estructura de pregunta
-        if (!validateQuestionStructure()) {
-            return;
-        }
-        
-        // Validación de respuestas según tipo
-        if (!validateAnswers()) {
-            return;
-        }
-
-        try {
-            // Configuración para la llamada AJAX
-            const config = {
-                alertBefore: true,
-                response: true,
-                callbackBefore: showLoadingIndicator,
-                callbackAfter: handleSuccessResponse,
-                returnData: true,
-                resetForm: true
-            };
-            
-            // Preparar datos para enviar
-            const formData = prepareFormData();
-            
-            // Llamar a la función global AJAX
-            await ajaxAwaitFormData(
-                formData,
-                '/api/questions', // Ajusta esta URL según tu ruta
-                'questionForm',
-                'saveQuestionBtn',
-                config
-            );
-        } catch (error) {
-            console.error('Error en la solicitud AJAX:', error);
-            handleAjaxError(error);
-        }
-    });
-    
-    // Función para validar selects múltiples
-    function validateMultiSelects() {
-        const requiredMultiSelects = [
-            'ACCREDITATION_ENTITIES_QUESTION', 
-            'LEVELS_QUESTION', 
-            'BOPS_QUESTION', 
-            'TOPICS_QUESTION'
-        ];
-        
-        let isValid = true;
-        
-        requiredMultiSelects.forEach(selectId => {
-            const select = $(`#${selectId}`);
-            if (select.val() === null || select.val().length === 0) {
-                select.addClass('is-invalid');
-                isValid = false;
-            } else {
-                select.removeClass('is-invalid');
-            }
-        });
-        
-        if (!isValid) {
-            alertToast('Seleccione al menos una opción en los campos obligatorios', 'error');
-        }
-        
-        return isValid;
-    }
-    
-    // Función para validar estructura de pregunta
-    function validateQuestionStructure() {
-        const tipo1 = $('#TIPO1_QUESTION').val();
-        let isValid = true;
-        
-        if (!tipo1) {
-            $('#TIPO1_QUESTION').addClass('is-invalid');
-            isValid = false;
+//GUARDAR
+$("#saveQuestionBtn").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#questionForm'))
+    if (formularioValido) {
+        if (ID_QUESTION == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar esta pregunta?",
+                text: "La pregunta se guardará en el cátalogo de preguntas",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('saveQuestionBtn')
+                await ajaxAwaitFormData({ api: 1, ID_QUESTION }, 'questionSave', 'questionForm', 'saveQuestionBtn', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_QUESTION = data.question.ID_QUESTION
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#questionModal').modal('hide')
+                    document.getElementById('questionForm').reset()
+                    questionDatatable.ajax.reload()
+                })
+            }, 1)
         } else {
-            $('#TIPO1_QUESTION').removeClass('is-invalid');
-            
-            if (tipo1 === '1' && !$('#TEXTO1_QUESTION').val()) {
-                $('#TEXTO1_QUESTION').addClass('is-invalid');
-                isValid = false;
-            } else if (tipo1 === '2' && !$('#IMAGEN1_QUESTION').val()) {
-                $('#IMAGEN1_QUESTION').addClass('is-invalid');
-                isValid = false;
-            }
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('saveQuestionBtn')
+                await ajaxAwaitFormData({ api: 1, ID_QUESTION }, 'questionSave', 'questionForm', 'saveQuestionBtn', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_QUESTION = data.question.ID_QUESTION
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#questionModal').modal('hide')
+                        document.getElementById('questionForm').reset()
+                        questionDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
         }
-        
-        return isValid;
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
     }
-    
-    // Función para validar respuestas
-    function validateAnswers() {
-        const answerType = $('#ANSWER_TYPE_QUESTION').val();
-        let isValid = true;
-        
-        if (!answerType) {
-            $('#ANSWER_TYPE_QUESTION').addClass('is-invalid');
-            return false;
-        }
-        
-        if (answerType === '1') { // Respuesta numérica
-            if (!$('#MIN_RANGE_QUESTION').val() || !$('#MAX_RANGE_QUESTION').val()) {
-                $('#MIN_RANGE_QUESTION, #MAX_RANGE_QUESTION').addClass('is-invalid');
-                isValid = false;
-            }
-        } else if (answerType === '2') { // Opciones múltiples
-            const numOptions = $('#ANSWER_OPTIONS_QUESTION').val();
-            const numCorrect = $('#CORRECT_ANSWERS_QUESTION').val();
-            
-            if (!numOptions) {
-                $('#ANSWER_OPTIONS_QUESTION').addClass('is-invalid');
-                isValid = false;
-            }
-            
-            if (!numCorrect) {
-                $('#CORRECT_ANSWERS_QUESTION').addClass('is-invalid');
-                isValid = false;
-            }
-            
-            // Validar que todas las respuestas requeridas tengan texto
-            if (numOptions) {
-                for (let i = 1; i <= numOptions; i++) {
-                    if (!$(`#respuesta${i}-text`).val()) {
-                        $(`#respuesta${i}-text`).addClass('is-invalid');
-                        isValid = false;
-                    }
-                }
-            }
-        }
-        
-        return isValid;
-    }
-    
-    // Función para preparar los datos del formulario
-    function prepareFormData() {
-        // Obtener valores de los selects múltiples
-        const multiSelectValues = {
-            ACCREDITATION_ENTITIES_QUESTION: $('#ACCREDITATION_ENTITIES_QUESTION').val(),
-            LEVELS_QUESTION: $('#LEVELS_QUESTION').val(),
-            BOPS_QUESTION: $('#BOPS_QUESTION').val(),
-            TOPICS_QUESTION: $('#TOPICS_QUESTION').val(),
-            SUBTOPICS_QUESTION: $('#SUBTOPICS_QUESTION').val(),
-            EVALUATION_TYPES_QUESTION: $('#EVALUATION_TYPES_QUESTION').val()
-        };
-        
-        // Preparar estructura de la pregunta
-        const questionStructure = {
-            sections: []
-        };
-        
-        // Sección principal (obligatoria)
-        const section1 = {
-            type: $('#TIPO1_QUESTION').val(),
-            content: $('#TIPO1_QUESTION').val() === '1' 
-                ? $('#TEXTO1_QUESTION').val() 
-                : $('#IMAGEN1_QUESTION').prop('files')[0]?.name
-        };
-        questionStructure.sections.push(section1);
-        
-        // Secciones adicionales (opcionales)
-        if ($('#activarSeccionExtra').is(':checked')) {
-            const section2 = {
-                type: $('#TIPO2_QUESTION').val(),
-                content: $('#TIPO2_QUESTION').val() === '1' 
-                    ? $('#TEXTO2_QUESTION').val() 
-                    : $('#IMAGEN2_QUESTION').prop('files')[0]?.name
-            };
-            questionStructure.sections.push(section2);
-        }
-        
-        if ($('#activarSeccionExtra2').is(':checked')) {
-            const section3 = {
-                type: $('#TIPO3_QUESTION').val(),
-                content: $('#TIPO3_QUESTION').val() === '1' 
-                    ? $('#TEXTO3_QUESTION').val() 
-                    : $('#IMAGEN3_QUESTION').prop('files')[0]?.name
-            };
-            questionStructure.sections.push(section3);
-        }
-        
-        // Preparar respuestas según el tipo
-        let answers = null;
-        const answerType = $('#ANSWER_TYPE_QUESTION').val();
-        
-        if (answerType === '2') { // Opciones múltiples
-            answers = [];
-            const numOptions = $('#ANSWER_OPTIONS_QUESTION').val();
-            
-            for (let i = 1; i <= numOptions; i++) {
-                answers.push({
-                    text: $(`#respuesta${i}-text`).val(),
-                    isCorrect: $(`#respuesta${i}-check`).is(':checked')
+})
+
+//ACTIVAR
+$('#question-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = questionDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 1,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_QUESTION: row.data().ID_QUESTION
+    };
+
+    eliminarDatoTabla(data, [questionDatatable], 'questionActive');
+});
+
+//EDITAR
+$('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = questionDatatable.row(tr);
+    ID_QUESTION = row.data().ID_QUESTION;
+
+    editarDatoTabla(row.data(), 'questionForm', 'questionModal', 1);
+
+   function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
                 });
             }
-        }
-        
-        // Retornar objeto con todos los datos
-        return {
-            ...multiSelectValues,
-            LANGUAGE_QUESTION: $('#LANGUAGE_QUESTION').val(),
-            QUESTION_STRUCTURE_QUESTION: JSON.stringify(questionStructure),
-            ANSWER_TYPE_QUESTION: answerType,
-            ANSWER_OPTIONS_QUESTION: $('#ANSWER_OPTIONS_QUESTION').val(),
-            CORRECT_ANSWERS_QUESTION: $('#CORRECT_ANSWERS_QUESTION').val(),
-            ANSWERS_QUESTION: answers ? JSON.stringify(answers) : null,
-            MIN_RANGE_QUESTION: $('#MIN_RANGE_QUESTION').val(),
-            MAX_RANGE_QUESTION: $('#MAX_RANGE_QUESTION').val(),
-            TIME_MINUTES_QUESTION: $('#TIME_MINUTES_QUESTION').val(),
-            SCORE_QUESTION: $('#SCORE_QUESTION').val(),
-            HAS_FEEDBACK_QUESTION: $('#HAS_FEEDBACK_QUESTION').val() === '1' ? 1 : 0,
-            FEEDBACK_TEXT_QUESTION: $('#FEEDBACK_TEXT_QUESTION').val()
-        };
+
+            var selectize = $select[0].selectize;
+            selectize.clear();            
+            selectize.setValue(values);  
+        });
     }
-    
-    // Función para mostrar indicador de carga
-    function showLoadingIndicator() {
-        $('#saveQuestionBtn').prop('disabled', true).html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...'
-        );
-    }
-    
-    // Función para manejar respuesta exitosa
-    function handleSuccessResponse(data) {
-        alertMensaje1(
-            'success', 
-            'Pregunta guardada', 
-            'La pregunta se ha guardado correctamente', 
-            null, null, 2000
-        );
-        
-        // Cerrar el modal después de 2 segundos
-        setTimeout(() => {
-            $('#questionModal').modal('hide');
-            $('#saveQuestionBtn').prop('disabled', false).text('Guardar Pregunta');
-        }, 2000);
-    }
-    
-    // Función para manejar errores AJAX
-    function handleAjaxError(error) {
-        $('#saveQuestionBtn').prop('disabled', false).text('Guardar Pregunta');
-        
-        if (error.responseJSON && error.responseJSON.message) {
-            alertToast(`Error: ${error.responseJSON.message}`, 'error');
-        } else {
-            alertToast('Error al guardar la pregunta. Intente nuevamente.', 'error');
-        }
-    }
-    
-    // Manejar cambios en el tipo de respuesta
-    $('#ANSWER_TYPE_QUESTION').change(function() {
-        const type = $(this).val();
-        
-        $('#rangoRespuesta').addClass('d-none');
-        $('#selectorOpciones').addClass('d-none');
-        $('#selectorCorrectas').addClass('d-none');
-        $('#respuestas-container').addClass('d-none');
-        
-        if (type === '1') {
-            $('#rangoRespuesta').removeClass('d-none');
-        } else if (type === '2') {
-            $('#selectorOpciones').removeClass('d-none');
-        }
-    });
-    
-    // Manejar cambios en el número de opciones de respuesta
-    $('#ANSWER_OPTIONS_QUESTION').change(function() {
-        const numOptions = $(this).val();
-        
-        if (numOptions > 0) {
-            $('#selectorCorrectas').removeClass('d-none');
-            $('#respuestas-container').removeClass('d-none');
-            
-            $('.checkbox-container').addClass('d-none');
-            for (let i = 1; i <= numOptions; i++) {
-                $(`#respuesta${i}`).removeClass('d-none');
-            }
-        }
-    });
-    
-    // Manejar cambios en el tipo de pregunta (texto/imagen)
-    $('#TIPO1_QUESTION').change(function() {
-        const tipo = $(this).val();
-        $('#campoTexto').addClass('d-none');
-        $('#campoImagen').addClass('d-none');
-        
-        if (tipo === '1') {
-            $('#campoTexto').removeClass('d-none');
-        } else if (tipo === '2') {
-            $('#campoImagen').removeClass('d-none');
-        }
-    });
-    
-    // Manejar la activación de secciones extra
-    $('#activarSeccionExtra').change(function() {
-        if ($(this).is(':checked')) {
-            $('#seccionExtra').removeClass('opacity-50 pointer-events-none');
-            $('#TIPO2_QUESTION').prop('disabled', false);
-        } else {
-            $('#seccionExtra').addClass('opacity-50 pointer-events-none');
-            $('#TIPO2_QUESTION').prop('disabled', true);
-            $('#campoTexto2').addClass('d-none');
-            $('#campoImagen2').addClass('d-none');
-        }
-    });
-    
-    $('#activarSeccionExtra2').change(function() {
-        if ($(this).is(':checked')) {
-            $('#seccionExtra2').removeClass('opacity-50 pointer-events-none');
-            $('#TIPO3_QUESTION').prop('disabled', false);
-        } else {
-            $('#seccionExtra2').addClass('opacity-50 pointer-events-none');
-            $('#TIPO3_QUESTION').prop('disabled', true);
-            $('#campoTexto3').addClass('d-none');
-            $('#campoImagen3').addClass('d-none');
-        }
-    });
-    
-    // Manejar retroalimentación
-    $('#HAS_FEEDBACK_QUESTION').change(function() {
-        if ($(this).val() === '1') {
-            $('#feedbackTextContainer').removeClass('d-none');
-        } else {
-            $('#feedbackTextContainer').addClass('d-none');
-        }
-    });
+
+    initializeSelectizedFields(row, [
+        'ACCREDITATION_ENTITIES_QUESTION',
+        'LEVELS_QUESTION',
+        'BOPS_QUESTION',
+        'TOPICS_QUESTION',
+        'SUBTOPICS_QUESTION',
+        'EVALUATION_TYPES_QUESTION'
+    ]);
+
+    $('#questionModal .modal-title').html(row.data().ID_QUESTION);
+
 });

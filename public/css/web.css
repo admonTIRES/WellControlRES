@@ -1,7 +1,4 @@
 
-
-
-
 * {
     padding: 0;
     box-sizing: border-box;
@@ -38,7 +35,7 @@ body {
     background: #fbfbfb;
 }
 .logo-img {
-    width: 150px; /* o el tamaño que tenía la imagen */
+    width: 250px; /* o el tamaño que tenía la imagen */
     height: 60px;
     background-image: url('/assets/images/Color@4x.png');
     background-size: contain;
@@ -162,6 +159,8 @@ body {
 
 /* IMAGES */
 
-
+.team-image img {
+    mask-image: linear-gradient(black 70%, transparent);
+}
 /* ------- */
 

@@ -10,6 +10,8 @@ use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\TemaPreguntas;
+use App\Models\Admin\catalogs\IdiomasExamenes;
+
 
 
 class adminController extends Controller
@@ -78,7 +80,8 @@ class adminController extends Controller
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
         $bops = TipoBOP::all();
-        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
+        $idiomas = IdiomasExamenes::all();
+        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'niveles', 'bops', 'idiomas'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

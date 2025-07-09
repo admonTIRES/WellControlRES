@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 //MODALS
 use App\Models\Admin\Exercise\Question;
 use App\Models\Admin\catalogs\EnteAcreditador;
+use App\Models\Admin\catalogs\TemaPreguntas;
+use App\Models\Admin\catalogs\SubtemaPreguntas;
+use App\Models\Admin\catalogs\IdiomasExamenes;
+
 
 
 
@@ -19,19 +23,35 @@ class ExamController extends Controller
         try {
             $tabla = Question::get();
             $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
-            foreach ($tabla as $value) {
-                $certificacionesIds = $value->ACCREDITATION_ENTITIES_QUESTION ?? [];
-            
-                $nombresEntes = [];
-                foreach ($certificacionesIds as $id) {
-                    if (isset($entes[$id])) {
-                        $nombresEntes[] = $entes[$id];
+            $temas = TemaPreguntas::pluck('NOMBRE_TEMA', 'ID_CATALOGO_TEMAPREGUNTA')->toArray();
+            $subtemas = SubtemaPreguntas::pluck('NOMBRE_SUBTEMA', 'ID_CATALOGO_SUBTEMA')->toArray();
+            $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
+
+           
+
+            foreach ($tabla as $value) { 
+                
+               function mapIdsToNames($ids, $catalogo)
+                {
+                    if (!is_array($ids)) {
+                        $ids = json_decode($ids, true) ?? [];
                     }
+
+                    return implode(', ', array_map(function ($id) use ($catalogo) {
+                        return $catalogo[$id] ?? '';
+                    }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
+                }
+
+                foreach ($tabla as $value) {
+                    $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ACCREDITATION_ENTITIES_QUESTION ?? [], $entes);
+                    $value->TEMAS_NOMBRES = mapIdsToNames($value->TOPICS_QUESTION ?? [], $temas);
+                    $value->SUBTEMAS_NOMBRES = mapIdsToNames($value->SUBTOPICS_QUESTION ?? [], $subtemas);
+                    $idiomaId = $value->LANGUAGE_ID_QUESTION ?? null;
+                    $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
                 }
                 
-                $value->CERTIFICACIONES_NOMBRES  = implode(', ', $nombresEntes);
-                
-                if ($value->ACTIVO_TEMA == 0) {
+
+                if ($value->ACTIVO_QUESTION == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_QUESTION . '">
                                                                 </div>';
@@ -71,4 +91,141 @@ class ExamController extends Controller
             ]);
         }
     }
+       // STORE
+    public function store(Request $request)
+    {
+        try {
+            switch (intval($request->api)) {
+                // Caso para pregunta/question
+                case 1:
+                    $ACCREDITATION_ENTITIES_QUESTION = $request->has('ACCREDITATION_ENTITIES_QUESTION') ? (array)$request->input('ACCREDITATION_ENTITIES_QUESTION'): [];
+                    $LEVELS_QUESTION = $request->has('LEVELS_QUESTION') ? (array)$request->input('LEVELS_QUESTION'): [];
+                    $BOPS_QUESTION = $request->has('BOPS_QUESTION') ? (array)$request->input('BOPS_QUESTION'): [];
+                    $TOPICS_QUESTION = $request->has('TOPICS_QUESTION') ? (array)$request->input('TOPICS_QUESTION'): [];
+                    $SUBTOPICS_QUESTION = $request->has('SUBTOPICS_QUESTION') ? (array)$request->input('SUBTOPICS_QUESTION'): [];
+                    $EVALUATION_TYPES_QUESTION = $request->has('EVALUATION_TYPES_QUESTION') ? (array)$request->input('EVALUATION_TYPES_QUESTION'): [];
+
+
+                    //ESTRUSTURA DE LA PREGUNTA 
+                    $imagen1 = $request->hasFile('IMAGEN1_QUESTION') ? $this->uploadFile($request->file('IMAGEN1_QUESTION')) : null;
+                    $imagen2 = $request->hasFile('IMAGEN2_QUESTION') ? $this->uploadFile($request->file('IMAGEN2_QUESTION')) : null;
+                    $imagen3 = $request->hasFile('IMAGEN3_QUESTION') ? $this->uploadFile($request->file('IMAGEN3_QUESTION')) : null;
+
+                    $QUESTION_STRUCTURE_QUESTION  = [
+                        'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
+                        'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
+                        'IMAGEN1_QUESTION' => $request->TIPO1_QUESTION == 2 ? $imagen1 : null,
+                        'SECCION_EXTRA1' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on',
+                        'TIPO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' ? ($request->TIPO2_QUESTION ?? '') : '',
+                        'TEXTO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 1 ? $request->TEXTO2_QUESTION : null,
+                        'IMAGEN2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 2 ? $imagen2 : null,
+                        'SECCION_EXTRA2' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
+                        'TIPO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' ? ($request->TIPO3_QUESTION ?? '') : '',
+                        'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
+                        'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
+                    ];
+                    
+                    //RESPUESTAS ESTRUCTURA
+                    $ANSWERS_QUESTION = [];
+                    $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
+                    $textos = $request->respuesta_text ? (array)$request->respuesta_text : [];
+
+
+                    for ($i = 0; $i < count($textos); $i++) {
+                        $respuestas[] = [
+                            'numero' => $i + 1,
+                            'texto' => $textos[$i] ?? '',
+                            'correcta' => in_array(($i + 1), $correctas)
+                        ];
+                    }
+
+                    if ($request->ID_QUESTION == 0) {
+                       $question = Question::create([
+                            'ACCREDITATION_ENTITIES_QUESTION' => $ACCREDITATION_ENTITIES_QUESTION,
+                            'LEVELS_QUESTION' => $LEVELS_QUESTION,
+                            'BOPS_QUESTION' => $BOPS_QUESTION,
+                            'LANGUAGE_ID_QUESTION' => $request->LANGUAGE_ID_QUESTION,
+                            'TOPICS_QUESTION' => $TOPICS_QUESTION,
+                            'SUBTOPICS_QUESTION' => $SUBTOPICS_QUESTION,
+                            'QUESTION_STRUCTURE_QUESTION' => $QUESTION_STRUCTURE_QUESTION,
+                            'ANSWER_TYPE_QUESTION' => $request->ANSWER_TYPE_QUESTION,
+                            'ANSWER_OPTIONS_QUESTION' => $request->ANSWER_OPTIONS_QUESTION,
+                            'CORRECT_ANSWERS_QUESTION' => $request->CORRECT_ANSWERS_QUESTION,
+                            'ANSWERS_QUESTION' => $ANSWERS_QUESTION,
+                            'MIN_RANGE_QUESTION' => $request->MIN_RANGE_QUESTION,
+                            'MAX_RANGE_QUESTION' => $request->MAX_RANGE_QUESTION,
+                            'TIME_MINUTES_QUESTION' => $request->TIME_MINUTES_QUESTION,
+                            'SCORE_QUESTION' => $request->SCORE_QUESTION,
+                            'EVALUATION_TYPES_QUESTION' => $EVALUATION_TYPES_QUESTION,
+                            'TEMAPREGUNTA_ID' => $request->TEMAPREGUNTA_ID,
+                            'HAS_FEEDBACK_QUESTION' => $request->HAS_FEEDBACK_QUESTION,
+                            'FEEDBACK_TEXT_QUESTION' => $request->FEEDBACK_TEXT_QUESTION,
+                            'USES_QUESTION' => 0, //SIN USOS PREGUNTA NUEVA
+                            'APPROVAL_QUESTION' => 0, //SIN APROBAR
+                            'PERCENT_QUESTION' => 0, // SIN PORCENTAJE
+                            'ACTIVO_QUESTION' => 1
+                        ]);
+                    } else {
+                        if (isset($request->ACTIVAR)) {
+                            if ($request->ACTIVAR == 1) {
+                                $question = Question::where('ID_QUESTION', $request['ID_QUESTION'])->update(['ACTIVO_QUESTION' => 0]);
+                                $response['code'] = 1;
+                                $response['question'] = 'Desactivado';
+                            } else {
+                                $question = Question::where('ID_QUESTION', $request['ID_QUESTION'])->update(['ACTIVO_QUESTION' => 1]);
+                                $response['code'] = 1;
+                                $response['question'] = 'Activado';
+                            }
+                        } else {
+                            $question = Question::find($request->ID_QUESTION);
+                            $question->update([
+                                'ACCREDITATION_ENTITIES_QUESTION' => $ACCREDITATION_ENTITIES_QUESTION,
+                                'LEVELS_QUESTION' => $LEVELS_QUESTION,
+                                'BOPS_QUESTION' => $BOPS_QUESTION,
+                                'LANGUAGE_ID_QUESTION' => $request->LANGUAGE_ID_QUESTION,
+                                'TOPICS_QUESTION' => $TOPICS_QUESTION,
+                                'SUBTOPICS_QUESTION' => $SUBTOPICS_QUESTION,
+                                'QUESTION_STRUCTURE_QUESTION' => $QUESTION_STRUCTURE_QUESTION,
+                                'ANSWER_TYPE_QUESTION' => $request->ANSWER_TYPE_QUESTION,
+                                'ANSWER_OPTIONS_QUESTION' => $request->ANSWER_OPTIONS_QUESTION,
+                                'CORRECT_ANSWERS_QUESTION' => $request->CORRECT_ANSWERS_QUESTION,
+                                'ANSWERS_QUESTION' => $ANSWERS_QUESTION,
+                                'MIN_RANGE_QUESTION' => $request->MIN_RANGE_QUESTION,
+                                'MAX_RANGE_QUESTION' => $request->MAX_RANGE_QUESTION,
+                                'TIME_MINUTES_QUESTION' => $request->TIME_MINUTES_QUESTION,
+                                'SCORE_QUESTION' => $request->SCORE_QUESTION,
+                                'EVALUATION_TYPES_QUESTION' => $EVALUATION_TYPES_QUESTION,
+                                'TEMAPREGUNTA_ID' => $request->TEMAPREGUNTA_ID,
+                                'HAS_FEEDBACK_QUESTION' => $request->HAS_FEEDBACK_QUESTION,
+                                'FEEDBACK_TEXT_QUESTION' => cleanTextareaInput($request->FEEDBACK_TEXT_QUESTION)
+                            ]);
+                            $response['code'] = 1;
+                            $response['question'] = 'Actualizado';
+                        }
+                        return response()->json($response);
+                    }
+                $response['code']  = 1;
+                $response['question']  = $question;
+                return response()->json($response);
+                break;
+
+                default:
+                    $response['code'] = 1;
+                    $response['msj'] = 'Api no encontrada';
+                    return response()->json($response);
+            }
+        } catch (Exception $e) {
+            return response()->json('Error al guardar la información');
+        }
+    }
+
+    //limpiar los textareas
+    protected function cleanTextareaInput($input) {
+        if (empty($input)) {
+            return null;
+        }
+        return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+    }
 }
+
+

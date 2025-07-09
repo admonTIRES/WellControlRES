@@ -925,6 +925,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="questionForm" enctype="multipart/form-data">
+                     {!! csrf_field() !!}   
                         <div class="row">
                             <!-- Sección 1: Generalidades -->
                             <div class="col-md-12 text-center pastel-box">
@@ -971,12 +972,10 @@
                                 </h4>
                                 <div class="mb-3">
                                     <label>Idioma de la pregunta*</label>
-                                    <select class="form-select selectize-single" id="LANGUAGE_QUESTION" name="LANGUAGE_QUESTION" required>
-                                        <option value="">Seleccionar...</option>
-                                        <option value="1">Español</option>
-                                        <option value="2">English</option>
-                                        <option value="3">عربي</option>
-                                        <option value="4">Português</option>
+                                    <select class="form-select selectize-single" id="LANGUAGE_ID_QUESTION" name="LANGUAGE_ID_QUESTION" required>
+                                        @foreach ($idiomas as $idioma)
+                                            <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -1037,7 +1036,7 @@
                                 </div>
 
                                 <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="activarSeccionExtra">
+                                    <input class="form-check-input" type="checkbox" id="activarSeccionExtra" name="SECCION_EXTRA1" >
                                     <label class="form-check-label" for="activarSeccionExtra">¿Desea añadir otra sección?</label>
                                 </div>
 
@@ -1063,7 +1062,7 @@
                                 </div>
 
                                 <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="activarSeccionExtra2">
+                                    <input class="form-check-input" type="checkbox" id="activarSeccionExtra2" name="SECCION_EXTRA2">
                                     <label class="form-check-label" for="activarSeccionExtra2">¿Desea añadir una sección más?</label>
                                 </div>
 
@@ -1234,7 +1233,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="saveQuestionBtn">Guardar Pregunta</button>
+                    <button id="saveQuestionBtn" type="button" class="btn btn-primary">Guardar Pregunta</button>
                 </div>
             </div>
         </div>

@@ -22,6 +22,7 @@ class Question extends Model
         'ANSWER_TYPE_QUESTION',
         'ANSWER_OPTIONS_QUESTION',
         'CORRECT_ANSWERS_QUESTION',
+        'ANSWERS_QUESTION',
         'MIN_RANGE_QUESTION',
         'MAX_RANGE_QUESTION',
         'TIME_MINUTES_QUESTION',
@@ -31,7 +32,8 @@ class Question extends Model
         'FEEDBACK_TEXT_QUESTION',
         'USES_QUESTION',
         'APPROVAL_QUESTION',
-        'PERCENT_QUESTION'
+        'PERCENT_QUESTION',
+        'ACTIVO_QUESTION'
     ];
 
 
@@ -42,8 +44,7 @@ class Question extends Model
         'TOPICS_QUESTION' => 'array',
         'SUBTOPICS_QUESTION' => 'array',
         'QUESTION_STRUCTURE_QUESTION' => 'array',
-        'ANSWER_OPTIONS_QUESTION' => 'array',
-        'CORRECT_ANSWERS_QUESTION' => 'array',
+        'ANSWERS_QUESTION' => 'array',
         'EVALUATION_TYPES_QUESTION' => 'array',
     ];
 

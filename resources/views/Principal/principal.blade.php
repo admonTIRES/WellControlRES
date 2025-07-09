@@ -7,26 +7,20 @@
             <h2>{{ __('professional excellence') }}</h2>
         </div>
 
-        <div class="content-wrapper">
+         <div class="content-wrapper">
             <div class="content-box tarjeta1">
                 <div class="number">01</div>
                     <h3>{{ __('John Doe') }}</h3>
                     <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
-
             <div class="team-image">
-                <img src="/assets/images/principal/personas.png" alt="{{ __('Professional team') }}">
+                <img src="/assets/images/principal/ingenieros7.png" alt="{{ __('Professional team') }}">
             </div>
-
             <div class="content-box">
                 <div class="number">02</div>
                 <h3>{{ __('Practice') }}</h3>
                 <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
-            <!-- <div class="info-text">
-                <p>{{ __('We offer specialized and certified training to ensure safety and efficiency in rock drilling operations. With a unique method backed by industry experts.') }}</p>
-            </div> -->
-        </div>
     </section>
 
     <section class="learning-container">

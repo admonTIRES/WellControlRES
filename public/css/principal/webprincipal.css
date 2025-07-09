@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 .header-text h1 {
     font-size: clamp(1rem, 4vw, 4rem);
     font-weight: 800;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     margin-top: 1rem;
 }
 
@@ -56,7 +56,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(2rem, 4vw, 4rem);
     font-weight: 200;
     color: transparent;
-    margin-bottom: 1rem;
     -webkit-text-stroke: 0.5px white;
 }
 
@@ -64,11 +63,12 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 4rem;
+    padding: 0 1rem;
     margin: 0 auto;
     position: relative;
     min-height: 500px;
     gap: 2rem;
+    
 }
 
 .content-box {
@@ -80,6 +80,7 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     z-index: 2;
     flex-shrink: 0;
+    margin-top: 26vw;
 }
 
 .number {
@@ -109,14 +110,14 @@ h1, h2, h3, h4, h5, h6 {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    height: 100%;
+    height: auto;
     z-index: 1;
     overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
 }
 
 .team-image img {
     width: 100%;
-    height: 100%;
+    height: 700px;
     object-fit: contain;
     animation: fadeInUp 1.6s ease-out; /* Aplica la animación */
 }

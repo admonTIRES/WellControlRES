@@ -1,6 +1,25 @@
 ID_EXAM_EXERCISE = 0
 ID_QUESTION = 0
 
+    // Función para alternar campos según el tipo (texto o imagen)
+function manejarCambioTipo(selectorTipo, campoTexto, campoImagen) {
+    $(selectorTipo).on('change', function () {
+        const tipo = $(this).val();
+        $(campoTexto).toggleClass('d-none', tipo !== '1');
+        $(campoImagen).toggleClass('d-none', tipo !== '2');
+    });
+}
+
+// Función para activar o desactivar secciones extra
+function manejarSeccionExtra(selectorCheckbox, seccion, campos) {
+    $(selectorCheckbox).on('change', function () {
+        const activo = $(this).is(':checked');
+        $(seccion).toggleClass('opacity-50 pointer-events-none', !activo);
+        campos.forEach(selector => {
+            $(selector).prop('disabled', !activo);
+        });
+    });
+}
 $(document).ready(function() {
     $('#ANSWER_TYPE_QUESTION').on('change', function () {
     const tipo = $(this).val();
@@ -163,50 +182,63 @@ $(document).ready(function() {
     $('.dropify').dropify();
 
     // Mostrar campos según selección
-    $('#TIPO1_QUESTION').on('change', function () {
-        const tipo = $(this).val();
-        $('#campoTexto').toggleClass('d-none', tipo !== '1');
-        $('#campoImagen').toggleClass('d-none', tipo !== '2');
-    });
+    // $('#TIPO1_QUESTION').on('change', function () {
+    //     const tipo = $(this).val();
+    //     $('#campoTexto').toggleClass('d-none', tipo !== '1');
+    //     $('#campoImagen').toggleClass('d-none', tipo !== '2');
+    // });
 
-    $('#TIPO2_QUESTION').on('change', function () {
-        const tipo = $(this).val();
-        $('#campoTexto2').toggleClass('d-none', tipo !== '1');
-        $('#campoImagen2').toggleClass('d-none', tipo !== '2');
-    });
+    // $('#TIPO2_QUESTION').on('change', function () {
+    //     const tipo = $(this).val();
+    //     $('#campoTexto2').toggleClass('d-none', tipo !== '1');
+    //     $('#campoImagen2').toggleClass('d-none', tipo !== '2');
+    // });
 
-    $('#TIPO3_QUESTION').on('change', function () {
-        const tipo = $(this).val();
-        $('#campoTexto3').toggleClass('d-none', tipo !== '1');
-        $('#campoImagen3').toggleClass('d-none', tipo !== '2');
-    });
+    // $('#TIPO3_QUESTION').on('change', function () {
+    //     const tipo = $(this).val();
+    //     $('#campoTexto3').toggleClass('d-none', tipo !== '1');
+    //     $('#campoImagen3').toggleClass('d-none', tipo !== '2');
+    // });
 
-    $('#HAS_FEEDBACK_QUESTION').on('change', function () {
-        const tipo = $(this).val();
-        $('#feedbackTextContainer').toggleClass('d-none', tipo !== '1');
-    });
+    // $('#HAS_FEEDBACK_QUESTION').on('change', function () {
+    //     const tipo = $(this).val();
+    //     $('#feedbackTextContainer').toggleClass('d-none', tipo !== '1');
+    // });
 
-    // Activar segunda sección
-    $('#activarSeccionExtra').on('change', function () {
-        const activo = $(this).is(':checked');
+    // $('#activarSeccionExtra').on('change', function () {
+    //     const activo = $(this).is(':checked');
 
-        $('#seccionExtra')
-            .toggleClass('opacity-50 pointer-events-none', !activo);
+    //     $('#seccionExtra')
+    //         .toggleClass('opacity-50 pointer-events-none', !activo);
 
-        $('#TIPO2_QUESTION, #TEXTO2_QUESTION').prop('disabled', !activo);
+    //     $('#TIPO2_QUESTION, #TEXTO2_QUESTION').prop('disabled', !activo);
         
-    });
+    // });
 
-    // Activar tercera sección
-    $('#activarSeccionExtra2').on('change', function () {
-        const activo = $(this).is(':checked');
+    // $('#activarSeccionExtra2').on('change', function () {
+    //     const activo = $(this).is(':checked');
 
-        $('#seccionExtra2')
-            .toggleClass('opacity-50 pointer-events-none', !activo);
+    //     $('#seccionExtra2')
+    //         .toggleClass('opacity-50 pointer-events-none', !activo);
 
-        $('#TIPO3_QUESTION, #TEXTO3_QUESTION').prop('disabled', !activo);
+    //     $('#TIPO3_QUESTION, #TEXTO3_QUESTION').prop('disabled', !activo);
         
-    });
+    // });
+
+
+
+// Aplicar funciones para cada sección
+manejarCambioTipo('#TIPO1_QUESTION', '#campoTexto', '#campoImagen');
+manejarCambioTipo('#TIPO2_QUESTION', '#campoTexto2', '#campoImagen2');
+manejarCambioTipo('#TIPO3_QUESTION', '#campoTexto3', '#campoImagen3');
+
+$('#HAS_FEEDBACK_QUESTION').on('change', function () {
+    $('#feedbackTextContainer').toggleClass('d-none', $(this).val() !== '1');
+});
+
+manejarSeccionExtra('#activarSeccionExtra', '#seccionExtra', ['#TIPO2_QUESTION', '#TEXTO2_QUESTION']);
+manejarSeccionExtra('#activarSeccionExtra2', '#seccionExtra2', ['#TIPO3_QUESTION', '#TEXTO3_QUESTION']);
+
 
     let numOpciones = 0;
     let numRespuestasCorrectas = 0;
@@ -507,8 +539,6 @@ var questionDatatable = $("#question-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'TEMAS_NOMBRES' },
-        { data: 'SUBTEMAS_NOMBRES' },
         { data: 'EVALUATION_TYPES_QUESTION' },
         { data: 'CERTIFICACIONES_NOMBRES' },
         { data: 'IDIOMA_NOMBRE' },
@@ -517,13 +547,11 @@ var questionDatatable = $("#question-list-table").DataTable({
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
-        { targets: 1, title: 'Tema', className: 'text-center' },
-        { targets: 2, title: 'Subtema', className: 'text-center' },
-        { targets: 3, title: 'Tipo de evaluacion', className: 'text-center' },
-        { targets: 4, title: 'Ente acreditador', className: 'text-center' },
-        { targets: 5, title: 'Idioma', className: 'text-center' },
-        { targets: 6, title: 'Editar', className: 'text-center' },
-        { targets: 7, title: 'Activo', className: 'text-center' }
+        { targets: 1, title: 'Tipo de evaluacion', className: 'text-center' },
+        { targets: 2, title: 'Ente acreditador', className: 'text-center' },
+        { targets: 3, title: 'Idioma', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' },
+        { targets: 5, title: 'Activo', className: 'text-center' }
     ]
 
 });
@@ -874,6 +902,24 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'EVALUATION_TYPES_QUESTION'
     ]);
 
+    actualizarVisibilidadTipos();
+
     $('#questionModal .modal-title').html(row.data().ID_QUESTION);
 
 });
+
+function actualizarVisibilidadTipos() {
+    $('#TIPO1_QUESTION').trigger('change');
+    $('#TIPO2_QUESTION').trigger('change');
+    $('#TIPO3_QUESTION').trigger('change');
+    $('#HAS_FEEDBACK_QUESTION').trigger('change');
+
+    // Verificamos los checkboxes que controlan secciones extra
+    const extra1Activo = $('#activarSeccionExtra').is(':checked');
+    $('#seccionExtra').toggleClass('opacity-50 pointer-events-none', !extra1Activo);
+    $('#TIPO2_QUESTION, #TEXTO2_QUESTION').prop('disabled', !extra1Activo);
+
+    const extra2Activo = $('#activarSeccionExtra2').is(':checked');
+    $('#seccionExtra2').toggleClass('opacity-50 pointer-events-none', !extra2Activo);
+    $('#TIPO3_QUESTION, #TEXTO3_QUESTION').prop('disabled', !extra2Activo);
+}

@@ -82,12 +82,11 @@
             <iframe class="video-frame" src="https://drive.google.com/file/d/1se3ugR6bXsRHvBHaOZAOvRrClzJvNBjW/preview" allowfullscreen></iframe>
         </div>
     </div>
-
     <div class="video-card">
         <div class="video-title">{{ __('Part 2') }}</div>
         <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/covers/cover2.jpg" alt="Cover 2">
-            <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 2">
+            <iframe class="video-frame" src="https://drive.google.com/file/d/1bp3giFqzCQqGLlsvGV5dwJpApZIHzZui/preview" allowfullscreen></iframe>
         </div>
     </div>
 

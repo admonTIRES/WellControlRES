@@ -11,6 +11,8 @@ use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\TemaPreguntas;
 use App\Models\Admin\catalogs\IdiomasExamenes;
+use App\Models\Admin\catalogs\SubtemaPreguntas;
+
 
 
 
@@ -65,10 +67,11 @@ class adminController extends Controller
     public function asignaments()
     {
         $temas = TemaPreguntas::all();
+        $subtemas = SubtemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
         $bops = TipoBOP::all();
-        return view('Admin.content.Instructor.students.asignaments', compact('entes', 'temas', 'niveles', 'bops'))->with('user_role', 0);
+        return view('Admin.content.Instructor.students.asignaments', compact('entes', 'temas', 'subtemas', 'niveles', 'bops'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View
@@ -79,9 +82,10 @@ class adminController extends Controller
         $temas = TemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
+        $subtemas = SubtemaPreguntas::all();
         $bops = TipoBOP::all();
         $idiomas = IdiomasExamenes::all();
-        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'niveles', 'bops', 'idiomas'))->with('user_role', 0);
+        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

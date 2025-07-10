@@ -27,11 +27,7 @@ class ExamController extends Controller
             $subtemas = SubtemaPreguntas::pluck('NOMBRE_SUBTEMA', 'ID_CATALOGO_SUBTEMA')->toArray();
             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
 
-           
-
-            foreach ($tabla as $value) { 
-                
-               function mapIdsToNames($ids, $catalogo)
+            function mapIdsToNames($ids, $catalogo)
                 {
                     if (!is_array($ids)) {
                         $ids = json_decode($ids, true) ?? [];
@@ -42,13 +38,31 @@ class ExamController extends Controller
                     }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
                 }
 
-                foreach ($tabla as $value) {
-                    $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ACCREDITATION_ENTITIES_QUESTION ?? [], $entes);
-                    $value->TEMAS_NOMBRES = mapIdsToNames($value->TOPICS_QUESTION ?? [], $temas);
-                    $value->SUBTEMAS_NOMBRES = mapIdsToNames($value->SUBTOPICS_QUESTION ?? [], $subtemas);
-                    $idiomaId = $value->LANGUAGE_ID_QUESTION ?? null;
-                    $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
-                }
+            foreach ($tabla as $value) { 
+                $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ACCREDITATION_ENTITIES_QUESTION ?? [], $entes);
+                $value->TEMAS_NOMBRES = mapIdsToNames($value->TOPICS_QUESTION ?? [], $temas);
+                $value->SUBTEMAS_NOMBRES = mapIdsToNames($value->SUBTOPICS_QUESTION ?? [], $subtemas);
+                $idiomaId = $value->LANGUAGE_ID_QUESTION ?? null;
+                $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
+
+                $QUESTION_STRUCTURE_QUESTION = $value->QUESTION_STRUCTURE_QUESTION ?? null;
+                $value->TIPO1_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO1_QUESTION'] ?? null;
+                $value->TEXTO1_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO1_QUESTION'] ?? null;
+                $value->IMAGEN1_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION'] ?? null;
+                $value->SECCION_EXTRA1 = $QUESTION_STRUCTURE_QUESTION['SECCION_EXTRA1'] ?? false;
+                $value->TIPO2_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO2_QUESTION'] ?? null;
+                $value->TEXTO2_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO2_QUESTION'] ?? null;
+                $value->IMAGEN2_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION'] ?? null;
+                $value->SECCION_EXTRA2 = $QUESTION_STRUCTURE_QUESTION['SECCION_EXTRA2'] ?? false;
+                $value->TIPO3_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO3_QUESTION'] ?? null;
+                $value->TEXTO3_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO3_QUESTION'] ?? null;
+                $value->IMAGEN3_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION'] ?? null;
+
+
+                
+                // foreach ($tabla as $value) {
+                    
+                // }
                 
 
                 if ($value->ACTIVO_QUESTION == 0) {
@@ -130,6 +144,7 @@ class ExamController extends Controller
                     $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
                     $textos = $request->respuesta_text ? (array)$request->respuesta_text : [];
 
+                    $respuestas = [];
 
                     for ($i = 0; $i < count($textos); $i++) {
                         $respuestas[] = [
@@ -138,6 +153,8 @@ class ExamController extends Controller
                             'correcta' => in_array(($i + 1), $correctas)
                         ];
                     }
+
+                    $ANSWERS_QUESTION = $respuestas;
 
                     if ($request->ID_QUESTION == 0) {
                        $question = Question::create([

@@ -132,7 +132,7 @@ body {
 .stat-card {
     width: 23%;
     background: white;
-    border-radius: 1vw;
+    border-radius: 2vw;
     padding: 0 15px;
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -264,7 +264,7 @@ body {
     display: flex;
     align-items: left;
     justify-content: left;
-    border-radius: 1vw;
+    border-radius: 2vw;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
@@ -307,7 +307,7 @@ body {
     width: 28%;
     height: 34vw;
     background: white;
-    border-radius: 1vw;
+    border-radius: 2vw;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
@@ -409,7 +409,7 @@ body {
     height: 100%;
     min-width: 31vw;
     max-height: 20vw;
-    border-radius: 1vw;
+    border-radius: 2vw;
     object-fit: cover;
 }
 
@@ -485,7 +485,7 @@ body {
     max-width: 60%;
     min-height: 100%;
     padding: 2vw;
-    border-radius: 1vw;
+    border-radius: 2vw;
     /* background: linear-gradient(to right, #000000df, transparent); */
     background:  #000000a1;
     display: flex; /* ← necesario para usar flexbox */
@@ -532,8 +532,8 @@ body {
 }
 
 .content-card {
-    background: #E57373;
-    border-radius: 1vw;
+    background: #FF585D;
+    border-radius: 2vw;
     padding: 25px;
     color: white;
     position: relative;

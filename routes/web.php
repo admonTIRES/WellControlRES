@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\loginController;
 use App\Http\Controllers\Principal\principalController;
 use App\Http\Controllers\Calculator\calculatorController;
 use App\Http\Controllers\Killsheet\killsheetController;
+use App\Http\Controllers\Evaluation\evaluationController;
 
 use App\Http\Controllers\Admin\Exercises\ExamController;
 
@@ -45,13 +46,15 @@ Route::middleware('auth')->get('/', [PrincipalController::class, 'index'])->name
 //----------------------------CALCULATOR-------------------------------//
 Route::middleware('auth')->get('/Calculator', [calculatorController::class, 'index'])->name('calculator');
 
-//----------------------------CALCULATOR-------------------------------//
+//----------------------------KILLSHEET-------------------------------//
 Route::middleware('auth')->get('/Killsheet', [killsheetController::class, 'index'])->name('killsheet');
 Route::get('/Killsheet/iadc', [KillsheetController::class, 'iadc'])->name('killsheet.iadc');
 Route::get('/Killsheet/iwcf', [KillsheetController::class, 'iwcf'])->name('killsheet.iwcf');
 Route::get('/Killsheet/iwcf-desviado', [KillsheetController::class, 'iwcfdesviado'])->name('killsheet.iwcfdesviado');
-
 Route::get('/Killsheet/iwcf/video', [KillsheetController::class, 'iwcfvideo'])->name('killsheet.iwcf.video');
+
+//----------------------------EXAM-------------------------------//
+Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'index'])->name('evaluation');
 
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//

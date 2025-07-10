@@ -22,7 +22,7 @@
         <a href="{{ route('home') }}/simulador" class="nav-item" data-title="Simuladores">
             <img src="/assets/images/principal/iconSimulador.png" alt="Edificio" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}" class="nav-item" data-title="Exámenes">
+        <a href="{{ route('evaluation') }}" class="nav-item" data-title="Exámenes">
             <img src="/assets/images/principal/iconCalificacion.png" alt="Tareas" class="nav-icon">
         </a>
         <a href="{{ route('home') }}" class="nav-item" data-title="Modelos 3D">

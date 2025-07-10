@@ -46,7 +46,7 @@ use Illuminate\Support\Str;
         @break
          @case('evaluation')
         <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.0" media="(min-width: 1024px)">
-        <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.0" media="(max-width: 1023px)">
+        <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.1" media="(max-width: 1023px)">
         @break
     @endswitch
     @endif

@@ -22,6 +22,9 @@ body {
     */
 }
 
+
+
+
 .logo-container {
     background: linear-gradient(to bottom,
             #cecdcd 0%,
@@ -36,6 +39,70 @@ body {
 }
 
 
+
+.navbar {
+    margin-top: 0.7vw;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 4vw;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 1.22rem;
+}
+
+.logo{
+    border-bottom-right-radius: 30px;
+    background: #fbfbfb;
+}
+.logo-img {
+    width: 16vw; /* o el tamaño que tenía la imagen */
+    height: 4.5vw;
+    background-image: url('/assets/images/Color@4x.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* .logo img {
+    width: 200px;
+    height: auto; 
+    display: block;
+} */
+
+.nav-icons {
+    display: flex;
+    gap: 4rem ;
+    justify-content: center;
+    align-items: center;
+    background: #A4D65E;
+    width: calc(100% - 200px);
+    height: 100%;
+    padding: 1vw 2vw;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+.nav-icon {
+    margin-top: 1vw;
+    width: 2.8vw;
+    height: 3vw;
+    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.nav-logout-icon {
+    width: 2.5;
+    height: 3vw;
+    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+
+
 .dashboard-container {
     background: #A4D65E;
     min-height: 35vw;
@@ -45,27 +112,27 @@ body {
     border-bottom-right-radius: 40px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    margin-top: 70px;
+    margin-top: 4.7vw;
     box-sizing: border-box;
 }
 
 .stats-header {
     background-color: #A4D65E;
     width: 100%;
-    margin-top: 2em;
+    margin-top: 2.3vw;
     display: flex;
     align-items: center;
     justify-content: center;
     /* ← CENTRA horizontalmente */
     gap: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 2vw;
     flex-wrap: wrap;
 }
 
 .stat-card {
     width: 23%;
     background: white;
-    border-radius: 10vw;
+    border-radius: 1vw;
     padding: 0 15px;
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -90,15 +157,15 @@ body {
 }
 
 .stat-number {
-    font-size: 4em;
+    font-size: 4vw;
     font-weight: bold;
     color: #333;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    margin-right: 1vw;
+    margin-left: 1vw;
 }
 
 .stat-blank {
-    font-size: 4em;
+    font-size: 4vw;
     font-weight: bold;
     color: #fff;
 }
@@ -109,17 +176,17 @@ body {
 }
 
 .stat-label {
-    font-size: 1.6em;
+    font-size: 2vw;
     color: #666;
-    margin-left: 0.5rem;
+    margin-left: 0.5vw;
 }
 
 .stat-category {
     font-weight: bold;
     color: #333;
-    font-size: 1.1em;
+    font-size: 1.3vw;
     text-align: center;
-    margin-bottom: 4px;
+    margin-bottom: 1vw;
 }
 
 .streak-icon img {
@@ -141,7 +208,7 @@ body {
 
 .progress-icon img {
     position: absolute;
-    margin-left: 2rem;
+    margin-left: 1rem;
     top: 6vw;
     width: 5vw;
     /* 220px ≈ 11.46vw */
@@ -151,7 +218,7 @@ body {
 
 .activities-icon img {
     position: absolute;
-    margin-left: 1.5rem;
+    margin-left: 1rem;
     top: 6vw;
     width: 5.46vw;
     /* 220px ≈ 11.46vw */
@@ -184,18 +251,20 @@ body {
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    padding: 1vw;
     margin-bottom: 25px;
     flex-wrap: wrap;
+    left: -0.3vw;
 }
 
 .main-title-card {
     min-width: 60vw;
-    height: 10vw;
+    height: 12vw;
     background: white;
     display: flex;
     align-items: left;
     justify-content: left;
-    border-radius: 10vw;
+    border-radius: 1vw;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
@@ -206,27 +275,28 @@ body {
 
 .main-title-card img {
     margin-left: 2rem;
-    margin-top: -2.2vw;
-    height: 115%;
+    margin-top: -2vw;
+    height: 117%;
 }
 
 .title-content {
     flex: 1;
     margin-left: 4vw;
+    margin-top: 2vw;
 }
 
 .main-title {
     font-size: 2.2vw;
     font-family: 'Poppins', sans-serif;
-    font-style: bold;
-    color: #333;
+    color: #555;
     margin-bottom: 0;
 }
 
 .subtitle {
-    font-size: 1.8vw;
+    font-size: 2.2vw;
     font-family: 'Poppins', sans-serif;
-    color: #555;
+    color: #333;
+    font-style: bold;
     margin: 0;
 }
 
@@ -234,10 +304,10 @@ body {
 
 
 .welcome-card {
-    width: 30%;
+    width: 28%;
+    height: 34vw;
     background: white;
-    border-radius: 25px;
-    padding: 25px;
+    border-radius: 1vw;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
@@ -250,34 +320,38 @@ body {
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
-    font-size: 1.1em;
+    font-size: 1.5vw;
+    font-family: 'Poppins', sans-serif;
 }
 
 .welcome-subtitle {
-    font-size: 0.9em;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    font-size: 1.2vw;
+    font-family: 'Poppins', sans-serif;
     color: #666;
-    margin-bottom: 20px;
+    margin-bottom: 1vw;
 }
 
 .mascot-container {
     position: relative;
-    margin-bottom: 15px;
 }
 
 .mascot-base img {
     position: absolute;
-    width: 20vw;
-    top: 8vw;
-    right: -1em;
+    width: 28vw;
+    top: 15vw;
+    left: -8vw;
     z-index: 0;
 }
 
 .mascot-character img {
-    width: 50%;
-    height: 80%;
+    width: 12vw;
+    height: 60%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    margin-bottom: 3vw;
 }
 
 .bottom-section {
@@ -335,7 +409,7 @@ body {
     height: 100%;
     min-width: 31vw;
     max-height: 20vw;
-    border-radius: 25px;
+    border-radius: 1vw;
     object-fit: cover;
 }
 
@@ -406,10 +480,38 @@ body {
     color: #aaaaaa;
 }
 
+.slide-texts{
+    position: absolute;
+    max-width: 60%;
+    min-height: 100%;
+    padding: 2vw;
+    border-radius: 1vw;
+    /* background: linear-gradient(to right, #000000df, transparent); */
+    background:  #000000a1;
+    display: flex; /* ← necesario para usar flexbox */
+    flex-direction: column; /* ← en columna */
+    justify-content: space-between; /* ← uno arriba y otro abajo */
+}
+
+.slide-title {
+    font-size: 1.5vw;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.slide-text {
+    font-size: 1vw;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
 #slide-1:checked~.control-1~.slide-indicador li:nth-child(1) .slide-circulo,
 #slide-2:checked~.control-2~.slide-indicador li:nth-child(2) .slide-circulo,
 #slide-3:checked~.control-3~.slide-indicador li:nth-child(3) .slide-circulo {
-    color: #428bca;
+    color: #A4D65E;
 }
 
 .progress-content {
@@ -431,27 +533,56 @@ body {
 
 .content-card {
     background: #E57373;
-    border-radius: 20px;
+    border-radius: 1vw;
     padding: 25px;
     color: white;
     position: relative;
     overflow: hidden;
+    gap: 0;
 }
 
 .content-title {
-    font-size: 1.3em;
+    font-size: 1.5vw;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 1vw;
+}
+
+.content-text-number{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1vw;
+    margin: 0;
 }
 
 .content-number {
-    font-size: 3em;
+    font-size: 7vw;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    margin-bottom: 10px;
+    line-height: 1;
 }
 
+.content-text {
+    font-size: 1vw;
+    font-family: 'Poppins', sans-serif;
+     margin: 0;
+}
+
+.content-plus {
+    display: inline-block; 
+    margin-left: 6vw;
+    font-size: 2vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    line-height: 1;
+}
+
+
 .content-description {
-    font-size: 0.9em;
+    font-size: 1vw;
+    margin-top: 1vw;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.4;
     opacity: 0.9;
 }
@@ -466,12 +597,12 @@ body {
     object-fit: cover;
 } */
 
-.content-workers-image {
-     position: absolute;
+.content-card img{
+    position: absolute;
     right: 20px;
     bottom: 0;
-    width: 10vw;
-    height: 110%;
+    width: 12vw;
+    height: 80%;
     border-radius: 10px;
 }
 

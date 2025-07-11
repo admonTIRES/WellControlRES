@@ -199,7 +199,7 @@ body {
 
 .insignia-icon img {
     position: absolute;
-    top: 6vw;
+    top: -3vw;
     width: 6.46vw;
     /* 220px ≈ 11.46vw */
     z-index: 1;
@@ -209,7 +209,7 @@ body {
 .progress-icon img {
     position: absolute;
     margin-left: 1rem;
-    top: 6vw;
+    top: -2.8vw;
     width: 5vw;
     /* 220px ≈ 11.46vw */
     z-index: 1;
@@ -219,7 +219,7 @@ body {
 .activities-icon img {
     position: absolute;
     margin-left: 1rem;
-    top: 6vw;
+    top: -2vw;
     width: 5.46vw;
     /* 220px ≈ 11.46vw */
     z-index: 1;
@@ -638,4 +638,49 @@ body {
     .bottom-section {
         grid-template-columns: 1fr;
     }
+}
+
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-left {
+    animation: fadeInLeft 1.3s ease-out both;
+}
+
+.fade-in-right {
+    animation: fadeInRight 1.3s ease-out both;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1.3s ease-out both;
 }

@@ -128,7 +128,7 @@ class adminController extends Controller
      */
     public function enterprise()
     {
-        return view('Admin.content.Admin.users.enterprise')->with('user_role', 0);
+        return view('Admin.content.Admin.users.enterprice')->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

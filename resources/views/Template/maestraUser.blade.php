@@ -26,8 +26,10 @@ use Illuminate\Support\Str;
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.css">
+
+    <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
     
-    <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.2" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.3" media="(min-width: 1024px)">
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1.4" media="(max-width: 1023px)">
 
     @if (isset($css_identifier))
@@ -51,11 +53,39 @@ use Illuminate\Support\Str;
     @endswitch
     @endif
     <title>WellControlLearningExperience </title>
+    <style>
+        #loading {
+            background: white;
+            position: fixed;
+            z-index: 9999;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            place-items: center;
+        }
+    </style>
 </head>
 
 <body>
+     <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            const loaderWrapper = document.getElementById('loading');
+            if (loaderWrapper) {
+                loaderWrapper.classList.add('animate__animated', 'animate__fadeOut');
+                setTimeout(() => {
+                loaderWrapper.classList.add('d-none');
+                }, 500); 
+            }
+        };
+    </script>
     <!-- DIV PRINCIPAL -->
     <div id="main-wrapper">
+       
         <!-- HEADER -->
         <header>
             @include('Principal.navbar')
@@ -77,7 +107,7 @@ use Illuminate\Support\Str;
     <!-- /SCRIPTS -->
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/index.js') }}?v=1.1"></script>
+<script src="{{ asset('js/index.js') }}?v=1.2"></script>
 @if(request()->is('Calculator'))
 <script src="{{ asset('js/Calculator.js') }}"></script>
 @endif

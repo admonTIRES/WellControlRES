@@ -1,3 +1,5 @@
+
+
 document.getElementById("logout").addEventListener('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -31,3 +33,8 @@ document.getElementById("ajust").addEventListener('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
 });
+
+/*---------------------------------------------------------------------
+              LoaderInit
+-----------------------------------------------------------------------*/
+

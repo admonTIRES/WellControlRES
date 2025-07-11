@@ -1,3 +1,7 @@
+#loading {
+  opacity: 1;
+  visibility: visible;
+}
 
 * {
     padding: 0;
@@ -7,6 +11,29 @@
 body {
     font-family: Arial, sans-serif;
     background-color: white;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.loader.simple-loader {
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    place-content: center;
+    overflow: hidden !important;
+    right: 0px;
+    top: 0;
+    z-index: 1250;
+}
+
+.loader.simple-loader .loader-body {
+    background: #fff url('../../assets/images/logogif1.gif') no-repeat center center;
+    background-size: 20%;
+    width: 100%;
+    height: 100%;
 }
 
 .navbar {
@@ -22,20 +49,22 @@ body {
 }
 
 .logo-container {
-    background:linear-gradient(to bottom,
-                #cecdcd 0%,
-                #cecdcd 15%,
-                #FF585D 34%);
-       
+    background: linear-gradient(to bottom,
+            #cecdcd 0%,
+            #cecdcd 15%,
+            #FF585D 34%);
+
     width: 20%;
 }
 
-.logo{
+.logo {
     border-bottom-right-radius: 30px;
     background: #fbfbfb;
 }
+
 .logo-img {
-    width: 250px; /* o el tamaño que tenía la imagen */
+    width: 250px;
+    /* o el tamaño que tenía la imagen */
     height: 60px;
     background-image: url('/assets/images/Color@4x.png');
     background-size: contain;
@@ -51,7 +80,7 @@ body {
 
 .nav-icons {
     display: flex;
-    gap: 4rem ;
+    gap: 4rem;
     justify-content: center;
     align-items: center;
     background: #FF585D;
@@ -109,26 +138,34 @@ body {
     left: 0;
     transform: translateX(-50%);
     background-color: rgba(6, 6, 6, 0.102);
-    border-radius: 10px; /* Más redondeado */
-    padding: 20px 0; /* Más margen */
-    width: 180px; /* Ancho un poco mayor */
+    border-radius: 10px;
+    /* Más redondeado */
+    padding: 20px 0;
+    /* Más margen */
+    width: 180px;
+    /* Ancho un poco mayor */
     display: none;
     box-shadow: 0 6px 12px rgba(255, 255, 255, 0.072);
     z-index: 1000;
-    backdrop-filter: blur(12px); /* Blur más suave */
+    backdrop-filter: blur(12px);
+    /* Blur más suave */
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición más fluida */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Transición más fluida */
 }
 
 /* Estilo de los enlaces del menú */
 .dropdown-menu a {
     display: block;
-    padding: 12px 20px; /* Más espacio dentro de cada opción */
+    padding: 12px 20px;
+    /* Más espacio dentro de cada opción */
     color: #ffffff;
     text-decoration: none;
     transition: background-color 0.2s;
-    font-size: 18px; /* Letra más grande */
-    font-weight: 400; /* Letra más gruesa */
+    font-size: 18px;
+    /* Letra más grande */
+    font-weight: 400;
+    /* Letra más gruesa */
 }
 
 /* Estilo al pasar el mouse sobre los enlaces */
@@ -142,15 +179,16 @@ body {
 .dropdown-menu-container:hover .dropdown-menu {
     display: block;
     opacity: 1;
-    transform: translateY(5px); /* Movimiento suave hacia abajo */
+    transform: translateY(5px);
+    /* Movimiento suave hacia abajo */
 }
 
 #form-wizard1 fieldset {
-  display: none;
+    display: none;
 }
 
 #form-wizard1 fieldset.active {
-  display: block;
+    display: block;
 }
 
 
@@ -162,5 +200,5 @@ body {
 .team-image img {
     mask-image: linear-gradient(black 70%, transparent);
 }
-/* ------- */
 
+/* ------- */

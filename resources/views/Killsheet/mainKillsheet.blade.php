@@ -107,37 +107,11 @@
         },
         didOpen: () => {
             document.getElementById('iwcfVertical').addEventListener('click', function() {
-                // Muestra mensaje de confirmación antes de redireccionar
-                Swal.fire({
-                    title: 'Pozo Vertical',
-                    text: `Has seleccionado el pozo vertical de IWCF.`,
-                    icon: 'info',
-                    showCancelButton: true,
-                    confirmButtonText: 'Continuar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirecciona a la ruta de Laravel para pozo vertical IWCF
-                        window.location.href = "{{ route('killsheet.iwcf') }}";
-                    }
-                });
+                window.location.href = "{{ route('killsheet.iwcf') }}";
             });
             
             document.getElementById('iwcfDesviado').addEventListener('click', function() {
-                // Muestra mensaje de confirmación antes de redireccionar
-                Swal.fire({
-                    title: 'Pozo Desviado',
-                    text: `Has seleccionado el pozo desviado de IWCF.`,
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonText: 'Continuar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirecciona a la ruta de Laravel para pozo desviado IWCF
-                        window.location.href = "{{ route('killsheet.iwcfdesviado') }}";
-                    }
-                });
+                window.location.href = "{{ route('killsheet.iwcfdesviado') }}";
             });
         }
     });

@@ -46,8 +46,14 @@ use Illuminate\Support\Str;
         <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.3" media="(max-width: 1023px)">
         @break
+         @case('killSheetsPanel')
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.3" media="(max-width: 1023px)">
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.1" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.1" media="(max-width: 1023px)">
+        @break
          @case('evaluation')
-        <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.0" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.1" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.2" media="(max-width: 1023px)">
         @break
     @endswitch

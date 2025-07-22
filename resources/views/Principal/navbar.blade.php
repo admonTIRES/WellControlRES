@@ -19,7 +19,7 @@
         <a href="{{ route('killsheet') }}" class="nav-element" data-title="Hojas de matar">
             <img src="/assets/images/principal/iconExamen.png" alt="Lista" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}/simulador" class="nav-element" data-title="Simuladores">
+        <a href="{{ route('home') }}" class="nav-element" data-title="Simuladores">
             <img src="/assets/images/principal/iconSimulador.png" alt="Edificio" class="nav-icon">
         </a>
         <a href="{{ route('evaluation') }}" class="nav-element" data-title="Exámenes">

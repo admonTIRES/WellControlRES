@@ -21,6 +21,29 @@ body {
     padding: 0 1.22rem;
 }
 
+
+.d-none {
+    display: none !important;
+}
+
+.loader.simple-loader {
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    place-content: center;
+    overflow: hidden !important;
+    right: 0px;
+    top: 0;
+    z-index: 1250;
+}
+
+.loader.simple-loader .loader-body {
+    background: #fff url('../../assets/images/logogif1.gif') no-repeat center center;
+    background-size: 20%;
+    width: 100%;
+    height: 100%;
+}
 .logo-container {
     background:linear-gradient(to bottom,
                 #cecdcd 0%,

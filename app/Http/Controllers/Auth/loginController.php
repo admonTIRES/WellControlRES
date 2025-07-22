@@ -44,7 +44,8 @@ class loginController extends Controller
     
         return back()->withErrors(['message' => $errorMessage]); // Devuelve el error
     }
-    // Cerrar sesión
+
+    //Cerrar sesión
     public function logout(Request $request)
     {
         if (!Auth::check()) {

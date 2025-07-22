@@ -112,6 +112,35 @@ body {
     transform: scale(1.1);
 }
 
+.nav-element {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-element.notification .nav-icon {
+    display: inline-block;
+    animation: bell-shake 1.5s infinite;
+    transform-origin: top center;
+}
+
+
+.notification-count {
+    position: absolute;
+    top: 23%;
+    right: 7%;
+    background: red;
+    color: white;
+    font-size: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    font-weight: bold;
+    box-shadow: 0 0 0 1px white;
+    animation: pulse 2s infinite;
+}
+
 .tooltip-bubble {
     position: absolute;
     background: rgba(255, 255, 255, 0.8);
@@ -192,6 +221,28 @@ body {
 }
 
 
+@keyframes bell-shake {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(10deg); }
+    50% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0); }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+    70% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
 
 /* ------- */
 

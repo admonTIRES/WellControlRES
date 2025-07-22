@@ -233,7 +233,7 @@
                         </div>
                         <div class="card-body px-0">
                             <div class="table-responsive">
-                                <table id="exam-list-table" class="table table-striped" role="grid" >
+                                <table id="exam-list-table" class="table table-striped table-responsive" role="grid" >
                                 </table>
                             </div>
                         </div>
@@ -249,7 +249,7 @@
                         </div>
                         <div class="card-body px-0">
                             <div class="table-responsive">
-                                <table id="question-list-table" class="table table-striped" role="grid">
+                                <table id="question-list-table" class="table table-striped table-responsive" role="grid">
                                 </table>
                             </div>
                         </div>
@@ -286,13 +286,13 @@
 
                             <div class="col-md-12 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalidades') }}
+                                    <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalities') }}
                                 </h4>
                                 <!-- Agrupación horizontal -->
                                 <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
                                     <!-- Ente Acreditador -->
                                     <div class="col-md-3 text-start">
-                                        <label>Ente Acreditador</label>
+                                        <label> {{ __('Accrediting Entity') }}</label>
                                         <select class="form-select" id="ENTE1_MATH" name="ENTE_MATH" multiple >
                                         <option selected disabled></option>
                                         @foreach ($entes as $ente)
@@ -303,7 +303,7 @@
 
                                 <!-- Niveles -->
                                      <div class="col-md-3 text-start">
-                                        <label>Niveles</label>
+                                        <label> {{ __('Levels') }}</label>
                                         <select class="form-select" id="NIVEL1_MATH" name="NIVEL_MATH" multiple >
                                         <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
@@ -312,7 +312,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3 text-start">
-                                        <label>BOP</label>
+                                        <label> {{ __('BOP') }}</label>
                                         <select class="form-select" id="BOP1_MATH" name="BOP_MATH" multiple >
                                         <option selected disabled></option>
                                         @foreach ($bops as $bop)
@@ -331,11 +331,11 @@
                              <div class="col-md-4 text-center pastel-box">
                                 <!-- Ente Acreditador -->
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('2. ') }}</span>   {{ __('Idioma') }}
+                                    <span class="text-secondary"> {{ __('2. ') }}</span>   {{ __('Language') }}
                                 </h4>
                                  <div class="mb-3 d-flex"> 
                                     <div class="col-12 me-1 text-center">
-                                        <label>¿Cuál es el idioma de la pregunta?*</label>
+                                        <label> {{ __('What is the language of the question?*') }}</label>
                                         <select class="form-select" id="IDIOMAEXAM_QUESTION" name="IDIOMAEXAM_QUESTION">
                                         <option selected disabled></option>
                                         <option value="0">Seleccionar...</option>
@@ -353,11 +353,11 @@
                                     <span class="text-secondary"> {{ __('3. ') }}</span>   {{ __('Tipo de exámen') }}
                                 </h4>
                                  <div class="mb-3">
-                                    <label class="form-label">¿Qué tipo de exámen es?*</label>
+                                    <label class="form-label"> {{ __('What type of exam is it?*') }}</label>
                                     <select class="form-select" id="TIPOEXAM_QUESTION" name="TIPOEXAM_QUESTION" multiple>
-                                         <option value="1">Diagnóstica</option>
-                                        <option value="2">Intermedia</option>
-                                        <option value="3">Final</option>
+                                         <option value="1"> {{ __('Diagnostic') }}</option>
+                                        <option value="2"> {{ __('Intermediate') }}</option>
+                                        <option value="3"> {{ __('Final') }}</option>
                                         <option value="4">N/A</option>
                                     </select>
                                 </div>
@@ -365,10 +365,10 @@
                              <div class="col-md-4 text-center pastel-box">
                                 <!-- Ente Acreditador -->
                                  <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('4. ') }}</span>   {{ __('Nombre del exámen') }}
+                                    <span class="text-secondary"> {{ __('4. ') }}</span>   {{ __('Name of the assesment') }}
                                 </h4>
                                 <div class="mb-3" id="nombreTexto">
-                                    <label class="form-label">Ingresa el nombre de este exámen:*</label>
+                                    <label class="form-label"> {{ __('Enter the name of this assesment:*') }}</label>
                                     <input type="text" class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION">
                                 </div>
                             </div>
@@ -377,197 +377,197 @@
                                 <!-- Pregunta Principal -->
                                
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Temas y subtemas') }}
+                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Topics and subtopics') }}
                                 </h4>
                                 <div id="temas-container">
-                                <!-- Tema 1: Presión hidrostática -->
-                                <div class="tema-container" data-tema="1">
-                                    <div class="tema-header" onclick="toggleTema(1)">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="tema1-check" onchange="toggleAllSubtemas(1, this.checked)">
-                                                <h5 class="tema-title">Presión hidrostática</h5>
+                                    <!-- Tema 1: Presión hidrostática -->
+                                    <div class="tema-container" data-tema="1">
+                                        <div class="tema-header" onclick="toggleTema(1)">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="tema1-check" onchange="toggleAllSubtemas(1, this.checked)">
+                                                    <h5 class="tema-title">Presión hidrostática</h5>
+                                                </div>
+                                                <i class="fas fa-chevron-down expand-icon" id="icon-1"></i>
                                             </div>
-                                            <i class="fas fa-chevron-down expand-icon" id="icon-1"></i>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="subtemas-container" id="subtemas-1">
-                                        <div class="subtema-item">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="subtema1-1-check" onchange="updateCalculos()">
-                                                <h6 class="subtema-title">Fundamentos de la presión hidrostática</h6>
+                                        
+                                        <div class="subtemas-container" id="subtemas-1">
+                                            <div class="subtema-item">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="subtema1-1-check" onchange="updateCalculos()">
+                                                    <h6 class="subtema-title">Fundamentos de la presión hidrostática</h6>
+                                                </div>
+                                                <div class="control-row">
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Preguntas:</label>
+                                                        <input type="number" class="form-control small" min="1" max="50" value="5" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Rango de tiempo (min):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="300" value="3" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="300" value="6" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Puntajes (pts):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="control-row">
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Preguntas:</label>
-                                                    <input type="number" class="form-control small" min="1" max="50" value="5" onchange="updateCalculos()">
+                                            
+                                            <div class="subtema-item">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="subtema1-2-check" onchange="updateCalculos()">
+                                                    <h6 class="subtema-title">Cálculos de presión en fluidos</h6>
                                                 </div>
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Rango de tiempo (min):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="300" value="3" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="300" value="6" onchange="updateCalculos()">
-                                                </div>
-                                                 <div class="time-input-group">
-                                                    <label class="form-label small">Puntajes (pts):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                <div class="control-row">
+                                                    <div>
+                                                        <label class="form-label small">Preguntas:</label>
+                                                        <input type="number" class="form-control small" min="1" max="50" value="8" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Rango de tiempo (min):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="9" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Puntajes (pts):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="subtema-item">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="subtema1-2-check" onchange="updateCalculos()">
-                                                <h6 class="subtema-title">Cálculos de presión en fluidos</h6>
-                                            </div>
-                                            <div class="control-row">
-                                                <div>
-                                                    <label class="form-label small">Preguntas:</label>
-                                                    <input type="number" class="form-control small" min="1" max="50" value="8" onchange="updateCalculos()">
-                                                </div>
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Rango de tiempo (min):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="9" onchange="updateCalculos()">
-                                                </div>
-                                                 <div class="time-input-group">
-                                                    <label class="form-label small">Puntajes (pts):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
-                                                </div>
+                                        <div class="resumen-tema" id="resumen-tema-1">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Subtotal Tema 1:</span>
+                                                <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts</span>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="resumen-tema" id="resumen-tema-1">
-                                        <div class="d-flex justify-content-between">
-                                            <span>Subtotal Tema 1:</span>
-                                            <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts</span>
+                                    <!-- Tema 2: Densidad del lodo -->
+                                    <div class="tema-container" data-tema="2">
+                                        <div class="tema-header" onclick="toggleTema(2)">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="tema2-check" onchange="toggleAllSubtemas(2, this.checked)">
+                                                    <h5 class="tema-title">Densidad del lodo</h5>
+                                                </div>
+                                                <i class="fas fa-chevron-down expand-icon" id="icon-2"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="subtemas-container" id="subtemas-2">
+                                            <div class="subtema-item">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="subtema2-1-check" onchange="updateCalculos()">
+                                                    <h6 class="subtema-title">Propiedades del lodo de perforación</h6>
+                                                </div>
+                                                <div class="control-row">
+                                                    <div>
+                                                        <label class="form-label small">Preguntas:</label>
+                                                        <input type="number" class="form-control small" min="1" max="50" value="6" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Rango de tiempo (min):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="7" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Puntajes (pts):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="subtema-item">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="subtema2-2-check" onchange="updateCalculos()">
+                                                    <h6 class="subtema-title">Control de densidad</h6>
+                                                </div>
+                                                <div class="control-row">
+                                                    <div>
+                                                        <label class="form-label small">Preguntas:</label>
+                                                        <input type="number" class="form-control small" min="1" max="50" value="4" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Rango de tiempo (min):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="3" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="6" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Puntajes (pts):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="subtema-item">
+                                                <div class="checkbox-wrapper">
+                                                    <input type="checkbox" id="subtema2-3-check" onchange="updateCalculos()">
+                                                    <h6 class="subtema-title">Volumen de la sarta de perforación</h6>
+                                                </div>
+                                                <div class="control-row">
+                                                    <div>
+                                                        <label class="form-label small col-8">Preguntas:</label>
+                                                        <input type="number" class="form-control small" min="1" max="50" value="7" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Rango de tiempo (min):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="5" onchange="updateCalculos()">
+                                                    </div>
+                                                    <div class="time-input-group">
+                                                        <label class="form-label small">Puntajes (pts):</label>
+                                                        <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                                        <span>-</span>
+                                                        <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="resumen-tema" id="resumen-tema-2">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Subtotal Tema 2:</span>
+                                                <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts máximos</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <!-- Tema 2: Densidad del lodo -->
-                                <div class="tema-container" data-tema="2">
-                                    <div class="tema-header" onclick="toggleTema(2)">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="tema2-check" onchange="toggleAllSubtemas(2, this.checked)">
-                                                <h5 class="tema-title">Densidad del lodo</h5>
-                                            </div>
-                                            <i class="fas fa-chevron-down expand-icon" id="icon-2"></i>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="subtemas-container" id="subtemas-2">
-                                        <div class="subtema-item">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="subtema2-1-check" onchange="updateCalculos()">
-                                                <h6 class="subtema-title">Propiedades del lodo de perforación</h6>
-                                            </div>
-                                            <div class="control-row">
-                                                <div>
-                                                    <label class="form-label small">Preguntas:</label>
-                                                    <input type="number" class="form-control small" min="1" max="50" value="6" onchange="updateCalculos()">
-                                                </div>
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Rango de tiempo (min):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="4" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="7" onchange="updateCalculos()">
-                                                </div>
-                                                 <div class="time-input-group">
-                                                    <label class="form-label small">Puntajes (pts):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="subtema-item">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="subtema2-2-check" onchange="updateCalculos()">
-                                                <h6 class="subtema-title">Control de densidad</h6>
-                                            </div>
-                                            <div class="control-row">
-                                                <div>
-                                                    <label class="form-label small">Preguntas:</label>
-                                                    <input type="number" class="form-control small" min="1" max="50" value="4" onchange="updateCalculos()">
-                                                </div>
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Rango de tiempo (min):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="3" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="6" onchange="updateCalculos()">
-                                                </div>
-                                                 <div class="time-input-group">
-                                                    <label class="form-label small">Puntajes (pts):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="subtema-item">
-                                            <div class="checkbox-wrapper">
-                                                <input type="checkbox" id="subtema2-3-check" onchange="updateCalculos()">
-                                                <h6 class="subtema-title">Volumen de la sarta de perforación</h6>
-                                            </div>
-                                            <div class="control-row">
-                                                <div>
-                                                    <label class="form-label small col-8">Preguntas:</label>
-                                                    <input type="number" class="form-control small" min="1" max="50" value="7" onchange="updateCalculos()">
-                                                </div>
-                                                <div class="time-input-group">
-                                                    <label class="form-label small">Rango de tiempo (min):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="10" max="300" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="10" max="300" value="5" onchange="updateCalculos()">
-                                                </div>
-                                                 <div class="time-input-group">
-                                                    <label class="form-label small">Puntajes (pts):</label>
-                                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
-                                                    <span>-</span>
-                                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="resumen-tema" id="resumen-tema-2">
-                                        <div class="d-flex justify-content-between">
-                                            <span>Subtotal Tema 2:</span>
-                                             <span><span class="preguntas-count">0</span> preguntas | <span class="tiempo-total">0</span> min | <span class="puntaje-total">0</span> pts máximos</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             
-                            <div class="resumen-total" id="resumen-total">
-                                <h4 >TOTAL GENERAL</h4>
-                                <div class="d-flex justify-content-around mt-3">
-                                    <div>
-                                        <i class="fas fa-question-circle"></i>
-                                        <strong id="total-preguntas">0</strong> Preguntas
-                                    </div>
-                                    <div class="d-flex">
-                                        <i class="fas fa-clock"></i>
-                                        <!-- <strong id="total-tiempo">0</strong> -->
-                                        <input id="total-tiempo" type="number" class="form-control small input-sin-estilo" placeholder="Max" min="1" max="100" value="10"> Minutos
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-hourglass-half"></i>
-                                        <strong id="total-puntaje">0</strong> Puntos
+                                <div class="resumen-total" id="resumen-total">
+                                    <h4 >TOTAL GENERAL</h4>
+                                    <div class="d-flex justify-content-around mt-3">
+                                        <div>
+                                            <i class="fas fa-question-circle"></i>
+                                            <strong id="total-preguntas">0</strong> Preguntas
+                                        </div>
+                                        <div class="d-flex">
+                                            <i class="fas fa-clock"></i>
+                                            <!-- <strong id="total-tiempo">0</strong> -->
+                                            <input id="total-tiempo" type="number" class="form-control small input-sin-estilo" placeholder="Max" min="1" max="100" value="10"> Minutos
+                                        </div>
+                                        <div>
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <strong id="total-puntaje">0</strong> Puntos
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
                             </div>
 
@@ -575,8 +575,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Ejercicio</button>
+    "Cancel": "Cancelar",
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -596,12 +597,12 @@
                             <!-- Sección 1: Generalidades -->
                             <div class="col-md-12 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('1. ') }}</span> {{ __('Generalidades') }}
+                                    <span class="text-secondary">{{ __('1. ') }}</span> {{ __('Generalities') }}
                                 </h4>
                                 <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
                                     <!-- Ente Acreditador -->
                                     <div class="col-md-3 text-start">
-                                        <label>Ente Acreditador*</label>
+                                        <label> {{ __('Accrediting Entity*') }}</label>
                                         <select class="form-select selectize-multiple" id="ACCREDITATION_ENTITIES_QUESTION" name="ACCREDITATION_ENTITIES_QUESTION[]" multiple>
                                             @foreach ($entes as $ente)
                                                 <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
@@ -611,7 +612,7 @@
 
                                     <!-- Niveles -->
                                     <div class="col-md-3 text-start">
-                                        <label>Niveles*</label>
+                                        <label> {{ __('Levels*') }}</label>
                                         <select class="form-select selectize-multiple" id="LEVELS_QUESTION" name="LEVELS_QUESTION[]" multiple>
                                             @foreach ($niveles as $nivel)
                                                 <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
@@ -621,7 +622,7 @@
 
                                     <!-- BOP -->
                                     <div class="col-md-3 text-start">
-                                        <label>BOP*</label>
+                                        <label> {{ __('BOP*') }}</label>
                                         <select class="form-select selectize-multiple" id="BOPS_QUESTION" name="BOPS_QUESTION[]" multiple>
                                             @foreach ($bops as $bop)
                                                 <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }}</option>
@@ -634,10 +635,10 @@
                             <!-- Sección 2: Idioma -->
                             <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('2. ') }}</span> {{ __('Idioma') }}
+                                    <span class="text-secondary">{{ __('2. ') }}</span> {{ __('Language') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label>Idioma de la pregunta*</label>
+                                    <label>{{ __('Language of the question*') }}</label>
                                     <select class="form-select selectize-single" id="LANGUAGE_ID_QUESTION" name="LANGUAGE_ID_QUESTION" required>
                                         @foreach ($idiomas as $idioma)
                                             <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
@@ -649,10 +650,10 @@
                             <!-- Sección 3: Temas -->
                             <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('3. ') }}</span> {{ __('Temas') }}
+                                    <span class="text-secondary">{{ __('3. ') }}</span> {{ __('Topics') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label>Tema(s) de la pregunta*</label>
+                                    <label> {{ __('Question topic(s)*') }}</label>
                                     <select class="form-select selectize-multiple" id="TOPICS_QUESTION" name="TOPICS_QUESTION[]" multiple required>
                                         @foreach ($temas as $tema)
                                             <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
@@ -664,10 +665,10 @@
                             <!-- Sección 4: Subtemas -->
                             <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('4. ') }}</span> {{ __('Subtemas') }}
+                                    <span class="text-secondary">{{ __('4. ') }}</span> {{ __('Subtopics') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label>Subtema(s) de la pregunta</label>
+                                    <label> {{ __('Subtopic(s) of the question') }}</label>
                                     <select class="form-select selectize-multiple" id="SUBTOPICS_QUESTION" name="SUBTOPICS_QUESTION[]" multiple>
                                         @foreach ($subtemas as $subtema)
                                             <option value="{{ $subtema->ID_CATALOGO_SUBTEMA }}">{{ $subtema->NOMBRE_SUBTEMA }}</option>
@@ -679,76 +680,76 @@
                             <!-- Sección 5: Estructura de la pregunta -->
                             <div class="col-md-6 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Estructura de la pregunta') }}
+                                    <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Question structure') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label class="form-label">¿Este campo es texto o imagen?*</label>
+                                    <label class="form-label"> {{ __('Is this field text or image?*') }}</label>
                                     <select class="form-select" id="TIPO1_QUESTION" name="TIPO1_QUESTION" required>
-                                        <option value="">Seleccionar...</option>
-                                        <option value="1">Texto</option>
-                                        <option value="2">Imagen</option>
+                                        <option value="">{{ __('Select...') }}</option>
+                                        <option value="1"> {{ __('Text') }}</option>
+                                        <option value="2"> {{ __('Image') }}</option>
                                     </select>
                                 </div>
                                 
                                
                                 <div class="mb-3 d-none" id="campoTexto">
-                                    <label class="form-label">Ingresa el texto:*</label>
+                                    <label class="form-label"> {{ __('Enter text:*') }}</label>
                                     <textarea class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION" rows="4"></textarea>
                                 </div>
 
                                 <div class="mb-3 d-none" id="campoImagen">
-                                    <label class="form-label">Carga la imagen:*</label>
+                                    <label class="form-label"> {{ __('Upload image:*') }}</label>
                                     <input type="file" class="form-control dropify campo-requerido" name="IMAGEN1_QUESTION" id="IMAGEN1_QUESTION" data-allowed-file-extensions="jpg jpeg png gif"/>
                                 </div>
 
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" type="checkbox" id="activarSeccionExtra" name="SECCION_EXTRA1" >
-                                    <label class="form-check-label" for="activarSeccionExtra">¿Desea añadir otra sección?</label>
+                                    <label class="form-check-label" for="activarSeccionExtra"> {{ __('Would you like to add another section?') }}</label>
                                 </div>
 
                                 <div id="seccionExtra" class="opacity-50 pointer-events-none">
                                     <div class="mb-3">
-                                        <label class="form-label">¿Este campo es texto o imagen?</label>
+                                        <label class="form-label"> {{ __('Is this field text or image?') }}</label>
                                         <select class="form-select" id="TIPO2_QUESTION" name="TIPO2_QUESTION" disabled>
-                                            <option value="">Seleccionar...</option>
-                                            <option value="1">Texto</option>
-                                            <option value="2">Imagen</option>
+                                            <option value=""> {{ __('Select...') }}</option>
+                                            <option value="1"> {{ __('Text') }}</option>
+                                            <option value="2"> {{ __('Image') }}</option>
                                         </select>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoTexto2">
-                                        <label class="form-label">Ingresa el texto:</label>
+                                        <label class="form-label"> {{ __('Enter text:') }}</label>
                                         <textarea class="form-control campo-requerido" name="TEXTO2_QUESTION" id="TEXTO2_QUESTION" rows="4"></textarea>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoImagen2">
-                                        <label class="form-label">Carga la imagen:</label>
+                                        <label class="form-label">{{ __('Upload image:') }}</label>
                                         <input type="file" class="form-control dropify" name="IMAGEN2_QUESTION" id="IMAGEN2_QUESTION" data-allowed-file-extensions="jpg jpeg png gif" >
                                     </div>
                                 </div>
 
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" type="checkbox" id="activarSeccionExtra2" name="SECCION_EXTRA2">
-                                    <label class="form-check-label" for="activarSeccionExtra2">¿Desea añadir una sección más?</label>
+                                    <label class="form-check-label" for="activarSeccionExtra2"> {{ __('Would you like to add another section?') }}</label>
                                 </div>
 
                                 <div id="seccionExtra2" class="opacity-50 pointer-events-none">
                                     <div class="mb-3">
-                                        <label class="form-label">¿Este campo es texto o imagen?</label>
+                                        <label class="form-label">{{ __('Is this field text or image?') }}</label>
                                         <select class="form-select" id="TIPO3_QUESTION" name="TIPO3_QUESTION" disabled>
-                                            <option value="">Seleccionar...</option>
-                                            <option value="1">Texto</option>
-                                            <option value="2">Imagen</option>
+                                            <option value="">{{ __('Select...') }}</option>
+                                            <option value="1">{{ __('Text') }}</option>
+                                            <option value="2">{{ __('Image') }}</option>
                                         </select>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoTexto3">
-                                        <label class="form-label">Ingresa el texto:</label>
+                                        <label class="form-label">{{ __('Enter text:') }}</label>
                                         <textarea class="form-control campo-requerido" name="TEXTO3_QUESTION" id="TEXTO3_QUESTION" rows="4"></textarea>
                                     </div>
 
                                     <div class="mb-3 d-none" id="campoImagen3">
-                                        <label class="form-label">Carga la imagen:</label>
+                                        <label class="form-label">{{ __('Upload image:') }}</label>
                                         <input type="file" class="form-control dropify" name="IMAGEN3_QUESTION" id="IMAGEN3_QUESTION" data-allowed-file-extensions="jpg jpeg png gif"/>
                                     </div>
                                 </div>
@@ -757,42 +758,48 @@
                             <!-- Sección 6: Respuestas -->
                              <div class="col-md-6 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('6. ') }}</span>   {{ __('Respuestas') }}
+                                    <span class="text-secondary"> {{ __('6. ') }}</span>   {{ __('Answers') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label class="form-label">¿Qué tipo de respuesta es?*</label>
+                                    <label class="form-label"> {{ __('What kind of response is it?*') }}</label>
                                    <select class="form-select" id="ANSWER_TYPE_QUESTION" name="ANSWER_TYPE_QUESTION" required>
-                                        <option value="0">Seleccionar...</option>
-                                        <option value="1">Número (Hoja de matar)</option>
-                                        <option value="2">Opciones de respuesta</option>
+                                        <option value="0"> {{ __('Select...') }}</option>
+                                        <option value="1"> {{ __('Number (Killsheet)') }}</option>
+                                        <option value="2"> {{ __('Response options') }}</option>
                                     </select>
                                 </div>
                                 <div class="time-input-group d-none" id="rangoRespuesta">
-                                    <label class="form-label small">Rango de respuesta:</label>
+                                    <label class="form-label small"> {{ __('Response range:') }}</label>
                                     <input type="number" id="MIN_RANGE_QUESTION" name="MIN_RANGE_QUESTION" class="form-control small" placeholder="Min" value="4">
                                     <span>-</span>
                                     <input type="number" id="MAX_RANGE_QUESTION" name="MAX_RANGE_QUESTION" class="form-control small" placeholder="Max" value="9">
                                 </div>
 
                                 <div class="mb-3 d-none" id="selectorOpciones">
-                                    <label class="form-label">¿Cuántas opciones de respuestas desea?*</label>
+                                    <label class="form-label"> {{ __('How many answer choices do you want?*') }}</label>
                                     <select class="form-select" id="ANSWER_OPTIONS_QUESTION" name="ANSWER_OPTIONS_QUESTION">
-                                        <option value="0">Seleccionar...</option>
+                                        <option value="0">{{ __('Select...') }}</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
                                     </select>
                                 </div>
 
                                 <div class="mb-3 d-none" id="selectorCorrectas">
-                                    <label class="form-label">¿Cuántas respuestas correctas?*</label>
+                                    <label class="form-label">{{ __('How many correct answers?*') }}</label>
                                     <select class="form-select" id="CORRECT_ANSWERS_QUESTION" name="CORRECT_ANSWERS_QUESTION">
-                                        <option value="0">Seleccionar...</option>
+                                        <option value="0">{{ __('Select...') }}</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
+                                        <option value="4">5</option>
+                                        <option value="4">6</option>
+                                        <option value="4">7</option>
                                     </select>
                                 </div>
 
@@ -831,6 +838,27 @@
                                             <input type="text" id="respuesta5-text" name="respuesta_text[]" placeholder="Escriba la respuesta 5" class="form-control">
                                         </div>
                                     </div>
+
+                                     <div class="checkbox-container" id="respuesta6">
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" id="respuesta6-check" name="respuesta_check[]" value="6">
+                                            <input type="text" id="respuesta6-text" name="respuesta_text[]" placeholder="Escriba la respuesta 6" class="form-control">
+                                        </div>
+                                    </div>
+
+                                     <div class="checkbox-container" id="respuesta7">
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" id="respuesta7-check" name="respuesta_check[]" value="7">
+                                            <input type="text" id="respuesta7-text" name="respuesta_text[]" placeholder="Escriba la respuesta 7" class="form-control">
+                                        </div>
+                                    </div>
+
+                                     <div class="checkbox-container" id="respuesta8">
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" id="respuesta5-check" name="respuesta_check[]" value="8">
+                                            <input type="text" id="respuesta8-text" name="respuesta_text[]" placeholder="Escriba la respuesta 8" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                                 
                             
@@ -839,11 +867,11 @@
                             <!-- Sección 7: Tiempo y puntaje -->
                              <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary"> {{ __('7. ') }}</span>   {{ __('Tiempo y puntaje') }}
+                                    <span class="text-secondary"> {{ __('7. ') }}</span>   {{ __('Time and score') }}
                                 </h4>
                                 <div class="score-time-container">
                                     <div class="time-input-container">
-                                        <label class="form-label">Tiempo (minutos)*</label>
+                                        <label class="form-label">{{ __('Time (minutes)*') }}</label>
                                         <div class="input-icon">
                                             <i class="fas fa-clock"></i>
                                             <input type="number" id="TIME_MINUTES_QUESTION" name="TIME_MINUTES_QUESTION" min="1" step="1" class="form-control" placeholder="Ej: 5" required>
@@ -851,7 +879,7 @@
                                     </div>
                                     
                                     <div class="score-input-container">
-                                        <label class="form-label">Puntaje*</label>
+                                        <label class="form-label"> {{ __('Score*') }}</label>
                                         <div class="input-icon">
                                             <i class="fas fa-star"></i>
                                             <input type="number" id="SCORE_QUESTION" name="SCORE_QUESTION" min="1" step="1" class="form-control" placeholder="Ej: 10" required>
@@ -864,14 +892,14 @@
                             <!-- Sección 8: Tipo de evaluación -->
                             <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('8. ') }}</span> {{ __('Tipo de evaluación') }}
+                                    <span class="text-secondary">{{ __('8. ') }}</span> {{ __('Evaluation type') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label>Tipo(s) de evaluación*</label>
+                                    <label> {{ __('Type(s) of evaluation*') }}</label>
                                     <select class="form-select selectize-multiple" id="EVALUATION_TYPES_QUESTION" name="EVALUATION_TYPES_QUESTION[]" multiple required>
-                                        <option value="1">Diagnóstica</option>
-                                        <option value="2">Intermedia</option>
-                                        <option value="3">Final</option>
+                                        <option value="1"> {{ __('Diagnostic') }}</option>
+                                        <option value="2"> {{ __('Intermediate') }}</option>
+                                        <option value="3"> {{ __('Final') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -879,18 +907,18 @@
                             <!-- Sección 9: Retroalimentación -->
                             <div class="col-md-4 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
-                                    <span class="text-secondary">{{ __('9. ') }}</span> {{ __('Retroalimentación') }}
+                                    <span class="text-secondary">{{ __('9. ') }}</span> {{ __('Feedback') }}
                                 </h4>
                                 <div class="mb-3">
-                                    <label>Incluir retroalimentación*</label>
+                                    <label> {{ __('Include feedback*') }}</label>
                                     <select class="form-select selectize-single" id="HAS_FEEDBACK_QUESTION" name="HAS_FEEDBACK_QUESTION" required>
                                         <option value="0">No</option>
-                                        <option value="1">Sí</option>
+                                        <option value="1"> {{ __('Yes') }}</option>
                                     </select>
                                 </div>
                                 
                                 <div class="mb-3 d-none" id="feedbackTextContainer">
-                                    <label>Texto de retroalimentación</label>
+                                    <label>{{ __('Feedback text') }}</label>
                                     <textarea class="form-control" id="FEEDBACK_TEXT_QUESTION" name="FEEDBACK_TEXT_QUESTION" rows="4"></textarea>
                                 </div>
                             </div>
@@ -898,8 +926,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="saveQuestionBtn" type="button" class="btn btn-primary">Guardar Pregunta</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
+                    <button id="saveQuestionBtn" type="button" class="btn btn-primary"> {{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -908,21 +936,21 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-calendar-plus"></i> Plazo y Activación de Examen</h5>
+                    <h5 class="modal-title"><i class="fas fa-calendar-plus"></i>{{ __('Exam Deadline and Activation') }}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="eventForm">
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <label class="form-label"><i class="fas fa-file-alt"></i> Título del Examen</label>
+                                <label class="form-label"><i class="fas fa-file-alt"></i>  {{ __('Assesment title') }}</label>
                                 <input type="text" class="form-control" id="eventTitle" required placeholder="Ej: Examen de Matemáticas - Módulo 1">
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-play"></i> Fecha y Hora de Inicio</label>
+                                <label class="form-label"><i class="fas fa-play"></i>  {{ __('Start Date and Time') }}</label>
                                 <input type="date" class="form-control mb-2" id="startDate" required>
                                 <div class="time-inputs">
                                     <input type="number" class="form-control" id="startHour" min="0" max="23" placeholder="HH" required>
@@ -945,7 +973,7 @@
                             </div>
                             
                             <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-stop"></i> Fecha y Hora de Fin</label>
+                                <label class="form-label"><i class="fas fa-stop"></i>  {{ __('End Date and Time') }}</label>
                                 <input type="date" class="form-control mb-2" id="endDate" required>
                                 <div class="time-inputs">
                                     <input type="number" class="form-control" id="endHour" min="0" max="23" placeholder="HH" required>
@@ -969,7 +997,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label"><i class="fas fa-users"></i> Grupos Asignados</label>
+                            <label class="form-label"><i class="fas fa-users"></i> {{ __('Assigned Groups') }}</label>
                             <select id="gruposSelect" multiple placeholder="Selecciona los grupos...">
                                 <option value="grupo1">Fontis - Grupo A</option>
                                 <option value="grupo2">Fontis - Grupo B</option>
@@ -984,7 +1012,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-create" id="saveEvent">Guardar Evento</button>
+                    <button type="button" class="btn btn-create" id="saveEvent">Guardar Evento {{ __('') }}</button>
                 </div>
             </div>
         </div>

@@ -631,7 +631,7 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="card bg-primary">
                                 <div class="card-header bg-primary">
-                                    <h4 class="text-white">Gallery</h4>
+                                    <h4 class="text-white">Galleria</h4>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="swiper-container scale-item-slider d-slider1">

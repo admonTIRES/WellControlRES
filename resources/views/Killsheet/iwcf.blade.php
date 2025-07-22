@@ -6,7 +6,7 @@
          
         <div class="sp-path-container">
              <div class="sp-title sp-delay-title-1">
-                <h2>{{ __('VERTICAL WELL') }}</h2>
+                <h2>{{ __('CONTENT') }}</h2>
                 <p>{{ __('Learn and practice kill sheet') }}</p>
             </div>
            
@@ -116,32 +116,286 @@
             
         </div>
         <div class="sp-path-container">
-           
-            
-        </div>
-         <div class="sp-path-container">
-            
-
-            <!-- <div class="sp-step sp-step-center sp-delay-2">
-               
-                <div class="sp-behavor-container" style="left: 6vw; top: -5vw;">
-                    <div class="sp-behavor">
-                        <div class="sp-behavor-image">
-                            <img src="/assets/images/principal/castorSaludando.png" alt="Character 2" >
+            <div class="sp-title titlePrincipal sp-delay-title-1">
+                <p>{{ __('Welcome to panel of learn and practice of killsheet') }}</p>
+                <h2>{{ __('Welcome, Jonh') }}</h2>
+            </div>
+            <div class="sp-step-right sp-delay-2 principalCard">
+                    <div class="sp-section-title principalTitle sp-delay-title-2">
+                        <h3>{{ __('VERTICAL WELL') }}</h3>
+                        <p>{{ __('Welcome to panel of learn and practice of killsheet') }}</p>
+                    </div>
+                    <div class="sp-item-container plataforma">
+                        <div class="sp-item">
+                            <div class="sp-item-image plataformaKillsheet">
+                                <img src="/assets/images/killsheets/plataformaTerrestre.png">
+                            </div>
                         </div>
-                        <div class="sp-grass-base"><img  src="/assets/images/principal/pasto.png"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="two-container">
+                
+                <div class="content-card fade-in-right">
+                    <div class="content-title">Contenido</div>
+                    <div class="content-text-number">
+                        <div class="content-number">5</div>
+                        <div class="content-text"> hojas  <br>de matar</div>
+                    </div>
+                    <div class="content-plus">
+                        +
+                    </div>
+                    <div class="content-description">
+                        nuevas asignaciones durante <br>tu curso de <strong>Control de Pozos</strong>
+                    </div>
+                    <img src="/assets/images/principal/castorFeliz.png" alt="Trabajador" class="content-workers-image">
+                </div>
+                <div class="slide fade-in-left">
+                    <div class="slide-inner">
+                        <input class="slide-open" type="radio" id="slide-1" 
+                            name="slide" aria-hidden="true" hidden="" checked="checked">
+                        <div class="slide-item">
+                            <div class="slide-texts"> 
+                                <div class="slide-title">Interactivas</div> 
+                                <div class="slide-text">Resuelve hojas de matar dinámicas que refuerzan tus habilidades mediante retroalimentación inmediata paso a paso.</div>
+                            </div>
+                            <img src="/assets/images/principal/ingenieros.png">
+                        </div>
+                        <input class="slide-open" type="radio" id="slide-2" 
+                            name="slide" aria-hidden="true" hidden="">
+                        <div class="slide-item">
+                            <div class="slide-texts"> 
+                                <div class="slide-title">Contratiempo</div> 
+                                <div class="slide-text">Pon a prueba tu capacidad de análisis resolviendo hojas de matar bajo presión con tiempos limitados y situaciones imprevistas.</div>
+                            </div>
+                            <img src="/assets/images/principal/ingenieros4.png">
+                        </div>
+                        <input class="slide-open" type="radio" id="slide-3" 
+                            name="slide" aria-hidden="true" hidden="">
+                        <div class="slide-item">
+                            <div class="slide-texts"> 
+                                <div class="slide-title">Tiempo Récord</div> 
+                                <div class="slide-text">Entrena para reducir tus tiempos de respuesta y mejora tu velocidad de resolución con hojas de matar optimizadas.</div>
+                            </div>
+                            <img src="/assets/images/principal/ingenieros6.png">
+                        </div>
+                        <label for="slide-3" class="slide-control prev control-1">‹</label>
+                        <label for="slide-2" class="slide-control next control-1">›</label>
+                        <label for="slide-1" class="slide-control prev control-2">‹</label>
+                        <label for="slide-3" class="slide-control next control-2">›</label>
+                        <label for="slide-2" class="slide-control prev control-3">‹</label>
+                        <label for="slide-1" class="slide-control next control-3">›</label>
+                        <ol class="slide-indicador">
+                            <li>
+                                <label for="slide-1" class="slide-circulo">•</label>
+                            </li>
+                            <li>
+                                <label for="slide-2" class="slide-circulo">•</label>
+                            </li>
+                            <li>
+                                <label for="slide-3" class="slide-circulo">•</label>
+                            </li>
+                        </ol>
                     </div>
                 </div>
+               
             </div>
-             -->
-           
+
+            <div class="three-container">
+                <div class="sp-title titlePrincipal sp-delay-title-1">
+                    <h2>{{ __('Pendientes') }}</h2>
+                    <p>{{ __('') }}</p>
+                </div>
+                <div class="sp-title titlePrincipal sp-delay-title-1">
+                    <h2>{{ __('Completadas') }}</h2>
+                    <p>{{ __('') }}</p>
+
+                </div>
+                <div class="sp-title titlePrincipal sp-delay-title-1">
+                    <h2>{{ __('Todas') }}</h2>
+                    <p>{{ __('') }}</p>
+
+                </div>
+            </div>
+             <div class="three-container">
+                <div class="sp-step sp-delay-2">
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Ejercicio de Cálculo</h3>
+                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Fórmulas Básicas</h3>
+                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Jerarquía de Operaciones</h3>
+                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <!-- Elementos adicionales para demostrar el scroll -->
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Álgebra Lineal</h3>
+                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Trigonometría</h3>
+                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Geometría Analítica</h3>
+                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sp-step sp-delay-2">
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Ejercicio de Cálculo</h3>
+                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Fórmulas Básicas</h3>
+                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Jerarquía de Operaciones</h3>
+                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <!-- Elementos adicionales para demostrar el scroll -->
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Álgebra Lineal</h3>
+                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Trigonometría</h3>
+                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Geometría Analítica</h3>
+                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+                    </div>
+                </div>
+                <div class="sp-step sp-delay-2">
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Ejercicio de Cálculo</h3>
+                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Fórmulas Básicas</h3>
+                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Jerarquía de Operaciones</h3>
+                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <!-- Elementos adicionales para demostrar el scroll -->
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Álgebra Lineal</h3>
+                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Trigonometría</h3>
+                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+
+                        <div class="exercise-item">
+                            <div class="exercise-text">
+                                <h3>Geometría Analítica</h3>
+                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
+                            </div>
+                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
+                        </div>
+                    </div>
+                </div>
+             </div>
             
         </div>
+        
+        <!-- <div class="sp-path-container">
+        </div> -->
         
        
         
     </div>
 </div>
+<script>
+    let current = 1;
+    const total = 3; 
+
+    setInterval(() => {
+        document.getElementById('slide-' + current).checked = false;
+        current = current % total + 1;
+        document.getElementById('slide-' + current).checked = true;
+    }, 4000); 
+</script>
  <!-- Import Three.js library -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     

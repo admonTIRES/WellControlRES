@@ -22,7 +22,6 @@
                 
                        
                 <img src="/assets/images/principal/castorFeliz.png" alt="Beaver mascot" class="beaver" />
-                
                 <img src="/assets/images/principal/nube2.png" alt="Cloud" class="cloud cloud-1" />
                 <img src="/assets/images/principal/nube1.png" alt="Cloud" class="cloud cloud-2" />
                 <img src="/assets/images/principal/nube3.png" alt="Cloud" class="cloud cloud-3" />

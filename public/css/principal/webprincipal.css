@@ -45,19 +45,22 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1;
 }
 
-.header-text h1 {
+.header-text h1, h2{
     font-size: clamp(1rem, 4vw, 4rem);
     font-weight: 800;
     margin-bottom: 1rem;
     margin-top: 1rem;
 }
+.header-text  h2{
+    color: #A4D65E;
+}
 
-.header-text h2 {
+/* .header-text h2 {
     font-size: clamp(2rem, 4vw, 4rem);
     font-weight: 200;
     color: transparent;
     -webkit-text-stroke: 0.5px white;
-}
+} */
 
 .content-wrapper {
     display: flex;

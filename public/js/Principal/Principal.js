@@ -6,6 +6,9 @@ document.getElementById('hojasDiv').addEventListener('click', function() {
     window.location.href = '/Killsheet';
 });
 
+document.getElementById('evaluacionesDiv').addEventListener('click', function() {
+    window.location.href = '/Evaluation';
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     const navItems = document.querySelectorAll(".nav-item");

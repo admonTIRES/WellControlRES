@@ -79,32 +79,31 @@
         <div class="video-title">{{ __('Part 1') }}</div>
         <div class="video-wrapper">
             <img class="cover-image" src="/assets/images/killsheets/part1iwcf.png" alt="Cover 1">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1se3ugR6bXsRHvBHaOZAOvRrClzJvNBjW/preview" allowfullscreen></iframe>
+            <iframe class="video-frame" src="https://drive.google.com/file/d/1NccSzJXMYuzIRl8YNmxmouR3f2EKJhiB/preview" allowfullscreen></iframe>
         </div>
     </div>
+    
     <div class="video-card">
         <div class="video-title">{{ __('Part 2') }}</div>
         <div class="video-wrapper">
             <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 2">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1bp3giFqzCQqGLlsvGV5dwJpApZIHzZui/preview" allowfullscreen></iframe>
+            <iframe class="video-frame" src="https://drive.google.com/file/d/1vjZrJi7NL_dQv731R2Y1hiRoRlJ2lDM_/preview" allowfullscreen></iframe>
         </div>
     </div>
 
     <div class="video-card">
         <div class="video-title">{{ __('Part 3') }}</div>
         <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/covers/cover3.jpg" alt="Cover 3">
-            <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-
+            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 3">
+            <iframe class="video-frame" src="https://drive.google.com/file/d/1nJktp-YUxYoRUewD3erhsVVt0FWTYtN3/preview" allowfullscreen></iframe>
         </div>
     </div>
-
+ 
     <div class="video-card">
         <div class="video-title">{{ __('Part 4') }}</div>
         <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/covers/cover4.jpg" alt="Cover 4">
-            <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-
+            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 4">
+            <iframe class="video-frame" src="https://drive.google.com/file/d/1ZBy30lfgYu2QllZizkiISeH96FMXdFp6/preview" allowfullscreen></iframe>
         </div>
     </div>
 </div>

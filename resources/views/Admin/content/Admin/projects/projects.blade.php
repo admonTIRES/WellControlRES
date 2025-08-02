@@ -14,8 +14,7 @@
                                         <span class="text-secondary">{{ __('Projects') }} </span> {{ __('management') }}
                                     </h1>
                                 </div>
-                                <p class="mb-4">{{ __('You can create project (general data, students, passwords,
-                                    date)') }}</p>
+                                <p class="mb-4">{{ __('You can create project (general data, students, passwords, date)') }}</p>
                             </div>
                             <div class="col-lg-6 banner-img">
                                 <div class="img">

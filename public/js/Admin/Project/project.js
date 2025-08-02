@@ -1,7 +1,9 @@
+ID_PROJECT = 0
+
 let tagify = null;
 let empresas = null;
 $(document).ready(function () {
-    var $select3 = $('#BOP_PROJECT').selectize({
+    var $select3 = $('#BOP_TYPES_PROJECT').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -13,24 +15,65 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance3 = $select3[0].selectize;
+     var $select4 = $('#ACCREDITATION_LEVELS_PROJECT').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance4 = $select4[0].selectize;
 });
 document.addEventListener('DOMContentLoaded', function () {
-    const input = document.querySelector('#empresas');
+    window.wizard = new WizardManager();
+    const input = document.querySelector('#COMPANIES');
     tagify = new Tagify(input, {
         duplicates: false,
         maxTags: 20,
-        placeholder: "Escribe y presiona ENTER"
+        placeholder: "Escribe el nombre de la empresa y presiona ENTER"
     });
-     tagify.on('change', () => {
-           empresas = tagify.value;
+    tagify.on('change', function(e) {
+        if (window.wizard) {
+        // Obtiene los valores correctamente parseados
+        let empresasArray;
+        
+        try {
+            // Intenta parsear si viene como string JSON
+            if (typeof e.detail.value === 'string') {
+                empresasArray = JSON.parse(e.detail.value);
+            } else if (Array.isArray(e.detail.value)) {
+                empresasArray = e.detail.value;
+            } else {
+                empresasArray = tagify.value;
+            }
+            
+            // Asegurarse de que es un array y mapear correctamente
+            window.wizard.empresas = Array.isArray(empresasArray) ? 
+                empresasArray.map(item => typeof item === 'string' ? item : item.value) : 
+                [empresasArray.value || empresasArray];
+                
+        } catch (error) {
+            // Fallback seguro
+            window.wizard.empresas = tagify.value.map(item => 
+                typeof item === 'string' ? item : item.value
+            );
+        }
+        
+        console.log('Empresas actualizadas CORRECTAMENTE:', window.wizard.empresas);
+    }
     });
 });
 class WizardManager {
     constructor() {
         this.currentStep = 1;
-        this.totalSteps = 4;
+        this.totalSteps = 5;
         this.formData = {};
         this.students = [];
+        this.empresas = [];
         this.init();
     }
 
@@ -62,24 +105,24 @@ class WizardManager {
 
 
         // Generate students button
-        document.getElementById('generateStudents').addEventListener('click', () => {
-            this.generateStudents();
-        });
+        // document.getElementById('generateStudents').addEventListener('click', () => {
+        //     this.generateStudents();
+        // });
 
         // Export passwords button
-        document.getElementById('exportPasswords').addEventListener('click', () => {
-            this.exportPasswords();
-        });
+        // document.getElementById('exportPasswords').addEventListener('click', () => {
+        //     this.exportPasswords();
+        // });
 
         // Regenerate all passwords button
-        document.getElementById('regenerateAllPasswords').addEventListener('click', () => {
-            this.regenerateAllPasswords();
-        });
+        // document.getElementById('regenerateAllPasswords').addEventListener('click', () => {
+        //     this.regenerateAllPasswords();
+        // });
 
         // Modal reset on close
-        document.getElementById('proyectoModal').addEventListener('hidden.bs.modal', () => {
-            this.resetWizard();
-        });
+        // document.getElementById('proyectoModal').addEventListener('hidden.bs.modal', () => {
+        //     this.resetWizard();
+        // });
     }
 
     nextStep() {
@@ -135,29 +178,6 @@ class WizardManager {
                 }
             }
         });
-
-        // Additional validation for step 2 (students)
-        if (this.currentStep === 3) {
-            const studentsContainer = document.getElementById('studentsContainer');
-            if (studentsContainer.style.display === 'none' || this.students.length === 0) {
-                const generateBtn = document.getElementById('generateStudents');
-                this.showError(generateBtn.parentNode.querySelector('input[name="studentCount"]'), 'Debes generar la lista de estudiantes');
-                isValid = false;
-            } else {
-                // Validate student inputs
-                const studentInputs = document.querySelectorAll('#studentsTableBody input[required]');
-                studentInputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        this.showError(input, 'Requerido');
-                        isValid = false;
-                    } else if (input.type === 'email' && !this.isValidEmail(input.value)) {
-                        this.showError(input, 'Email inválido');
-                        isValid = false;
-                    }
-                });
-            }
-        }
-
         return isValid;
     }
 
@@ -212,8 +232,12 @@ class WizardManager {
         // Update progress bar
         this.updateProgressBar();
 
-        // Show/hide save button
-        const saveBtn = document.getElementById('saveProject');
+
+        if (this.currentStep === 4) {
+            this.renderEmpresasSections();
+        }
+
+         const saveBtn = document.getElementById('saveProject');
         if (this.currentStep === this.totalSteps) {
             saveBtn.style.display = 'inline-block';
         } else {
@@ -287,9 +311,124 @@ class WizardManager {
         this.updateWizard();
     }
 
-    generateStudents() {
-        const countInput = document.querySelector('input[name="studentCount"]');
+
+    // Renderizar secciones para cada empresa
+    renderEmpresasSections() {
+        const container = document.getElementById('empresasContainer');
+        container.innerHTML = '';
+        
+        if (!this.empresas || this.empresas.length === 0) {
+            container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+            return;
+        }
+
+        this.empresas.forEach(empresa => {
+            const empresaId = empresa.replace(/\s+/g, '-').toLowerCase();
+            
+            const section = document.createElement('div');
+            section.className = 'empresa-section mb-4 p-3 border rounded';
+            section.id = `empresa-${empresaId}`;
+            section.dataset.empresa = empresa;
+            
+            section.innerHTML = `
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Nombre de la empresa: *</label>
+                        <input type="text" class="form-control empresa-name" 
+                               name="empresa_${empresaId}" value="${empresa}" readonly />
+                    </div>
+                     <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Correo de contacto de la empresa: *
+                            </label>
+                            <input type="email" class="form-control"  name="email_${empresaId}"
+                                placeholder="Correo electrónico" />
+                            <div class="error-message">El correo es requerido </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Cantidad de estudiantes: *</label>
+                        <input type="number" class="form-control student-count" 
+                               name="studentCount_${empresaId}"
+                               placeholder="Número de estudiantes" min="1" max="50" required />
+                        <div class="error-message">Ingresa una cantidad válida (1-50)</div>
+                    </div>
+                    <div class="col-md-3 mt-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info action-button generate-students"
+                                data-empresa="${empresaId}">
+                            <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+                        </button>
+                    </div>
+                </div>
+                <div class="students-container" id="studentsContainer_${empresaId}" style="display: none;">
+                    <hr class="mb-4">
+                    <h5 class="mb-3">Lista de Estudiantes - ${empresa}</h5>
+                    <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+                        <table class="table table-striped table-hover" style="min-width: 800px;">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Empresa</th>
+                                    <th>CR</th>
+                                    <th>Family or last name</th>
+                                    <th>First name</th>
+                                    <th>Middle name</th>
+                                    <th>Fecha de nacimiento</th>
+                                    <th>ID</th>
+                                    <th>Cargo</th>
+                                    <th>Membresia</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Contraseña Generada</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody_${empresaId}"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-success btn-sm export-passwords"
+                                data-empresa="${empresaId}">
+                            <i class="ri-download-line me-2"></i>Exportar Contraseñas
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
+                                data-empresa="${empresaId}">
+                            <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
+                        </button>
+                        <button type="button" class="btn btn-info btn-sm ms-2 send-mails"
+                                data-empresa="${empresaId}">
+                            <i class="ri-mail-send-fill me-2"></i>Enviar correos con accesos
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(section);
+            
+            // Asignar eventos a los botones recién creados
+            section.querySelector(`.generate-students`).addEventListener('click', () => {
+                this.generateStudentsForEmpresa(empresaId);
+            });
+            
+            section.querySelector(`.export-passwords`).addEventListener('click', () => {
+                this.exportPasswordsForEmpresa(empresaId);
+            });
+            
+            section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+                this.regenerateAllPasswordsForEmpresa(empresaId);
+            });
+            
+            section.querySelector(`.send-mails`).addEventListener('click', () => {
+                this.sendMailsForEmpresa(empresaId);
+            });
+        });
+    }
+
+    // Generar estudiantes para una empresa específica
+    generateStudentsForEmpresa(empresaId) {
+        const empresaSection = document.getElementById(`empresa-${empresaId}`);
+        const countInput = empresaSection.querySelector('.student-count');
         const count = parseInt(countInput.value);
+        const empresa = empresaSection.dataset.empresa;
 
         if (!count || count < 1 || count > 50) {
             this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
@@ -297,24 +436,198 @@ class WizardManager {
         }
 
         this.clearError(countInput);
-        this.students = [];
+        
+        // Inicializar el array de estudiantes para esta empresa si no existe
+        if (!this.students[empresaId]) {
+            this.students[empresaId] = [];
+        }
 
-        // Generate students data
+        // Limpiar estudiantes existentes
+        this.students[empresaId] = [];
+
+        // Generar nuevos estudiantes
         for (let i = 0; i < count; i++) {
-            this.students.push({
+            this.students[empresaId].push({
                 id: i + 1,
-                empresa: '',
-                fullName: '',
+                empresa: empresa,
+                cr: '',
+                lastName: '',
+                firstName: '',
+                mdName: '',
+                dob: '',
+                idExp: '',
                 cargo: '',
+                membresia: '',
                 email: '',
                 password: this.generateRandomPassword()
             });
         }
 
-        this.renderStudentsTable();
-        document.getElementById('studentsContainer').style.display = 'block';
+        this.renderStudentsTableForEmpresa(empresaId);
+        document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
     }
 
+    // Renderizar tabla de estudiantes para una empresa específica
+    renderStudentsTableForEmpresa(empresaId) {
+        const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+        tbody.innerHTML = '';
+
+        this.students[empresaId].forEach((student, index) => {
+            const row = document.createElement('tr');
+            row.id = `student-${empresaId}-${index}`;
+            row.className = 'student-row';
+
+            row.innerHTML = `
+                <td>
+                    <input type="text" class="form-control input-lg2" 
+                           name="id" placeholder="id" 
+                           value="${student.id}">
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="empresa" value="${student.empresa}" readonly>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="cr" placeholder="cr" 
+                           value="${student.cr}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="lastName" placeholder="lastName" 
+                           value="${student.lastName}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="firstName" placeholder="firstName" 
+                           value="${student.firstName}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="mdName" placeholder="mdName" 
+                           value="${student.mdName}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="dob" placeholder="dob" 
+                           value="${student.dob}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="idExp" placeholder="idExp" 
+                           value="${student.idExp}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="cargo" placeholder="cargo" 
+                           value="${student.cargo}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
+                           name="membresia" placeholder="Membresia" 
+                           value="${student.membresia}">
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <input type="email" class="form-control input-lg" 
+                           name="email" placeholder="correo@ejemplo.com" 
+                           value="${student.email}" required>
+                    <div class="error-message"></div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="form-control form-control-sm generated-password" 
+                               name="password" value="${student.password}" readonly>
+                        <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
+                                onclick="wizard.copyToClipboard('${student.password}', this)" 
+                                title="Copiar contraseña">
+                            <i class="ri-file-copy-line"></i>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-warning btn-sm" 
+                            onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
+                            title="Regenerar contraseña">
+                        <i class="ri-refresh-line"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-sm" 
+                            title="Enviar correo">
+                        <i class="ri-mail-send-fill"></i>
+                    </button>
+                </td>
+            `;
+
+            tbody.appendChild(row);
+        });
+    }
+
+    // Regenerar contraseña para un estudiante específico
+    regeneratePassword(empresaId, studentIndex) {
+        this.students[empresaId][studentIndex].password = this.generateRandomPassword();
+        const passwordInput = document.querySelector(`#student-${empresaId}-${studentIndex} input[name="password"]`);
+        passwordInput.value = this.students[empresaId][studentIndex].password;
+
+        // Update copy button
+        const copyBtn = document.querySelector(`#student-${empresaId}-${studentIndex} .copy-btn`);
+        copyBtn.setAttribute('onclick', `wizard.copyToClipboard('${this.students[empresaId][studentIndex].password}', this)`);
+    }
+
+    // Regenerar todas las contraseñas para una empresa
+    regenerateAllPasswordsForEmpresa(empresaId) {
+        if (confirm('¿Estás seguro de regenerar todas las contraseñas para esta empresa?')) {
+            this.students[empresaId].forEach((student, index) => {
+                this.regeneratePassword(empresaId, index);
+            });
+        }
+    }
+
+    // Exportar contraseñas para una empresa
+    exportPasswordsForEmpresa(empresaId) {
+        if (!this.students[empresaId] || this.students[empresaId].length === 0) {
+            alert('No hay estudiantes para exportar');
+            return;
+        }
+
+        const empresa = document.getElementById(`empresa-${empresaId}`).dataset.empresa;
+        let csvContent = "Número,Empresa,Nombre Completo,Correo,Contraseña\n";
+
+        this.students[empresaId].forEach((student, index) => {
+            const row = document.querySelector(`#student-${empresaId}-${index}`);
+            const fullName = row.querySelector('input[name="fullName"]').value || 'Sin nombre';
+            const email = row.querySelector('input[name="email"]').value || 'Sin email';
+
+            csvContent += `${student.id},"${empresa}","${fullName}","${email}","${student.password}"\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+
+        link.setAttribute('href', url);
+        link.setAttribute('download', `estudiantes_${empresa}_contraseñas.csv`);
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Enviar correos para una empresa (simulado)
+    sendMailsForEmpresa(empresaId) {
+        alert(`Función de enviar correos para la empresa ${empresaId} sería implementada aquí`);
+    }
+
+    // Resto de los métodos permanecen iguales...
     generateRandomPassword(length = 8) {
         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
         let password = '';
@@ -322,130 +635,6 @@ class WizardManager {
             password += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return password;
-    }
-
-    renderStudentsTable() {
-    const tbody = document.getElementById('studentsTableBody');
-    tbody.innerHTML = '';
-
-    const empresas = tagify.value; // array de objetos { value: "nombre" }
-
-    this.students.forEach((student, index) => {
-        const row = document.createElement('tr');
-        row.id = `student-${index}`;
-        row.className = 'student-row';
-
-        // Crear contenido HTML de la fila con ID único para cada select
-        row.innerHTML = `
-            <td>
-                <input type="text" class="form-control input-lg2" 
-                       name="id" placeholder="id" 
-                       value="${student.id}">
-                <div class="error-message"></div>
-            </td>
-            <td>
-                <select id="empresaSelect-${index}" name="empresa" class="form-control input-lg">
-                    <option value="">Selecciona una empresa</option>
-                </select>
-                <div class="error-message"></div>
-            </td>
-            <td>
-                <input type="text" class="form-control input-lg" 
-                       name="fullName" placeholder="Nombre completo" 
-                       value="${student.fullName}">
-                <div class="error-message"></div>
-            </td>
-            <td>
-                <input type="text" class="form-control input-lg" 
-                       name="cargo" placeholder="Cargo" 
-                       value="${student.cargo}">
-                <div class="error-message"></div>
-            </td>
-            <td>
-                <input type="email" class="form-control input-lg" 
-                       name="email" placeholder="correo@ejemplo.com" 
-                       value="${student.email}">
-                <div class="error-message"></div>
-            </td>
-            <td>
-                <div class="d-flex align-items-center">
-                    <input type="text" class="form-control form-control-sm generated-password" 
-                           name="password" value="${student.password}" readonly>
-                    <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
-                            onclick="wizard.copyToClipboard('${student.password}', this)" 
-                            title="Copiar contraseña">
-                        <i class="ri-file-copy-line"></i>
-                    </button>
-                </div>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-warning btn-sm" 
-                        onclick="wizard.regeneratePassword(${index})" 
-                        title="Regenerar contraseña">
-                    <i class="ri-refresh-line"></i>
-                </button>
-                <button type="button" class="btn btn-outline-info btn-sm" 
-                        title="Enviar correo">
-                    <i class="ri-mail-send-fill"></i>
-                </button>
-            </td>
-        `;
-
-        // Agregar la fila al tbody
-        tbody.appendChild(row);
-
-        // Obtener el select actual por su ID único
-        const selectEmpresa = document.getElementById(`empresaSelect-${index}`);
-
-        // Llenar las opciones del select con las empresas disponibles
-        empresas.forEach(empresa => {
-            const option = document.createElement('option');
-            option.value = empresa.value;
-            option.textContent = empresa.value;
-
-            // Seleccionar automáticamente la empresa del estudiante
-            if (empresa.value === student.empresa) {
-                option.selected = true;
-            }
-
-            selectEmpresa.appendChild(option);
-        });
-    });
-}
-
-
-    regeneratePassword(studentIndex) {
-        this.students[studentIndex].password = this.generateRandomPassword();
-        const passwordInput = document.querySelector(`#student-${studentIndex} input[name="password"]`);
-        passwordInput.value = this.students[studentIndex].password;
-
-        // Update copy button
-        const copyBtn = document.querySelector(`#student-${studentIndex} .copy-btn`);
-        copyBtn.setAttribute('onclick', `wizard.copyToClipboard('${this.students[studentIndex].password}', this)`);
-    }
-
-    regenerateAllPasswords() {
-        if (confirm('¿Estás seguro de regenerar todas las contraseñas?')) {
-            this.students.forEach((student, index) => {
-                this.regeneratePassword(index);
-            });
-        }
-    }
-
-    removeStudent(studentIndex) {
-        if (confirm('¿Estás seguro de eliminar este estudiante?')) {
-            this.students.splice(studentIndex, 1);
-
-            // Renumber students
-            this.students.forEach((student, index) => {
-                student.id = index + 1;
-            });
-
-            this.renderStudentsTable();
-
-            // Update count input
-            document.querySelector('input[name="studentCount"]').value = this.students.length;
-        }
     }
 
     copyToClipboard(text, button) {
@@ -465,37 +654,59 @@ class WizardManager {
         });
     }
 
-    exportPasswords() {
-        if (this.students.length === 0) {
-            alert('No hay estudiantes para exportar');
-            return;
-        }
-
-        let csvContent = "Número,Nombre Completo,Correo,Contraseña\n";
-
-        this.students.forEach((student, index) => {
-            const row = document.querySelector(`#student-${index}`);
-            const fullName = row.querySelector('input[name="fullName"]').value || 'Sin nombre';
-            const email = row.querySelector('input[name="email"]').value || 'Sin email';
-
-            csvContent += `${student.id},"${fullName}","${email}","${student.password}"\n`;
-        });
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'estudiantes_contraseñas.csv');
-        link.style.display = 'none';
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    getFormData() {
+   getFormData() {
         this.saveStepData();
+        
+        // Crear el array COMPANIES_PROJECT con la estructura requerida
+        const companiesProject = [];
+        
+        // Recorrer todas las empresas
+        for (const empresaId in this.students) {
+            if (this.students.hasOwnProperty(empresaId)) {
+                const empresaSection = document.getElementById(`empresa-${empresaId}`);
+                if (!empresaSection) continue;
+                
+                const empresaName = empresaSection.dataset.empresa;
+                const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
+                const empresaEmail = emailInput ? emailInput.value : '';
+                
+                // Crear el objeto de la empresa
+                const empresaObj = {
+                    NAME_PROJECT: empresaName,
+                    EMAIL_PROJECT: empresaEmail,
+                    STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
+                    STUDENTS_PROJECT: []
+                };
+                
+                // Recorrer todos los estudiantes de esta empresa
+                this.students[empresaId].forEach((student, index) => {
+                    const row = document.querySelector(`#student-${empresaId}-${index}`);
+                    
+                    if (row) {
+                        empresaObj.STUDENTS_PROJECT.push({
+                            ID_PROJECT: student.id.toString(),
+                            COMPANY_PROJECT: student.empresa,
+                            CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
+                            LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
+                            FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
+                            MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
+                            BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
+                            ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
+                            POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
+                            MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
+                            EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
+                            PASSWORD_PROJECT: student.password
+                        });
+                    }
+                });
+                
+                companiesProject.push(empresaObj);
+            }
+        }
+        
+        // Convertir a JSON string para asegurar el formato correcto
+        this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
+        
         return this.formData;
     }
 }
@@ -503,5 +714,145 @@ class WizardManager {
 // Initialize wizard when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
+});
 
+var proyectoDatatable = $("#proyecto-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/proyectoDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            proyectoDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'FOLIO_PROJECT' },
+        { data: 'COURSE_NAME_ES_PROJECT' },
+        { data: 'ACCREDITING_ENTITY_PROJECT' },
+        { data: 'COURSE_TYPE_PROJECT' },
+        { data: 'BTN_EDITAR' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'FOLIO', className: 'text-center' },
+        { targets: 2, title: 'NOMBRE', className: 'text-center' },
+        { targets: 3, title: 'ENTE ACREDITADOR', className: 'text-center' },
+        { targets: 4, title: 'TIPO DE CURSO', className: 'text-center' },
+        { targets: 5, title: 'ACCIONES', className: 'text-center' }
+
+    ]
+
+});
+
+$("#proyectobtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#proyectoForm'))
+    if (formularioValido) {
+        
+       const formData = window.wizard.getFormData();
+        
+        const dataToSend = {
+            api: 1,
+            ID_PROJECT: ID_PROJECT,
+            COMPANIES_PROJECT: formData.COMPANIES_PROJECT
+        };
+
+        $('#proyectoForm').serializeArray().forEach(item => {
+            dataToSend[item.name] = item.value;
+        });
+
+        console.log('Datos a enviar:', JSON.stringify(window.wizard.getFormData(), null, 2));
+
+        if (ID_PROJECT == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "Se creará este proyecto",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('proyectobtnModal')
+                await ajaxAwaitFormData( dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_PROJECT = data.proyecto.ID_PROJECT
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
+                    $('#proyectoModal').modal('hide')
+                    document.getElementById('proyectoForm').reset();
+                    // proyectoDatatable.ajax.reload()
+                })
+            }, 1)
+
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podra usar",
+                icon: "question",
+            }, async function () {
+
+                await loaderbtn('proyectobtnModal')
+                await ajaxAwaitFormData({ api: 1, ID_PROJECT: ID_PROJECT }, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+
+                    $('.swal2-popup').addClass('ld ld-breath')
+
+
+                }, function (data) {
+
+                    setTimeout(() => {
+
+
+                        ID_PROJECT = data.proyecto.ID_PROJECT
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#proyectoModal').modal('hide')
+                        document.getElementById('proyectoForm').reset();
+                        // proyectoDatatable.ajax.reload()
+                    }, 300);
+                })
+            }, 1)
+        }
+
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
 });

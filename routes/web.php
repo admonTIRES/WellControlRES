@@ -25,6 +25,10 @@ use App\Http\Controllers\Admin\adminController;
 // CATALOGS
 use App\Http\Controllers\Admin\Catalogs\CatalogsController;
 
+//PROYECTOS
+use App\Http\Controllers\Admin\Projects\ProjectManagementController;
+
+
 //---------------------------               ALL              -------------------------------//
 //----------------------------LANGUAGE-------------------------------//
 Route::get('lang/{lang}', [languageController::class, 'switchLang'])->name('switch.lang');
@@ -62,8 +66,12 @@ Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor
 Route::get('/projectsManagement', [adminController::class, 'projectsManagement'])->name('projects.management');
 
 
-Route::get('/students', [adminController::class, 'students'])->name('students');   
-Route::get('/asignaments', [adminController::class, 'asignaments'])->name('asignaments'); 
+Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');  
+Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
+Route::get('/proyectoDatatable', [ ProjectManagementController::class, 'proyectoDatatable']);
+
+
+Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor'); 
 
 // --------------------------EXERCISES-------------------------------------- //
 Route::get('/exercises', [adminController::class, 'exercises'])->name('exercises'); 

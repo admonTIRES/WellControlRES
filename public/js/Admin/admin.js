@@ -265,6 +265,31 @@ function ifnull(data, siNull = '', values =
   return callback(siNull)
 }
 
+
+function escapeHtmlEntities(input) {
+  if (!input || typeof input !== 'string') {
+    return input;
+  }
+
+  const replacements = {
+    '"': '&quot;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&apos;',
+  };
+
+  const regex = new RegExp(Object.keys(replacements).join('|'), 'g');
+
+  const result = input.replace(regex, match => replacements[match]);
+
+  // Si el resultado aún contiene un & no reemplazado y no es seguido por caracteres, reemplazarlo con &amp;
+  if (result.includes('&') && !/[a-zA-Z0-9#]/.test(result.charAt(result.indexOf('&') + 1))) {
+    return result.replace('&', '&amp;');
+  }
+
+  return result;
+}
+
 function mensajeAjax(data, modulo = null) {
   if (modulo != null) {
     text = ' No pudimos cargar'

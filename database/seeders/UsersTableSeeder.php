@@ -15,37 +15,30 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // Borrar datos existentes (opcional)
-        DB::table('users')->truncate();
-
-        // Crear usuarios de prueba
-        $users = [
+        $newUsers = [
             [
-                'username' => 'AdminRES',
-                'email' => 'admin@example.com',
-                'password' => Hash::make('12345'), // Encriptar contraseña
-                'rol' => 1, // 1 para administrador
+                'username' => 'Cristhel',
+                'email' => 'cmendez@results-in-performance.com',
+                'password' => Hash::make('xbCR20T20'),
+                'rol' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'username' => 'SmithMason',
-                'email' => 'usuario1@example.com',
-                'password' => Hash::make('12345'),
-                'rol' => 2, // 2 para usuario normal
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'username' => 'usuario2',
-                'email' => 'usuario2@example.com',
-                'password' => Hash::make('12345'),
+                'username' => 'Virginia',
+                'email' => 'vlicona@results-in-performance.com',
+                'password' => Hash::make('mAC9825x'),
                 'rol' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ]
         ];
 
-        DB::table('users')->insert($users);
+        // Insertar solo si no existen
+        foreach ($newUsers as $user) {
+            if (!DB::table('users')->where('email', $user['email'])->exists()) {
+                DB::table('users')->insert($user);
+            }
+        }
     }
 }

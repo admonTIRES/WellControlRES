@@ -12,8 +12,7 @@ use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\TemaPreguntas;
 use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\SubtemaPreguntas;
-
-
+use App\Models\Admin\catalogs\Operacion;
 
 
 class adminController extends Controller
@@ -37,9 +36,9 @@ class adminController extends Controller
         /**
      * @return \Illuminate\View\View
      */
-    public function students()
+    public function projectsInstructor()
     {
-        return view('Admin.content.Instructor.students.studentsPanel')->with('user_role', 0);
+        return view('Admin.content.Instructor.projects.projects')->with('user_role', 0);
     }
 
      /**
@@ -64,14 +63,17 @@ class adminController extends Controller
         /**
      * @return \Illuminate\View\View
      */
-    public function asignaments()
+    public function projectsAdmin()
     {
         $temas = TemaPreguntas::all();
         $subtemas = SubtemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
         $bops = TipoBOP::all();
-        return view('Admin.content.Instructor.students.asignaments', compact('entes', 'temas', 'subtemas', 'niveles', 'bops'))->with('user_role', 0);
+        $idiomas = IdiomasExamenes::all();
+        $operaciones = Operacion::all();
+
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

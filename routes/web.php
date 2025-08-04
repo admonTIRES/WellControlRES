@@ -17,8 +17,6 @@ use App\Http\Controllers\Evaluation\evaluationController;
 use App\Http\Controllers\Admin\Exercises\ExamController;
 
 
-
-
 // ADMIN
 use App\Http\Controllers\Admin\adminController;
 
@@ -28,6 +26,9 @@ use App\Http\Controllers\Admin\Catalogs\CatalogsController;
 //PROYECTOS
 use App\Http\Controllers\Admin\Projects\ProjectManagementController;
 
+//mail
+use App\Mail\Correo;
+use Illuminate\Support\Facades\Mail;
 
 //---------------------------               ALL              -------------------------------//
 //----------------------------LANGUAGE-------------------------------//
@@ -65,11 +66,11 @@ Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'ind
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
 Route::get('/projectsManagement', [adminController::class, 'projectsManagement'])->name('projects.management');
 
-
+//-------------------------------PROJECT----------------------------------------//
 Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');  
 Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 Route::get('/proyectoDatatable', [ ProjectManagementController::class, 'proyectoDatatable']);
-
+Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
 
 Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor'); 
 
@@ -140,7 +141,12 @@ Route::get('/configuration', [adminController::class, 'configuration'])->name('c
 Route::get('/notifications', [adminController::class, 'notifications'])->name('notifications');   
 Route::get('/messages', [adminController::class, 'messages'])->name('messages');   
 
+Route::get('/enviar-correo', function () {
+    $mensaje = "Este es un correo enviado usando SMTP de Gmail en Laravel 8.";
+    Mail::to('lperez@results-in-performance.com')->send(new Correo($mensaje));
 
+    return 'Correo enviado correctamente.';
+});
 
 
 

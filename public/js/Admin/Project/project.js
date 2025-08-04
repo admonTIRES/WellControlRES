@@ -758,16 +758,16 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
         },
         { data: 'FOLIO_PROJECT' },
         { data: 'COURSE_NAME_ES_PROJECT' },
-        { data: 'ACCREDITING_ENTITY_PROJECT' },
-        { data: 'COURSE_TYPE_PROJECT' },
+        { data: 'COURSE_START_DATE_PROJECT' },
+        { data: 'COURSE_END_DATE_PROJECT' },
         { data: 'BTN_EDITAR' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'FOLIO', className: 'text-center' },
         { targets: 2, title: 'NOMBRE', className: 'text-center' },
-        { targets: 3, title: 'ENTE ACREDITADOR', className: 'text-center' },
-        { targets: 4, title: 'TIPO DE CURSO', className: 'text-center' },
+        { targets: 3, title: 'FECHA DE INICIO', className: 'text-center' },
+        { targets: 4, title: 'FECHA DE FIN', className: 'text-center' },
         { targets: 5, title: 'ACCIONES', className: 'text-center' }
 
     ]
@@ -813,7 +813,7 @@ $("#proyectobtnModal").click(function (e) {
                     alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
                     $('#proyectoModal').modal('hide')
                     document.getElementById('proyectoForm').reset();
-                    // proyectoDatatable.ajax.reload()
+                    proyectoDatatable.ajax.reload()
                 })
             }, 1)
 
@@ -846,7 +846,7 @@ $("#proyectobtnModal").click(function (e) {
                         alertMensaje('success', 'Información editada correctamente', 'Información guardada')
                         $('#proyectoModal').modal('hide')
                         document.getElementById('proyectoForm').reset();
-                        // proyectoDatatable.ajax.reload()
+                        proyectoDatatable.ajax.reload()
                     }, 300);
                 })
             }, 1)
@@ -856,3 +856,10 @@ $("#proyectobtnModal").click(function (e) {
         alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
     }
 });
+
+// function projectDetails(btn) {
+//     const id = btn.getAttribute('data-id');
+//     if (id) {
+//         window.location.href = `/projectsAdmin/details/${id}`;
+//     }
+// }

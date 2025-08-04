@@ -154,7 +154,7 @@ use Illuminate\Support\Str;
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-project" data-bs-parent="#sidebar-parent">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('projectsAdmin') ? 'active' : '' }}"
+                                <a class="nav-link {{ request()->routeIs('projectsAdmin', 'projectsAdmin.details') ? 'active' : '' }}"
                                     aria-current="page" href="{{ route('projectsAdmin') }}">
                                     <i class="icon">
                                         <svg width="20" viewBox="0 0 24 24" fill="none"
@@ -572,7 +572,7 @@ use Illuminate\Support\Str;
                         <div class="card-body">
                             <div class="sidebarbottom-content">
                                 <div>
-                                    <img src="../assets/images/Colorlargo.png" alt="icon" class="img-fluid">
+                                    <img src="/assets/images/Colorlargo.png" alt="icon" class="img-fluid">
                                 </div>
                                 <h5 class="mt-3"><span class="text-secondary">Be more</span> sssss <span
                                         class="text-secondary">with</span> Pro Feature</h5>
@@ -583,9 +583,9 @@ use Illuminate\Support\Str;
             </div>
             <div id="sidebar-footer" class="position-relative sidebar-footer sidebar-footer-default">
                 <div class="sidebar-footer-main pb-2">
-                    <img src="../assets/images/principal/pasto.png" alt="icon" class="img-fluid">
+                    <img src="/assets/images/principal/pasto.png" alt="icon" class="img-fluid">
                     <div class="image text-center sidebar-footer-image">
-                        <img src="../assets/images/principal/castorSaltando.png" alt="icon" class="img-fluid">
+                        <img src="/assets/images/principal/castorSaltando.png" alt="icon" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -643,7 +643,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex  align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class=" w-100 ms-3">
                                                         <h6 class="mb-0 ">Bni Emma Watson</h6>
@@ -655,7 +655,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
@@ -667,7 +667,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Why do we use it?</h6>
@@ -679,7 +679,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Variations Passages</h6>
@@ -691,7 +691,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Lorem Ipsum generators</h6>
@@ -727,7 +727,7 @@ use Illuminate\Support\Str;
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                        src="../assets/images/Colorlargo.png" alt="">
+                                                        src="/assets/images/Colorlargo.png" alt="">
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Emma Watson Bni</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -741,7 +741,7 @@ use Illuminate\Support\Str;
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                            src="../assets/images/Colorlargo.png" alt="">
+                                                            src="/assets/images/Colorlargo.png" alt="">
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">New customer is join</h6>
@@ -755,7 +755,7 @@ use Illuminate\Support\Str;
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                        src="../assets/images/Colorlargo.png" alt="">
+                                                        src="/assets/images/Colorlargo.png" alt="">
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Two customer is left</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -768,7 +768,7 @@ use Illuminate\Support\Str;
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1"
-                                                        src="../assets/images/Colorlargo.png" alt="">
+                                                        src="/assets/images/Colorlargo.png" alt="">
                                                     <div class="w-100 ms-3">
                                                         <h6 class="mb-0 ">New Mail from Fenny</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -785,7 +785,7 @@ use Illuminate\Support\Str;
                             <li class="nav-item dropdown">
                                 <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="../assets/images/Colorlargo.png" alt="User-Profile"
+                                    <img src="/assets/images/Colorlargo.png" alt="User-Profile"
                                         class="img-fluid avatar avatar-50 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
                                         <h6 class="mb-0 caption-title">AdminRES</h6>
@@ -843,21 +843,21 @@ use Illuminate\Support\Str;
     <!-- offcanvas start -->
 
     <!-- Backend Bundle JavaScript -->
-    <script src="../assets/js/libs.min.js"></script>
+    <script src="/assets/js/libs.min.js"></script>
     <!-- widgetchart JavaScript -->
-    <script src="../assets/js/charts/widgetcharts.js"></script>
+    <script src="/assets/js/charts/widgetcharts.js"></script>
     <!-- mapchart JavaScript -->
-    <script src="../assets/js/charts/vectore-chart.js"></script>
-    <script src="../assets/js/charts/dashboard.js"></script>
+    <script src="/assets/js/charts/vectore-chart.js"></script>
+    <script src="/assets/js/charts/dashboard.js"></script>
 
     <!-- fslightbox JavaScript -->
-    <script src="../assets/js/fslightbox.js"></script>
+    <script src="/assets/js/fslightbox.js"></script>
     <!-- settings JavaScript -->
-    <script src="../assets/js/setting.js"></script>
+    <script src="/assets/js/setting.js"></script>
     <!-- Form Wizard Script -->
-    <script src="../assets/js/form-wizard.js"></script>
+    <script src="/assets/js/form-wizard.js"></script>
     <!-- app JavaScript -->
-    <script src="../assets/js/app.js"></script>
+    <script src="/assets/js/app.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -870,7 +870,7 @@ use Illuminate\Support\Str;
     <!-- Select opcion selectize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
-    <script src="../js/Admin/admin.js"></script>
+    <script src="/js/Admin/admin.js"></script>
     @if(request()->is('catalogs'))
     <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.0"></script>
     @endif

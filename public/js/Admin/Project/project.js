@@ -28,6 +28,7 @@ $(document).ready(function () {
     });
     var selectizeInstance4 = $select4[0].selectize;
 });
+
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
     const input = document.querySelector('#COMPANIES');

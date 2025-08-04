@@ -70,6 +70,10 @@ use Illuminate\Support\Str;
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}" media="(min-width: 1024px)">
     @break
+    @case('detailsProject')
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}" media="(min-width: 1024px)">
+    @break
     @endswitch
     @endif
 </head>
@@ -887,7 +891,9 @@ use Illuminate\Support\Str;
     @if(request()->is('projectsAdmin'))
     <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.1"></script>
     @endif
-
+    @if (Route::currentRouteName() === 'projectsAdmin.details')
+    <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.0"></script>
+    @endif
 
 </body>
 

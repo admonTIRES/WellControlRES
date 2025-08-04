@@ -14,14 +14,31 @@ class loginController extends Controller
         return view('Auth.login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
+            'username' => 'required|string', // Este campo puede ser username o email
             'password' => 'required',
         ]);
-    
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+
+        $credentials = $request->only('password');
+        $loginValue = $request->username;
+        
+        // Intentar login primero por email, luego por username
+        $loginAttempts = [
+            ['email' => $loginValue, 'password' => $request->password],
+            ['username' => $loginValue, 'password' => $request->password]
+        ];
+        
+        $authenticated = false;
+        foreach ($loginAttempts as $attempt) {
+            if (Auth::attempt($attempt)) {
+                $authenticated = true;
+                break;
+            }
+        }
+        
+        if ($authenticated) {
             $user = Auth::user();
             
             if ($user->rol === 1) { // Usuario normal
@@ -30,19 +47,23 @@ class loginController extends Controller
                 return redirect()->intended('/')->with('user_role', 0);
             }
         }
-    
-        $userExists = \App\Models\User::where('username', $request->username)->exists();
-    
+
+        // Verificar si el usuario existe por username o email
+        $userExists = \App\Models\User::where('username', $loginValue)
+                                    ->orWhere('email', $loginValue)
+                                    ->exists();
+
         if (!$userExists) {
-            $errorMessage = (app()->getLocale() === 'es') ? 'El usuario no existe' : 'User does not exist';
-        } elseif ($userExists) {
-            $errorMessage = (app()->getLocale() === 'es') ? 'Contraseña incorrecta' : 'Incorrect password';
+            $errorMessage = (app()->getLocale() === 'es') 
+                ? 'El usuario o email no existe' 
+                : 'User or email does not exist';
         } else {
-            $errorMessage = (app()->getLocale() === 'es') ? 'Error desconocido' : 'Unknown error';
+            $errorMessage = (app()->getLocale() === 'es') 
+                ? 'Contraseña incorrecta' 
+                : 'Incorrect password';
         }
-    
-    
-        return back()->withErrors(['message' => $errorMessage]); // Devuelve el error
+
+        return back()->withErrors(['message' => $errorMessage]);
     }
 
     //Cerrar sesión

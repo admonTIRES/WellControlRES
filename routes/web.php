@@ -27,6 +27,10 @@ use App\Http\Controllers\Admin\Catalogs\CatalogsController;
 use App\Http\Controllers\Admin\Projects\ProjectManagementController;
 
 //mail
+use App\Http\Controllers\Admin\Mail\correoController;
+
+
+//mail
 use App\Mail\Correo;
 use Illuminate\Support\Facades\Mail;
 
@@ -71,6 +75,12 @@ Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('p
 Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 Route::get('/proyectoDatatable', [ ProjectManagementController::class, 'proyectoDatatable']);
 Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
+Route::get('/projectStudentDatatable', [ ProjectManagementController::class, 'projectStudentDatatable']);
+
+
+//mails
+Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
+
 
 Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor'); 
 

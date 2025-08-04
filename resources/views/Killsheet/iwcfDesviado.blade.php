@@ -6,7 +6,7 @@
     <title>Killsheet</title>
     <style>
              body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 20px;
         }
         
@@ -138,7 +138,7 @@
             align-items: center;
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
         }

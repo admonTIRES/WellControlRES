@@ -96,6 +96,15 @@ class ProjectManagementController extends Controller
                                 $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
                                 $username = $initials . $lastWord . rand(100, 999);
 
+                                
+                             $existingUser = DB::table('users')->where('email', $email)->first();
+                            if ($existingUser && (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT'])) {
+                                return response()->json([
+                                    'error' => true,
+                                    'message' => "Ya existe un usuario con el correo: $email",
+                                    'email' => $email
+                                ], 422);
+                            }
                                 // SI YA EXISTE EL USUARIO, ACTUALIZA
                                 if (!empty($estudiante['USER_ID_PROJECT'])) {
                                     DB::table('users')
@@ -107,15 +116,6 @@ class ProjectManagementController extends Controller
                                             'updated_at' => now()
                                         ]);
                                 } else {
-                                    $existingUser = DB::table('users')->where('email', $email)->first();
-                                    if ($existingUser) {
-                                        return response()->json([
-                                            'error' => true,
-                                            'message' => "Ya existe un usuario con el correo: $email",
-                                            'email' => $email
-                                        ], 422); 
-                                    }
-
                                     $userId = DB::table('users')->insertGetId([
                                         'username'   => $username,
                                         'email'      => $email,

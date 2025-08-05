@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'ulisesfv_19@hotmail.com',
             'password' => Hash::make('KW5SEwnE'),
             'rol' => 1, // Usuario normal/estudiante
-            'created_at' => now(),
+            'created_at' => now(), 
             'updated_at' => now()
         ],
         [

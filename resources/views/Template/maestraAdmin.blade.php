@@ -33,7 +33,7 @@ use Illuminate\Support\Str;
 
     <!-- Estilos -->
     <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- FullCalendar CSS -->
@@ -56,23 +56,23 @@ use Illuminate\Support\Str;
     @if (isset($css_identifier))
     @switch($css_identifier)
     @case('exercises')
-    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @case('math')
-    <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @case('catalogs')
-    <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @case('projectsAdmin')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @case('detailsProject')
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @endswitch
     @endif

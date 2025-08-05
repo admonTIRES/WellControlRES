@@ -874,7 +874,7 @@ use Illuminate\Support\Str;
     <!-- Select opcion selectize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
-    <script src="/js/Admin/admin.js"></script>
+    <script src="/js/Admin/admin.js?v=1.2"></script>
     @if(request()->is('catalogs'))
     <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.0"></script>
     @endif

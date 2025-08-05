@@ -244,18 +244,15 @@ manejarSeccionExtra('#activarSeccionExtra2', '#seccionExtra2', ['#TIPO3_QUESTION
     let numRespuestasCorrectas = 0;
     let respuestasSeleccionadas = 0;
     $('.checkbox-container').hide();
-    // Cuando cambia el número de opciones
     $('#ANSWER_OPTIONS_QUESTION').on('change', function() {
         numOpciones = parseInt($(this).val()) || 0;
         actualizarOpciones();
         actualizarMaximoRespuestasCorrectas();
     });
     
-    // Cuando cambia el número de respuestas correctas
     $('#CORRECT_ANSWERS_QUESTION').on('change', function() {
         numRespuestasCorrectas = parseInt($(this).val()) || 0;
         
-        // Verificar que el número de respuestas correctas no exceda el número de opciones
         if (numRespuestasCorrectas > numOpciones) {
             Toast.fire({
                 icon: 'error',
@@ -267,27 +264,20 @@ manejarSeccionExtra('#activarSeccionExtra2', '#seccionExtra2', ['#TIPO3_QUESTION
             numRespuestasCorrectas = 0;
         }
         
-        // Reiniciar los checkboxes si cambia el número de respuestas correctas
         resetearCheckboxes();
     });
     
-    // Función para actualizar el máximo de respuestas correctas en el select
     function actualizarMaximoRespuestasCorrectas() {
-        // Obtener el select de respuestas correctas
         const selectRespuestasCorrectas = $('#CORRECT_ANSWERS_QUESTION');
         
-        // Guardar el valor actual
         const valorActual = selectRespuestasCorrectas.val();
         
-        // Limpiar el select excepto la primera opción
         selectRespuestasCorrectas.find('option:not(:first-child)').remove();
         
-        // Añadir opciones según el número de opciones seleccionado
         for (let i = 1; i < numOpciones; i++) {
             selectRespuestasCorrectas.append(`<option value="${i}">${i}</option>`);
         }
         
-        // Restaurar el valor si es posible
         if (valorActual && parseInt(valorActual) <= numOpciones) {
             selectRespuestasCorrectas.val(valorActual);
         } else {
@@ -295,12 +285,9 @@ manejarSeccionExtra('#activarSeccionExtra2', '#seccionExtra2', ['#TIPO3_QUESTION
         }
     }
     
-    // Función para mostrar/ocultar opciones según la selección
     function actualizarOpciones() {
-        // Ocultar todas las opciones primero
         $('.checkbox-container').hide();
         
-        // Mostrar solo las opciones necesarias
         for (let i = 1; i <= numOpciones; i++) {
             $(`#respuesta${i}`).show();
         }

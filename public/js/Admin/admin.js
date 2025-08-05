@@ -49,7 +49,7 @@ const Toast = Swal.mixin({
     }
 });
 
-function alertToast(msj = 'No ha seleccionado ningún registro', icon = 'error', timer = 3000) {
+function alertToast(msj = 'No ha seleccionado ningún registro', icon = 'error', timer = 7000) {
     Toast.fire({
       icon: icon,
       title: msj,
@@ -439,6 +439,15 @@ function alertErrorAJAX(jqXHR, exception, data) {
         alertToast('Sin conexión a internet', 'warning'); return 0
       };
     case 404:
+            alertToast('Recurso no encontrado', 'error'); return 0;
+    case 422:
+        var response = jqXHR.responseJSON;
+        if (response && response.message) {
+            alertToast(response.message, 'error');
+        } else {
+            alertToast('Error de validación', 'error');
+        }
+        return 0;
     case 500: alertToast('Internal Server Error', 'info'); return 0;
   }
   switch (exception) {
@@ -519,6 +528,7 @@ async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyFor
             // complete: ajaxComplete(),
             error: function (jqXHR, exception, data) {
                 // ajaxError()
+                 $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
                 alertErrorAJAX(jqXHR, exception, data)
             },
         })

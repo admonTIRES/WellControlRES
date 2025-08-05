@@ -14,13 +14,17 @@ class CredencialesEstudiante extends Mailable
     public $nombre;
     public $password;
     public $email;
+    public $fechaInicio;
+    public $fechaFin;
 
-
-  public function __construct($nombre, $password, $email)
+  public function __construct($nombre, $password, $email, $fechaInicio, $fechaFin)
     {
         $this->nombre = $nombre;
         $this->password = $password;
         $this->email = $email;
+        $this->fechaInicio = $fechaInicio;
+        $this->fechaFin = $fechaFin;
+
 
     }
 

@@ -15,10 +15,12 @@ class correoController extends Controller
             'nombre' => 'required|string',
             'email' => 'required|email',
             'password' => 'required|string',
+            'fechaInicio' => 'required|date_format:Y-m-d H:i:s', 
+            'fechaFin' => 'required|date_format:Y-m-d H:i:s', 
         ]);
 
         try {
-            Mail::to($request->email)->send(new \App\Mail\CredencialesEstudiante($request->nombre, $request->password, $request->email));
+            Mail::to($request->email)->send(new \App\Mail\CredencialesEstudiante($request->nombre, $request->password, $request->email, $request->fechaInicio, $request->fechaFin));
 
             return response()->json(['msj' => 'Correo enviado exitosamente.']);
         } catch (\Exception $e) {

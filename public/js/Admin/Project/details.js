@@ -80,7 +80,9 @@ function enviarCredencialesCorreo(data) {
                     _token: $('meta[name="csrf-token"]').attr('content'),
                     nombre: data.nombre,
                     email: data.email,
-                    password: data.password
+                    password: data.password,
+                    fechaInicio: data.fechaInicio,
+                    fechaFin: data.fechaFin
                 },
                 success: function (response) {
                     Swal.fire('Enviado', response.msj, 'success');

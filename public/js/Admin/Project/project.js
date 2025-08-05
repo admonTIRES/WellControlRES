@@ -2,6 +2,10 @@ ID_PROJECT = 0
 
 let tagify = null;
 let empresas = null;
+
+let tagifyChangeHandler = null;
+let isEditing = false;
+
 $(document).ready(function () {
     var $select3 = $('#BOP_TYPES_PROJECT').selectize({
         plugins: ['remove_button'],
@@ -29,6 +33,9 @@ $(document).ready(function () {
     var selectizeInstance4 = $select4[0].selectize;
 });
 
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
     const input = document.querySelector('#COMPANIES');
@@ -37,37 +44,46 @@ document.addEventListener('DOMContentLoaded', function () {
         maxTags: 20,
         placeholder: "Escribe el nombre de la empresa y presiona ENTER"
     });
-    tagify.on('change', function(e) {
-        if (window.wizard) {
-        // Obtiene los valores correctamente parseados
-        let empresasArray;
-        
-        try {
-            // Intenta parsear si viene como string JSON
-            if (typeof e.detail.value === 'string') {
-                empresasArray = JSON.parse(e.detail.value);
-            } else if (Array.isArray(e.detail.value)) {
-                empresasArray = e.detail.value;
-            } else {
-                empresasArray = tagify.value;
-            }
-            
-            // Asegurarse de que es un array y mapear correctamente
-            window.wizard.empresas = Array.isArray(empresasArray) ? 
-                empresasArray.map(item => typeof item === 'string' ? item : item.value) : 
-                [empresasArray.value || empresasArray];
-                
-        } catch (error) {
-            // Fallback seguro
-            window.wizard.empresas = tagify.value.map(item => 
-                typeof item === 'string' ? item : item.value
-            );
+    
+    let isEditing = false;
+
+    $('button[data-bs-target="#proyectoModal"]').on('click', function () {
+        isEditing = false;
+        tagify.removeAllTags(); // Limpiar por si acaso
+
+        if (tagifyChangeHandler) {
+            tagify.off('change', tagifyChangeHandler); // Eliminar si ya había uno
         }
-        
-        console.log('Empresas actualizadas CORRECTAMENTE:', window.wizard.empresas);
-    }
+
+        tagifyChangeHandler = function(e) {
+            if (!isEditing && window.wizard) {
+                let empresasArray;
+                try {
+                    if (typeof e.detail.value === 'string') {
+                        empresasArray = JSON.parse(e.detail.value);
+                    } else if (Array.isArray(e.detail.value)) {
+                        empresasArray = e.detail.value;
+                    } else {
+                        empresasArray = tagify.value;
+                    }
+
+                    window.wizard.empresas = Array.isArray(empresasArray)
+                        ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
+                        : [empresasArray.value || empresasArray];
+                } catch (error) {
+                    window.wizard.empresas = tagify.value.map(item =>
+                        typeof item === 'string' ? item : item.value
+                    );
+                }
+
+                console.log('Empresas actualizadas:', window.wizard.empresas);
+            }
+        };
+
+        tagify.on('change', tagifyChangeHandler);
     });
 });
+
 class WizardManager {
     constructor() {
         this.currentStep = 1;
@@ -313,45 +329,167 @@ class WizardManager {
     }
 
 
-    // Renderizar secciones para cada empresa
-    renderEmpresasSections() {
+    
+    // renderEmpresasSections() {
+    //     const container = document.getElementById('empresasContainer');
+    //     container.innerHTML = '';
+        
+    //     if (!this.empresas || this.empresas.length === 0) {
+    //         container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+    //         return;
+    //     }
+
+    //     this.empresas.forEach(empresa => {
+    //         const empresaId = empresa.replace(/\s+/g, '-').toLowerCase();
+            
+    //         const section = document.createElement('div');
+    //         section.className = 'empresa-section mb-4 p-3 border rounded';
+    //         section.id = `empresa-${empresaId}`;
+    //         section.dataset.empresa = empresa;
+            
+    //         section.innerHTML = `
+    //             <div class="row mb-3">
+    //                 <div class="col-md-3">
+    //                     <label class="form-label">Nombre de la empresa: *</label>
+    //                     <input type="text" class="form-control empresa-name" 
+    //                            name="empresa_${empresaId}" value="${empresa}" readonly />
+    //                 </div>
+    //                  <div class="col-md-3">
+    //                     <div class="form-group mb-3">
+    //                         <label class="form-label">Correo de contacto de la empresa: *
+    //                         </label>
+    //                         <input type="email" class="form-control"  name="email_${empresaId}"
+    //                             placeholder="Correo electrónico" />
+    //                         <div class="error-message">El correo es requerido </div>
+    //                     </div>
+    //                 </div>
+    //                 <div class="col-md-3">
+    //                     <label class="form-label">Cantidad de estudiantes: *</label>
+    //                     <input type="number" class="form-control student-count" 
+    //                            name="studentCount_${empresaId}"
+    //                            placeholder="Número de estudiantes" min="1" max="50" required />
+    //                     <div class="error-message">Ingresa una cantidad válida (1-50)</div>
+    //                 </div>
+    //                 <div class="col-md-3 mt-3 d-flex align-items-center">
+    //                     <button type="button" class="btn btn-info action-button generate-students"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+    //                     </button>
+    //                 </div>
+    //             </div>
+    //             <div class="students-container" id="studentsContainer_${empresaId}" style="display: none;">
+    //                 <hr class="mb-4">
+    //                 <h5 class="mb-3">Lista de Estudiantes - ${empresa}</h5>
+    //                 <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+    //                     <table class="table table-striped table-hover" style="min-width: 800px;">
+    //                         <thead class="table-dark">
+    //                             <tr>
+    //                                 <th>#</th>
+    //                                 <th>Empresa</th>
+    //                                 <th>CR</th>
+    //                                 <th>Family or last name</th>
+    //                                 <th>First name</th>
+    //                                 <th>Middle name</th>
+    //                                 <th>Fecha de nacimiento</th>
+    //                                 <th>ID</th>
+    //                                 <th>Cargo</th>
+    //                                 <th>Membresia</th>
+    //                                 <th>Correo Electrónico</th>
+    //                                 <th>Contraseña Generada</th>
+    //                                 <th>Acciones</th>
+    //                             </tr>
+    //                         </thead>
+    //                         <tbody id="studentsTableBody_${empresaId}"></tbody>
+    //                     </table>
+    //                 </div>
+    //                 <div class="mt-3">
+    //                     <button type="button" class="btn btn-success btn-sm export-passwords"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-download-line me-2"></i>Exportar Contraseñas
+    //                     </button>
+    //                     <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
+    //                     </button>
+    //                     <button type="button" class="btn btn-info btn-sm ms-2 send-mails"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-mail-send-fill me-2"></i>Enviar correos con accesos
+    //                     </button>
+    //                 </div>
+    //             </div>
+    //         `;
+            
+    //         container.appendChild(section);
+            
+    //         section.querySelector(`.generate-students`).addEventListener('click', () => {
+    //             this.generateStudentsForEmpresa(empresaId);
+    //         });
+            
+    //         section.querySelector(`.export-passwords`).addEventListener('click', () => {
+    //             this.exportPasswordsForEmpresa(empresaId);
+    //         });
+            
+    //         section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+    //             this.regenerateAllPasswordsForEmpresa(empresaId);
+    //         });
+            
+    //         section.querySelector(`.send-mails`).addEventListener('click', () => {
+    //             this.sendMailsForEmpresa(empresaId);
+    //         });
+    //     });
+    // }
+  
+
+
+
+   renderEmpresasSections() {
         const container = document.getElementById('empresasContainer');
         container.innerHTML = '';
-        
+
         if (!this.empresas || this.empresas.length === 0) {
             container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
             return;
         }
 
-        this.empresas.forEach(empresa => {
-            const empresaId = empresa.replace(/\s+/g, '-').toLowerCase();
-            
+        // Determinar si estamos en modo edición (datos completos) o creación (solo nombres)
+        const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
+
+        this.empresas.forEach((empresa, index) => {
+            // Obtener datos según el modo
+            const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
+            const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
+            const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
+            const students = isEditMode ? (empresa.STUDENTS_PROJECT || []) : [];
+
+            const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + index;
+
             const section = document.createElement('div');
             section.className = 'empresa-section mb-4 p-3 border rounded';
             section.id = `empresa-${empresaId}`;
-            section.dataset.empresa = empresa;
-            
+            section.dataset.empresa = empresaName;
+
             section.innerHTML = `
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <label class="form-label">Nombre de la empresa: *</label>
                         <input type="text" class="form-control empresa-name" 
-                               name="empresa_${empresaId}" value="${empresa}" readonly />
+                            name="empresa_${empresaId}" value="${empresaName}" readonly />
                     </div>
-                     <div class="col-md-3">
+                    <div class="col-md-3">
                         <div class="form-group mb-3">
                             <label class="form-label">Correo de contacto de la empresa: *
                             </label>
                             <input type="email" class="form-control"  name="email_${empresaId}"
-                                placeholder="Correo electrónico" />
+                                placeholder="Correo electrónico" value="${empresaEmail || ''}" />
                             <div class="error-message">El correo es requerido </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Cantidad de estudiantes: *</label>
                         <input type="number" class="form-control student-count" 
-                               name="studentCount_${empresaId}"
-                               placeholder="Número de estudiantes" min="1" max="50" required />
+                            name="studentCount_${empresaId}"
+                            placeholder="Número de estudiantes" min="1" max="50" 
+                            value="${studentCount || ''}" ${students.length > 0 ? 'readonly' : ''} />
                         <div class="error-message">Ingresa una cantidad válida (1-50)</div>
                     </div>
                     <div class="col-md-3 mt-3 d-flex align-items-center">
@@ -361,9 +499,9 @@ class WizardManager {
                         </button>
                     </div>
                 </div>
-                <div class="students-container" id="studentsContainer_${empresaId}" style="display: none;">
+                <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
                     <hr class="mb-4">
-                    <h5 class="mb-3">Lista de Estudiantes - ${empresa}</h5>
+                    <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
                     <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
                         <table class="table table-striped table-hover" style="min-width: 800px;">
                             <thead class="table-dark">
@@ -405,7 +543,7 @@ class WizardManager {
             
             container.appendChild(section);
             
-            // Asignar eventos a los botones recién creados
+            // Eventos
             section.querySelector(`.generate-students`).addEventListener('click', () => {
                 this.generateStudentsForEmpresa(empresaId);
             });
@@ -421,11 +559,36 @@ class WizardManager {
             section.querySelector(`.send-mails`).addEventListener('click', () => {
                 this.sendMailsForEmpresa(empresaId);
             });
+
+            // Si hay estudiantes, cargarlos
+            if (students.length > 0) {
+                if (!this.students[empresaId]) {
+                    this.students[empresaId] = [];
+                }
+
+                this.students[empresaId] = students.map((student, index) => ({
+                    id: index + 1,
+                    empresa: empresaName,
+                    cr: student.CR_PROJECT || '',
+                    lastName: student.LAST_NAME_PROJECT || '',
+                    firstName: student.FIRST_NAME_PROJECT || '',
+                    mdName: student.MIDDLE_NAME_PROJECT || '',
+                    dob: student.BIRTH_DATE_PROJECT || '',
+                    idExp: student.ID_NUMBER_PROJECT || '',
+                    cargo: student.POSITION_PROJECT || '',
+                    membresia: student.MEMBERSHIP_PROJECT || '',
+                    email: student.EMAIL_PROJECT || '',
+                    password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
+                }));
+
+                this.renderStudentsTableForEmpresa(empresaId);
+            }
         });
     }
-
-    // Generar estudiantes para una empresa específica
+    
     generateStudentsForEmpresa(empresaId) {
+    
         const empresaSection = document.getElementById(`empresa-${empresaId}`);
         const countInput = empresaSection.querySelector('.student-count');
         const count = parseInt(countInput.value);
@@ -511,7 +674,7 @@ class WizardManager {
                 <td>
                     <input type="text" class="form-control input-lg" 
                            name="mdName" placeholder="mdName" 
-                           value="${student.mdName}" required>
+                           value="${student.mdName}" >
                     <div class="error-message"></div>
                 </td>
                 <td>
@@ -523,13 +686,13 @@ class WizardManager {
                 <td>
                     <input type="text" class="form-control input-lg" 
                            name="idExp" placeholder="idExp" 
-                           value="${student.idExp}" required>
+                           value="${student.idExp}" >
                     <div class="error-message"></div>
                 </td>
                 <td>
                     <input type="text" class="form-control input-lg" 
                            name="cargo" placeholder="cargo" 
-                           value="${student.cargo}" required>
+                           value="${student.cargo}" >
                     <div class="error-message"></div>
                 </td>
                 <td>
@@ -658,7 +821,6 @@ class WizardManager {
    getFormData() {
         this.saveStepData();
         
-        // Crear el array COMPANIES_PROJECT con la estructura requerida
         const companiesProject = [];
         
         // Recorrer todas las empresas
@@ -696,7 +858,8 @@ class WizardManager {
                             POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
                             MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
                             EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
-                            PASSWORD_PROJECT: student.password
+                            PASSWORD_PROJECT: student.password,
+                            USER_ID_PROJECT: student.USER_ID_PROJECT
                         });
                     }
                 });
@@ -826,7 +989,7 @@ $("#proyectobtnModal").click(function (e) {
             }, async function () {
 
                 await loaderbtn('proyectobtnModal')
-                await ajaxAwaitFormData({ api: 1, ID_PROJECT: ID_PROJECT }, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await ajaxAwaitFormData( dataToSend , 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
 
                     Swal.fire({
                         icon: 'info',
@@ -858,9 +1021,67 @@ $("#proyectobtnModal").click(function (e) {
     }
 });
 
-// function projectDetails(btn) {
-//     const id = btn.getAttribute('data-id');
-//     if (id) {
-//         window.location.href = `/projectsAdmin/details/${id}`;
-//     }
-// }
+
+$('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
+     isEditing = true; 
+    var tr = $(this).closest('tr');
+    var row = proyectoDatatable.row(tr);
+    ID_PROJECT = row.data().ID_PROJECT;
+
+
+    editarDatoTabla(row.data(), 'proyectoForm', 'proyectoModal', 1);
+
+    
+    if (tagifyChangeHandler) {
+        tagify.off('change', tagifyChangeHandler);
+        tagifyChangeHandler = null;
+    }
+
+    // Inicializar campos selectize
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();            
+            selectize.setValue(values);  
+        });
+    }
+
+    initializeSelectizedFields(row, [
+        'ACCREDITATION_LEVELS_PROJECT',
+        'BOP_TYPES_PROJECT'
+    ]);
+
+    tagify.removeAllTags();
+    tagify.addTags(row.data().COMPANIES);
+
+    if (row.data().COMPANIES_PROJECT) {
+        const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ? 
+            row.data().COMPANIES_PROJECT : 
+            JSON.parse(row.data().COMPANIES_PROJECT);
+            
+        window.wizard.empresas = companiesProject;
+    } else {
+        window.wizard.empresas = row.data().COMPANIES || [];
+    }
+    
+    console.log('Datos de empresas cargados:', window.wizard.empresas);
+    
+    // Desactivar modo edición después de un breve tiempo
+    setTimeout(() => {
+        isEditing = false;
+    }, 1000);
+
+    $('#proyectoModal .modal-title').html(`Editar Proyecto #${row.data().ID_PROJECT}`);
+});

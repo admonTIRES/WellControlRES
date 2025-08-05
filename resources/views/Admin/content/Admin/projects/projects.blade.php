@@ -306,7 +306,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group mb-3  mt-3">
                                                         <label class="form-label"> {{ __('Contact number:')}}</label>
-                                                        <input type="tel" class="form-control" name="CONTACT_PHONE_PROJECT" id="CONTACT_PHONE_PROJECT"
+                                                        <input type="text" class="form-control" name="CONTACT_PHONE_PROJECT" id="CONTACT_PHONE_PROJECT"
                                                             placeholder="Número de teléfono de contacto" />
                                                         <div class="error-message">{{ __('This field is required.')}}
                                                         </div>
@@ -378,8 +378,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Registered certification
-                                                            centre name:')}}</label>
+                                                        <label class="form-label"> {{ __('Registered certification centre name:')}}</label>
                                                         <input type="text" class="form-control" name="CERTIFICATION_CENTER_PROJECT" id="CERTIFICATION_CENTER_PROJECT"
                                                             placeholder="Nombre del centro certificador" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
@@ -570,7 +569,7 @@
                                                     <label class="form-label" for="start_date">Fecha del examen del
                                                         curso: *</label>
                                                     <div class="flatpickr-container">
-                                                        <input type="text" id="start_date" name="EXAM_DATE_PROJECT" class="form-control"
+                                                        <input type="text" id="start_date3" name="EXAM_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
                                                         <a class="input-button" title="Abrir calendario"
                                                             data-toggle="start_date"><i
@@ -595,7 +594,7 @@
                                                     <label class="form-label" for="start_date">Fecha del examen práctico
                                                         del curso: *</label>
                                                     <div class="flatpickr-container">
-                                                        <input type="text" id="start_date" name="PRACTICAL_EXAM_DATE_PROJECT" class="form-control"
+                                                        <input type="text" id="start_date2" name="PRACTICAL_EXAM_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
                                                         <a class="input-button" title="Abrir calendario"
                                                             data-toggle="start_date"><i
@@ -611,7 +610,7 @@
                                                     <label class="form-label" for="end_date">Tiempo del examen práctico
                                                         del curso: *</label>
                                                     <div class="flatpickr-container">
-                                                        <input type="time" id="start_time" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
+                                                        <input type="time" id="start_time2" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
                                                             required>
                                                     </div>
                                                 </div>

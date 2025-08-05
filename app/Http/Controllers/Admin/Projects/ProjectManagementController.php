@@ -8,6 +8,9 @@ use Artisan;
 use Exception;
 use DB;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Admin\Project\Proyect;
 
 class ProjectManagementController extends Controller
@@ -34,6 +37,18 @@ class ProjectManagementController extends Controller
                                                <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
                                             </span>
                                         </button>';
+
+                 $companies = [];
+
+                if (is_array($value->COMPANIES_PROJECT)) {
+                    foreach ($value->COMPANIES_PROJECT as $empresa) {
+                        if (!empty($empresa['NAME_PROJECT'])) {
+                            $companies[] = $empresa['NAME_PROJECT'];
+                        }
+                    }
+                }
+
+                $value->COMPANIES = $companies;
             }
             
             return response()->json([
@@ -56,10 +71,63 @@ class ProjectManagementController extends Controller
                     $data = $request->all();
                     if ($request->has('COMPANIES_PROJECT') && is_string($request->COMPANIES_PROJECT)) {
                         $data['COMPANIES_PROJECT'] = json_decode($request->COMPANIES_PROJECT, true);
-                        
-                        // Validar que el JSON sea válido
+
                         if (json_last_error() !== JSON_ERROR_NONE) {
                             throw new \Exception('Formato inválido para COMPANIES_PROJECT');
+                        }
+
+                        // Recorremos cada empresa
+                        foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
+                            if (!isset($empresa['STUDENTS_PROJECT'])) continue;
+
+                            foreach ($empresa['STUDENTS_PROJECT'] as &$estudiante) {
+                                $email = $estudiante['EMAIL_PROJECT'] ?? null;
+                                $password = $estudiante['PASSWORD_PROJECT'] ?? null;
+
+                                if (!$email || !$password) continue;
+
+                                $firstName = $estudiante['FIRST_NAME_PROJECT'] ?? '';
+                                $middleName = $estudiante['MIDDLE_NAME_PROJECT'] ?? '';
+                                $lastName = $estudiante['LAST_NAME_PROJECT'] ?? '';
+
+                                $initials = Str::lower(Str::substr($firstName, 0, 1)) .
+                                            ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
+
+                                $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
+                                $username = $initials . $lastWord . rand(100, 999);
+
+                                // SI YA EXISTE EL USUARIO, ACTUALIZA
+                                if (!empty($estudiante['USER_ID_PROJECT'])) {
+                                    DB::table('users')
+                                        ->where('id', $estudiante['USER_ID_PROJECT'])
+                                        ->update([
+                                            'username'   => $username,
+                                            'email'      => $email,
+                                            'password'   => Hash::make($password),
+                                            'updated_at' => now()
+                                        ]);
+                                } else {
+                                    $existingUser = DB::table('users')->where('email', $email)->first();
+                                    if ($existingUser) {
+                                        return response()->json([
+                                            'error' => true,
+                                            'message' => "Ya existe un usuario con el correo: $email",
+                                            'email' => $email
+                                        ], 422); 
+                                    }
+
+                                    $userId = DB::table('users')->insertGetId([
+                                        'username'   => $username,
+                                        'email'      => $email,
+                                        'password'   => Hash::make($password),
+                                        'rol'        => 1, // estudiante
+                                        'created_at' => now(),
+                                        'updated_at' => now()
+                                    ]);
+
+                                    $estudiante['USER_ID_PROJECT'] = $userId;
+                                }
+                            }
                         }
                     }
                     if ($request->ID_PROJECT == 0) {
@@ -83,10 +151,10 @@ class ProjectManagementController extends Controller
                     return response()->json($response);
             }
         } catch (Exception $e) {
-           \Log::error('Error en ProyectController@store: ' . $e->getMessage());
-            \Log::error('Datos recibidos: ' . json_encode($request->all()));
-            return response()->json('Error al guardar la información');
-           
+           return response()->json([
+                'error' => true,
+                'message' => 'Error interno: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -138,6 +206,8 @@ class ProjectManagementController extends Controller
                                                 'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
                                                 'email' => $estudiante['EMAIL_PROJECT'],
                                                 'password' => $estudiante['PASSWORD_PROJECT'],
+                                                'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
+                                                'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT, 
                                             ]), ENT_QUOTES, 'UTF-8') . ')">
                                             <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
                                         </button>'

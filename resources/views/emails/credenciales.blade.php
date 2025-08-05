@@ -348,7 +348,7 @@
             <p class="subtitle">
                 Nos complace darle la bienvenida a nuestro sistema de aprendizaje de control de pozos <strong>Well Control Learning Experience</strong>. Esta plataforma interactiva le permitirá desarrollar habilidades críticas en control de pozos a través de simulaciones realistas, casos de estudio y evaluaciones prácticas.<br><br>
                 
-                Hemos creado su cuenta exitosamente y estas son sus credenciales de acceso para comenzar su experiencia de aprendizaje.
+                Hemos creado su cuenta exitosamente y estas son sus credenciales de acceso para comenzar su experiencia de aprendizaje. Su membresía estará activa del {{ $fechaInicio }} al {{ $fechaFin }}.
             </p>
             
             <div class="app-description">

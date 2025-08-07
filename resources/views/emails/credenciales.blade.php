@@ -28,8 +28,8 @@
             overflow: hidden;
         }
         
-        .div1 {
-            background: linear-gradient(130deg, #2C2A29 20%, #2C2A29 80%);
+        .header {
+            background: #2C2A29;
             padding: 30px 40px;
             text-align: center;
             color: white;
@@ -53,13 +53,13 @@
             object-fit: contain;
         }
         
-        .div1 h1 {
+        .header h1 {
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
-        .div1 p {
+        .header p {
             font-size: 16px;
             opacity: 0.9;
             font-weight: 300;
@@ -85,7 +85,7 @@
         }
         
         .app-description {
-            background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%); 
+            background: #f0f8ff; 
             border-left: 4px solid #2196F3; 
             border-radius: 8px; 
             padding: 20px; 
@@ -109,7 +109,7 @@
         }
         
         .credentials-box {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            background: #ffffff;
             border-left: 5px solid #A4D65E;
             border-radius: 8px;
             padding: 25px;
@@ -205,7 +205,8 @@
         
         .cta-button {
             display: inline-block;
-            background: #FF585D;
+            background:#FF585D;
+            color: white !important;
             text-decoration: none !important;
             padding: 15px 30px;
             border-radius: 8px;
@@ -218,11 +219,17 @@
         }
         
         .cta-button:hover {
+            color: white !important;
             text-decoration: none !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 88, 93, 0.4);
         }
         
+        .cta-button:visited,
+        .cta-button:active {
+            color: white !important;
+            text-decoration: none !important;
+        }
         
         .footer {
             background-color: #222121ff;
@@ -306,36 +313,13 @@
             
             .credentials-box {
                 padding: 20px 15px;
-                font-size: 14px;
-            }
-            
-            .credential-item {
-               padding: 10px;
             }
             
             .credential-value {
                 margin-left: 0;
                 margin-top: 8px;
                 width: 100%;
-                padding: 6px 10px;
-                word-break: break-all;  
-
             }
-            .credential-label, 
-            .credential-value {
-                font-size: 13px !important;
-            }
-        }
-
-        /* estilos solo para outlook pq si no se cambian los colores, gracias outlook por */
-        [data-ogsc] .header,
-        [data-ogsc] .cta-button {
-        background-color: #2C2A29 !important;
-        color: #ffffff !important;
-        }
-
-        [data-ogsc] .cta-button {
-        background: #FF585D !important;
         }
 
     </style>
@@ -343,7 +327,7 @@
 <body>
     <div class="email-container">
         <!-- Header con Logo -->
-        <div class="div1">
+        <div class="header">
             <div class="logo">
                 <img src="https://wclearningexperience.results-in-performance.com/assets/images/Colorlargo.png" alt="Results in Performance">
             </div>

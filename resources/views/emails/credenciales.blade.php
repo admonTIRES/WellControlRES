@@ -138,7 +138,6 @@
             padding: 15px;
             margin-bottom: 12px;
             border: 1px solid #e0e6ed;
-            display: flex;
             align-items: center;
         }
         

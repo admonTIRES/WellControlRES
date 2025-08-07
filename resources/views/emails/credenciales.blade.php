@@ -313,19 +313,38 @@
             
             .credentials-box {
                 padding: 20px 15px;
+                font-size: 14px;
             }
             
             .credential-item {
-                flex-direction: column;
-                align-items: flex-start;
+               padding: 10px;
             }
             
             .credential-value {
                 margin-left: 0;
                 margin-top: 8px;
                 width: 100%;
+                padding: 6px 10px;
+                word-break: break-all;
+
+            }
+            .credential-label, 
+            .credential-value {
+                font-size: 13px !important;
             }
         }
+
+        /* estilos solo para outlook pq si no se cambian los colores, gracias outlook por */
+        [data-ogsc] .header,
+        [data-ogsc] .cta-button {
+        background-color: #2C2A29 !important;
+        color: #ffffff !important;
+        }
+
+        [data-ogsc] .cta-button {
+        background: #FF585D !important;
+        }
+
     </style>
 </head>
 <body>

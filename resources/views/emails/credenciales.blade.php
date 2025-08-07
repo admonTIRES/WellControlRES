@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
         
@@ -141,15 +139,12 @@
             align-items: center;
         }
         
-        .credential-item:last-child {
-            margin-bottom: 0;
-        }
-        
         .credential-label {
             font-weight: 600;
             color: #495057;
             min-width: 100px;
             font-size: 14px;
+            margin-bottom: 10px !important;
         }
         
         .credential-value {
@@ -157,8 +152,8 @@
             border-radius: 4px;
             border: 1px solid #dee2e6;
             font-size: 14px;
-            flex: 1;
-            margin-left: 15px;
+            
+            margin-left: 15px ;
             color: #000000 !important;
             text-decoration: none !important;
         }
@@ -316,7 +311,7 @@
             
             .credential-value {
                 margin-left: 0;
-                margin-top: 8px;
+                margin-top: 10px;
                 width: 100%;
             }
         }
@@ -367,12 +362,14 @@
                 
                 <div class="credential-item">
                     <span class="credential-label">Email:</span>
-                    <span class="credential-value">{{ $email }}</span>
+                    <br>
+                    <div class="credential-value">{{ $email }}</div>
                 </div>
                 
                 <div class="credential-item">
                     <span class="credential-label">Contraseña:</span>
-                    <span class="credential-value">{{ $password }}</span>
+                    <br>
+                    <div class="credential-value">{{ $password }}</div>
                 </div>
             </div>
             

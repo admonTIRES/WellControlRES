@@ -28,7 +28,7 @@
             overflow: hidden;
         }
         
-        .header {
+        .div1 {
             background: linear-gradient(130deg, #2C2A29 20%, #2C2A29 80%);
             padding: 30px 40px;
             text-align: center;
@@ -53,13 +53,13 @@
             object-fit: contain;
         }
         
-        .header h1 {
+        .div1 h1 {
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
-        .header p {
+        .div1 p {
             font-size: 16px;
             opacity: 0.9;
             font-weight: 300;
@@ -205,8 +205,7 @@
         
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #FF585D 0%, #FF585D 100%);
-            color: white !important;
+            background: #FF585D;
             text-decoration: none !important;
             padding: 15px 30px;
             border-radius: 8px;
@@ -219,17 +218,11 @@
         }
         
         .cta-button:hover {
-            color: white !important;
             text-decoration: none !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 88, 93, 0.4);
         }
         
-        .cta-button:visited,
-        .cta-button:active {
-            color: white !important;
-            text-decoration: none !important;
-        }
         
         .footer {
             background-color: #222121ff;
@@ -325,7 +318,7 @@
                 margin-top: 8px;
                 width: 100%;
                 padding: 6px 10px;
-                word-break: break-all;
+                word-break: break-all;  
 
             }
             .credential-label, 
@@ -350,7 +343,7 @@
 <body>
     <div class="email-container">
         <!-- Header con Logo -->
-        <div class="header">
+        <div class="div1">
             <div class="logo">
                 <img src="https://wclearningexperience.results-in-performance.com/assets/images/Colorlargo.png" alt="Results in Performance">
             </div>

@@ -57,10 +57,8 @@ Route::middleware('auth')->get('/Calculator', [calculatorController::class, 'ind
 
 //----------------------------KILLSHEET-------------------------------//
 Route::middleware('auth')->get('/Killsheet', [killsheetController::class, 'index'])->name('killsheet');
-Route::get('/Killsheet/iadc', [KillsheetController::class, 'iadc'])->name('killsheet.iadc');
-Route::get('/Killsheet/iwcf', [KillsheetController::class, 'iwcf'])->name('killsheet.iwcf');
-Route::get('/Killsheet/iwcf-desviado', [KillsheetController::class, 'iwcfdesviado'])->name('killsheet.iwcfdesviado');
-Route::get('/Killsheet/iwcf/video', [KillsheetController::class, 'iwcfvideo'])->name('killsheet.iwcf.video');
+Route::get('/Killsheet/panel/{TIPO}', [KillsheetController::class, 'panel'])->name('killsheet.panel');
+Route::get('/Killsheet/video/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.video');
 
 //----------------------------EXAM-------------------------------//
 Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'index'])->name('evaluation');

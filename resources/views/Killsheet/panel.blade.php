@@ -3,126 +3,50 @@
 
 <div class="main-container"> 
     <div class="center-container">
-         
-        <div class="sp-path-container">
-             <div class="sp-title sp-delay-title-1">
-                <h2>{{ __('CONTENT') }}</h2>
-                <p>{{ __('Learn and practice kill sheet') }}</p>
-            </div>
-           
-            
-            <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Information') }}</h3>
-                        <p>{{ __('Know the Killsheet') }}</p>
-                    </div>
-                    <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -5vw;">
-                                <img src="/assets/images/killsheets/information.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Video') }}</h3>
-                        <p>{{ __('Interactive KillSheet') }}</p>
-                    </div>
-                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -4vw;">
-                                 <img src="/assets/images/killsheets/video.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-              <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('My first killsheet') }}</h3>
-                        <p>{{ __('Practice and learn') }}</p>
-                    </div>
-                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -5vw;">
-                                 <img src="/assets/images/killsheets/lapizmodel.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-              <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Exercise practice') }}</h3>
-                        <p>{{ __('Practice an exercise and ') }} <br> {{ __('check your results') }}</p>
-                    </div>
-                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -4vw;">
-                                 <img src="/assets/images/evaluation/elements/handstar.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-              <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Exercise simulator') }}</h3>
-                        <p>{{ __('Killsheet with stopwatch') }}</p>
-                    </div>
-                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -4vw;">
-                                 <img src="/assets/images/evaluation/elements/calendar4.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-              <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Exercise fast') }}</h3>
-                        <p>{{ __('Practice in record time') }}</p>
-                    </div>
-                <a href="{{ route('killsheet.iwcf.video') }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -2vw; top:1vw;">
-                                 <img src="/assets/images/evaluation/elements/racha2.png">
-                            </div>
-                            <div class="sp-item-image" style="right: -5.7vw; top:-4vw;">
-                                <img src="/assets/images/evaluation/elements/calendar4.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            
-            
-        </div>
-        <div class="sp-path-container">
+         <div class="sp-path-container">
             <div class="sp-title titlePrincipal sp-delay-title-1">
-                <p>{{ __('Welcome to panel of learn and practice of killsheet') }}</p>
-                <h2>{{ __('Welcome, Jonh') }}</h2>
+                 <p>{{ __('Welcome to panel of learn and practice of killsheet') }}</p>
+                <nav aria-label="Breadcrumb" class="breadcrumb-ui">
+                    <ol>
+                        <li>
+                            <a href="{{ route('home') }}">
+                                <i class="ri-home-line"></i>
+                                <span>Inicio</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('projectsAdmin') }}">
+                                <i class="ri-folder-2-line"></i>
+                                <span>Proyectos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-current="page" class="current">
+                                <i class="ri-slideshow-line"></i>
+                                <span>Detalles</span>
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+               
             </div>
             <div class="sp-step-right sp-delay-2 principalCard">
                     <div class="sp-section-title principalTitle sp-delay-title-2">
-                        <h3>{{ __('VERTICAL WELL') }}</h3>
+                        @switch($TIPO)
+                            @case('iadcVertical')
+                            <h3>{{ __('IADC VERTICAL WELL') }}</h3>
+                            @break
+                            @case('iwcfVertical')
+                            <h3>{{ __('IWCF VERTICAL WELL') }}</h3>
+                            @break
+                            @case('iwcfDeviated')
+                            <h3>{{ __('IWCF DEVIATED WELL') }}</h3>
+                            @break
+                        
+                            @default
+                                
+                        @endswitch
+                        
                         <p>{{ __('Welcome to panel of learn and practice of killsheet') }}</p>
                     </div>
                     <div class="sp-item-container plataforma">
@@ -378,6 +302,118 @@
              </div>
             
         </div>
+        <div class="sp-path-container">
+             <div class="sp-title sp-delay-title-1">
+                <h2>{{ __('CONTENT') }}</h2>
+                <p>{{ __('Learn and practice kill sheet') }}</p>
+            </div>
+           
+            
+            <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('Information') }}</h3>
+                        <p>{{ __('Know the Killsheet') }}</p>
+                    </div>
+                    <a href="{{ route('killsheet.video', ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -5vw;">
+                                <img src="/assets/images/killsheets/information.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('Video') }}</h3>
+                        <p>{{ __('Interactive KillSheet') }}</p>
+                    </div>
+                <a href="{{ route('killsheet.video', ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -4vw;">
+                                 <img src="/assets/images/killsheets/video.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+              <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('My first killsheet') }}</h3>
+                        <p>{{ __('Practice and learn') }}</p>
+                    </div>
+                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -5vw;">
+                                 <img src="/assets/images/killsheets/lapizmodel.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+              <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('Exercise practice') }}</h3>
+                        <p>{{ __('Practice an exercise and ') }}  {{ __('check your results') }}</p>
+                    </div>
+                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -4vw;">
+                                 <img src="/assets/images/evaluation/elements/handstar.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+              <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('Exercise simulator') }}</h3>
+                        <p>{{ __('Killsheet with stopwatch') }}</p>
+                    </div>
+                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -4vw;">
+                                 <img src="/assets/images/evaluation/elements/calendar4.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+              <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                        <h3>{{ __('Exercise fast') }}</h3>
+                        <p>{{ __('Practice in record time') }}</p>
+                    </div>
+                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -2vw; top:1vw;">
+                                 <img src="/assets/images/evaluation/elements/racha2.png">
+                            </div>
+                            <div class="sp-item-image" style="right: -5.7vw; top:-4vw;">
+                                <img src="/assets/images/evaluation/elements/calendar4.png">
+                            </div>
+                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            
+        </div>
+        
         
         <!-- <div class="sp-path-container">
         </div> -->

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -79,15 +80,28 @@ use Illuminate\Support\Str;
         </div>
     </div>
     <script>
-        window.onload = () => {
+        const MAX_LOADING_TIME = 2000; 
+
+        const loadingTimeout = setTimeout(() => {
             const loaderWrapper = document.getElementById('loading');
             if (loaderWrapper) {
                 loaderWrapper.classList.add('animate__animated', 'animate__fadeOut');
                 setTimeout(() => {
-                loaderWrapper.classList.add('d-none');
-                }, 500); 
+                    loaderWrapper.classList.add('d-none');
+                }, 100);
             }
-        };
+        }, MAX_LOADING_TIME);
+
+        window.addEventListener('load', () => {
+            clearTimeout(loadingTimeout);
+            const loaderWrapper = document.getElementById('loading');
+            if (loaderWrapper) {
+                loaderWrapper.classList.add('animate__animated', 'animate__fadeOut');
+                setTimeout(() => {
+                    loaderWrapper.classList.add('d-none');
+                }, 100);
+            }
+        });
     </script>
     <!-- DIV PRINCIPAL -->
     <div id="main-wrapper">
@@ -117,6 +131,6 @@ use Illuminate\Support\Str;
 @if(request()->is('Calculator'))
 <script src="{{ asset('js/Calculator.js') }}"></script>
 @endif
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.6"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.7"></script>
 
 </html>

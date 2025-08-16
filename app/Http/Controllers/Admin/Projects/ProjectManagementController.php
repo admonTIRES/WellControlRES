@@ -166,8 +166,19 @@ class ProjectManagementController extends Controller
     public function detailsProject($ID_PROJECT){
         $proyecto = Proyect::findOrFail($ID_PROJECT);
         $COURSE_NAME_ES_PROJECT = $proyecto->COURSE_NAME_ES_PROJECT;
+         $visitas = 2;
+        $membresiasActivas = 5;
+        $membresiasEmpresas = 5;
+        $membresiasIndividuales = 5;
+        $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
+        $proyectosActivos = 5;
+        $proyectosProximos = 5;
+        $proyectosFinalizados = 5;
+        $accesos = 5;
+        $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
+        $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];  
 
-        return view('Admin.content.Admin.projects.details', compact('COURSE_NAME_ES_PROJECT', 'ID_PROJECT'));
+        return view('Admin.content.Admin.projects.details', compact('COURSE_NAME_ES_PROJECT', 'ID_PROJECT', 'visitas', 'membresiasActivas', 'membresiasEmpresas', 'membresiasIndividuales', 'historialMembresias', 'proyectosActivos', 'proyectosProximos', 'proyectosFinalizados', 'accesos', 'historialEmpresas'));
     }
 
    public function projectStudentDatatable(Request $request)

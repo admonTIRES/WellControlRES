@@ -852,7 +852,7 @@ use Illuminate\Support\Str;
     <script src="/assets/js/charts/widgetcharts.js"></script>
     <!-- mapchart JavaScript -->
     <script src="/assets/js/charts/vectore-chart.js"></script>
-    <script src="/assets/js/charts/dashboard.js"></script>
+    <script src="/assets/js/charts/dashboard.js?v=2.0"></script>
 
     <!-- fslightbox JavaScript -->
     <script src="/assets/js/fslightbox.js"></script>

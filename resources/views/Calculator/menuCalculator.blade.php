@@ -250,11 +250,11 @@
                 <p class="math-drilling-text">
                     {{ __('For a detailed visual guide, check the following video:') }}
                 </p>
-                <div class="math-drilling-video">
+                <!-- <div class="math-drilling-video">
                     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
                         <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                     </div>
-                </div>
+                </div> -->
                 <div class="math-drilling-video">
                 <iframe 
                     src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
@@ -264,7 +264,7 @@
                     allowfullscreen>
                     </iframe>
                 </div>
-                <div id="secure-video-container" class="video-container">
+                <!-- <div id="secure-video-container" class="video-container">
                     <div id="video-frame-container"></div>
                     
                     <div class="controls-overlay"></div>
@@ -275,7 +275,7 @@
                     <div class="custom-controls">
                     </div>
 
-                </div>
+                </div> -->
             </div>
 
             <div id="partes" class="content-section scrollable-content">
@@ -1566,166 +1566,7 @@
                     });
                 });
             });
-        
-        loadSecureVideo('BbqXKcUUT44');
-        
-        // Bloquear clic derecho en todo el contenedor
-        document.getElementById('secure-video-container').addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        
-        // Bloquear también clic derecho específicamente en el iframe
-        document.addEventListener('DOMNodeInserted', function(e) {
-            if (e.target.id === 'youtube-frame') {
-                e.target.addEventListener('contextmenu', function(event) {
-                    event.preventDefault();
-                    return false;
-                });
-            }
-        });
-        
-        // Carga el video de manera segura
-        function loadSecureVideo(videoId) {
-            const container = document.getElementById('video-frame-container');
-            
-            // Crear el iframe con todos los parámetros de seguridad
-            container.innerHTML = `
-                <iframe 
-                id="youtube-frame"
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&controls=0&modestbranding=1&disablekb=1&fs=0&showinfo=0&iv_load_policy=3&origin=${window.location.origin}" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-                </iframe>
-            `;
-            
-            // Inicializar el reproductor de YouTube
-            let player;
-            
-            // Cargar la API de YouTube
-            const tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            
-            // Esta función será llamada cuando la API esté lista
-            window.onYouTubeIframeAPIReady = function() {
-                player = new YT.Player('youtube-frame', {
-                    events: {
-                        'onReady': onPlayerReady,
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            };
-            
-            // Cuando el reproductor esté listo
-            function onPlayerReady(event) {
-                // Configurar controles personalizados
-                setupCustomControls(player);
-                
-                // Configurar bloqueo de clic derecho en el iframe
-                const iframe = document.getElementById('youtube-frame');
-                if (iframe) {
-                    // Intento adicional de bloqueo de clic derecho en el iframe
-                    try {
-                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                        iframeDocument.addEventListener('contextmenu', function(e) {
-                            e.preventDefault();
-                            return false;
-                        });
-                    } catch (e) {
-                        // Si hay error de acceso por seguridad de dominio cruzado, ignoramos
-                        console.log("No se puede acceder directamente al documento del iframe");
-                    }
-                }
-            }
-            
-            // Cuando cambie el estado del reproductor
-            function onPlayerStateChange(event) {
-                // Actualizar estado de los controles personalizados
-                updateCustomControls(event.data);
-            }
-        }
-        
-        // Configurar los controles personalizados
-        function setupCustomControls(player) {
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            const progressBar = document.getElementById('progress-bar');
-            const progress = document.getElementById('progress');
-            const volumeBtn = document.getElementById('volume-btn');
-            
-            // Botón de reproducción/pausa
-            playPauseBtn.addEventListener('click', function() {
-                const state = player.getPlayerState();
-                if (state === 1) { // reproduciendo
-                    player.pauseVideo();
-                    playPauseBtn.textContent = '▶';
-                } else {
-                    player.playVideo();
-                    playPauseBtn.textContent = '⏸';
-                }
-            });
-            
-            // Control de volumen
-            volumeBtn.addEventListener('click', function() {
-                if (player.isMuted()) {
-                    player.unMute();
-                    volumeBtn.textContent = '🔊';
-                } else {
-                    player.mute();
-                    volumeBtn.textContent = '🔇';
-                }
-            });
-            
-            // Barra de progreso
-            progressBar.addEventListener('click', function(e) {
-                const percent = (e.offsetX / progressBar.offsetWidth);
-                player.seekTo(player.getDuration() * percent);
-            });
-            
-            // Actualizar la barra de progreso
-            setInterval(function() {
-                if (player && typeof player.getCurrentTime === 'function') {
-                    const currentTime = player.getCurrentTime();
-                    const duration = player.getDuration();
-                    const percentage = (currentTime / duration) * 100;
-                    progress.style.width = percentage + '%';
-                }
-            }, 1000);
-            
-            // Configuración adicional para el bloqueador de clic derecho
-            const rightClickBlocker = document.getElementById('right-click-blocker');
-            
-            // Hacemos que este elemento solo capture eventos de clic derecho pero no normales
-            rightClickBlocker.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Permitir que los clics normales pasen a través
-            rightClickBlocker.addEventListener('mousedown', function(e) {
-                if (e.button === 2) { // 2 es clic derecho
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-                // Los demás tipos de clic pasan a través
-            });
-        }
-        
-        // Actualizar estado de los controles personalizados
-        function updateCustomControls(playerState) {
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            
-            if (playerState === 1) { // reproduciendo
-                playPauseBtn.textContent = '⏸';
-            } else {
-                playPauseBtn.textContent = '▶';
-            }
-        }
+    
                 // Obtener el modal y sus elementos
             const modal = document.getElementById("exampleModalCenter");
             const modalTitle = document.getElementById("exampleModalLongTitle");

@@ -15,35 +15,21 @@ class killsheetController extends Controller
         return view('Killsheet.mainKillsheet');
     }
 
+
       /**
      * @return \Illuminate\View\View
      */
-    public function iadc()
+    public function panel($TIPO)
     {
-        return view('Killsheet.iadc');
+        return view('Killsheet.panel', compact('TIPO'));
     }
 
       /**
      * @return \Illuminate\View\View
      */
-    public function iwcf()
+    public function video($TIPO)
     {
-        return view('Killsheet.iwcf');
+        return view('Killsheet.Video', compact('TIPO'));
     }
 
-      /**
-     * @return \Illuminate\View\View
-     */
-    public function iwcfvideo()
-    {
-        return view('Killsheet.iwcfVideo');
-    }
-
-      /**
-     * @return \Illuminate\View\View
-     */
-    public function iwcfdesviado()
-    {
-        return view('Killsheet.iwcfVerticalK');
-    }
 }

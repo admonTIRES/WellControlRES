@@ -238,7 +238,7 @@ if (jQuery('#d-main').length) {
               },
           },
           lines: {
-              show: false  //or just here to disable only x axis grids
+              show: false  
           },
           categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
       },
@@ -251,7 +251,7 @@ if (jQuery('#d-main').length) {
               shade: 'dark',
               type: "vertical",
               shadeIntensity: 0,
-              gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+              gradientToColors: undefined, 
               inverseColors: true,
               opacityFrom: .4,
               opacityTo: .1,

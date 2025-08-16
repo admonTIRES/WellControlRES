@@ -412,14 +412,10 @@
                     📞 +52 (999) 357-8332<br>
                     🏢 Villahermosa, Tabasco, México
                 </div>
-                
-                <div class="social-links">
-                    <a href="https://results-in-performance.com/">Página web</a>
-                </div>
             </div>
             
             <div class="footer-note">
-                © 2025 Results In Performance. Todos los derechos reservados.<br>
+                © {{ date('Y') }} <a href="https://results-in-performance.com/">Results In Performance</a>. Todos los derechos reservados.<br>
                 Este correo fue enviado automáticamente, por favor no responder a esta dirección.<br>
             </div>
         </div>

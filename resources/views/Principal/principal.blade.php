@@ -10,7 +10,7 @@
          <div class="content-wrapper">
             <div class="content-box tarjeta1">
                 <div class="number">01</div>
-                    <h3>{{ __('John Doe') }}</h3>
+                    <h3>{{ __('Intuitivo') }}</h3>
                     <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
             </div>
             <div class="team-image">
@@ -25,8 +25,6 @@
 
     <section class="learning-container">
         <div class="cont-card">
-            <h1 class="dashboard-header">{{ __('Hello, John Doe') }}</h1>
-
             <div class="container-left">
                 <div class="left-card">
                     <h2>{{ __('Learning') }}</h2>

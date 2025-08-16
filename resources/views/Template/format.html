@@ -1,351 +1,168 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credenciales de Acceso - Tu Empresa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333333;
-            background-color: #f5f7fa;
-        }
-        
-        .email-container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(130deg, #2C2A29 20%, #2C2A29 80%);
-            padding: 30px 40px;
-            text-align: center;
-            color: white;
-        }
-        
-        .logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .greeting {
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-        
-        .subtitle {
-            font-size: 16px;
-            color: #5a6c7d;
-            margin-bottom: 30px;
-            line-height: 1.5;
-            text-align: justify;
-        }
-        
-        .credentials-box {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-left: 5px solid #A4D65E;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 30px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .credentials-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .credentials-title::before {
-            content: "🔐";
-            margin-right: 10px;
-            font-size: 20px;
-        }
-        
-        .credential-item {
-            background-color: #ffffff;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border: 1px solid #e0e6ed;
-            display: flex;
-            align-items: center;
-        }
-        
-        .credential-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .credential-label {
-            font-weight: 600;
-            color: #495057;
-            min-width: 100px;
-            font-size: 14px;
-        }
-        
-        .credential-value {
-            font-family: 'Courier New', monospace;
-            background-color: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            font-size: 14px;
-            color: #495057;
-            flex: 1;
-            margin-left: 15px;
-        }
-        
-        .important-note {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            position: relative;
-        }
-        
-        .important-note::before {
-            content: "⚠️";
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 18px;
-        }
-        
-        .important-note-content {
-            margin-left: 35px;
-        }
-        
-        .important-note h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #856404;
-            margin-bottom: 8px;
-        }
-        
-        .important-note p {
-            font-size: 14px;
-            color: #856404;
-            line-height: 1.5;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #FF585D 0%, #FF585D 100%);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            text-align: center;
-            margin: 25px 0;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .footer {
-            background-color: #9e0000;
-            color: #ecf0f1;
-            padding: 30px 40px;
-            text-align: center;
-        }
-        
-        .footer-content {
-            margin-bottom: 20px;
-        }
-        
-        .footer h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .contact-info {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .contact-info a {
-            color: #74b9ff;
-            text-decoration: none;
-        }
-        
-        .social-links {
-            margin: 20px 0;
-        }
-        
-        .social-links a {
-            display: inline-block;
-            margin: 0 10px;
-            color: #A4D65E;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .footer-note {
-            font-size: 12px;
-            color: #95a5a6;
-            border-top: 1px solid #34495e;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-        
-        @media (max-width: 600px) {
-            .email-container {
-                margin: 10px;
-                border-radius: 8px;
-            }
-            
-            .header, .content, .footer {
-                padding: 25px 20px;
-            }
-            
-            .credentials-box {
-                padding: 20px 15px;
-            }
-            
-            .credential-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .credential-value {
-                margin-left: 0;
-                margin-top: 8px;
-                width: 100%;
-            }
-            
+@extends('Template/maestraUser')
+@section('contenido')
 
-        }
-        
-            .logo img{
-                max-width: 80px;
-                max-height: 80px;
-            }
-    </style>
-</head>
-<body>
-    <div class="email-container">
-        <!-- Header con Logo -->
-        <div class="header">
-            <div class="logo"><img src="../../../public/assets/images/Colorlargo.png" alt="Results in Performance"></div>
-            <h1>Results In Performance</h1>
-            <p>Bienvenido a WellControl</p>
+<div class="main-container">
+    <div class="container">
+        <header>
+            <h1> {{ __('Killsheet') }}</h1>
+            <!-- <p class="subtitle">
+                    {{ __('In this Kill Sheet module, you will find interactive tools to practice and learn how to complete kill sheets effectively. The content includes a guided video to support your learning process. This module is developed by Results in Performance in collaboration with Smith Mason & Co., a recognized partner for well control certification training.') }}
+                </p> -->
+        </header>
+
+        <div class="feature-card">
+            <div class="message">
+                <p>
+                    {{ __('What is hard') }} <span class="highlight-hoy">{{ __('today,') }}</span>
+                </p>
+                <p>
+                    {{ __('will be your') }} <span class="highlight-logro">{{ __('success') }}</span> {{ __('tomorrow.')
+                    }}
+                </p>
+            </div>
+
+
+            <img src="/assets/images/principal/castorFeliz.png" alt="Beaver mascot" class="beaver" />
+            <img src="/assets/images/principal/nube2.png" alt="Cloud" class="cloud cloud-1" />
+            <img src="/assets/images/principal/nube1.png" alt="Cloud" class="cloud cloud-2" />
+            <img src="/assets/images/principal/nube3.png" alt="Cloud" class="cloud cloud-3" />
+            <img src="/assets/images/principal/nube4.png" alt="Cloud" class="cloud cloud-4" />
         </div>
-        
-        <!-- Contenido Principal -->
-        <div class="content">
-            <div class="greeting">
-                ¡Buen día, Sr(a). {{ $nombre }}! 👋
-            </div>
-            
-            <p class="subtitle">
-                Nos complace darle la bienvenida a nuestro sistema de aprendizaje de control de pozos <b>Well Control Learning Experience</b>. <br><br>Hemos creado su cuenta exitosamente y estas son sus credenciales de acceso.
-            </p>
-            
-            <!-- Caja de Credenciales -->
-            <div class="credentials-box">
-                <div class="credentials-title">
-                    Sus credenciales de acceso
+
+    </div>
+    <div class="white-section steps-section">
+
+        <h2 class="steps-title">
+            <img src="/assets/images/principal/logoSmithMasonCO.png" />
+        </h2>
+        <div class="container2">
+            <div class="options">
+                <div class="option-card">
+                    <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
+                    <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
+                    <!-- <button class="select-btn">
+                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                        </button> -->
                 </div>
-                
-                <div class="credential-item">
-                    <span class="credential-label">Email:</span>
-                    <span class="credential-value">{{ $email }}</span>
+
+                <div class="option-card" data-company="iwcf">
+                    <!-- <h3 class="option-title">IWCF</h3> -->
+                    <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
+                    <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
+                    <!-- <button class="select-btn">
+                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                        </button> -->
                 </div>
-                
-                <div class="credential-item">
-                    <span class="credential-label">Contraseña:</span>
-                    <span class="credential-value">{{ $password }}</span>
-                </div>
-            </div>
-            
-            <!-- Nota Importante -->
-            <div class="important-note">
-                <div class="important-note-content">
-                    <h3>Importante - Acceso controlado</h3>
-                    <p>Usted cuenta con acceso a un dispositivo en el momento.</p>
-                </div>
-            </div>
-            
-            <!-- Botón de Acción -->
-            <center>
-                <a href="https://wclearningexperience.results-in-performance.com/" class="cta-button" target="_blank" >Comenzar ahora</a>
-            </center>
-            
-            <p style="margin-top: 30px; font-size: 14px; color: #6c757d;">
-                Si tienes alguna pregunta o necesitas asistencia, no dudes en contactar a nuestro equipo de soporte. Estamos aquí para ayudarte.
-            </p>
-        </div>
-        
-        <!-- Pie de Página -->
-        <div class="footer">
-            <div class="footer-content">
-                <h3>Results In Performance</h3>
-                <div class="contact-info">
-                    <strong>Contacto:</strong><br>
-                    📧 <a href="mailto:vlicona@results-in-performance.com">vlicona@results-in-performance.com</a><br>
-                    📞 +52 (999) 357-8332<br>
-                    🏢 Villahermosa, Tabasco, México
-                </div>
-                
-                <div class="social-links">
-                    <a href="https://results-in-performance.com/">Pagina web</a>
-                </div>
-            </div>
-            
-            <div class="footer-note">
-                © 2025 Results In Performance. Todos los derechos reservados.<br>
-                Este correo fue enviado automáticamente, por favor no responder a esta dirección.<br>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const beaver = document.querySelector('.beaver');
+        beaver.addEventListener('mouseover', function () {
+            this.style.animation = 'wave 0.5s infinite alternate';
+        });
+
+        beaver.addEventListener('mouseout', function () {
+            this.style.animation = 'wave 2s infinite alternate';
+        });
+
+        const selectButtons = document.querySelectorAll('.option-card');
+        selectButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const card = this.closest('.option-card');
+                const companyName = card.dataset.company;
+                const companyLogo = card.querySelector('.option-image').src;
+
+                if (companyName === "smith") {
+
+                } else if (companyName === "iwcf") {
+                    Swal.fire({
+                        html: `
+            <div class="modal-content">
+                <img src="${companyLogo}" alt="${companyName} Logo" class="modal-logo">
+                <h3 class="modal-subtitle">Hoja de matar por IWCF</h3>
+                <p class="modal-text">Hoja de matar para pozos verticales y desviados.</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn modal-btn-secondary" id="iwcfVertical">
+                        <img src="/assets/images/principal/flecha.png" alt="Icon"> Pozo Vertical
+                    </button>
+                    <button class="modal-btn modal-btn-primary" id="iwcfDesviado">
+                        <img src="/assets/images/principal/flecha.png" alt="Icon"> Pozo Desviado
+                    </button>
+                </div>
+            </div>
+        `,
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        width: '600px',
+                        customClass: {
+                            container: 'custom-swal-container',
+                            popup: 'custom-swal-popup'
+                        },
+                        didOpen: () => {
+                            document.getElementById('iwcfVertical').addEventListener('click', function () {
+                                window.location.href = "{{ route('killsheet.iwcf') }}";
+                            });
+
+                            document.getElementById('iwcfDesviado').addEventListener('click', function () {
+                                window.location.href = "{{ route('killsheet.iwcfdesviado') }}";
+                            });
+                        }
+                    });
+                } else {
+                    // Default for option C
+                    Swal.fire({
+                        html: `
+            <div class="modal-content">
+                <img src="/assets/images/iadc.png" alt="${companyName} Logo" class="modal-logo">
+                <h3 class="modal-subtitle">Hoja de matar por Smith Mason & Co</h3>
+                <p class="modal-text">Hoja de matar para pozos verticales.</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn modal-btn-primary" id="smithButton">
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon"> Pozo Vertical
+                    </button>
+                </div>
+            </div>
+        `,
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        width: '600px',
+                        customClass: {
+                            container: 'custom-swal-container',
+                            popup: 'custom-swal-popup'
+                        },
+                        didOpen: () => {
+                            document.getElementById('smithButton').addEventListener('click', function () {
+                                // Muestra mensaje de confirmación antes de redireccionar
+                                Swal.fire({
+                                    title: '¡Excelente elección!',
+                                    text: `Has decidido continuar con Smith Mason & Co. Pronto recibirás más información.`,
+                                    icon: 'success',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Continuar',
+                                    cancelButtonText: 'Cancelar'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirecciona a la ruta de Laravel para Smith Mason & Co (iadc)
+                                        window.location.href = "{{ route('killsheet.iadc') }}";
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endsection
+
+@php
+$css_identifier = 'killSheets';
+@endphp

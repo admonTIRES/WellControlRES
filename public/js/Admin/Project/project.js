@@ -950,6 +950,7 @@ $("#proyectobtnModal").click(function (e) {
             ID_PROJECT: ID_PROJECT,
             COMPANIES_PROJECT: formData.COMPANIES_PROJECT
         };
+        
 
         $('#proyectoForm').serializeArray().forEach(item => {
             dataToSend[item.name] = item.value;

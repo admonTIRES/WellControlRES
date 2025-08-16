@@ -15,7 +15,7 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
     responsive: true,
     ajax: {
         dataType: 'json',
-        data: {ID_PROJECT: ID_PROJECT},
+        data: { ID_PROJECT: ID_PROJECT },
         method: 'GET',
         cache: false,
         url: '/projectStudentDatatable',
@@ -39,21 +39,110 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'NOMBRE_COMPLETO' },
         { data: 'EMPRESA' },
+        { data: 'CR' },
+        { data: 'LASTNAME' },
+        { data: 'FIRSTNAME' },
+        { data: 'MIDDLENAME' },
+        { data: 'DOB' },
         { data: 'EMAIL' },
         { data: 'ID_NUMBER' },
-        { data: 'POSICION' },
+        { data: 'CARGO' },
+        { data: 'BTN_EDITAR' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'EMPRESA', className: 'text-center' },
+        { targets: 2, title: 'CR', className: 'text-center' },
+        { targets: 3, title: 'LASTNAME', className: 'text-center' },
+        { targets: 4, title: 'FIRSTNAME', className: 'text-center' },
+        { targets: 5, title: 'MIDDLENAME', className: 'text-center' },
+        { targets: 6, title: 'DOB', className: 'text-center' },
+        { targets: 7, title: 'EMAIL', className: 'text-center' },
+        { targets: 8, title: 'ID_NUMBER', className: 'text-center' },
+        { targets: 9, title: 'cargo', className: 'text-center' },
+        { targets: 10, title: 'ACCIONES', className: 'text-center' }
+    ]
+
+});
+var projectCourseDatatable = $("#course-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: { ID_PROJECT: ID_PROJECT },
+        method: 'GET',
+        cache: false,
+        url: '/projectCourseDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            projectCourseDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_COMPLETO' },
+        { data: 'NIVEL' },
+        { data: 'BOP' },
+        { data: 'UNITS' },
+        { data: 'LANG' },
+        { data: 'PRACTICAL' },
+        { data: 'EQUIPAMENT' },
+        { data: 'P&P' },
+        { data: 'STATUS' },
+        { data: 'RESIT' },
+        { data: 'EQ' },
+        { data: 'FECHA' },
+        { data: 'SCORE' },
+        { data: 'FINALTEST' },
+        { data: 'VENCIMIENTO' },
+        { data: 'CORREO' },
         { data: 'BTN_EDITAR' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'NOMBRE', className: 'text-center' },
-        { targets: 2, title: 'EMPRESA', className: 'text-center' },
-        { targets: 3, title: 'EMAIL', className: 'text-center' },
-        { targets: 4, title: 'ID', className: 'text-center' },
-        { targets: 5, title: 'POSICIÓN', className: 'text-center' },
-        { targets: 6, title: 'ACCIONES', className: 'text-center' }
+        { targets: 2, title: 'NIVEL', className: 'text-center' },
+        { targets: 3, title: 'BOP', className: 'text-center' },
+        { targets: 4, title: 'UNITS', className: 'text-center' },
+        { targets: 5, title: 'LANG', className: 'text-center' },
+        { targets: 6, title: 'PRACTICAL', className: 'text-center' },
+        { targets: 7, title: 'EQUIPAMENT', className: 'text-center' },
+        { targets: 8, title: 'P&P', className: 'text-center' },
+        { targets: 9, title: 'STATUS', className: 'text-center' },
+        { targets: 10, title: 'RESIT', className: 'text-center' },
+        { targets: 11, title: 'EQ', className: 'text-center' },
+        { targets: 12, title: 'FECHA', className: 'text-center' },
+        { targets: 13, title: 'SCORE', className: 'text-center' },
+        { targets: 14, title: 'FINALTEST', className: 'text-center' },
+        { targets: 15, title: 'VENCIMIENTO', className: 'text-center' },
+        { targets: 16, title: 'CORREO', className: 'text-center' },
+        { targets: 17, title: 'BTN_EDITAR', className: 'text-center' }
+
     ]
 
 });

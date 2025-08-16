@@ -74,6 +74,7 @@ Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 Route::get('/proyectoDatatable', [ ProjectManagementController::class, 'proyectoDatatable']);
 Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
 Route::get('/projectStudentDatatable', [ ProjectManagementController::class, 'projectStudentDatatable']);
+Route::get('/projectCourseDatatable', [ ProjectManagementController::class, 'projecTCourseDatatable']);
 
 
 //mails

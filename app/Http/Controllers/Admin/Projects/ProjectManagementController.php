@@ -12,17 +12,20 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Admin\Project\Proyect;
+use App\Models\Admin\catalogs\IdiomasExamenes;
+use App\Models\Admin\catalogs\NivelAcreditacion;
+use App\Models\Admin\catalogs\TipoBOP;
 
 class ProjectManagementController extends Controller
 {
 
-     // DATATABLE - CATALOGOS
+    // DATATABLE - CATALOGOS
     public function proyectoDatatable()
     {
         try {
             $tabla = Proyect::get();
             foreach ($tabla as $value) {
-                    $value->BTN_EDITAR = '<button type="button"
+                $value->BTN_EDITAR = '<button type="button"
                                                 class="btn btn-sm btn-icon btn-action1"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
@@ -38,7 +41,7 @@ class ProjectManagementController extends Controller
                                             </span>
                                         </button>';
 
-                 $companies = [];
+                $companies = [];
 
                 if (is_array($value->COMPANIES_PROJECT)) {
                     foreach ($value->COMPANIES_PROJECT as $empresa) {
@@ -50,7 +53,7 @@ class ProjectManagementController extends Controller
 
                 $value->COMPANIES = $companies;
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -91,20 +94,20 @@ class ProjectManagementController extends Controller
                                 $lastName = $estudiante['LAST_NAME_PROJECT'] ?? '';
 
                                 $initials = Str::lower(Str::substr($firstName, 0, 1)) .
-                                            ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
+                                    ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
 
                                 $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
                                 $username = $initials . $lastWord . rand(100, 999);
 
-                                
-                             $existingUser = DB::table('users')->where('email', $email)->first();
-                            if ($existingUser && (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT'])) {
-                                return response()->json([
-                                    'error' => true,
-                                    'message' => "Ya existe un usuario con el correo: $email",
-                                    'email' => $email
-                                ], 422);
-                            }
+
+                                $existingUser = DB::table('users')->where('email', $email)->first();
+                                if ($existingUser && (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT'])) {
+                                    return response()->json([
+                                        'error' => true,
+                                        'message' => "Ya existe un usuario con el correo: $email",
+                                        'email' => $email
+                                    ], 422);
+                                }
                                 // SI YA EXISTE EL USUARIO, ACTUALIZA
                                 if (!empty($estudiante['USER_ID_PROJECT'])) {
                                     DB::table('users')
@@ -133,17 +136,17 @@ class ProjectManagementController extends Controller
                     if ($request->ID_PROJECT == 0) {
                         DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
                         $project = Proyect::create($data);
-                    } else { 
+                    } else {
                         $project = Proyect::find($request->ID_PROJECT);
                         $project->update($data);
                         $response['code'] = 1;
                         $response['proyecto'] = 'Actualizado';
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['proyecto']  = $project;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['proyecto']  = $project;
+                    return response()->json($response);
+                    break;
 
                 default:
                     $response['code'] = 1;
@@ -151,7 +154,7 @@ class ProjectManagementController extends Controller
                     return response()->json($response);
             }
         } catch (Exception $e) {
-           return response()->json([
+            return response()->json([
                 'error' => true,
                 'message' => 'Error interno: ' . $e->getMessage()
             ], 500);
@@ -159,14 +162,15 @@ class ProjectManagementController extends Controller
     }
 
     // DETAILS
-    
-     /**
+
+    /**
      * @return \Illuminate\View\View
      */
-    public function detailsProject($ID_PROJECT){
+    public function detailsProject($ID_PROJECT)
+    {
         $proyecto = Proyect::findOrFail($ID_PROJECT);
         $COURSE_NAME_ES_PROJECT = $proyecto->COURSE_NAME_ES_PROJECT;
-         $visitas = 2;
+        $visitas = 2;
         $membresiasActivas = 5;
         $membresiasEmpresas = 5;
         $membresiasIndividuales = 5;
@@ -176,12 +180,105 @@ class ProjectManagementController extends Controller
         $proyectosFinalizados = 5;
         $accesos = 5;
         $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
-        $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];  
+        $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];
 
         return view('Admin.content.Admin.projects.details', compact('COURSE_NAME_ES_PROJECT', 'ID_PROJECT', 'visitas', 'membresiasActivas', 'membresiasEmpresas', 'membresiasIndividuales', 'historialMembresias', 'proyectosActivos', 'proyectosProximos', 'proyectosFinalizados', 'accesos', 'historialEmpresas'));
     }
 
-   public function projectStudentDatatable(Request $request)
+
+    public function projectCourseDatatable(Request $request)
+    {
+        $id = $request->input('ID_PROJECT');
+
+        try {
+            $proyecto = Proyect::where('ID_PROJECT', $id)->first();
+
+            if (!$proyecto) {
+                return response()->json([
+                    'msj' => 'Proyecto no encontrado',
+                    'data' => []
+                ]);
+            }
+
+            // Asegúrate que el campo esté decodificado desde JSON
+            // $empresas = json_decode($proyecto->COMPANIES_PROJECT, true);
+            $empresas = $proyecto->COMPANIES_PROJECT;
+
+            $nivelesIDs = $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [];
+            $bopsIDs    = $proyecto->BOP_TYPES_PROJECT ?? [];
+            $langID     = $proyecto->LANGUAGE_PROJECT;
+
+            $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $nivelesIDs)
+                ->pluck('DESCRIPCION_NIVEL')
+                ->toArray();
+
+            $bops = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $bopsIDs)
+                ->pluck('ABREVIATURA')
+                ->toArray();
+
+            $lang = IdiomasExamenes::where('ID_CATALOGO_IDIOMAEXAMEN', $langID)
+                ->value('NOMBRE_IDIOMA');
+            $estudiantes = [];
+
+            foreach ($empresas as $empresa) {
+                foreach ($empresa['STUDENTS_PROJECT'] as $estudiante) {
+                    $estudiantes[] = [
+                        'NOMBRE_COMPLETO' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
+                        'NIVEL' => $niveles,  
+                        'BOP'   => $bops,      
+                        'UNITS' => '',
+                        'LANG'  => $lang,
+                        'PRACTICAL' => '',
+                        'EQUIPAMENT' => '',
+                        'P&P' => '',
+                        'STATUS' => '',
+                        'RESIT' => '',
+                        'EQ' => '',
+                        'FECHA' => '',
+                        'SCORE' => '',
+                        'FINALTEST' => '',
+                        'VENCIMIENTO' => '',
+                        'CORREO' => $estudiante['EMAIL_PROJECT'],
+                        'BTN_ENVIAR' => '<button type="button"
+                                            class="btn btn-sm btn-icon btn-action1 SENDCORREO"
+                                            title="Enviar correo"
+                                            onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
+                            'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
+                            'nivel' => $estudiante['EMAIL_PROJECT'],
+                            'bop' => $estudiante['PASSWORD_PROJECT'],
+                            'units' =>  $proyecto->MEMBERSHIP_START_PROJECT,
+                            'lang' =>  $proyecto->MEMBERSHIP_END_PROJECT,
+                        ]), ENT_QUOTES, 'UTF-8') . ')">
+                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
+                                        </button>',
+                        'BTN_EDITAR' => '<button type="button"
+                                            class="btn btn-sm btn-icon btn-action1 SENDCORREO"
+                                            title="Enviar correo"
+                                            onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
+                            'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
+                            'nivel' => $estudiante['EMAIL_PROJECT'],
+                            'bop' => $estudiante['PASSWORD_PROJECT'],
+                            'units' =>  $proyecto->MEMBERSHIP_START_PROJECT,
+                            'lang' =>  $proyecto->MEMBERSHIP_END_PROJECT,
+                        ]), ENT_QUOTES, 'UTF-8') . ')">
+                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
+                                        </button>'
+                    ];
+                }
+            }
+
+            return response()->json([
+                'data' => $estudiantes,
+                'msj' => 'Curso cargado correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error: ' . $e->getMessage(),
+                'data' => []
+            ]);
+        }
+    }
+    public function projectStudentDatatable(Request $request)
     {
         $id = $request->input('ID_PROJECT');
 
@@ -205,21 +302,25 @@ class ProjectManagementController extends Controller
             foreach ($empresas as $empresa) {
                 foreach ($empresa['STUDENTS_PROJECT'] as $estudiante) {
                     $estudiantes[] = [
-                        'NOMBRE_COMPLETO' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
                         'EMPRESA' => $estudiante['COMPANY_PROJECT'],
+                        'CR' => $estudiante['CR_PROJECT'],
+                        'LASTNAME' => $estudiante['LAST_NAME_PROJECT'],
+                        'FIRSTNAME' =>  $estudiante['FIRST_NAME_PROJECT'],
+                        'MIDDLENAME' =>  $estudiante['MIDDLE_NAME_PROJECT'],
+                        'DOB' => $estudiante['BIRTH_DATE_PROJECT'],
                         'EMAIL' => $estudiante['EMAIL_PROJECT'],
                         'ID_NUMBER' => $estudiante['ID_NUMBER_PROJECT'],
-                        'POSICION' => $estudiante['POSITION_PROJECT'],
+                        'CARGO' => $estudiante['POSITION_PROJECT'],
                         'BTN_EDITAR' => '<button type="button"
                                             class="btn btn-sm btn-icon btn-action1 SENDCORREO"
                                             title="Enviar correo"
                                             onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
-                                                'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
-                                                'email' => $estudiante['EMAIL_PROJECT'],
-                                                'password' => $estudiante['PASSWORD_PROJECT'],
-                                                'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
-                                                'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT, 
-                                            ]), ENT_QUOTES, 'UTF-8') . ')">
+                            'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
+                            'email' => $estudiante['EMAIL_PROJECT'],
+                            'password' => $estudiante['PASSWORD_PROJECT'],
+                            'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
+                            'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT,
+                        ]), ENT_QUOTES, 'UTF-8') . ')">
                                             <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
                                         </button>'
                     ];
@@ -237,6 +338,4 @@ class ProjectManagementController extends Controller
             ]);
         }
     }
-
-
 }

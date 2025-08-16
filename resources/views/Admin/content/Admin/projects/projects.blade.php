@@ -495,7 +495,7 @@
                                                 <!-- Niveles -->
                                                 <div class="col-md-3 text-start">
                                                     <label> {{ __('Accreditation level: *')}}</label>
-                                                    <select class="form-select" id="ACCREDITATION_LEVELS_PROJECT" name="ACCREDITATION_LEVELS_PROJECT"
+                                                    <select class="form-select" id="ACCREDITATION_LEVELS_PROJECT" name="ACCREDITATION_LEVELS_PROJECT[]"
                                                         multiple>
                                                         @foreach ($niveles as $nivel)
                                                         <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{
@@ -507,7 +507,7 @@
 
                                                 <div class="col-md-3 text-start">
                                                     <label> {{ __('BOP: *')}}</label>
-                                                    <select class="form-select" id="BOP_TYPES_PROJECT" name="BOP_TYPES_PROJECT"
+                                                    <select class="form-select" id="BOP_TYPES_PROJECT" name="BOP_TYPES_PROJECT[]"
                                                         multiple>
                                                         @foreach ($bops as $bop)
                                                         <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{

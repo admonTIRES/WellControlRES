@@ -67,36 +67,6 @@
                     <div class="card-body">
                         <div class="w-100 h-100">
                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                                <h5 class="card-title mb-0">{{ __('Membresias de estudiantes') }}</h4>
-                            </div>
-                            <div class="table-container">
-                                <table id="-list-table" class="table" role="grid">
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="w-100 h-100">
-                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                                <h5 class="card-title mb-0">{{ __('') }}</h4>
-                            </div>
-                            <div class="table-container">
-                                <table id="students-list-table" class="table" role="grid">
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="w-100 h-100">
-                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                 <h5 class="card-title mb-0">{{ __('Curso') }}</h4>
                             </div>
                             <div class="table-container">
@@ -107,6 +77,37 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="w-100 h-100">
+                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                <h5 class="card-title mb-0">{{ __('Membresias de estudiantes') }}</h4>
+                            </div>
+                            <div class="table-container">
+                                <table id="memberships-list-table" class="table" role="grid">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="w-100 h-100">
+                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                <h5 class="card-title mb-0">{{ __('Detalles estudiantes') }}</h4>
+                            </div>
+                            <div class="table-container">
+                                <table id="students-list-table" class="table" role="grid">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

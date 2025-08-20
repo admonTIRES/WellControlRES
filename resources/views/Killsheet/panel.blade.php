@@ -9,21 +9,15 @@
                 <nav aria-label="Breadcrumb" class="breadcrumb-ui">
                     <ol>
                         <li>
-                            <a href="{{ route('home') }}">
-                                <i class="ri-home-line"></i>
-                                <span>Inicio</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('projectsAdmin') }}">
+                            <a href="{{ route('killsheet') }}">
                                 <i class="ri-folder-2-line"></i>
-                                <span>Certificaciones</span>
+                                <span>Inicio</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" aria-current="page" class="current">
                                 <i class="ri-slideshow-line"></i>
-                                <span>Hojas</span>
+                                <span>Panel</span>
                             </a>
                         </li>
                     </ol>

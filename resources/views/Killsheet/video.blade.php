@@ -1,6 +1,10 @@
 @extends('Template/maestraUser')
 @section('contenido') 
 <style>
+
+    body {  
+ min-height: 45vw;
+    }
     .grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -10,7 +14,7 @@
 
     .video-card {
         position: relative;
-        background-color: #f0f0f0;
+        background-color: #0000003f;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -21,18 +25,18 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 520px;
+        width: 41vw;
     }
 
     .video-title {
-        margin-bottom: 0.5rem;
         z-index: 2;
+        color: #fff;
     }
 
     .video-wrapper {
         position: relative;
-        width: 500px;
-        height: 300px;
+        width: 39vw;
+        height: 24vw;
     }
 
     .cover-image,
@@ -40,8 +44,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 500px;
-        height: 300px;
+        width: 39vw;
+        height: 24vw;
         transition: opacity 0.3s ease;
         border-radius: 8px;
     }
@@ -59,54 +63,107 @@
 
     .video-card:hover .cover-image {
         opacity: 0;
+        pointer-events: none;
     }
 
     .video-card:hover .video-frame {
         opacity: 1;
         z-index: 2;
+        pointer-events: auto;
     }
+    
+  header h1{
+    color: white;
+    margin-bottom: 2% ;
+}
+
 </style>
 
 
 <div class="main-container"> 
     <div class="container">
-        <header>
-            <h1>{{ __('IWCF Kill Sheet Tutorial for Vertical Wells') }}</h1>
-        </header>
+      
+             @switch($TIPO)
+                @case('iadcVertical')
+                  <header>
+                <h1>{{ __('IADC Kill Sheet Tutorial for Vertical Wells') }}</h1>
+                 </header>
+                @break
+                @case('iwcfVertical')
+                 <header>
+                <h1>{{ __('IWCF Kill Sheet Tutorial for Vertical Wells') }}</h1>
+                 </header>
+                @break
+                @case('iwcfDeviated')
+                 <header>
+                <h1>{{ __('IWCF Kill Sheet Deviated Tutorial for Vertical Wells') }}</h1>
+                 </header>
+                @break
+                @default
+            @endswitch
+       
         
         <div class="grid">
-    <div class="video-card">
-        <div class="video-title">{{ __('Part 1') }}</div>
-        <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/killsheets/part1iwcf.png" alt="Cover 1">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1NccSzJXMYuzIRl8YNmxmouR3f2EKJhiB/preview" allowfullscreen></iframe>
-        </div>
-    </div>
-    
-    <div class="video-card">
-        <div class="video-title">{{ __('Part 2') }}</div>
-        <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 2">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1vjZrJi7NL_dQv731R2Y1hiRoRlJ2lDM_/preview" allowfullscreen></iframe>
-        </div>
-    </div>
 
-    <div class="video-card">
-        <div class="video-title">{{ __('Part 3') }}</div>
-        <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 3">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1nJktp-YUxYoRUewD3erhsVVt0FWTYtN3/preview" allowfullscreen></iframe>
+            @switch($TIPO)
+                @case('iadcVertical')
+                    <div class="video-card">
+                        <div class="video-title">{{ __('Part 1') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/IADCV01.jpg" alt="Cover 1">
+                            <iframe src="https://jumpshare.com/embed/Gjtuivyvre2JWlSfIxoS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-title">{{ __('Part 2') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/IADCV02.jpg" alt="Cover 2">
+                            <iframe src="https://jumpshare.com/embed/PqOFo8RIUdbGlwZEGLFM" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                @break
+                @case('iwcfVertical')
+                     <div class="video-card">
+                        <div class="video-title">{{ __('Part 1') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/iwcfV01.jpg" alt="Cover 1">
+                            <iframe src="https://jumpshare.com/embed/PqOFo8RIUdbGlwZEGLFM" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="video-card">
+                        <div class="video-title">{{ __('Part 2') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/iwcfV02.jpg" alt="Cover 2">
+                            <iframe src="https://jumpshare.com/embed/7275c92aAwM2kCwRPCHV" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="video-card">
+                        <div class="video-title">{{ __('Part 3') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/iwcfV03.jpg" alt="Cover 3">
+                            <iframe src="https://jumpshare.com/embed/UcfEhdyDWh2wEuCKUTQp" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                
+                    <div class="video-card">
+                        <div class="video-title">{{ __('Part 4') }}</div>
+                        <div class="video-wrapper">
+                            <img class="cover-image" src="/assets/images/Recursos/iwcfV04.jpg" alt="Cover 4">
+                            <iframe src="https://jumpshare.com/embed/u52rneVhMLtrip0362sg" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                @break
+                @case('iwcfDeviated')
+                <h3>{{ __('IWCF DEVIATED WELL') }}</h3>
+                @break
+                @default       
+            @endswitch
+           
         </div>
-    </div>
- 
-    <div class="video-card">
-        <div class="video-title">{{ __('Part 4') }}</div>
-        <div class="video-wrapper">
-            <img class="cover-image" src="/assets/images/killsheets/part2iwcf.png" alt="Cover 4">
-            <iframe class="video-frame" src="https://drive.google.com/file/d/1ZBy30lfgYu2QllZizkiISeH96FMXdFp6/preview" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

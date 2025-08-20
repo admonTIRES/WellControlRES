@@ -17,13 +17,13 @@
                         <li>
                             <a href="{{ route('projectsAdmin') }}">
                                 <i class="ri-folder-2-line"></i>
-                                <span>Proyectos</span>
+                                <span>Certificaciones</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" aria-current="page" class="current">
                                 <i class="ri-slideshow-line"></i>
-                                <span>Detalles</span>
+                                <span>Hojas</span>
                             </a>
                         </li>
                     </ol>

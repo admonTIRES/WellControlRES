@@ -1473,5 +1473,13 @@
     "Registered certification centre name:":"Nombre del centro de certificación registrado:",
     "Contact name:":"Nombre del contacto:",
     "Contact number:":"Teléfono de contacto:",
-    "Project":"Proyecto"
+    "Project":"Proyecto",
+    "Fraction to Decimal Conversion":"Convertir de Fracciones a decimales",
+    "Exercise 1":"Ejercicio 1",
+    "Convert the following fractions to decimal and write the result in the corresponding box:":"Convierte las siguientes fraccionesa decimal y escribe el resultado en la cajita correspondiente:",
+    "The correct answer is ":"La respuesta correcta es ",
+    "View in calculator":"Ver en calculadora",
+    "Check":"Revisar",
+    "Reset":"Reiniciar",
+    "New Exercise":"Nuevo ejercicio"
 }

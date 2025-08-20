@@ -32,4 +32,45 @@ class killsheetController extends Controller
         return view('Killsheet.video', compact('TIPO'));
     }
 
+
+       /**
+     * @return \Illuminate\View\View
+     */
+    public function info($TIPO)
+    {
+        return view('Killsheet.info', compact('TIPO'));
+    }
+
+       /**
+     * @return \Illuminate\View\View
+     */
+    public function primeraHoja($TIPO)
+    {
+        return view('Killsheet.primera', compact('TIPO'));
+    }
+
+
+       /**
+     * @return \Illuminate\View\View
+     */
+    public function practicaHoja($TIPO)
+    {
+        return view('Killsheet.practica', compact('TIPO'));
+    }
+
+       /**
+     * @return \Illuminate\View\View
+     */
+    public function simuladorHoja($TIPO)
+    {
+        return view('Killsheet.simulador', compact('TIPO'));
+    }
+
+       /**
+     * @return \Illuminate\View\View
+     */
+    public function hojaRapida($TIPO)
+    {
+        return view('Killsheet.rapida', compact('TIPO'));
+    }
 }

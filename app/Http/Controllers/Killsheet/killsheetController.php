@@ -29,7 +29,7 @@ class killsheetController extends Controller
      */
     public function video($TIPO)
     {
-        return view('Killsheet.Video', compact('TIPO'));
+        return view('Killsheet.video', compact('TIPO'));
     }
 
 }

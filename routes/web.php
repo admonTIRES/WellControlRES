@@ -76,6 +76,7 @@ Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::
 Route::get('/projectStudentDatatable', [ ProjectManagementController::class, 'projectStudentDatatable']);
 Route::get('/projectCourseDatatable', [ ProjectManagementController::class, 'projecTCourseDatatable']);
 
+Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
 
 //mails
 Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);

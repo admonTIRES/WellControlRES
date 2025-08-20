@@ -11,6 +11,7 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
     searching: true,
     filtering: true,
     scrollY: '65vh',
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -77,6 +78,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     searching: true,
     filtering: true,
     scrollY: '65vh',
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -121,7 +123,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         { data: 'FINALTEST' },
         { data: 'VENCIMIENTO' },
         { data: 'CORREO' },
+        { data: 'BTN_ENVIAR' },
         { data: 'BTN_EDITAR' }
+
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
@@ -141,7 +145,8 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         { targets: 14, title: 'FINALTEST', className: 'text-center' },
         { targets: 15, title: 'VENCIMIENTO', className: 'text-center' },
         { targets: 16, title: 'CORREO', className: 'text-center' },
-        { targets: 17, title: 'BTN_EDITAR', className: 'text-center' }
+        { targets: 17, title: 'ENVIAR', className: 'text-center' },
+        { targets: 18, title: 'EDITAR', className: 'text-center' }
 
     ]
 

@@ -498,6 +498,7 @@ var questionDatatable = $("#question-list-table").DataTable({
     searching: true,
     filtering: true,
     scrollY: '65vh',
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -526,19 +527,23 @@ var questionDatatable = $("#question-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'EVALUATION_TYPES_QUESTION' },
+        { data: 'FOLIO_PREGUNTA' },
+        { data: 'TIPO_EVALUACION_NOMBRES' },
         { data: 'CERTIFICACIONES_NOMBRES' },
+        { data: 'NIVELES_NOMBRES' },
         { data: 'IDIOMA_NOMBRE' },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
-        { targets: 1, title: 'Tipo de evaluacion', className: 'text-center' },
-        { targets: 2, title: 'Ente acreditador', className: 'text-center' },
-        { targets: 3, title: 'Idioma', className: 'text-center' },
-        { targets: 4, title: 'Editar', className: 'text-center' },
-        { targets: 5, title: 'Activo', className: 'text-center' }
+        { targets: 1, title: 'Folio', className: 'text-center' },
+        { targets: 2, title: 'Tipos de evaluación', className: 'text-center' },
+        { targets: 3, title: 'Entes acreditadores', className: 'text-center' },
+        { targets: 4, title: 'Niveles de acreditación', className: 'text-center' },
+        { targets: 5, title: 'Idiomas', className: 'text-center' },
+        { targets: 6, title: 'Editar', className: 'text-center' },
+        { targets: 7, title: 'Activo', className: 'text-center' }
     ]
 
 });

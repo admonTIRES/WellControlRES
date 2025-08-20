@@ -27,34 +27,36 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h4 class="card-title mb-0">{{ __('Assessment list') }}</h4> 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examModal">
-                            {{ __('New assessment') }}
-                            </button>
-                        </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div class="table-container">
-                                <table id="exam-list-table" class="table table-striped table-responsive" role="grid" >
-                                </table>
+                        <div class="card-body">
+                            <div class="w-100 h-100">
+                                <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                    <h4 class="card-title mb-0">{{ __('Assessment list') }}</h4> 
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examModal">
+                                    {{ __('New assessment') }}
+                                    </button>
+                                </div>
+                                <div>
+                                    <table id="exam-list-table" class="table" role="grid" >
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
+                 </div>
+                <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h4 class="card-title mb-0">{{ __('Question list') }}</h4> 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#questionModal">
-                            {{ __('New question') }}
-                            </button>
-                        </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div class="table-container">
-                                <table id="question-list-table" class="table table-striped table-responsive" role="grid">
-                                </table>
+                        <div class="card-body">
+                            <div class="w-100 h-100">
+                                <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                    <h4 class="card-title mb-0">{{ __('Question list') }}</h4> 
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#questionModal">
+                                    {{ __('New question') }}
+                                    </button>
+                                </div>
+                                <div>
+                                    <table id="question-list-table" class="table" role="grid">
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

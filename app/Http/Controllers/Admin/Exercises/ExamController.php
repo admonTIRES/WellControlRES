@@ -11,14 +11,12 @@ use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\TemaPreguntas;
 use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\IdiomasExamenes;
-
-
-
+use App\Models\Admin\catalogs\NivelAcreditacion;
 
 class ExamController extends Controller
 {
     //DATATABLE
-     public function questionDatatable()
+    public function questionDatatable()
     {
         try {
             $tabla = Question::get();
@@ -26,21 +24,47 @@ class ExamController extends Controller
             $temas = TemaPreguntas::pluck('NOMBRE_TEMA', 'ID_CATALOGO_TEMAPREGUNTA')->toArray();
             $subtemas = SubtemaPreguntas::pluck('NOMBRE_SUBTEMA', 'ID_CATALOGO_SUBTEMA')->toArray();
             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
+            $niveles = NivelAcreditacion::pluck('DESCRIPCION_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
+            $tipoEvaluacion = ["Diagnóstica", "Intermedia", "Final"];
 
             function mapIdsToNames($ids, $catalogo)
-                {
-                    if (!is_array($ids)) {
-                        $ids = json_decode($ids, true) ?? [];
-                    }
-
-                    return implode(', ', array_map(function ($id) use ($catalogo) {
-                        return $catalogo[$id] ?? '';
-                    }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
+            {
+                if (!is_array($ids)) {
+                    $ids = json_decode($ids, true) ?? [];
                 }
 
-            foreach ($tabla as $value) { 
+                return implode(', ', array_map(function ($id) use ($catalogo) {
+                    return $catalogo[$id] ?? '';
+                }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
+            }
+
+            $folios = [];
+            foreach ($tabla as $value) {
+                $temasIds = is_array($value->TOPICS_QUESTION)
+                    ? $value->TOPICS_QUESTION
+                    : json_decode($value->TOPICS_QUESTION, true);
+                $i = !empty($temasIds) ? $temasIds[0] : '0';
+
+                $subtemasIds = is_array($value->SUBTOPICS_QUESTION)
+                    ? $value->SUBTOPICS_QUESTION
+                    : json_decode($value->SUBTOPICS_QUESTION, true);
+                $x = !empty($subtemasIds) ? $subtemasIds[0] : '0';
+
+                $clave = "{$i}.{$x}";
+
+                if (!isset($folios[$clave])) {
+                    $folios[$clave] = 0;
+                }
+
+                $folios[$clave]++;
+
+                $n = $folios[$clave];
+
+                $value->FOLIO_PREGUNTA = "{$i}.{$x}.{$n}";
+                $value->TIPO_EVALUACION_NOMBRES = mapIdsToNames($value->EVALUATION_TYPES_QUESTION ?? [], $tipoEvaluacion);
                 $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ACCREDITATION_ENTITIES_QUESTION ?? [], $entes);
                 $value->TEMAS_NOMBRES = mapIdsToNames($value->TOPICS_QUESTION ?? [], $temas);
+                $value->NIVELES_NOMBRES = mapIdsToNames($value->LEVELS_QUESTION ?? [], $niveles);
                 $value->SUBTEMAS_NOMBRES = mapIdsToNames($value->SUBTOPICS_QUESTION ?? [], $subtemas);
                 $idiomaId = $value->LANGUAGE_ID_QUESTION ?? null;
                 $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
@@ -59,11 +83,11 @@ class ExamController extends Controller
                 $value->IMAGEN3_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION'] ?? null;
 
 
-                
+
                 // foreach ($tabla as $value) {
-                    
+
                 // }
-                
+
 
                 if ($value->ACTIVO_QUESTION == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
@@ -93,7 +117,7 @@ class ExamController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -105,19 +129,19 @@ class ExamController extends Controller
             ]);
         }
     }
-       // STORE
+    // STORE
     public function store(Request $request)
     {
         try {
             switch (intval($request->api)) {
                 // Caso para pregunta/question
                 case 1:
-                    $ACCREDITATION_ENTITIES_QUESTION = $request->has('ACCREDITATION_ENTITIES_QUESTION') ? (array)$request->input('ACCREDITATION_ENTITIES_QUESTION'): [];
-                    $LEVELS_QUESTION = $request->has('LEVELS_QUESTION') ? (array)$request->input('LEVELS_QUESTION'): [];
-                    $BOPS_QUESTION = $request->has('BOPS_QUESTION') ? (array)$request->input('BOPS_QUESTION'): [];
-                    $TOPICS_QUESTION = $request->has('TOPICS_QUESTION') ? (array)$request->input('TOPICS_QUESTION'): [];
-                    $SUBTOPICS_QUESTION = $request->has('SUBTOPICS_QUESTION') ? (array)$request->input('SUBTOPICS_QUESTION'): [];
-                    $EVALUATION_TYPES_QUESTION = $request->has('EVALUATION_TYPES_QUESTION') ? (array)$request->input('EVALUATION_TYPES_QUESTION'): [];
+                    $ACCREDITATION_ENTITIES_QUESTION = $request->has('ACCREDITATION_ENTITIES_QUESTION') ? (array)$request->input('ACCREDITATION_ENTITIES_QUESTION') : [];
+                    $LEVELS_QUESTION = $request->has('LEVELS_QUESTION') ? (array)$request->input('LEVELS_QUESTION') : [];
+                    $BOPS_QUESTION = $request->has('BOPS_QUESTION') ? (array)$request->input('BOPS_QUESTION') : [];
+                    $TOPICS_QUESTION = $request->has('TOPICS_QUESTION') ? (array)$request->input('TOPICS_QUESTION') : [];
+                    $SUBTOPICS_QUESTION = $request->has('SUBTOPICS_QUESTION') ? (array)$request->input('SUBTOPICS_QUESTION') : [];
+                    $EVALUATION_TYPES_QUESTION = $request->has('EVALUATION_TYPES_QUESTION') ? (array)$request->input('EVALUATION_TYPES_QUESTION') : [];
 
 
                     //ESTRUSTURA DE LA PREGUNTA 
@@ -138,7 +162,7 @@ class ExamController extends Controller
                         'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
                         'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
                     ];
-                    
+
                     //RESPUESTAS ESTRUCTURA
                     $ANSWERS_QUESTION = [];
                     $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
@@ -157,7 +181,7 @@ class ExamController extends Controller
                     $ANSWERS_QUESTION = $respuestas;
 
                     if ($request->ID_QUESTION == 0) {
-                       $question = Question::create([
+                        $question = Question::create([
                             'ACCREDITATION_ENTITIES_QUESTION' => $ACCREDITATION_ENTITIES_QUESTION,
                             'LEVELS_QUESTION' => $LEVELS_QUESTION,
                             'BOPS_QUESTION' => $BOPS_QUESTION,
@@ -221,10 +245,10 @@ class ExamController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['question']  = $question;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['question']  = $question;
+                    return response()->json($response);
+                    break;
 
                 default:
                     $response['code'] = 1;
@@ -237,12 +261,11 @@ class ExamController extends Controller
     }
 
     //limpiar los textareas
-    protected function cleanTextareaInput($input) {
+    protected function cleanTextareaInput($input)
+    {
         if (empty($input)) {
             return null;
         }
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
 }
-
-

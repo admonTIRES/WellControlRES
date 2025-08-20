@@ -892,6 +892,7 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
     searching: true,
     filtering: true,
     scrollY: '65vh',
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -1086,3 +1087,4 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     $('#proyectoModal .modal-title').html(`Editar Proyecto #${row.data().ID_PROJECT}`);
 });
+

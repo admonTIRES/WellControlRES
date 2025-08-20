@@ -135,18 +135,10 @@
                         didOpen: () => {
                             document.getElementById('smithButton').addEventListener('click', function () {
                                 // Muestra mensaje de confirmación antes de redireccionar
-                                Swal.fire({
-                                    title: '¡Excelente elección!',
-                                    text: `Has decidido continuar con Smith Mason & Co. Pronto recibirás más información.`,
-                                    icon: 'success',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Continuar',
-                                    cancelButtonText: 'Cancelar'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
+                               
                                         window.location.href =  "{{ route('killsheet.panel', ['TIPO' => 'iadcVertical']) }}";
-                                    }
-                                });
+                                  
+                               
                             });
                         }
                     });

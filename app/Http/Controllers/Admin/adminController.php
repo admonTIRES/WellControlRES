@@ -72,19 +72,11 @@ class adminController extends Controller
         $bops = TipoBOP::all();
         $idiomas = IdiomasExamenes::all();
         $operaciones = Operacion::all();
-        $visitas = 2;
-        $membresiasActivas = 5;
-        $membresiasEmpresas = 5;
-        $membresiasIndividuales = 5;
-        $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
-        $proyectosActivos = 5;
-        $proyectosProximos = 5;
-        $proyectosFinalizados = 5;
-        $accesos = 5;
-        $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
-        $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];  
+        $comenzarChart = 0;
+        $cursoChart = 0;
+        $finalizadosChart = 1;
 
-        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'visitas', 'membresiasActivas', 'membresiasEmpresas', 'membresiasIndividuales', 'historialMembresias', 'proyectosActivos', 'proyectosProximos', 'proyectosFinalizados', 'accesos', 'historialEmpresas'))->with('user_role', 0);
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

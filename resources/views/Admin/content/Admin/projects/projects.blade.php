@@ -37,7 +37,7 @@
                         <div class="swiper-slide">
                             <div class="card">
                                 <div class="card-body">
-                                    <div id="visitasChart" class="custom-radial-chart"  data-value="{{ $visitas }}"  data-show-value="{{ $visitas }}"  data-label="Por comenzar" data-color="#A4D65E"></div>
+                                    <div id="visitasChart" class="custom-radial-chart"  data-value="{{ $comenzarChart }}"  data-show-value="{{ $comenzarChart }}"  data-label="Por comenzar" data-color="#A4D65E"></div>
                                      <hr class="mt-0">
                                     <p class="text-center mb-0">
                                         <span>
@@ -53,7 +53,7 @@
                         <div class="swiper-slide">
                             <div class="card">
                                 <div class="card-body">
-                                    <div id="basic-radialbar-chart-2" class="custom-radial-chart" data-value="{{ $visitas }}"  data-show-value="{{ $visitas }}" data-label="En curso" data-color="#007DBA"></div>
+                                    <div id="basic-radialbar-chart-2" class="custom-radial-chart" data-value="{{ $cursoChart }}"  data-show-value="{{ $cursoChart }}" data-label="En curso" data-color="#007DBA"></div>
                                     <hr class="mt-0">
                                     <p class="text-center mb-0">
                                         <span>
@@ -69,7 +69,7 @@
                         <div class="swiper-slide">
                             <div class="card">
                                 <div class="card-body">
-                                    <div id="basic-radialbar-chart-3" class="custom-radial-chart" data-value="{{ $visitas }}"  data-show-value="{{ $visitas }}" data-label="Finalizados" data-color="#FF585D"></div>
+                                    <div id="basic-radialbar-chart-3" class="custom-radial-chart" data-value="{{ $finalizadosChart }}"  data-show-value="{{ $finalizadosChart }}" data-label="Finalizados" data-color="#FF585D"></div>
                                     <hr class="mt-0">
                                     <p class="text-center mb-0">
                                         <span>
@@ -664,18 +664,6 @@
                                                             required>
                                                     </div>
                                                 </div>
-
-
-                                                <script>
-                                                    flatpickr("#start_time", {
-                                                        enableTime: true,
-                                                        noCalendar: true,
-                                                        dateFormat: "H:i",     // HH:MM en 24h
-                                                        time_24hr: true
-                                                    });
-                                                </script>
-
-
 
                                             </div>
                                             <script>

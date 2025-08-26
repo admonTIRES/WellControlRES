@@ -76,6 +76,9 @@ Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::
 Route::get('/projectStudentDatatable', [ ProjectManagementController::class, 'projectStudentDatatable']);
 Route::get('/projectCourseDatatable', [ ProjectManagementController::class, 'projecTCourseDatatable']);
 
+Route::get('/editarTablaCandidato/{ID_PROJECT}', [ ProjectManagementController::class, 'editarTablaCandidato']);
+
+
 Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
 
 //mails

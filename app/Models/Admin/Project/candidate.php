@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models\Admin\Project;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class candidate extends Model
+{
+    use HasFactory;
+    protected $table = 'candidate';
+    protected $primaryKey = 'ID_CANDIDATE';
+    protected $fillable = [
+        'ID_PROJECT',
+        'COMPANY_PROJECT', 
+        'COMPANY_ID_PROJECT', 
+        'CR_PROJECT',
+        'LAST_NAME_PROJECT',
+        'FIRST_NAME_PROJECT', 
+        'MIDDLE_NAME_PROJECT', 
+        'DOB_PROJECT',
+        'ID_NUMBER_PROJECT', 
+        'EMAIL_PROJECT', 
+        'PASSWORD_PROJECT',
+        'POSITION_PROJECT', 
+        'MEMBERSHIP_PROJECT', 
+        'STATUS_MAIL_PROJECT',
+        'ACTIVO'
+    ];
+
+}

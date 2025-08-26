@@ -328,120 +328,6 @@ class WizardManager {
         this.updateWizard();
     }
 
-
-    
-    // renderEmpresasSections() {
-    //     const container = document.getElementById('empresasContainer');
-    //     container.innerHTML = '';
-        
-    //     if (!this.empresas || this.empresas.length === 0) {
-    //         container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
-    //         return;
-    //     }
-
-    //     this.empresas.forEach(empresa => {
-    //         const empresaId = empresa.replace(/\s+/g, '-').toLowerCase();
-            
-    //         const section = document.createElement('div');
-    //         section.className = 'empresa-section mb-4 p-3 border rounded';
-    //         section.id = `empresa-${empresaId}`;
-    //         section.dataset.empresa = empresa;
-            
-    //         section.innerHTML = `
-    //             <div class="row mb-3">
-    //                 <div class="col-md-3">
-    //                     <label class="form-label">Nombre de la empresa: *</label>
-    //                     <input type="text" class="form-control empresa-name" 
-    //                            name="empresa_${empresaId}" value="${empresa}" readonly />
-    //                 </div>
-    //                  <div class="col-md-3">
-    //                     <div class="form-group mb-3">
-    //                         <label class="form-label">Correo de contacto de la empresa: *
-    //                         </label>
-    //                         <input type="email" class="form-control"  name="email_${empresaId}"
-    //                             placeholder="Correo electrónico" />
-    //                         <div class="error-message">El correo es requerido </div>
-    //                     </div>
-    //                 </div>
-    //                 <div class="col-md-3">
-    //                     <label class="form-label">Cantidad de estudiantes: *</label>
-    //                     <input type="number" class="form-control student-count" 
-    //                            name="studentCount_${empresaId}"
-    //                            placeholder="Número de estudiantes" min="1" max="50" required />
-    //                     <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-    //                 </div>
-    //                 <div class="col-md-3 mt-3 d-flex align-items-center">
-    //                     <button type="button" class="btn btn-info action-button generate-students"
-    //                             data-empresa="${empresaId}">
-    //                         <i class="ri-user-add-line me-2"></i>Generar Estudiantes
-    //                     </button>
-    //                 </div>
-    //             </div>
-    //             <div class="students-container" id="studentsContainer_${empresaId}" style="display: none;">
-    //                 <hr class="mb-4">
-    //                 <h5 class="mb-3">Lista de Estudiantes - ${empresa}</h5>
-    //                 <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-    //                     <table class="table table-striped table-hover" style="min-width: 800px;">
-    //                         <thead class="table-dark">
-    //                             <tr>
-    //                                 <th>#</th>
-    //                                 <th>Empresa</th>
-    //                                 <th>CR</th>
-    //                                 <th>Family or last name</th>
-    //                                 <th>First name</th>
-    //                                 <th>Middle name</th>
-    //                                 <th>Fecha de nacimiento</th>
-    //                                 <th>ID</th>
-    //                                 <th>Cargo</th>
-    //                                 <th>Membresia</th>
-    //                                 <th>Correo Electrónico</th>
-    //                                 <th>Contraseña Generada</th>
-    //                                 <th>Acciones</th>
-    //                             </tr>
-    //                         </thead>
-    //                         <tbody id="studentsTableBody_${empresaId}"></tbody>
-    //                     </table>
-    //                 </div>
-    //                 <div class="mt-3">
-    //                     <button type="button" class="btn btn-success btn-sm export-passwords"
-    //                             data-empresa="${empresaId}">
-    //                         <i class="ri-download-line me-2"></i>Exportar Contraseñas
-    //                     </button>
-    //                     <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
-    //                             data-empresa="${empresaId}">
-    //                         <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-    //                     </button>
-    //                     <button type="button" class="btn btn-info btn-sm ms-2 send-mails"
-    //                             data-empresa="${empresaId}">
-    //                         <i class="ri-mail-send-fill me-2"></i>Enviar correos con accesos
-    //                     </button>
-    //                 </div>
-    //             </div>
-    //         `;
-            
-    //         container.appendChild(section);
-            
-    //         section.querySelector(`.generate-students`).addEventListener('click', () => {
-    //             this.generateStudentsForEmpresa(empresaId);
-    //         });
-            
-    //         section.querySelector(`.export-passwords`).addEventListener('click', () => {
-    //             this.exportPasswordsForEmpresa(empresaId);
-    //         });
-            
-    //         section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
-    //             this.regenerateAllPasswordsForEmpresa(empresaId);
-    //         });
-            
-    //         section.querySelector(`.send-mails`).addEventListener('click', () => {
-    //             this.sendMailsForEmpresa(empresaId);
-    //         });
-    //     });
-    // }
-  
-
-
-
    renderEmpresasSections() {
         const container = document.getElementById('empresasContainer');
         container.innerHTML = '';
@@ -525,17 +411,9 @@ class WizardManager {
                         </table>
                     </div>
                     <div class="mt-3">
-                        <button type="button" class="btn btn-success btn-sm export-passwords"
-                                data-empresa="${empresaId}">
-                            <i class="ri-download-line me-2"></i>Exportar Contraseñas
-                        </button>
                         <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
                                 data-empresa="${empresaId}">
                             <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-                        </button>
-                        <button type="button" class="btn btn-info btn-sm ms-2 send-mails"
-                                data-empresa="${empresaId}">
-                            <i class="ri-mail-send-fill me-2"></i>Enviar correos con accesos
                         </button>
                     </div>
                 </div>
@@ -548,17 +426,11 @@ class WizardManager {
                 this.generateStudentsForEmpresa(empresaId);
             });
             
-            section.querySelector(`.export-passwords`).addEventListener('click', () => {
-                this.exportPasswordsForEmpresa(empresaId);
-            });
             
             section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
                 this.regenerateAllPasswordsForEmpresa(empresaId);
             });
             
-            section.querySelector(`.send-mails`).addEventListener('click', () => {
-                this.sendMailsForEmpresa(empresaId);
-            });
 
             // Si hay estudiantes, cargarlos
             if (students.length > 0) {
@@ -895,6 +767,7 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
     scrollX: true,
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},

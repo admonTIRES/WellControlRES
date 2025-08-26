@@ -46,9 +46,10 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
         { data: 'FIRSTNAME' },
         { data: 'MIDDLENAME' },
         { data: 'DOB' },
-        { data: 'EMAIL' },
         { data: 'ID_NUMBER' },
         { data: 'CARGO' },
+        { data: 'EMAIL' },
+        { data: 'PASSWORD' },
         { data: 'BTN_EDITAR' }
     ],
     columnDefs: [
@@ -59,10 +60,11 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
         { targets: 4, title: 'FIRSTNAME', className: 'text-center' },
         { targets: 5, title: 'MIDDLENAME', className: 'text-center' },
         { targets: 6, title: 'DOB', className: 'text-center' },
-        { targets: 7, title: 'EMAIL', className: 'text-center' },
-        { targets: 8, title: 'ID_NUMBER', className: 'text-center' },
-        { targets: 9, title: 'cargo', className: 'text-center' },
-        { targets: 10, title: 'ACCIONES', className: 'text-center' }
+        { targets: 7, title: 'ID_NUMBER', className: 'text-center' },
+        { targets: 8, title: 'cargo', className: 'text-center' },
+        { targets: 9, title: 'EMAIL', className: 'text-center' },
+        { targets: 10, title: 'PASSWORD', className: 'text-center' },
+        { targets: 11, title: 'ACCIONES', className: 'text-center' }
     ]
 
 });

@@ -1,202 +1,5 @@
 @extends('Template/maestraAdmin')
 @section('contenido')
-<main class="main-content">
-    <div class="position-relative">
-        <!--Nav Start-->
-        <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
-            <div class="container-fluid navbar-inner">
-                <a href="../dashboard/index.html" class="navbar-brand">
-                </a>
-                <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
-                    <i class="icon">
-                        <svg width="20px" height="20px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
-                        </svg>
-                    </i>
-                </div>
-                <h4 class="title text-primary">Instructor</h4>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">
-                        <span class="navbar-toggler-bar bar1 mt-2"></span>
-                        <span class="navbar-toggler-bar bar2"></span>
-                        <span class="navbar-toggler-bar bar3"></span>
-                    </span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto  navbar-list mb-2 mb-lg-0 align-items-center">
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path opacity="0.4" d="M22 15.94C22 18.73 19.76 20.99 16.97 21H16.96H7.05C4.27 21 2 18.75 2 15.96V15.95C2 15.95 2.006 11.524 2.014 9.298C2.015 8.88 2.495 8.646 2.822 8.906C5.198 10.791 9.447 14.228 9.5 14.273C10.21 14.842 11.11 15.163 12.03 15.163C12.95 15.163 13.85 14.842 14.56 14.262C14.613 14.227 18.767 10.893 21.179 8.977C21.507 8.716 21.989 8.95 21.99 9.367C22 11.576 22 15.94 22 15.94Z" fill="currentColor"></path>
-                                    <path d="M21.4759 5.67351C20.6099 4.04151 18.9059 2.99951 17.0299 2.99951H7.04988C5.17388 2.99951 3.46988 4.04151 2.60388 5.67351C2.40988 6.03851 2.50188 6.49351 2.82488 6.75151L10.2499 12.6905C10.7699 13.1105 11.3999 13.3195 12.0299 13.3195C12.0339 13.3195 12.0369 13.3195 12.0399 13.3195C12.0429 13.3195 12.0469 13.3195 12.0499 13.3195C12.6799 13.3195 13.3099 13.1105 13.8299 12.6905L21.2549 6.75151C21.5779 6.49351 21.6699 6.03851 21.4759 5.67351Z" fill="currentColor"></path>
-                                </svg>
-                                <span class="bg-primary count-mail"></span>
-                            </a>
-                            <div class="sub-drop dropdown-menu dropdown-menu-end p-0" aria-labelledby="mail-drop">
-                                <div class="card shadow-none m-0">
-                                    <div class="card-header d-flex justify-content-between bg-primary py-3">
-                                        <div class="header-title">
-                                            <h5 class="mb-0 text-white">Mensajes</h5>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-0 ">
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex  align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class=" w-100 ms-3">
-                                                    <h6 class="mb-0 ">Bni Emma Watson</h6>
-                                                    <small class="float-left font-size-12">13 Jun</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
-                                                    <small class="float-left font-size-12">20 Apr</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h6 class="mb-0 ">Why do we use it?</h6>
-                                                    <small class="float-left font-size-12">30 Jun</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h6 class="mb-0 ">Variations Passages</h6>
-                                                    <small class="float-left font-size-12">12 Sep</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h6 class="mb-0 ">Lorem Ipsum generators</h6>
-                                                    <small class="float-left font-size-12">5 Dec</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
-                                <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M19.7695 11.6453C19.039 10.7923 18.7071 10.0531 18.7071 8.79716V8.37013C18.7071 6.73354 18.3304 5.67907 17.5115 4.62459C16.2493 2.98699 14.1244 2 12.0442 2H11.9558C9.91935 2 7.86106 2.94167 6.577 4.5128C5.71333 5.58842 5.29293 6.68822 5.29293 8.37013V8.79716C5.29293 10.0531 4.98284 10.7923 4.23049 11.6453C3.67691 12.2738 3.5 13.0815 3.5 13.9557C3.5 14.8309 3.78723 15.6598 4.36367 16.3336C5.11602 17.1413 6.17846 17.6569 7.26375 17.7466C8.83505 17.9258 10.4063 17.9933 12.0005 17.9933C13.5937 17.9933 15.165 17.8805 16.7372 17.7466C17.8215 17.6569 18.884 17.1413 19.6363 16.3336C20.2118 15.6598 20.5 14.8309 20.5 13.9557C20.5 13.0815 20.3231 12.2738 19.7695 11.6453Z" fill="currentColor"></path>
-                                    <path opacity="0.4" d="M14.0088 19.2283C13.5088 19.1215 10.4627 19.1215 9.96275 19.2283C9.53539 19.327 9.07324 19.5566 9.07324 20.0602C9.09809 20.5406 9.37935 20.9646 9.76895 21.2335L9.76795 21.2345C10.2718 21.6273 10.8632 21.877 11.4824 21.9667C11.8123 22.012 12.1482 22.01 12.4901 21.9667C13.1083 21.877 13.6997 21.6273 14.2036 21.2345L14.2026 21.2335C14.5922 20.9646 14.8734 20.5406 14.8983 20.0602C14.8983 19.5566 14.4361 19.327 14.0088 19.2283Z" fill="currentColor"></path>
-                                </svg>
-                                <span class="bg-danger dots"></span>
-                            </a>
-                            <div class="sub-drop dropdown-menu dropdown-menu-end p-0" aria-labelledby="notification-drop">
-                                <div class="card shadow-none m-0">
-                                    <div class="card-header d-flex justify-content-between bg-primary py-3">
-                                        <div class="header-title">
-                                            <h5 class="mb-0 text-white">Notificaciones</h5>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                <div class="ms-3 w-100">
-                                                    <h6 class="mb-0 ">Emma Watson Bni</h6>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">95 MB</p>
-                                                        <small class="float-right font-size-12">Just Now</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <div class="">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                </div>
-                                                <div class="ms-3 w-100">
-                                                    <h6 class="mb-0 ">New customer is join</h6>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">Cyst Bni</p>
-                                                        <small class="float-right font-size-12">5 days ago</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                <div class="ms-3 w-100">
-                                                    <h6 class="mb-0 ">Two customer is left</h6>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">Cyst Bni</p>
-                                                        <small class="float-right font-size-12">2 days ago</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="iq-sub-card">
-                                            <div class="d-flex align-items-center">
-                                                <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="../assets/images/Colorlargo.png" alt="">
-                                                <div class="w-100 ms-3">
-                                                    <h6 class="mb-0 ">New Mail from Fenny</h6>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">Cyst Bni</p>
-                                                        <small class="float-right font-size-12">3 days ago</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/Colorlargo.png" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">
-                                <div class="caption ms-3 d-none d-md-block ">
-                                    <h6 class="mb-0 caption-title">AdminRES</h6>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../dashboard/app/user-profile.html">Perfil</a></li>
-                                <li><a class="dropdown-item" href="../dashboard/app/user-privacy-setting.html">Ajustes</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a id="logout" class="dropdown-item" href="#">Cerrar sesión</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!--Nav End-->
-    </div>
     <div class="conatiner-fluid content-inner mt-5 py-0">
         <div>
             <div class="row">
@@ -226,14 +29,17 @@
                         <div class="card-header d-flex justify-content-between">
                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                             <h4 class="card-title mb-0">{{ __('Killsheets list') }}</h4> 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#killsheetModal">
+                            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#killsheetModal">
+                            {{ __('New killsheet') }}
+                            </button> --}}
+                             <button type="button" class="btn btn-primary" id="openKillsheet">
                             {{ __('New killsheet') }}
                             </button>
                         </div>
                         </div>
                         <div class="card-body px-0">
                             <div class="table-responsive">
-                                <table id="killshets-list-table" class="table table-striped" role="grid">
+                                <table id="killsheets-list-table" class="table table-striped" role="grid">
                                 </table>
                             </div>
                         </div>
@@ -242,20 +48,6 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="footer-body">
-            <ul class="left-panel list-inline mb-0 p-0">
-                <li class="list-inline-item"><a href="https://results-in-performance.com/images/2024/Aviso_privacidad.pdf">Politica de privacidad</a></li>
-            </ul>
-            <div class="right-panel">
-                ©<script>
-                    document.write(new Date().getFullYear())
-                </script>
-                <span class="text-gray">
-                </span><a href="https://results-in-performance.com/">Results In Performance</a>.
-            </div>
-        </div>
-    </footer>
     <!-- Modal Fullscreen -->
     <div class="modal fade" id="killsheetModal" tabindex="-1" aria-labelledby="killsheetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
@@ -422,11 +214,640 @@
             </div>
         </div>
     </div>
-</main>
+
+
+    <div class="modal fade" id="iwcf_v_modal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva hoja de matar IWCF para pozos verticales</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="questionForm" enctype="multipart/form-data">
+                    {!! csrf_field() !!}   
+                    <div class="row">
+                        <!-- Sección 1: Generalidades -->
+                        <div class="col-md-12 text-center pastel-box mb-4">
+                            <h4 class="fw-bold mb-4">
+                                <span class="text-secondary">{{ __('1. ') }}</span> {{ __('Generalities') }}
+                            </h4>
+                            <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
+                                <!-- Ente Acreditador -->
+                                <div class="col-md-2 text-start">
+                                    <label> {{ __('Accrediting Entity*') }}</label>
+                                    <select class="form-select selectize-multiple" id="ENTE_KILLSHEET" name="ENTE_KILLSHEET[]" multiple>
+                                        @foreach ($entes as $ente)
+                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Niveles -->
+                                <div class="col-md-2 text-start">
+                                    <label> {{ __('Levels*') }}</label>
+                                    <select class="form-select selectize-multiple" id="NIVELES_KILLSHEET" name="NIVELES_KILLSHEET[]" multiple>
+                                        @foreach ($niveles as $nivel)
+                                            <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- BOP -->
+                                <div class="col-md-2 text-start">
+                                    <label> {{ __('BOP*') }}</label>
+                                    <select class="form-select selectize-multiple" id="BOP_KILLSHEET" name="BOP_KILLSHEET[]" multiple>
+                                        @foreach ($bops as $bop)
+                                            <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 text-start">
+                                    <label> {{ __('OPERATION TYPE*') }}</label>
+                                    <select class="form-select selectize-multiple" id="OPERACION_KILLSHEET" name="OPERACION_KILLSHEET[]" multiple>
+                                        @foreach ($operaciones as $operacion)
+                                            <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 text-center pastel-box">
+                                    <div class="mb-3">
+                                        <label>{{ __('Language of the question*') }}</label>
+                                        <select class="form-select selectize-single" id="LANGUAGE_ID_QUESTION" name="LANGUAGE_ID_QUESTION" required>
+                                            @foreach ($idiomas as $idioma)
+                                                <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección 2: Datos del Ejercicio -->
+                        <div class="col-md-12 text-center pastel-box mb-4">
+                            <h4 class="fw-bold mb-4">
+                                <span class="text-secondary">{{ __('2. ') }}</span> {{ __('Exercise Data') }}
+                            </h4>
+                            
+                            <!-- Grid de 8 secciones en 2 filas de 4 columnas -->
+                            <div class="row g-3">
+                                <!-- Sección 2.1: Datos del Pozo -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Datos del pozo') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="well-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="well_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="well_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="well_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('well-data-container', 'well_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.2: Datos de Fluido -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Capacidades internas') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="fluid-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="fluid_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="fluid_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="fluid_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('fluid-data-container', 'fluid_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.3: Datos de Presión -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-dark text-center">
+                                            <h6 class="mb-0">{{ __('Capacidades anulares') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="pressure-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="pressure_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="pressure_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="pressure_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('pressure-data-container', 'pressure_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.4: Datos de Operación -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Datos de la bomba del lodo') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="operation-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="operation_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="operation_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="operation_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('operation-data-container', 'operation_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Segunda fila de secciones -->
+                                <!-- Sección 2.5: Datos de Geometría -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Datos de la tasa reducida de circulación de la bomba') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="geometry-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="geometry_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="geometry_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="geometry_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('geometry-data-container', 'geometry_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.6: Datos de Temperatura -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Otra información') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="temperature-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="temperature_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="temperature_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="temperature_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('temperature-data-container', 'temperature_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.7: Datos de Equipos -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Datos de la prueba de formación') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="equipment-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="equipment_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="equipment_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="equipment_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('equipment-data-container', 'equipment_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección 2.8: Datos Adicionales -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h6 class="mb-0">{{ __('Datos del influjo') }}</h6>
+                                        </div>
+                                        <div class="card-body p-2">
+                                            <div id="additional-data-container">
+                                                <div class="item-row mb-2">
+                                                    <div class="row g-1">
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Dato') }}" name="additional_data_item[]">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Valor') }}" name="additional_data_value[]">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unidad') }}" name="additional_data_unit[]">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary w-50" onclick="addItem('additional-data-container', 'additional_data')">
+                                                <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+function addItem(containerId, namePrefix) {
+    const container = document.getElementById(containerId);
+    const currentItems = container.querySelectorAll('.item-row').length;
+    
+    if (currentItems >= 5) {
+        alert('{{ __("Maximum 5 items per section") }}');
+        return;
+    }
+    
+    const newItem = document.createElement('div');
+    newItem.className = 'item-row mb-2';
+    newItem.innerHTML = `
+        <div class="row g-1">
+            <div class="col-5">
+                <input type="text" class="form-control form-control-sm" placeholder="{{ __('Item') }}" name="${namePrefix}_item[]">
+            </div>
+            <div class="col-4">
+                <input type="number" step="any" class="form-control form-control-sm" placeholder="{{ __('Value') }}" name="${namePrefix}_value[]">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control form-control-sm" placeholder="{{ __('Unit') }}" name="${namePrefix}_unit[]">
+            </div>
+            <div class="col-1">
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem(this)" title="{{ __('Remove') }}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    container.appendChild(newItem);
+}
+
+function removeItem(button) {
+    button.closest('.item-row').remove();
+}
+</script>
+
 <style>
-.opcion-item, .pregunta-adicional {
+.selectize-control.multi .selectize-input {
+    padding: 6px 8px;
+    min-height: 45px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.selectize-control.multi .selectize-input > input {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+/* Estilo para cada etiqueta seleccionada */
+.selectize-control.multi .selectize-input > div {
+    background-color: #FF585D; /* Azul Bootstrap */
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin: 3px 4px 3px 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para la "x" de eliminar */
+.selectize-control.multi .selectize-input > div .remove {
+    color: #fff;
+    margin-left: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Efecto al enfocar */
+.selectize-input.focus {
+    border-color: #ffffff00;
+    box-shadow: 0 0 0 0.2rem rgba(13, 109, 253, 0);
+} 
+.pastel-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: 600;
+}
+
+.form-control-sm {
+    font-size: 0.875rem;
+}
+
+.item-row {
     position: relative;
 }
+
+.btn-sm {
+    font-size: 0.8rem;
+}
+
+.g-1 {
+    --bs-gutter-x: 0.25rem;
+    --bs-gutter-y: 0.25rem;
+}
+</style>
+
+<!-- Modal 2 -->
+<div class="modal fade" id="iwcf_d_modal" tabindex="-1">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva hoja de matar IWCF para pozos desviados</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 3 -->
+<div class="modal fade" id="iadc_v_modal" tabindex="-1">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva hoja de matar IADC para pozos verticales</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .opcion-item, .pregunta-adicional {
+        position: relative;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    /* Contenedor principal del SweetAlert */
+    .killsheet-swal-container {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    /* Popup base del modal */
+    .killsheet-swal-popup {
+        border-radius: 20px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* .killsheet-first-modal {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+        color: white !important;
+    } */
+
+    .killsheet-second-modal {
+        background: linear-gradient(135deg, #236192 0%, #236192 100%) !important;
+        color: white !important;
+    } 
+
+    /* Contenido principal del modal */
+    .killsheet-modal-content {
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    /* Header del modal */
+    .killsheet-header {
+        margin-bottom: 30px;
+    }
+
+    /* Título principal */
+    .killsheet-title {
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 28px !important;
+        font-weight: 600 !important;
+        color: #1e293b !important;
+        margin: 0 0 15px 0 !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Título en modal azul */
+    .killsheet-title-white {
+        color: white !important;
+    }
+
+    /* Descripción del modal */
+    .killsheet-description {
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        color: #64748b !important;
+        margin: 0 !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Descripción en modal azul */
+    .killsheet-description-white {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    /* Contenedor de opciones */
+    .killsheet-options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Botón base */
+    .killsheet-btn {
+        background: white !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 15px !important;
+        padding: 20px 25px !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-family: 'Poppins', sans-serif !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* Efecto hover del botón */
+    .killsheet-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+        border-color: #ff585d !important;
+    }
+
+    /* Botón blanco (primer modal) */
+    .killsheet-btn-white {
+        background: white !important;
+        color: #1e293b !important;
+    }
+
+    /* Botón azul translúcido (segundo modal) */
+    .killsheet-btn-blue {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
+    /* Hover del botón azul */
+    .killsheet-btn-blue:hover {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    /* Contenido interno del botón (imagen + texto) */
+    .killsheet-btn-content {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 15px !important;
+    }
+
+    /* Icono del botón */
+    .killsheet-btn-icon {
+        width: 32px !important;
+        height: 32px !important;
+        object-fit: contain !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Texto del botón */
+    .killsheet-btn-text {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        text-align: left !important;
+    }
+
+    /* Botón de cerrar del SweetAlert */
+    .swal2-close {
+        color: #64748b !important;
+        font-size: 28px !important;
+        font-weight: 300 !important;
+        transition: color 0.3s ease !important;
+    }
+
+    /* Hover del botón cerrar */
+    .swal2-close:hover {
+        color: #1e293b !important;
+    }
+
+    /* Botón cerrar en modal azul */
+    .killsheet-second-modal .swal2-close {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Hover del botón cerrar en modal azul */
+    .killsheet-second-modal .swal2-close:hover {
+        color: white !important;
+    }
 </style>
 
 @endsection

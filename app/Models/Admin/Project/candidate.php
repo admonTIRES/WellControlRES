@@ -28,4 +28,14 @@ class candidate extends Model
         'ACTIVO'
     ];
 
+     public function project()
+    {
+        return $this->belongsTo(Proyect::class, 'ID_PROJECT', 'ID_PROJECT');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class, 'ID_CANDIDATE', 'ID_CANDIDATE');
+    }
+
 }

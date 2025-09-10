@@ -16,6 +16,8 @@ use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\Project\candidate;
+use App\Models\Admin\Project\Course;
+
 
 
 
@@ -134,7 +136,7 @@ class ProjectManagementController extends Controller
                                         DB::table('candidate')
                                             ->where('EMAIL_PROJECT', $email)
                                             ->update([
-                                                'ID_PROJECT' => $estudiante['ID_PROJECT'] ?? null,
+                                                'ID_PROJECT' => $estudiante['USER_ID_PROJECT'] ?? null,
                                                 'COMPANY_PROJECT' => $empresa['NAME_PROJECT'] ?? '',
                                                 'COMPANY_ID_PROJECT' => $empresa['ID_PROJECT'] ?? null,
                                                 'CR_PROJECT' => $estudiante['CR_PROJECT'] ?? '',
@@ -240,8 +242,17 @@ class ProjectManagementController extends Controller
      */
     public function detailsProject($ID_PROJECT)
     {
-        $proyecto = Proyect::findOrFail($ID_PROJECT);
-        $COURSE_NAME_ES_PROJECT = $proyecto->COURSE_NAME_ES_PROJECT;
+        $proyect = Proyect::findOrFail($ID_PROJECT);
+        // $idInstructor = $proyect->INSTRUCTOR_ID_PROJECT;
+        // $instructor = Instructor::findOrFail($idInstructor);
+        // $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT; //array
+        // $instructor = NivelAcreditacion::findOrFail($idsNiveles);
+        // $idsBops = $proyect->BOP_TYPES_PROJECT; //array
+        // $instructor = Instructor::findOrFail($idInstructor);
+        // $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
+        // $instructor = Instructor::findOrFail($idInstructor);
+        // $idIdioma = $proyect->LANGUAGE_PROJECT;
+
         $visitas = 2;
         $membresiasActivas = 5;
         $membresiasEmpresas = 5;
@@ -251,11 +262,24 @@ class ProjectManagementController extends Controller
         $proyectosProximos = 5;
         $proyectosFinalizados = 5;
         $accesos = 5;
-        $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
         $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];
 
-        return view('Admin.content.Admin.projects.details', compact('COURSE_NAME_ES_PROJECT', 'ID_PROJECT', 'visitas', 'membresiasActivas', 'membresiasEmpresas', 'membresiasIndividuales', 'historialMembresias', 'proyectosActivos', 'proyectosProximos', 'proyectosFinalizados', 'accesos', 'historialEmpresas'));
+        return view('Admin.content.Admin.projects.details', compact(
+            'proyect',
+            'ID_PROJECT',
+            'visitas',
+            'membresiasActivas',
+            'membresiasEmpresas',
+            'membresiasIndividuales',
+            'historialMembresias',
+            'proyectosActivos',
+            'proyectosProximos',
+            'proyectosFinalizados',
+            'accesos',
+            'historialEmpresas'
+        ));
     }
+
     public function projectCourseDatatable(Request $request)
     {
         $id = $request->input('ID_PROJECT');
@@ -411,9 +435,156 @@ class ProjectManagementController extends Controller
     }
     public function editarTablaCandidato($ID_PROJECT)
     {
-        $candidatos = candidate::all(); // Ajusta según tu modelo
+        $candidatos = candidate::where('ID_PROJECT', $ID_PROJECT)->get();
         return response()->json($candidatos);
     }
+
+    public function editarTablaCurso($ID_PROJECT)
+    {
+        try {
+            // Obtener el proyecto con los datos necesarios
+            $proyecto = Proyect::find($ID_PROJECT);
+
+            if (!$proyecto) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Proyecto no encontrado'
+                ], 404);
+            }
+
+            // Verificar si existen cursos para este proyecto
+            $existenCursos = Course::where('ID_PROJECT', $ID_PROJECT)->exists();
+
+            if ($existenCursos) {
+                // Caso 1: Ya existen cursos - obtener datos completos
+                $cursos = Course::where('ID_PROJECT', $ID_PROJECT)
+                    ->with(['candidate' => function ($query) {
+                        $query->where('ACTIVO', 1)
+                            ->select(
+                                'ID_CANDIDATE',
+                                'ID_PROJECT',
+                                'LAST_NAME_PROJECT',
+                                'FIRST_NAME_PROJECT',
+                                'MIDDLE_NAME_PROJECT',
+                                'EMAIL_PROJECT',
+                                'ACTIVO'
+                            );
+                    }])
+                    ->get();
+
+                $estudiantes = [];
+                foreach ($cursos as $curso) {
+                    if ($curso->candidate) {
+                        $estudiantes[] = [
+                            'curso_id' => $curso->ID_COURSE,
+                            'candidato' => [
+                                'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
+                                'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
+                                'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
+                                'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
+                                'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
+                                'ACTIVO' => $curso->candidate->ACTIVO
+                            ],
+                            'datos_curso' => [
+                                'UNITS' => $curso->UNITS,
+                                'PRACTICAL' => $curso->PRACTICAL,
+                                'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
+                                'EQUIPAMENT' => $curso->EQUIPAMENT,
+                                'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
+                                'PYP' => $curso->PYP,
+                                'PYP_PASS' => $curso->PYP_PASS,
+                                'RESUME' => $curso->RESUME,
+                                'STATUS' => $curso->STATUS,
+                                'RESIT' => $curso->RESIT,
+                                'MODULE_RESIT' => $curso->MODULE_RESIT,
+                                'RESIT_DATE' => $curso->RESIT_DATE,
+                                'RESIT_SCORE' => $curso->RESIT_SCORE,
+                                'RESIT_PASS' => $curso->RESIT_PASS,
+                                'FINAL_SCORE' => $curso->FINAL_SCORE,
+                                'FINAL_STATUS' => $curso->FINAL_STATUS,
+                                'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
+                                'CERTIFIED' => $curso->CERTIFIED,
+                                'EXPIRATION' => $curso->EXPIRATION
+                            ]
+                        ];
+                    }
+                }
+            } else {
+                // Caso 2: No existen cursos - obtener solo datos básicos de candidatos
+                $candidatos = Candidate::where('ID_PROJECT', $ID_PROJECT)
+                    ->where('ACTIVO', 1)
+                    ->select(
+                        'ID_CANDIDATE',
+                        'ID_PROJECT',
+                        'LAST_NAME_PROJECT',
+                        'FIRST_NAME_PROJECT',
+                        'MIDDLE_NAME_PROJECT',
+                        'EMAIL_PROJECT',
+                        'ACTIVO'
+                    )
+                    ->get();
+
+                $estudiantes = [];
+                foreach ($candidatos as $candidato) {
+                    $estudiantes[] = [
+                        'curso_id' => null,
+                        'candidato' => [
+                            'ID_CANDIDATE' => $candidato->ID_CANDIDATE,
+                            'LAST_NAME_PROJECT' => $candidato->LAST_NAME_PROJECT,
+                            'FIRST_NAME_PROJECT' => $candidato->FIRST_NAME_PROJECT,
+                            'MIDDLE_NAME_PROJECT' => $candidato->MIDDLE_NAME_PROJECT,
+                            'EMAIL_PROJECT' => $candidato->EMAIL_PROJECT,
+                            'ACTIVO' => $candidato->ACTIVO
+                        ],
+                        'datos_curso' => [
+                            'UNITS' => null,
+                            'PRACTICAL' => null,
+                            'PRACTICAL_PASS' => null,
+                            'EQUIPAMENT' => null,
+                            'EQUIPAMENT_PASS' => null,
+                            'PYP' => null,
+                            'PYP_PASS' => null,
+                            'RESUME' => null,
+                            'STATUS' => null,
+                            'RESIT' => null,
+                            'MODULE_RESIT' => null,
+                            'RESIT_DATE' => null,
+                            'RESIT_SCORE' => null,
+                            'RESIT_PASS' => null,
+                            'FINAL_SCORE' => null,
+                            'FINAL_STATUS' => null,
+                            'HAVE_CERTIFIED' => null,
+                            'CERTIFIED' => null,
+                            'EXPIRATION' => null
+                        ]
+                    ];
+                }
+            }
+
+            // Procesar los datos del proyecto
+            $proyectoData = [
+                'LANGUAGE_PROJECT' => $this->getLanguajes($proyecto->LANGUAGE_PROJECT),
+                'ACCREDITING_ENTITY_PROJECT' => $proyecto->ACCREDITING_ENTITY_PROJECT,
+                'ACCREDITATION_LEVELS_PROJECT' => $this->getNivelesAcreditacion($proyecto->ACCREDITATION_LEVELS_PROJECT),
+                'BOP_TYPES_PROJECT' => $this->getTiposBOP($proyecto->BOP_TYPES_PROJECT)
+            ];
+
+            return response()->json([
+                'success' => true,
+                'proyecto' => $proyectoData,
+                'estudiantes' => $estudiantes,
+                'tiene_cursos' => $existenCursos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los datos',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 
     public function exportProjectExcel($id)
     {
@@ -753,5 +924,60 @@ class ProjectManagementController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    private function getNivelesAcreditacion($nivelesIds)
+    {
+        if (!is_array($nivelesIds)) {
+            return [];
+        }
+
+        $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $nivelesIds)
+            ->get()
+            ->map(function ($nivel) {
+                return [
+                    'id' => $nivel->ID_CATALOGO_NIVELACREDITACION,
+                    'nombre' => $nivel->NOMBRE_NIVEL,
+                    'descripcion' => $nivel->DESCRIPCION_NIVEL
+                ];
+            });
+
+        return $niveles;
+    }
+    private function getLanguajes($languaje)
+    {
+        $languajes = IdiomasExamenes::where('ID_CATALOGO_IDIOMAEXAMEN', $languaje)
+            ->get()
+            ->map(function ($idioma) {
+                return [
+                    'ID_CATALOGO_IDIOMAEXAMEN' => $idioma->ID_CATALOGO_IDIOMAEXAMEN,
+                    'NOMBRE_IDIOMA' => $idioma->NOMBRE_IDIOMA,
+                    'DESCRIPCION_IDIOMAS' => $idioma->DESCRIPCION_IDIOMAS
+                ];
+            });
+
+        return $languajes;
+    }
+
+
+
+    // Función para obtener los tipos BOP
+    private function getTiposBOP($bopIds)
+    {
+        if (!is_array($bopIds)) {
+            return [];
+        }
+
+        $tiposBOP = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $bopIds)
+            ->get()
+            ->map(function ($bop) {
+                return [
+                    'id' => $bop->ID_CATALOGO_TIPOBOP,
+                    'abreviatura' => $bop->ABREVIATURA,
+                    'descripcion' => $bop->DESCRIPCION_TIPOBOP
+                ];
+            });
+
+        return $tiposBOP;
     }
 }

@@ -44,33 +44,41 @@ class killsheetController extends Controller
        /**
      * @return \Illuminate\View\View
      */
-    public function primeraHoja($TIPO)
+    public function firstExercise($TIPO)
     {
-        return view('Killsheet.primera', compact('TIPO'));
+        if($TIPO === 'iadcVertical'){
+            return view('Killsheet.IADC.verticalWell.firstExercise', compact('TIPO'));
+        }else if($TIPO === 'iwcfVertical'){
+            return view('Killsheet.IWCF.verticalWell.firstExercise', compact('TIPO'));
+        }else if($TIPO === 'iwcfDeviated'){
+           return view('Killsheet.IWCF.deflectedWell.firstExercise', compact('TIPO'));
+        }else{
+           return view('Killsheet.panel', compact('TIPO'));
+        }
     }
 
 
        /**
      * @return \Illuminate\View\View
      */
-    public function practicaHoja($TIPO)
+    public function practiceExercise($TIPO)
     {
-        return view('Killsheet.practica', compact('TIPO'));
+        return view('Killsheet.practiceExercise', compact('TIPO'));
     }
 
        /**
      * @return \Illuminate\View\View
      */
-    public function simuladorHoja($TIPO)
+    public function exerciseSimulator($TIPO)
     {
-        return view('Killsheet.simulador', compact('TIPO'));
+        return view('Killsheet.exerciseSimulator', compact('TIPO'));
     }
 
        /**
      * @return \Illuminate\View\View
      */
-    public function hojaRapida($TIPO)
+    public function quickExercise($TIPO)
     {
-        return view('Killsheet.rapida', compact('TIPO'));
+        return view('Killsheet.quickExercise', compact('TIPO'));
     }
 }

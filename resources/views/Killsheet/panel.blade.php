@@ -308,7 +308,7 @@
                         <h3>{{ __('Information') }}</h3>
                         <p>{{ __('Know the Killsheet') }}</p>
                     </div>
-                    <a href="{{ route('killsheet.video', ['TIPO' => $TIPO]) }}" target="_blank">
+                    <a href="{{ route('killsheet.info', ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -5vw;">
@@ -342,7 +342,7 @@
                         <h3>{{ __('My first killsheet') }}</h3>
                         <p>{{ __('Practice and learn') }}</p>
                     </div>
-                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -5vw;">
@@ -358,7 +358,7 @@
                         <h3>{{ __('Exercise practice') }}</h3>
                         <p>{{ __('Practice an exercise and ') }}  {{ __('check your results') }}</p>
                     </div>
-                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -374,7 +374,7 @@
                         <h3>{{ __('Exercise simulator') }}</h3>
                         <p>{{ __('Killsheet with stopwatch') }}</p>
                     </div>
-                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -390,7 +390,7 @@
                         <h3>{{ __('Exercise fast') }}</h3>
                         <p>{{ __('Practice in record time') }}</p>
                     </div>
-                <a href="{{ route('killsheet.video',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -2vw; top:1vw;">

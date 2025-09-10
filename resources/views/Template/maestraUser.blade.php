@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
     @if (isset($css_identifier))
     @switch($css_identifier)
         @case('principal')
-        <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.2" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.21" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
         @break
         @case('calculator')
@@ -56,6 +56,10 @@ use Illuminate\Support\Str;
          @case('evaluation')
         <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.1" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.2" media="(max-width: 1023px)">
+        @break
+         @case('IADC_VW_FE')
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/IADC/verticalWell/firstExercise.css') }}?v=1.2" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/killsheetsModule/IADC/verticalWell/firstExercise.css') }}?v=1.21" media="(max-width: 1023px)">
         @break
     @endswitch
     @endif
@@ -131,6 +135,6 @@ use Illuminate\Support\Str;
 @if(request()->is('Calculator'))
 <script src="{{ asset('js/Calculator.js') }}"></script>
 @endif
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.7"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.8"></script>
 
 </html>

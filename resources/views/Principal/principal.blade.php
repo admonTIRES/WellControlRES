@@ -2,13 +2,13 @@
 @section('contenido') 
 <div class="main">
     <section class="main-content">
-        <div class="header-text">
+        <div class="header-text animate-fade-in">
             <h1>{{ __('The site that connects you with') }}</h1>
             <h2>{{ __('professional excellence') }}</h2>
         </div>
 
          <div class="content-wrapper">
-            <div class="content-box tarjeta1">
+            <div class="content-box tarjeta1 animate-slide-left">
                 <div class="number">01</div>
                     <h3>{{ __('Intuitivo') }}</h3>
                     <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
@@ -16,7 +16,7 @@
             <div class="team-image">
                 <img src="/assets/images/principal/ingenieros7.png" alt="{{ __('Professional team') }}">
             </div>
-            <div class="content-box">
+            <div class="content-box animate-slide-right">
                 <div class="number">02</div>
                 <h3>{{ __('Practice') }}</h3>
                 <p>{{ __('Whether you\'re looking to strengthen your experience or start a new career, we offer the necessary tools to move forward.') }}</p>
@@ -26,9 +26,9 @@
     <section class="learning-container">
         <div class="cont-card">
             <div class="container-left">
-                <div class="left-card">
+                <div class="left-card animate-on-scroll stagger-1">
                     <h2>{{ __('Learning') }}</h2>
-                    <p>{{ __('Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.Lorem ipsum dolor sit amet consectetur adipiscing elit nunc facilisis mi commodo, iaculis massa est hendrerit rutrum accumsan luctus cras potenti tempor sagittis, magna.') }}</p>
+                    <p>{{ __('Master the fundamentals of drilling engineering through our comprehensive learning platform. From basic mathematical calculations to advanced well planning techniques, we provide interactive tools and real-world scenarios that prepare you for field operations.') }}</p>
                     <!-- <button class="arrow-button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7" />
@@ -37,13 +37,13 @@
                 </div>
 
                 <div class="bottom-cards">
-                    <div class="bottom-card empty"></div>
+                    <div class="bottom-card empty animate-on-scroll stagger-2"></div>
 
-                    <div class="bottom-card controller">
+                    <div class="bottom-card controller animate-on-scroll stagger-3">
                         <img src="/assets/images/principal/bocapozo.png" alt="{{ __('Game controller') }}" class="card-image-game">
                     </div>
 
-                    <div class="bottom-card oil">
+                    <div class="bottom-card oil animate-on-scroll stagger-4">
                         <img src="/assets/images/principal/drill_perforator.jpg" alt="{{ __('Oil pumps') }}">
                     </div>
                 </div>

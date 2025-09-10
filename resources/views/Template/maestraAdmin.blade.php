@@ -882,11 +882,13 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.0"></script>
     @endif
     @if(request()->is('exercises'))
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
         integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.0"></script>
+    @endif
+    @if(request()->is('killsheets'))
+    <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
     @endif
     @if(request()->is('projectsAdmin'))
     <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.3"></script>

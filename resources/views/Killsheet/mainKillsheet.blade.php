@@ -41,8 +41,8 @@
                     <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
                     <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
                     <!-- <button class="select-btn">
-                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
-                        </button> -->
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                    </button> -->
                 </div>
 
                 <div class="option-card" data-company="iwcf">
@@ -50,8 +50,8 @@
                     <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
                     <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
                     <!-- <button class="select-btn">
-                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
-                        </button> -->
+                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                    </button> -->
                 </div>
             </div>
         </div>

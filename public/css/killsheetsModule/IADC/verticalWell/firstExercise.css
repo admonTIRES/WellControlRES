@@ -1,0 +1,597 @@
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Niconne&family=Jura:wght@400;700&display=swap');
+  @import url('../colors.css');
+
+
+  ::-webkit-scrollbar {
+      width: 1px;
+      height: 1px;
+  }
+
+  ::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 5px;
+  }
+
+  .logo-container {
+      background: linear-gradient(to bottom,
+              #cecdcd 0%,
+              #cecdcd 15%,
+              #236192 34%);
+
+  }
+
+
+  .nav-icons {
+      background: #236192;
+  }
+
+  body {
+      margin: 10px;
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      padding: 0;
+      background: linear-gradient(to bottom,
+              #236192 0%,
+              #236192 45%,
+              white 150%);
+      user-select: none;
+  }
+
+  .info-container {
+      margin-top: 70px;
+  }
+
+  .header-section {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #fff;
+      padding: 2vw;
+  }
+
+  .header-section h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .header-section p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+  }
+
+  .layout-container {
+      background: #236192;
+      position: sticky;
+      top: 0px;
+      /* se quedará pegado al llegar a 10px del top */
+      z-index: 500;
+      padding-left: 2vw;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      justify-content: center;
+
+  }
+
+  .well-data-container {
+      max-width: 95vw;
+      /* backdrop-filter: blur(10px); */
+  }
+
+  .scroll-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+  }
+
+  .data-sections {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      /* Firefox */
+      cursor: grab;
+      min-width: 100%;
+  }
+
+  .data-sections:active {
+      cursor: grabbing;
+  }
+
+  .data-sections::-webkit-scrollbar {
+      display: none;
+      /* Chrome/Safari */
+  }
+
+  .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%);
+      background: #236192;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      opacity: 0.8;
+      transform: scale(1.1);
+  }
+
+  .scroll-btn.left {
+      left: 1px;
+  }
+
+  .scroll-btn.right {
+      right: 1px;
+  }
+
+  .scroll-btn:hover {
+
+      opacity: 1;
+      /* transform: translateY(-10%) scale(1.1); */
+  }
+
+  .buttons-container {
+    /* position: absolute;
+     top: 50%;
+      transform: translateX(-50%); */
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      /* gap: 1vw; */
+    
+
+  }
+
+  .data-section {
+      /* backdrop-filter: blur(10px); */
+      background: #ffffff34;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid;
+      transition: all 0.3s ease;
+      min-width: 300px;
+      flex-shrink: 0;
+  }
+
+  .data-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  }
+
+  .section-basic {
+      border-left-color: #3b82f6;
+  }
+
+  .section-capacities {
+      border-left-color: #10b981;
+  }
+
+  .section-annular {
+      border-left-color: #f59e0b;
+  }
+
+  .section-pump {
+      border-left-color: #8b5cf6;
+  }
+
+  .section-test {
+      border-left-color: #ef4444;
+  }
+
+  .section-influx {
+      border-left-color: #ec4899;
+  }
+
+  .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+  }
+
+  .section-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+  }
+
+  .section-basic .section-icon {
+      background: #3b82f6;
+  }
+
+  .section-capacities .section-icon {
+      background: #10b981;
+  }
+
+  .section-annular .section-icon {
+      background: #f59e0b;
+  }
+
+  .section-pump .section-icon {
+      background: #8b5cf6;
+  }
+
+  .section-test .section-icon {
+      background: #ef4444;
+  }
+
+  .section-influx .section-icon {
+      background: #ec4899;
+  }
+
+  .data-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+  }
+
+  .data-item {
+      /* display: flex; */
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+  }
+
+  .data-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+  }
+
+  .data-label {
+      font-size: 0.9rem;
+      color: #475569;
+      font-weight: 500;
+      flex: 1;
+  }
+
+  .data-value {
+      font-size: 1rem;
+      color: #1e293b;
+      font-weight: 600;
+      padding: 4px 12px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      white-space: nowrap;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      body {
+          padding: 10px;
+      }
+
+      .header-section h1 {
+          font-size: 2rem;
+      }
+
+      .data-section {
+          min-width: 280px;
+      }
+
+      .scroll-btn {
+          padding: 10px;
+      }
+  }
+
+  @media (orientation: landscape) and (max-width: 768px) {
+      .well-data-container {
+          height: fit-content;
+          max-height: 80vh;
+          overflow-y: auto;
+      }
+  }
+
+  /* Indicador visual de scroll disponible */
+  .scroll-indicator {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background: rgba(35, 97, 146, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      z-index: 5;
+      transition: opacity 0.3s ease;
+  }
+
+  /* Hoja de matar - Mantener formato original pero añadir tooltips */
+  .killsheet-container {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .tooltip-trigger {
+      position: relative;
+      cursor: help;
+      transition: all 0.2s ease;
+  }
+
+  .tooltip-trigger:hover {
+      background-color: rgba(102, 126, 234, 0.1);
+      border-radius: 4px;
+  }
+
+  .tooltip {
+      position: absolute;
+      background: #1e293b;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .tooltip::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1e293b;
+  }
+
+  .tooltip-trigger:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-5px);
+  }
+
+  /* Estilos originales de la hoja de matar */
+  .container-killFront {
+      display: flex;
+      border: 2px solid #000;
+      background: white;
+  }
+
+  .well-diagram {
+      width: 230px;
+      min-height: 850px;
+      background-color: #f0f0f0;
+      border-right: 2px solid #000;
+      position: relative;
+  }
+
+  .calculation-form {
+      flex: 1;
+      padding: 10px;
+  }
+
+  .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #000;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+  }
+
+  .section {
+      margin-bottom: 20px;
+  }
+
+  .section-title-original {
+      text-align: center;
+      color: blue;
+      border: 1px solid blue;
+      border-radius: 20px;
+      padding: 5px;
+      width: 80%;
+      margin: 15px auto;
+  }
+
+  .calc-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+
+  .label {
+      width: 150px;
+      font-size: 12px;
+      text-align: center;
+      border: 1px solid #000;
+      padding: 5px;
+  }
+
+  .formula {
+      flex: 1;
+      display: flex;
+      align-items: center;
+  }
+
+  input {
+      width: 80px;
+      text-align: center;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      padding: 4px;
+      border-radius: 3px;
+  }
+
+  .total-box {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 10px auto;
+      width: 80%;
+      text-align: center;
+  }
+
+  .right-column {
+      padding: 10px;
+      border-left: 1px solid #000;
+  }
+
+  .blue-text {
+      color: blue;
+  }
+
+  .kill-sheet {
+      display: flex;
+      border: 2px solid #000;
+      background: white;
+  }
+
+  .left-column {
+      flex: 1;
+      padding: 10px;
+  }
+
+  .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+  }
+
+  .info-table td,
+  .info-table th {
+      border: 1px solid #888;
+      padding: 5px;
+      text-align: left;
+  }
+
+  .info-table th {
+      background-color: #f0f0f0;
+  }
+
+  .formula-row {
+      margin: 15px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+  }
+
+  .title {
+      color: blue;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+
+  .formula-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+  }
+
+  .grid-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+  }
+
+  .grid-table td,
+  .grid-table th {
+      border: 1px solid #888;
+      padding: 5px;
+      text-align: center;
+  }
+
+  .instruction {
+      font-size: 0.85em;
+      margin: 10px 0;
+  }
+
+  .small-input {
+      width: 40px;
+  }
+
+  .medium-input {
+      width: 60px;
+  }
+
+  .large-input {
+      width: 120px;
+  }
+
+  .underline {
+      text-decoration: underline;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      body {
+          padding: 10px;
+      }
+
+      .layout-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+      }
+
+      .header-section h1 {
+          font-size: 2rem;
+      }
+
+      .data-grid {
+          grid-template-columns: 1fr;
+      }
+
+      .container-killFront,
+      .kill-sheet {
+          flex-direction: column;
+      }
+
+      .well-diagram {
+          width: 100%;
+          min-height: 300px;
+      }
+
+      .calc-row {
+          flex-direction: column;
+          align-items: stretch;
+      }
+
+      .label {
+          width: 100%;
+          margin-bottom: 10px;
+      }
+
+      .formula {
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+  }
+
+  @media (orientation: landscape) and (max-width: 768px) {
+      .layout-container {
+          grid-template-columns: 1fr 1.5fr;
+      }
+
+      .well-data-container {
+          height: fit-content;
+          max-height: 80vh;
+          overflow-y: auto;
+      }
+  }

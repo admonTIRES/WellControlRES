@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Exercises;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-//MODALS
+use Artisan;
+use Exception;
+use DB;
+//MODELS
 use App\Models\Admin\Exercise\Question;
 use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\TemaPreguntas;

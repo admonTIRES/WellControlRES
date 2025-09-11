@@ -10,12 +10,12 @@
             margin: 0;
             padding: 0;
         }
-        .container {
+        .container-iwcf-v {
             width: 800px;
             margin: 0 auto;
             border: 2px solid #333;
         }
-        .header {
+        .header-iwcf-v {
             display: flex;
             justify-content: space-between;
             border-bottom: 2px solid #333;
@@ -29,7 +29,7 @@
             border-left: 2px solid #333;
             padding-left: 10px;
         }
-        .title {
+        .title-iwcf-v {
             font-weight: bold;
             text-align: center;
             margin-bottom: 5px;
@@ -158,11 +158,11 @@
 </head>
 <body>
     <!-- Page 1 -->
-    <div class="container">
+    <div class="container-iwcf-v">
         <div class="page-number">Página 1 de 2</div>
-        <div class="header">
+        <div class="header-iwcf-v">
             <div class="header-left">
-                <div class="title">International Well Control Forum</div>
+                <div class="title-iwcf-v">International Well Control Forum</div>
                 <div class="subtitle">(Unidades de Campo API)</div>
                 <div class="subtitle">Hoja de control de pozo (Hoja para matar) - BOP de superficie pozo vertical</div>
             </div>
@@ -392,9 +392,9 @@
     <!-- Page 2 -->
     <div class="container" style="margin-top: 20px;">
         <div class="page-number">Página 2 de 2</div>
-        <div class="header">
+        <div class="header-iwcf-v">
             <div class="header-left">
-                <div class="title">International Well Control Forum</div>
+                <div class="title-iwcf-v">International Well Control Forum</div>
                 <div class="subtitle">(Unidades de Campo API)</div>
                 <div class="subtitle">Hoja de control de pozo (Hoja para matar) - BOP de superficie pozo vertical</div>
             </div>

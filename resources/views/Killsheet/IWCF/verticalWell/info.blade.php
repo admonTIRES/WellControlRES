@@ -5,273 +5,273 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Killsheet</title>
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      
+      .container-1 {
+        display: flex;
+        max-width: 1200px;
+        border: 2px solid #000;
+        margin: 0 auto 20px auto;
+      }
+      
+      .well-diagram {
+        width: 230px;
+        min-height: 850px;
+        background-color: #f0f0f0;
+        border-right: 2px solid #000;
+        position: relative;
+      }
+      
+      .calculation-form {
+        flex: 1;
+        padding: 10px;
+      }
+      
+      .header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .section {
+        margin-bottom: 20px;
+      }
+      
+      .section-title {
+        text-align: center;
+        color: blue;
+        border: 1px solid blue;
+        border-radius: 20px;
+        padding: 5px;
+        width: 80%;
+        margin: 15px auto;
+      }
+      
+      .calc-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      
+      .label {
+        width: 150px;
+        font-size: 12px;
+        text-align: center;
+        border: 1px solid #000;
+        padding: 5px;
+      }
+      
+      .formula {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      
+      input {
+        width: 80px;
+        text-align: center;
+        margin: 0 5px;
+      }
+      
+      .total-box {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 10px auto;
+        width: 80%;
+        text-align: center;
+      }
+      
+      .right-column {
+        padding: 10px;
+        border-left: 1px solid #000;
+      }
+      
+      .blue-text {
+        color: blue;
+      }
+      
+      /* Styles for kill sheet */
+      .kill-sheet {
+        display: flex;
+        max-width: 1200px;
+        border: 2px solid #000;
+        margin: 20px auto;
+      }
+      
+      .left-column, .right-column {
+        flex: 1;
+        padding: 10px;
+      }
+      
+      .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+      }
+      
+      .info-table td, .info-table th {
+        border: 1px solid #888;
+        padding: 5px;
+        text-align: left;
+      }
+      
+      .info-table th {
+        background-color: #f0f0f0;
+      }
+      
+      .formula-row {
+        margin: 15px 0;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .title {
+        color: blue;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      
+      .formula-content {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .grid-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      
+      .grid-table td, .grid-table th {
+        border: 1px solid #888;
+        padding: 5px;
+        text-align: center;
+      }
+      
+      .instruction {
+        font-size: 0.85em;
+        margin: 10px 0;
+      }
+      
+      .small-input {
+        width: 40px;
+      }
+      
+      .medium-input {
+        width: 60px;
+      }
+      
+      .large-input {
+        width: 120px;
+      }
+      
+      .underline {
+        text-decoration: underline;
+      }
+
+      .pozo-data-card {
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      background-color: #ffffff;
+      /* min-width: 500px; */
+    }
+    
+    .card-header {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-bottom: 1px solid #eaeaea;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .card-title {
       margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    
+    .card-body {
       padding: 20px;
     }
     
-    .container {
+    .card-footer {
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #eaeaea;
+      border-radius: 0 0 8px 8px;
       display: flex;
-      max-width: 1200px;
-      border: 2px solid #000;
-      margin: 0 auto 20px auto;
+      justify-content: flex-end;
+      gap: 10px;
     }
     
-    .well-diagram {
-      width: 230px;
-      min-height: 850px;
-      background-color: #f0f0f0;
-      border-right: 2px solid #000;
-      position: relative;
-    }
-    
-    .calculation-form {
-      flex: 1;
-      padding: 10px;
-    }
-    
-    .header {
+    /* Estilos para los inputs */
+    .form-group {
+      margin-bottom: 15px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #000;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
     }
     
-    .section {
-      margin-bottom: 20px;
-    }
-    
-    .section-title {
-      text-align: center;
-      color: blue;
-      border: 1px solid blue;
-      border-radius: 20px;
-      padding: 5px;
-      width: 80%;
-      margin: 15px auto;
-    }
-    
-    .calc-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .label {
-      width: 150px;
-      font-size: 12px;
-      text-align: center;
-      border: 1px solid #000;
-      padding: 5px;
-    }
-    
-    .formula {
-      flex: 1;
-      display: flex;
-      align-items: center;
+    .form-group label {
+      flex-basis: 40%;
+      font-weight: 500;
+      color: #555;
     }
     
     input {
-      width: 80px;
+      width: 60%;
       text-align: center;
       margin: 0 5px;
+      border: none;
+      min-width: 40px;
+      border-bottom: 1px solid #ccc;
+      padding: 5px 0;
+      outline: none;
+      background-color: transparent;
+      transition: border-color 0.3s;
     }
     
-    .total-box {
-      border: 1px solid #000;
-      padding: 10px;
-      margin: 10px auto;
-      width: 80%;
-      text-align: center;
+    .underline-input:focus {
+      border-bottom: 2px solid #007bff;
     }
     
-    .right-column {
-      padding: 10px;
-      border-left: 1px solid #000;
+    /* Estilos para botones */
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
     }
     
-    .blue-text {
-      color: blue;
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
     }
     
-    /* Styles for kill sheet */
-    .kill-sheet {
-      display: flex;
-      max-width: 1200px;
-      border: 2px solid #000;
-      margin: 20px auto;
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
     }
     
-    .left-column, .right-column {
-      flex: 1;
-      padding: 10px;
-    }
-    
-    .info-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 15px;
-    }
-    
-    .info-table td, .info-table th {
-      border: 1px solid #888;
-      padding: 5px;
-      text-align: left;
-    }
-    
-    .info-table th {
-      background-color: #f0f0f0;
-    }
-    
-    .formula-row {
-      margin: 15px 0;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-    
-    .title {
-      color: blue;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    
-    .formula-content {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-    
-    .grid-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 15px 0;
-    }
-    
-    .grid-table td, .grid-table th {
-      border: 1px solid #888;
-      padding: 5px;
-      text-align: center;
-    }
-    
-    .instruction {
-      font-size: 0.85em;
-      margin: 10px 0;
-    }
-    
-    .small-input {
-      width: 40px;
-    }
-    
-    .medium-input {
-      width: 60px;
-    }
-    
-    .large-input {
-      width: 120px;
-    }
-    
-    .underline {
-      text-decoration: underline;
+    .btn:hover {
+      opacity: 0.9;
     }
 
-    .pozo-data-card {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    background-color: #ffffff;
-    /* min-width: 500px; */
-  }
-  
-  .card-header {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-bottom: 1px solid #eaeaea;
-    border-radius: 8px 8px 0 0;
-  }
-  
-  .card-title {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card-footer {
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #eaeaea;
-    border-radius: 0 0 8px 8px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  /* Estilos para los inputs */
-  .form-group {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .form-group label {
-    flex-basis: 40%;
-    font-weight: 500;
-    color: #555;
-  }
-  
-  input {
-    width: 60%;
-    text-align: center;
-    margin: 0 5px;
-    border: none;
-    min-width: 40px;
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0;
-    outline: none;
-    background-color: transparent;
-    transition: border-color 0.3s;
-  }
-  
-  .underline-input:focus {
-    border-bottom: 2px solid #007bff;
-  }
-  
-  /* Estilos para botones */
-  .btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .btn:hover {
-    opacity: 0.9;
-  }
-
-  .container-centered {
-    display: flex;
-    justify-content: center;
-    min-height: 50vh;
-    padding: 20px;
-  }
+    .container-centered {
+      display: flex;
+      justify-content: center;
+      min-height: 50vh;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>

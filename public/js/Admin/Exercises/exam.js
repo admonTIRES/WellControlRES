@@ -516,6 +516,7 @@ var questionDatatable = $("#question-list-table").DataTable({
     scrollX: true,
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},

@@ -56,7 +56,7 @@ use Illuminate\Support\Str;
     @if (isset($css_identifier))
     @switch($css_identifier)
     @case('exercises')
-    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.1" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.2" media="(min-width: 1024px)">
     @break
     @case('math')
     <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">

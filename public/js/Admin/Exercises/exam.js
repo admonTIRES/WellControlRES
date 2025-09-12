@@ -22,43 +22,30 @@ function manejarSeccionExtra(selectorCheckbox, seccion, campos) {
 }
 $(document).ready(function() {
     $('#ANSWER_TYPE_QUESTION').on('change', function () {
-    const tipo = $(this).val();
+        const tipo = $(this).val();
 
-    if (tipo === '1') {
-        // Mostrar rango, ocultar opciones y respuestas
-        $('#rangoRespuesta').removeClass('d-none');
-        $('#selectorOpciones').addClass('d-none');
-        $('#selectorCorrectas').addClass('d-none');
-        $('#respuestas-container').hide();
-    } else if (tipo === '2') {
-        // Ocultar rango, mostrar opciones y respuestas
-        $('#rangoRespuesta').addClass('d-none');
-        $('#selectorOpciones').removeClass('d-none');
-        $('#selectorCorrectas').removeClass('d-none');
-        $('#respuestas-container').show();
-    } else {
-        // Si selecciona "Seleccionar..." (valor 0), ocultar todo
-        $('#rangoRespuesta').addClass('d-none');
-        $('#selectorOpciones').addClass('d-none');
-        $('#selectorCorrectas').addClass('d-none');
-        $('#respuestas-container').hide();
-    }
-});
-    // RESET MODALS
-    $('#examModal').on('hidden.bs.modal', function() {
-        ID_EXAM_EXERCISE = 0;
-        $('#examForm')[0].reset();
-        $('#examModal .modal-title').text('New exam');
+        if (tipo === '1') {
+            // Mostrar rango, ocultar opciones y respuestas
+            $('#rangoRespuesta').removeClass('d-none');
+            $('#selectorOpciones').addClass('d-none');
+            $('#selectorCorrectas').addClass('d-none');
+            $('#respuestas-container').hide();
+        } else if (tipo === '2') {
+            // Ocultar rango, mostrar opciones y respuestas
+            $('#rangoRespuesta').addClass('d-none');
+            $('#selectorOpciones').removeClass('d-none');
+            $('#selectorCorrectas').removeClass('d-none');
+            $('#respuestas-container').show();
+        } else {
+            // Si selecciona "Seleccionar..." (valor 0), ocultar todo
+            $('#rangoRespuesta').addClass('d-none');
+            $('#selectorOpciones').addClass('d-none');
+            $('#selectorCorrectas').addClass('d-none');
+            $('#respuestas-container').hide();
+        }
     });
 
-    $('#questionModal').on('hidden.bs.modal', function() {
-        ID_QUESTION_EXERCISE = 0;
-        $('#questionForm')[0].reset();
-        $('#questionModal .modal-title').text('New question');
-    });
-    // RESET MODALS - END
-
-    var $select = $('#ACCREDITATION_ENTITIES_QUESTION').selectize({
+  var $select = $('#ACCREDITATION_ENTITIES_QUESTION').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -180,6 +167,28 @@ $(document).ready(function() {
     var selectizeInstance10 = $select10[0].selectize;
 
     $('.dropify').dropify();
+    // RESET MODALS
+    $('#examModal').on('hidden.bs.modal', function() {
+        ID_EXAM_EXERCISE = 0;
+        $('#examForm')[0].reset();
+        $('#examModal .modal-title').text('New exam');
+    });
+
+    $('#questionModal').on('hidden.bs.modal', function() {
+        ID_QUESTION_EXERCISE = 0;
+        $('#questionForm')[0].reset();
+            selectizeInstance.clear();            
+            selectizeInstance2.clear();            
+            selectizeInstance3.clear();            
+            selectizeInstance4.clear();            
+            selectizeInstance5.clear();            
+            selectizeInstance9.clear();            
+
+        $('#questionModal .modal-title').text('New question');
+    });
+    // RESET MODALS - END
+
+  
 
     // Mostrar campos según selección
     // $('#TIPO1_QUESTION').on('change', function () {
@@ -895,6 +904,10 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ]);
 
     actualizarVisibilidadTipos();
+    
+    actualizarRespuestas();
+    llenarCheckboxes(row);
+
 
     $('#questionModal .modal-title').html(row.data().ID_QUESTION);
 
@@ -915,3 +928,40 @@ function actualizarVisibilidadTipos() {
     $('#seccionExtra2').toggleClass('opacity-50 pointer-events-none', !extra2Activo);
     $('#TIPO3_QUESTION, #TEXTO3_QUESTION').prop('disabled', !extra2Activo);
 }
+
+function actualizarRespuestas() {
+    $('#ANSWER_TYPE_QUESTION').trigger('change');
+    $('#ANSWER_OPTIONS_QUESTION').trigger('change');
+    $('#CORRECT_ANSWERS_QUESTION').trigger('change');
+}
+
+function llenarCheckboxes(row) {
+
+    $('input[type="checkbox"]').prop('checked', false);
+    $('.checkbox-wrapper').removeClass('correct incorrect');
+    respuestasSeleccionadas = 0;
+
+    row.data().ANSWERS_QUESTION.forEach(function(answer, index) {
+        var i = index + 1;
+
+        var $checkbox = $('#respuesta' + i + '-check');
+        var $textInput = $('#respuesta' + i + '-text');
+
+        if ($textInput.length) {
+            $textInput.val(answer.texto || '');
+        }
+
+        if ($checkbox.length && answer.correcta) {
+            $checkbox.prop('checked', true);
+            $checkbox.closest('.checkbox-wrapper').addClass('correct');
+            respuestasSeleccionadas++;
+        }
+
+        
+
+    });
+}
+
+
+
+

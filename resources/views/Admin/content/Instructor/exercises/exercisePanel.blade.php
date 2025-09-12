@@ -647,7 +647,7 @@
 
                                      <div class="checkbox-container" id="respuesta8">
                                         <div class="checkbox-wrapper">
-                                            <input type="checkbox" id="respuesta5-check" name="respuesta_check[]" value="8">
+                                            <input type="checkbox" id="respuesta8-check" name="respuesta_check[]" value="8">
                                             <input type="text" id="respuesta8-text" name="respuesta_text[]" placeholder="Escriba la respuesta 8" class="form-control">
                                         </div>
                                     </div>

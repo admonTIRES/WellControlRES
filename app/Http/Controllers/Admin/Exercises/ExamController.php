@@ -14,6 +14,7 @@ use App\Models\Admin\catalogs\TemaPreguntas;
 use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\NivelAcreditacion;
+use Illuminate\Support\Facades\Storage;
 
 class ExamController extends Controller
 {
@@ -74,16 +75,25 @@ class ExamController extends Controller
                 $QUESTION_STRUCTURE_QUESTION = $value->QUESTION_STRUCTURE_QUESTION ?? null;
                 $value->TIPO1_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO1_QUESTION'] ?? null;
                 $value->TEXTO1_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO1_QUESTION'] ?? null;
-                $value->IMAGEN1_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION'] ?? null;
                 $value->SECCION_EXTRA1 = $QUESTION_STRUCTURE_QUESTION['SECCION_EXTRA1'] ?? false;
                 $value->TIPO2_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO2_QUESTION'] ?? null;
                 $value->TEXTO2_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO2_QUESTION'] ?? null;
-                $value->IMAGEN2_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION'] ?? null;
                 $value->SECCION_EXTRA2 = $QUESTION_STRUCTURE_QUESTION['SECCION_EXTRA2'] ?? false;
                 $value->TIPO3_QUESTION = $QUESTION_STRUCTURE_QUESTION['TIPO3_QUESTION'] ?? null;
                 $value->TEXTO3_QUESTION = $QUESTION_STRUCTURE_QUESTION['TEXTO3_QUESTION'] ?? null;
-                $value->IMAGEN3_QUESTION = $QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION'] ?? null;
 
+
+                $value->IMAGEN1_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION']) 
+                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION']) 
+                    : null;
+
+                $value->IMAGEN2_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION']) 
+                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION']) 
+                    : null;
+
+                $value->IMAGEN3_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION']) 
+                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION']) 
+                    : null;
 
 
                 // foreach ($tabla as $value) {
@@ -146,24 +156,20 @@ class ExamController extends Controller
                     $EVALUATION_TYPES_QUESTION = $request->has('EVALUATION_TYPES_QUESTION') ? (array)$request->input('EVALUATION_TYPES_QUESTION') : [];
 
 
-                    //ESTRUSTURA DE LA PREGUNTA 
-                    $imagen1 = $request->hasFile('IMAGEN1_QUESTION') ? $this->uploadFile($request->file('IMAGEN1_QUESTION')) : null;
-                    $imagen2 = $request->hasFile('IMAGEN2_QUESTION') ? $this->uploadFile($request->file('IMAGEN2_QUESTION')) : null;
-                    $imagen3 = $request->hasFile('IMAGEN3_QUESTION') ? $this->uploadFile($request->file('IMAGEN3_QUESTION')) : null;
-
-                    $QUESTION_STRUCTURE_QUESTION  = [
-                        'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
-                        'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
-                        'IMAGEN1_QUESTION' => $request->TIPO1_QUESTION == 2 ? $imagen1 : null,
-                        'SECCION_EXTRA1' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on',
-                        'TIPO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' ? ($request->TIPO2_QUESTION ?? '') : '',
-                        'TEXTO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 1 ? $request->TEXTO2_QUESTION : null,
-                        'IMAGEN2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 2 ? $imagen2 : null,
-                        'SECCION_EXTRA2' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
-                        'TIPO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' ? ($request->TIPO3_QUESTION ?? '') : '',
-                        'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
-                        'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
-                    ];
+                   
+                    // $QUESTION_STRUCTURE_QUESTION  = [
+                    //     'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
+                    //     'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
+                    //     'IMAGEN1_QUESTION' => $request->TIPO1_QUESTION == 2 ? $imagen1 : null,
+                    //     'SECCION_EXTRA1' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on',
+                    //     'TIPO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' ? ($request->TIPO2_QUESTION ?? '') : '',
+                    //     'TEXTO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 1 ? $request->TEXTO2_QUESTION : null,
+                    //     'IMAGEN2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 2 ? $imagen2 : null,
+                    //     'SECCION_EXTRA2' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
+                    //     'TIPO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' ? ($request->TIPO3_QUESTION ?? '') : '',
+                    //     'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
+                    //     'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
+                    // ];
 
                     //RESPUESTAS ESTRUCTURA
                     $ANSWERS_QUESTION = [];
@@ -190,7 +196,7 @@ class ExamController extends Controller
                             'LANGUAGE_ID_QUESTION' => $request->LANGUAGE_ID_QUESTION,
                             'TOPICS_QUESTION' => $TOPICS_QUESTION,
                             'SUBTOPICS_QUESTION' => $SUBTOPICS_QUESTION,
-                            'QUESTION_STRUCTURE_QUESTION' => $QUESTION_STRUCTURE_QUESTION,
+                           'QUESTION_STRUCTURE_QUESTION' => [],
                             'ANSWER_TYPE_QUESTION' => $request->ANSWER_TYPE_QUESTION,
                             'ANSWER_OPTIONS_QUESTION' => $request->ANSWER_OPTIONS_QUESTION,
                             'CORRECT_ANSWERS_QUESTION' => $request->CORRECT_ANSWERS_QUESTION,
@@ -208,6 +214,29 @@ class ExamController extends Controller
                             'PERCENT_QUESTION' => 0, // SIN PORCENTAJE
                             'ACTIVO_QUESTION' => 1
                         ]);
+
+                        $idQuestion = $question->ID_QUESTION;
+                        $imagen1 = $request->hasFile('IMAGEN1_QUESTION') ? $this->uploadFile($request->file('IMAGEN1_QUESTION'), $idQuestion, 1) : null;
+                        $imagen2 = $request->hasFile('IMAGEN2_QUESTION') ? $this->uploadFile($request->file('IMAGEN2_QUESTION'), $idQuestion, 2) : null;
+                        $imagen3 = $request->hasFile('IMAGEN3_QUESTION') ? $this->uploadFile($request->file('IMAGEN3_QUESTION'), $idQuestion, 3) : null;
+
+                        $QUESTION_STRUCTURE_QUESTION  = [
+                            'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
+                            'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
+                            'IMAGEN1_QUESTION' => $request->TIPO1_QUESTION == 2 ? $imagen1 : null,
+                            'SECCION_EXTRA1' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on',
+                            'TIPO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' ? ($request->TIPO2_QUESTION ?? '') : '',
+                            'TEXTO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 1 ? $request->TEXTO2_QUESTION : null,
+                            'IMAGEN2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 2 ? $imagen2 : null,
+                            'SECCION_EXTRA2' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
+                            'TIPO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' ? ($request->TIPO3_QUESTION ?? '') : '',
+                            'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
+                            'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
+                        ];
+
+                        // Actualizamos la pregunta con la estructura completa
+                        $question->QUESTION_STRUCTURE_QUESTION = $QUESTION_STRUCTURE_QUESTION;
+                        $question->save();
                     } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
@@ -221,6 +250,24 @@ class ExamController extends Controller
                             }
                         } else {
                             $question = Question::find($request->ID_QUESTION);
+                            $idQuestion = $question->ID_QUESTION;
+                            $imagen1 = $request->hasFile('IMAGEN1_QUESTION') ? $this->uploadFile($request->file('IMAGEN1_QUESTION'), $idQuestion, 1) : null;
+                            $imagen2 = $request->hasFile('IMAGEN2_QUESTION') ? $this->uploadFile($request->file('IMAGEN2_QUESTION'), $idQuestion, 2) : null;
+                            $imagen3 = $request->hasFile('IMAGEN3_QUESTION') ? $this->uploadFile($request->file('IMAGEN3_QUESTION'), $idQuestion, 3) : null;
+
+                            $QUESTION_STRUCTURE_QUESTION  = [
+                                'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
+                                'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
+                                'IMAGEN1_QUESTION' => $request->TIPO1_QUESTION == 2 ? $imagen1 : null,
+                                'SECCION_EXTRA1' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on',
+                                'TIPO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' ? ($request->TIPO2_QUESTION ?? '') : '',
+                                'TEXTO2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 1 ? $request->TEXTO2_QUESTION : null,
+                                'IMAGEN2_QUESTION' => $request->has('SECCION_EXTRA1') && $request->SECCION_EXTRA1 == 'on' && $request->TIPO2_QUESTION == 2 ? $imagen2 : null,
+                                'SECCION_EXTRA2' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
+                                'TIPO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' ? ($request->TIPO3_QUESTION ?? '') : '',
+                                'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
+                                'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
+                            ];
                             $question->update([
                                 'ACCREDITATION_ENTITIES_QUESTION' => $ACCREDITATION_ENTITIES_QUESTION,
                                 'LEVELS_QUESTION' => $LEVELS_QUESTION,
@@ -279,6 +326,21 @@ class ExamController extends Controller
         }
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
+
+    private function uploadFile($file, $idQuestion, $numeroImagen)
+{
+    if (!$file) return null;
+
+    $path = "admin/exam/questions/{$idQuestion}/imagen";
+    $extension = $file->getClientOriginalExtension();
+    $filename = "{$numeroImagen}.{$extension}";
+
+    // Guardar en disco 'public' (storage/app/public)
+    $file->storeAs($path, $filename, 'public');
+
+    // Retornar la ruta relativa
+    return "{$path}/{$filename}";
+}
 
 
 }

@@ -881,6 +881,23 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     editarDatoTabla(row.data(), 'questionForm', 'questionModal', 1);
 
+     $('#TEXTO1_QUESTION').val(row.TEXTO1_QUESTION || '');
+    $('#TEXTO2_QUESTION').val(row.TEXTO2_QUESTION || '');
+    $('#TEXTO3_QUESTION').val(row.TEXTO3_QUESTION || '');
+
+    // Activar secciones extra si aplica
+    if(row.SECCION_EXTRA1) {
+        $('#activarSeccionExtra').prop('checked', true);
+        $('#seccionExtra').removeClass('opacity-50 pointer-events-none');
+        $('#TIPO2_QUESTION').val(row.TIPO2_QUESTION).trigger('change');
+    }
+
+    if(row.SECCION_EXTRA2) {
+        $('#activarSeccionExtra2').prop('checked', true);
+        $('#seccionExtra2').removeClass('opacity-50 pointer-events-none');
+        $('#TIPO3_QUESTION').val(row.TIPO3_QUESTION).trigger('change');
+    }
+
    function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {
             var values = row.data()[fieldId];
@@ -901,6 +918,7 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         });
     }
 
+
     initializeSelectizedFields(row, [
         'ACCREDITATION_ENTITIES_QUESTION',
         'LEVELS_QUESTION',
@@ -909,6 +927,35 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'SUBTOPICS_QUESTION',
         'EVALUATION_TYPES_QUESTION'
     ]);
+
+     function mostrarImagen(inputId, url) {
+            var $input = $('#' + inputId);
+
+            // Destruir Dropify si ya existe
+            if ($input.data('dropify')) {
+                $input.data('dropify').destroy();
+            }
+
+            // Inicializar Dropify con la imagen por defecto
+            $input.dropify({
+                defaultFile: url,
+                showRemove: true
+            });
+
+            // Inicializar la instancia
+            $input.data('dropify').init();
+        }
+
+        if(row.TIPO1_QUESTION == '2' && row.IMAGEN1_QUESTION) {
+            mostrarImagen('IMAGEN1_QUESTION', row.IMAGEN1_QUESTION);
+        }
+        if(row.TIPO2_QUESTION == '2' && row.IMAGEN2_QUESTION) {
+            mostrarImagen('IMAGEN2_QUESTION', row.IMAGEN2_QUESTION);
+        }
+        if(row.TIPO3_QUESTION == '2' && row.IMAGEN3_QUESTION) {
+            mostrarImagen('IMAGEN3_QUESTION', row.IMAGEN3_QUESTION);
+        }
+
 
     actualizarVisibilidadTipos();
     

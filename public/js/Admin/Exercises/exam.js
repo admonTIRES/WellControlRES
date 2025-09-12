@@ -175,7 +175,7 @@ $(document).ready(function() {
     });
 
     $('#questionModal').on('hidden.bs.modal', function() {
-        ID_QUESTION_EXERCISE = 0;
+        ID_QUESTION = 0;
         $('#questionForm')[0].reset();
             selectizeInstance.clear();            
             selectizeInstance2.clear();            
@@ -183,6 +183,12 @@ $(document).ready(function() {
             selectizeInstance4.clear();            
             selectizeInstance5.clear();            
             selectizeInstance9.clear();            
+        $('#respuestas-container').hide();
+
+        $(campoTexto).toggleClass('d-none', tipo !== '1');
+        $(campoImagen).toggleClass('d-none', tipo !== '2');
+        $('#questionModal .modal-title').html("Nueva pregunta");
+
 
         $('#questionModal .modal-title').text('New question');
     });
@@ -909,7 +915,7 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     llenarCheckboxes(row);
 
 
-    $('#questionModal .modal-title').html(row.data().ID_QUESTION);
+    $('#questionModal .modal-title').html("Editar pregunta con folio: " + row.data().FOLIO_PREGUNTA);
 
 });
 
@@ -955,9 +961,11 @@ function llenarCheckboxes(row) {
             $checkbox.prop('checked', true);
             $checkbox.closest('.checkbox-wrapper').addClass('correct');
             respuestasSeleccionadas++;
+        }else{
+            $checkbox.closest('.checkbox-wrapper').addClass('incorrect');
         }
 
-        
+
 
     });
 }

@@ -187,6 +187,20 @@ $(document).ready(function() {
 
         $(campoTexto).toggleClass('d-none', tipo !== '1');
         $(campoImagen).toggleClass('d-none', tipo !== '2');
+              $('#IMAGEN1_QUESTION').val('');
+	$('#IMAGEN1_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN1_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN1_QUESTION').attr('required', true);
+
+     $('#IMAGEN2_QUESTION').val('');
+	$('#IMAGEN2_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN2_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN2_QUESTION').attr('required', true);
+
+     $('#IMAGEN3_QUESTION').val('');
+	$('#IMAGEN3_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN3_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN3_QUESTION').attr('required', true);
         $('#questionModal .modal-title').html("Nueva pregunta");
 
 
@@ -877,26 +891,47 @@ $('#question-list-table tbody').on('change', 'input.ACTIVAR', function () {
 $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = questionDatatable.row(tr);
+    var rowData = row.data();
     ID_QUESTION = row.data().ID_QUESTION;
 
     editarDatoTabla(row.data(), 'questionForm', 'questionModal', 1);
+    $('#TEXTO1_QUESTION').val(rowData.TEXTO1_QUESTION || '');
+    $('#TEXTO2_QUESTION').val(rowData.TEXTO2_QUESTION || '');
+    $('#TEXTO3_QUESTION').val(rowData.TEXTO3_QUESTION || '');
 
-     $('#TEXTO1_QUESTION').val(row.TEXTO1_QUESTION || '');
-    $('#TEXTO2_QUESTION').val(row.TEXTO2_QUESTION || '');
-    $('#TEXTO3_QUESTION').val(row.TEXTO3_QUESTION || '');
+    $('#IMAGEN1_QUESTION').val('');
+	$('#IMAGEN1_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN1_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN1_QUESTION').attr('required', true);
 
+     $('#IMAGEN2_QUESTION').val('');
+	$('#IMAGEN2_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN2_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN2_QUESTION').attr('required', true);
+
+     $('#IMAGEN3_QUESTION').val('');
+	$('#IMAGEN3_QUESTION').dropify().data('dropify').resetPreview();
+	$('#IMAGEN3_QUESTION').dropify().data('dropify').clearElement();
+	$('#IMAGEN3_QUESTION').attr('required', true);
     // Activar secciones extra si aplica
-    if(row.SECCION_EXTRA1) {
+    if(rowData.SECCION_EXTRA1) {
         $('#activarSeccionExtra').prop('checked', true);
         $('#seccionExtra').removeClass('opacity-50 pointer-events-none');
-        $('#TIPO2_QUESTION').val(row.TIPO2_QUESTION).trigger('change');
+        $('#TIPO2_QUESTION').prop('disabled', false);
+        $('#TIPO2_QUESTION').val(rowData.TIPO2_QUESTION || '').trigger('change');
     }
 
-    if(row.SECCION_EXTRA2) {
+    if(rowData.SECCION_EXTRA2) {
         $('#activarSeccionExtra2').prop('checked', true);
         $('#seccionExtra2').removeClass('opacity-50 pointer-events-none');
-        $('#TIPO3_QUESTION').val(row.TIPO3_QUESTION).trigger('change');
+        $('#TIPO3_QUESTION').prop('disabled', false);
+        $('#TIPO3_QUESTION').val(rowData.TIPO3_QUESTION || '').trigger('change');
     }
+
+    $('#TIPO1_QUESTION').val(rowData.TIPO1_QUESTION || '').trigger('change');
+    $('#TIPO2_QUESTION').val(rowData.TIPO2_QUESTION || '').trigger('change');
+    $('#TIPO3_QUESTION').val(rowData.TIPO3_QUESTION || '').trigger('change');
+
 
    function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {
@@ -928,33 +963,51 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'EVALUATION_TYPES_QUESTION'
     ]);
 
-     function mostrarImagen(inputId, url) {
-            var $input = $('#' + inputId);
-
-            // Destruir Dropify si ya existe
-            if ($input.data('dropify')) {
-                $input.data('dropify').destroy();
-            }
-
-            // Inicializar Dropify con la imagen por defecto
-            $input.dropify({
-                defaultFile: url,
-                showRemove: true
-            });
-
-            // Inicializar la instancia
-            $input.data('dropify').init();
+     function manejarImagen(inputId, rutaImagen) {
+        var $input = $('#' + inputId);
+        
+        if (rutaImagen) {
+            // Limpiar la ruta y crear URL de storage
+            var rutaLimpia = rutaImagen.replace(/\\/g, '/'); 
+            var imagenUrl = '/storage/' + rutaLimpia;
+            
+            console.log('URL directa generada:', imagenUrl);
+            console.log('Ruta original:', rutaImagen);
+            
+            // Destruir dropify existente
+            $input.dropify().data('dropify').destroy();
+            
+            // Configurar nueva imagen por defecto
+            $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
+            $input.dropify().data('dropify').init();
+            
+            // No requerir el campo
+            $input.attr('required', false);
+            
+        } else {
+            // Resetear campo si no hay imagen
+            $input.val('');
+            $input.dropify().data('dropify').resetPreview();
+            $input.dropify().data('dropify').clearElement();
+            $input.attr('required', false);
         }
+    }
 
-        if(row.TIPO1_QUESTION == '2' && row.IMAGEN1_QUESTION) {
-            mostrarImagen('IMAGEN1_QUESTION', row.IMAGEN1_QUESTION);
+    // Esperar a que los campos estén visibles antes de inicializar Dropify
+    setTimeout(function() {
+        // Manejar las imágenes según el tipo usando el controlador
+        if(rowData.TIPO1_QUESTION == '2') {
+            manejarImagen('IMAGEN1_QUESTION', rowData.IMAGEN1_QUESTION, rowData.ID_QUESTION);
         }
-        if(row.TIPO2_QUESTION == '2' && row.IMAGEN2_QUESTION) {
-            mostrarImagen('IMAGEN2_QUESTION', row.IMAGEN2_QUESTION);
+        
+        if(rowData.TIPO2_QUESTION == '2') {
+            manejarImagen('IMAGEN2_QUESTION', rowData.IMAGEN2_QUESTION, rowData.ID_QUESTION);
         }
-        if(row.TIPO3_QUESTION == '2' && row.IMAGEN3_QUESTION) {
-            mostrarImagen('IMAGEN3_QUESTION', row.IMAGEN3_QUESTION);
+        
+        if(rowData.TIPO3_QUESTION == '2') {
+            manejarImagen('IMAGEN3_QUESTION', rowData.IMAGEN3_QUESTION, rowData.ID_QUESTION);
         }
+    }, 200);
 
 
     actualizarVisibilidadTipos();

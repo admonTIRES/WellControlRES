@@ -84,15 +84,15 @@ class ExamController extends Controller
 
 
                 $value->IMAGEN1_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION']) 
-                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION']) 
+                    ? $QUESTION_STRUCTURE_QUESTION['IMAGEN1_QUESTION'] 
                     : null;
 
                 $value->IMAGEN2_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION']) 
-                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION']) 
+                    ? $QUESTION_STRUCTURE_QUESTION['IMAGEN2_QUESTION'] 
                     : null;
 
                 $value->IMAGEN3_QUESTION = isset($QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION']) 
-                    ? Storage::url($QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION']) 
+                    ? $QUESTION_STRUCTURE_QUESTION['IMAGEN3_QUESTION']
                     : null;
 
 
@@ -342,5 +342,26 @@ class ExamController extends Controller
     return "{$path}/{$filename}";
 }
 
+public function mostrarimagenquestionall($archivo_opcion, $question_id, $campo_imagen)
+{
+    $question = Question::findOrFail($question_id);
+    
+    // Validar que el campo es válido
+    $camposValidos = ['IMAGEN1_QUESTION', 'IMAGEN2_QUESTION', 'IMAGEN3_QUESTION'];
+    if (!in_array($campo_imagen, $camposValidos)) {
+        abort(404, 'Campo de imagen no válido');
+    }
+    
+    $rutaImagen = $question->$campo_imagen;
+    if (!$rutaImagen) {
+        abort(404, 'Imagen no encontrada');
+    }
+    
+    if (($archivo_opcion + 0) == 0) {
+        return Storage::response($rutaImagen);
+    } else {
+        return Storage::download($rutaImagen);
+    }
+}
 
 }

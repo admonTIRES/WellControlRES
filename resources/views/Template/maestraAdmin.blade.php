@@ -79,7 +79,7 @@ use Illuminate\Support\Str;
 </head>
 
 
-<body class="  ">
+<body >
     <!-- loader Start -->
     <div id="loading">
         <div class="loader simple-loader">
@@ -843,8 +843,8 @@ use Illuminate\Support\Str;
         </footer>
     </main>
 
-    <!-- Wrapper End-->
-    <!-- offcanvas start -->
+        <!-- Wrapper End-->
+        <!-- offcanvas start -->
 
     <!-- Backend Bundle JavaScript -->
     <script src="/assets/js/libs.min.js"></script>

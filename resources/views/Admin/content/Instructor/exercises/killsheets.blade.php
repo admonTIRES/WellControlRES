@@ -231,7 +231,7 @@
                                 </div>
 
                                 <!-- BOP -->
-                                <div class="col-md-2 text-start">
+                                {{-- <div class="col-md-2 text-start">
                                     <label> {{ __('BOP*') }}</label>
                                     <select class="form-select selectize-multiple" id="BOP_KILLSHEET"
                                         name="BOP_KILLSHEET[]" multiple>
@@ -239,7 +239,7 @@
                                         <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-2 text-start">
                                     <label> {{ __('OPERATION TYPE*') }}</label>
@@ -767,7 +767,7 @@
                     }
                 </style>
                 <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
-                    <!-- tus campos killsheet_IADC_v -->
+                   
                     <div class="container-iwcf-v">
                         <div class="page-number">Página 1 de 2</div>
                         <div class="header-iwcf-v">
@@ -1146,1328 +1146,857 @@
                 </form>
                 <form id="killsheet-2" enctype="multipart/form-data" class="wizard-step d-none">
                     <!-- Page 1 -->
-    <div class="container">
-        <div class="header">
-            <div class="header-left">
-                <div class="title">International Well Control Forum</div>
-                <div class="subtitle">HOJA DE MATAR PARA EL CONTROL DE POZO DESVIADO</div>
-                <div class="subtitle">BOP DE SUPERFICIE (UNIDADES API)</div>
-            </div>
-            <div class="header-right">
-                <div class="form-row">
-                    <div class="form-label" style="padding-left: 10px;">FECHA:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label" style="padding-left: 10px;">NOMBRE:</div>
-                    <div class="form-input"><input type="text"></div>
-                </div>
-            </div>
-        </div>
+                    <div class="container">
+                        <div class="header">
+                            <div class="header-left">
+                                <div class="title">International Well Control Forum</div>
+                                <div class="subtitle">HOJA DE MATAR PARA EL CONTROL DE POZO DESVIADO</div>
+                                <div class="subtitle">BOP DE SUPERFICIE (UNIDADES API)</div>
+                            </div>
+                            <div class="header-right">
+                                <div class="form-row">
+                                    <div class="form-label" style="padding-left: 10px;">FECHA:</div>
+                                    <div class="form-input"><input type="text"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label" style="padding-left: 10px;">NOMBRE:</div>
+                                    <div class="form-input"><input type="text"></div>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="main-content">
-            <div class="left-section">
-                <div class="section-title-iwcf-d">Datos de resistencia de la formación:</div>
-                <div class="form-row">
-                    <div class="form-label">Presión de fuga (leak-off) en la superficie obtenida con la prueba de resistencia de la formación</div>
-                    <div class="form-input">(A) <input type="text"></div>
-                    <div class="form-unit">psi</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Densidad del lodo durante la prueba</div>
-                    <div class="form-input">(B) <input type="text"></div>
-                    <div class="form-unit">ppg</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">Máxima densidad del lodo permitida = (A) ÷ </div>
-                    <div class="form-input">(C) <input type="text"></div>
-                    <div class="form-unit">ppg</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">TVD de la zapata de la TR x 0.052</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">MAASP inicial (Presión anular máxima permitida en la superficie)</div>
-                </div>
-                <div class="form-row">
-                    <div class="form-label">(KD) - Densidad del lodo actual</div>
-                    <div class="form-label">x</div>
-                    <div class="form-label">TVD de la zapata</div>
-                    <div class="form-label">x 0.052 =</div>
-                    <div class="form-input"><input type="text"></div>
-                    <div class="form-unit">psi</div>
-                </div>
+                        <div class="main-content">
+                            <div class="left-section">
+                                <div class="section-title-iwcf-d">Datos de resistencia de la formación:</div>
+                                <div class="form-row">
+                                    <div class="form-label">Presión de fuga (leak-off) en la superficie obtenida con la prueba de resistencia de la formación</div>
+                                    <div class="form-input">(A) <input type="text"></div>
+                                    <div class="form-unit">psi</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label">Densidad del lodo durante la prueba</div>
+                                    <div class="form-input">(B) <input type="text"></div>
+                                    <div class="form-unit">ppg</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label">Máxima densidad del lodo permitida = (A) ÷ </div>
+                                    <div class="form-input">(C) <input type="text"></div>
+                                    <div class="form-unit">ppg</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label">TVD de la zapata de la TR x 0.052</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label">MAASP inicial (Presión anular máxima permitida en la superficie)</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-label">(KD) - Densidad del lodo actual</div>
+                                    <div class="form-label">x</div>
+                                    <div class="form-label">TVD de la zapata</div>
+                                    <div class="form-label">x 0.052 =</div>
+                                    <div class="form-input"><input type="text"></div>
+                                    <div class="form-unit">psi</div>
+                                </div>
 
-                <div class="capacity-container">
-                    <div class="capacity-box">
-                        <div>Capacidad de la bomba No.1</div>
-                        <div>bbls/stroke</div>
-                    </div>
-                    <div class="capacity-box">
-                        <div>Capacidad de la bomba No. 2</div>
-                        <div>bbls/stroke</div>
-                    </div>
-                </div>
+                                <div class="capacity-container">
+                                    <div class="capacity-box">
+                                        <div>Capacidad de la bomba No.1</div>
+                                        <div>bbls/stroke</div>
+                                    </div>
+                                    <div class="capacity-box">
+                                        <div>Capacidad de la bomba No. 2</div>
+                                        <div>bbls/stroke</div>
+                                    </div>
+                                </div>
 
-                <div class="box">
-                    <div class="section-title-iwcf-d" style="text-align: center;">(PL) Caída de presión dinámica</div>
-                    <table class="table">
-                        <tr>
-                            <th>Tasa reducida de la bomba</th>
-                            <th>Bomba No. 1</th>
-                            <th>Bomba No. 2</th>
-                        </tr>
-                        <tr>
-                            <td>SPM</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <td>SPM</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                                <div class="box">
+                                    <div class="section-title-iwcf-d" style="text-align: center;">(PL) Caída de presión dinámica</div>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Tasa reducida de la bomba</th>
+                                            <th>Bomba No. 1</th>
+                                            <th>Bomba No. 2</th>
+                                        </tr>
+                                        <tr>
+                                            <td>SPM</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SPM</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
 
-            <div class="right-section">
-                <div class="box">
-                    <div class="section-title-iwcf-d">Densidad del lodo</div>
-                    <div class="form-row">
-                        <div class="form-label">Densidad:</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">ppg</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">Gradiente:</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">psi/pies</div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                    </div>
-                </div>
+                            <div class="right-section">
+                                <div class="box">
+                                    <div class="section-title-iwcf-d">Densidad del lodo</div>
+                                    <div class="form-row">
+                                        <div class="form-label">Densidad:</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">ppg</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">Gradiente:</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">psi/pies</div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                    </div>
+                                </div>
 
-                <div class="box">
-                    <div class="section-title-iwcf-d">Datos de la desviación</div>
-                    <div class="form-row">
-                        <div class="form-label">Profundidad medida del KOP</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">TVD del KOP</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">Profundidad medida del EOB</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">TVD del EOB</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                </div>
+                                <div class="box">
+                                    <div class="section-title-iwcf-d">Datos de la desviación</div>
+                                    <div class="form-row">
+                                        <div class="form-label">Profundidad medida del KOP</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">TVD del KOP</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">Profundidad medida del EOB</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">TVD del EOB</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                </div>
 
-                <div class="box">
-                    <div class="section-title-iwcf-d">Datos de la TR de la zapata</div>
-                    <div class="form-row">
-                        <div class="form-label">Tamaño</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pulg</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">Profundidad medida</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">TVD</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                </div>
+                                <div class="box">
+                                    <div class="section-title-iwcf-d">Datos de la TR de la zapata</div>
+                                    <div class="form-row">
+                                        <div class="form-label">Tamaño</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pulg</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">Profundidad medida</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">TVD</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                </div>
 
-                <div class="box">
-                    <div class="section-title-iwcf-d">Datos del agujero</div>
-                    <div class="form-row">
-                        <div class="form-label">Tamaño</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pulg</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">Profundidad medida</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-label">TVD</div>
-                        <div class="form-input"><input type="text"></div>
-                        <div class="form-unit">pies</div>
-                    </div>
-                </div>
+                                <div class="box">
+                                    <div class="section-title-iwcf-d">Datos del agujero</div>
+                                    <div class="form-row">
+                                        <div class="form-label">Tamaño</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pulg</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">Profundidad medida</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-label">TVD</div>
+                                        <div class="form-input"><input type="text"></div>
+                                        <div class="form-unit">pies</div>
+                                    </div>
+                                </div>
 
-                <div class="right-diagram">
-                    <img src="/api/placeholder/180/300" alt="Diagrama de pozo desviado">
-                </div>
-            </div>
-        </div>
+                                <div class="right-diagram">
+                                    <img src="/api/placeholder/180/300" alt="Diagrama de pozo desviado">
+                                </div>
+                            </div>
+                        </div>
 
-        <div style="margin-top: 10px;">
-            <table class="table">
-                <tr style="background-color: #f0f0f0;">
-                    <th>Datos pre-registrados de los volúmenes</th>
-                    <th>LONGITUD (pies)</th>
-                    <th>CAPACIDAD (bbls/pie)</th>
-                    <th>VOLUMEN (bbls)</th>
-                    <th>Estroques de la bomba (Strokes)</th>
-                    <th>Tiempo (min)</th>
-                </tr>
-                <tr>
-                    <td>TP - De superficie a KOP</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>TP - De KOP a EOB</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>TP - De EOB a BHA</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>TP Estresada - (HWDP)</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Drill Collar (Lastrabarrenas)</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Volumen de la sarta de perforación</td>
-                    <td colspan="2"></td>
-                    <td>(D) <input type="text" style="width: 70%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr>
-                    <td>Lastrabarrenas x agujero abierto</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>TP/ HWDP x agujero abierto</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Volumen del agujero abierto</td>
-                    <td colspan="2"></td>
-                    <td>(F) <input type="text" style="width: 70%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr>
-                    <td>TP x Tubería de Revestimiento</td>
-                    <td><input type="text"></td>
-                    <td>x</td>
-                    <td>=(G) <input type="text" style="width: 50%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Volumen total del anular</td>
-                    <td colspan="2"></td>
-                    <td>(F+G) = (H) <input type="text" style="width: 50%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Volumen total del sistema</td>
-                    <td colspan="2"></td>
-                    <td>(D+H) = (I) <input type="text" style="width: 50%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Volumen activo en la superficie</td>
-                    <td colspan="2"></td>
-                    <td>(J) <input type="text" style="width: 70%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-                <tr style="background-color: #f0f0f0;">
-                    <td>Sistema de fluido activo total</td>
-                    <td colspan="2"></td>
-                    <td>(I+J) <input type="text" style="width: 70%;"></td>
-                    <td><input type="text"></td>
-                    <td>min</td>
-                </tr>
-            </table>
-        </div>
-    </div>
+                        <div style="margin-top: 10px;">
+                            <table class="table">
+                                <tr style="background-color: #f0f0f0;">
+                                    <th>Datos pre-registrados de los volúmenes</th>
+                                    <th>LONGITUD (pies)</th>
+                                    <th>CAPACIDAD (bbls/pie)</th>
+                                    <th>VOLUMEN (bbls)</th>
+                                    <th>Estroques de la bomba (Strokes)</th>
+                                    <th>Tiempo (min)</th>
+                                </tr>
+                                <tr>
+                                    <td>TP - De superficie a KOP</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>TP - De KOP a EOB</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>TP - De EOB a BHA</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>TP Estresada - (HWDP)</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>Drill Collar (Lastrabarrenas)</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Volumen de la sarta de perforación</td>
+                                    <td colspan="2"></td>
+                                    <td>(D) <input type="text" style="width: 70%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr>
+                                    <td>Lastrabarrenas x agujero abierto</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>TP/ HWDP x agujero abierto</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=</td>
+                                    <td><input type="text"></td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Volumen del agujero abierto</td>
+                                    <td colspan="2"></td>
+                                    <td>(F) <input type="text" style="width: 70%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr>
+                                    <td>TP x Tubería de Revestimiento</td>
+                                    <td><input type="text"></td>
+                                    <td>x</td>
+                                    <td>=(G) <input type="text" style="width: 50%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Volumen total del anular</td>
+                                    <td colspan="2"></td>
+                                    <td>(F+G) = (H) <input type="text" style="width: 50%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Volumen total del sistema</td>
+                                    <td colspan="2"></td>
+                                    <td>(D+H) = (I) <input type="text" style="width: 50%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Volumen activo en la superficie</td>
+                                    <td colspan="2"></td>
+                                    <td>(J) <input type="text" style="width: 70%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                                <tr style="background-color: #f0f0f0;">
+                                    <td>Sistema de fluido activo total</td>
+                                    <td colspan="2"></td>
+                                    <td>(I+J) <input type="text" style="width: 70%;"></td>
+                                    <td><input type="text"></td>
+                                    <td>min</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
-    <!-- Page 2 -->
-    <div class="kill-sheet">
-        <!-- Header Section -->
-        <div class="header">
-            <div class="header-left">
-                <div class="title">International Well Control Forum</div>
-                <div class="subtitle">HOJA DE MATAR PARA EL CONTROL DE POZO DESVIADO</div>
-                <div class="subtitle">EOP DE SUPERFICIE (UNIDADES API)</div>
-            </div>
-            <div class="header-right">
-                <div class="fecha-label">FECHA:</div>
-                <div class="nombre-label">NOMBRE:</div>
-            </div>
-        </div>
-        
-        <!-- Datos del influje -->
-        <div class="form-row">
-            <div class="form-label">Datos del influjo</div>
-            <div class="form-content">
-                <div class="input-group">
-                    <span>PCTP</span>
-                    <div class="input-field"></div>
-                    <span>psi</span>
-                    <span class="operator">-</span>
-                    <span>PCTP</span>
-                    <div class="input-field"></div>
-                    <span>psi</span>
-                    <span class="operator">=</span>
-                    <span>Ganancia en</span>
-                    <div class="input-field"></div>
-                    <span class="unit">bbls</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Densidad del lodo para matar el pozo -->
-        <div class="form-row">
-            <div class="form-label">Densidad del lodo para matar el pozo (MMW)</div>
-            <div class="form-content">
-                <div class="small-title">Densidad del lodo actual</div>
-                <div class="form-equation">
-                    <div class="input-field"></div>
-                    <span class="operator">+</span>
-                    <span>PCTP</span>
-                    <div class="input-field"></div>
-                    <span>÷</span>
-                    <span>0.052</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">ppg</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Presión inicial de circulación -->
-        <div class="form-row">
-            <div class="form-label">Presión inicial de circulación (PIC)</div>
-            <div class="form-content">
-                <div class="small-title">Caída de presión dinámica</div>
-                <div class="form-equation">
-                    <div class="input-field"></div>
-                    <span class="operator">+</span>
-                    <span>PCTP</span>
-                    <div class="input-field"></div>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Presión final de circulación -->
-        <div class="form-row">
-            <div class="form-label">Presión final de circulación (PFC)</div>
-            <div class="form-content">
-                <div class="small-title">Densidad del lodo para matar el pozo (MMW)</div>
-                <div class="form-equation">
-                    <div class="input-field"></div>
-                    <span class="operator">×</span>
-                    <div class="small-title">Caída de presión dinámica</div>
-                    <div class="input-field"></div>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Caída de presión dinámica en el KOP -->
-        <div class="form-row">
-            <div class="form-label">Caída de presión dinámica en el KOP (Q)</div>
-            <div class="form-content">
-                <div class="advanced-equation">
-                    <span>PL</span>
-                    <span class="operator">×</span>
-                    <span class="bracket">[</span>
-                    <span>(PFC - PL)</span>
-                    <span class="operator">×</span>
-                    <span>Profundidad medida del KOP</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="operator">×</span>
-                    <span class="bracket">[</span>
-                    <span>(</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <div class="input-field"></div>
-                    <span>)</span>
-                    <span class="operator">×</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-                
-                <div class="advanced-equation">
-                    <span>PCTP</span>
-                    <span class="operator">-</span>
-                    <span class="bracket">[</span>
-                    <span>((MMW - Dens. Lodo actual) × 0.052 × KOP TVD)</span>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <span class="bracket">[</span>
-                    <span>(</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <div class="input-field"></div>
-                    <span>) × 0.052 ×</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Presión de circulación en el KOP -->
-        <div class="parameter-row">
-            <div class="form-label">Presión de circulación en el KOP (KOP CP)</div>
-            <div class="form-content">
-                <div class="form-equation">
-                    <span>(Q)</span>
-                    <div class="input-field"></div>
-                    <span class="operator">+</span>
-                    <span>(P)</span>
-                    <div class="input-field"></div>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Caída de presión dinámica en el EOB -->
-        <div class="form-row">
-            <div class="form-label">Caída de presión dinámica en el EOB (R)</div>
-            <div class="form-content">
-                <div class="advanced-equation">
-                    <span>PL</span>
-                    <span class="operator">×</span>
-                    <span class="bracket">[</span>
-                    <span>(PFC - PL)</span>
-                    <span class="operator">×</span>
-                    <span>Profundidad medida del EOB</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="operator">×</span>
-                    <span class="bracket">[</span>
-                    <span>(</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <div class="input-field"></div>
-                    <span>)</span>
-                    <span class="operator">×</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-                
-                <div class="advanced-equation">
-                    <span>PCTP</span>
-                    <span class="operator">-</span>
-                    <span class="bracket">[</span>
-                    <span>((MMW - Dens. Lodo actual) × 0.052 × EOB TVD)</span>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <span class="bracket">[</span>
-                    <span>(</span>
-                    <div class="input-field"></div>
-                    <span class="operator">-</span>
-                    <div class="input-field"></div>
-                    <span>) × 0.052 ×</span>
-                    <div class="input-field"></div>
-                    <span class="bracket">]</span>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Presión de circulación en el EOB -->
-        <div class="parameter-row">
-            <div class="form-label">Presión de circulación en el EOB (EOB CP)</div>
-            <div class="form-content">
-                <div class="form-equation">
-                    <span>(R)</span>
-                    <div class="input-field"></div>
-                    <span class="operator">+</span>
-                    <span>(S)</span>
-                    <div class="input-field"></div>
-                    <span class="operator">=</span>
-                    <div class="input-field"></div>
-                    <span class="unit">psi</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Final calculations -->
-        <div class="form-row">
-            <div class="form-content" style="width: 100%; border-right: none;">
-                <div class="calculation-row">
-                    <div class="calculation-group">
-                        <span>(T) = PIC - KOP CP</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">-</span>
-                        <div class="input-field"></div>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi</span>
+                    <!-- Page 2 -->
+                    <div class="kill-sheet">
+                        <!-- Header Section -->
+                        <div class="header">
+                            <div class="header-left">
+                                <div class="title">International Well Control Forum</div>
+                                <div class="subtitle">HOJA DE MATAR PARA EL CONTROL DE POZO DESVIADO</div>
+                                <div class="subtitle">EOP DE SUPERFICIE (UNIDADES API)</div>
+                            </div>
+                            <div class="header-right">
+                                <div class="fecha-label">FECHA:</div>
+                                <div class="nombre-label">NOMBRE:</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Datos del influje -->
+                        <div class="form-row">
+                            <div class="form-label">Datos del influjo</div>
+                            <div class="form-content">
+                                <div class="input-group">
+                                    <span>PCTP</span>
+                                    <div class="input-field"></div>
+                                    <span>psi</span>
+                                    <span class="operator">-</span>
+                                    <span>PCTP</span>
+                                    <div class="input-field"></div>
+                                    <span>psi</span>
+                                    <span class="operator">=</span>
+                                    <span>Ganancia en</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">bbls</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Densidad del lodo para matar el pozo -->
+                        <div class="form-row">
+                            <div class="form-label">Densidad del lodo para matar el pozo (MMW)</div>
+                            <div class="form-content">
+                                <div class="small-title">Densidad del lodo actual</div>
+                                <div class="form-equation">
+                                    <div class="input-field"></div>
+                                    <span class="operator">+</span>
+                                    <span>PCTP</span>
+                                    <div class="input-field"></div>
+                                    <span>÷</span>
+                                    <span>0.052</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">ppg</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presión inicial de circulación -->
+                        <div class="form-row">
+                            <div class="form-label">Presión inicial de circulación (PIC)</div>
+                            <div class="form-content">
+                                <div class="small-title">Caída de presión dinámica</div>
+                                <div class="form-equation">
+                                    <div class="input-field"></div>
+                                    <span class="operator">+</span>
+                                    <span>PCTP</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presión final de circulación -->
+                        <div class="form-row">
+                            <div class="form-label">Presión final de circulación (PFC)</div>
+                            <div class="form-content">
+                                <div class="small-title">Densidad del lodo para matar el pozo (MMW)</div>
+                                <div class="form-equation">
+                                    <div class="input-field"></div>
+                                    <span class="operator">×</span>
+                                    <div class="small-title">Caída de presión dinámica</div>
+                                    <div class="input-field"></div>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Caída de presión dinámica en el KOP -->
+                        <div class="form-row">
+                            <div class="form-label">Caída de presión dinámica en el KOP (Q)</div>
+                            <div class="form-content">
+                                <div class="advanced-equation">
+                                    <span>PL</span>
+                                    <span class="operator">×</span>
+                                    <span class="bracket">[</span>
+                                    <span>(PFC - PL)</span>
+                                    <span class="operator">×</span>
+                                    <span>Profundidad medida del KOP</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">×</span>
+                                    <span class="bracket">[</span>
+                                    <span>(</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <div class="input-field"></div>
+                                    <span>)</span>
+                                    <span class="operator">×</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                                
+                                <div class="advanced-equation">
+                                    <span>PCTP</span>
+                                    <span class="operator">-</span>
+                                    <span class="bracket">[</span>
+                                    <span>((MMW - Dens. Lodo actual) × 0.052 × KOP TVD)</span>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <span class="bracket">[</span>
+                                    <span>(</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <div class="input-field"></div>
+                                    <span>) × 0.052 ×</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presión de circulación en el KOP -->
+                        <div class="parameter-row">
+                            <div class="form-label">Presión de circulación en el KOP (KOP CP)</div>
+                            <div class="form-content">
+                                <div class="form-equation">
+                                    <span>(Q)</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">+</span>
+                                    <span>(P)</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Caída de presión dinámica en el EOB -->
+                        <div class="form-row">
+                            <div class="form-label">Caída de presión dinámica en el EOB (R)</div>
+                            <div class="form-content">
+                                <div class="advanced-equation">
+                                    <span>PL</span>
+                                    <span class="operator">×</span>
+                                    <span class="bracket">[</span>
+                                    <span>(PFC - PL)</span>
+                                    <span class="operator">×</span>
+                                    <span>Profundidad medida del EOB</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">×</span>
+                                    <span class="bracket">[</span>
+                                    <span>(</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <div class="input-field"></div>
+                                    <span>)</span>
+                                    <span class="operator">×</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                                
+                                <div class="advanced-equation">
+                                    <span>PCTP</span>
+                                    <span class="operator">-</span>
+                                    <span class="bracket">[</span>
+                                    <span>((MMW - Dens. Lodo actual) × 0.052 × EOB TVD)</span>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <span class="bracket">[</span>
+                                    <span>(</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">-</span>
+                                    <div class="input-field"></div>
+                                    <span>) × 0.052 ×</span>
+                                    <div class="input-field"></div>
+                                    <span class="bracket">]</span>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presión de circulación en el EOB -->
+                        <div class="parameter-row">
+                            <div class="form-label">Presión de circulación en el EOB (EOB CP)</div>
+                            <div class="form-content">
+                                <div class="form-equation">
+                                    <span>(R)</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">+</span>
+                                    <span>(S)</span>
+                                    <div class="input-field"></div>
+                                    <span class="operator">=</span>
+                                    <div class="input-field"></div>
+                                    <span class="unit">psi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Final calculations -->
+                        <div class="form-row">
+                            <div class="form-content" style="width: 100%; border-right: none;">
+                                <div class="calculation-row">
+                                    <div class="calculation-group">
+                                        <span>(T) = PIC - KOP CP</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">-</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi</span>
+                                    </div>
+                                    <div class="calculation-group">
+                                        <span>(T) × 100 / (L)</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">×</span>
+                                        <span>100</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi por 100 emboladas</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="calculation-row">
+                                    <div class="calculation-group">
+                                        <span>(U) = KOP CP - EOB CP</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">-</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi</span>
+                                    </div>
+                                    <div class="calculation-group">
+                                        <span>(U) × 100 / (M)</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">×</span>
+                                        <span>100</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi por 100 emboladas</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="calculation-row">
+                                    <div class="calculation-group">
+                                        <span>(W) = EOB CP - PFC</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">-</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi</span>
+                                    </div>
+                                    <div class="calculation-group">
+                                        <span>(W) × 100 / (N+Z+P+S)</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="operator">×</span>
+                                        <span>100</span>
+                                        <span class="operator">=</span>
+                                        <div class="input-field"></div>
+                                        <span class="unit">psi por 100 emboladas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="calculation-group">
-                        <span>(T) × 100 / (L)</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">×</span>
-                        <span>100</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi por 100 emboladas</span>
-                    </div>
-                </div>
-                
-                <div class="calculation-row">
-                    <div class="calculation-group">
-                        <span>(U) = KOP CP - EOB CP</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">-</span>
-                        <div class="input-field"></div>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi</span>
-                    </div>
-                    <div class="calculation-group">
-                        <span>(U) × 100 / (M)</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">×</span>
-                        <span>100</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi por 100 emboladas</span>
-                    </div>
-                </div>
-                
-                <div class="calculation-row">
-                    <div class="calculation-group">
-                        <span>(W) = EOB CP - PFC</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">-</span>
-                        <div class="input-field"></div>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi</span>
-                    </div>
-                    <div class="calculation-group">
-                        <span>(W) × 100 / (N+Z+P+S)</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="operator">×</span>
-                        <span>100</span>
-                        <span class="operator">=</span>
-                        <div class="input-field"></div>
-                        <span class="unit">psi por 100 emboladas</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="iwcf-v-sol-btn">Continuar</button>
                 </form>
-                <form id="killsheet-3" enctype="multipart/form-data" class="wizard-step d-none">
-                     <style>
-                     
-                        
-                        .container-iadc-v {
-                            display: flex;
-                            max-width: 1200px;
-                            border: 2px solid #000;
-                            margin: 0 auto 20px auto;
-                        }
-                        
-                        .well-diagram-iadc-v {
-                            width: 230px;
-                            min-height: 850px;
-                            background-color: #f0f0f0;
-                            border-right: 2px solid #000;
-                            position: relative;
-                        }
-                        
-                        .calculation-form {
-                            flex: 1;
-                            padding: 10px;
-                        }
-                        
-                        .header {
-                            display: flex;
-                            justify-content: space-between;
-                            border-bottom: 1px solid #000;
-                            padding-bottom: 10px;
-                            margin-bottom: 10px;
-                        }
-                        
-                        .section {
-                            margin-bottom: 20px;
-                        }
-                        
-                        .section-title-iadc-v {
-                            text-align: center;
-                            color: blue;
-                            border: 1px solid blue;
-                            border-radius: 20px;
-                            padding: 5px;
-                            width: 80%;
-                            margin: 15px auto;
-                        }
-                        
-                        .calc-row {
-                            display: flex;
-                            align-items: center;
-                            margin-bottom: 10px;
-                        }
-                        
-                        .label {
-                            width: 150px;
-                            font-size: 12px;
-                            text-align: center;
-                            border: 1px solid #000;
-                            padding: 5px;
-                        }
-                        
-                        .formula {
-                            flex: 1;
-                            display: flex;
-                            align-items: center;
-                        }
-                        
-                        input {
-                            width: 80px;
-                            text-align: center;
-                            margin: 0 5px;
-                        }
-                        
-                        .total-box {
-                            border: 1px solid #000;
-                            padding: 10px;
-                            margin: 10px auto;
-                            width: 80%;
-                            text-align: center;
-                        }
-                        
-                        .right-column {
-                            padding: 10px;
-                            border-left: 1px solid #000;
-                        }
-                        
-                        .blue-text {
-                            color: blue;
-                        }
-                        
-                        /* Styles for kill sheet */
-                        .kill-sheet-iadc-v {
-                            display: flex;
-                            max-width: 1200px;
-                            border: 2px solid #000;
-                            margin: 20px auto;
-                        }
-                        
-                        .left-column, .right-column {
-                            flex: 1;
-                            padding: 10px;
-                        }
-                        
-                        .info-table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-bottom: 15px;
-                        }
-                        
-                        .info-table td, .info-table th {
-                            border: 1px solid #888;
-                            padding: 5px;
-                            text-align: left;
-                        }
-                        
-                        .info-table th {
-                            background-color: #f0f0f0;
-                        }
-                        
-                        .formula-row {
-                            margin: 15px 0;
-                            padding-bottom: 10px;
-                            border-bottom: 1px solid #ddd;
-                        }
-                        
-                        .title {
-                            color: blue;
-                            font-weight: bold;
-                            margin-bottom: 10px;
-                        }
-                        
-                        .formula-content {
-                            display: flex;
-                            align-items: center;
-                            flex-wrap: wrap;
-                            gap: 5px;
-                        }
-                        
-                        .grid-table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin: 15px 0;
-                        }
-                        
-                        .grid-table td, .grid-table th {
-                            border: 1px solid #888;
-                            padding: 5px;
-                            text-align: center;
-                        }
-                        
-                        .instruction {
-                            font-size: 0.85em;
-                            margin: 10px 0;
-                        }
-                        
-                        .small-input {
-                            width: 40px;
-                        }
-                        
-                        .medium-input {
-                            width: 60px;
-                        }
-                        
-                        .large-input {
-                            width: 120px;
-                        }
-                        
-                        .underline {
-                            text-decoration: underline;
-                        }
-
-                        .pozo-data-card {
-                        border-radius: 8px;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        margin: 20px;
-                        background-color: #ffffff;
-                        /* min-width: 500px; */
-                        }
-                        
-                        .card-header {
-                        background-color: #f8f9fa;
-                        padding: 15px;
-                        border-bottom: 1px solid #eaeaea;
-                        border-radius: 8px 8px 0 0;
-                        }
-                        
-                        .card-title {
-                        margin: 0;
-                        font-size: 18px;
-                        color: #333;
-                        }
-                        
-                        .card-body {
-                        padding: 20px;
-                        }
-                        
-                        .card-footer {
-                        padding: 15px;
-                        background-color: #f8f9fa;
-                        border-top: 1px solid #eaeaea;
-                        border-radius: 0 0 8px 8px;
-                        display: flex;
-                        justify-content: flex-end;
-                        gap: 10px;
-                        }
-                        
-                        /* Estilos para los inputs */
-                        .form-group {
-                        margin-bottom: 15px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        }
-                        
-                        .form-group label {
-                        flex-basis: 40%;
-                        font-weight: 500;
-                        color: #555;
-                        }
-                        
-                        input {
-                        width: 60%;
-                        text-align: center;
-                        margin: 0 5px;
-                        border: none;
-                        min-width: 40px;
-                        border-bottom: 1px solid #ccc;
-                        padding: 5px 0;
-                        outline: none;
-                        background-color: transparent;
-                        transition: border-color 0.3s;
-                        }
-                        
-                        .underline-input:focus {
-                        border-bottom: 2px solid #007bff;
-                        }
-                        
-                        /* Estilos para botones */
-                        .btn {
-                        padding: 8px 15px;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        font-weight: 500;
-                        }
-                        
-                        .btn-primary {
-                        background-color: #007bff;
-                        color: white;
-                        }
-                        
-                        .btn-secondary {
-                        background-color: #6c757d;
-                        color: white;
-                        }
-                        
-                        .btn:hover {
-                        opacity: 0.9;
-                        }
-
-                        .container-centered {
-                        display: flex;
-                        justify-content: center;
-                        min-height: 50vh;
-                        padding: 20px;
-                        }
-                    </style>
-                <div class="container-iadc-v">
-                    <!-- Left section: Well diagram (would be an image) -->
-                    <div class="well-diagram-iadc-v">
-                    <img src="/assets/images/killsheets/pozoiadc.png" alt="Well Diagram" style="width: 100%; height: 100%;">
-                    </div>      
-                    
-                    <!-- Middle section: Calculations -->
-                    <div class="calculation-form">
-                    <div class="header">
-                        <div></div>
-                        <div class="section-title-iadc-v">Volumen de la sarta de perforación</div>
-                        <div></div>
-                    </div>
-                    
-                    <!-- Drilling String Volume Section -->
-                    <div class="section">
-                        <div class="calc-row">
-                        <div class="label">Tubería de perforación (DP)</div>
-                        <div class="formula">
-                            <span>Capacidad</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                        
-                        <div class="calc-row">
-                        <div class="label">Tubería pesada (HWDP)</div>
-                        <div class="formula">
-                            <span>Capacidad</span>
-                            <input type="text">      BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text">      PIES = 
-                            <input type="text">      BBL
-                        </div>
-                        </div>
-                        
-                        <div class="calc-row">
-                        <div class="label">Collares de perforación (DC)</div>
-                        <div class="formula">
-                            <span>Capacidad</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                    </div>
-                    
-                    <div class="total-box">
-                        <div class="blue-text">Volumen total de la sarta de perforación = <input type="text"> BBL</div>
-                    </div>
-                    
-                    <!-- Annular Space Volume Section -->
-                    <div class="section-title-iadc-v">Volumen del espacio anular</div>
-                    
-                    <div class="section">
-                        <div class="calc-row">
-                        <div class="label">Tubería de perforación en agujero revestido</div>
-                        <div class="formula">
-                            <span>Capacidad Anular</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                        
-                        <div class="calc-row">
-                        <div class="label">Tubería de perforación en agujero abierto</div>
-                        <div class="formula">
-                            <span>Capacidad Anular</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                        
-                        <div class="calc-row">
-                        <div class="label">HWDP en agujero abierto</div>
-                        <div class="formula">
-                            <span>Capacidad Anular</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                        
-                        <div class="calc-row">
-                        <div class="label">Collares de perforación en agujero abierto (DC)</div>
-                        <div class="formula">
-                            <span>Capacidad Anular</span>
-                            <input type="text"> BBL/PIE x
-                            <span>Longitud</span>
-                            <input type="text"> PIES = 
-                            <input type="text"> BBL
-                        </div>
-                        </div>
-                    </div>
-                    
-                    <div class="total-box">
-                        <div class="blue-text">Volumen total de agujero abierto = <input type="text"> BBL</div>
-                    </div>
-                    
-                    <div class="total-box">
-                        <div class="blue-text">Volumen total del espacio anular = <input type="text"> BBL</div>
-                    </div>
-                    </div>
-                    
-                    <!-- Right section: Pump output and circulation -->
-                    <div class="right-column">
-                        <div class="header">
-                            <div></div>
-                            <div>
-                            <img src="/assets/images/killsheets/logosmithmason.png" alt="Smith Mason & Co Logo" style="float:right">
-                            <span>Hoja de matar - Superficie</span>
-                            </div>
-                        </div>
-                        
-                        <div style="text-align: center; margin: 20px 0;">
-                            <span>Salida de la bomba = </span>
-                            <input type="text"> BBL/EMB
-                        </div>
-                        
-                        <div class="section-title-iadc-v">Emboladas de circulación</div>
-                        
-                        <div class="section">
-                            <div class="blue-text">Emboladas hasta la barrena (STB)</div>
-                            <div style="margin: 10px 0;">
-                            <input type="text" style="width: 40px"> Volumen sarta perf. BBL + 
-                            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-                            <input type="text" style="width: 40px"> EMB
-                            </div>
-                            
-                            <div class="blue-text">Emboladas desde la barren hasta la zapata del revestimiento</div>
-                            <div style="margin: 10px 0;">
-                            <input type="text" style="width: 40px"> Vol. agujero abierto BBL + 
-                            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-                            <input type="text" style="width: 40px"> EMB
-                            </div>
-                            
-                            <div class="blue-text">Emboladas de fondo a superficie</div>
-                            <div style="margin: 10px 0;">
-                            <input type="text" style="width: 40px"> Vol. espacio anular BBL + 
-                            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-                            <input type="text" style="width: 40px"> EMB
-                            </div>
-                            
-                            <div class="blue-text">Circulación total del pozo</div>
-                            <div style="margin: 10px 0;">
-                            <input type="text" style="width: 40px"> Emb. hasta la barrena + 
-                            <input type="text" style="width: 40px"> Emb. fondo a superficie = 
-                            <input type="text" style="width: 40px"> EMB
-                            </div>
-                            
-                            <div class="blue-text">Emboladas línea de superficie (Método de Esperar y Pesar)</div>
-                            <div style="margin: 10px 0;">
-                            <input type="text" style="width: 40px"> Vol. línea de superf. BBL + 
-                            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-                            <input type="text" style="width: 40px"> EMB
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Second form: Kill Sheet -->
-                <div class="kill-sheet-iadc-v">
-                    <!-- Left column -->
-                    <div class="left-column">
-                        <div class="header">
-                            <div style="color: blue;">Información del influjo</div>
-                            <div style="display: flex; align-items: center;">
-                            <h2>Hoja de matar - Superficie</h2>
-                            <div>www.smithmasonco.com</div>
-                            </div>
-                        </div>
-
-                        <!-- Influx Info Table -->
-                        <table class="info-table">
-                            <tr>
-                            <td>Presión de cierre en la tubería de perforación (SIDPP)</td>
-                            <td><input type="text"> PSI</td>
-                            </tr>
-                            <tr>
-                            <td>Presión de cierre en el revestimiento (SICP)</td>
-                            <td><input type="text"> PSI</td>
-                            </tr>
-                            <tr>
-                            <td>Ganancia en tanques</td>
-                            <td><input type="text"> BBL</td>
-                            </tr>
-                            <tr>
-                            <td>Densidad del lodo original (OMW)</td>
-                            <td><input type="text"> PPG</td>
-                            </tr>
-                            <tr>
-                            <td>Presión reducida de la bomba (SCRP)</td>
-                            <td><input type="text"> PSI</td>
-                            </tr>
-                        </table>
-
-                        <!-- KMW Calculation -->
-                        <div class="formula-row">
-                            <div class="title">Densidad del lodo para matar (KMW) (Redondear el primer decimal hacia arriba)</div>
-                            <div class="formula-content">
-                            (SIDPP <input type="text" class="small-input"> PSI ÷ 0.052÷TVD del pozo <input type="text" class="small-input"> PIES)+Dens. del lodo actual <input type="text" class="small-input"> PPG=KMW <input type="text" class="small-input"> PPG
-                            </div>
-                        </div>
-
-                        <!-- MAMW Calculation -->
-                        <div class="formula-row">
-                            <div class="title">Máxima densidad del lodo permitida (MAMW) (Redondear el primer decimal hacia abajo)</div>
-                            <div class="formula-content">
-                            Presión "Leak-off" en superficie <input type="text" class="small-input"> PSI÷0.052÷TVD zapata <input type="text" class="small-input"> PIES)+Dens. lodo durante la prueba <input type="text" class="small-input"> PPG
-                            </div>
-                            <div class="formula-content" style="margin-top: 5px; margin-left: 30px;">
-                            =MAMW <input type="text" class="small-input"> PPG
-                            </div>
-                            <div class="formula-content" style="margin-top: 10px;">
-                            O
-                            </div>
-                            <div class="formula-content" style="margin-top: 10px;">
-                            Gradiente de fractura <input type="text" class="small-input"> PSI/FT÷0.052=MAMW <input type="text" class="small-input"> PPG
-                            </div>
-                        </div>
-
-                        <!-- MAASP Calculation 1 -->
-                        <div class="formula-row">
-                            <div class="title">Presión anular máxima permitida en la superficie (MAASP) <span class="underline">ANTES</span> del influjo</div>
-                            <div class="formula-content">
-                            (MAMW <input type="text" class="small-input"> PPG - Dens. lodo actual <input type="text" class="small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="small-input"> PIES = MAASP <input type="text" class="small-input"> PSI
-                            </div>
-                        </div>
-
-                        <!-- MAASP Calculation 2 -->
-                        <div class="formula-row">
-                            <div class="title">MAASP <span class="underline">DESPUÉS</span> de que el pozo está muerto</div>
-                            <div class="formula-content">
-                            (MAMW <input type="text" class="small-input"> PPG – Dens. lodo para matar(KMW) <input type="text" class="small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="small-input"> PIES = MAASP <input type="text" class="small-input"> PSI
-                            </div>
-                        </div>
-
-                        <!-- Circulation Pressures -->
-                        <div class="formula-row">
-                            <div class="title" style="text-align: center;">Presiones de circulación</div>
-                            
-                            <!-- ICP Calculation -->
-                            <div style="margin: 15px 0;">
-                            <div class="title">Presión inicial de circulación (ICP)</div>
-                            <div class="formula-content">
-                                SIDPP <input type="text" class="small-input"> PSI + Presión reducida de la bomba (SCRP) <input type="text" class="small-input"> PSI = ICP <input type="text" class="small-input"> PSI
-                            </div>
-                            </div>
-                            
-                            <!-- FCP Calculation -->
-                            <div style="margin: 15px 0;">
-                            <div class="title">Presión final de circulación (FCP)</div>
-                            <div class="formula-content">
-                                Presión reducida bomba (SCRP) <input type="text" class="small-input"> PSI × (
-                                <div style="display: inline-block; text-align: center;">
-                                <div style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 2px 5px;">
-                                    Dens. lodo para matar (KMW) <input type="text" class="small-input"> PPG
-                                    <hr style="margin: 2px 0;">
-                                    Dens. lodo original (OMW) <input type="text" class="small-input"> PPG
-                                </div>
-                                </div>
-                                ) = FCP <input type="text" class="small-input"> PSI
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right column -->
-                    <div class="right-column">
-                    <div class="header">
-                        <div style="flex: 1;"></div>
-                        <div>
-                        <img src="/assets/images/killsheets/logosmithmason.png" alt="Smith Mason & Co Logo" style="float: right;">
-                        </div>
-                    </div>
-
-                    <div style="display: flex; margin-top: 10px;">
-                        <div style="flex: 1; text-align: center; color: blue;">
-                        Información calculada
-                        </div>
-                        <div style="flex: 1; text-align: center; color: blue;">
-                        Programa de presión de la tubería de perforación
-                        </div>
-                    </div>
-
-                    <!-- Basic Info Table -->
-                    <div style="display: flex; margin-top: 10px;">
-                        <div style="flex: 1;">
-                        <table class="info-table">
-                            <tr>
-                            <td>Densidad del lodo para matar (KWM)</td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td>Presión inicial de circulación (ICP)</td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td>Presión final de circulación (FCP)</td>
-                            <td><input type="text"></td>
-                            </tr>
-                        </table>
-                        <table class="info-table">
-                            <tr>
-                            <td>Emboladas de superficie hasta la barrena (STB)</td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td>Emboladas desde la barrena hasta la zapata del revestimiento</td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td>Emboladas fondo a superficie</td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td>Emboladas totales de circulación</td>
-                            <td><input type="text"></td>
-                            </tr>
-                        </table>
-                        </div>
-                        <div style="flex: 1;">
-                        <table class="grid-table">
-                            <tr>
-                            <th>Emboladas o volumen</th>
-                            <th>Presión de la tubería de perforación calculada</th>
-                            <th>Presión de la tubería de perforación actual</th>
-                            </tr>
-                            <tr>
-                            <td>0</td>
-                            <td>ICP</td>
-                            <td></td>
-                            </tr>
-                            <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            </tr>
-                            <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            </tr>
-                        </table>
-                        </div>
-                    </div>
-
-                    <!-- Program Preparation -->
-                    <div class="formula-row">
-                        <div class="title" style="text-align: center;">Preparación del programa de presión de la tubería de perforación</div>
-                        
-                        <div class="instruction">
-                        <strong>Emboladas de la bomba</strong><br>
-                        Anotar las emboladas desde superficie hasta la última celda (antes de llegar a STB), en la columna de emboladas o volumen del programa de presión de la tubería de perforación. Luego realice lo siguiente:
-                        </div>
-                        <div class="formula-content">
-                        Emb. superf. a barrena ÷10 = Incremento prom. de emboladas (emb) <input type="text" class="medium-input">
-                        </div>
-                        
-                        <div class="instruction">
-                        Anotar el incremento promedio de emboladas (emb) en la celda por debajo de cero (0) en la columna de emboladas o volumen. Realice lo siguiente:
-                        </div>
-                        <div class="formula-content">
-                        0 <input type="text" class="small-input"> + Incremento promedio de emboladas (emb) <input type="text" class="small-input">
-                        </div>
-                        
-                        <div class="instruction">
-                        Repita este proceso hasta completar la columna.
-                        </div>
-                    </div>
-
-                    <!-- Drill Pipe Pressure -->
-                    <div class="formula-row">
-                        <div class="title">Presión de la tubería de perforación</div>
-                        
-                        <div class="instruction">
-                        Anotar la presión inicial de circulación (ICP) y la presión final de circulación (FCP) calculada en los espacios indicados de presión de la tubería de perforación. Realice lo siguiente:
-                        </div>
-                        
-                        <table class="grid-table" style="width: 50%;">
-                        <tr>
-                            <td></td>
-                            <td>STB</td>
-                            <td>FCP</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        </table>
-                        
-                        <div class="formula-content" style="margin-top: 15px;">
-                        Reducción de la presión por cada etapa = <div style="display: inline-block; text-align: center; border: 1px solid #000; padding: 0 5px;">
-                            (ICP − FCP)
-                            <hr style="margin: 2px 0;">
-                            10
-                        </div> = <input type="text" class="small-input">
-                        </div>
-                        
-                        <div class="instruction">
-                        Nota: si el programa de presión se basa en incrementos de 100 emboladas (emb), realice lo siguiente para calcular la reducción de presión:
-                        </div>
-                        
-                        <div class="formula-content">
-                        Reducción de la presión por cada 100 emb.= <div style="display: inline-block; text-align: center; border: 1px solid #000; padding: 0 5px;">
-                            (ICP − FCP)×100
-                            <hr style="margin: 2px 0;">
-                            Emboladas de superficie a barrena
-                        </div> = <input type="text" class="small-input">
-                        </div>
-                        
-                        <div class="instruction">
-                        Restar la reducción de presión promedio de la presión inicial de circulación (ICP) hasta llenar la celda por debajo de la (ICP). Repita este proceso hasta completar la columna.
-                        </div>
-                        
-                        <div class="formula-content">
-                        ICP<sub>PSI</sub> − Reducción promedio de presión en PSI <input type="text" class="small-input">
-                        </div>
-                    </div>
-                    
-                    <!-- Name and Date -->
-                    <div style="display: flex; margin-top: 20px;">
-                        <div style="flex: 1;">
-                        <div>Nombre: <input type="text" class="large-input"></div>
-                        <div style="margin-top: 10px;">Fecha: <input type="text" class="large-input"></div>
-                        </div>
-                        <div style="flex: 1; text-align: right;">
-                        <div>Hoja de matar #: <input type="text" class="medium-input"></div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
+                
+                {{-- IWCF – Vertical – Surface – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="iwcf-v-sol-btn">Continuar</button>
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+
+                {{-- IWCF – Vertical – Surface – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+
+                {{-- IWCF – Vertical – Surface – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Vertical – Surface – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Vertical – Subsea – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Vertical – Subsea – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Vertical – Subsea – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Vertical – Subsea – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Surface – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Surface – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Surface – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Surface – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Subsea – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Subsea – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Subsea – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IWCF – Desviado – Subsea – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Surface – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Surface – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Surface – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Surface – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Subsea – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Subsea – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Subsea – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Vertical – Subsea – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Surface – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Surface – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Surface – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Surface – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Subsea – Español --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Subsea – Inglés --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Subsea – Portugués --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
+                </form>
+                
+                {{-- IADC – Desviado – Subsea – Árabe --}}
+                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
+                    <button type="button" class="btn btn-primary next-step" data-step="2"
+                        id="btn-iadc-v-sur-es">Continuar</button>
                 </form>
 
                 <!-- Paso 3 -->
@@ -2728,6 +2257,17 @@ $("#addQuestion").click(function () {
     .killsheet-second-modal .swal2-close:hover {
         color: white !important;
     }
+
+    /* .blurred { pone en blur el div
+        filter: blur(6px);  
+        transition: filter 0.3s ease;
+    } */
+
+    .swal2-backdrop-show {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
 </style>
 
 @endsection

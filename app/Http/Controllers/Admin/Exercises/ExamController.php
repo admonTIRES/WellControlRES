@@ -240,7 +240,10 @@ class ExamController extends Controller
                                 'EVALUATION_TYPES_QUESTION' => $EVALUATION_TYPES_QUESTION,
                                 'TEMAPREGUNTA_ID' => $request->TEMAPREGUNTA_ID,
                                 'HAS_FEEDBACK_QUESTION' => $request->HAS_FEEDBACK_QUESTION,
-                                'FEEDBACK_TEXT_QUESTION' => cleanTextareaInput($request->FEEDBACK_TEXT_QUESTION)
+                                'FEEDBACK_TEXT_QUESTION' => isset($request->FEEDBACK_TEXT_QUESTION) 
+                                ? $this->cleanTextareaInput($request->FEEDBACK_TEXT_QUESTION) 
+                                : null,
+
                             ]);
                             $response['code'] = 1;
                             $response['question'] = 'Actualizado';
@@ -260,14 +263,22 @@ class ExamController extends Controller
         } catch (Exception $e) {
             return response()->json('Error al guardar la información');
         }
-    }
 
-    //limpiar los textareas
-    protected function cleanTextareaInput($input)
+        // function cleanTextareaInput($input)
+        // {
+        //     if (empty($input)) {
+        //         return null;
+        //     }
+        //     return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+        // }
+    }
+    public function cleanTextareaInput($input)
     {
         if (empty($input)) {
-            return null;
+            return null; // valor por defecto si no hay input
         }
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
+
+
 }

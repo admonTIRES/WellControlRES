@@ -969,10 +969,12 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         if (rutaImagen) {
             // Limpiar la ruta y crear URL de storage
             var rutaLimpia = rutaImagen.replace(/\\/g, '/'); 
-            var imagenUrl = '/storage/' + rutaLimpia;
+            var archivo = row.data().IMAGEN1_QUESTION;
+            var extension = archivo.substring(archivo.lastIndexOf("."));
             
-            console.log('URL directa generada:', imagenUrl);
-            console.log('Ruta original:', rutaImagen);
+            console.log('Ruta:', rutaLimpia);
+
+            var imagenUrl = '/showImage/'+ rutaLimpia;
             
             // Destruir dropify existente
             $input.dropify().data('dropify').destroy();
@@ -983,7 +985,6 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
             
             // No requerir el campo
             $input.attr('required', false);
-            
         } else {
             // Resetear campo si no hay imagen
             $input.val('');
@@ -997,15 +998,15 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     setTimeout(function() {
         // Manejar las imágenes según el tipo usando el controlador
         if(rowData.TIPO1_QUESTION == '2') {
-            manejarImagen('IMAGEN1_QUESTION', rowData.IMAGEN1_QUESTION, rowData.ID_QUESTION);
+            manejarImagen('IMAGEN1_QUESTION', rowData.IMAGEN1_QUESTION);
         }
         
         if(rowData.TIPO2_QUESTION == '2') {
-            manejarImagen('IMAGEN2_QUESTION', rowData.IMAGEN2_QUESTION, rowData.ID_QUESTION);
+            manejarImagen('IMAGEN2_QUESTION', rowData.IMAGEN2_QUESTION);
         }
         
         if(rowData.TIPO3_QUESTION == '2') {
-            manejarImagen('IMAGEN3_QUESTION', rowData.IMAGEN3_QUESTION, rowData.ID_QUESTION);
+            manejarImagen('IMAGEN3_QUESTION', rowData.IMAGEN3_QUESTION);
         }
     }, 200);
 

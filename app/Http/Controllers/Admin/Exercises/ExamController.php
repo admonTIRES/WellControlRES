@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Artisan;
 use Exception;
 use DB;
+use Illuminate\Support\Facades\Log;
 //MODELS
 use App\Models\Admin\Exercise\Question;
 use App\Models\Admin\catalogs\EnteAcreditador;
@@ -251,10 +252,43 @@ class ExamController extends Controller
                         } else {
                             $question = Question::find($request->ID_QUESTION);
                             $idQuestion = $question->ID_QUESTION;
-                            $imagen1 = $request->hasFile('IMAGEN1_QUESTION') ? $this->uploadFile($request->file('IMAGEN1_QUESTION'), $idQuestion, 1) : null;
-                            $imagen2 = $request->hasFile('IMAGEN2_QUESTION') ? $this->uploadFile($request->file('IMAGEN2_QUESTION'), $idQuestion, 2) : null;
-                            $imagen3 = $request->hasFile('IMAGEN3_QUESTION') ? $this->uploadFile($request->file('IMAGEN3_QUESTION'), $idQuestion, 3) : null;
-
+                            $QUESTION_STRUCTURE_ACTUAL = $question->QUESTION_STRUCTURE_QUESTION ?? [];
+                            
+                            // Manejar imágenes nuevas o mantener las existentes
+                            $imagen1 = null;
+                            if ($request->hasFile('IMAGEN1_QUESTION')) {
+                                // Eliminar imagen anterior si existe
+                                if (isset($QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']) && $QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']) {
+                                    Storage::delete($QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']);
+                                }
+                                $imagen1 = $this->uploadFile($request->file('IMAGEN1_QUESTION'), $idQuestion, 1);
+                            } else {
+                                // Mantener imagen existente
+                                $imagen1 = $QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION'] ?? null;
+                            }
+                            
+                            // Repetir para imagen2 e imagen3...
+                            $imagen2 = null;
+                            if ($request->hasFile('IMAGEN2_QUESTION')) {
+                                if (isset($QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION']) && $QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION']) {
+                                    Storage::delete($QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION']);
+                                }
+                                $imagen2 = $this->uploadFile($request->file('IMAGEN2_QUESTION'), $idQuestion, 2);
+                            } else {
+                                $imagen2 = $QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION'] ?? null;
+                            }
+                            
+                            $imagen3 = null;
+                            if ($request->hasFile('IMAGEN3_QUESTION')) {
+                                if (isset($QUESTION_STRUCTURE_ACTUAL['IMAGEN3_QUESTION']) && $QUESTION_STRUCTURE_ACTUAL['IMAGEN3_QUESTION']) {
+                                    Storage::delete($QUESTION_STRUCTURE_ACTUAL['IMAGEN3_QUESTION']);
+                                }
+                                $imagen3 = $this->uploadFile($request->file('IMAGEN3_QUESTION'), $idQuestion, 3);
+                            } else {
+                                $imagen3 = $QUESTION_STRUCTURE_ACTUAL['IMAGEN3_QUESTION'] ?? null;
+                            }
+                            
+                            // Actualizar estructura
                             $QUESTION_STRUCTURE_QUESTION  = [
                                 'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
                                 'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
@@ -268,6 +302,7 @@ class ExamController extends Controller
                                 'TEXTO3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 1 ? $request->TEXTO3_QUESTION : null,
                                 'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
                             ];
+
                             $question->update([
                                 'ACCREDITATION_ENTITIES_QUESTION' => $ACCREDITATION_ENTITIES_QUESTION,
                                 'LEVELS_QUESTION' => $LEVELS_QUESTION,
@@ -327,41 +362,43 @@ class ExamController extends Controller
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
 
-    private function uploadFile($file, $idQuestion, $numeroImagen)
-{
-    if (!$file) return null;
-
-    $path = "admin/exam/questions/{$idQuestion}/imagen";
-    $extension = $file->getClientOriginalExtension();
-    $filename = "{$numeroImagen}.{$extension}";
-
-    // Guardar en disco 'public' (storage/app/public)
-    $file->storeAs($path, $filename, 'public');
-
-    // Retornar la ruta relativa
-    return "{$path}/{$filename}";
-}
-
-public function mostrarimagenquestionall($archivo_opcion, $question_id, $campo_imagen)
-{
-    $question = Question::findOrFail($question_id);
-    
-    // Validar que el campo es válido
-    $camposValidos = ['IMAGEN1_QUESTION', 'IMAGEN2_QUESTION', 'IMAGEN3_QUESTION'];
-    if (!in_array($campo_imagen, $camposValidos)) {
-        abort(404, 'Campo de imagen no válido');
+   private function uploadFile($file, $questionId, $tipoImagen)
+    {
+        if (!$file || !$file->isValid()) {
+            return null;
+        }
+        
+        try {
+            // Crear directorio en storage/app: admin/exam/questions/{ID}/imagen/
+            $directorio = 'admin/exam/questions/' . $questionId . '/imagen';
+            
+            // Obtener extensión original del archivo
+            $extension = $file->getClientOriginalExtension();
+            
+            // Nombre del archivo basado en el tipo: 1.jpg, 2.png, 3.jpeg
+            $nombreArchivo = $tipoImagen . '.' . $extension;
+            
+            // Guardar el archivo en storage/app/admin/exam/questions/{ID}/imagen/
+            $rutaCompleta = $file->storeAs($directorio, $nombreArchivo);
+            
+            // Retornar la ruta completa: admin/exam/questions/23/imagen/1.png
+            return $rutaCompleta;
+            
+        } catch (\Exception $e) {
+            // Log del error si es necesario
+           
+            return null;
+        }
     }
-    
-    $rutaImagen = $question->$campo_imagen;
-    if (!$rutaImagen) {
+
+    public function showImage($ruta)
+    {
+        // Buscar archivo en storage/app/...
+        if (Storage::exists($ruta)) {
+            return Storage::response($ruta);
+        }
+
         abort(404, 'Imagen no encontrada');
     }
-    
-    if (($archivo_opcion + 0) == 0) {
-        return Storage::response($rutaImagen);
-    } else {
-        return Storage::download($rutaImagen);
-    }
-}
 
 }

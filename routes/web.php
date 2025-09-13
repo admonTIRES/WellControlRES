@@ -98,8 +98,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/questionDatatable', [ExamController::class, 'questionDatatable']);
     Route::post('/questionSave', [ExamController::class, 'store']);
     Route::get('/questionActive', [ExamController::class, 'store']);
-    Route::get('/mostrarimagenquestion/{archivo_opcion}/{question_id}/{tipo}', 'ExamController@mostrarimagenquestion')
-        ->where(['archivo_opcion' => '[0-1]', 'question_id' => '[0-9]+', 'tipo' => '[1-3]']);
+    Route::get('/showImage/{ruta}', [ExamController::class, 'showImage'])->where('ruta', '.*');
+
     // --------------------------EXAMS-------------------------------------- //
     Route::get('/examDatatable', [ExamController::class, 'examDatatable']);
     Route::post('/examSave', [ExamController::class, 'store']);

@@ -898,21 +898,22 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#TEXTO1_QUESTION').val(rowData.TEXTO1_QUESTION || '');
     $('#TEXTO2_QUESTION').val(rowData.TEXTO2_QUESTION || '');
     $('#TEXTO3_QUESTION').val(rowData.TEXTO3_QUESTION || '');
+            $('#TEXTO1_QUESTION').removeClass('campo-requerido');
+            $('#TEXTO2_QUESTION').removeClass('campo-requerido');
+           $('#TEXTO3_QUESTION').removeClass('campo-requerido');
+    
 
     $('#IMAGEN1_QUESTION').val('');
 	$('#IMAGEN1_QUESTION').dropify().data('dropify').resetPreview();
 	$('#IMAGEN1_QUESTION').dropify().data('dropify').clearElement();
-	$('#IMAGEN1_QUESTION').attr('required', true);
 
      $('#IMAGEN2_QUESTION').val('');
 	$('#IMAGEN2_QUESTION').dropify().data('dropify').resetPreview();
 	$('#IMAGEN2_QUESTION').dropify().data('dropify').clearElement();
-	$('#IMAGEN2_QUESTION').attr('required', true);
 
      $('#IMAGEN3_QUESTION').val('');
 	$('#IMAGEN3_QUESTION').dropify().data('dropify').resetPreview();
 	$('#IMAGEN3_QUESTION').dropify().data('dropify').clearElement();
-	$('#IMAGEN3_QUESTION').attr('required', true);
     // Activar secciones extra si aplica
     if(rowData.SECCION_EXTRA1) {
         $('#activarSeccionExtra').prop('checked', true);
@@ -985,12 +986,15 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
             
             // No requerir el campo
             $input.attr('required', false);
+            $input.removeClass('campo-requerido');
+
         } else {
             // Resetear campo si no hay imagen
             $input.val('');
             $input.dropify().data('dropify').resetPreview();
             $input.dropify().data('dropify').clearElement();
             $input.attr('required', false);
+            $input.removeClass('campo-requerido');
         }
     }
 

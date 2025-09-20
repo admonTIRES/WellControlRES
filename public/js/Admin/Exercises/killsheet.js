@@ -835,7 +835,7 @@ document.getElementById("openKillsheet").addEventListener("click", function (e) 
                                                     Swal.close();
                                                     var modal = new bootstrap.Modal(document.getElementById('killsheet_modal'));
                                                     tipoHoja = 18;
-                                                    currentStep = 1;
+                                                    currentStep = 2;
                                                     var titleModal = 'Nueva hoja de matar IADC para pozos verticales - surface';
                                                     var modalTitle = document.getElementById('modal-killsheet-title');
                                                     modalTitle.textContent = titleModal;
@@ -1245,6 +1245,7 @@ function mostrarFormulario(step) {
     $(".wizard-step").addClass("d-none"); // Oculta todos los formularios
 
     if (step === 2) {
+        console.log("entro a step " + step + "con valor de tipo de hoja en " + tipoHoja );
         // Mostrar solo el formulario 2 del tipo seleccionado
         $(`#killsheet-${tipoHoja}`).removeClass("d-none");
     } else {
@@ -1259,6 +1260,7 @@ function mostrarFormulario(step) {
         $("#btnGuardar").addClass("d-none");
     }
 }
+
 $(document).ready(function () {
 
 

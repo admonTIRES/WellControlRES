@@ -193,7 +193,7 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-killsheet-title">Nueva hoja de matar IWCF para pozos verticales</h5>
+                <h5 class="modal-title" id="modal-killsheet-title">Nueva hoja de matar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -242,7 +242,7 @@
                                 </div> --}}
 
                                 <div class="col-md-2 text-start">
-                                    <label> {{ __('OPERATION TYPE*') }}</label>
+                                    <label> {{ __('Operation type*') }}</label>
                                     <select class="form-select selectize-multiple" id="OPERACION_KILLSHEET"
                                         name="OPERACION_KILLSHEET[]" multiple>
                                         @foreach ($operaciones as $operacion)
@@ -251,25 +251,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2 text-center pastel-box">
-                                    <div class="mb-3">
-                                        <label>{{ __('Language of the question*') }}</label>
-                                        <select class="form-select selectize-single" id="LANGUAGE_ID_QUESTION"
-                                            name="LANGUAGE_ID_QUESTION" required>
-                                            @foreach ($idiomas as $idioma)
-                                            <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{
-                                                $idioma->NOMBRE_IDIOMA }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
                         <!-- Sección 2: Datos del Ejercicio -->
                         <div class="col-md-12 text-center pastel-box mb-4">
                             <h4 class="fw-bold mb-4">
-                                <span class="text-secondary">{{ __('2. ') }}</span> {{ __('Exercise Data') }}
+                                <span class="text-secondary">{{ __('2. ') }}</span> {{ __('Exercise data') }}
                             </h4>
 
                             <!-- Grid de 8 secciones en 2 filas de 4 columnas -->
@@ -766,7 +754,7 @@
                         border: 1px solid #333;
                     }
                 </style>
-                <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
+                {{-- <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
                    
                     <div class="container-iwcf-v">
                         <div class="page-number">Página 1 de 2</div>
@@ -1741,91 +1729,91 @@
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="iwcf-v-sol-btn">Continuar</button>
-                </form>
+                </form> --}}
                 
                 {{-- IWCF – Vertical – Surface – Español --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.spanish', ['id' => 'iwcf-v-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sur-es">Continuar</button>
                 </form>
 
                 {{-- IWCF – Vertical – Surface – Inglés --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sur-en" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.english', ['id' => 'iwcf-v-sur-en'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sur-en">Continuar</button>
                 </form>
 
                 {{-- IWCF – Vertical – Surface – Portugués --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sur-pt" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.portuguese', ['id' => 'iwcf-v-sur-pt'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sur-pt">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Vertical – Surface – Árabe --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sur-ar" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.arabic', ['id' => 'iwcf-v-sur-ar'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sur-ar">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Vertical – Subsea – Español --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sub-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Subsea.spanish', ['id' => 'iwcf-v-sub-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sub-es">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Vertical – Subsea – Inglés --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sub-en" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Subsea.english', ['id' => 'iwcf-v-sub-en'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sub-en">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Vertical – Subsea – Portugués --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sub-pt" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Subsea.portuguese', ['id' => 'iwcf-v-sur-pt'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sub-pt">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Vertical – Subsea – Árabe --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-v-sur-ar" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Subsea.arabic', ['id' => 'iwcf-v-sur-ar'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-v-sur-ar">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Desviado – Surface – Español --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-d-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.spanish', ['id' => 'iwcf-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-d-sur-es">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Desviado – Surface – Inglés --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="form-iwcf-d-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.deviated.Surface.spanish', ['id' => 'iwcf-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
-                        id="btn-iadc-v-sur-es">Continuar</button>
+                        id="btn-iwcf-d-sur-es">Continuar</button>
                 </form>
                 
                 {{-- IWCF – Desviado – Surface – Portugués --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iwcf-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
@@ -1833,7 +1821,7 @@
                 
                 {{-- IWCF – Desviado – Surface – Árabe --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
@@ -1841,7 +1829,7 @@
                 
                 {{-- IWCF – Desviado – Subsea – Español --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
@@ -1849,7 +1837,7 @@
                 
                 {{-- IWCF – Desviado – Subsea – Inglés --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
@@ -1857,7 +1845,7 @@
                 
                 {{-- IWCF – Desviado – Subsea – Portugués --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
@@ -1865,15 +1853,15 @@
                 
                 {{-- IWCF – Desviado – Subsea – Árabe --}}
                 <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>
                 </form>
                 
                 {{-- IADC – Vertical – Surface – Español --}}
-                <form id="form-iadc-v-sur-es" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-v-sur-es'])
+                <form id="killsheet-18" enctype="multipart/form-data" class="wizard-step d-none">
+                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => 'iadc-d-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iadc-v-sur-es">Continuar</button>

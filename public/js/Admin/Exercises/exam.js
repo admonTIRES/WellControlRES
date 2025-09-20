@@ -20,6 +20,7 @@ function manejarSeccionExtra(selectorCheckbox, seccion, campos) {
         });
     });
 }
+
 $(document).ready(function() {
     $('#ANSWER_TYPE_QUESTION').on('change', function () {
         const tipo = $(this).val();

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // CONTROLLER ROUTES
-
+use Illuminate\Http\Request;
 // CONFIG
 use App\Http\Controllers\Language\languageController;
 use App\Http\Controllers\Auth\loginController;
@@ -116,7 +116,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/killsheetsDatatable', [KillsheetsController::class, 'killsheetsDatatable']);
     Route::post('/killsheetsSave', [KillsheetsController::class, 'store']);
     Route::get('/killsheetsActive', [KillsheetsController::class, 'store']);
-});
+
+    Route::get('/get-iadc-form-content', function (Request $request) {
+        $id = $request->get('id', 'default-id');
+        return view('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => $id]);
+    })->name('get.iadc.content');
+    });
 // ----------------------------CATALOGS--------------------------------------- //
 Route::middleware(['auth'])->group(function () {
     Route::get('/catalogs', [adminController::class, 'catalogs'])->name('catalogs');

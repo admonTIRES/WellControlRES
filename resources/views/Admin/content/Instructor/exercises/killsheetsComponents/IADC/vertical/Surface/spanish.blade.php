@@ -23,6 +23,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+      
         /* border-bottom: 1px solid #000; */
         /* padding-bottom: 10px; */
         /* margin-bottom: 10px; */
@@ -53,10 +54,13 @@
         text-align: center;
         color: #3366FF;
         border: 1px solid #3366FF;
-        border-radius: 20px;
-        padding: 0.5vw;
+        border-radius: 50%;
+        padding: 0.5vw 1vw;
         margin: 15px auto;
-        width: auto;
+        max-width: fit-content;
+        font-size: 1.2vw;
+        font-weight: bold;
+        font-family: 'Calibri', Helvetica, Arial, sans-serif;
         height: auto;
     }
     
@@ -70,7 +74,9 @@
     
     .label-iadc-v {
         background: #0000000d;
-        min-width: 20%;
+        color: #000;
+        min-width: 12%;
+        width: auto;
         max-width: 20%;
         font-size: 0.7vw;
         text-align: center;
@@ -85,8 +91,20 @@
         align-items: center;
         font-size: 0.7vw;
     }
+
+    .formula-section-anular {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        font-size: 0.7vw;
+    }
     .formula span{
         font-size: 1.1vw;
+        font-family: Cambria,Georgia,serif; 
+    }
+
+    .formula-section-anular span{
+        font-size: 1vw;
         font-family: Cambria,Georgia,serif; 
     }
     
@@ -96,12 +114,18 @@
         text-align: center;
         margin: 0 5px;
     }
+
+      .formula-section-anular input {
+        width: 3vw;
+        text-align: center;
+        margin: 0 5px;
+    }
     
     .total-box {
         border: 1px solid #000;
-        padding: 10px;
+        padding: 1vw 0.5vw;
         margin: 10px auto;
-        width: 80%;
+        max-width: fit-content;
         text-align: center;
     }
     
@@ -129,6 +153,8 @@
     .blue-text {
         color: #3366FF;
         font-size: 1vw;
+        font-family: 'Calibri', Helvetica, Arial, sans-serif;
+        font-weight: bold;
     }
     
     .blue-text input{
@@ -251,7 +277,7 @@
     .card-title {
     margin: 0;
     font-size: 18px;
-    color: #333;
+    color: #000000;
     }
     
     .card-body {
@@ -279,7 +305,7 @@
     .form-group label {
     flex-basis: 40%;
     font-weight: 500;
-    color: #555;
+    color: #000000;
     }
     
     input {
@@ -328,45 +354,38 @@
     min-height: 50vh;
     padding: 20px;
     }
+
+    .min-text{
+        min-width:6vw;
+        padding: 0;
+    }
+
+    .input-number-data-well {
+        width: 20%;
+        text-align: center;
+        margin: 0;
+        border: none;
+        min-width: 30px;
+        border-bottom: 1px solid #000000;
+        padding: 0;
+        outline: none;
+        background-color: transparent;
+        transition: border-color 0.3s;
+    }
 </style>
 <div class="container-iadc-v">
     <!-- Left section: Well diagram (would be an image) -->
     <div class="well-diagram-iadc-v">
-    <img src="/assets/images/killsheets/iadc-v-sur.png" alt="Well Diagram" style="width: 100%; height: 100%;">
-    <div class="section" style="position: ">
-        <div class="calc-row">
-            <div class="label-iadc-v">Tubería de <br> perforación <br>(DP)</div>
-            <div class="formula">
-                <span>Capacidad</span>
-                <input class="min-text" type="text"> BBL/PIE x
-                <span>Longitud</span>
-                <input class="min-text" type="text"> PIES = 
-                <input class="min-text" type="text"> BBL
-            </div>
+        <div class="section" style="position: absolute; left:4.2vw; ">
+            <div class="label-iadc-v" style=" border: 0.1vw solid #9DC3E6; min-width: 100%; background: #fff; font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:7vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Longitud DP en agujero</strong><br style="padding: 0;"> <strong>revestido </strong><br style="padding: 0;"><input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"></div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #000; min-width: 100%; background: #b3b3b3;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:4vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Revestimiento MD </strong><input class="input-number-data-well" type="number"> <br><strong>Revestimiento TVD</strong><input class="input-number-data-well" type="number" style="padding: 0; width: 2vw;"></div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #FFC000;min-width: 100%;background: #fff;  font-size:0.66vw; padding: 0.1vw 0 0.3vw 0; margin-top:3.5vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DP en agujero abierto</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> <br> <strong>(Agujero revestido MD, Longitud DC-MD-Longitud HWDP)</strong> </div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #548235;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:11.5vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud HWDP</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
+            <div class="label-iadc-v" style=" border: 0.1w solid #7030A0;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:11vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DC</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #000;min-width: 100%; background: #b3b3b3;font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:01vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Tam. del agujero</strong> <input class="input-number-data-well" type="number"style="padding: 0; width: 2vw;"> <br> <strong>Agujero MD</strong> <input class="input-number-data-well" type="number"> <br> <strong>Agujero  TVD</strong> <input class="input-number-data-well" type="number"></div>
         </div>
-        
-        <div class="calc-row">
-        <div class="label-iadc-v">Tubería <br>pesada <br>(HWDP)</div>
-        <div class="formula">
-            <span>Capacidad</span>
-            <input type="text">      BBL/PIE x
-            <span>Longitud</span>
-            <input type="text">      PIES = 
-            <input type="text">      BBL
-        </div>
-        </div>
-        
-        <div class="calc-row">
-        <div class="label-iadc-v">Collares de<br> perforación <br>(DC)</div>
-        <div class="formula">
-            <span>Capacidad</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
-        </div>
-        </div>
-    </div>
+        <img src="/assets/images/killsheets/iadc-v-sur.png" alt="Well Diagram" style="width: 100%; height: 100%;">
+   
     </div>      
     
     <!-- Middle section: Calculations -->
@@ -383,10 +402,12 @@
             <div class="label-iadc-v">Tubería de <br> perforación <br>(DP)</div>
             <div class="formula">
                 <span>Capacidad</span>
-                <input class="min-text" type="text"> BBL/PIE x
-                <span>Longitud</span>
-                <input class="min-text" type="text"> PIES = 
-                <input class="min-text" type="text"> BBL
+                <input class="min-text" type="text"> 
+                <span><sub>BBL/PIE </sub> × Longitud</span>
+                <input class="min-text" type="text"> 
+                <span> <sub>PIES </sub> = </span>
+                <input class="min-text" type="text"> 
+                <span><sub>BBL</sub></span>
             </div>
         </div>
         
@@ -394,90 +415,87 @@
         <div class="label-iadc-v">Tubería <br>pesada <br>(HWDP)</div>
         <div class="formula">
             <span>Capacidad</span>
-            <input type="text">      BBL/PIE x
-            <span>Longitud</span>
-            <input type="text">      PIES = 
-            <input type="text">      BBL
+            <input class="min-text" type="text">      
+            <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text">      <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text">      <span><sub>BBL</sub></span>
         </div>
         </div>
         
         <div class="calc-row">
         <div class="label-iadc-v">Collares de<br> perforación <br>(DC)</div>
-        <div class="formula">
-            <span>Capacidad</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+        <div class="formula" >
+            <span >Capacidad</span>
+            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total de la sarta de perforación = <input type="text"> BBL</div>
+        <div class="blue-text">Volumen total de la sarta de perforación = <input class="min-text" type="text"> BBL</div>
     </div>
-    <hr>
+ <hr>
     <!-- Annular Space Volume Section -->
     <div class="section-title-iadc-v">Volumen del espacio anular</div>
     
     <div class="section">
         <div class="calc-row">
         <div class="label-iadc-v">Tubería de <br>perforación <br>en agujero <br>revestido</div>
-        <div class="formula">
+        <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
         <div class="calc-row">
         <div class="label-iadc-v">Tubería de <br>perforación <br>en agujero <br>abierto</div>
-        <div class="formula">
+        <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
         <div class="calc-row">
         <div class="label-iadc-v">HWDP en <br>agujero <br>abierto</div>
-        <div class="formula">
+        <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
         <div class="calc-row">
         <div class="label-iadc-v">Collares de <br>perforación <br>en agujero <br>abierto (DC)</div>
-        <div class="formula">
+        <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input type="text"> BBL/PIE x
-            <span>Longitud</span>
-            <input type="text"> PIES = 
-            <input type="text"> BBL
+            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total de agujero abierto = <input type="text"> BBL</div>
+        <div class="blue-text">Volumen total de agujero abierto = <input class="min-text" type="text"> BBL</div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total del espacio anular = <input type="text"> BBL</div>
+        <div class="blue-text">Volumen total del espacio anular = <input class="min-text" type="text"> BBL</div>
     </div>
     </div>
     
     <!--tercera columna -->
     <div class="right-column-1">
-        <div class="header-iadc-v">
+        <div class="header-iadc-v" style="  width: 104%;
+        padding-bottom: 0.5vw;
+        border-bottom: 1px solid #000;">
             <img src="/assets/images/killsheets/logoiadc.png" alt="IADC" style="float:left">
             <span class="titleIadcVS">Hoja de matar - Superficie</span>
             <img src="/assets/images/killsheets/logosmithmason.png" alt="Smith Mason & Co Logo" style="float:right">

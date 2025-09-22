@@ -107,6 +107,18 @@
         font-size: 1vw;
         font-family: Cambria,Georgia,serif; 
     }
+      .input-iadc-v-sur {
+        width: 60%;
+        text-align: center;
+        margin: 0 5px;
+        border: none;
+        min-width: 40px;
+        border-bottom: 1px solid #ccc;
+        padding: 5px 0;
+        outline: none;
+        background-color: transparent;
+        transition: border-color 0.3s;
+    }
     
 
     .formula input {
@@ -308,18 +320,7 @@
     color: #000000;
     }
     
-    input {
-    width: 60%;
-    text-align: center;
-    margin: 0 5px;
-    border: none;
-    min-width: 40px;
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0;
-    outline: none;
-    background-color: transparent;
-    transition: border-color 0.3s;
-    }
+  
     
     .underline-input:focus {
     border-bottom: 2px solid #007bff;
@@ -377,12 +378,12 @@
     <!-- Left section: Well diagram (would be an image) -->
     <div class="well-diagram-iadc-v">
         <div class="section" style="position: absolute; left:4.2vw; ">
-            <div class="label-iadc-v" style=" border: 0.2vw solid #9DC3E6; min-width: 100%; background: #fff; font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:7vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Longitud DP en agujero</strong><br style="padding: 0;"> <strong>revestido </strong><br style="padding: 0;"><input class="input-number-data-well" type="number" style="padding: 0; width: 5vw; "></div>
-            <div class="label-iadc-v" style=" border: 0.1vw solid #000; min-width: 100%; background: #b3b3b3;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:3vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Revestimiento MD </strong><input class="input-number-data-well" type="number"> <br><strong>Revestimiento TVD</strong><input class="input-number-data-well" type="number" style="padding: 0; width: 2vw;"></div>
-            <div class="label-iadc-v" style=" border: 0.2vw solid #FFC000;min-width: 100%;background: #fff;  font-size:0.66vw; padding: 0.1vw 0 0.3vw 0; margin-top:3vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DP en agujero abierto</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> <br> <strong>(Agujero revestido MD, Longitud DC-MD-Longitud HWDP)</strong> </div>
-            <div class="label-iadc-v" style=" border: 0.2vw solid #548235;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:11vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud HWDP</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
-            <div class="label-iadc-v" style=" border: 0.2vw solid #7030A0;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top: 7vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DC</strong><br> <input class="input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
-            <div class="label-iadc-v" style=" border: 0.1vw solid #000;min-width: 100%; background: #b3b3b3;font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:1vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Tam. del agujero</strong> <input class="input-number-data-well" type="number"style="padding: 0; width: 2vw;"> <br> <strong>Agujero MD</strong> <input class="input-number-data-well" type="number"> <br> <strong>Agujero  TVD</strong> <input class="input-number-data-well" type="number"></div>
+            <div class="label-iadc-v" style=" border: 0.2vw solid #9DC3E6; min-width: 100%; background: #fff; font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:7vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Longitud DP en agujero</strong><br style="padding: 0;"> <strong>revestido </strong><br style="padding: 0;"><input class="input-iadc-v-sur input-number-data-well" type="number" style="padding: 0; width: 5vw; "></div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #000; min-width: 100%; background: #b3b3b3;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:3vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong> Revestimiento MD </strong><input class="input-iadc-v-sur input-number-data-well" type="number"> <br><strong>Revestimiento TVD</strong><input class="input-iadc-v-sur input-number-data-well" type="number" style="padding: 0; width: 2vw;"></div>
+            <div class="label-iadc-v" style=" border: 0.2vw solid #FFC000;min-width: 100%;background: #fff;  font-size:0.66vw; padding: 0.1vw 0 0.3vw 0; margin-top:3vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DP en agujero abierto</strong><br> <input class="input-iadc-v-sur input-number-data-well" type="number" style="padding: 0; width: 5vw;"> <br> <strong>(Agujero revestido MD, Longitud DC-MD-Longitud HWDP)</strong> </div>
+            <div class="label-iadc-v" style=" border: 0.2vw solid #548235;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:11vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud HWDP</strong><br> <input class="input-iadc-v-sur input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
+            <div class="label-iadc-v" style=" border: 0.2vw solid #7030A0;min-width: 100%; background: #fff;  font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top: 7vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Longitud DC</strong><br> <input class="input-iadc-v-sur input-number-data-well" type="number" style="padding: 0; width: 5vw;"> </div>
+            <div class="label-iadc-v" style=" border: 0.1vw solid #000;min-width: 100%; background: #b3b3b3;font-size:0.7vw; padding: 0.1vw 0 0.3vw 0; margin-top:1vw; font-family: 'Calibri', Helvetica, Arial, sans-serif;"><strong>Tam. del agujero</strong> <input class="input-iadc-v-sur input-number-data-well" type="number"style="padding: 0; width: 2vw;"> <br> <strong>Agujero MD</strong> <input class="input-iadc-v-sur input-number-data-well" type="number"> <br> <strong>Agujero  TVD</strong> <input class="input-iadc-v-sur input-number-data-well" type="number"></div>
         </div>
         <img src="/assets/images/killsheets/iadc-v-sur.png" alt="Well Diagram" style="width: 100%; height: 100%;">
    
@@ -402,11 +403,11 @@
             <div class="label-iadc-v">Tubería de <br> perforación <br>(DP)</div>
             <div class="formula">
                 <span>Capacidad</span>
-                <input class="min-text" type="text"> 
+                <input class="input-iadc-v-sur min-text" type="text"> 
                 <span><sub>BBL/PIE </sub> × Longitud</span>
-                <input class="min-text" type="text"> 
+                <input class="input-iadc-v-sur min-text" type="text"> 
                 <span> <sub>PIES </sub> = </span>
-                <input class="min-text" type="text"> 
+                <input class="input-iadc-v-sur min-text" type="text"> 
                 <span><sub>BBL</sub></span>
             </div>
         </div>
@@ -415,10 +416,10 @@
         <div class="label-iadc-v">Tubería <br>pesada <br>(HWDP)</div>
         <div class="formula">
             <span>Capacidad</span>
-            <input class="min-text" type="text">      
+            <input class="input-iadc-v-sur min-text" type="text">      
             <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text">      <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text">      <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text">      <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text">      <span><sub>BBL</sub></span>
         </div>
         </div>
         
@@ -426,15 +427,15 @@
         <div class="label-iadc-v">Collares de<br> perforación <br>(DC)</div>
         <div class="formula" >
             <span >Capacidad</span>
-            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total de la sarta de perforación = <input class="min-text" type="text"> BBL</div>
+        <div class="blue-text">Volumen total de la sarta de perforación = <input class="input-iadc-v-sur min-text" type="text"> BBL</div>
     </div>
  <hr>
     <!-- Annular Space Volume Section -->
@@ -445,9 +446,9 @@
         <div class="label-iadc-v">Tubería de <br>perforación <br>en agujero <br>revestido</div>
         <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
@@ -455,9 +456,9 @@
         <div class="label-iadc-v">Tubería de <br>perforación <br>en agujero <br>abierto</div>
         <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
@@ -465,9 +466,9 @@
         <div class="label-iadc-v">HWDP en <br>agujero <br>abierto</div>
         <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
         
@@ -475,19 +476,19 @@
         <div class="label-iadc-v">Collares de <br>perforación <br>en agujero <br>abierto (DC)</div>
         <div class="formula-section-anular">
             <span>Capacidad Anular</span>
-            <input class="min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
-            <input class="min-text" type="text"> <span><sub>PIES</sub> = </span>
-            <input class="min-text" type="text"> <span><sub>BBL</sub></span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL/PIE</sub> × Longitud</span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>PIES</sub> = </span>
+            <input class="input-iadc-v-sur min-text" type="text"> <span><sub>BBL</sub></span>
         </div>
         </div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total de agujero abierto = <input class="min-text" type="text"> BBL</div>
+        <div class="blue-text">Volumen total de agujero abierto = <input class="input-iadc-v-sur min-text" type="text"> BBL</div>
     </div>
     
     <div class="total-box">
-        <div class="blue-text">Volumen total del espacio anular = <input class="min-text" type="text"> BBL</div>
+        <div class="blue-text">Volumen total del espacio anular = <input class="input-iadc-v-sur min-text" type="text"> BBL</div>
     </div>
     </div>
     
@@ -504,7 +505,7 @@
         
         <div class="formula" style="text-align: center; margin: 20px 0;">
             <span>Salida de la bomba = </span>
-            <input type="text"> BBL/EMB
+            <input class="input-iadc-v-sur" type="text"> BBL/EMB
         </div>
         
         <div class="section-title-iadc-v">Emboladas de circulación</div>
@@ -512,37 +513,37 @@
         <div class="section">
             <div class="blue-text">Emboladas hasta la barrena (STB)</div>
             <div style="margin: 10px 0;  font-family: Cambria,Georgia,serif; ">
-            <input type="text" style="width: 40px"> Volumen sarta perf. BBL + 
-            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-            <input type="text" style="width: 40px"> EMB
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Volumen sarta perf. BBL + 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> EMB
             </div>
             
             <div class="blue-text">Emboladas desde la barren hasta la zapata del revestimiento</div>
             <div style="margin: 10px 0;  font-family: Cambria,Georgia,serif; ">
-            <input type="text" style="width: 40px"> Vol. agujero abierto BBL + 
-            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-            <input type="text" style="width: 40px"> EMB
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Vol. agujero abierto BBL + 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> EMB
             </div>
             
             <div class="blue-text">Emboladas de fondo a superficie</div>
             <div style="margin: 10px 0;  font-family: Cambria,Georgia,serif; ">
-            <input type="text" style="width: 40px"> Vol. espacio anular BBL + 
-            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-            <input type="text" style="width: 40px"> EMB
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Vol. espacio anular BBL + 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> EMB
             </div>
             
             <div class="blue-text">Circulación total del pozo</div>
             <div style="margin: 10px 0;  font-family: Cambria,Georgia,serif; ">
-            <input type="text" style="width: 40px"> Emb. hasta la barrena + 
-            <input type="text" style="width: 40px"> Emb. fondo a superficie = 
-            <input type="text" style="width: 40px"> EMB
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Emb. hasta la barrena + 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Emb. fondo a superficie = 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> EMB
             </div>
             
             <div class="blue-text">Emboladas línea de superficie (Método de Esperar y Pesar)</div>
             <div style="margin: 10px 0;  font-family: Cambria,Georgia,serif; ">
-            <input type="text" style="width: 40px"> Vol. línea de superf. BBL + 
-            <input type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
-            <input type="text" style="width: 40px"> EMB
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Vol. línea de superf. BBL + 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> Salida de la bomba BBL/EMB = 
+            <input class="input-iadc-v-sur" type="text" style="width: 40px"> EMB
             </div>
         </div>
     </div>
@@ -556,23 +557,23 @@
             <table class="info-table">
                 <tr>
                 <td style="background-color: #0000001f;"><strong> Presión de cierre en la tubería de perforación (SIDPP)</strong></td>
-                <td><input type="text"> PSI</td>
+                <td><input class="input-iadc-v-sur" type="text"> PSI</td>
                 </tr>
                 <tr>
                 <td style="background-color: #0000001f;"><strong> Presión de cierre en el revestimiento (SICP)</strong></td>
-                <td><input type="text"> PSI</td>
+                <td><input class="input-iadc-v-sur" type="text"> PSI</td>
                 </tr>
                 <tr>
                 <td style="background-color: #0000001f;"><strong> Ganancia en tanques</strong></td>
-                <td><input type="text"> BBL</td>
+                <td><input class="input-iadc-v-sur" type="text"> BBL</td>
                 </tr>
                 <tr>
                 <td style="background-color: #0000001f;"><strong>Densidad del lodo original (OMW)</strong></td>
-                <td style="min-width:7vw;"><input type="text"> PPG</td>
+                <td style="min-width:7vw;"><input class="input-iadc-v-sur" type="text"> PPG</td>
                 </tr>
                 <tr>
                 <td style="background-color: #0000001f;"><strong>Presión reducida de la bomba (SCRP)<strong></td>
-                <td><input type="text"> PSI</td>
+                <td><input class="input-iadc-v-sur" type="text"> PSI</td>
                 </tr>
             </table>
             <h2 style="padding-right: 1vw;">Hoja de matar - Superficie <br> www.smithmasonco.com</h2>
@@ -585,7 +586,7 @@
         <div class="formula-row" style="border-top: 0.1vw solid #000; padding: 10px;">
             <div class="title">Densidad del lodo para matar (KMW) (Redondear el primer decimal hacia arriba)</div>
             <div class="formula-content">
-            (SIDPP <input type="text" class="small-input"> PSI ÷ 0.052÷TVD del pozo <input type="text" class="small-input"> PIES)+Dens. del lodo actual <input type="text" class="small-input"> PPG=KMW <input type="text" class="small-input"> PPG
+            (SIDPP <input type="text" class="input-iadc-v-sur small-input"> PSI ÷ 0.052÷TVD del pozo <input type="text" class="input-iadc-v-sur small-input"> PIES)+Dens. del lodo actual <input type="text" class="input-iadc-v-sur small-input"> PPG=KMW <input type="text" class="input-iadc-v-sur small-input"> PPG
             </div>
         </div>
 
@@ -593,16 +594,16 @@
         <div class="formula-row" style="margin-top: 1vw; border-top: 0.1vw solid #000; padding: 10px; ">
             <div class="title" style="margin-top: 1vw;">Máxima densidad del lodo permitida (MAMW) (Redondear el primer decimal hacia abajo)</div>
             <div class="formula-content" style="font-size: 0.9vw;">
-            Presión "Leak-off" en superficie <input type="text" class="small-input"> PSI÷0.052÷TVD zapata <input type="text" class="small-input"> PIES)+Dens. lodo durante la prueba <input type="text" class="small-input"> PPG
+            Presión "Leak-off" en superficie <input type="text" class="input-iadc-v-sur small-input"> PSI÷0.052÷TVD zapata <input type="text" class="input-iadc-v-sur small-input"> PIES)+Dens. lodo durante la prueba <input type="text" class="input-iadc-v-sur small-input"> PPG
             </div>
             <div class="formula-content" style="margin-top: 0.5vw; margin-right: 0.5vw;justify-content: right;">
-            =MAMW <input type="text" class="small-input"> PPG
+            =MAMW <input type="text" class="input-iadc-v-sur small-input"> PPG
             </div>
             <div class="formula-content" style="margin-top: 0.5vw;">
             O
             </div>
             <div class="formula-content" style="margin-top: 2vw;">
-            Gradiente de fractura <input type="text" class="small-input"> PSI/FT÷0.052=MAMW <input type="text" class="small-input"> PPG
+            Gradiente de fractura <input type="text" class="input-iadc-v-sur small-input"> PSI/FT÷0.052=MAMW <input type="text" class="input-iadc-v-sur small-input"> PPG
             </div>
         </div>
 
@@ -610,7 +611,7 @@
         <div class="formula-row" style="margin-top: 1vw; padding: 10px;">
             <div class="title">Presión anular máxima permitida en la superficie (MAASP) <span class="underline">ANTES</span> del influjo</div>
             <div class="formula-content">
-            (MAMW <input type="text" class="small-input"> <sub>PPG</sub> - Dens. lodo actual <input type="text" class="small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="small-input"> <sub>PIES</sub> = MAASP <input type="text" class="small-input"> <sub>PSI</sub>
+            (MAMW <input type="text" class="input-iadc-v-sur small-input"> <sub>PPG</sub> - Dens. lodo actual <input type="text" class="input-iadc-v-sur small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="input-iadc-v-sur small-input"> <sub>PIES</sub> = MAASP <input type="text" class="input-iadc-v-sur small-input"> <sub>PSI</sub>
             </div>
         </div>
 
@@ -618,7 +619,7 @@
         <div class="formula-row" style="margin-top: 3vw; padding: 10px;">
             <div class="title">MAASP <span class="underline">DESPUÉS</span> de que el pozo está muerto</div>
             <div class="formula-content" style="font-size: 0.9vw;">
-            (MAMW <input type="text" class="small-input"> <sub>PPG</sub>  – Dens. lodo para matar(KMW) <input type="text" class="small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="small-input"> <sub>PIES</sub> = MAASP <input type="text" class="small-input"> <sub>PSI</sub>
+            (MAMW <input type="text" class="input-iadc-v-sur small-input"> <sub>PPG</sub>  – Dens. lodo para matar(KMW) <input type="text" class="input-iadc-v-sur small-input"> PPG )× 0.052 × TVD zapata <input type="text" class="input-iadc-v-sur small-input"> <sub>PIES</sub> = MAASP <input type="text" class="input-iadc-v-sur small-input"> <sub>PSI</sub>
             </div>
         </div>
 
@@ -630,7 +631,7 @@
             <div style="margin-top: 2vw">
             <div class="title" style="margin-top: 2vw;" >Presión inicial de circulación (ICP)</div>
             <div class="formula-content">
-                SIDPP <input type="text" class="small-input"> <sub>PSI</sub> + Presión reducida de la bomba (SCRP) <input type="text" class="small-input"> <sub>PSI</sub> = ICP <input type="text" class="small-input"> <sub>PSI</sub>
+                SIDPP <input type="text" class="input-iadc-v-sur small-input"> <sub>PSI</sub> + Presión reducida de la bomba (SCRP) <input type="text" class="input-iadc-v-sur small-input"> <sub>PSI</sub> = ICP <input type="text" class="input-iadc-v-sur small-input"> <sub>PSI</sub>
             </div>
             </div>
             
@@ -638,15 +639,15 @@
             <div style="margin-top: 2vw;">
             <div class="title" style="margin-top: 2vw;">Presión final de circulación (FCP)</div>
             <div class="formula-content" >
-                Presión reducida bomba (SCRP) <input type="text" class="small-input"><sub style="margin-top:1vw;">PSI</sub> x (
+                Presión reducida bomba (SCRP) <input type="text" class="input-iadc-v-sur small-input"><sub style="margin-top:1vw;">PSI</sub> x (
                 <div style="display: inline-block; text-align: center;">
                 <div style="padding: 2px 5px;">
-                    Dens. lodo para matar (KMW) <input type="text" class="small-input"> <sub>PPG</sub>
+                    Dens. lodo para matar (KMW) <input type="text" class="input-iadc-v-sur small-input"> <sub>PPG</sub>
                     <hr style="margin: 2px 0;">
-                    Dens. lodo original (OMW) <input type="text" class="small-input"> <sub>PPG</sub>
+                    Dens. lodo original (OMW) <input type="text" class="input-iadc-v-sur small-input"> <sub>PPG</sub>
                 </div>
                 </div>
-                ) = FCP <input type="text" class="small-input"><sub>PSI</sub>
+                ) = FCP <input type="text" class="input-iadc-v-sur small-input"><sub>PSI</sub>
             </div>
             </div>
         </div>
@@ -666,31 +667,31 @@
         <table class="info-table">
             <tr>
             <td style="background-color: #0000001f; min-width:20vw;">Densidad del lodo para matar (KWM)</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
             <td style="background-color: #0000001f; ">Presión inicial de circulación (ICP)</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
             <td style="background-color: #0000001f;">Presión final de circulación (FCP)</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
             <td style="background-color: #0000001f;">Emboladas de superficie hasta la barrena (STB)</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
             <td style="background-color: #0000001f;">Emboladas desde la barrena hasta la zapata del<br> revestimiento</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
             <td style="background-color: #0000001f;">Emboladas fondo a superficie</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
             <td style="background-color: #0000001f;">Emboladas totales de circulación</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
         </table>
         <div class="formula-row">
@@ -734,58 +735,58 @@
             </tr>
             <tr>
             <td>0</td>
-            <td><input type="text">ICP</td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text">ICP</td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
             <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
              <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
+            <td><input class="input-iadc-v-sur" type="text"></td>
             </tr>
         </table>
         </div>
@@ -802,7 +803,7 @@
             (ICP − FCP)
             <hr style="margin: 2px 0;">
             10
-        </div> = <input type="text" class="small-input">
+        </div> = <input type="text" class="input-iadc-v-sur small-input">
         </div>
         
         <div class="instruction">
@@ -815,7 +816,7 @@
             (ICP − FCP)×100
             <hr style="margin: 2px 0;">
             Emboladas de superficie a barrena
-        </div> = <input type="text" class="small-input">
+        </div> = <input type="text" class="input-iadc-v-sur small-input">
         </div>
         
         <div class="instruction">
@@ -828,13 +829,13 @@
         </div>
        
     </div>
-    <div style="border-top: 0.1vw solid #000; width:102%">Nombre: <input type="text" class="large-input"></div>
+    <div style="border-top: 0.1vw solid #000; width:102%">Nombre: <input type="text" class="input-iadc-v-sur large-input"></div>
     <div style="display: flex; min-width:100%;">
         <div style="flex: 1; align-items:start; ">
-            <div >Fecha: <input type="text" class="large-input"></div>
+            <div >Fecha: <input type="text" class="input-iadc-v-sur large-input"></div>
         </div>
         <div style="flex: 1; text-align:end;">
-            <div>Hoja de matar #: <input type="text" class="medium-input"></div>
+            <div>Hoja de matar #: <input type="text" class="input-iadc-v-sur medium-input"></div>
         </div>
     </div>
     </div>

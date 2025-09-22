@@ -754,7 +754,7 @@
                         border: 1px solid #333;
                     }
                 </style>
-                <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
+                {{-- <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
                    
                     <div class="container-iwcf-v">
                         <div class="page-number">Página 1 de 2</div>
@@ -1729,7 +1729,7 @@
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="iwcf-v-sol-btn">Continuar</button>
-                </form>
+                </form> --}}
                 
                 {{-- IWCF – Vertical – Surface – Español --}}
                 <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">

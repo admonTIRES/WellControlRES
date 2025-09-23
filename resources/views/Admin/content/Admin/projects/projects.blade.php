@@ -45,7 +45,7 @@
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6663 7.50016C13.6663 11.1821 10.6816 14.1668 6.99967 14.1668C3.31778 14.1668 0.333008 11.1821 0.333008 7.50016C0.333008 3.81826 3.31778 0.833496 6.99967 0.833496C10.6816 0.833496 13.6663 3.81826 13.6663 7.50016ZM1.66634 7.50016C1.66634 10.4457 4.05416 12.8335 6.99967 12.8335C9.94519 12.8335 12.333 10.4457 12.333 7.50016C12.333 4.55464 9.94519 2.16683 6.99967 2.16683C4.05416 2.16683 1.66634 4.55464 1.66634 7.50016ZM6.33301 4.8335V8.16683C6.33301 8.53502 6.63148 8.8335 6.99967 8.8335C7.36786 8.8335 7.66634 8.53502 7.66634 8.16683V4.8335C7.66634 4.46531 7.36786 4.16683 6.99967 4.16683C6.63148 4.16683 6.33301 4.46531 6.33301 4.8335ZM7.66634 10.1668C7.66634 10.535 7.36786 10.8335 6.99967 10.8335C6.63148 10.8335 6.33301 10.535 6.33301 10.1668C6.33301 9.79864 6.63148 9.50016 6.99967 9.50016C7.36786 9.50016 7.66634 9.79864 7.66634 10.1668Z" fill="#AAA1AA" />
                                             </svg>
                                         </span>
-                                        <small>Proyectos por comenzar</small>
+                                        <small> {{ __('Projects to start') }}</small>
                                     </p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6663 7.50016C13.6663 11.1821 10.6816 14.1668 6.99967 14.1668C3.31778 14.1668 0.333008 11.1821 0.333008 7.50016C0.333008 3.81826 3.31778 0.833496 6.99967 0.833496C10.6816 0.833496 13.6663 3.81826 13.6663 7.50016ZM1.66634 7.50016C1.66634 10.4457 4.05416 12.8335 6.99967 12.8335C9.94519 12.8335 12.333 10.4457 12.333 7.50016C12.333 4.55464 9.94519 2.16683 6.99967 2.16683C4.05416 2.16683 1.66634 4.55464 1.66634 7.50016ZM6.33301 4.8335V8.16683C6.33301 8.53502 6.63148 8.8335 6.99967 8.8335C7.36786 8.8335 7.66634 8.53502 7.66634 8.16683V4.8335C7.66634 4.46531 7.36786 4.16683 6.99967 4.16683C6.63148 4.16683 6.33301 4.46531 6.33301 4.8335ZM7.66634 10.1668C7.66634 10.535 7.36786 10.8335 6.99967 10.8335C6.63148 10.8335 6.33301 10.535 6.33301 10.1668C6.33301 9.79864 6.63148 9.50016 6.99967 9.50016C7.36786 9.50016 7.66634 9.79864 7.66634 10.1668Z" fill="#AAA1AA" />
                                             </svg>
                                         </span>
-                                        <small>Proyectos en curso</small>
+                                        <small> {{ __('Projects in progress') }}</small>
                                     </p>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6663 7.50016C13.6663 11.1821 10.6816 14.1668 6.99967 14.1668C3.31778 14.1668 0.333008 11.1821 0.333008 7.50016C0.333008 3.81826 3.31778 0.833496 6.99967 0.833496C10.6816 0.833496 13.6663 3.81826 13.6663 7.50016ZM1.66634 7.50016C1.66634 10.4457 4.05416 12.8335 6.99967 12.8335C9.94519 12.8335 12.333 10.4457 12.333 7.50016C12.333 4.55464 9.94519 2.16683 6.99967 2.16683C4.05416 2.16683 1.66634 4.55464 1.66634 7.50016ZM6.33301 4.8335V8.16683C6.33301 8.53502 6.63148 8.8335 6.99967 8.8335C7.36786 8.8335 7.66634 8.53502 7.66634 8.16683V4.8335C7.66634 4.46531 7.36786 4.16683 6.99967 4.16683C6.63148 4.16683 6.33301 4.46531 6.33301 4.8335ZM7.66634 10.1668C7.66634 10.535 7.36786 10.8335 6.99967 10.8335C6.63148 10.8335 6.33301 10.535 6.33301 10.1668C6.33301 9.79864 6.63148 9.50016 6.99967 9.50016C7.36786 9.50016 7.66634 9.79864 7.66634 10.1668Z" fill="#AAA1AA" />
                                             </svg>
                                         </span>
-                                        <small>Proyectos finalizados</small>
+                                        <small>  {{ __('Completed projects') }}</small>
                                     </p>
                                 </div>
                             </div>
@@ -496,8 +496,7 @@
 
                                                 <div class="col-md-12">
                                                     <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> {{ __('Name(s) of company(ies)
-                                                            *')}}</label>
+                                                        <label class="form-label"> {{ __('Name(s) of company(ies) *')}}</label>
                                                         <input id="COMPANIES" name="COMPANIES" class="form-control" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
                                                         </div>
@@ -514,10 +513,10 @@
                                         <div class="form-card">
                                             <div class="row">
                                                 <div class="col-7">
-                                                    <h3 class="mb-4">Fechas y activación:</h3>
+                                                    <h3 class="mb-4"> {{ __('Dates and activation:') }}</h3>
                                                 </div>
                                                 <div class="col-5">
-                                                    <h2 class="steps">Paso 2 de 6</h2>
+                                                    <h2 class="steps"> {{ __('Step 2 of 6') }}</h2>
                                                 </div>
                                             </div>
                                             <style>
@@ -554,8 +553,7 @@
                                             <div class="row g-3">
                                                 <!-- Fecha de inicio del curso -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">Fecha de inicio del
-                                                        curso: *</label>
+                                                    <label class="form-label" for="start_date">{{ __('Course start date: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="start_date" name="COURSE_START_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -570,8 +568,7 @@
 
                                                 <!-- Fecha de fin del curso -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">Fecha de fin del curso:
-                                                        *</label>
+                                                    <label class="form-label" for="end_date">{{ __('Course end date: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="end_date" name="COURSE_END_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -585,11 +582,10 @@
 
                                                 <!-- Fecha y hora de inicio de membresía -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="membership_start">Fecha y hora de
-                                                        inicio de membresía: *</label>
+                                                    <label class="form-label" for="membership_start">{{ __('Membership start date and time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="membership_start" name="MEMBERSHIP_START_PROJECT" class="form-control"
-                                                            placeholder="Selecciona fecha y hora">
+                                                            placeholder="{{ __('Select date and time') }}">
                                                         <a class="input-button" title="Abrir calendario"
                                                             data-toggle="membership_start"><i
                                                                 class="fa-solid fa-calendar-days"></i></a>
@@ -601,11 +597,10 @@
 
                                                 <!-- Fecha y hora de término de membresía -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="membership_end">Fecha y hora de
-                                                        término de membresía: *</label>
+                                                    <label class="form-label" for="membership_end">{{ __('Membership end date and time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="membership_end" name="MEMBERSHIP_END_PROJECT" class="form-control"
-                                                            placeholder="Selecciona fecha y hora">
+                                                            placeholder="{{ __('Select date and time') }}">
                                                         <a class="input-button" title="Abrir calendario"
                                                             data-toggle="membership_end"><i
                                                                 class="fa-solid fa-calendar-days"></i></a>
@@ -616,8 +611,7 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">Fecha del examen del
-                                                        curso: *</label>
+                                                    <label class="form-label" for="start_date">{{ __('Course exam date: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="start_date3" name="EXAM_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -632,8 +626,7 @@
 
                                                 <!-- Fecha de fin del curso -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">Tiempo del examen del
-                                                        curso: *</label>
+                                                    <label class="form-label" for="end_date">{{ __('Course exam time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="time" id="start_time" name="EXAM_TIME_PROJECT"  class="form-control"
                                                             required>
@@ -641,8 +634,7 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">Fecha del examen práctico
-                                                        del curso: *</label>
+                                                    <label class="form-label" for="start_date">{{ __('Course practical exam date: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="start_date2" name="PRACTICAL_EXAM_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -657,8 +649,7 @@
 
                                                 <!-- Fecha de fin del curso -->
                                                 <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">Tiempo del examen práctico
-                                                        del curso: *</label>
+                                                    <label class="form-label" for="end_date">{{ __('Course practical exam time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="time" id="start_time2" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
                                                             required>
@@ -731,9 +722,9 @@
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <button type="button"
-                                                class="btn btn-success action-button prev-step">Anterior</button>
+                                                class="btn btn-success action-button prev-step">{{ __('Previous') }}</button>
                                             <button type="button"
-                                                class="btn btn-primary action-button next-step">Siguiente</button>
+                                                class="btn btn-primary action-button next-step">{{ __('Next') }}</button>
                                         </div>
                                     </div>
                                     <div class="wizard-step" data-step="3">
@@ -748,29 +739,28 @@
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Instructor del curso: * </label>
+                                                    <label class="form-label">{{ __('Course instructor: *') }}</label>
                                                     <select class="form-select" name="INSTRUCTOR_ID_PROJECT">
                                                         <option value="">Seleccionar...</option>
                                                         <option value="1">Ing. Pedro Frias</option>
                                                         <option value="2">Ing. Rafael Suarez</option>
                                                     </select>
-                                                    <div class="error-message">Selecciona un instructor </div>
+                                                    <div class="error-message">{{ __('Select an instructor') }} </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group mb-3">
-                                                        <label class="form-label">Correo de contacto del instructor: *
-                                                        </label>
+                                                        <label class="form-label"> {{ __('Instructor contact email: *') }}</label>
                                                         <input type="email" class="form-control" name="INSTRUCTOR_EMAIL_PROJECT"
                                                             placeholder="Correo electrónico" />
-                                                        <div class="error-message">El correo es requerido </div>
+                                                        <div class="error-message"> {{ __('Email is required') }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <button type="button"
-                                                    class="btn btn-success action-button prev-step">Anterior</button>
+                                                    class="btn btn-success action-button prev-step"> {{ __('Previous') }}</button>
                                                 <button type="button"
-                                                    class="btn btn-primary action-button next-step">Siguiente</button>
+                                                    class="btn btn-primary action-button next-step"> {{ __('Next') }}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -789,8 +779,8 @@
                                             <div id="empresasContainer"></div>
                                             
                                             <div class="d-flex justify-content-between">
-                                                <button type="button" class="btn btn-success action-button prev-step">Anterior</button>
-                                                <button type="button" class="btn btn-primary action-button next-step">Finalizar</button>
+                                                <button type="button" class="btn btn-success action-button prev-step"> {{ __('Previous') }}</button>
+                                                <button type="button" class="btn btn-primary action-button next-step"> {{ __('Next') }}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -798,10 +788,10 @@
                                         <div class="form-card text-center">
                                             <div class="row">
                                                 <div class="col-7">
-                                                    <h3 class="mb-4">¡Completado!</h3>
+                                                    <h3 class="mb-4"> {{ __('Completed!') }}</h3>
                                                 </div>
                                                 <div class="col-5">
-                                                    <h2 class="steps">Paso 6 de 6</h2>
+                                                    <h2 class="steps"> {{ __('Step 6 of 6') }}</h2>
                                                 </div>
                                             </div>
 
@@ -809,13 +799,13 @@
                                                 <i class="ri-check-line"></i>
                                             </div>
 
-                                            <h2 class="text-success mb-4"><strong>Ya puede guardar este proyecto</strong></h2>
-                                            <h5 class="text-muted">Todos los datos han sido capturados correctamente, ya puede guardar este proyecto</h5>
+                                            <h2 class="text-success mb-4"><strong> {{ __('You can now save this project') }}</strong></h2>
+                                            <h5 class="text-muted"> {{ __('All data has been captured correctly, you can now save this project') }}</h5>
                                             <p class="mt-3">
                                             </p>
 
                                             <div class="mt-4">
-                                                <button type="button" class="btn btn-primary action-button" id="proyectobtnModal">Guardar</button>
+                                                <button type="button" class="btn btn-primary action-button" id="proyectobtnModal"> {{ __('Save') }}</button>
                                             </div>
                                         </div>
                                     </div>

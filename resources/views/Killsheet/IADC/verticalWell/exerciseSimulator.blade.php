@@ -1712,6 +1712,7 @@
 <template id="my-template">
   <swal-title>
     EL TIEMPO SE HA TERMINADO
+    Puede volver a intentarlo con un nuevo ejericio
   </swal-title>
   <swal-icon type="warning" color="red"></swal-icon>
   <swal-button type="confirm">

@@ -29,7 +29,7 @@ class ExamController extends Controller
             $subtemas = SubtemaPreguntas::pluck('NOMBRE_SUBTEMA', 'ID_CATALOGO_SUBTEMA')->toArray();
             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
             $niveles = NivelAcreditacion::pluck('DESCRIPCION_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
-            $tipoEvaluacion = ["Diagnóstica", "Intermedia", "Final"];
+            $tipoEvaluacion = ["","Diagnóstica", "Intermedia", "Final"];
 
             function mapIdsToNames($ids, $catalogo)
             {

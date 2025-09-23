@@ -885,7 +885,7 @@ use Illuminate\Support\Str;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
         integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.17"></script>
+    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.18"></script>
     @endif
     @if(request()->is('killsheets'))
     <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>

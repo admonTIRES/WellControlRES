@@ -321,7 +321,7 @@ document.getElementById("openKillsheet").addEventListener("click", function (e) 
                                                     Swal.close();
                                                     var modal = new bootstrap.Modal(document.getElementById('killsheet_modal'));
                                                     tipoHoja = 1;
-                                                    currentStep = 2;
+                                                    currentStep = 1;
                                                     var titleModal = 'Nueva hoja de matar IWCF para pozos verticales - surface';
                                                     var modalTitle = document.getElementById('modal-killsheet-title');
                                                     modalTitle.textContent = titleModal;

@@ -75,7 +75,6 @@
                 <div class="modal-body">
                     <form action="#">
                         <div class="row">
-
                             <div class="col-md-12 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalities') }}

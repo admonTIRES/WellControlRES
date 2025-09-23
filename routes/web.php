@@ -57,11 +57,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Killsheet', [killsheetController::class, 'index'])->name('killsheet');
     Route::get('/Killsheet/panel/{TIPO}', [KillsheetController::class, 'panel'])->name('killsheet.panel');
     Route::get('/Killsheet/video/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.video');
-    Route::get('/Killsheet/info/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.info');
+    Route::get('/Killsheet/info/{TIPO}', [KillsheetController::class, 'info'])->name('killsheet.info');
     Route::get('/Killsheet/firstExercise/{TIPO}', [KillsheetController::class, 'firstExercise'])->name('killsheet.firstExercise');
-    Route::get('/Killsheet/practiceExercise/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.practiceExercise');
-    Route::get('/Killsheet/exerciseSimulator/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.exerciseSimulator');
-    Route::get('/Killsheet/quickExercise/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.quickExercise');
+    Route::get('/Killsheet/practiceExercise/{TIPO}', [KillsheetController::class, 'practiceExercise'])->name('killsheet.practiceExercise');
+    Route::get('/Killsheet/exerciseSimulator/{TIPO}', [KillsheetController::class, 'exerciseSimulator'])->name('killsheet.exerciseSimulator');
+    Route::get('/Killsheet/quickExercise/{TIPO}', [KillsheetController::class, 'quickExercise'])->name('killsheet.quickExercise');
 });
 
 //----------------------------EXAM-------------------------------//

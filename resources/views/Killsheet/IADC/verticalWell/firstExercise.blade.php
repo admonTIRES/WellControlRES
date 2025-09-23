@@ -170,7 +170,7 @@
             <i class="fas fa-chevron-right"></i> 
           </button>
     </div>
-    </div>
+  </div>
    
 
   <div class="container-killFront">
@@ -631,67 +631,67 @@
   </div>
   <script>
    const container = document.getElementById("dataSections");
-const btnLeft = document.getElementById("scrollLeft");
-const btnRight = document.getElementById("scrollRight");
+    const btnLeft = document.getElementById("scrollLeft");
+    const btnRight = document.getElementById("scrollRight");
 
-function updateButtons() {
-  const scrollLeft = container.scrollLeft;
-  const maxScroll = container.scrollWidth - container.clientWidth;
+    function updateButtons() {
+      const scrollLeft = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
 
-  btnLeft.style.display = scrollLeft > 0 ? "block" : "none";
-  btnRight.style.display = scrollLeft < maxScroll - 1 ? "block" : "none";
-}
+      btnLeft.style.display = scrollLeft > 0 ? "block" : "none";
+      btnRight.style.display = scrollLeft < maxScroll - 1 ? "block" : "none";
+    }
 
-function scrollSections(direction) {
-  const scrollAmount = 300;
-  container.scrollBy({
-    left: direction * scrollAmount,
-    behavior: "smooth"
-  });
-}
+    function scrollSections(direction) {
+      const scrollAmount = 300;
+      container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: "smooth"
+      });
+    }
 
-btnLeft.addEventListener("click", () => scrollSections(-1));
-btnRight.addEventListener("click", () => scrollSections(1));
-container.addEventListener("scroll", updateButtons);
-window.addEventListener("resize", updateButtons);
+    btnLeft.addEventListener("click", () => scrollSections(-1));
+    btnRight.addEventListener("click", () => scrollSections(1));
+    container.addEventListener("scroll", updateButtons);
+    window.addEventListener("resize", updateButtons);
 
-// Drag con mouse/touch
-let isDown = false;
-let startX;
-let scrollLeftStart;
+    // Drag con mouse/touch
+    let isDown = false;
+    let startX;
+    let scrollLeftStart;
 
-container.addEventListener("mousedown", (e) => {
-  isDown = true;
-  startX = e.pageX - container.offsetLeft;
-  scrollLeftStart = container.scrollLeft;
-  container.classList.add("dragging");
-});
-container.addEventListener("mouseleave", () => isDown = false);
-container.addEventListener("mouseup", () => isDown = false);
-container.addEventListener("mousemove", (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - container.offsetLeft;
-  const walk = (x - startX) * 1.5; // velocidad drag
-  container.scrollLeft = scrollLeftStart - walk;
-});
+    container.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - container.offsetLeft;
+      scrollLeftStart = container.scrollLeft;
+      container.classList.add("dragging");
+    });
+    container.addEventListener("mouseleave", () => isDown = false);
+    container.addEventListener("mouseup", () => isDown = false);
+    container.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5; // velocidad drag
+      container.scrollLeft = scrollLeftStart - walk;
+    });
 
-// Touch
-container.addEventListener("touchstart", (e) => {
-  isDown = true;
-  startX = e.touches[0].pageX - container.offsetLeft;
-  scrollLeftStart = container.scrollLeft;
-});
-container.addEventListener("touchend", () => isDown = false);
-container.addEventListener("touchmove", (e) => {
-  if (!isDown) return;
-  const x = e.touches[0].pageX - container.offsetLeft;
-  const walk = (x - startX) * 1.5;
-  container.scrollLeft = scrollLeftStart - walk;
-});
+    // Touch
+    container.addEventListener("touchstart", (e) => {
+      isDown = true;
+      startX = e.touches[0].pageX - container.offsetLeft;
+      scrollLeftStart = container.scrollLeft;
+    });
+    container.addEventListener("touchend", () => isDown = false);
+    container.addEventListener("touchmove", (e) => {
+      if (!isDown) return;
+      const x = e.touches[0].pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      container.scrollLeft = scrollLeftStart - walk;
+    });
 
-// Inicializar
-updateButtons();
+    // Inicializar
+    updateButtons();
 
   </script>
 @endsection  

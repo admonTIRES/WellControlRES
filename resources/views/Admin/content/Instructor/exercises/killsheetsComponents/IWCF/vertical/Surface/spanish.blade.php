@@ -13,7 +13,7 @@
 
 .header-left-iwcf-v-sur {
     width: 70%;
-    padding: 1vw;
+    padding: 0.8vw;
     border-right: 0.8vw solid #1a1a1a;
 }
 
@@ -46,14 +46,16 @@
 
 .form-section-iwcf-v-sur {
     display: flex;
-    border-bottom: 1px solid #333;
+    background: #e0e0e0;
+    padding: 1vw;
+    gap: 1vw;
 }
 
 .form-box-iwcf-v-sur {
     border: 1px solid #333;
-    margin: 5px;
     padding: 10px;
     flex: 1;
+    background: #fff;
 }
 
 .section-title-iwcf-v-sur {
@@ -64,7 +66,6 @@
 
 .form-row-iwcf-v-sur {
     display: flex;
-    margin-bottom: 5px;
     align-items:flex-end;
     width: 100%;
     
@@ -73,13 +74,14 @@
 .form-label-iwcf-v-sur {
     flex: 1;
     padding: 0;
+    color: #000;
 }
 
 .form-input-iwcf-v-sur {
     flex: 3;
     display: flex; 
     width: 100%;
-    padding-bottom: 1vw;
+    padding-bottom: 0.45vw;
 }
 
 .form-input-iwcf-v-sur input {
@@ -117,39 +119,42 @@
 .pump-box-iwcf-v-sur {
     flex: 1;
     text-align: center;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #000000;
     padding: 5px;
 }
 
 .table-iwcf-v-sur {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 2vw;
+    background: white;
 }
 
 .table-iwcf-v-sur th,
 .table-iwcf-v-sur td {
-    border: 1px solid #333;
+    border: 1px solid #000000;
     padding: 5px;
     text-align: center;
 }
 
 .diagram-iwcf-v-sur {
     text-align: center;
-    margin: 10px;
 }
 
 .volumes-grid-iwcf-v-sur {
     display: grid;
     grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 2px;
-    margin-top: 10px;
+    gap: 0.7vw;
+    background: #aeaeae;
+    padding: 1vw;
+
 }
 
 .volumes-grid-iwcf-v-sur>div {
     border: 1px solid #333;
     padding: 5px;
     text-align: center;
+    background: #fff;
 }
 
 .volumes-row-iwcf-v-sur {
@@ -190,6 +195,13 @@
     flex: 4;
     border: 1px solid #333;
 }
+
+.container-right-iwcf-v-sur{
+    background: #fff;
+    display: flex;
+    border: 1px solid #000;
+}
+
 </style>
 <div class="container-iwcf-v-sur">
     
@@ -214,52 +226,59 @@
     </div>
 
     <div class="form-section-iwcf-v-sur">
-        <div class="form-box-iwcf-v-sur">
-            <div class="section-title-iwcf-v-sur">Datos de resistencia de la formación:</div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Presión de fuga (leak-off) en la superficie obtenida con la
-                    prueba de resistencia de la formación</div>
-                <div class="form-input-iwcf-v-sur">(A) <input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">psi</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Densidad del lodo durante la prueba</div>
-                <div class="form-input-iwcf-v-sur">(B) <input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">ppg</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Máxima densidad del lodo permitida = (A) ÷ </div>
-                <div class="form-input-iwcf-v-sur">(C) <input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">ppg</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">(B) + ____ = </div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Profundidad vertical de la zapata x 0.052</div>
-            </div>
+        <div >
+            <div class="form-box-iwcf-v-sur">
+                <div class="section-title-iwcf-v-sur">Datos de resistencia de la formación:</div>
+                <div class="form-label-iwcf-v-sur" style="color: #000; font-size: 1.3vw;">Presión de fuga (leak-off) en la superficie obtenida con la
+                        prueba</div>
+                <div class="form-row-iwcf-v-sur" style="justify-content: space-between;">
+                    <div style="color: #000; font-size: 1.3vw;"> de resistencia de la formación</div>
+                    <div  style="max-width: 15vw; border: 0.1vw solid #000; color:#000; padding-left: 0.2vw;">(A)<input style="max-width: 9vw; margin-left:0.5vw; border: 0px solid #00000000;" type="text"></div>
+                    <div style="color: #000; font-size: 1vw;">psi</div>
+                </div>
+                <div class="form-row-iwcf-v-sur" style="justify-content: space-between;">
+                    <div style="color: #000; font-size: 1.3vw;">Densidad del lodo durante la prueba </div>
+                    <div  style="max-width: 15vw; border: 0.1vw solid #000; color:#000;">(B)<input style="max-width: 9vw; margin-left:0.5vw; border: 0px solid #00000000;" type="text"></div>
+                    <div style="color: #000; font-size: 1vw;">ppg</div>
+                </div>
+                <div class="form-label-iwcf-v-sur" style="color: #000; font-size: 1.3vw;">Máxima densidad del lodo permitida = </div>
+                <div class="form-row-iwcf-v-sur" style="justify-content: space-between;">
+                    <div style="color: #000; font-size: 1.3vw;">Densidad del lodo durante ka prueba </div>
+                    <div  style="max-width: 15vw; border: 0.1vw solid #000; color:#000;">(B)<input style="max-width: 9vw; margin-left:0.5vw; border: 0px solid #00000000;" type="text"></div>
+                    <div style="color: #000; font-size: 1vw;">ppg</div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">(B) + ____ = </div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Profundidad vertical de la zapata x 0.052</div>
+                </div>
 
-            <div class="section-title-iwcf-v-sur">MAASP inicial (Presión anular máxima permitida en la
-                superficie)</div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">(C) - Densidad del lodo actual) x Profundidad vertical de
-                    zapata x 0.052</div>
+                <div class="section-title-iwcf-v-sur">MAASP inicial (Presión anular máxima permitida en la
+                    superficie)</div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">(C) - Densidad del lodo actual) x Profundidad vertical de
+                        zapata x 0.052</div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur"> = </div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">psi</div>
+                </div>
             </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur"> = </div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">psi</div>
-            </div>
-
-            <div class="pumps-iwcf-v-sur">
-                <div class="pump-box-iwcf-v-sur">Desplazamiento de la bomba No.1</div>
-                <div class="pump-box-iwcf-v-sur">Desplazamiento de la bomba No. 2</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur" style="text-align: center; font-size: 12px;">bbls /
-                    emboladas (Estroques)</div>
-            </div>
+           
+            <table class="table-iwcf-v-sur">
+                <tr>
+                    <th>Desplazamiento de la bomba No.1</th>
+                    <th>Desplazamiento de la bomba No. 2</th>
+                </tr>
+                <tr>
+                    <td><input type="text">bbls / emboladas (Estroques)</td>
+                    <td><input type="text">bbls / emboladas (Estroques)</td>
+                </tr>
+            </table>
+          
 
             <div class="section-title-iwcf-v-sur">(PL) Caída de presión dinámica (psi)</div>
             <table class="table-iwcf-v-sur">
@@ -281,52 +300,55 @@
             </table>
         </div>
 
-        <div class="form-box">
-            <div class="section-title-iwcf-v-sur">Datos actuales del pozo:</div>
-            <div class="diagram">
-                <img src="/assets/images/killsheets/pozoiwcf.png" alt="Diagrama de pozo">
-            </div>
-            <div class="section-title-iwcf-v-sur">Lado de perforación actual:</div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Densidad</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">ppg</div>
-            </div>
+        <div class="container-right-iwcf-v-sur">
+            <div>
+                <div class="section-title-iwcf-v-sur">Datos actuales del pozo:</div>
+                <div class="section-title-iwcf-v-sur">Lado de perforación actual:</div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Densidad</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">ppg</div>
+                </div>
 
-            <div class="section-title-iwcf-v-sur">Datos de la zapata del revestidor (revestimiento):</div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Tamaño</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pulg.</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Profundidad medida</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pies</div>
-            </div>
-            <div class="form-row">
-                <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pies</div>
-            </div>
+                <div class="section-title-iwcf-v-sur">Datos de la zapata del revestidor (revestimiento):</div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Tamaño</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pulg.</div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Profundidad medida</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pies</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pies</div>
+                </div>
 
-            <div class="section-title-iwcf-v-sur">Datos del hoyo:</div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Tamaño</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pulg.</div>
+                <div class="section-title-iwcf-v-sur">Datos del hoyo:</div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Tamaño</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pulg.</div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Profundidad medida</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pies</div>
+                </div>
+                <div class="form-row-iwcf-v-sur">
+                    <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
+                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-unit-iwcf-v-sur">pies</div>
+                </div>
             </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Profundidad medida</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pies</div>
-            </div>
-            <div class="form-row-iwcf-v-sur">
-                <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
-                <div class="form-input-iwcf-v-sur"><input type="text"></div>
-                <div class="form-unit-iwcf-v-sur">pies</div>
+             <div class="diagram-iwcf-v-sur">
+                <img src="/assets/images/killsheets/pozoiwcf.png" alt="Diagrama de pozo" style="min-width: 10vw;">
             </div>
         </div>
+       
     </div>
 
     <div class="volumes-grid-iwcf-v-sur">

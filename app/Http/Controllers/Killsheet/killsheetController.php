@@ -63,7 +63,15 @@ class killsheetController extends Controller
      */
     public function practiceExercise($TIPO)
     {
-        return view('Killsheet.practiceExercise', compact('TIPO'));
+        if($TIPO === 'iadcVertical'){
+            return view('Killsheet.IADC.verticalWell.practiceExercise', compact('TIPO'));
+        }else if($TIPO === 'iwcfVertical'){
+            return view('Killsheet.IWCF.verticalWell.practiceExercise', compact('TIPO'));
+        }else if($TIPO === 'iwcfDeviated'){
+           return view('Killsheet.IWCF.deflectedWell.practiceExercise', compact('TIPO'));
+        }else{
+           return view('Killsheet.panel', compact('TIPO'));
+        }
     }
 
        /**
@@ -71,7 +79,15 @@ class killsheetController extends Controller
      */
     public function exerciseSimulator($TIPO)
     {
-        return view('Killsheet.exerciseSimulator', compact('TIPO'));
+        if($TIPO === 'iadcVertical'){
+            return view('Killsheet.IADC.verticalWell.exerciseSimulator', compact('TIPO'));
+        }else if($TIPO === 'iwcfVertical'){
+            return view('Killsheet.IWCF.verticalWell.exerciseSimulator', compact('TIPO'));
+        }else if($TIPO === 'iwcfDeviated'){
+           return view('Killsheet.IWCF.deflectedWell.exerciseSimulator', compact('TIPO'));
+        }else{
+           return view('Killsheet.panel', compact('TIPO'));
+        }
     }
 
        /**

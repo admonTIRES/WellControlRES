@@ -1634,11 +1634,16 @@
                     // Entre 3 y 10 segundos - Rojo con parpadeo y animación de alerta
                     this.widget.classList.add('timer-red', 'timer-alert');
                     this.display.classList.add('timer-blink');
-                } else if (this.totalSeconds >= 0) {
+                } else if (this.totalSeconds > 0) {
                     // Últimos 3 segundos - Animación crítica más intensa
                     this.widget.classList.add('timer-red', 'timer-critical');
                     this.display.classList.add('timer-blink');
-                } else {
+                } else if (this.totalSeconds == 0) {
+                           Swal.fire({
+                               template: "#my-template"
+                            });
+                }  
+                else {
                     // Tiempo agotado
                     this.widget.classList.add('timer-blue');
                 }

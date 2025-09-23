@@ -273,6 +273,10 @@
                 font-size: 12px;
             }
         }
+
+        .timer-oculto{
+            display: none;
+        }
     
 </style>
     
@@ -1705,7 +1709,22 @@
             </div>
         </div>
     </div>
-
+<template id="my-template">
+  <swal-title>
+    EL TIEMPO SE HA TERMINADO
+  </swal-title>
+  <swal-icon type="warning" color="red"></swal-icon>
+  <swal-button type="confirm">
+    Salir
+  </swal-button>
+  <swal-param name="allowEscapeKey" value="false" />
+  <swal-param
+    name="customClass"
+    value='{ "popup": "my-popup" }' />
+  <swal-function-param
+    name="didOpen"
+    value="popup => console.log(popup)" />
+</template>
   <script>
    const container = document.getElementById("dataSections");
     const btnLeft = document.getElementById("scrollLeft");
@@ -1914,10 +1933,25 @@
                     // Entre 3 y 10 segundos - Rojo con parpadeo y animación de alerta
                     this.widget.classList.add('timer-red', 'timer-alert');
                     this.display.classList.add('timer-blink');
-                } else if (this.totalSeconds >= 0) {
+                } else if (this.totalSeconds > 0) {
                     // Últimos 3 segundos - Animación crítica más intensa
                     this.widget.classList.add('timer-red', 'timer-critical');
                     this.display.classList.add('timer-blink');
+                } else if (this.totalSeconds === 0) {
+                      // Alerta personalizada con animación
+                    this.widget.classList.add('timer-oculto');
+                           Swal.fire({
+                               template: "#my-template"
+                                }).then((result) => {
+
+                                if (result.isConfirmed) {
+                                    window.history.back();
+                                    // window.close();
+                                } 
+                            });
+
+                            
+                            
                 } else {
                     // Tiempo agotado
                     this.widget.classList.add('timer-blue');
@@ -1953,59 +1987,7 @@
             // }
         });
 
-    document.addEventListener('DOMContentLoaded', () => {
-            const answerInputs = document.querySelectorAll('.user-answer-input');
-
-            answerInputs.forEach(input => {
-                input.addEventListener('blur', (event) => {
-                    const userAnswer = parseFloat(event.target.value.trim());
-                    const correctAnswer = parseFloat(event.target.getAttribute('data-correct-answer'));
-                    const hint = event.target.getAttribute('data-answer-tip');
-
-                    // Limpiar clases de validación anteriores
-                    input.classList.remove('valid-answer', 'invalid-answer');
-
-                    if (userAnswer && !isNaN(userAnswer)) {
-                        // Permitir un margen de error del 5%
-                        const tolerance = correctAnswer * 0.05;
-                        const isCorrect = Math.abs(userAnswer - correctAnswer) <= tolerance;
-
-                        if (isCorrect) {
-                            input.classList.add('valid-answer');
-                            
-                            // Efecto visual de éxito
-                            input.style.transform = 'scale(1.02)';
-                            setTimeout(() => {
-                                input.style.transform = 'scale(1)';
-                            }, 200);
-
-                        } else {
-                            input.classList.add('invalid-answer');
-                            
-                            // Alerta personalizada con animación
-                           Swal.fire({
-                                title: 'Respuesta Incorrecta',
-                                text: hint,
-                                icon: 'error',
-                                confirmButtonText: 'Entendido'
-                            });
-                        }
-                    }
-                });
-
-                // Efecto de focus mejorado
-                input.addEventListener('focus', (event) => {
-                    event.target.style.transform = 'translateY(-2px)';
-                });
-
-                input.addEventListener('blur', (event) => {
-                    if (!event.target.classList.contains('valid-answer') && 
-                        !event.target.classList.contains('invalid-answer')) {
-                        event.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-        });
+   
   </script>
 @endsection  
 

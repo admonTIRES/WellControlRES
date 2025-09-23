@@ -1,13 +1,294 @@
 @extends('Template/maestraUser')
 @section('contenido') 
+<style>
+   .timer-widget {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            width: 220px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            cursor: move;
+            user-select: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timer-widget:hover {
+            transform: translate(-50%, -50%) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .timer-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .timer-display {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: white;
+            font-size: 36px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .timer-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 16px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .timer-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .timer-input {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 4px 8px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            width: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .timer-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Estados de color */
+        .timer-blue {
+            background: linear-gradient(135deg, #2362926d 0%, #236292a2 100%);
+        }
+
+        .timer-yellow {
+            background: linear-gradient(135deg, #f5576c80 0%, #f5576c 100%);
+        }
+
+        .timer-red {
+            background: linear-gradient(135deg, rgba(255, 65, 109, 0.501) 0%, #ff4b2b 100%);
+        }
+
+        /* Animación de parpadeo */
+        .timer-blink {
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Animación de alerta para el widget completo */
+        .timer-alert {
+            animation: alertPulse 0.8s infinite ease-in-out;
+        }
+
+        @keyframes alertPulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 75, 43, 0.7);
+                filter: brightness(1);
+            }
+            25% { 
+                transform: translate(-50%, -50%) scale(1.05) rotate(1deg);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px 10px rgba(255, 75, 43, 0.3);
+                filter: brightness(1.2);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px 15px rgba(255, 75, 43, 0.2);
+                filter: brightness(1.4);
+            }
+            75% { 
+                transform: translate(-50%, -50%) scale(1.05) rotate(-1deg);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px 10px rgba(255, 75, 43, 0.3);
+                filter: brightness(1.2);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 75, 43, 0.7);
+                filter: brightness(1);
+            }
+        }
+
+        /* Animación más intensa para los últimos 3 segundos */
+        .timer-critical {
+            animation: criticalAlert 0.4s infinite ease-in-out;
+        }
+
+        @keyframes criticalAlert {
+            0% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 1);
+                filter: brightness(1) saturate(1);
+            }
+            25% { 
+                transform: translate(-50%, -50%) scale(1.15) rotate(2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px 20px rgba(255, 0, 0, 0.4);
+                filter: brightness(1.5) saturate(1.5);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+                box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7), 0 0 50px 25px rgba(255, 0, 0, 0.3);
+                filter: brightness(1.8) saturate(2);
+            }
+            75% { 
+                transform: translate(-50%, -50%) scale(1.15) rotate(-2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px 20px rgba(255, 0, 0, 0.4);
+                filter: brightness(1.5) saturate(1.5);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 1);
+                filter: brightness(1) saturate(1);
+            }
+        }
+
+        /* Animación de alerta para el widget completo */
+        .timer-alert {
+            animation: alertPulse 0.8s infinite ease-in-out;
+        }
+
+        @keyframes alertPulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 75, 43, 0.7);
+                filter: brightness(1);
+            }
+            25% { 
+                transform: translate(-50%, -50%) scale(1.05) rotate(1deg);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px 10px rgba(255, 75, 43, 0.3);
+                filter: brightness(1.2);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px 15px rgba(255, 75, 43, 0.2);
+                filter: brightness(1.4);
+            }
+            75% { 
+                transform: translate(-50%, -50%) scale(1.05) rotate(-1deg);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px 10px rgba(255, 75, 43, 0.3);
+                filter: brightness(1.2);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 75, 43, 0.7);
+                filter: brightness(1);
+            }
+        }
+
+        /* Animación más intensa para los últimos 3 segundos */
+        .timer-critical {
+            animation: criticalAlert 0.4s infinite ease-in-out;
+        }
+
+        @keyframes criticalAlert {
+            0% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 1);
+                filter: brightness(1) saturate(1);
+            }
+            25% { 
+                transform: translate(-50%, -50%) scale(1.15) rotate(2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px 20px rgba(255, 0, 0, 0.4);
+                filter: brightness(1.5) saturate(1.5);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+                box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7), 0 0 50px 25px rgba(255, 0, 0, 0.3);
+                filter: brightness(1.8) saturate(2);
+            }
+            75% { 
+                transform: translate(-50%, -50%) scale(1.15) rotate(-2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px 20px rgba(255, 0, 0, 0.4);
+                filter: brightness(1.5) saturate(1.5);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 1);
+                filter: brightness(1) saturate(1);
+            }
+        }
+
+        /* Efecto de arrastre */
+        .timer-dragging {
+            cursor: grabbing !important;
+            transform: translate(-50%, -50%) scale(1.05) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .timer-widget {
+                width: 200px;
+                height: 100px;
+            }
+            
+            .timer-display {
+                font-size: 30px;
+            }
+            
+            .timer-title {
+                font-size: 12px;
+            }
+        }
+    
+</style>
+    
+
+     <div class="timer-widget timer-blue" id="timerWidget">
+        <div class="timer-title">TIEMPO RESTANTE</div>
+        <div class="timer-display" id="timerDisplay">05:00</div>
+    </div>
   <div class="info-container">
     <!-- Header -->
     <div class="header-section">
-      <h1><i class="fas fa-oil-well"></i> Mi primer hoja de matar de IADC para pozos verticales</h1>
-      <p>Complete la hoja para matar y al finalizar responda siguientes preguntas</p>
+      <h1><i class="fas fa-oil-well"></i> Ejercicio simulador: hoja de matar IADC para pozos verticales - superficie</h1>
+      <p>Complete la hoja para matar dentro del tiempo indicado en el reloj y al finalizar responda las preguntas siguientes</p>
     </div>
 
-    <div class="layout-container">
+    <div class="layout-container" id="datosPozoContenedor">
       <div class="well-data-container">
         <div class="scroll-wrapper">
           <div class="data-sections" id="dataSections">
@@ -1016,11 +1297,427 @@
     <!-- Name and Date -->
     
 </div>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+
+        .quiz-body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: -1;
+        }
+
+        .quiz-main-container {
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quiz-title {
+            color: white;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-grid {
+            gap: 25px;
+            width: 100%;
+        }
+
+        .quiz-column {
+            gap: 25px;
+        }
+
+        .quiz-question-item {
+            background: rgba(255, 255, 255, 0.068);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 1vw;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-question-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .question-text {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .user-answer-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 12px 50px 12px 0;
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .user-answer-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .user-answer-input:focus {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .user-answer-input.valid-answer {
+            border-bottom: 2px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .user-answer-input.invalid-answer {
+            border-bottom: 2px solid #ff4757;
+            color: #ff4757;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .input-unit {
+            position: absolute;
+            right: 0;
+            bottom: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Estilos para SweetAlert personalizado */
+        .swal-overlay {
+            background: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .swal-modal {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important;
+            animation: bounceInError 0.6s ease-out !important;
+        }
+
+        .swal-title {
+            color: #ff4757 !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 1.8em !important;
+        }
+
+        .swal-text {
+            color: #333 !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 500 !important;
+            line-height: 1.6 !important;
+        }
+
+        .swal-button--confirm {
+            background: linear-gradient(135deg, #ff4757, #ff3742) !important;
+            border-radius: 15px !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 600 !important;
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.4) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .swal-button--confirm:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.6) !important;
+        }
+
+        @keyframes bounceInError {
+            0% {
+                transform: scale(0.3) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05) rotate(2deg);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(0.95) rotate(-1deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .quiz-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .quiz-body {
+                padding: 20px;
+            }
+
+            .quiz-main-container {
+                padding: 25px;
+            }
+
+            .quiz-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-title {
+                font-size: 2em;
+            }
+
+            .question-text {
+                font-size: 1em;
+            }
+        }
+
+        /* Efectos adicionales */
+        .quiz-question-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), transparent);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+/* Contenedor principal de la alerta */
+.swal2-popup.swal2-modal {
+    border-radius: 25px !important;
+    border: 3px solid #ff4444 !important;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.4), 
+                0 0 60px rgba(255, 68, 68, 0.2) !important;
+    background: #ffffff !important;
+    padding: 30px !important;
+}
+
+/* Título personalizado */
+.swal2-title {
+    color: #ff4444 !important;
+    font-weight: bold !important;
+    font-size: 24px !important;
+    text-shadow: 0 2px 4px rgba(255, 68, 68, 0.3) !important;
+    margin-bottom: 20px !important;
+}
+
+/* Contenido del texto */
+.swal2-html-container {
+    color: #333333 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 25px !important;
+}
+
+/* Botón de confirmación - SIN clases personalizadas */
+.swal2-confirm {
+    background: #236192 !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 12px 30px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(35, 97, 146, 0.3) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+/* Efecto hover del botón */
+.swal2-confirm:hover {
+    background: #1e5580 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(35, 97, 146, 0.4) !important;
+}
+
+/* Efecto activo del botón */
+.swal2-confirm:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 3px 10px rgba(35, 97, 146, 0.3) !important;
+}
+
+/* Personalizar el icono de error */
+.swal2-icon.swal2-error {
+    border-color: #ff4444 !important;
+    color: #ff4444 !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #ff4444 !important;
+}
+
+/* Efecto de resplandor adicional para el contenedor */
+.swal2-popup::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, 
+                rgba(255, 68, 68, 0.3), 
+                rgba(255, 68, 68, 0.1), 
+                rgba(255, 68, 68, 0.3));
+    border-radius: 30px;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.7;
+}
+
+
+
+/* Fondo oscurecido más suave */
+.swal2-backdrop-show {
+    background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(10px);
+}
+</style>
+ <div class="quiz-main-container" id="contenedorPreguntasHoja">
+        <h3 class="quiz-title">Preguntas</h3>
+        
+        <div class="quiz-grid">
+            <div class="quiz-column">
+                <div class="quiz-question-item">
+                    <div class="question-text">1. Calcular el margen de seguridad de la presión en la zapata del revestimiento en esta condición estática, asumiendo que el tope del influjo está por debajo de la zapata del revestimiento</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="663" data-answer-tip="Recuerda que este parámetro se obtiene restando SICP a la MAASP">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">2. Calcular la MAASP usando la densidad original del lodo</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="1269" data-answer-tip="Este valor lo calculaste en tu hoja de matar, es a lo que hemos llamado MAASP ANTES del influjo">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">3. Determinar la presión de formación en el tope del influjo</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="2150" data-answer-tip="Utiliza la ecuación de presión hidrostática considerando la columna de lodo">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">4. Calcular la presión diferencial en la zapata</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="485" data-answer-tip="La diferencia entre la presión de formación y la presión hidrostática del lodo">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-column">
+                <div class="quiz-question-item">
+                    <div class="question-text">5. Determinar el equivalente de densidad de lodo (EMW) para balancear la formación</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="12.5" data-answer-tip="Convierte la presión de formación a densidad equivalente de lodo">
+                        <span class="input-unit">ppg</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">6. Calcular la presión de circulación inicial (ICP)</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="850" data-answer-tip="Suma la presión de formación más las pérdidas por fricción en el sistema">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">7. Determinar el gradiente de fractura en la zapata del revestimiento</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="0.85" data-answer-tip="Utiliza los datos de la prueba de presión de la zapata (LOT/FIT)">
+                        <span class="input-unit">psi/ft</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-column">
+                <div class="quiz-question-item">
+                    <div class="question-text">8. Calcular el volumen del influjo detectado en superficie</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="15.2" data-answer-tip="Considera el aumento en el volumen de los tanques activos">
+                        <span class="input-unit">bbl</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">9. Determinar la densidad final de lodo requerida (Kill Mud Weight)</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="13.2" data-answer-tip="Incluye el margen de seguridad sobre la densidad de balance">
+                        <span class="input-unit">ppg</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-item">
+                    <div class="question-text">10. Calcular la presión final de circulación (FCP)</div>
+                    <div class="input-container">
+                        <input type="number" class="user-answer-input" placeholder="Ingresa tu respuesta" data-correct-answer="720" data-answer-tip="La presión requerida para circular con el lodo de control">
+                        <span class="input-unit">psi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
   <script>
    const container = document.getElementById("dataSections");
     const btnLeft = document.getElementById("scrollLeft");
     const btnRight = document.getElementById("scrollRight");
+
+
+    const targetDivId = "contenedorPreguntasHoja"; // Cambia esto por el ID de tu div
+    const targetDiv = document.getElementById(targetDivId);
+
+    // Variable para controlar el estado fijo
+    let isFixed = true;
+    let fixedElement = document.getElementById("datosPozoContenedor");
 
     function updateButtons() {
       const scrollLeft = container.scrollLeft;
@@ -1028,6 +1725,10 @@
 
       btnLeft.style.display = scrollLeft > 0 ? "block" : "none";
       btnRight.style.display = scrollLeft < maxScroll - 1 ? "block" : "none";
+    }
+
+    function checkTargetDivPosition() {
+ 
     }
 
     function scrollSections(direction) {
@@ -1042,6 +1743,9 @@
     btnRight.addEventListener("click", () => scrollSections(1));
     container.addEventListener("scroll", updateButtons);
     window.addEventListener("resize", updateButtons);
+
+
+    window.addEventListener("scroll", checkTargetDivPosition);
 
     // Drag con mouse/touch
     let isDown = false;
@@ -1080,7 +1784,228 @@
 
     // Inicializar
     updateButtons();
+    class DraggableTimer {
+            constructor() {
+                this.widget = document.getElementById('timerWidget');
+                this.display = document.getElementById('timerDisplay');
+                
+                // Configurar tiempo inicial desde JavaScript (5 minutos)
+                this.totalSeconds = 1 * 60; // 5 minutos
+                this.isRunning = false;
+                this.interval = null;
+                
+                this.isDragging = false;
+                this.dragOffset = { x: 0, y: 0 };
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupDragging();
+                this.updateDisplay();
+                // Iniciar automáticamente el timer
+                this.startTimer();
+            }
+            
+            setupDragging() {
+                this.widget.addEventListener('mousedown', (e) => this.startDrag(e));
+                this.widget.addEventListener('touchstart', (e) => this.startDrag(e));
+                
+                document.addEventListener('mousemove', (e) => this.drag(e));
+                document.addEventListener('touchmove', (e) => this.drag(e));
+                
+                document.addEventListener('mouseup', () => this.stopDrag());
+                document.addEventListener('touchend', () => this.stopDrag());
+            }
+            
+            startDrag(e) {
+                this.isDragging = true;
+                this.widget.classList.add('timer-dragging');
+                
+                const rect = this.widget.getBoundingClientRect();
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+                
+                this.dragOffset.x = clientX - rect.left - rect.width / 2;
+                this.dragOffset.y = clientY - rect.top - rect.height / 2;
+                
+                e.preventDefault();
+            }
+            
+            drag(e) {
+                if (!this.isDragging) return;
+                
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+                
+                const x = clientX - this.dragOffset.x;
+                const y = clientY - this.dragOffset.y;
+                
+                // Mantener dentro de los límites de la ventana
+                const maxX = window.innerWidth - this.widget.offsetWidth / 2;
+                const maxY = window.innerHeight - this.widget.offsetHeight / 2;
+                const minX = this.widget.offsetWidth / 2;
+                const minY = this.widget.offsetHeight / 2;
+                
+                const clampedX = Math.max(minX, Math.min(maxX, x));
+                const clampedY = Math.max(minY, Math.min(maxY, y));
+                
+                this.widget.style.left = clampedX + 'px';
+                this.widget.style.top = clampedY + 'px';
+                this.widget.style.transform = 'translate(-50%, -50%) scale(1.05)';
+            }
+            
+            stopDrag() {
+                this.isDragging = false;
+                this.widget.classList.remove('timer-dragging');
+                this.widget.style.transform = 'translate(-50%, -50%)';
+            }
+            
+            setupControls() {
+                // Método eliminado - ya no hay controles
+            }
+            
+            startTimer() {
+                if (this.totalSeconds > 0) {
+                    this.isRunning = true;
+                    this.interval = setInterval(() => this.tick(), 1000);
+                }
+            }
+            
+            resetTimer() {
+                this.isRunning = false;
+                this.totalSeconds = 1 * 60; 
+                clearInterval(this.interval);
+                this.updateDisplay();
+                this.updateColors();
+                this.display.classList.remove('timer-blink');
+                this.widget.classList.remove('timer-alert', 'timer-critical');
+                // Reiniciar automáticamente
+                setTimeout(() => this.startTimer(), 1000);
+            }
+            
+            tick() {
+                this.totalSeconds--;
+                this.updateDisplay();
+                this.updateColors();
+                
+                if (this.totalSeconds <= 0) {
+                    this.resetTimer();
+                    this.onTimerComplete();
+                }
+            }
+            
+            updateDisplay() {
+                const minutes = Math.floor(this.totalSeconds / 60);
+                const seconds = this.totalSeconds % 60;
+                this.display.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            updateColors() {
+                // Remover todas las clases de color y animación
+                this.widget.classList.remove('timer-blue', 'timer-yellow', 'timer-red', 'timer-alert', 'timer-critical');
+                this.display.classList.remove('timer-blink');
+                
+                if (this.totalSeconds > 30) {
+                    // Más de 1 minuto - Azul
+                    this.widget.classList.add('timer-blue');
+                } else if (this.totalSeconds > 10) {
+                    // Entre 3 y 10 segundos - Rojo con parpadeo y animación de alerta
+                    this.widget.classList.add('timer-red', 'timer-alert');
+                    this.display.classList.add('timer-blink');
+                } else if (this.totalSeconds >= 0) {
+                    // Últimos 3 segundos - Animación crítica más intensa
+                    this.widget.classList.add('timer-red', 'timer-critical');
+                    this.display.classList.add('timer-blink');
+                } else {
+                    // Tiempo agotado
+                    this.widget.classList.add('timer-blue');
+                }
+            }
+            
+            onTimerComplete() {
+                // Efecto visual al completar
+                this.widget.style.animation = 'none';
+                setTimeout(() => {
+                    this.widget.style.animation = '';
+                }, 100);
+                
+                // Opcional: reproducir sonido o mostrar notificación
+                // if ('Notification' in window && Notification.permission === 'granted') {
+                //     new Notification('¡Tiempo agotado!', {
+                //         body: 'El cronómetro ha terminado.',
+                //         icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OSAyIDIgNi40OSAyIDEyUzYuNDkgMjIgMTIgMjJTMjIgMTcuNTEgMjIgMTJTMTcuNTEgMiAxMiAyWk0xMyAxN0gxMVY5SDEzVjE3Wk0xMyA3SDExVjVIMTNWN1oiIGZpbGw9IiNGRjQxNkMiLz4KPC9zdmc+'
+                //     });
+                // } else if ('Notification' in window && Notification.permission !== 'denied') {
+                //     Notification.requestPermission();
+                // }
+            }
+        }
+        
+        // Inicializar el cronómetro cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            new DraggableTimer();
+            
+            // Solicitar permiso para notificaciones
+            // if ('Notification' in window && Notification.permission === 'default') {
+            //     Notification.requestPermission();
+            // }
+        });
 
+    document.addEventListener('DOMContentLoaded', () => {
+            const answerInputs = document.querySelectorAll('.user-answer-input');
+
+            answerInputs.forEach(input => {
+                input.addEventListener('blur', (event) => {
+                    const userAnswer = parseFloat(event.target.value.trim());
+                    const correctAnswer = parseFloat(event.target.getAttribute('data-correct-answer'));
+                    const hint = event.target.getAttribute('data-answer-tip');
+
+                    // Limpiar clases de validación anteriores
+                    input.classList.remove('valid-answer', 'invalid-answer');
+
+                    if (userAnswer && !isNaN(userAnswer)) {
+                        // Permitir un margen de error del 5%
+                        const tolerance = correctAnswer * 0.05;
+                        const isCorrect = Math.abs(userAnswer - correctAnswer) <= tolerance;
+
+                        if (isCorrect) {
+                            input.classList.add('valid-answer');
+                            
+                            // Efecto visual de éxito
+                            input.style.transform = 'scale(1.02)';
+                            setTimeout(() => {
+                                input.style.transform = 'scale(1)';
+                            }, 200);
+
+                        } else {
+                            input.classList.add('invalid-answer');
+                            
+                            // Alerta personalizada con animación
+                           Swal.fire({
+                                title: 'Respuesta Incorrecta',
+                                text: hint,
+                                icon: 'error',
+                                confirmButtonText: 'Entendido'
+                            });
+                        }
+                    }
+                });
+
+                // Efecto de focus mejorado
+                input.addEventListener('focus', (event) => {
+                    event.target.style.transform = 'translateY(-2px)';
+                });
+
+                input.addEventListener('blur', (event) => {
+                    if (!event.target.classList.contains('valid-answer') && 
+                        !event.target.classList.contains('invalid-answer')) {
+                        event.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+        });
   </script>
 @endsection  
 

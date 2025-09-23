@@ -322,7 +322,7 @@
     }
 
     .header-iadc-v-f{
-        width: 103%;
+        width: 101%;
         text-align: center;
         padding-bottom: 0.5vw;
         border-bottom: 0.3vw solid #000;
@@ -668,7 +668,7 @@
     
     <!--tercera columna -->
     <div class="right-column-1">
-        <div class="header-iadc-v" style="  width: 104%;
+        <div class="header-iadc-v" style="  width: 100%;
         padding-bottom: 0.5vw;
         border-bottom: 1px solid #000;">
             <img src="/assets/images/killsheets/logoiadc.png" alt="IADC" style="float:left">

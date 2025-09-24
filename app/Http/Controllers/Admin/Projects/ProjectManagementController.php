@@ -48,6 +48,17 @@ class ProjectManagementController extends Controller
                                                <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
                                             </span>
                                         </button>';
+                $value->GESTIONAR = '<button type="button"
+                                class="btn btn-sm btn-icon btn-action1"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Ver proyecto"
+                                onclick="window.location.href=\'' . route('projects.management', ['PROJECT_ID' => $value->ID_PROJECT]) . '\'">
+                            <span class="btn-inner">
+                               <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
+                            </span>
+                        </button>';
+
 
                 $companies = [];
 
@@ -343,7 +354,7 @@ class ProjectManagementController extends Controller
                             'units' =>  $proyecto->MEMBERSHIP_START_PROJECT,
                             'lang' =>  $proyecto->MEMBERSHIP_END_PROJECT,
                         ]), ENT_QUOTES, 'UTF-8') . ')">
-                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
+                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
                                         </button>',
                         'BTN_EDITAR' => '<button type="button"
                                             class="btn btn-sm btn-icon btn-action1 SENDCORREO"
@@ -355,7 +366,7 @@ class ProjectManagementController extends Controller
                             'units' =>  $proyecto->MEMBERSHIP_START_PROJECT,
                             'lang' =>  $proyecto->MEMBERSHIP_END_PROJECT,
                         ]), ENT_QUOTES, 'UTF-8') . ')">
-                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
+                                             Editar
                                         </button>'
                     ];
                 }
@@ -416,7 +427,7 @@ class ProjectManagementController extends Controller
                             'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
                             'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT,
                         ]), ENT_QUOTES, 'UTF-8') . ')">
-                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar credenciales
+                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
                                         </button>'
                     ];
                 }

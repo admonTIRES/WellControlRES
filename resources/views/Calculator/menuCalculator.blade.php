@@ -256,14 +256,16 @@
                     </div>
                 </div> -->
                 <div class="math-drilling-video">
-                <iframe 
+                {{-- <iframe 
                     src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
                     </iframe>
-                </div>
+                </div> --}}
+
+                <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                 <!-- <div id="secure-video-container" class="video-container">
                     <div id="video-frame-container"></div>
                     
@@ -508,13 +510,14 @@
                     allowfullscreen>
                     </iframe>
                 </div> -->
-                <div class="responsive-video">
+                <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                {{-- <div class="responsive-video">
                     <iframe
                         src="https://drive.google.com/file/d/1_pX_zIn3wWDViPsTRtj6ZF90KLSxZti4/preview"
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                </div>
+                </div> --}}
             </div>
 
             <div id="fraccion" class="content-section scrollable-content">
@@ -577,13 +580,14 @@
                     allowfullscreen>
                     </iframe>
                 </div> -->
-                <div class="responsive-video">
+                {{-- <div class="responsive-video">
                     <iframe
                         src="https://drive.google.com/file/d/16pzyARzbNT6kTn7AKJqoAZPdbTNPRVf4/preview" 
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                </div>
+                </div> --}}
+                                <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
             </div>
 
             <div id="jerarquia" class="content-section scrollable-content">
@@ -614,13 +618,14 @@
                     allowfullscreen>
                     </iframe>
                 </div> -->
-                <div class="responsive-video">
+                {{-- <div class="responsive-video">
                     <iframe
                        src="https://drive.google.com/file/d/15HG64dFbimzNOwaA0usD0DL6SLRLikqJ/preview" 
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                </div>
+                </div> --}}
+                                <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
             </div>
 
             <div id="despeje" class="content-section scrollable-content">
@@ -667,13 +672,14 @@
                                 allowfullscreen>
                             </iframe>
                         </div> -->
-                        <div class="responsive-video">
+                        {{-- <div class="responsive-video">
                             <iframe
                                 src="https://drive.google.com/file/d/10QiPiCGmhYKqil35ojhgrSLKxUJzPf3W/preview" 
                                 frameborder="0"
                                 allowfullscreen>
                             </iframe>
-                        </div>
+                        </div> --}}
+                                        <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                         <li><strong>{{ __('Fluid volume') }}</strong>: {{ __('Isolate radius (r) in the formula V = π * r² * h.') }}</li>
                         <li><strong>{{ __('Pressure gradient') }}</strong>: {{ __('Isolate density (ρ) in the formula GP = ρ * g.') }}</li>
                     </ul>
@@ -698,13 +704,15 @@
                         allowfullscreen>
                     </iframe>
                 </div> -->
-                <div class="responsive-video">
+                {{-- <div class="responsive-video">
                     <iframe
                        src="https://drive.google.com/file/d/1Owe9uXOW9UPTnU0ysnBEjMw84mJUJh5T/preview" 
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                </div>
+                    
+                </div> --}}
+                                <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
             </div>
 
             <div id="redondeo" class="content-section scrollable-content">
@@ -775,13 +783,15 @@
                         allowfullscreen>
                     </iframe>
                 </div> -->
-                <div class="responsive-video">
+                {{-- <div class="responsive-video">
                     <iframe
                         src="https://drive.google.com/file/d/142huz725I8d3QUbbZQ8GCfHjm_7ips9w/preview" 
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                </div>
+                </div> --}}
+
+                                <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                 
             </div>
 

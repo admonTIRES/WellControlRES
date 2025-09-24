@@ -52,6 +52,7 @@ use Illuminate\Support\Str;
     <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
+   
 
     @if (isset($css_identifier))
     @switch($css_identifier)
@@ -892,6 +893,9 @@ use Illuminate\Support\Str;
     @endif
     @if(request()->is('projectsAdmin'))
     <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.3"></script>
+    @endif
+     @if(request()->is('projectsInstructor'))
+    <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.1"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
     <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.2"></script>

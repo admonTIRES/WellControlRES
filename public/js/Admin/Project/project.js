@@ -395,9 +395,9 @@ class WizardManager {
                                     <th>#</th>
                                     <th>Empresa</th>
                                     <th>CR</th>
-                                    <th>Family or last name</th>
-                                    <th>First name</th>
-                                    <th>Middle name</th>
+                                    <th>Apellidos</th>
+                                    <th>Nombre</th>
+                                    <th>Segundo nombre</th>
                                     <th>Fecha de nacimiento</th>
                                     <th>ID</th>
                                     <th>Cargo</th>

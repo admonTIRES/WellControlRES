@@ -70,7 +70,8 @@ Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'ind
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
-Route::get('/projectsManagement', [adminController::class, 'projectsManagement'])->name('projects.management');
+Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'projectsManagement'])->name('projects.management');
+
 
 //-------------------------------PROJECT----------------------------------------//
 Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');

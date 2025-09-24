@@ -13,6 +13,8 @@ use App\Models\Admin\catalogs\TemaPreguntas;
 use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\Operacion;
+use App\Models\Admin\Project\Proyect;
+
 
 
 class adminController extends Controller
@@ -45,21 +47,107 @@ class adminController extends Controller
      * @return \Illuminate\View\View
      */
 
-    public function projectsManagement(Request $request)
+    public function projectsManagement($PROJECT_ID)
+{
+    $proyecto = Proyect::findOrFail($PROJECT_ID);
+
+    $FOLIO = $proyecto->FOLIO_PROJECT;
+    $NOMBRE_PROYECTO = $proyecto->COURSE_NAME_ES_PROJECT;
+
+    // Tomar primera empresa (siempre hay al menos una)
+    $empresa = $proyecto->COMPANIES_PROJECT[0] ?? null;
+    $estudiantes = $empresa['STUDENTS_PROJECT'] ?? [];
+$datosGraficos = $this->prepararDatosGraficos($estudiantes);
+    return view('Admin.content.Instructor.students.projectAdmin', compact(
+        'FOLIO',
+        'NOMBRE_PROYECTO',
+        'PROJECT_ID',
+        'estudiantes',
+        'datosGraficos'
+    ));
+}
+
+
+   private function prepararDatosGraficos($estudiantes)
     {
-        // $projectId = $request->input('project_id'); 
-
-        // if ($projectId) {
-        //     $project = Project::find($projectId);
-        //     return view('admin.projects-management', compact('project'));
-        // }
-
-        $FOLIO = "RES-001";
-        $NOMBRE_PROYECTO = "Nivel 2 - IWCF - PERENCO MEXICO";
-
-        return view('Admin.content.Instructor.students.projectAdmin', compact('FOLIO', 'NOMBRE_PROYECTO'));
+        $datos = [
+            'nombres' => [],
+            'hojas' => [],
+            'examenes' => [],
+            'logins' => [],
+            'medallas' => []
+        ];
+        
+        foreach ($estudiantes as $estudiante) {
+            // Solo el nombre (first name)
+            $nombre = $estudiante['FIRST_NAME_PROJECT'] ?? 'Sin nombre';
+            $datos['nombres'][] = $nombre;
+            
+            // Aquí deberías obtener los datos reales de tu base de datos
+            // Estos son ejemplos de cómo podrías obtenerlos:
+            
+            $userId = $estudiante['USER_ID_PROJECT'] ?? 0;
+            
+            // Ejemplo: obtener datos reales de hojas completadas
+            $hojas = $this->obtenerHojasCompletadas($userId);
+            $datos['hojas'][] = $hojas;
+            
+            // Ejemplo: obtener exámenes presentados
+            $examenes = $this->obtenerExamenesPresentados($userId);
+            $datos['examenes'][] = $examenes;
+            
+            // Ejemplo: obtener inicios de sesión
+            $logins = $this->obtenerIniciosSesion($userId);
+            $datos['logins'][] = $logins;
+            
+            // Ejemplo: obtener medallas obtenidas
+            $medallas = $this->obtenerMedallasObtenidas($userId);
+            $datos['medallas'][] = $medallas;
+        }
+        
+        return $datos;
     }
-
+    
+    // Métodos para obtener datos reales de la base de datos
+    private function obtenerHojasCompletadas($userId)
+    {
+        // Ejemplo de consulta real
+        // return DB::table('hojas_completadas')
+        //     ->where('user_id', $userId)
+        //     ->count();
+        
+        // Por ahora retorno datos simulados
+        return rand(0, 0);
+    }
+    
+    private function obtenerExamenesPresentados($userId)
+    {
+        // return DB::table('examenes')
+        //     ->where('user_id', $userId)
+        //     ->where('status', 'completado')
+        //     ->count();
+        
+        return rand(0, 0);
+    }
+    
+    private function obtenerIniciosSesion($userId)
+    {
+        // return DB::table('user_sessions')
+        //     ->where('user_id', $userId)
+        //     ->whereDate('created_at', '>=', now()->subDays(30))
+        //     ->count();
+        
+        return rand(0, 0);
+    }
+    
+    private function obtenerMedallasObtenidas($userId)
+    {
+        // return DB::table('medallas')
+        //     ->where('user_id', $userId)
+        //     ->count();
+        
+        return rand(0, 0);
+    }
         /**
      * @return \Illuminate\View\View
      */

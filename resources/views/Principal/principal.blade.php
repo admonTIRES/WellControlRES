@@ -118,6 +118,18 @@
             </a>
         </div>
     </section>
+     <section class="cards-container-bottom">
+        <div id="modelsDiv" class="card">
+            <h2 class="card-title">{{ __('3D ') }}<br>{{ __('Models') }}</h2>
+            <img src="/assets/images/principal/bop 3d.png" alt="{{ __('Models') }}" class="card-image">
+            <a href="#" class="card-link">
+                {{ __('Learn more') }}   
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+    </section>
 </div>
 
 <script src="/js/Principal/Principal.js?v=1.1"></script>

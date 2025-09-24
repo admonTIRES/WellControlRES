@@ -547,7 +547,15 @@ body {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 24px;
-            padding: 80px 140px;
+            padding: 80px 140px 24px 140px;
+            max-width: 100%; 
+            margin: 0; 
+            background: #2f2f2f; 
+            box-sizing: border-box;
+        }
+          .cards-container-bottom {
+            gap: 24px;
+            padding: 0 140px;
             max-width: 100%; 
             margin: 0; 
             background: #2f2f2f; 
@@ -599,6 +607,11 @@ body {
         #evaluacionesDiv {
             background: linear-gradient(120deg, #bfd1a5, #A4D65E);
         }
+
+           #modelsDiv {
+            background: linear-gradient(120deg, #ffa3a6, #FF585D);
+        }
+
 
         .card:hover {
             transform: translateY(-10px) scale(1.02);

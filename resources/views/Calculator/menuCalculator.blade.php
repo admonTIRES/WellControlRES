@@ -262,10 +262,10 @@
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe>
-                </div> --}}
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
 
-                <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                </div>
                 <!-- <div id="secure-video-container" class="video-container">
                     <div id="video-frame-container"></div>
                     
@@ -510,14 +510,19 @@
                     allowfullscreen>
                     </iframe>
                 </div> -->
-                <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-                {{-- <div class="responsive-video">
-                    <iframe
-                        src="https://drive.google.com/file/d/1_pX_zIn3wWDViPsTRtj6ZF90KLSxZti4/preview"
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div> --}}
+               
+
+                 <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+
+                </div>
             </div>
 
             <div id="fraccion" class="content-section scrollable-content">
@@ -587,7 +592,17 @@
                         allowfullscreen>
                     </iframe>
                 </div> --}}
-                                <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                 <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+
+                </div>
             </div>
 
             <div id="jerarquia" class="content-section scrollable-content">
@@ -625,7 +640,17 @@
                         allowfullscreen>
                     </iframe>
                 </div> --}}
-                                <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                 <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+
+                </div>
             </div>
 
             <div id="despeje" class="content-section scrollable-content">
@@ -679,7 +704,17 @@
                                 allowfullscreen>
                             </iframe>
                         </div> --}}
-                                        <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                         <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+
+                </div>
                         <li><strong>{{ __('Fluid volume') }}</strong>: {{ __('Isolate radius (r) in the formula V = π * r² * h.') }}</li>
                         <li><strong>{{ __('Pressure gradient') }}</strong>: {{ __('Isolate density (ρ) in the formula GP = ρ * g.') }}</li>
                     </ul>
@@ -710,9 +745,18 @@
                         frameborder="0"
                         allowfullscreen>
                     </iframe>
-                    
                 </div> --}}
-                                <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                 <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+
+                </div>
             </div>
 
             <div id="redondeo" class="content-section scrollable-content">
@@ -790,8 +834,17 @@
                         allowfullscreen>
                     </iframe>
                 </div> --}}
+                 <div class="math-drilling-video">
+                {{-- <iframe 
+                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                    width="100%" 
+                    height="700px"
+                    frameborder="0" 
+                    allowfullscreen>
+                    </iframe> --}}
+                <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
 
-                                <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                </div>
                 
             </div>
 

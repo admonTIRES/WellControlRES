@@ -624,7 +624,7 @@
                                 </button>
                             </div>
                              <div id="messages"></div>
-                            <div class="table-container">
+                            <div >
                                 <table id="course-list-table" class="table" role="grid">
                                 </table>
                             </div>
@@ -722,7 +722,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="sticky-header">
+                {{-- <div class="sticky-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-3">
                             <div class="search-container">
@@ -733,50 +733,64 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="table-container">
-                    <table class="table table-modern" id="edit-course-table">
-                        <thead>
-                            <tr>
-                                <th width="50px" class="text-center">#</th>
-                                <th class="col-180" width="140px">Estudiante</th>
-                                <th  width="180px">Level</th>
-                                <th  width="180px">BOP</th>
-                                <th  width="180px">Language</th>
-                                <th class="col-180" width="180px">Practical</th>
-                                <th class="col-180" width="180px">Equipment</th>
-                                <th class="col-180" width="180px">P&P</th>
-                                <th class="col-180" width="180px">Status</th>
-                                <th  width="180px">Resit</th>
-                                <th class="col-180" width="180px">Resit Module</th>
-                                <th class="col-180" width="180px">Resit Date</th>
-                                <th class="col-180" width="180px">Resit Score</th>
-                                <th class="col-180" width="180px">Resit Status</th>
-                                <th class="col-180" width="180px">Final Status</th>
-                                <th  width="180px">Certified</th>
-                                <th class="col-180" width="180px">Expiration</th>
-                                <th class="col-250" width="180px">Mail</th>
-                                <th width="100px" class="table-row-actions text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Los datos se cargarán aquí dinámicamente -->
-                            <tr>
-                                <td colspan="11" class="text-center loading-state">
-                                    <div class="loading-container">
-                                        <div class="loading-spinner"></div>
-                                        <p class="loading-text">Cargando candidatos...</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div style="padding: 1vw;">
+                    <form id="coursesForm">
+                         {!! csrf_field() !!}  
+                        <table class="table table-modern" id="edit-course-table">
+                            <thead>
+                                <tr>
+                                    <th width="50px" class="text-center">#</th>
+                                    <th class="col-180" width="140px">Estudiante</th>
+                                    <th  width="180px">Nivel</th>
+                                    <th  width="180px">BOP</th>
+                                    <th  width="180px">Idioma</th>
+                                    <th class="col-180" width="180px">Práctico</th>
+                                    <th class="col-180" width="180px">Equipos</th>
+                                    <th class="col-180" width="180px">P&P</th>
+                                    <th class="col-180" width="180px">Estado</th>
+                                    <th  width="180px">Resit</th>
+                                    <th  width="180px">No. Intentos permitidos</th>
+                                    <th  width="180px">Periodo</th>
+                                    <th  width="180px">Dias restantes</th>
+                                    <th  width="180px">Fecha límite</th>
+                                    <th class="col-180" width="180px">Resit módulo</th>
+                                    <th  width="180px">Resit inmediato</th>
+                                    <th class="col-180" width="180px">Resit inmediato fecha</th>
+                                    <th class="col-180" width="180px">Resit inmediato puntaje</th>
+                                    <th class="col-180" width="180px">Resit inmediato estado</th>
+                                    <th  width="180px">Resit programado</th>
+                                    <th  width="180px">Requiere entrenamiento adicional</th>
+                                    <th  width="180px">Folio de proyecto para entrenamiento</th>
+                                    <th class="col-180" width="180px">Resit programado fecha</th>
+                                    <th class="col-180" width="180px">Resit programado puntaje</th>
+                                    <th class="col-180" width="180px">Resit programado estado</th>
+                                    <th class="col-180" width="180px">Final Status</th>
+                                    <th  width="180px">Certificado</th>
+                                    <th class="col-180" width="180px">Expiración</th>
+                                    <th class="col-250" width="180px">Correo</th>
+                                    <th width="100px" class="table-row-actions text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se cargarán aquí dinámicamente -->
+                                <tr>
+                                    <td colspan="11" class="text-center loading-state">
+                                        <div class="loading-container">
+                                            <div class="loading-spinner"></div>
+                                            <p class="loading-text">Cargando candidatos...</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <div class="footer-actions">
-                    <button class="btn btn-primary btn-modern btn-save" onclick="saveCandidateTable()">
+                    <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
                         <i class="fas fa-save me-2"></i>Guardar Cambios
                     </button>
                     <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
@@ -1059,7 +1073,11 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            white-space: nowrap;
+            /* white-space: nowrap; */
+
+            white-space: normal;   /* Permite salto de línea */
+            word-wrap: break-word; /* Soporta cortar palabras largas */
+            overflow-wrap: break-word; /* Recomendado en navegadores modernos */
         }
 
         .table-modern th:first-child {
@@ -1407,6 +1425,16 @@
             display: inline-block;
         }
 
+          .bop-expired {
+            padding: 3px 6px;
+            background: #ff9e72;
+            color: #c60000;
+            border-radius: 8px;
+            font-size: 11px;
+            margin: 2px;
+            display: inline-block;
+        }
+
         .levels-container, .bops-container {
             display: flex;
             flex-wrap: wrap;
@@ -1577,9 +1605,9 @@
 </style>
 <script>
     const ID_PROJECT = @json($ID_PROJECT);
-</script>
+    const ID_COURSE = 0;
 
-<script>
+
 function editarCandidatos() {
     $('#editarCandidatosModal').modal('show');
     loadTableData();
@@ -1727,299 +1755,387 @@ function loadTableData() {
 
 function loadTableCursoModal() {
     $.ajax({
-        url: '/editarTablaCurso/' + ID_PROJECT, 
-        method: 'GET',
-        dataType: 'json',
-        beforeSend: function() {
-            // Mostrar spinner de carga
-            $('#edit-course-table tbody').html(`
-                <tr>
-                    <td colspan="20" class="text-start">
-                        <div class="spinner-container">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Cargando...</span>
-                            </div>
-                            <p class="mt-2">Cargando datos del curso...</p>
+    url: '/editarTablaCurso/' + ID_PROJECT, 
+    method: 'GET',
+    dataType: 'json',
+    beforeSend: function() {
+        // Mostrar spinner de carga
+        $('#edit-course-table tbody').html(`
+            <tr>
+                <td colspan="20" class="text-start">
+                    <div class="spinner-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
                         </div>
+                        <p class="mt-2">Cargando datos del curso...</p>
+                    </div>
+                </td>
+            </tr>
+        `);
+    },
+    success: function(response) {
+        const tbody = $('#edit-course-table tbody');
+        tbody.empty();
+
+            if (response.success && response.estudiantes && response.estudiantes.length > 0) {
+                response.estudiantes.forEach((estudiante, index) => {
+                    const candidato = estudiante.candidato;
+                    const curso = estudiante.datos_curso;
+                    const proyecto = response.proyecto;
+                    
+                    // Convertir valores booleanos a Yes/No
+                    const resitValue = curso.RESIT === true || curso.RESIT === 'true' || curso.RESIT === 'Yes' ? 'Yes' : 'No';
+                    const resitInmediatoValue = curso.RESIT_INMEDIATO === true || curso.RESIT_INMEDIATO === 'true' || curso.RESIT_INMEDIATO === 'Yes' ? 'Yes' : 'No';
+                    const resitProgramadoValue = curso.RESIT_PROGRAMADO === true || curso.RESIT_PROGRAMADO === 'true' || curso.RESIT_PROGRAMADO === 'Yes' ? 'Yes' : 'No';
+
+                    const certifiedValue = curso.CERTIFIED === true || curso.CERTIFIED === 'true' || curso.CERTIFIED === 'Yes' ? 'Yes' : 'No';
+                    const resitPassValue = curso.RESIT_PASS === true || curso.RESIT_PASS === 'true' || curso.RESIT_PASS === 'Yes' ? 'Pass' : 
+                    (curso.RESIT_PASS === false || curso.RESIT_PASS === 'false' || curso.RESIT_PASS === 'No' ? 'Unpass' : '');
+
+                    
+                    // Determinar si los campos de resit deben estar habilitados
+                    const resitDisabled = resitValue !== 'Yes' ? 'disabled' : '';
+                    const resitInmediatoDisabled = resitInmediatoValue !== 'Yes' ? 'disabled' : '';
+                    const resitProgramadoDisabled = resitProgramadoValue !== 'Yes' ? 'disabled' : '';
+
+                    const certifiedDisabled = certifiedValue !== 'Yes' ? 'disabled' : '';
+                    
+                    // Verificar estados para colorear
+                    const practicalStatus = curso.PRACTICAL_STATUS || '';
+                    const equipamentStatus = curso.EQUIPAMENT_STATUS || '';
+                    const pypStatus = curso.PYP_STATUS || '';
+                    const finalStatus = curso.FINAL_STATUS || '';
+                    
+                    // Determinar clases de color
+                    const practicalClass = practicalStatus === 'Unpass' ? 'unpass-status' : (practicalStatus === 'Pass' ? 'pass-status' : '');
+                    const equipamentClass = equipamentStatus === 'Unpass' ? 'unpass-status' : (equipamentStatus === 'Pass' ? 'pass-status' : '');
+                    const pypClass = pypStatus === 'Unpass' ? 'unpass-status' : (pypStatus === 'Pass' ? 'pass-status' : '');
+                    
+                    // Verificar si todos los primeros 3 tienen Unpass
+                    const allUnpass = practicalStatus === 'Unpass' && equipamentStatus === 'Unpass' && pypStatus === 'Unpass';
+                    const allPass = practicalStatus === 'Pass' && equipamentStatus === 'Pass' && pypStatus === 'Pass';
+                    
+                    // Clase para la fila completa
+                    const key = candidato.ID_CANDIDATE;
+
+                    let rowClass = '';
+                    if (allUnpass) {
+                        rowClass = 'row-unpass';
+                    } else if (allPass || finalStatus === 'Pass') {
+                        rowClass = 'row-pass';
+                    }
+                    
+                    let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE || ''}" data-curso-id="${estudiante.curso_id || ''}" class="course-row ${rowClass}">  `;
+                    
+                    // Número
+                    tr += `<td class="text-center">${index + 1}</td>`;
+                    
+                    // Estudiante (Solo nombre, sin email aquí)
+                    tr += `<td>
+                        <span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''} ${candidato.MIDDLE_NAME_PROJECT || ''}</span>
+                    </td>`;
+                    
+                    // Level (Niveles de acreditación) - SPAN
+                    tr += `<td>
+                        <div class="levels-container">`;
+                    if (proyecto.ACCREDITATION_LEVELS_PROJECT && proyecto.ACCREDITATION_LEVELS_PROJECT.length > 0) {
+                        proyecto.ACCREDITATION_LEVELS_PROJECT.forEach(nivel => {
+                            tr += `<span class="level-badge">${nivel.nombre || nivel.descripcion}</span>`;
+                        });
+                    } else {
+                        tr += `<span class="text-muted">N/A</span>`;
+                    }
+                    tr += `</div></td>`;
+                    
+                    // BOP (Tipos BOP) - SPAN
+                    tr += `<td>
+                        <div class="bops-container">`;
+                    if (proyecto.BOP_TYPES_PROJECT && proyecto.BOP_TYPES_PROJECT.length > 0) {
+                        proyecto.BOP_TYPES_PROJECT.forEach(bop => {
+                            tr += `<span class="bop-badge">${bop.abreviatura}</span>`;
+                        });
+                    } else {
+                        tr += `<span class="text-muted">N/A</span>`;
+                    }
+                    tr += `</div></td>`;
+                    
+                    // Language - SPAN
+                    let idiomaTexto = 'N/A';
+                    if (proyecto.LANGUAGE_PROJECT && Array.isArray(proyecto.LANGUAGE_PROJECT) && proyecto.LANGUAGE_PROJECT.length > 0) {
+                        const idioma = proyecto.LANGUAGE_PROJECT[0];
+                        idiomaTexto = idioma.DESCRIPCION_IDIOMAS || idioma.NOMBRE_IDIOMA || 'N/A';
+                    }
+                    tr += `<td>
+                        <span class="language-badge">${idiomaTexto}</span>
+                    </td>`;
+                    
+                    // Practical (Porcentaje/Status)
+                    // Practical (Porcentaje/Status)
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <input class="table-input practical-score ${practicalClass}" type="number" step="1" min="0" max="100"
+                                value="${curso.PRACTICAL || ''}" name="courses[${key}][PRACTICAL]" placeholder="0" style="padding-right: 25px;" />
+                            <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
+                            <select class="table-input practical-status ${practicalClass}" name="courses[${key}][PRACTICAL_PASS]">
+                                <option value="">Status</option>
+                                <option value="Pass" ${(practicalStatus === 'Pass') ? 'selected' : ''}>Pass</option>
+                                <option value="Unpass" ${(practicalStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
+                            </select>
+                        </div>
+                    </td>`;
+
+                    // Equipament (Porcentaje/Status)
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <input class="table-input equipament-score ${equipamentClass}" type="number" step="1" min="0" max="100"
+                                value="${curso.EQUIPAMENT || ''}" name="courses[${key}][EQUIPAMENT]" placeholder="0" style="padding-right: 25px;" />
+                            <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
+                            <select class="table-input equipament-status ${equipamentClass}" name="courses[${key}][EQUIPAMENT_PASS]">
+                                <option value="">Status</option>
+                                <option value="Pass" ${(equipamentStatus === 'Pass') ? 'selected' : ''}>Pass</option>
+                                <option value="Unpass" ${(equipamentStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
+                            </select>
+                        </div>
+                    </td>`;
+
+                    // P&P (Porcentaje/Status)
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
+                                value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
+                            <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
+                            <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
+                                <option value="">Status</option>
+                                <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
+                                <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
+                            </select>
+                        </div>
+                    </td>`;
+
+                    
+                    // Status general
+                    tr += `<td>
+                        <select class="table-input status-select" name="courses[${key}][STATUS]">
+                            <option value="">Seleccionar...</option>
+                            <option value="Pending" ${(curso.STATUS === 'Pending') ? 'selected' : ''}>Pending</option>
+                            <option value="In Progress" ${(curso.STATUS === 'In Progress') ? 'selected' : ''}>In Progress</option>
+                            <option value="Completed" ${(curso.STATUS === 'Completed') ? 'selected' : ''}>Completed</option>
+                            <option value="Failed" ${(curso.STATUS === 'Failed') ? 'selected' : ''}>Failed</option>
+                        </select>
+                    </td>`;
+                    
+                    // Resit (Switch Yes/No)
+                    tr += `<td>
+                        <label class="switch">
+                            <input type="checkbox" class="resit-switch" name="courses[${key}][RESIT]" 
+                                    ${resitValue === 'Yes' ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>`;
+                        tr += `<td>
+                        <select class="table-input ${resitDisabled ? 'disabled-field' : ''} resit-intentos" name="courses[${key}][INTENTOS]" ${resitDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                        </select>
+                    </td>`;
+
+                    tr += `<td>
+                        <div class="bops-container resit-periodos" style="justify-content: center;">
+                            <span class="bop-badge">${proyecto.DAYS_REST || 'N/A'}</span>
+                        </div></td>`;
+
+                        tr += `<td>
+                        <div class="bops-container resit-restantes" style="justify-content: center;">
+                            <span class="bop-badge"> ${proyecto.DAYS_REMAINING || 'N/A'}</span>
+                        </div></td>`;
+
+                    tr += `<td>
+                        <div class="bops-container resit-limite" style="justify-content: center;">
+                            <span class="bop-badge"> ${proyecto.COURSE_END_DATE_90 || 'N/A'} </span>
+                        </div></td>`;
+            
+                    tr += `<td>
+                        <select class="table-input module-select ${resitDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_MODULE]" ${resitDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="Equipament" ${(curso.MODULE_RESIT === 'Equipament') ? 'selected' : ''}>Equipament</option>
+                            <option value="P&P" ${(curso.MODULE_RESIT === 'P&P') ? 'selected' : ''}>P&P</option>
+                        </select>
+                    </td>`;
+
+                        tr += `<td>
+                        <label class="switch">
+                            <input type="checkbox" class="resit-switch-inmediato ${resitDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_INMEDIATO]" ${resitDisabled}" 
+                                    ${resitInmediatoValue === 'Yes' ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>`;
+                                                
+                    // Date (Solo habilitado si Resit es Yes)
+                    tr += `<td>
+                        <input class="table-input resit-inmediato-date ${resitInmediatoDisabled ? 'disabled-field' : ''}" type="date" 
+                                value="${formatDateForInput(curso.RESIT_DATE) || ''}" name="courses[${key}][RESIT_INMEDIATO_DATE]" ${resitInmediatoDisabled} />
+                    </td>`;
+                    
+                    // Score (Solo habilitado si Resit es Yes)
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <input class="table-input resit-inmediato-score ${resitInmediatoDisabled ? 'disabled-field' : ''}" type="number" step="1" min="0" max="100"
+                                value="${curso.RESIT_SCORE || ''}" name="courses[${key}][RESIT_INMEDIATO_SCORE]" placeholder="0" style="padding-right: 25px;" ${resitInmediatoDisabled} />
+                            <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+                        </div>
+                    </td>`;
+                                            
+                    // Resit Pass (Solo habilitado si Resit es Yes)
+                    tr += `<td>
+                        <select class="table-input resit-inmediato-status ${resitInmediatoDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_INMEDIATO_STATUS]" ${resitInmediatoDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="Pass" ${(resitPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
+                            <option value="Unpass" ${(resitPassValue === 'No') ? 'selected' : ''}>Unpass</option>
+                        </select>
+                    </td>`;
+
+                        // resit programado
+                        tr += `<td>
+                        <label class="switch">
+                            <input type="checkbox" class="resit-switch-programado ${resitDisabled ? 'disabled-field' : ''}" name="resit-courses[${key}][RESIT_PROGRAMADO]" ${resitDisabled}" 
+                                    ${resitProgramadoValue === 'Yes' ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>`;
+                    // requiere entrenamiento adicional
+                        tr += `<td>
+                        <select class="table-input ${resitProgramadoDisabled ? 'disabled-field' : ''} entrenamiento-adi" name="courses[${key}][RESIT_ENTRENAMIENTO]" ${resitProgramadoDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="1" >Si</option>
+                            <option value="1">No</option>
+                        </select>
+                    </td>`;
+                    // folio de proyecto donde recibira entrenamiento adicional
+                        tr += `<td>
+                        <select class="table-input  ${resitProgramadoDisabled ? 'disabled-field' : ''} folio-proyecto" name="courses[${key}][RESIT_FOLIO_PROYECTO]" ${resitProgramadoDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="1" >Si</option>
+                            <option value="1">No</option>
+                        </select>
+                    </td>`;
+                    // fecha resity programado
+                        tr += `<td>
+                    <input class="table-input resit-programado-fecha ${resitProgramadoDisabled ? 'disabled-field' : ''}" type="date" 
+                                value="${formatDateForInput(curso.RESIT_DATE) || ''}" name="courses[${key}][RESIT_PROGRAMADO_DATE]" ${resitProgramadoDisabled} />
+                    </td>`;
+                    
+                    // Score (Solo habilitado si Resit es Yes)
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <input class="table-input resit-programado-score ${resitProgramadoDisabled ? 'disabled-field' : ''}" type="number" step="1" min="0" max="100"
+                                value="${curso.RESIT_SCORE || ''}" name="courses[${key}][RESIT_PROGRAMADO_SCORE]" placeholder="0" style="padding-right: 25px;" ${resitProgramadoDisabled} />
+                            <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+                        </div>
+                    </td>`;
+                                            
+                    // Resit Pass (Solo habilitado si Resit es Yes)
+                    tr += `<td>
+                        <select class="table-input resit-programado-status ${resitProgramadoDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_PROGRAMADO_STATUS]" ${resitProgramadoDisabled}>
+                            <option value="">Seleccionar...</option>
+                            <option value="Pass" ${(resitPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
+                            <option value="Unpass" ${(resitPassValue === 'No') ? 'selected' : ''}>Unpass</option>
+                        </select>
+                    </td>`;
+                    
+                    
+                    // Final Status
+                    tr += `<td>
+                        <select class="table-input final-status-select" name="courses[${key}][FINAL_STATUS]">
+                            <option value="">Seleccionar...</option>
+                            <option value="Pass" ${(finalStatus === 'Pass') ? 'selected' : ''}>Pass</option>
+                            <option value="Unpass" ${(finalStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
+                        </select>
+                    </td>`;
+                    
+                    // Certified (Switch Yes/No) 
+                    tr += `<td>
+                        <label class="switch">
+                            <input type="checkbox" class="certified-switch" name="courses[${key}][HAVE_CERTIFIED]" 
+                                    ${certifiedValue === 'Yes' ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>`;
+                    
+                    // Expiration (Solo habilitado si Certified es Yes)
+                    tr += `<td>
+                        <input class="table-input expiration-date ${certifiedDisabled ? 'disabled-field' : ''}" type="date" 
+                                value="${formatDateForInput(curso.EXPIRATION) || ''}" name="courses[${key}][EXPIRATION]" ${certifiedDisabled} />
+                    </td>`;
+                    
+                    // Mail (Solo email)
+                    tr += `<td>
+                        <span class="email-text">${candidato.EMAIL_PROJECT || 'N/A'}</span>
+                    </td>`;
+                    
+                    // Acciones
+                    tr += `<td class="table-row-actions text-center">
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info btn-action" onclick="viewStudentDetails(${candidato.ID_CANDIDATE})" title="Cargar certficado">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>`;
+                    
+                    tr += `<input type="hidden" 
+                        name="courses[${candidato.ID_CANDIDATE}][ID_CANDIDATE]" 
+                        value="${candidato.ID_CANDIDATE}"> <input type="hidden" 
+                        name="courses[${candidato.ID_CANDIDATE}][ID_PROJECT]" 
+                        value="${ID_PROJECT}"> </tr>`;
+                    tbody.append(tr);
+                });
+                
+                // Agregar event listeners para los switches y cambios
+                addSwitchListeners();
+                addValidationListeners();
+                
+                // Actualizar contador de estudiantes
+                if (typeof updateRowCount === 'function') {
+                    updateRowCount(response.estudiantes.length);
+                }
+                
+            } else {
+                tbody.html(`
+                    <tr>
+                        <td colspan="20" class="text-center text-muted py-5">
+                            <i class="fas fa-graduation-cap fa-3x mb-3"></i>
+                            <p>No hay estudiantes registrados en este curso</p>
+                            <small class="d-block">Los estudiantes deben estar activos en la tabla de candidatos</small>
+                        </td>
+                    </tr>
+                `);
+                
+                if (typeof updateRowCount === 'function') {
+                    updateRowCount(0);
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            const tbody = $('#edit-course-table tbody');
+            tbody.html(`
+                <tr>
+                    <td colspan="20" class="text-center text-danger py-5">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                        <p>Error al cargar los datos del curso</p>
+                        <small class="d-block">${error}</small>
+                        <button class="btn btn-warning btn-sm mt-2" onclick="loadTableCursoModal()">
+                            <i class="fas fa-redo me-1"></i> Reintentar
+                        </button>
                     </td>
                 </tr>
             `);
-        },
-        success: function(response) {
-            const tbody = $('#edit-course-table tbody');
-            tbody.empty();
             
-        
-                    if (response.success && response.estudiantes && response.estudiantes.length > 0) {
-                        response.estudiantes.forEach((estudiante, index) => {
-                            const candidato = estudiante.candidato;
-                            const curso = estudiante.datos_curso;
-                            const proyecto = response.proyecto;
-                            
-                            // Convertir valores booleanos a Yes/No
-                            const resitValue = curso.RESIT === true || curso.RESIT === 'true' || curso.RESIT === 'Yes' ? 'Yes' : 'No';
-                            const certifiedValue = curso.CERTIFIED === true || curso.CERTIFIED === 'true' || curso.CERTIFIED === 'Yes' ? 'Yes' : 'No';
-                            const resitPassValue = curso.RESIT_PASS === true || curso.RESIT_PASS === 'true' || curso.RESIT_PASS === 'Yes' ? 'Pass' : 
-                            (curso.RESIT_PASS === false || curso.RESIT_PASS === 'false' || curso.RESIT_PASS === 'No' ? 'Unpass' : '');
-
-                            
-                            // Determinar si los campos de resit deben estar habilitados
-                            const resitDisabled = resitValue !== 'Yes' ? 'disabled' : '';
-                            const certifiedDisabled = certifiedValue !== 'Yes' ? 'disabled' : '';
-                            
-                            // Verificar estados para colorear
-                            const practicalStatus = curso.PRACTICAL_STATUS || '';
-                            const equipamentStatus = curso.EQUIPAMENT_STATUS || '';
-                            const pypStatus = curso.PYP_STATUS || '';
-                            const finalStatus = curso.FINAL_STATUS || '';
-                            
-                            // Determinar clases de color
-                            const practicalClass = practicalStatus === 'Unpass' ? 'unpass-status' : (practicalStatus === 'Pass' ? 'pass-status' : '');
-                            const equipamentClass = equipamentStatus === 'Unpass' ? 'unpass-status' : (equipamentStatus === 'Pass' ? 'pass-status' : '');
-                            const pypClass = pypStatus === 'Unpass' ? 'unpass-status' : (pypStatus === 'Pass' ? 'pass-status' : '');
-                            
-                            // Verificar si todos los primeros 3 tienen Unpass
-                            const allUnpass = practicalStatus === 'Unpass' && equipamentStatus === 'Unpass' && pypStatus === 'Unpass';
-                            const allPass = practicalStatus === 'Pass' && equipamentStatus === 'Pass' && pypStatus === 'Pass';
-                            
-                            // Clase para la fila completa
-                            let rowClass = '';
-                            if (allUnpass) {
-                                rowClass = 'row-unpass';
-                            } else if (allPass || finalStatus === 'Pass') {
-                                rowClass = 'row-pass';
-                            }
-                            
-                            let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE || ''}" data-curso-id="${estudiante.curso_id || ''}" class="course-row ${rowClass}">`;
-                            
-                            // Número
-                            tr += `<td class="text-center">${index + 1}</td>`;
-                            
-                            // Estudiante (Solo nombre, sin email aquí)
-                            tr += `<td>
-                                <span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''} ${candidato.MIDDLE_NAME_PROJECT || ''}</span>
-                            </td>`;
-                            
-                            // Level (Niveles de acreditación) - SPAN
-                            tr += `<td>
-                                <div class="levels-container">`;
-                            if (proyecto.ACCREDITATION_LEVELS_PROJECT && proyecto.ACCREDITATION_LEVELS_PROJECT.length > 0) {
-                                proyecto.ACCREDITATION_LEVELS_PROJECT.forEach(nivel => {
-                                    tr += `<span class="level-badge">${nivel.nombre || nivel.descripcion}</span>`;
-                                });
-                            } else {
-                                tr += `<span class="text-muted">N/A</span>`;
-                            }
-                            tr += `</div></td>`;
-                            
-                            // BOP (Tipos BOP) - SPAN
-                            tr += `<td>
-                                <div class="bops-container">`;
-                            if (proyecto.BOP_TYPES_PROJECT && proyecto.BOP_TYPES_PROJECT.length > 0) {
-                                proyecto.BOP_TYPES_PROJECT.forEach(bop => {
-                                    tr += `<span class="bop-badge">${bop.abreviatura}</span>`;
-                                });
-                            } else {
-                                tr += `<span class="text-muted">N/A</span>`;
-                            }
-                            tr += `</div></td>`;
-                            
-                            // Language - SPAN
-                            let idiomaTexto = 'N/A';
-                            if (proyecto.LANGUAGE_PROJECT && Array.isArray(proyecto.LANGUAGE_PROJECT) && proyecto.LANGUAGE_PROJECT.length > 0) {
-                                const idioma = proyecto.LANGUAGE_PROJECT[0];
-                                idiomaTexto = idioma.DESCRIPCION_IDIOMAS || idioma.NOMBRE_IDIOMA || 'N/A';
-                            }
-                            tr += `<td>
-                                <span class="language-badge">${idiomaTexto}</span>
-                            </td>`;
-                            
-                            // Practical (Porcentaje/Status)
-                          // Practical (Porcentaje/Status)
-tr += `<td>
-    <div class="score-status-container" style="position: relative;">
-        <input class="table-input practical-score ${practicalClass}" type="number" step="1" min="0" max="100"
-               value="${curso.PRACTICAL || ''}" name="practical_score" placeholder="0" style="padding-right: 25px;" />
-        <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-        <select class="table-input practical-status ${practicalClass}" name="practical_status">
-            <option value="">Status</option>
-            <option value="Pass" ${(practicalStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-            <option value="Unpass" ${(practicalStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
-        </select>
-    </div>
-</td>`;
-
-// Equipament (Porcentaje/Status)
-tr += `<td>
-    <div class="score-status-container" style="position: relative;">
-        <input class="table-input equipament-score ${equipamentClass}" type="number" step="1" min="0" max="100"
-               value="${curso.EQUIPAMENT || ''}" name="equipament_score" placeholder="0" style="padding-right: 25px;" />
-        <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-        <select class="table-input equipament-status ${equipamentClass}" name="equipament_status">
-            <option value="">Status</option>
-            <option value="Pass" ${(equipamentStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-            <option value="Unpass" ${(equipamentStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
-        </select>
-    </div>
-</td>`;
-
-// P&P (Porcentaje/Status)
-tr += `<td>
-    <div class="score-status-container" style="position: relative;">
-        <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-               value="${curso.PYP || ''}" name="pyp_score" placeholder="0" style="padding-right: 25px;" />
-        <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-        <select class="table-input pyp-status ${pypClass}" name="pyp_status">
-            <option value="">Status</option>
-            <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-            <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
-        </select>
-    </div>
-</td>`;
-
-                            
-                            // Status general
-                            tr += `<td>
-                                <select class="table-input status-select" name="status">
-                                    <option value="">Seleccionar...</option>
-                                    <option value="Pending" ${(curso.STATUS === 'Pending') ? 'selected' : ''}>Pending</option>
-                                    <option value="In Progress" ${(curso.STATUS === 'In Progress') ? 'selected' : ''}>In Progress</option>
-                                    <option value="Completed" ${(curso.STATUS === 'Completed') ? 'selected' : ''}>Completed</option>
-                                    <option value="Failed" ${(curso.STATUS === 'Failed') ? 'selected' : ''}>Failed</option>
-                                </select>
-                            </td>`;
-                            
-                            // Resit (Switch Yes/No)
-                            tr += `<td>
-                                <label class="switch">
-                                    <input type="checkbox" class="resit-switch" name="resit" 
-                                           ${resitValue === 'Yes' ? 'checked' : ''}>
-                                    <span class="slider"></span>
-                                </label>
-                            </td>`;
-                            
-                            // Module (Solo habilitado si Resit es Yes)
-                            tr += `<td>
-                                <select class="table-input module-select ${resitDisabled ? 'disabled-field' : ''}" name="module" ${resitDisabled}>
-                                    <option value="">Seleccionar...</option>
-                                    <option value="Equipament" ${(curso.MODULE_RESIT === 'Equipament') ? 'selected' : ''}>Equipament</option>
-                                    <option value="P&P" ${(curso.MODULE_RESIT === 'P&P') ? 'selected' : ''}>P&P</option>
-                                </select>
-                            </td>`;
-                            
-                            // Date (Solo habilitado si Resit es Yes)
-                            tr += `<td>
-                                <input class="table-input resit-date ${resitDisabled ? 'disabled-field' : ''}" type="date" 
-                                       value="${formatDateForInput(curso.RESIT_DATE) || ''}" name="resit_date" ${resitDisabled} />
-                            </td>`;
-                            
-                            // Score (Solo habilitado si Resit es Yes)
-                          tr += `<td>
-                            <div class="score-status-container" style="position: relative;">
-                                <input class="table-input resit-score ${resitDisabled ? 'disabled-field' : ''}" type="number" step="1" min="0" max="100"
-                                    value="${curso.RESIT_SCORE || ''}" name="resit_score" placeholder="0" style="padding-right: 25px;" ${resitDisabled} />
-                                <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
-                            </div>
-                        </td>`;
-                                                    
-                            // Resit Pass (Solo habilitado si Resit es Yes)
-                            tr += `<td>
-                                <select class="table-input resit-status ${resitDisabled ? 'disabled-field' : ''}" name="resit_status" ${resitDisabled}>
-                                    <option value="">Seleccionar...</option>
-                                    <option value="Pass" ${(resitPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
-                                    <option value="Unpass" ${(resitPassValue === 'No') ? 'selected' : ''}>Unpass</option>
-                                </select>
-                            </td>`;
-                            
-                            
-                            // Final Status
-                            tr += `<td>
-                                <select class="table-input final-status-select" name="final_status">
-                                    <option value="">Seleccionar...</option>
-                                    <option value="Pass" ${(finalStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                    <option value="Unpass" ${(finalStatus === 'Unpass') ? 'selected' : ''}>Unpass</option>
-                                </select>
-                            </td>`;
-                            
-                            // Certified (Switch Yes/No)
-                            tr += `<td>
-                                <label class="switch">
-                                    <input type="checkbox" class="certified-switch" name="certified" 
-                                           ${certifiedValue === 'Yes' ? 'checked' : ''}>
-                                    <span class="slider"></span>
-                                </label>
-                            </td>`;
-                            
-                            // Expiration (Solo habilitado si Certified es Yes)
-                            tr += `<td>
-                                <input class="table-input expiration-date ${certifiedDisabled ? 'disabled-field' : ''}" type="date" 
-                                       value="${formatDateForInput(curso.EXPIRATION) || ''}" name="expiration" ${certifiedDisabled} />
-                            </td>`;
-                            
-                            // Mail (Solo email)
-                            tr += `<td>
-                                <span class="email-text">${candidato.EMAIL_PROJECT || 'N/A'}</span>
-                            </td>`;
-                            
-                            // Acciones
-                            tr += `<td class="table-row-actions text-center">
-                                <div class="action-buttons">
-                                    <button class="btn btn-sm btn-info btn-action" onclick="viewStudentDetails(${candidato.ID_CANDIDATE})" title="Cargar certficado">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>`;
-                            
-                            tr += '</tr>';
-                            tbody.append(tr);
-                        });
-                        
-                        // Agregar event listeners para los switches y cambios
-                        addSwitchListeners();
-                        addValidationListeners();
-                        
-                        // Actualizar contador de estudiantes
-                        if (typeof updateRowCount === 'function') {
-                            updateRowCount(response.estudiantes.length);
-                        }
-                        
-                    } else {
-                        tbody.html(`
-                            <tr>
-                                <td colspan="20" class="text-center text-muted py-5">
-                                    <i class="fas fa-graduation-cap fa-3x mb-3"></i>
-                                    <p>No hay estudiantes registrados en este curso</p>
-                                    <small class="d-block">Los estudiantes deben estar activos en la tabla de candidatos</small>
-                                </td>
-                            </tr>
-                        `);
-                        
-                        if (typeof updateRowCount === 'function') {
-                            updateRowCount(0);
-                        }
-                    }
-                },
-                error: function(xhr, status, error) {
-                    const tbody = $('#edit-course-table tbody');
-                    tbody.html(`
-                        <tr>
-                            <td colspan="20" class="text-center text-danger py-5">
-                                <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
-                                <p>Error al cargar los datos del curso</p>
-                                <small class="d-block">${error}</small>
-                                <button class="btn btn-warning btn-sm mt-2" onclick="loadTableCursoModal()">
-                                    <i class="fas fa-redo me-1"></i> Reintentar
-                                </button>
-                            </td>
-                        </tr>
-                    `);
-                    
-                    if (typeof updateRowCount === 'function') {
-                        updateRowCount(0);
-                    }
-                }
-            });
+            if (typeof updateRowCount === 'function') {
+                updateRowCount(0);
+            }
         }
+    });
+}
 
 
 const style = document.createElement('style');
@@ -2279,16 +2395,57 @@ document.head.appendChild(document.createElement('style')).textContent = colorSt
                 const isChecked = $(this).is(':checked');
                 const row = $(this).closest('tr');
                 
-                row.find('.module-select, .resit-date, .resit-score, .resit-status')
+                row.find('.module-select, .resit-intentos, .resit-periodos, .resit-restantes, .resit-limite')
                    .prop('disabled', !isChecked)
                    .toggleClass('disabled-field', !isChecked);
                 
                 // Si se desactiva el resit, limpiar campos relacionados
                 if (!isChecked) {
                     row.find('.module-select').val('');
-                    row.find('.resit-date').val('');
-                    row.find('.resit-score').val('');
-                    row.find('.resit-status').val('');
+                    row.find('.resit-intentos').val('');
+                    row.find('.resit-periodos').val('');
+                    row.find('.resit-restantes').val('');
+                    row.find('.resit-limite').val('');
+                }
+                
+                // Validar el estado de la fila
+                validateRowStatus(row);
+            });
+
+            $('.resit-switch-inmediato').on('change', function() {
+                const isChecked = $(this).is(':checked');
+                const row = $(this).closest('tr');
+                
+                row.find('.resit-inmediato-date, .resit-inmediato-score, .resit-inmediato-status')
+                   .prop('disabled', !isChecked)
+                   .toggleClass('disabled-field', !isChecked);
+                
+                // Si se desactiva el resit, limpiar campos relacionados
+                if (!isChecked) {
+                    row.find('.resit-inmediato-date').val('');
+                    row.find('.resit-inmediato-score').val('');
+                    row.find('.resit-inmediato-status').val('');
+                }
+                
+                // Validar el estado de la fila
+                validateRowStatus(row);
+            });
+
+            $('.resit-switch-programado').on('change', function() {
+                const isChecked = $(this).is(':checked');
+                const row = $(this).closest('tr');
+                
+                row.find('.entrenamiento-adi, .folio-proyecto, .resit-programado-fecha, .resit-programado-score, .resit-programado-status')
+                   .prop('disabled', !isChecked)
+                   .toggleClass('disabled-field', !isChecked);
+                
+                // Si se desactiva el resit, limpiar campos relacionados
+                if (!isChecked) {
+                    row.find('.entrenamiento-adi').val('');
+                    row.find('.folio-proyecto').val('');
+                    row.find('.resit-programado-fecha').val('');
+                    row.find('.resit-programado-score').val('');
+                    row.find('.resit-programado-status').val('');
                 }
                 
                 // Validar el estado de la fila
@@ -2320,7 +2477,7 @@ document.head.appendChild(document.createElement('style')).textContent = colorSt
             });
             
             // Listener para cambios en el resultado del Resit
-            $('.resit-status').on('change', function() {
+            $('.resit-status, .resit-inmediato-status, .resit-programado-status').on('change', function() {
                 const row = $(this).closest('tr');
                 validateRowStatus(row);
             });
@@ -2330,8 +2487,16 @@ function validateRowStatus(row) {
     const equipamentStatus = row.find('.equipament-status').val();
     const pypStatus = row.find('.pyp-status').val();
     const resitStatus = row.find('.resit-status').val();
+    const resitInmediatoStatus = row.find('.resit-inmediato-status').val();
+    const resitProgramadoStatus = row.find('.resit-programado-status').val();
+
     const resitSwitch = row.find('.resit-switch');
+    const resitInmediatoSwitch = row.find('.resit-switch-inmediato');
+    const resitProgramadoSwitch = row.find('.resit-switch-programado');
+
     const statusSelect = row.find('.status-select');
+    const moduleResit = row.find('.module-select');
+
     const finalStatusSelect = row.find('.final-status-select');
     const certifiedSwitch = row.find('.certified-switch');
     const expirationDate = row.find('.expiration-date');
@@ -2340,7 +2505,9 @@ function validateRowStatus(row) {
     row.removeClass('row-pass row-unpass row-pending row-inprogress');
     statusSelect.removeClass('status-pending status-inprogress status-completed status-failed');
     finalStatusSelect.removeClass('final-pass final-failed');
-    row.find('.resit-status').removeClass('resit-pass resit-failed');
+    row.find('.resit-inmediato-status').removeClass('resit-pass resit-failed');
+    row.find('.resit-programado-status').removeClass('resit-pass resit-failed');
+
 
     // Aplicar colores a campos individuales
     row.find('.practical-status, .practical-score')
@@ -2356,25 +2523,45 @@ function validateRowStatus(row) {
         .addClass(pypStatus === 'Pass' ? 'pass-status' : (pypStatus === 'Unpass' ? 'unpass-status' : ''));
 
     // Validar resit-status
-    if (resitStatus === 'Pass') {
+    if (resitInmediatoStatus === 'Pass') {
         // Todo verde
-        console.log("resit es pass");
-        row.find('.resit-status').addClass('resit-pass').removeClass('resit-failed');
+        console.log("resit inmediato es pass");
+        row.find('.resit-inmediato-status').addClass('resit-pass').removeClass('resit-failed');
         finalStatusSelect.val('Pass').addClass('final-pass').removeClass('final-failed');
         row.addClass('row-pass');
         certifiedSwitch.prop('checked', true);
         expirationDate.prop('disabled', false).removeClass('disabled-field');
         statusSelect.val('Completed').addClass('status-completed');
-    } else if (resitStatus === 'Unpass') {
+    } 
+     if (resitInmediatoStatus === 'Unpass') {
         // Todo rojo
-        console.log("resit es unpass");
-        row.find('.resit-status').addClass('resit-failed').removeClass('resit-pass');
+        console.log("resit inmediato es unpass");
+        row.find('.resit-inmediato-status').addClass('resit-failed').removeClass('resit-pass');
+        // finalStatusSelect.val('Unpass').addClass('final-failed').removeClass('final-pass');
+        // row.addClass('row-unpass');
+        certifiedSwitch.prop('checked', false);
+        expirationDate.prop('disabled', true).addClass('disabled-field');
+        // statusSelect.val('Failed').addClass('status-failed');
+    }
+    if (resitProgramadoStatus === 'Pass') {
+        // Todo verde
+        console.log("resit programado es pass");
+        row.find('.resit-programado-status').addClass('resit-pass').removeClass('resit-failed');
+        finalStatusSelect.val('Pass').addClass('final-pass').removeClass('final-failed');
+        row.addClass('row-pass');
+        certifiedSwitch.prop('checked', true);
+        expirationDate.prop('disabled', false).removeClass('disabled-field');
+        statusSelect.val('Completed').addClass('status-completed');
+    } 
+     if (resitProgramadoStatus === 'Unpass') {
+        // Todo rojo
+        console.log("resit programado es unpass");
+        row.find('.resit-programado-status').addClass('resit-failed').removeClass('resit-pass');
         finalStatusSelect.val('Unpass').addClass('final-failed').removeClass('final-pass');
         row.addClass('row-unpass');
         certifiedSwitch.prop('checked', false);
         expirationDate.prop('disabled', true).addClass('disabled-field');
-        statusSelect.val('Failed').addClass('status-failed');
-    } else {
+    }
         console.log("else de none");
         // Si resit-status está vacío o no válido, calcular según otras reglas
         const allEmpty = !practicalStatus && !equipamentStatus && !pypStatus;
@@ -2395,12 +2582,40 @@ function validateRowStatus(row) {
             expirationDate.prop('disabled', false).removeClass('disabled-field');
             row.addClass('row-pass');
         } else if (anyUnpass) {
-            // Activar resit automáticamente
-            resitSwitch.prop('checked', true);
-            row.find('.module-select, .resit-date, .resit-score, .resit-status')
-                .prop('disabled', false)
-                .removeClass('disabled-field');
-            statusSelect.val('Failed').addClass('status-failed');
+            // Revisar qué módulos tienen Unpass
+            let unpassModules = [];
+            if (practicalStatus === 'Unpass') unpassModules.push('Practical');
+            if (equipamentStatus === 'Unpass') unpassModules.push('Equipament');
+            if (pypStatus === 'Unpass') unpassModules.push('P&P');
+
+            if (unpassModules.length === 1) {
+                // Solo 1 módulo reprobado → activar resit automático
+                resitSwitch.prop('checked', true);
+                row.find('.module-select, .resit-intentos')
+                    .prop('disabled', false)
+                    .removeClass('disabled-field');
+
+                statusSelect.val('Failed').addClass('status-failed');
+
+                // Asignar automáticamente el módulo reprobado
+                moduleResit.val(unpassModules[0]);
+            } else {
+                // Más de 1 módulo reprobado → lógica de reprobado final
+                statusSelect.val('Failed').addClass('status-failed');
+                finalStatusSelect.val('Unpass')
+                    .addClass('final-failed')
+                    .removeClass('final-pass');
+
+                resitSwitch.prop('checked', false);
+                certifiedSwitch.prop('checked', false);
+
+                moduleResit.val('');
+                moduleResit.prop('disabled', true).addClass('disabled-field');
+
+                expirationDate.prop('disabled', true).addClass('disabled-field');
+                row.addClass('row-unpass');
+            }
+
         } else {
             statusSelect.val('In Progress').addClass('status-inprogress');
             finalStatusSelect.val('').removeClass('final-pass final-failed');
@@ -2408,7 +2623,7 @@ function validateRowStatus(row) {
             expirationDate.prop('disabled', true).addClass('disabled-field');
             row.addClass('row-inprogress');
         }
-    }
+    
 }
 
 
@@ -2570,6 +2785,54 @@ function saveCandidateTable() {
         }
     });
 }
+
+
+
+$("#cursobtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#coursesForm'));
+   
+    if (formularioValido) {
+        const formData = new FormData(document.getElementById('coursesForm'));
+        formData.append('api', 2);
+        formData.append('ID_PROJECT', ID_PROJECT);
+
+          const dataToSend = {
+            api: 2,
+            ID_PROJECT: ID_PROJECT,
+            formData: formData
+        };
+
+        console.log('Datos a enviar:', [...formData.entries()]);
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "Se creará este proyecto",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('cursobtnModal')
+                await ajaxAwaitFormData( { api: 1, ID_PROJECT: ID_PROJECT }, 'cursoSave', 'coursesForm', 'cursobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
+                    document.getElementById('coursesForm').reset();
+                    loadTableCursoModal();
+                })
+            }, 1)
+
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+});
+
+
+
+
 </script>
 
 @endsection

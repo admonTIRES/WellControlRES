@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Artisan;
 use Exception;
 use DB;
+use Illuminate\Support\Carbon;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -48,16 +49,6 @@ class ProjectManagementController extends Controller
                                                <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
                                             </span>
                                         </button>';
-                $value->GESTIONAR = '<button type="button"
-                                class="btn btn-sm btn-icon btn-action1"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="Ver proyecto"
-                                onclick="window.location.href=\'' . route('projects.management', ['PROJECT_ID' => $value->ID_PROJECT]) . '\'">
-                            <span class="btn-inner">
-                               <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
-                            </span>
-                        </button>';
 
 
                 $companies = [];
@@ -232,8 +223,19 @@ class ProjectManagementController extends Controller
                     $response['code']  = 1;
                     $response['proyecto']  = $project;
                     return response()->json($response);
-                    break;
+                break;
+                    // tabla de curso
+                case 2: 
+                   foreach ($request->courses as $candidateId => $data) {
+                        $course = Course::where('ID_CANDIDATE', $candidateId)->first();
 
+                        if ($course) {
+                            $course->update($data);
+                        } else {
+                            Course::create($data);
+                        }
+                    }
+                break;
                 default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';
@@ -507,6 +509,9 @@ class ProjectManagementController extends Controller
                                 'RESUME' => $curso->RESUME,
                                 'STATUS' => $curso->STATUS,
                                 'RESIT' => $curso->RESIT,
+                                'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
+                                'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
+
                                 'MODULE_RESIT' => $curso->MODULE_RESIT,
                                 'RESIT_DATE' => $curso->RESIT_DATE,
                                 'RESIT_SCORE' => $curso->RESIT_SCORE,
@@ -572,12 +577,38 @@ class ProjectManagementController extends Controller
                 }
             }
 
+            $startDate = Carbon::parse($proyecto->COURSE_END_DATE_PROJECT);
+
+            $daysRest = 0;
+
+            if($proyecto->ACCREDITING_ENTITY_PROJECT === "1"){ //IADC
+                  $daysRest = 45;
+            } else if($proyecto->ACCREDITING_ENTITY_PROJECT === "2"){ //IWCF
+                    $daysRest = 90;
+            }
+            $endDate = $startDate->copy()->addDays($daysRest);
+
+            $diff = Carbon::today()->diffInDays($endDate, false);
+
+            if ($diff > 1) {
+                $remainingDays = $diff . ' días restantes';
+            } elseif ($diff === 1) {
+                $remainingDays = '1 día restante';
+            } else {
+                $remainingDays = 'Expirado';
+            }
+            
+            $formattedEndDate = $endDate->locale('es')->isoFormat('DD MMM YYYY');
+
             // Procesar los datos del proyecto
             $proyectoData = [
                 'LANGUAGE_PROJECT' => $this->getLanguajes($proyecto->LANGUAGE_PROJECT),
                 'ACCREDITING_ENTITY_PROJECT' => $proyecto->ACCREDITING_ENTITY_PROJECT,
                 'ACCREDITATION_LEVELS_PROJECT' => $this->getNivelesAcreditacion($proyecto->ACCREDITATION_LEVELS_PROJECT),
-                'BOP_TYPES_PROJECT' => $this->getTiposBOP($proyecto->BOP_TYPES_PROJECT)
+                'BOP_TYPES_PROJECT' => $this->getTiposBOP($proyecto->BOP_TYPES_PROJECT),
+                'COURSE_END_DATE_90' => $formattedEndDate,
+                'DAYS_REST' => $daysRest . ' días',
+                'DAYS_REMAINING' => $remainingDays
             ];
 
             return response()->json([

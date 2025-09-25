@@ -76,6 +76,12 @@ Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'project
 //-------------------------------PROJECT----------------------------------------//
 Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');
 Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
+
+    Route::prefix('projectsAdmin/details')->group(function () {
+        Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
+    });
+
+
 Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
 Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
 Route::get('/projectStudentDatatable', [ProjectManagementController::class, 'projectStudentDatatable']);

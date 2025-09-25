@@ -2810,7 +2810,7 @@ $("#cursobtnModal").click(function (e) {
                 icon: "question",
             }, async function () {
                 await loaderbtn('cursobtnModal')
-                await ajaxAwaitFormData( { api: 1, ID_PROJECT: ID_PROJECT }, 'cursoSave', 'coursesForm', 'cursobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await ajaxAwaitFormData( { api: 2, ID_PROJECT: ID_PROJECT }, 'cursoSave', 'coursesForm', 'cursobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                     Swal.fire({
                         icon: 'info',
                         title: 'Espere un momento',

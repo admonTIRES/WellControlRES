@@ -1784,13 +1784,14 @@ function loadTableCursoModal() {
                     const proyecto = response.proyecto;
                     
                     // Convertir valores booleanos a Yes/No
-                    const resitValue = curso.RESIT === true || curso.RESIT === 'true' || curso.RESIT === 'Yes' ? 'Yes' : 'No';
-                    const resitInmediatoValue = curso.RESIT_INMEDIATO === true || curso.RESIT_INMEDIATO === 'true' || curso.RESIT_INMEDIATO === 'Yes' ? 'Yes' : 'No';
-                    const resitProgramadoValue = curso.RESIT_PROGRAMADO === true || curso.RESIT_PROGRAMADO === 'true' || curso.RESIT_PROGRAMADO === 'Yes' ? 'Yes' : 'No';
+                    const resitValue = curso.RESIT === '1' || curso.RESIT === 1 || curso.RESIT === 'Yes' ? 'Yes' : 'No';
+                    const resitInmediatoValue = curso.RESIT_INMEDIATO === '1' || curso.RESIT_INMEDIATO === 1 || curso.RESIT_INMEDIATO === 'Yes' ? 'Yes' : 'No';
+                    const resitProgramadoValue = curso.RESIT_PROGRAMADO === '1' || curso.RESIT_PROGRAMADO === 1 || curso.RESIT_PROGRAMADO === 'Yes' ? 'Yes' : 'No';
 
-                    const certifiedValue = curso.CERTIFIED === true || curso.CERTIFIED === 'true' || curso.CERTIFIED === 'Yes' ? 'Yes' : 'No';
-                    const resitPassValue = curso.RESIT_PASS === true || curso.RESIT_PASS === 'true' || curso.RESIT_PASS === 'Yes' ? 'Pass' : 
-                    (curso.RESIT_PASS === false || curso.RESIT_PASS === 'false' || curso.RESIT_PASS === 'No' ? 'Unpass' : '');
+                    const certifiedValue = curso.CERTIFIED === '1' || curso.CERTIFIED === 1 || curso.CERTIFIED === 'Yes' ? 'Yes' : 'No';
+
+                    const resitInmediatoPassValue = curso.RESIT_INMEDIATO_STATUS === '1' || curso.RESIT_INMEDIATO_STATUS === 1 || curso.RESIT_INMEDIATO_STATUS === 'Yes' ? 'Pass' : (curso.RESIT_INMEDIATO_STATUS === 0 || curso.RESIT_INMEDIATO_STATUS === '0' || curso.RESIT_INMEDIATO_STATUS === 'No' ? 'Unpass' : '');
+                    const resitProgramadoPassValue = curso.RESIT_PROGRAMADO_STATUS === '1' || curso.RESIT_PROGRAMADO_STATUS === 1 || curso.RESIT_PROGRAMADO_STATUS === 'Yes' ? 'Pass' : (curso.RESIT_PROGRAMADO_STATUS === 0 || curso.RESIT_PROGRAMADO_STATUS === '0' || curso.RESIT_PROGRAMADO_STATUS === 'No' ? 'Unpass' : '');
 
                     
                     // Determinar si los campos de resit deben estar habilitados
@@ -1801,9 +1802,9 @@ function loadTableCursoModal() {
                     const certifiedDisabled = certifiedValue !== 'Yes' ? 'disabled' : '';
                     
                     // Verificar estados para colorear
-                    const practicalStatus = curso.PRACTICAL_STATUS || '';
-                    const equipamentStatus = curso.EQUIPAMENT_STATUS || '';
-                    const pypStatus = curso.PYP_STATUS || '';
+                    const practicalStatus = curso.PRACTICAL_PASS || '';
+                    const equipamentStatus = curso.EQUIPAMENT_PASS || '';
+                    const pypStatus = curso.PYP_PASS || '';
                     const finalStatus = curso.FINAL_STATUS || '';
                     
                     // Determinar clases de color
@@ -1993,8 +1994,8 @@ function loadTableCursoModal() {
                     tr += `<td>
                         <select class="table-input resit-inmediato-status ${resitInmediatoDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_INMEDIATO_STATUS]" ${resitInmediatoDisabled}>
                             <option value="">Seleccionar...</option>
-                            <option value="Pass" ${(resitPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
-                            <option value="Unpass" ${(resitPassValue === 'No') ? 'selected' : ''}>Unpass</option>
+                            <option value="Pass" ${(resitInmediatoPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
+                            <option value="Unpass" ${(resitInmediatoPassValue === 'No') ? 'selected' : ''}>Unpass</option>
                         </select>
                     </td>`;
 
@@ -2042,8 +2043,8 @@ function loadTableCursoModal() {
                     tr += `<td>
                         <select class="table-input resit-programado-status ${resitProgramadoDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_PROGRAMADO_STATUS]" ${resitProgramadoDisabled}>
                             <option value="">Seleccionar...</option>
-                            <option value="Pass" ${(resitPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
-                            <option value="Unpass" ${(resitPassValue === 'No') ? 'selected' : ''}>Unpass</option>
+                            <option value="Pass" ${(resitProgramadoPassValue === 'Yes') ? 'selected' : ''}>Pass</option>
+                            <option value="Unpass" ${(resitProgramadoPassValue === 'No') ? 'selected' : ''}>Unpass</option>
                         </select>
                     </td>`;
                     

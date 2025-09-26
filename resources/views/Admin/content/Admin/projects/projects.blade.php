@@ -344,92 +344,46 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> {{ __('Contact name:')}}</label>
-                                                        <input type="text" class="form-control" name="CONTACT_NAME_PROJEC" id="CONTACT_NAME_PROJEC"
-                                                            placeholder="Nombre del contacto" />
-                                                        <div class="error-message"> {{ __('This field is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group mb-3  mt-3">
-                                                        <label class="form-label"> {{ __('Contact number:')}}</label>
-                                                        <input type="text" class="form-control" name="CONTACT_PHONE_PROJECT" id="CONTACT_PHONE_PROJECT"
-                                                            placeholder="Número de teléfono de contacto" />
-                                                        <div class="error-message">{{ __('This field is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label"> {{ __('What type of course is it?*')
-                                                        }}</label>
+                                                  <div class="col-md-2 mt-3">
+                                                    <label class="form-label"> <strong>{{ __('What type of course is it?')}} </strong></label>
                                                     <select class="form-select" id="COURSE_TYPE_PROJECT" name="COURSE_TYPE_PROJECT">
                                                         <option value="0"> {{ __('Select...')}}</option>
                                                         <option value="1"> {{ __('Open')}}</option>
                                                         <option value="2"> {{ __('Closed')}}</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Course name: *') }}</label>
+                                                 <div class="col-md-4">
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Course name:') }}</strong></label>
                                                         <input type="text" class="form-control" name="COURSE_NAME_ES_PROJECT" id="COURSE_NAME_ES_PROJECT"
                                                             placeholder="Nombre en español" />
                                                         <div class="error-message"> {{ __('Name is required')}}</div>
                                                     </div>
                                                 </div>
-                                                @php
+                                                 @php
                                                 $yearSuffix = date('y'); // obtiene los dos últimos dígitos del año
                                                 @endphp
                                                 <div class="col-md-2">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Folio: *')}}</label>
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Folio:')}}</strong></label>
                                                         <input type="text" class="form-control" name="FOLIO_PROJECT" id="FOLIO_PROJECT"
                                                             placeholder="STE-TR{{ $yearSuffix }}-000" />
                                                         <div class="error-message">{{ __('The folio is required.')}}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Location: *')}}</label>
-                                                        <input type="text" class="form-control" name="LOCATION_PROJECT" id="LOCATION_PROJECT"
-                                                            placeholder="Lugar" />
-                                                        <div class="error-message"> {{ __('The location is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('City: *')}}</label>
-                                                        <input type="text" class="form-control" name="CITY_PROJECT" id="CITY_PROJECT"
-                                                            placeholder="Ciudad" />
-                                                        <div class="error-message"> {{ __('The city is required')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Centre number: *')}}</label>
-                                                        <input type="text" class="form-control" name="CENTER_NUMBER_PROJECT" id="CENTER_NUMBER_PROJECT"
-                                                            placeholder="Número de centro" />
-                                                        <div class="error-message"> {{ __('This field is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Registered certification centre name:')}}</label>
+                                                <div class="col-md-4">
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Registered certification centre name:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CERTIFICATION_CENTER_PROJECT" id="CERTIFICATION_CENTER_PROJECT"
                                                             placeholder="Nombre del centro certificador" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="col-12 me-1 ">
-                                                        <label> {{ __('Language: *')}}</label>
+                                                 <div class="col-md-2">
+                                                    <div class="col-12 me-1 mt-3">
+                                                        <label> <strong>{{ __('Language:')}}</strong></label>
                                                         <select class="form-select" id="LANGUAGE_PROJECT" name="LANGUAGE_PROJECT">
                                                             <option selected disabled>{{ __('Select...')}}</option>
                                                             @foreach ($idiomas as $idioma)
@@ -440,8 +394,8 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-2 text-start">
-                                                    <label> {{ __('Accrediting entity: *')}}</label>
+                                                <div class="col-md-2 text-start mt-3">
+                                                    <label> <strong>{{ __('Accrediting entity:')}}</strong></label>
                                                     <select class="form-select" id="ACCREDITING_ENTITY_PROJECT" name="ACCREDITING_ENTITY_PROJECT">
                                                         <option selected disabled>{{ __('Select...')}}</option>
                                                         @foreach ($entes as $ente)
@@ -450,8 +404,8 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2 text-start">
-                                                    <label> {{ __('Operation type: *')}}</label>
+                                                <div class="col-md-2 text-start mt-3">
+                                                    <label> <strong>{{ __('Operation type:')}} </strong></label>
                                                     <select class="form-select" id="OPERATION_TYPE_PROJECT" name="OPERATION_TYPE_PROJECT">
                                                         <option selected disabled>{{ __('Select...')}}</option>
                                                         @foreach ($operaciones as $operacion)
@@ -462,8 +416,8 @@
                                                 </div>
 
                                                 <!-- Niveles -->
-                                                <div class="col-md-3 text-start">
-                                                    <label> {{ __('Accreditation level: *')}}</label>
+                                                <div class="col-md-3 text-start mt-3">
+                                                    <label> <strong>{{ __('Accreditation level:')}}</strong></label>
                                                     <select class="form-select" id="ACCREDITATION_LEVELS_PROJECT" name="ACCREDITATION_LEVELS_PROJECT[]"
                                                         multiple>
                                                         @foreach ($niveles as $nivel)
@@ -474,8 +428,8 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-3 text-start">
-                                                    <label> {{ __('BOP: *')}}</label>
+                                                <div class="col-md-3 text-start mt-3">
+                                                    <label> <strong>{{ __('BOP:')}}</strong></label>
                                                     <select class="form-select" id="BOP_TYPES_PROJECT" name="BOP_TYPES_PROJECT[]"
                                                         multiple>
                                                         @foreach ($bops as $bop)
@@ -485,10 +439,63 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                <hr style="margin-top: 2vw;">
+                                                
+                                                 <div class="col-md-3">
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Centre number:')}}</strong></label>
+                                                        <input type="text" class="form-control" name="CENTER_NUMBER_PROJECT" id="CENTER_NUMBER_PROJECT"
+                                                            placeholder="Número de centro" />
+                                                        <div class="error-message"> {{ __('This field is required.')}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Contact name:')}}</strong></label>
+                                                        <input type="text" class="form-control" name="CONTACT_NAME_PROJEC" id="CONTACT_NAME_PROJEC"
+                                                            placeholder="Nombre del contacto" />
+                                                        <div class="error-message"> {{ __('This field is required.')}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-3  mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Contact number:')}}</strong></label>
+                                                        <input type="text" class="form-control" name="CONTACT_PHONE_PROJECT" id="CONTACT_PHONE_PROJECT"
+                                                            placeholder="Número de teléfono de contacto" />
+                                                        <div class="error-message">{{ __('This field is required.')}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                               
+                                               
+                                                <div class="col-md-5">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label"> <strong>{{ __('Location:')}}</strong></label>
+                                                        <input type="text" class="form-control" name="LOCATION_PROJECT" id="LOCATION_PROJECT"
+                                                            placeholder="Lugar" />
+                                                        <div class="error-message"> {{ __('The location is required.')}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label"> <strong>{{ __('City:')}}</strong></label>
+                                                        <input type="text" class="form-control" name="CITY_PROJECT" id="CITY_PROJECT"
+                                                            placeholder="Ciudad" />
+                                                        <div class="error-message"> {{ __('The city is required')}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                               
+                                                <hr style="margin-top: 2vw;">
 
                                                 <div class="col-md-12">
                                                     <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> {{ __('Name(s) of company(ies) *')}}</label>
+                                                        <label class="form-label"> <strong>{{ __('Name(s) of company(ies) *')}}</strong></label>
                                                         <input id="COMPANIES" name="COMPANIES" class="form-control" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
                                                         </div>
@@ -544,8 +551,8 @@
                                             </style>
                                             <div class="row g-3">
                                                 <!-- Fecha de inicio del curso -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">{{ __('Course start date: *') }}</label>
+                                                <div class="col-md-6 mb-3 mt-5">
+                                                    <label class="form-label" for="start_date"> <strong>{{ __('Course start date: *') }}</strong></label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="start_date" name="COURSE_START_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -557,10 +564,9 @@
                                                                 class="fa-solid fa-xmark"></i></a>
                                                     </div>
                                                 </div>
-
                                                 <!-- Fecha de fin del curso -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">{{ __('Course end date: *') }}</label>
+                                                <div class="col-md-6 mb-3 mt-5">
+                                                    <label class="form-label" for="end_date"><strong>{{ __('Course end date: *') }}</strong></label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="end_date" name="COURSE_END_DATE_PROJECT" class="form-control"
                                                             placeholder="Selecciona una fecha">
@@ -571,10 +577,59 @@
                                                             data-clear="end_date"><i class="fa-solid fa-xmark"></i></a>
                                                     </div>
                                                 </div>
+                                                 <hr style="margin-top: 2vw;">
+
+                                                 <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="start_date2"><strong>{{ __('Course practical exam date: *') }}</strong></label>
+                                                    <div class="flatpickr-container">
+                                                        <input type="text" id="start_date2" name="PRACTICAL_EXAM_DATE_PROJECT" class="form-control"
+                                                            placeholder="Selecciona una fecha">
+                                                        <a class="input-button" title="Abrir calendario"
+                                                            data-toggle="start_date2"><i
+                                                                class="fa-solid fa-calendar-days"></i></a>
+                                                        <a class="input-button" title="Limpiar fecha"
+                                                            data-clear="start_date2"><i
+                                                                class="fa-solid fa-xmark"></i></a>
+                                                    </div>
+                                                </div>
+                                                <!-- Fecha de fin del curso -->
+                                                <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="start_time2"><strong>{{ __('Course practical exam time: *') }}</strong></label>
+                                                    <div class="flatpickr-container">
+                                                        <input type="time" id="start_time2" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
+                                                            >
+                                                    </div>
+                                                </div>
+
+                                                 <hr style="margin-top: 2vw;">
+
+                                                <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="start_date3"><strong>{{ __('Course exam date: *') }}</strong></label>
+                                                    <div class="flatpickr-container">
+                                                        <input type="text" id="start_date3" name="EXAM_DATE_PROJECT" class="form-control"
+                                                            placeholder="Selecciona una fecha">
+                                                        <a class="input-button" title="Abrir calendario"
+                                                            data-toggle="start_date3"><i
+                                                                class="fa-solid fa-calendar-days"></i></a>
+                                                        <a class="input-button" title="Limpiar fecha"
+                                                            data-clear="start_date3"><i
+                                                                class="fa-solid fa-xmark"></i></a>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Fecha de fin del curso -->
+                                                <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="start_time3"><strong>{{ __('Course exam time: *') }}</strong></label>
+                                                    <div class="flatpickr-container">
+                                                        <input type="time" id="start_time3" name="EXAM_TIME_PROJECT"  class="form-control"
+                                                            >
+                                                    </div>
+                                                </div>
+                                                <hr style="margin-top: 2vw;">
 
                                                 <!-- Fecha y hora de inicio de membresía -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="membership_start">{{ __('Membership start date and time: *') }}</label>
+                                                <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="membership_start"><strong>{{ __('Membership start date and time: *') }}</strong></label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="membership_start" name="MEMBERSHIP_START_PROJECT" class="form-control"
                                                             placeholder="{{ __('Select date and time') }}">
@@ -586,10 +641,9 @@
                                                                 class="fa-solid fa-xmark"></i></a>
                                                     </div>
                                                 </div>
-
                                                 <!-- Fecha y hora de término de membresía -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="membership_end">{{ __('Membership end date and time: *') }}</label>
+                                                <div class="col-md-6 mb-3 mt-3">
+                                                    <label class="form-label" for="membership_end"><strong>{{ __('Membership end date and time: *') }}</strong></label>
                                                     <div class="flatpickr-container">
                                                         <input type="text" id="membership_end" name="MEMBERSHIP_END_PROJECT" class="form-control"
                                                             placeholder="{{ __('Select date and time') }}">
@@ -601,52 +655,7 @@
                                                                 class="fa-solid fa-xmark"></i></a>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">{{ __('Course exam date: *') }}</label>
-                                                    <div class="flatpickr-container">
-                                                        <input type="text" id="start_date3" name="EXAM_DATE_PROJECT" class="form-control"
-                                                            placeholder="Selecciona una fecha">
-                                                        <a class="input-button" title="Abrir calendario"
-                                                            data-toggle="start_date"><i
-                                                                class="fa-solid fa-calendar-days"></i></a>
-                                                        <a class="input-button" title="Limpiar fecha"
-                                                            data-clear="start_date"><i
-                                                                class="fa-solid fa-xmark"></i></a>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Fecha de fin del curso -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">{{ __('Course exam time: *') }}</label>
-                                                    <div class="flatpickr-container">
-                                                        <input type="time" id="start_time" name="EXAM_TIME_PROJECT"  class="form-control"
-                                                            >
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="start_date">{{ __('Course practical exam date: *') }}</label>
-                                                    <div class="flatpickr-container">
-                                                        <input type="text" id="start_date2" name="PRACTICAL_EXAM_DATE_PROJECT" class="form-control"
-                                                            placeholder="Selecciona una fecha">
-                                                        <a class="input-button" title="Abrir calendario"
-                                                            data-toggle="start_date"><i
-                                                                class="fa-solid fa-calendar-days"></i></a>
-                                                        <a class="input-button" title="Limpiar fecha"
-                                                            data-clear="start_date"><i
-                                                                class="fa-solid fa-xmark"></i></a>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Fecha de fin del curso -->
-                                                <div class="col-md-6">
-                                                    <label class="form-label" for="end_date">{{ __('Course practical exam time: *') }}</label>
-                                                    <div class="flatpickr-container">
-                                                        <input type="time" id="start_time2" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
-                                                            >
-                                                    </div>
-                                                </div>
+                                               
 
                                             </div>
                                             <script>
@@ -699,6 +708,32 @@
                                                         dateFormat: "Y-m-d",
                                                         allowInput: true,
                                                         clickOpens: true
+                                                    },
+                                                     start_date2: {
+                                                        dateFormat: "Y-m-d",
+                                                        allowInput: true,
+                                                        clickOpens: true
+                                                    },
+                                                    start_time2: {
+                                                          enableTime: true,
+                                                            noCalendar: true,
+                                                            dateFormat: "H:i", // Hora y minutos en 24h
+                                                            time_24hr: true,   // fuerza 24h
+                                                            allowInput: true,
+                                                            clickOpens: true
+                                                    },
+                                                      start_date3: {
+                                                        dateFormat: "Y-m-d",
+                                                        allowInput: true,
+                                                        clickOpens: true
+                                                    },
+                                                    start_time3: {
+                                                          enableTime: true,
+                                                            noCalendar: true,
+                                                            dateFormat: "H:i", // Hora y minutos en 24h
+                                                            time_24hr: true,   // fuerza 24h
+                                                            allowInput: true,
+                                                            clickOpens: true
                                                     },
                                                     membership_start: {
                                                         enableTime: true,

@@ -1050,6 +1050,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         isEditing = false;
     }, 1000);
 
-    $('#proyectoModal .modal-title').html(`Editar Proyecto #${row.data().ID_PROJECT}`);
+    $('#proyectoModal .modal-title').html(`Editar Proyecto ${row.data().FOLIO_PROJECT}`);
 });
 

@@ -867,6 +867,7 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
 });
 
 function limpiarModal() {
+    ID_PROJECT = 0;
     // 1. Resetear el formulario principal
     document.getElementById('proyectoForm').reset();
 

@@ -228,15 +228,17 @@ class ProjectManagementController extends Controller
                 break;
                     // tabla de curso
                 case 2: 
-                   foreach ($request->courses as $candidateId => $data) {
-                        $course = Course::where('ID_CANDIDATE', $candidateId)->first();
-
-                        if ($course) {
-                            $course->update($data);
-                        } else {
-                            Course::create($data);
-                        }
+                  $data = $request->all(); // si envías JSON, Laravel lo parsea automáticamente
+                foreach ($data['courses'] as $candidateId => $courseData) {
+                    $course = Course::where('ID_CANDIDATE', $candidateId)->first();
+                    if ($course) {
+                        $course->update($courseData);
+                    } else {
+                        Course::create($courseData);
                     }
+                }
+                $response['code'] = 1;
+                return response()->json($response);
                 break;
                 default:
                     $response['code'] = 1;

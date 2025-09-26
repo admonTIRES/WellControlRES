@@ -1926,6 +1926,7 @@ function loadTableCursoModal() {
                     
                     // Resit (Switch Yes/No)
                     tr += `<td>
+                        <input type="hidden" name="courses[${key}][RESIT]" value="0">
                         <label class="switch">
                             <input type="checkbox" class="resit-switch" name="courses[${key}][RESIT]" 
                                     ${resitValue === 'Yes' ? 'checked' : ''}>
@@ -1933,6 +1934,7 @@ function loadTableCursoModal() {
                         </label>
                     </td>`;
                         tr += `<td>
+                            
                         <select class="table-input ${resitDisabled ? 'disabled-field' : ''} resit-intentos" name="courses[${key}][INTENTOS]" ${resitDisabled}>
                             <option value="">Seleccionar...</option>
                             <option value="1">1</option>
@@ -1964,6 +1966,7 @@ function loadTableCursoModal() {
                     </td>`;
 
                         tr += `<td>
+                            <input type="hidden" name="courses[${key}][RESIT_INMEDIATO]" value="0">
                         <label class="switch">
                             <input type="checkbox" class="resit-switch-inmediato ${resitDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_INMEDIATO]" ${resitDisabled}" 
                                     ${resitInmediatoValue === 'Yes' ? 'checked' : ''}>
@@ -1997,8 +2000,9 @@ function loadTableCursoModal() {
 
                         // resit programado
                         tr += `<td>
+                            <input type="hidden" name="courses[${key}][RESIT_PROGRAMADO]" value="0">
                         <label class="switch">
-                            <input type="checkbox" class="resit-switch-programado ${resitDisabled ? 'disabled-field' : ''}" name="resit-courses[${key}][RESIT_PROGRAMADO]" ${resitDisabled}" 
+                            <input type="checkbox" class="resit-switch-programado ${resitDisabled ? 'disabled-field' : ''}" name="courses[${key}][RESIT_PROGRAMADO]" ${resitDisabled} " 
                                     ${resitProgramadoValue === 'Yes' ? 'checked' : ''}>
                             <span class="slider"></span>
                         </label>
@@ -2055,6 +2059,7 @@ function loadTableCursoModal() {
                     
                     // Certified (Switch Yes/No) 
                     tr += `<td>
+                        <input type="hidden" name="courses[${key}][HAVE_CERTIFIED]" value="0">
                         <label class="switch">
                             <input type="checkbox" class="certified-switch" name="courses[${key}][HAVE_CERTIFIED]" 
                                     ${certifiedValue === 'Yes' ? 'checked' : ''}>
@@ -2591,7 +2596,7 @@ function validateRowStatus(row) {
             if (unpassModules.length === 1) {
                 // Solo 1 módulo reprobado → activar resit automático
                 resitSwitch.prop('checked', true);
-                row.find('.module-select, .resit-intentos')
+                row.find('.module-select, .resit-intentos, .resit-switch-programado, .resit-switch-inmediato')
                     .prop('disabled', false)
                     .removeClass('disabled-field');
 
@@ -2788,47 +2793,87 @@ function saveCandidateTable() {
 
 
 
-$("#cursobtnModal").click(function (e) {
+$("#cursobtnModal").click(async function (e) {
     e.preventDefault();
-    formularioValido = validarFormulario($('#coursesForm'));
+    // Convertir todos los checkboxes a 1 o 0
+    $('#coursesForm').find('.resit-switch').each(function() {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
+
+    // Convertir todos los checkboxes a 1 o 0
+    $('#coursesForm').find('.resit-switch-inmediato').each(function() {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
+
+
+    // Convertir todos los checkboxes a 1 o 0
+    $('#coursesForm').find('.resit-switch-programado').each(function() {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
+
+    // Convertir todos los checkboxes a 1 o 0
+    $('#coursesForm').find('.certified-switch').each(function() {
+        $(this).val($(this).is(':checked') ? 1 : 0);
+    });
+
+    let formularioValido = validarFormulario($('#coursesForm'));
    
-    if (formularioValido) {
-        const formData = new FormData(document.getElementById('coursesForm'));
-        formData.append('api', 2);
-        formData.append('ID_PROJECT', ID_PROJECT);
-
-          const dataToSend = {
-            api: 2,
-            ID_PROJECT: ID_PROJECT,
-            formData: formData
-        };
-
-        console.log('Datos a enviar:', [...formData.entries()]);
-            alertMensajeConfirm({
-                title: "¿Desea guardar la información?",
-                text: "Se creará este proyecto",
-                icon: "question",
-            }, async function () {
-                await loaderbtn('cursobtnModal')
-                await ajaxAwaitFormData( { api: 2, ID_PROJECT: ID_PROJECT }, 'cursoSave', 'coursesForm', 'cursobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Espere un momento',
-                        text: 'Estamos guardando la información',
-                        showConfirmButton: false
-                    })
-                    $('.swal2-popup').addClass('ld ld-breath')
-                }, function (data) {
-                    alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
-                    document.getElementById('coursesForm').reset();
-                    loadTableCursoModal();
-                })
-            }, 1)
-
-    } else {
-        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    if (!formularioValido) {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000);
+        return;
     }
+
+    alertMensajeConfirm({
+        title: "¿Desea guardar la información?",
+        text: "Se creará este proyecto",
+        icon: "question",
+    }, async function () {
+
+        await loaderbtn('cursobtnModal');
+
+        // --- Preparar dataToSend ---
+        const formDataArray = $('#coursesForm').serializeArray();
+        const dataToSend = { api: 2, ID_PROJECT: ID_PROJECT };
+
+        formDataArray.forEach(item => {
+            const match = item.name.match(/^courses\[(\d+)\]\[(\w+)\]$/);
+            if (match) {
+                const candidateId = match[1];
+                const key = match[2];
+                dataToSend[`courses[${candidateId}][${key}]`] = item.value;
+            } else {
+                dataToSend[item.name] = item.value;
+            }
+        });
+
+        console.log('Datos a enviar:', dataToSend);
+
+        // --- Llamar a ajaxAwaitFormData ---
+        await ajaxAwaitFormData(
+            dataToSend,
+            'cursoSave',          // URL del controlador
+            'coursesForm',        // ID del form
+            'cursobtnModal',      // ID del botón
+            { callbackAfter: true, callbackBefore: true }, // config
+            () => {               // callbackBefore
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Espere un momento',
+                    text: 'Estamos guardando la información',
+                    showConfirmButton: false,
+                });
+                $('.swal2-popup').addClass('ld ld-breath');
+            },
+            (data) => {           // callbackSuccess
+                Swal.close(); // cerrar loader de SweetAlert
+                alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500);
+                document.getElementById('coursesForm').reset();
+                loadTableCursoModal();
+            }
+        );
+    });
 });
+
 
 
 

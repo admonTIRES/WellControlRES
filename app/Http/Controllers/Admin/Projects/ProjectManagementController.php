@@ -111,6 +111,8 @@ class ProjectManagementController extends Controller
 
 
                                 $existingUser = DB::table('users')->where('email', $email)->first();
+
+                                
                                 if ($existingUser && (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT'])) {
                                     return response()->json([
                                         'error' => true,
@@ -138,9 +140,9 @@ class ProjectManagementController extends Controller
                                         DB::table('candidate')
                                             ->where('EMAIL_PROJECT', $email)
                                             ->update([
-                                                'ID_PROJECT' => $estudiante['USER_ID_PROJECT'] ?? null,
+                                                'ID_PROJECT' => $request->input('ID_PROJECT', null),
                                                 'COMPANY_PROJECT' => $empresa['NAME_PROJECT'] ?? '',
-                                                'COMPANY_ID_PROJECT' => $empresa['ID_PROJECT'] ?? null,
+                                                'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
                                                 'CR_PROJECT' => $estudiante['CR_PROJECT'] ?? '',
                                                 'LAST_NAME_PROJECT' => $lastName,
                                                 'FIRST_NAME_PROJECT' => $firstName,
@@ -156,9 +158,9 @@ class ProjectManagementController extends Controller
                                             ]);
                                     } else {
                                         $candidateId = DB::table('candidate')->insertGetId([
-                                            'ID_PROJECT' => $estudiante['ID_PROJECT'] ?? null,
+                                            'ID_PROJECT' => $request->input('ID_PROJECT', null),
                                             'COMPANY_PROJECT' => $empresa['NAME_PROJECT'] ?? '',
-                                            'COMPANY_ID_PROJECT' => $empresa['ID_PROJECT'] ?? null,
+                                            'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
                                             'CR_PROJECT' => $estudiante['CR_PROJECT'] ?? '',
                                             'LAST_NAME_PROJECT' => $lastName,
                                             'FIRST_NAME_PROJECT' => $firstName,

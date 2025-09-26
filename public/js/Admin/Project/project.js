@@ -493,7 +493,7 @@ class WizardManager {
                 }
 
                 this.students[empresaId] = students.map((student, index) => ({
-                    id: index + 1,
+                    id: ID_PROJECT,
                     empresa: empresaName,
                     cr: student.CR_PROJECT || '',
                     lastName: student.LAST_NAME_PROJECT || '',
@@ -773,7 +773,7 @@ class WizardManager {
                     
                     if (row) {
                         empresaObj.STUDENTS_PROJECT.push({
-                            ID_PROJECT: student.id.toString(),
+                            ID_PROJECT: ID_PROJECT,
                             COMPANY_PROJECT: student.empresa,
                             CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
                             LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',

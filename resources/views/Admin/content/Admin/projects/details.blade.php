@@ -2776,7 +2776,7 @@ function saveCandidateTable() {
     });
 
     $.ajax({
-        url: '/saveCandidateTable', // Cambia por tu ruta de guardado en Laravel
+        url: '/saveCandidateTable',
         method: 'POST',
         data: { data: tableData, _token: '{{ csrf_token() }}' },
         success: function(response){

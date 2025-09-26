@@ -94,7 +94,7 @@
                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                 <h4 class="card-title mb-0">{{ __('Projects list') }}</h4>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#proyectoModal">
+                                    data-bs-target="#proyectoModal" onclick="limpiarModal()">
                                     {{ __('New Project') }}
                                 </button>
                             </div>
@@ -379,14 +379,6 @@
                                                         <div class="error-message"> {{ __('Name is required')}}</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="form-group mb-3">
-                                                        <label class="form-label"> {{ __('Course name: *') }}</label>
-                                                        <input type="text" class="form-control" name="COURSE_NAME_EN_PROJECT" id="COURSE_NAME_EN_PROJECT"
-                                                            placeholder="Nombre en inglés" />
-                                                        <div class="error-message"> {{ __('Name is required')}}</div>
-                                                    </div>
-                                                </div>
                                                 @php
                                                 $yearSuffix = date('y'); // obtiene los dos últimos dígitos del año
                                                 @endphp
@@ -629,7 +621,7 @@
                                                     <label class="form-label" for="end_date">{{ __('Course exam time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="time" id="start_time" name="EXAM_TIME_PROJECT"  class="form-control"
-                                                            required>
+                                                            >
                                                     </div>
                                                 </div>
 
@@ -652,7 +644,7 @@
                                                     <label class="form-label" for="end_date">{{ __('Course practical exam time: *') }}</label>
                                                     <div class="flatpickr-container">
                                                         <input type="time" id="start_time2" name="PRACTICAL_EXAM_TIME_PROJECT" class="form-control"
-                                                            required>
+                                                            >
                                                     </div>
                                                 </div>
 

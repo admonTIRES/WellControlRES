@@ -97,6 +97,60 @@ class WizardManager {
     init() {
         this.bindEvents();
         this.updateProgressBar();
+        this.renderDestroyButton();
+    }
+
+    // Crear botón de destrucción solo en paso 1
+    renderDestroyButton() {
+        const container = document.getElementById('wizardDestroyContainer');
+        if (!container) return;
+
+        container.innerHTML = `
+            <button type="button" class="btn btn-danger" id="destroyWizardBtn">
+                Reiniciar Formulario
+            </button>
+        `;
+
+        document.getElementById('destroyWizardBtn').addEventListener('click', () => {
+            if (confirm('¿Deseas reiniciar todo el formulario?')) {
+                this.destroyWizard();
+            }
+        });
+    }
+
+    // Método para destruir y limpiar el wizard
+    destroyWizard() {
+        // Limpiar todos los datos
+        this.formData = {};
+        this.students = [];
+        this.empresas = [];
+
+        // Reset del formulario
+        const form = document.getElementById('wizardForm');
+        if (form) form.reset();
+
+        // Limpiar previews
+        const photoPreview = document.getElementById('photoPreview');
+        if (photoPreview) photoPreview.innerHTML = '';
+        const signaturePreview = document.getElementById('signaturePreview');
+        if (signaturePreview) signaturePreview.innerHTML = '';
+
+        // Limpiar contenedores de estudiantes y empresas
+        const studentsContainers = document.querySelectorAll('[id^="studentsContainer_"]');
+        studentsContainers.forEach(c => c.style.display = 'none');
+        const studentsTables = document.querySelectorAll('[id^="studentsTableBody_"]');
+        studentsTables.forEach(t => t.innerHTML = '');
+        const empresasContainer = document.getElementById('empresasContainer');
+        if (empresasContainer) empresasContainer.innerHTML = '';
+
+        // Limpiar errores
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            this.clearError(input);
+        });
+
+        // Volver al paso 1
+        this.currentStep = 1;
+        this.updateWizard();
     }
 
     bindEvents() {
@@ -254,7 +308,7 @@ class WizardManager {
             this.renderEmpresasSections();
         }
 
-         const saveBtn = document.getElementById('saveProject');
+        const saveBtn = document.getElementById('proyectobtnModal');
         if (this.currentStep === this.totalSteps) {
             saveBtn.style.display = 'inline-block';
         } else {
@@ -812,6 +866,41 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
 
 });
 
+function limpiarModal() {
+    // 1. Resetear el formulario principal
+    document.getElementById('proyectoForm').reset();
+
+    // 2. Limpiar Tagify
+    if (tagify) {
+        tagify.removeAllTags();
+        if (tagifyChangeHandler) {
+            tagify.off('change', tagifyChangeHandler);
+            tagifyChangeHandler = null;
+        }
+    }
+
+    // 3. Limpiar Selectize
+    ['ACCREDITATION_LEVELS_PROJECT', 'BOP_TYPES_PROJECT'].forEach(fieldId => {
+        const $select = $('#' + fieldId);
+        if ($select[0].selectize) {
+            $select[0].selectize.clear();
+        } else {
+            $select.selectize({
+                plugins: ['remove_button'],
+                delimiter: ',',
+                persist: false,
+                create: false
+            });
+        }
+    });
+
+    window.wizard = new WizardManager();
+    window.wizard.empresas =  [];
+    window.wizard.destroyWizard();
+   
+}
+
+
 $("#proyectobtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#proyectoForm'))
@@ -899,11 +988,12 @@ $("#proyectobtnModal").click(function (e) {
 
 $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
      isEditing = true; 
+    window.wizard = new WizardManager();
+    window.wizard.destroyWizard();
+
     var tr = $(this).closest('tr');
     var row = proyectoDatatable.row(tr);
     ID_PROJECT = row.data().ID_PROJECT;
-
-
     editarDatoTabla(row.data(), 'proyectoForm', 'proyectoModal', 1);
 
     
@@ -941,6 +1031,7 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
     tagify.removeAllTags();
     tagify.addTags(row.data().COMPANIES);
 
+   
     if (row.data().COMPANIES_PROJECT) {
         const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ? 
             row.data().COMPANIES_PROJECT : 

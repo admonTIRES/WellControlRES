@@ -651,40 +651,71 @@
                                             </div>
                                             <script>
 
+                                                // const configs = {
+                                                //     start_date: {
+                                                //         dateFormat: "Y-m-d",
+                                                //         defaultDate: "today",
+                                                //         minDate: "today",
+                                                //         allowInput: true,
+                                                //         clickOpens: true
+                                                //     },
+                                                //     end_date: {
+                                                //         dateFormat: "Y-m-d",
+                                                //         defaultDate: "today",
+                                                //         minDate: "today",
+                                                //         allowInput: true,
+                                                //         clickOpens: true
+                                                //     },
+                                                //     membership_start: {
+                                                //         enableTime: true,
+                                                //         dateFormat: "Y-m-d H:i",
+                                                //         defaultDate: new Date(),
+                                                //         minDate: new Date(),
+                                                //         allowInput: true,
+                                                //         clickOpens: true
+                                                //     },
+                                                //     membership_end: {
+                                                //         enableTime: true,
+                                                //         dateFormat: "Y-m-d H:i",
+                                                //         defaultDate: new Date(),
+                                                //         minDate: new Date(),
+                                                //         allowInput: true,
+                                                //         clickOpens: true
+                                                //     }
+                                                // };
+
+                                                
+
+                                                // const pickers = {};
+
+
                                                 const configs = {
                                                     start_date: {
                                                         dateFormat: "Y-m-d",
-                                                        defaultDate: "today",
-                                                        minDate: "today",
                                                         allowInput: true,
                                                         clickOpens: true
                                                     },
                                                     end_date: {
                                                         dateFormat: "Y-m-d",
-                                                        defaultDate: "today",
-                                                        minDate: "today",
                                                         allowInput: true,
                                                         clickOpens: true
                                                     },
                                                     membership_start: {
                                                         enableTime: true,
                                                         dateFormat: "Y-m-d H:i",
-                                                        defaultDate: new Date(),
-                                                        minDate: new Date(),
                                                         allowInput: true,
                                                         clickOpens: true
                                                     },
                                                     membership_end: {
                                                         enableTime: true,
                                                         dateFormat: "Y-m-d H:i",
-                                                        defaultDate: new Date(),
-                                                        minDate: new Date(),
                                                         allowInput: true,
                                                         clickOpens: true
                                                     }
                                                 };
-
+1
                                                 const pickers = {};
+
 
                                                 for (const id in configs) {
                                                     pickers[id] = flatpickr(`#${id}`, configs[id]);

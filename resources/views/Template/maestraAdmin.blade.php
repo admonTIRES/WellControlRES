@@ -482,9 +482,12 @@ use Illuminate\Support\Str;
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-exercise" data-bs-parent="#sidebar-parent">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" aria-current="page"
-                                    href="{{ route('math') }}">
+                                {{-- <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" aria-current="page"
+                                    href="{{ route('math') }}"> --}}
 
+                                    <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" 
+                                        href="#" 
+                                        onclick="alertaDesarrollo(event)">
                                     <i class="icon">
                                         <svg width="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -875,7 +878,7 @@ use Illuminate\Support\Str;
     <!-- Select opcion selectize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
-    <script src="/js/Admin/admin.js?v=1.2"></script>
+    <script src="/js/Admin/admin.js?v=1.3"></script>
     @if(request()->is('catalogs'))
     <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.0"></script>
     @endif

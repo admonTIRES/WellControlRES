@@ -409,7 +409,21 @@ function alertMensaje1(icon = 'success', title = '¡Completado!', text = 'Datos 
     
   });
 }
-
+function alertaDesarrollo(e) {
+    e.preventDefault(); // evita que el enlace haga scroll o navegue
+    Swal.fire({
+        title: '🚧 Estamos trabajando en ello',
+        html: `<p style="font-size:16px; margin-top:10px;">
+                Esta funcionalidad se encuentra en desarrollo.<br>
+                Muy pronto estará disponible. 🙌
+               </p>`,
+        icon: 'info',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    });
+}
 
 function configAjaxAwait(config) {
     //valores por defecto de la funcion ajaxAwait y ajaxAwaitFormData

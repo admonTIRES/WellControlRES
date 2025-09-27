@@ -505,7 +505,7 @@ class WizardManager {
                     membresia: student.MEMBERSHIP_PROJECT || '',
                     email: student.EMAIL_PROJECT || '',
                     password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-                    USER_ID_PROJECT: student.USER_ID_PROJECT || 0
+                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
                 }));
 
                 this.renderStudentsTableForEmpresa(empresaId);

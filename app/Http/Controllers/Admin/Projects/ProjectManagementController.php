@@ -109,7 +109,6 @@ class ProjectManagementController extends Controller
                                 $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
                                 $username = $initials . $lastWord . rand(100, 999);
 
-
                                 $existingUser = DB::table('users')->where('email', $email)->first();
 
                                 

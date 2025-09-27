@@ -11,8 +11,17 @@
                         <div class="card-body">                                                                                                                                                                                  
                             <div class="d-md-flex align-items-start">
                                 <div class="nav flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                    <p class="mt-3 mb-2">{{ __('Accreditation') }}</p>
+                                     <p class="mt-3 mb-2">{{ __('Generalities') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5 active"
+                                        id="v-pills-nombres-tab"
+                                        data-topic="nombres"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-nombres"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-nombres"
+                                        aria-selected="false">{{ __('Project names') }}</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
                                         id="v-pills-acreditadores-tab"
                                         data-topic="entes-acreditadores"
                                         data-bs-toggle="pill"
@@ -39,6 +48,15 @@
                                         role="tab"
                                         aria-controls="v-pills-bop"
                                         aria-selected="false">{{ __('Types of BOP') }}</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-operacion-tab"
+                                        data-topic="operacion"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-operacion"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-operacion"
+                                        aria-selected="false">{{ __('Operation type') }}</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">{{ __('Questions') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
@@ -82,19 +100,33 @@
                                         aria-controls="v-pills-membresias"
                                         aria-selected="false">{{ __('Memberships') }}</button>
                                          <hr class="hr-horizontal mt-4 mb-2">
-                                    <p class=" mt-3 mb-2"> {{ __('Operation type') }}</p>
+                                    <p class="mt-3 mb-2">{{ __('Instructors') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
-                                        id="v-pills-operacion-tab"
-                                        data-topic="operacion"
+                                        id="v-pills-instructores-tab"
+                                        data-topic="instructores"
                                         data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-operacion"
+                                        data-bs-target="#v-pills-instructores"
                                         type="button"
                                         role="tab"
-                                        aria-controls="v-pills-operacion"
-                                        aria-selected="false">{{ __('Operation type') }}</button>
+                                        aria-controls="v-pills-instructores"
+                                        aria-selected="false">{{ __('Instructors') }}</button>
                                 </div>
                                 <div class="tab-content pt-md-0 flex-grow-1" id="v-pills-tabContent">
-                                    <div class="tab-pane fade show active" id="v-pills-acreditadores" role="tabpanel" aria-labelledby="v-pills-acreditadores-tab">
+                                      <div class="tab-pane fade show active" id="v-pills-nombres" role="tabpanel" aria-labelledby="v-pills-nombres-tab">
+                                        <div class="w-100 h-100">
+                                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Catalog of project names') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nombresModal">
+                                                    {{ __('New project name') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="nombres-list-table" class="table  " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show" id="v-pills-acreditadores" role="tabpanel" aria-labelledby="v-pills-acreditadores-tab">
                                         <div class="w-100 h-100">
                                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                                 <h4 class="card-title mb-0"> {{ __('Catalog of accrediting entities') }}</h4> 
@@ -202,6 +234,20 @@
                                             </div>
                                             <div class="table-container">
                                                 <table id="operacion-list-table" class="table " role="grid">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-instructores" role="tabpanel" aria-labelledby="v-pills-instructores-tab">
+                                        <div class="w-100 h-100">
+                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Instructors catalog') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#instructoresModal">
+                                                     {{ __('New instructor') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="instructores-list-table" class="table " role="grid">
                                                 </table>
                                             </div>
                                         </div>
@@ -441,7 +487,7 @@
         </div>
     </div>
 
-     <div class="modal fade" id="operacionModal" tabindex="-1" aria-labelledby="operacionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="operacionModal" tabindex="-1" aria-labelledby="operacionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -462,6 +508,89 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button id="operacionbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="instructoresModalLabel">{{ __('Instructors') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="instructoresForm" method="post"  enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <div class="row">
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('First name') }}</label>
+                                    <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label"> {{ __('Middle name') }}</label>
+                                    <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="NOMBRE_OPERACION">
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label"> {{ __('Family or last name') }}</label>
+                                    <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label"> {{ __('Mail') }}</label>
+                                    <input type="text" class="form-control" name="MAIL_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label"> {{ __('Phone number') }}</label>
+                                    <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="NOMBRE_OPERACION">
+                                    <input type="text" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="NOMBRE_OPERACION">
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label"> {{ __('Accreditation type') }}</label>
+                                    <input type="text" class="form-control" name="ACREDITACION_INSTRUCTOR" id="ACREDITACION_INSTRUCTOR" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Expiration') }}</label>
+                                    <input type="text" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR" >
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Document') }}</label>
+                                    <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR" >
+                                </div>
+                                <div class="mb-3" id="vigenciaInstructor">
+                                </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="instructoresbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="nombresModal" tabindex="-1" aria-labelledby="nombresModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nombresModalLabel">{{ __('Project name') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="nombresForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                        <div class="row">
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Project name') }}</label>
+                                    <input type="text" class="form-control" name="NOMBRE_PROJECT" id="NOMBRE_PROJECT" required>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="nombresbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>

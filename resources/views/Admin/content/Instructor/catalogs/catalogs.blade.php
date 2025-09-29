@@ -583,7 +583,7 @@
                         <div class="row">
                                 <div class="mb-3">
                                     <label class="form-label"> {{ __('Project name') }}</label>
-                                    <input type="text" class="form-control" name="NOMBRE_PROJECT" id="NOMBRE_PROJECT" required>
+                                    <input type="text" class="form-control" name="NOMBRE_PROYECTO" id="NOMBRE_PROYECTO" required>
                                 </div>
                         </div>
                     </form>

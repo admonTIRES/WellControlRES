@@ -77,10 +77,9 @@ Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'project
 Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');
 Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
-    Route::prefix('projectsAdmin/details')->group(function () {
-        Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
-    });
-
+Route::prefix('projectsAdmin/details')->group(function () {
+    Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
+});
 
 Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
 Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
@@ -128,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
         $id = $request->get('id', 'default-id');
         return view('Admin.content.Instructor.exercises.killsheetsComponents.IADC.vertical.Surface.spanish', ['id' => $id]);
     })->name('get.iadc.content');
-    });
+});
 // ----------------------------CATALOGS--------------------------------------- //
 Route::middleware(['auth'])->group(function () {
     Route::get('/catalogs', [adminController::class, 'catalogs'])->name('catalogs');
@@ -163,6 +162,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/operacionDatatable', [CatalogsController::class, 'operacionDatatable']);
     Route::post('/operacionSave', [CatalogsController::class, 'store']);
     Route::get('/operacionActive', [CatalogsController::class, 'store']);
+
+    Route::get('/nombresDatatable', [CatalogsController::class, 'nombresDatatable']);
+    Route::post('/nombresProyectosSave', [CatalogsController::class, 'store']);
+    Route::get('/nombresProyectosActive', [CatalogsController::class, 'store']);
+
+    Route::get('/instructoresDatatable', [CatalogsController::class, 'instructoresDatatable']);
+    Route::post('/instructorSave', [CatalogsController::class, 'store']);
+    Route::get('/instructorActive', [CatalogsController::class, 'store']);
 });
 
 

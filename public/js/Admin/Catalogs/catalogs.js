@@ -7,6 +7,8 @@ ID_CATALOGO_SUBTEMA = 0
 ID_CATALOGO_IDIOMAEXAMEN = 0
 ID_CATALOGO_MEMBRESIA = 0
 ID_CATALOGO_OPERACION = 0
+ID_CATALOGO_INSTRUCTOR = 0
+ID_CATALOGO_NPROYECTOS = 0
 
 
 $(document).ready(function () {
@@ -58,6 +60,18 @@ $(document).ready(function () {
         $('#operacionForm')[0].reset();
         $('#operacionModal .modal-title').text('Nuevo tipo de operacion');
     });
+
+    $('#instructoresModal').on('hidden.bs.modal', function () {
+        ID_CATALOGO_INSTRUCTOR = 0;
+        $('#instructoresForm')[0].reset();
+        $('#instructoresModal .modal-title').text('Nuevo instructor');
+    });
+
+    $('#nombresModal').on('hidden.bs.modal', function () {
+        ID_CATALOGO_NPROYECTOS = 0;
+        $('#nombresForm')[0].reset();
+        $('#nombresModal .modal-title').text('Nuevo nombre de proyecto');
+    });
     // RESET MODALS - END
 
     //SELECTIZED
@@ -86,6 +100,19 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance2 = $select2[0].selectize;
+
+    var $select3 = $('#ACREDITACION_INSTRUCTOR').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance3 = $select3[0].selectize;
 
     
  
@@ -521,6 +548,114 @@ var operacionDatatable = $("#operacion-list-table").DataTable({
         { targets: 3, title: 'Activo', className: 'text-center' }
     ]
 });
+var instructoresDatatable = $("#instructores-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/instructoresDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            instructoresDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_INSTRUCTOR' },
+        { data: 'CERTIFICACIONES_INSTRUCTOR' },
+        { data: 'VIGENCIA' },
+        { data: 'BTN_ACCESO' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Instructor', className: 'text-center' },
+        { targets: 2, title: 'Tipo de acreditación', className: 'text-center' },
+        { targets: 3, title: 'Vigencia', className: 'text-center' },
+        { targets: 4, title: 'Acceso', className: 'text-center' },
+        { targets: 5, title: 'Editar', className: 'text-center' },
+        { targets: 6, title: 'Activo', className: 'text-center' }
+    ]
+});
+var nombresDatatable = $("#nombres-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/nombresDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            nombresDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_PROYECTO' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Nombre de proyecto', className: 'text-center' },
+        { targets: 2, title: 'Editar', className: 'text-center' },
+        { targets: 3, title: 'Activo', className: 'text-center' }
+    ]
+});
 
 //REDIBUJAR LAS TABLAS
 $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
@@ -540,6 +675,10 @@ $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
         membresiasDatatable.columns.adjust().draw();
     } else if (target === "#v-pills-operacion") {
         operacionDatatable.columns.adjust().draw();
+    }else if (target === "#v-pills-instructores") {
+        instructoresDatatable.columns.adjust().draw();
+    }else if (target === "#v-pills-nombres") {
+        nombresDatatable.columns.adjust().draw();
     }
 });
 document.querySelectorAll('#v-pills-tab .nav-link').forEach(pill => {
@@ -1036,6 +1175,122 @@ $("#operacionbtnModal").click(function (e) {
     }
 })
 
+$("#instructoresbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#instructoresForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_INSTRUCTOR == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El instructor se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('instructoresbtnModal')
+                await ajaxAwaitFormData({ api: 9, ID_CATALOGO_INSTRUCTOR }, 'instructorSave', 'instructoresForm', 'instructoresbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_INSTRUCTOR = data.instructor.ID_CATALOGO_INSTRUCTOR
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#instructoresModal').modal('hide')
+                    document.getElementById('instructoresForm').reset()
+                    instructoresDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('instructoresbtnModal')
+                await ajaxAwaitFormData({ api: 9, ID_CATALOGO_INSTRUCTOR }, 'instructorSave', 'instructoresForm', 'instructoresbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_INSTRUCTOR = data.instructor.ID_CATALOGO_INSTRUCTOR
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#instructoresModal').modal('hide')
+                        document.getElementById('instructoresForm').reset()
+                        instructoresDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#nombresbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#nombresForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_NPROYECTOS == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El nombre se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('nombresbtnModal')
+                await ajaxAwaitFormData({ api: 10, ID_CATALOGO_NPROYECTOS }, 'nombresProyectosSave', 'nombresForm', 'nombresbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_NPROYECTOS = data.nombres.ID_CATALOGO_NPROYECTOS
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#nombresModal').modal('hide')
+                    document.getElementById('nombresForm').reset()
+                    nombresDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('nombresbtnModal')
+                await ajaxAwaitFormData({ api: 10, ID_CATALOGO_NPROYECTOS }, 'nombresProyectosSave', 'nombresForm', 'nombresbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_NPROYECTOS = data.nombres.ID_CATALOGO_NPROYECTOS
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#nombresModal').modal('hide')
+                        document.getElementById('nombresForm').reset()
+                        nombresDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
 
 
 // activar - desactivar 
@@ -1149,6 +1404,34 @@ $('#operacion-list-table tbody').on('change', 'input.ACTIVAR', function () {
     };
 
     eliminarDatoTabla(data, [operacionDatatable], 'operacionActive');
+});
+
+$('#nombres-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = nombresDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 10,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_NPROYECTOS: row.data().ID_CATALOGO_NPROYECTOS
+    };
+
+    eliminarDatoTabla(data, [nombresDatatable], 'nombresProyectosActive');
+});
+
+$('#instructores-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = instructoresDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 9,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_INSTRUCTOR: row.data().ID_CATALOGO_INSTRUCTOR
+    };
+
+    eliminarDatoTabla(data, [instructoresDatatable], 'instructorActive');
 });
 
 
@@ -1269,6 +1552,28 @@ $('#operacion-list-table tbody').on('click', 'td>button.EDITAR', function () {
     editarDatoTabla(row.data(), 'operacionForm', 'operacionModal', 1);
 
     $('#operacionModal .modal-title').html(row.data().NOMBRE_OPERACION);
+
+});
+
+$('#nombres-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = nombresDatatable.row(tr);
+    ID_CATALOGO_NPROYECTOS = row.data().ID_CATALOGO_NPROYECTOS;
+
+    editarDatoTabla(row.data(), 'nombresForm', 'nombresModal', 1);
+
+    $('#nombresModal .modal-title').html(row.data().NOMBRE_PROYECTO);
+
+});
+
+$('#operacion-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = instructoresDatatable.row(tr);
+    ID_CATALOGO_INSTRUCTOR = row.data().ID_CATALOGO_INSTRUCTOR;
+
+    editarDatoTabla(row.data(), 'instructoresForm', 'instructoresModal', 1);
+
+    $('#instructoresModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 
 });
 

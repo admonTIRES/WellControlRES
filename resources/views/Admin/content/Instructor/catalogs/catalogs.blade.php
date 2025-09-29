@@ -414,6 +414,7 @@
                                                 <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
                                             @endforeach
                                         </select>
+                                        
                                 </div>
                         </div>
                     </form>
@@ -512,7 +513,7 @@
         </div>
     </div>
 
-     <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
+     {{-- <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -523,40 +524,144 @@
                     <form id="instructoresForm" method="post"  enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="row">
-                            <div class="mb-3">
-                                <label class="form-label"> {{ __('First name') }}</label>
-                                <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('First name') }}</label>
+                                    <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="FNAME_INSTRUCTOR" required>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Middle name') }}</label>
+                                    <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="MDNAME_INSTRUCTOR">
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('Family or last name') }}</label>
+                                    <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="LSNAME_INSTRUCTOR" required>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('Mail') }}</label>
+                                    <input type="email" class="form-control" name="MAIL_INSTRUCTOR" id="MAIL_INSTRUCTOR" required>
+                                </div>
                             </div>
+                            
+                            <!-- Columna 2 -->
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Phone number') }}</label>
+                                    <div class="phone-group">
+                                        <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
+                                        <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                     <label>{{ __('Accreditation type') }}</label>
+                                    <select class="form-select" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR" required>
+                                        @foreach ($temas as $tema)
+                                            <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="mb-3">
-                                <label class="form-label"> {{ __('Middle name') }}</label>
-                                <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="NOMBRE_OPERACION">
+                                   
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Expiration') }}</label>
+                                    <input type="date" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR">
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Document') }}</label>
+                                    <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR">
+                                </div>
+                                
+                                <div class="form-section" id="vigenciaInstructor">
+                                    <!-- Espacio para contenido adicional -->
+                                </div>
                             </div>
-                                <div class="mb-3">
-                                <label class="form-label"> {{ __('Family or last name') }}</label>
-                                <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="instructoresbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+      <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="instructoresModalLabel">{{ __('Instructors') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="instructoresForm" method="post" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <div class="row">
+                            <!-- Columna 1 -->
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('First name') }}</label>
+                                    <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="FNAME_INSTRUCTOR" required>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Middle name') }}</label>
+                                    <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="MDNAME_INSTRUCTOR">
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('Family or last name') }}</label>
+                                    <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="LSNAME_INSTRUCTOR" required>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('Mail') }}</label>
+                                    <input type="email" class="form-control" name="MAIL_INSTRUCTOR" id="MAIL_INSTRUCTOR" required>
+                                </div>
                             </div>
-                                <div class="mb-3">
-                                <label class="form-label"> {{ __('Mail') }}</label>
-                                <input type="text" class="form-control" name="MAIL_INSTRUCTOR" id="NOMBRE_OPERACION" required>
-                            </div>
-                                <div class="mb-3">
-                                <label class="form-label"> {{ __('Phone number') }}</label>
-                                <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="NOMBRE_OPERACION">
-                                <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="NOMBRE_OPERACION">
-                            </div>
-                                <div class="mb-3">
-                                <label class="form-label"> {{ __('Accreditation type') }}</label>
-                                <input type="text" class="form-control" name="ACREDITACION_INSTRUCTOR" id="ACREDITACION_INSTRUCTOR" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label"> {{ __('Expiration') }}</label>
-                                <input type="text" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR" >
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label"> {{ __('Document') }}</label>
-                                <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR" >
-                            </div>
-                            <div class="mb-3" id="vigenciaInstructor">
+                            
+                            <!-- Columna 2 -->
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Phone number') }}</label>
+                                    <div class="phone-group">
+                                        <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
+                                        <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label>
+                                    <select class="form-select selectize-multiple" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR[]" multiple>
+                                        @foreach ($entes as $ente)
+                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Expiration') }}</label>
+                                    <input type="date" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR">
+                                </div>
+                                
+                                <div class="form-section">
+                                     <label class="form-label">{{ __('Document') }}</label>
+                                    <input type="file" class="form-control" id="DOC_INSTRUCTOR" name="DOC_INSTRUCTOR" accept=".pdf" style="width: auto; flex: 1;" >
+                                    <button type="button" class="btn btn-light btn-sm ms-2" id="quitar-doc" style="display:none;"> {{ __('Quit') }}</button>
+                                </div>
+                                <div id="err-message" class="text-danger" style="display:none;">{{ __('Please, upload a pdf file') }} </div>
+                                
+                                <div class="form-section" id="vigenciaInstructor">
+                                    <!-- Espacio para contenido adicional -->
+                                </div>
                             </div>
                         </div>
                     </form>

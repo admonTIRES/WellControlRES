@@ -112,10 +112,35 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance3 = $select3[0].selectize;
+    var selectizeInstance3 = $select3[0].selectize; 
 
-    
- 
+    var documentInstructor = document.getElementById('DOC_INSTRUCTOR');
+    if (documentInstructor) {
+        documentInstructor.addEventListener('change', function() {
+            var archivo = this.files[0];
+            var errorElement = document.getElementById('err-message');
+            var quitarDoc = document.getElementById('quitar-doc');
+            if (archivo && archivo.type === 'application/pdf') {
+                if (errorElement) errorElement.style.display = 'none';
+                if (quitarDoc) quitarDoc.style.display = 'block';
+            } else {
+                if (errorElement) errorElement.style.display = 'block';
+                this.value = '';
+                if (quitarDoc) quitarDoc.style.display = 'none';
+            }
+        });
+    }
+
+    var quitarDoc = document.getElementById('quitar-doc');
+    if (quitarDoc) {
+        quitarDoc.addEventListener('click', function() {
+            var documentInstructor = document.getElementById('DOC_INSTRUCTOR');
+            var errorElement = document.getElementById('err-message');
+            if (documentInstructor) documentInstructor.value = '';
+            if (errorElement) errorElement.style.display = 'none';
+            this.style.display = 'none';
+        });
+    }
 });
 
 

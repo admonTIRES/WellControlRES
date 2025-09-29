@@ -1624,5 +1624,8 @@
     "Phone number":"Número de teléfono",
     "Accreditation type":"Tipo de acreditación",
     "Document":"Documento",
-    "Validity":"Vigencia"
+    "Validity":"Vigencia",
+    "Please, upload a pdf file":"Por favor, sube un archivo PDF",
+    "Quit":"Quitar archivo",
+    "Phone":"Teléfono"
 }

@@ -239,17 +239,16 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="v-pills-instructores" role="tabpanel" aria-labelledby="v-pills-instructores-tab">
-                                        <div class="w-100 h-100">
-                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                        <div class="w-100 h-100" style="max-width: 90%;">
+                                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                                 <h4 class="card-title mb-0"> {{ __('Instructors catalog') }}</h4> 
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#instructoresModal">
                                                      {{ __('New instructor') }}
                                                 </button>
                                             </div>
-                                            <div class="table-container">
+                                          
                                                 <table id="instructores-list-table" class="table " role="grid">
                                                 </table>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -524,41 +523,41 @@
                     <form id="instructoresForm" method="post"  enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('First name') }}</label>
+                                <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                            </div>
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('First name') }}</label>
-                                    <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Middle name') }}</label>
-                                    <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="NOMBRE_OPERACION">
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Family or last name') }}</label>
-                                    <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Mail') }}</label>
-                                    <input type="text" class="form-control" name="MAIL_INSTRUCTOR" id="NOMBRE_OPERACION" required>
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Phone number') }}</label>
-                                    <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="NOMBRE_OPERACION">
-                                    <input type="text" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="NOMBRE_OPERACION">
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Accreditation type') }}</label>
-                                    <input type="text" class="form-control" name="ACREDITACION_INSTRUCTOR" id="ACREDITACION_INSTRUCTOR" required>
-                                </div>
+                                <label class="form-label"> {{ __('Middle name') }}</label>
+                                <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="NOMBRE_OPERACION">
+                            </div>
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Expiration') }}</label>
-                                    <input type="text" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR" >
-                                </div>
+                                <label class="form-label"> {{ __('Family or last name') }}</label>
+                                <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                            </div>
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Document') }}</label>
-                                    <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR" >
-                                </div>
-                                <div class="mb-3" id="vigenciaInstructor">
-                                </div>
+                                <label class="form-label"> {{ __('Mail') }}</label>
+                                <input type="text" class="form-control" name="MAIL_INSTRUCTOR" id="NOMBRE_OPERACION" required>
+                            </div>
+                                <div class="mb-3">
+                                <label class="form-label"> {{ __('Phone number') }}</label>
+                                <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="NOMBRE_OPERACION">
+                                <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="NOMBRE_OPERACION">
+                            </div>
+                                <div class="mb-3">
+                                <label class="form-label"> {{ __('Accreditation type') }}</label>
+                                <input type="text" class="form-control" name="ACREDITACION_INSTRUCTOR" id="ACREDITACION_INSTRUCTOR" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Expiration') }}</label>
+                                <input type="text" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR" >
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Document') }}</label>
+                                <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR" >
+                            </div>
+                            <div class="mb-3" id="vigenciaInstructor">
+                            </div>
                         </div>
                     </form>
                 </div>

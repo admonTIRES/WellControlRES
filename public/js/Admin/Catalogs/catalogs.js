@@ -141,6 +141,25 @@ $(document).ready(function () {
             this.style.display = 'none';
         });
     }
+
+    var telInstructor = document.getElementById('TEL_INSTRUCTOR');
+    if (telInstructor) {
+        telInstructor.addEventListener('input', function(e) {
+            var value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            
+            // Formato: XXX-XXX-XXXX
+            if (value.length > 6) {
+                value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+            } else if (value.length > 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            
+            e.target.value = value;
+        });
+    }
 });
 
 

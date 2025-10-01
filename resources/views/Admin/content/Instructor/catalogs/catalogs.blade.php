@@ -594,7 +594,7 @@
         </div>
     </div> --}}
 
-      <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
+    <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width: 70%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -674,7 +674,45 @@
         </div>
     </div>
 
-     <div class="modal fade" id="nombresModal" tabindex="-1" aria-labelledby="nombresModalLabel" aria-hidden="true">
+    <style>
+        .required-field::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.lada-select {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.phone-group .form-control:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-section {
+    margin-bottom: 1rem;
+}
+
+.selectize-multiple {
+    min-height: 38px;
+}
+
+/* Estilos para mensajes de error */
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+    </style>
+    <div class="modal fade" id="nombresModal" tabindex="-1" aria-labelledby="nombresModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -685,10 +723,10 @@
                     <form id="nombresForm" method="post"  enctype="multipart/form-data">
                     {!! csrf_field() !!}
                         <div class="row">
-                                <div class="mb-3">
-                                    <label class="form-label"> {{ __('Project name') }}</label>
-                                    <input type="text" class="form-control" name="NOMBRE_PROYECTO" id="NOMBRE_PROYECTO" required>
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Project name') }}</label>
+                                <input type="text" class="form-control" name="NOMBRE_PROYECTO" id="NOMBRE_PROYECTO" required>
+                            </div>
                         </div>
                     </form>
                 </div>

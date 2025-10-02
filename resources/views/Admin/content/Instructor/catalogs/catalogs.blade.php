@@ -246,9 +246,10 @@
                                                      {{ __('New instructor') }}
                                                 </button>
                                             </div>
-                                          
-                                                <table id="instructores-list-table" class="table " role="grid">
+                                          <div class="table-container">
+                                                <table id="instructores-list-table" class="table " role="grid" >
                                                 </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -676,41 +677,41 @@
 
     <style>
         .required-field::after {
-    content: " *";
-    color: #dc3545;
-}
+            content: " *";
+            color: #dc3545;
+        }
 
-.lada-select {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-}
+        .lada-select {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+        }
 
-.phone-group .form-control:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
+        .phone-group .form-control:last-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
-.form-section {
-    margin-bottom: 1rem;
-}
+        .form-section {
+            margin-bottom: 1rem;
+        }
 
-.selectize-multiple {
-    min-height: 38px;
-}
+        .selectize-multiple {
+            min-height: 38px;
+        }
 
-/* Estilos para mensajes de error */
-.is-invalid {
-    border-color: #dc3545;
-}
+        /* Estilos para mensajes de error */
+        .is-invalid {
+            border-color: #dc3545;
+        }
 
-.invalid-feedback {
-    display: block;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 0.875em;
-    color: #dc3545;
-}
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
     </style>
     <div class="modal fade" id="nombresModal" tabindex="-1" aria-labelledby="nombresModalLabel" aria-hidden="true">
         <div class="modal-dialog">

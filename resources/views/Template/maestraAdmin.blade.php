@@ -847,26 +847,15 @@ use Illuminate\Support\Str;
         </footer>
     </main>
 
-        <!-- Wrapper End-->
-        <!-- offcanvas start -->
-
-    <!-- Backend Bundle JavaScript -->
+    
     <script src="/assets/js/libs.min.js"></script>
-    <!-- widgetchart JavaScript -->
     <script src="/assets/js/charts/widgetcharts.js"></script>
-    <!-- mapchart JavaScript -->
     <script src="/assets/js/charts/vectore-chart.js"></script>
     <script src="/assets/js/charts/dashboard.js?v=2.0"></script>
-
-    <!-- fslightbox JavaScript -->
     <script src="/assets/js/fslightbox.js"></script>
-    <!-- settings JavaScript -->
     <script src="/assets/js/setting.js"></script>
-    <!-- Form Wizard Script -->
     <script src="/assets/js/form-wizard.js"></script>
-    <!-- app JavaScript -->
     <script src="/assets/js/app.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

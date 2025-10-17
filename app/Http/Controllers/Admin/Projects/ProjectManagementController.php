@@ -19,6 +19,8 @@ use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\Project\candidate;
 use App\Models\Admin\Project\Course;
+use App\Models\Admin\catalogs\NombreProyecto;
+
 
 
 
@@ -34,6 +36,7 @@ class ProjectManagementController extends Controller
     {
         try {
             $tabla = Proyect::get();
+            
             foreach ($tabla as $value) {
                 $value->BTN_EDITAR = '<button type="button"
                                                 class="btn btn-sm btn-icon btn-action1"
@@ -63,6 +66,10 @@ class ProjectManagementController extends Controller
                 }
 
                 $value->COMPANIES = $companies;
+                $nombreProyectoModel = NombreProyecto::find($value->COURSE_NAME_ES_PROJECT);
+                $value->nombreProyecto = $nombreProyectoModel ? $nombreProyectoModel->NOMBRE_PROYECTO : '—';
+
+
             }
 
             return response()->json([

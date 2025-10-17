@@ -6,6 +6,10 @@ let empresas = null;
 let tagifyChangeHandler = null;
 let isEditing = false;
 
+
+
+let nombresP = null;
+let selectize = null;
 $(document).ready(function () {
     var $select3 = $('#BOP_TYPES_PROJECT').selectize({
         plugins: ['remove_button'],
@@ -31,6 +35,15 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance4 = $select4[0].selectize;
+    selectize = $('#COURSE_NAME_ES_PROJECT').selectize({
+        options: nombresP,
+        valueField: 'value',
+        labelField: 'text',
+        searchField: 'text',
+        create: false,
+        placeholder: "Selecciona un nombre",
+        maxItems: 1
+    })[0].selectize;
 });
 
 
@@ -849,7 +862,7 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
             }
         },
         { data: 'FOLIO_PROJECT' },
-        { data: 'COURSE_NAME_ES_PROJECT' },
+        { data: 'nombreProyecto' },
         { data: 'COURSE_START_DATE_PROJECT' },
         { data: 'COURSE_END_DATE_PROJECT' },
         { data: 'BTN_EDITAR' }
@@ -898,7 +911,8 @@ function limpiarModal() {
     window.wizard = new WizardManager();
     window.wizard.empresas =  [];
     window.wizard.destroyWizard();
-   
+
+    selectize.clear();
 }
 
 
@@ -1026,7 +1040,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     initializeSelectizedFields(row, [
         'ACCREDITATION_LEVELS_PROJECT',
-        'BOP_TYPES_PROJECT'
+        'BOP_TYPES_PROJECT',
+        'COURSE_NAME_ES_PROJECT'
     ]);
 
     tagify.removeAllTags();

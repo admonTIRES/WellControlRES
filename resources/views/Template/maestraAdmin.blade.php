@@ -69,6 +69,7 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
     @break
     @case('detailsProject')
@@ -859,6 +860,9 @@ use Illuminate\Support\Str;
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    {{-- selectized --}}
+    <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
+
     <!-- Tagify CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
     <!-- Tagify JS -->
@@ -884,7 +888,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
     @endif
     @if(request()->is('projectsAdmin'))
-    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.36"></script>
+    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.37"></script>
     @endif
      @if(request()->is('projectsInstructor'))
     <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.12"></script>

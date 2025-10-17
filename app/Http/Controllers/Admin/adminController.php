@@ -14,6 +14,8 @@ use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\Project\Proyect;
+use App\Models\Admin\catalogs\NombreProyecto;
+
 
 
 
@@ -64,6 +66,7 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
         'PROJECT_ID',
         'estudiantes',
         'datosGraficos'
+       
     ));
 }
 
@@ -160,11 +163,13 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
         $bops = TipoBOP::all();
         $idiomas = IdiomasExamenes::all();
         $operaciones = Operacion::all();
+        $NombreProyecto = NombreProyecto::all();
+
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
 
-        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart'))->with('user_role', 0);
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

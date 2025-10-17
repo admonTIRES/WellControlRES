@@ -352,16 +352,39 @@
                                                         <option value="2"> {{ __('Closed')}}</option>
                                                     </select>
                                                 </div>
-                                                 <div class="col-md-4">
+                                                <div class="col-md-4">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Course name:') }}</strong></label>
                                                         <input type="text" class="form-control" name="COURSE_NAME_ES_PROJECT" id="COURSE_NAME_ES_PROJECT"
-                                                            placeholder="Nombre en español" />
+                                                            placeholder="Selecciona un nombre" />
                                                         <div class="error-message"> {{ __('Name is required')}}</div>
                                                     </div>
                                                 </div>
-                                                 @php
-                                                $yearSuffix = date('y'); // obtiene los dos últimos dígitos del año
+
+                                                @php
+                                                    $nombresPArray = $NombreProyecto->map(function($nombrep) {
+                                                        return ['value' => $nombrep->ID_CATALOGO_NPROYECTOS, 'text' => $nombrep->NOMBRE_PROYECTO];
+                                                    });
+                                                @endphp
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        nombresP = @json($nombresPArray);
+
+                                                        // $('#COURSE_NAME_ES_PROJECT').selectize({
+                                                        //     options: nombresP,
+                                                        //     valueField: 'value',
+                                                        //     labelField: 'text',
+                                                        //     searchField: 'text',
+                                                        //     create: false,
+                                                        //     placeholder: "Selecciona un nombre",
+                                                        //      maxItems: 1
+                                                        // });
+
+                                                        
+                                                    });
+                                                </script>
+                                                @php
+                                                $yearSuffix = date('y');
                                                 @endphp
                                                 <div class="col-md-2">
                                                     <div class="form-group mb-3 mt-3">

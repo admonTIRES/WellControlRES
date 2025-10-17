@@ -580,7 +580,7 @@ if (data.hasOwnProperty(key)) {
 
   if (!key.startsWith("BTN") && key !== "created_at" && key !== "updated_at") {
         
-    var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number']`);
+    var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number'], input[name='${key}'][type='tel']`);
     var email = $('#' + form).find(`input[name='${key}'][type='email']`);
     var date = $('#' + form).find(`input[name='${key}'][type='date']`);
     var time = $('#' + form).find(`input[name='${key}'][type='time']`);

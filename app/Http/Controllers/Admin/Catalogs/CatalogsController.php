@@ -222,7 +222,7 @@ class CatalogsController extends Controller
         }
     }
 
-     public function subtemasDatatable()
+    public function subtemasDatatable()
     {
         try {
             $tabla = SubtemaPreguntas::get();
@@ -418,7 +418,7 @@ class CatalogsController extends Controller
         }
     }
 
-      public function nombresDatatable()
+    public function nombresDatatable()
     {
         try {
             $tabla = NombreProyecto::get();
@@ -464,95 +464,87 @@ class CatalogsController extends Controller
         }
     }
 
-   public function instructoresDatatable()
-{
-    try {
-        $tabla = Instructor::get();
+    public function instructoresDatatable()
+    {
+        try {
+            $tabla = Instructor::get();
 
-        foreach ($tabla as $value) {
-            // Nombre completo
-            $value->NOMBRE_INSTRUCTOR = trim("{$value->FNAME_INSTRUCTOR} {$value->MDNAME_INSTRUCTOR} {$value->LSNAME_INSTRUCTOR}");
+            foreach ($tabla as $value) {
+                $value->NOMBRE_INSTRUCTOR = trim("{$value->FNAME_INSTRUCTOR} {$value->MDNAME_INSTRUCTOR} {$value->LSNAME_INSTRUCTOR}");
+                $value->VIGENCIA = $value->EXPIRACION_INSTRUCTOR ?? '';
+                if (!empty($value->ACREDITACION_INSTRUCTOR) && is_array($value->ACREDITACION_INSTRUCTOR)) {
+                    $certificaciones = EnteAcreditador::whereIn('ID_CATALOGO_ENTE', $value->ACREDITACION_INSTRUCTOR)
+                        ->pluck('NOMBRE_ENTE')
+                        ->toArray();
+                    $value->CERTIFICACIONES_INSTRUCTOR = implode(', ', $certificaciones);
+                } else {
+                    $value->CERTIFICACIONES_INSTRUCTOR = '';
+                }
 
-            // Vigencia
-            $value->VIGENCIA = $value->EXPIRACION_INSTRUCTOR ?? '';
 
-            // Certificaciones (si guardas como string de IDs, aquí puedes mapearlo)
-            if (!empty($value->ACREDITACION_INSTRUCTOR)) {
-                $ids = explode(',', $value->ACREDITACION_INSTRUCTOR);
-                // Aquí deberías traer los nombres desde la tabla acreditaciones
-                $certificaciones = EnteAcreditador::whereIn('ID_CATALOGO_ENTE', $ids)
-    ->pluck('NOMBRE_ENTE')
-    ->toArray();
-                $value->CERTIFICACIONES_INSTRUCTOR = implode(', ', $certificaciones);
-            } else {
-                $value->CERTIFICACIONES_INSTRUCTOR = '';
+                $checked = $value->ACTIVO_INSTRUCTOR == 1 ? 'checked' : '';
+                $value->BTN_ACTIVO = '
+                    <div class="form-check form-switch">
+                        <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" ' . $checked . '>
+                    </div>
+                ';
+
+                $value->BTN_EDITAR = '
+                    <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" 
+                            data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" 
+                            data-toggle="tooltip" title="Editar" 
+                            data-bs-toggle="modal" data-bs-target="#instructoresModal">
+                        <span class="btn-inner">
+                            <svg width="20" viewBox="0 0 24 24" fill="none" 
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" 
+                                    d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M15.1655 4.60254L19.7315 9.16854" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </button>';
+
+                $value->BTN_ACCESO = '
+                    <button type="button" class="btn btn-sm btn-icon btn-warning ACCESO" 
+                            data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" 
+                            data-toggle="tooltip" title="Acceso" 
+                            data-bs-toggle="modal" data-bs-target="#instructoresModal">
+                        <span class="btn-inner">
+                            <svg width="20" viewBox="0 0 24 24" fill="none" 
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" 
+                                    d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M15.1655 4.60254L19.7315 9.16854" 
+                                    stroke="currentColor" stroke-width="1.5" 
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </button>';
             }
 
-            // Botón activo/desactivo con ID correcto
-            $checked = $value->ACTIVO_INSTRUCTOR == 1 ? 'checked' : '';
-            $value->BTN_ACTIVO = '
-                <div class="form-check form-switch">
-                    <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" ' . $checked . '>
-                </div>
-            ';
-
-            // Botones editar y acceso
-            $value->BTN_EDITAR = '
-                <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" 
-                        data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" 
-                        data-toggle="tooltip" title="Editar" 
-                        data-bs-toggle="modal" data-bs-target="#operacionModal">
-                    <span class="btn-inner">
-                        <svg width="20" viewBox="0 0 24 24" fill="none" 
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd" 
-                                  d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M15.1655 4.60254L19.7315 9.16854" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </span>
-                </button>';
-
-            $value->BTN_ACCESO = '
-                <button type="button" class="btn btn-sm btn-icon btn-warning ACCESO" 
-                        data-id="' . $value->ID_CATALOGO_INSTRUCTOR . '" 
-                        data-toggle="tooltip" title="Acceso" 
-                        data-bs-toggle="modal" data-bs-target="#operacionModal">
-                    <span class="btn-inner">
-                        <svg width="20" viewBox="0 0 24 24" fill="none" 
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path fill-rule="evenodd" clip-rule="evenodd" 
-                                  d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M15.1655 4.60254L19.7315 9.16854" 
-                                  stroke="currentColor" stroke-width="1.5" 
-                                  stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </span>
-                </button>';
+            return response()->json([
+                'data' => $tabla,
+                'msj' => 'Información consultada correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error ' . $e->getMessage(),
+                'data' => 0
+            ]);
         }
-
-        return response()->json([
-            'data' => $tabla,
-            'msj' => 'Información consultada correctamente'
-        ]);
-    } catch (Exception $e) {
-        return response()->json([
-            'msj' => 'Error ' . $e->getMessage(),
-            'data' => 0
-        ]);
     }
-}
 
 
     // STORE - CATALOGOS
@@ -803,106 +795,94 @@ class CatalogsController extends Controller
                 $response['operacion']  = $Operacion;
                 return response()->json($response);
                 break;
-                    //INSTRUCTORESD
-          case 9:
-    // Tomamos todos los datos excepto el archivo
-    $data = $request->except('DOC_INSTRUCTOR');
+                case 9:
+                    $data = $request->except('documents');
+                   
+                    $data['ACTIVO_INSTRUCTOR'] = 1;
 
-    // Convertir ACREDITACION_INSTRUCTOR[] a string separado por comas
-    if ($request->has('ACREDITACION_INSTRUCTOR')) {
-        $data['ACREDITACION_INSTRUCTOR'] = implode(',', $request->ACREDITACION_INSTRUCTOR);
-    }
+                    if ($request->ID_CATALOGO_INSTRUCTOR == 0) {
+                        DB::statement('ALTER TABLE instructors AUTO_INCREMENT=1;');
+                        $Instructor = Instructor::create($data);
 
-    // Forzar que todo nuevo instructor se cree como activo
-    $data['ACTIVO_INSTRUCTOR'] = 1;
+                        $documentosGuardados = [];
 
-    if ($request->ID_CATALOGO_INSTRUCTOR == 0) {
-        DB::statement('ALTER TABLE instructors AUTO_INCREMENT=1;');
+                        if ($request->has('documents')) {
+                            $directory = 'app/admin/catalogs/instructor/' . $Instructor->ID_CATALOGO_INSTRUCTOR;
+                            $fullPath = storage_path($directory);
 
-        // Crear primero el registro SIN archivo
-        $Instructor = Instructor::create($data);
+                            if (!file_exists($fullPath)) {
+                                mkdir($fullPath, 0755, true);
+                            }
 
-        // Si se subió archivo, guardarlo con el ID real
-        if ($request->hasFile('DOC_INSTRUCTOR')) {
-            $file = $request->file('DOC_INSTRUCTOR');
+                            foreach ($request->documents as $doc) {
+                                if (!isset($doc['file'])) continue;
+                                $file = $doc['file'];
 
-            // Validar PDF
-            if ($file->getClientOriginalExtension() !== 'pdf') {
-                return response()->json(['code' => 0, 'error' => 'El archivo debe ser un PDF']);
-            }
-            if ($file->getSize() > 10485760) {
-                return response()->json(['code' => 0, 'error' => 'El archivo no debe exceder los 10MB']);
-            }
+                                if ($file->getClientOriginalExtension() !== 'pdf') {
+                                    return response()->json(['code' => 0, 'error' => 'Todos los archivos deben ser PDF']);
+                                }
 
-            // Crear directorio si no existe
-            $directory = 'app/admin/catalogs/instructor';
-            $fullPath = storage_path($directory);
-            if (!file_exists($fullPath)) {
-                mkdir($fullPath, 0755, true);
-            }
+                                if ($file->getSize() > 10485760) {
+                                    return response()->json(['code' => 0, 'error' => 'Cada archivo no debe exceder los 10MB']);
+                                }
 
-            // Guardar archivo con el ID del instructor
-            $fileName = $Instructor->ID_CATALOGO_INSTRUCTOR . '.pdf';
-            $file->move($fullPath, $fileName);
+                                // Nombre de archivo único
+                                $fileName = uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                                $file->move($fullPath, $fileName);
 
-            // Actualizar la ruta del PDF en BD
-            $Instructor->update([
-                'DOC_INSTRUCTOR' => $directory . '/' . $fileName
-            ]);
-        }
+                                $documentosGuardados[] = [
+                                    'nombre' => $doc['name'] ?? 'Sin nombre',
+                                    'ruta' => $directory . '/' . $fileName,
+                                    'archivo_original' => $file->getClientOriginalName(),
+                                ];
+                            }
 
-        $response['code'] = 1;
-        $response['instructor'] = $Instructor;
-        return response()->json($response);
+                            // Guardar JSON con los documentos
+                            $Instructor->update([
+                                'DOC_INSTRUCTOR' => json_encode($documentosGuardados, JSON_UNESCAPED_UNICODE),
+                            ]);
+                        }
 
-    } else {
-        if (isset($request->ACTIVAR)) {
-            if ($request->ACTIVAR == 1) {
-                Instructor::where('ID_CATALOGO_INSTRUCTOR', $request['ID_CATALOGO_INSTRUCTOR'])
-                    ->update(['ACTIVO_INSTRUCTOR' => 0]);
-                $response['code'] = 1;
-                $response['instructor'] = 'Desactivado';
-            } else {
-                Instructor::where('ID_CATALOGO_INSTRUCTOR', $request['ID_CATALOGO_INSTRUCTOR'])
-                    ->update(['ACTIVO_INSTRUCTOR' => 1]);
-                $response['code'] = 1;
-                $response['instructor'] = 'Activado';
-            }
-        } else {
-            // Si sube nuevo archivo, eliminar el anterior
-            if ($request->hasFile('DOC_INSTRUCTOR')) {
-                $instructorExistente = Instructor::find($request->ID_CATALOGO_INSTRUCTOR);
-                if ($instructorExistente && $instructorExistente->DOC_INSTRUCTOR) {
-                    $oldFilePath = storage_path($instructorExistente->DOC_INSTRUCTOR);
-                    if (file_exists($oldFilePath)) {
-                        unlink($oldFilePath);
+                        $response['code'] = 1;
+                        $response['instructor'] = $Instructor;
+                        return response()->json($response);
+                    } 
+                    else {
+                        // ACTUALIZACIÓN
+                        $Instructor = Instructor::find($request->ID_CATALOGO_INSTRUCTOR);
+
+                        $documentosGuardados = json_decode($Instructor->DOC_INSTRUCTOR, true) ?? [];
+
+                        if ($request->has('documents')) {
+                            $directory = 'app/admin/catalogs/instructor/' . $Instructor->ID_CATALOGO_INSTRUCTOR;
+                            $fullPath = storage_path($directory);
+                            if (!file_exists($fullPath)) {
+                                mkdir($fullPath, 0755, true);
+                            }
+
+                            foreach ($request->documents as $doc) {
+                                if (!isset($doc['file'])) continue;
+                                $file = $doc['file'];
+
+                                $fileName = uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                                $file->move($fullPath, $fileName);
+
+                                $documentosGuardados[] = [
+                                    'nombre' => $doc['name'] ?? 'Sin nombre',
+                                    'ruta' => $directory . '/' . $fileName,
+                                    'archivo_original' => $file->getClientOriginalName(),
+                                ];
+                            }
+                        }
+
+                        $data['DOC_INSTRUCTOR'] = json_encode($documentosGuardados, JSON_UNESCAPED_UNICODE);
+                        $Instructor->update($data);
+
+                        $response['code'] = 1;
+                        $response['instructor'] = 'Actualizado';
+                        return response()->json($response);
                     }
-                }
-
-                $file = $request->file('DOC_INSTRUCTOR');
-                $directory = 'app/admin/catalogs/instructor';
-                $fullPath = storage_path($directory);
-                if (!file_exists($fullPath)) {
-                    mkdir($fullPath, 0755, true);
-                }
-                $fileName = $request->ID_CATALOGO_INSTRUCTOR . '.pdf';
-                $file->move($fullPath, $fileName);
-                $data['DOC_INSTRUCTOR'] = $directory . '/' . $fileName;
-            }
-
-            $Instructor = Instructor::find($request->ID_CATALOGO_INSTRUCTOR);
-            $Instructor->update($data);
-
-            $response['code'] = 1;
-            $response['instructor'] = 'Actualizado';
-        }
-        return response()->json($response);
-    }
-    break;
-
-
-
-                    //NOMBRES
+                break;
                 case 10:
                     if ($request->ID_CATALOGO_NPROYECTOS == 0) {
                         DB::statement('ALTER TABLE tipo_operacion AUTO_INCREMENT=1;');

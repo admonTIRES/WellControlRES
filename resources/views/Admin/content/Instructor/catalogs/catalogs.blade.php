@@ -246,7 +246,7 @@
                                                      {{ __('New instructor') }}
                                                 </button>
                                             </div>
-                                          <div class="table-container">
+                                          <div >
                                                 <table id="instructores-list-table" class="table " role="grid" >
                                                 </table>
                                             </div>
@@ -633,27 +633,29 @@
                             <div class="col-md-6">
                                 <div class="form-section">
                                     <label class="form-label">{{ __('Phone number') }}</label>
-                                    <div class="phone-group">
+                                    <div class="phone-group" style="">
                                         <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
                                         <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
                                     </div>
                                 </div>
                                 
-                                <div class="form-section">
-                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label>
-                                    <select class="form-select selectize-multiple" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR[]" multiple>
-                                        @foreach ($entes as $ente)
-                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="form-section"> 
+                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label> 
+                                    <select class="form-select selectize-multiple" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR[]" multiple> 
+                                        @foreach ($entes as $ente) 
+                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option> 
+                                        @endforeach 
+                                    </select> 
                                 </div>
-                                
                                 <div class="form-section">
                                     <label class="form-label">{{ __('Expiration') }}</label>
                                     <input type="date" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR">
                                 </div>
                                 
-                                <div class="form-section">
+
+                                
+
+                                {{-- <div class="form-section">
                                      <label class="form-label">{{ __('Document') }}</label>
                                     <input type="file" class="form-control" id="DOC_INSTRUCTOR" name="DOC_INSTRUCTOR" accept=".pdf" style="width: auto; flex: 1;" >
                                     <button type="button" class="btn btn-light btn-sm ms-2" id="quitar-doc" style="display:none;"> {{ __('Quit') }}</button>
@@ -662,7 +664,49 @@
                                 
                                 <div class="form-section" id="vigenciaInstructor">
                                     <!-- Espacio para contenido adicional -->
+                                </div> --}}
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-section">
+                                    <label class="form-label">{{ __('Documents') }}</label>
+
+                                    <div id="documentos-container"></div>
+
+                                    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="add-doc">
+                                        <i class="fas fa-plus"></i> {{ __('Add document') }}
+                                    </button>
                                 </div>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        let docIndex = 0;
+
+                                        // Contenedor donde se agregan los documentos
+                                        const container = document.getElementById('documentos-container');
+                                        const addBtn = document.getElementById('add-doc');
+
+                                        addBtn.addEventListener('click', () => {
+                                            const docRow = document.createElement('div');
+                                            docRow.classList.add('d-flex', 'align-items-center', 'mb-2', 'doc-row');
+                                            docRow.innerHTML = `
+                                                <input type="text" name="documents[${docIndex}][name]" class="form-control me-2" placeholder="{{ __('Document name') }}" required>
+                                                <input type="file" name="documents[${docIndex}][file]" class="form-control" accept=".pdf" required>
+                                                <button type="button" class="btn btn-danger btn-sm ms-2 remove-doc">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            `;
+                                            container.appendChild(docRow);
+                                            docIndex++;
+                                        });
+
+                                        // Eliminar documento
+                                        container.addEventListener('click', (e) => {
+                                            if (e.target.closest('.remove-doc')) {
+                                                e.target.closest('.doc-row').remove();
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </form>

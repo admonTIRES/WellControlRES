@@ -22,4 +22,9 @@ class Instructor extends Model
         'DOC_INSTRUCTOR',
         'ACTIVO_INSTRUCTOR'
     ];
+
+     protected $casts = [
+        'ACREDITACION_INSTRUCTOR' => 'array'
+    ];
+
 }

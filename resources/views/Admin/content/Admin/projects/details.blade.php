@@ -115,14 +115,14 @@
                 .card-large { grid-column: span 2; }
 
                 /* Colores de acento */
-                .card-primary { --accent-color: #4f46e5; }
-                .card-success { --accent-color: #10b981; }
-                .card-warning { --accent-color: #f59e0b; }
-                .card-danger { --accent-color: #ef4444; }
-                .card-info { --accent-color: #06b6d4; }
-                .card-purple { --accent-color: #8b5cf6; }
-                .card-pink { --accent-color: #ec4899; }
-                .card-indigo { --accent-color: #6366f1; }
+                .card-primary { --accent-color: #A4D65E; }
+                .card-success { --accent-color: #236192; }
+                .card-warning { --accent-color: #007DBA; }
+                .card-danger { --accent-color: #FF585D; }
+                .card-info { --accent-color: #A4D65E; }
+                .card-purple { --accent-color: #236192; }
+                .card-pink { --accent-color: #FF585D; }
+                .card-indigo { --accent-color: #007DBA; }
 
                 .card-header {
                     display: flex;
@@ -315,279 +315,285 @@
                     }
                 }
             </style>
-             <div class="col-sm-12">
+            <div class="col-sm-12">
                 <div class="card">
-            <div class="mini-dashboard">
-                <div class="dashboard-header">
-                    <h5><i class="fas fa-chart-pie"></i> Generalidades del Curso</h5>
-                    <p>Resumen ejecutivo del proyecto</p>
-                </div>
-
-                <div class="mini-grid">
-                    <!-- Contacto -->
-                    <div class="mini-card card-primary">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <div class="card-title">Contacto</div>
-                                <div class="card-value">{{ $proyect->CONTACT_NAME_PROJEC ?? '' }}</div>
-                            </div>
+                    <div class="mini-dashboard">
+                        <div class="dashboard-header">
+                            <h5><i class="fas fa-chart-pie"></i> {{ __('Course Overview') }}</h5>
+                            <p>{{ __('Executive summary of the project') }}</p>
                         </div>
-                    </div>
 
-                    <!-- Folio -->
-                    <div class="mini-card card-success">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-hashtag"></i>
-                            </div>
-                            <div>
-                                <div class="card-title">Folio</div>
-                                <div class="card-value large">{{ $proyect->FOLIO_PROJECT ?? '' }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tipo de Curso -->
-                    <div class="mini-card card-info">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            <div>
-                                <div class="card-title">Tipo de curso</div>
-                                <div class="card-value">{{ $proyect->COURSE_TYPE_PROJECT ?? '' }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ubicación -->
-                    <div class="mini-card card-purple">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-map-marker"></i>
-                            </div>
-                            <div>
-                                <div class="card-title">Ubicación</div>
-                                <div class="card-value">{{ $proyect->LOCATION_PROJECT ?? '' }}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nombres del Curso -->
-                    <div class="mini-card card-danger card-wide">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <div class="card-title">Nombres del Curso</div>
-                        </div>
-                        <div class="dual-column">
-                            <div>
-                                <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-flag"></i> ES
+                        <div class="mini-grid">
+                            <!-- Contact -->
+                            <div class="mini-card card-primary">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Contact') }}</div>
+                                        <div class="card-value">{{ $proyect->CONTACT_NAME_PROJEC ?? '' }}</div>
+                                    </div>
                                 </div>
-                                <div class="card-value small">{{ $proyect->COURSE_NAME_ES_PROJECT ?? '' }}</div>
                             </div>
-                            <div>
-                                <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-flag"></i> EN
+
+                            <!-- Folio -->
+                            <div class="mini-card card-success">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-hashtag"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Folio') }}</div>
+                                        <div class="card-value large">{{ $proyect->FOLIO_PROJECT ?? '' }}</div>
+                                    </div>
                                 </div>
-                                <div class="card-value small">{{ $proyect->COURSE_NAME_EN_PROJECT ?? '' }}</div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Centro y Entidad -->
-                    <div class="mini-card card-indigo">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-certificate"></i>
+                            <!-- Course Type -->
+                            <div class="mini-card card-info">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Course Type') }}</div>
+                                        <div class="card-value">
+                                            @if($proyect->COURSE_TYPE_PROJECT == 1)
+                                                {{ __('Open') }}
+                                            @elseif($proyect->COURSE_TYPE_PROJECT == 2)
+                                                {{ __('Closed') }}
+                                            @else
+                                                {{ __('N/A') }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="card-title">Centro</div>
-                                <div class="card-value">{{ $proyect->CENTER_NUMBER_PROJECT ?? '' }}</div>
-                            </div>
-                        </div>
-                        <div class="card-subtitle">{{ $proyect->CERTIFICATION_CENTER_PROJECT ?? '' }}</div>
-                    </div>
 
-                    <!-- Idioma y Operación -->
-                    <div class="mini-card card-pink">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-language"></i>
+                            <!-- Location -->
+                            <div class="mini-card card-purple">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-map-marker"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Location') }}</div>
+                                        <div class="card-value">{{ $proyect->LOCATION_PROJECT ?? '' }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="card-title">Idioma</div>
-                                <div class="card-value">{{ $proyect->LANGUAGE_PROJECT ?? '' }}</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Niveles y BOP -->
-                    <div class="mini-card card-warning card-wide-3">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-layer-group"></i>
+                            <!-- Course Name -->
+                            <div class="mini-card card-danger card-wide">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Course Name') }}</div>
+                                </div>
+                                
+                                    <div>
+                                        <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
+                                            <i class="fas fa-flag"></i> ES
+                                        </div>
+                                        <div class="card-value small">{{ $proyect->COURSE_NAME_ES_PROJECT ?? '' }}</div>
+                                    </div>
+                               
                             </div>
-                            <div class="card-title">Niveles & BOP</div>
-                        </div>
-                        <div class="dual-column">
-                            <div>
-                                @if(!empty($proyect->ACCREDITATION_LEVELS_PROJECT))
-                                    <ul class="mini-list">
-                                        @foreach($proyect->ACCREDITATION_LEVELS_PROJECT as $nivel)
-                                            <li><i class="fas fa-check"></i>{{ $nivel }}</li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <h6 class="mb-0 text-muted">N/A</h6>
-                                @endif
-                            </div>
-                            <div>
 
-                                 @if(!empty($proyect->BOP_TYPES_PROJECT))
-                                            <ul class="mb-0">
-                                                @foreach($proyect->BOP_TYPES_PROJECT as $bop)
-                                                    <li> <div class="mini-badge badge-warning">{{ $bop }}</div></li>
+                            <!-- Center -->
+                            <div class="mini-card card-indigo">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-certificate"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Center') }}</div>
+                                        <div class="card-value">{{ $proyect->CENTER_NUMBER_PROJECT ?? '' }}</div>
+                                    </div>
+                                </div>
+                                <div class="card-subtitle">{{ $proyect->CERTIFICATION_CENTER_PROJECT ?? '' }}</div>
+                            </div>
+
+                            <!-- Language -->
+                            <div class="mini-card card-pink">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-language"></i>
+                                    </div>
+                                    <div>
+                                        <div class="card-title">{{ __('Language') }}</div>
+                                        <div class="card-value">{{ $idiomaProject->NOMBRE_IDIOMA ?? '' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Levels & BOP -->
+                            <div class="mini-card card-info card-wide-3">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Accrediting Entity, Levels & BOP Types') }}</div>
+                                </div>
+
+                                <div class="dual-column">
+                                    <!-- ENTE ACREDITADOR -->
+                                    <div>
+                                        <h6 class="text-uppercase text-muted mb-1">{{ __('Accrediting Entity') }}</h6>
+                                        <div class="mini-badge badge-info">{{ $nombreEnte }}</div>
+                                    </div>
+
+                                    <!-- NIVELES DE ACREDITACIÓN -->
+                                    <div>
+                                        <h6 class="text-uppercase text-muted mb-1">{{ __('Accreditation Levels') }}</h6>
+                                        @if($nivelesAcreditacion->isNotEmpty())
+                                            <ul class="mini-list">
+                                                @foreach($nivelesAcreditacion as $nivel)
+                                                    <li><i class="fas fa-check"></i> {{ $nivel }}</li>
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <h6 class="mb-0 text-muted">N/A</h6>
+                                            <h6 class="mb-0 text-muted">{{ __('N/A') }}</h6>
                                         @endif
-
-
-                                        <div class="mini-badge badge-info">{{ $proyect->ACCREDITING_ENTITY_PROJECT ?? '' }}</div>
-
-                                        
-                                {{-- <div class="mini-badge badge-primary">BOP-001</div>
-                                <div class="mini-badge badge-info">BOP-002</div>
-                                <div class="mini-badge badge-warning">BOP-003</div> --}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Empresas -->
-                    <div class="mini-card card-danger card-large">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <div class="card-title">Empresas Participantes</div>
-                        </div>
-
-                         @if(!empty($proyect->COMPANIES_PROJECT))
-                            @foreach($proyect->COMPANIES_PROJECT as $empresa)
-
-                                <div class="company-mini">
-                                <div class="company-name">{{ $empresa['NAME_PROJECT'] ?? 'Sin nombre' }}</div>
-                                <div class="company-details">{{ $empresa['EMAIL_PROJECT'] ?? '' }} • Alumnos: {{ $empresa['STUDENT_COUNT_PROJECT'] ?? 0 }}</div>
-                            </div>
-                            @endforeach
-                        @else
-                            <h6 class="mb-0 text-muted">N/A</h6>
-                        @endif
-                    </div>
-
-                    <!-- Fechas -->
-                    <div class="mini-card card-success card-wide">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                            <div class="card-title">Cronograma</div>
-                        </div>                        
-                        <div class="dual-column">
-                            <div>
-                                <div class="date-mini">
-                                    <i class="fas fa-play"></i>
-                                    <div>
-                                        <div style="font-weight: 600;">{{ $proyect->COURSE_START_DATE_PROJECT ?? '' }}</div>
-                                        <div style="font-size: 0.625rem; color: #6b7280;">Inicio curso</div>
                                     </div>
-                                </div>
-                                <div class="date-mini">
-                                    <i class="fas fa-stop"></i>
+
+                                    <!-- TIPOS DE BOP -->
                                     <div>
-                                        <div style="font-weight: 600;">{{ $proyect->COURSE_END_DATE_PROJECT ?? '' }}</div>
-                                        <div style="font-size: 0.625rem; color: #6b7280;">Fin curso</div>
+                                        <h6 class="text-uppercase text-muted mb-1">{{ __('BOP Types') }}</h6>
+                                        @if($tiposBop->isNotEmpty())
+                                            <ul class="mb-0">
+                                                @foreach($tiposBop as $bop)
+                                                    <li><div class="mini-badge badge-warning">{{ $bop }}</div></li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <h6 class="mb-0 text-muted">{{ __('N/A') }}</h6>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <div class="date-mini">
-                                    <i class="fas fa-user-graduate"></i>
+
+
+                            <!-- Companies -->
+                            <div class="mini-card card-danger card-large">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Participating Companies') }}</div>
+                                </div>
+
+                                @if(!empty($proyect->COMPANIES_PROJECT))
+                                    @foreach($proyect->COMPANIES_PROJECT as $empresa)
+                                        <div class="company-mini">
+                                            <div class="company-name">{{ $empresa['NAME_PROJECT'] ?? __('No name') }}</div>
+                                            <div class="company-details">{{ $empresa['EMAIL_PROJECT'] ?? '' }} • {{ __('Students:') }} {{ $empresa['STUDENT_COUNT_PROJECT'] ?? 0 }}</div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <h6 class="mb-0 text-muted">{{ __('N/A') }}</h6>
+                                @endif
+                            </div>
+
+                            <!-- Schedule -->
+                            <div class="mini-card card-success card-wide">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Schedule') }}</div>
+                                </div>
+                                <div class="dual-column">
                                     <div>
-                                        <div style="font-weight: 600;">{{ $proyect->MEMBERSHIP_START_PROJECT ?? '' }}</div>
-                                        <div style="font-size: 0.625rem; color: #6b7280;">Membresía inicio</div>
+                                        <div class="date-mini">
+                                            <i class="fas fa-play"></i>
+                                            <div>
+                                                <div style="font-weight: 600;">{{ $proyect->COURSE_START_DATE_PROJECT ?? '' }}</div>
+                                                <div style="font-size: 0.625rem; color: #6b7280;">{{ __('Course start') }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="date-mini">
+                                            <i class="fas fa-stop"></i>
+                                            <div>
+                                                <div style="font-weight: 600;">{{ $proyect->COURSE_END_DATE_PROJECT ?? '' }}</div>
+                                                <div style="font-size: 0.625rem; color: #6b7280;">{{ __('Course end') }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="date-mini">
+                                            <i class="fas fa-user-graduate"></i>
+                                            <div>
+                                                <div style="font-weight: 600;">{{ $proyect->MEMBERSHIP_START_PROJECT ?? '' }}</div>
+                                                <div style="font-size: 0.625rem; color: #6b7280;">{{ __('Membership start') }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="date-mini">
+                                            <i class="fas fa-user-times"></i>
+                                            <div>
+                                                <div style="font-weight: 600;">{{ $proyect->MEMBERSHIP_END_PROJECT ?? '' }}</div>
+                                                <div style="font-size: 0.625rem; color: #6b7280;">{{ __('Membership end') }}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="date-mini">
-                                    <i class="fas fa-user-times"></i>
+                            </div>
+
+                            <!-- Exams -->
+                            <div class="mini-card card-success card-wide">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-clipboard-check"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Exams') }}</div>
+                                </div>
+
+                                <div class="dual-column">
                                     <div>
-                                        <div style="font-weight: 600;">{{ $proyect->MEMBERSHIP_END_PROJECT ?? '' }}</div>
-                                        <div style="font-size: 0.625rem; color: #6b7280;">Membresía fin</div>
+                                        <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
+                                            <i class="fas fa-book"></i> {{ __('Theoretical') }}
+                                        </div>
+                                        <div class="card-value small">{{ $proyect->EXAM_DATE_PROJECT ?? '' }}</div>
+                                        <div class="card-subtitle">{{ $proyect->EXAM_TIME_PROJECT ?? '' }}</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
+                                            <i class="fas fa-tools"></i> {{ __('Practical') }}
+                                        </div>
+                                        <div class="card-value small">{{ $proyect->PRACTICAL_EXAM_DATE_PROJECT ?? '' }}</div>
+                                        <div class="card-subtitle">{{ $proyect->PRACTICAL_EXAM_TIME_PROJECT ?? '' }}</div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Exámenes -->
-                    <div class="mini-card card-warning card-wide">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <div class="card-title">Exámenes</div>
-                        </div>
-
-                        <div class="dual-column">
-                            <div>
-                                <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-book"></i> Teórico
+                            <!-- Instructor -->
+                            <div class="mini-card card-warning card-large">
+                                <div class="card-header">
+                                    <div class="card-icon">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </div>
+                                    <div class="card-title">{{ __('Assigned Instructor') }}</div>
                                 </div>
-                                <div class="card-value small">{{ $proyect->EXAM_DATE_PROJECT ?? '' }}</div>
-                                <div class="card-subtitle">{{ $proyect->EXAM_TIME_PROJECT ?? '' }}</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-tools"></i> Práctico
+                                <div class="contact-mini">
+                                    <div class="contact-icon-mini">
+                                        <i class="fas fa-id-badge"></i>
+                                    </div>
+                                    <div style="font-size: 0.75rem; font-weight: 600;">{{ $proyect->INSTRUCTOR_ID_PROJECT ?? '' }}</div>
                                 </div>
-                                <div class="card-value small">{{ $proyect->PRACTICAL_EXAM_DATE_PROJECT ?? '' }}</div>
-                                <div class="card-subtitle">{{ $proyect->PRACTICAL_EXAM_TIME_PROJECT ?? '' }}</div>
+                                <div class="contact-mini">
+                                    <div class="contact-icon-mini">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div style="font-size: 0.75rem;">{{ $proyect->INSTRUCTOR_EMAIL_PROJECT ?? '' }}</div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Instructor -->
-                    <div class="mini-card card-indigo card-large">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <div class="card-title">Instructor Asignado</div>
-                        </div>
-                        <div class="contact-mini">
-                            <div class="contact-icon-mini">
-                                <i class="fas fa-id-badge"></i>
-                            </div>
-                            <div style="font-size: 0.75rem; font-weight: 600;">{{ $proyect->INSTRUCTOR_ID_PROJECT ?? '' }}</div>
-                        </div>
-                        <div class="contact-mini">
-                            <div class="contact-icon-mini">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div style="font-size: 0.75rem;">{{ $proyect->INSTRUCTOR_EMAIL_PROJECT ?? '' }}</div>
                         </div>
                     </div>
                 </div>
             </div>
-              </div>
-            </div>
+
 
             <div class="col-sm-12">
                 <div class="card">
@@ -624,7 +630,7 @@
                                 </button>
                             </div>
                              <div id="messages"></div>
-                            <div >
+                            <div>
                                 <table id="course-list-table" class="table" role="grid">
                                 </table>
                             </div>
@@ -734,7 +740,7 @@
                         </div>
                     </div>
                 </div> --}}
-
+                
                 <div style="padding: 1vw;">
                     <form id="coursesForm">
                          {!! csrf_field() !!}  

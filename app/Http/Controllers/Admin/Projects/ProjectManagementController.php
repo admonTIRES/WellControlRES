@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Admin\Project\Proyect;
+use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
@@ -356,7 +357,46 @@ class ProjectManagementController extends Controller
         // $instructor = Instructor::findOrFail($idInstructor);
         // $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
         // $instructor = Instructor::findOrFail($idInstructor);
-        // $idIdioma = $proyect->LANGUAGE_PROJECT;
+        $idIdioma = $proyect->LANGUAGE_PROJECT;
+        $idiomaProject = IdiomasExamenes::findOrFail($idIdioma);
+
+
+        // --- ENTE ACREDITADOR ---
+    $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
+    $enteAcreditador = EnteAcreditador::find($idEnte);
+    $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
+
+    // --- NIVELES DE ACREDITACIÓN ---
+    $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
+    $nivelesAcreditacion = collect();
+
+    if (!empty($idsNiveles)) {
+        // Consultar los niveles que correspondan
+        $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
+
+        // Si el ente es 1 → usar DESCRIPCION_NIVEL
+        // Si el ente es 2 → usar NOMBRE_NIVEL
+        // En otro caso → N/A
+        $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
+            if ($idEnte == 1) {
+                return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
+            } elseif ($idEnte == 2) {
+                return $nivel->NOMBRE_NIVEL ?? 'N/A';
+            } else {
+                return 'N/A';
+            }
+        });
+    }
+
+    // --- TIPOS DE BOP ---
+    $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
+    $tiposBop = collect();
+
+    if (!empty($idsBops)) {
+        $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
+            ->pluck('DESCRIPCION_TIPOBOP');
+    }
+
 
         $visitas = 2;
         $membresiasActivas = 5;
@@ -381,7 +421,11 @@ class ProjectManagementController extends Controller
             'proyectosProximos',
             'proyectosFinalizados',
             'accesos',
-            'historialEmpresas'
+            'idiomaProject',
+            'historialEmpresas',
+            'nombreEnte',
+            'nivelesAcreditacion',
+            'tiposBop'
         ));
     }
 

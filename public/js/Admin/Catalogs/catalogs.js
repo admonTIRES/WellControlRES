@@ -12,6 +12,47 @@ ID_CATALOGO_NPROYECTOS = 0
 
 
 $(document).ready(function () {
+
+     //SELECTIZED
+    var $select = $('#CERTIFICACION_TEMA').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance = $select[0].selectize;
+
+    var $select2 = $('#CERTIFICACION_SUBTEMA').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance2 = $select2[0].selectize;
+
+    var $select3 = $('#ACREDITACION_INSTRUCTOR').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance3 = $select3[0].selectize; 
+
     // RESET MODALS
     $('#entesModal').on('hidden.bs.modal', function () {
         ID_CATALOGO_ENTE = 0;
@@ -64,6 +105,20 @@ $(document).ready(function () {
     $('#instructoresModal').on('hidden.bs.modal', function () {
         ID_CATALOGO_INSTRUCTOR = 0;
         $('#instructoresForm')[0].reset();
+        ['ACREDITACION_INSTRUCTOR'].forEach(fieldId => {
+            const $select = $('#' + fieldId);
+            if ($select[0].selectize) {
+                $select[0].selectize.clear();
+            } else {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+        });
+        $('#documentos-container').html('');
         $('#instructoresModal .modal-title').text('Nuevo instructor');
     });
 
@@ -74,45 +129,7 @@ $(document).ready(function () {
     });
     // RESET MODALS - END
 
-    //SELECTIZED
-    var $select = $('#CERTIFICACION_TEMA').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            // Desactiva la escritura del input interno
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    var selectizeInstance = $select[0].selectize;
-
-    var $select2 = $('#CERTIFICACION_SUBTEMA').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            // Desactiva la escritura del input interno
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    var selectizeInstance2 = $select2[0].selectize;
-
-    var $select3 = $('#ACREDITACION_INSTRUCTOR').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            // Desactiva la escritura del input interno
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    var selectizeInstance3 = $select3[0].selectize; 
+   
 
     var documentInstructor = document.getElementById('DOC_INSTRUCTOR');
     if (documentInstructor) {
@@ -175,6 +192,7 @@ var entesDatatable = $("#entes-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -185,7 +203,6 @@ var entesDatatable = $("#entes-list-table").DataTable({
         cache: false,
         url: '/entesDatatable',
         beforeSend: function () {
-            // mostrarCarga();
         },
         complete: function () {
             entesDatatable.columns.adjust().draw();
@@ -229,6 +246,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -283,6 +301,7 @@ var tiposbopDatatable = $("#tiposbop-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -337,6 +356,7 @@ var temasDatatable = $("#temas-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -391,6 +411,7 @@ var subtemasDatatable = $("#subtemas-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -445,6 +466,7 @@ var idiomasDatatable = $("#idiomas-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -499,6 +521,7 @@ var membresiasDatatable = $("#membresias-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
+    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
@@ -552,7 +575,8 @@ var operacionDatatable = $("#operacion-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
-    scrollY: '65vh',
+    scrollY: '65vh', 
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -604,6 +628,7 @@ var instructoresDatatable = $("#instructores-list-table").DataTable({
     searching: true,
     filtering: true,
     scrollY: '65vh',
+    scrollX: true,
     scrollCollapse: true,
     responsive: true,
     ajax: {
@@ -613,7 +638,6 @@ var instructoresDatatable = $("#instructores-list-table").DataTable({
         cache: false,
         url: '/instructoresDatatable',
         beforeSend: function () {
-            // mostrarCarga();
         },
         complete: function () {
             instructoresDatatable.columns.adjust().draw();
@@ -1610,13 +1634,71 @@ $('#nombres-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
 });
 
-$('#operacion-list-table tbody').on('click', 'td>button.EDITAR', function () {
+$('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = instructoresDatatable.row(tr);
     ID_CATALOGO_INSTRUCTOR = row.data().ID_CATALOGO_INSTRUCTOR;
 
     editarDatoTabla(row.data(), 'instructoresForm', 'instructoresModal', 1);
+    console.log(row.data().ACREDITACION_INSTRUCTOR);
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
 
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();            
+            selectize.setValue(values);  
+        });
+    }
+
+    initializeSelectizedFields(row, [
+        'ACREDITACION_INSTRUCTOR'
+    ]);
+
+    $('#documentos-container').html(''); // Limpia primero el contenedor
+
+    let documentos = row.data().DOC_INSTRUCTOR;
+
+    if (documentos) {
+        try {
+            documentos = JSON.parse(documentos); // Convierte el JSON a array
+            documentos.forEach((doc, index) => {
+                $('#documentos-container').append(`
+                    <div class="d-flex align-items-center mb-2 doc-row">
+                        <input type="text" name="documents[${index}][name]" 
+                            class="form-control me-2" 
+                            value="${doc.nombre}" 
+                            placeholder="Nombre del documento" required>
+                        
+                        <a href="/storage/${doc.ruta.replace('app/', '')}" 
+                        target="_blank" 
+                        class="btn btn-outline-secondary btn-sm me-2">
+                        <i class="fas fa-file-pdf"></i>
+                        </a>
+                        
+                        <input type="file" name="documents[${index}][file]" 
+                            class="form-control" accept=".pdf">
+                        
+                        <button type="button" class="btn btn-danger btn-sm ms-2 remove-doc">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
+        } catch (e) {
+            console.error('Error al parsear documentos:', e);
+        }
+    }
     $('#instructoresModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 
 });

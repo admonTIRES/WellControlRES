@@ -24,6 +24,8 @@ use App\Http\Controllers\Admin\Projects\ProjectManagementController;
 use App\Http\Controllers\Admin\Exercises\ExamController;
 use App\Http\Controllers\Admin\Exercises\KillsheetsController;
 use App\Http\Controllers\Admin\Exercises\MathController;
+//usuarios
+use App\Http\Controllers\Admin\Access\usuariosController;
 
 //mail
 use App\Http\Controllers\Admin\Mail\correoController;
@@ -173,8 +175,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/access', [adminController::class, 'access'])->name('access');
+    Route::get('/usuariosDatatable', [usuariosController::class, 'usuariosDatatable']);
+    Route::post('/usuarioSave', [usuariosController::class, 'store']);
+    Route::get('/usuarioActive', [usuariosController::class, 'store']);
+});
 
 Route::get('/users', [adminController::class, 'users'])->name('users');
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');
@@ -182,7 +188,6 @@ Route::get('/individual', [adminController::class, 'individual'])->name('individ
 Route::get('/membership', [adminController::class, 'membership'])->name('membership');
 
 
-Route::get('/access', [adminController::class, 'access'])->name('access');
 Route::get('/instructors', [adminController::class, 'instructors'])->name('instructors');
 Route::get('/external', [adminController::class, 'external'])->name('external');
 Route::get('/roles', [adminController::class, 'roles'])->name('roles');

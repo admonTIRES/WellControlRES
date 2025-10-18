@@ -1647,5 +1647,16 @@
     "Membership end": "Membresía fin",
     "Theoretical": "Teórico",
     "Practical": "Práctico",
-    "Assigned Instructor": "Instructor Asignado"
+    "Assigned Instructor": "Instructor Asignado",
+    "User access management":"Gestión de accesos de usuarios",
+    "User access":"Accesos de usuarios",
+    "You can create new users, assign roles and permissions, manage passwords, and activate or deactivate accounts": "Puedes crear nuevos usuarios, asignar roles y permisos, administrar contraseñas y activar o desactivar cuentas",
+    "Users list":"Lista de usuarios",
+    "New user":"Nuevo usuario",
+    "User type":"Tipo de usuario",
+    "User role":"Modulos de acceso [roles]",
+    "Instructor?":"¿Este usuario es instructor?",
+    "Confirm password":"Confirmar contraseña",
+    "Instructor selected":"Instructor seleccionado",
+    "Fields are auto-filled. To modify, use the Instructor catalog.":"Algunos campos se han llenado de forma automática, si deseas modificar esta información debes hacerlo desde el catálogo de instructores."
 }

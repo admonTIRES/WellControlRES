@@ -15,6 +15,8 @@ use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\Project\Proyect;
 use App\Models\Admin\catalogs\NombreProyecto;
+use App\Models\Admin\catalogs\Instructor;
+
 
 
 
@@ -222,7 +224,9 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
      */
     public function users()
     {
-        return view('Admin.content.Admin.users.usersPanel')->with('user_role', 0);
+        $instructores = Instructor::all();
+
+        return view('Admin.content.Admin.users.usersPanel' , compact('instructores'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View
@@ -250,7 +254,9 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
      */
     public function access()
     {
-        return view('Admin.content.Admin.access.accessPanel')->with('user_role', 0);
+        $instructores = Instructor::all();
+
+        return view('Admin.content.Admin.access.accessPanel' , compact('instructores'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View
@@ -271,7 +277,8 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
      */
     public function roles()
     {
-        return view('Admin.content.Admin.access.roles')->with('user_role', 0);
+         $instructores = Instructor::all();
+        return view('Admin.content.Admin.access.roles', compact('instructores'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

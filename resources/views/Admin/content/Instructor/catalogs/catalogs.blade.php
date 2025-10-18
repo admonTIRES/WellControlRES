@@ -633,14 +633,14 @@
                             <div class="col-md-6">
                                 <div class="form-section">
                                     <label class="form-label">{{ __('Phone number') }}</label>
-                                    <div class="phone-group" style="">
-                                        <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
-                                        <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
+                                    <div class="d-flex gap-2">
+                                        <input type="text" class="form-control w-25" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
+                                        <input type="tel" class="form-control flex-fill" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
                                     </div>
                                 </div>
                                 
                                 <div class="form-section"> 
-                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label> 
+                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label>
                                     <select class="form-select selectize-multiple" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR[]" multiple> 
                                         @foreach ($entes as $ente) 
                                             <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option> 
@@ -762,6 +762,32 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="nombresModalLabel">{{ __('Project name') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="nombresForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Project name') }}</label>
+                                <input type="text" class="form-control" name="NOMBRE_PROYECTO" id="NOMBRE_PROYECTO" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="nombresbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="accesoModal" tabindex="-1" aria-labelledby="accesoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accesoModalLabel">{{ __('Login information') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

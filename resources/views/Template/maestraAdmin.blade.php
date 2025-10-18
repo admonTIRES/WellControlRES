@@ -3,26 +3,6 @@ use Illuminate\Support\Str;
 @endphp
 <!doctype html>
 <html lang="en" dir="ltr">
-
-<!-- <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Well Control Learning Experience</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-    <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}">
-    <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
-    <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
-    @if(request()->is('exercises'))
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    @endif
-</head> -->
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +11,7 @@ use Illuminate\Support\Str;
     <!-- Favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
 
-    <!-- Estilos -->
+    <!-- Estilos globales-->
     <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -52,7 +32,8 @@ use Illuminate\Support\Str;
     <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
-   
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
     @if (isset($css_identifier))
     @switch($css_identifier)
@@ -253,7 +234,7 @@ use Illuminate\Support\Str;
                                         fill="currentColor"></path>
                                 </svg>
                             </i>
-                            <span class="item-name">{{ __('Access') }}</span>
+                            <span class="item-name">{{ __('User access') }}</span>
                             <i class="right-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -262,50 +243,23 @@ use Illuminate\Support\Str;
                                 </svg>
                             </i>
                         </a>
-                        <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-parent">
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('instructors') ? 'active' : '' }}"
-                                    aria-current="page" href="{{ route('instructors') }}">
-                                    <i class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
-                                            fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i class="sidenav-mini-icon"> L </i>
-                                    <span class="item-name">{{ __('Instructor') }}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('external') ? 'active' : '' }}"
-                                    aria-current="page" href="{{ route('external') }}">
-                                    <i class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
-                                            fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i class="sidenav-mini-icon"> C </i>
-                                    <span class="item-name">{{ __('External') }}</span>
-                                </a>
-                            </li>
+                         <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-parent">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('roles') ? 'active' : '' }}"
                                     aria-current="page" href="{{ route('roles') }}">
                                     <i class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
-                                            fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
+                                        <svg width="20" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M11.997 15.1746C7.684 15.1746 4 15.8546 4 18.5746C4 21.2956 7.661 21.9996 11.997 21.9996C16.31 21.9996 19.994 21.3206 19.994 18.5996C19.994 15.8786 16.334 15.1746 11.997 15.1746Z"
+                                                fill="currentColor"></path>
+                                            <path opacity="0.4"
+                                                d="M11.9971 12.5838C14.9351 12.5838 17.2891 10.2288 17.2891 7.29176C17.2891 4.35476 14.9351 1.99976 11.9971 1.99976C9.06008 1.99976 6.70508 4.35476 6.70508 7.29176C6.70508 10.2288 9.06008 12.5838 11.9971 12.5838Z"
+                                                fill="currentColor"></path>
                                         </svg>
                                     </i>
-                                    <i class="sidenav-mini-icon"> L </i>
-                                    <span class="item-name">{{ __('Roles') }}</span>
+                                    <i class="sidenav-mini-icon"> A </i>
+                                    <span class="item-name">{{ __('Users') }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -895,6 +849,9 @@ use Illuminate\Support\Str;
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
     <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.22"></script>
+    @endif
+     @if(request()->is('roles'))
+    <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.0"></script>
     @endif
 
 </body>

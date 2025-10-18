@@ -18,8 +18,7 @@
                             </div>
                             <div class="col-lg-6 banner-img">
                                 <div class="img">
-                                    <img src="../assets/images/plataformas/plataforma.png" class="img-fluid w-55"
-                                        alt="img8">
+                                    <img src="../assets/images/plataformas/plataforma.png" class="img-fluid w-55" alt="img8">
                                 </div>
                             </div>
                         </div>
@@ -771,7 +770,7 @@
                                                         clickOpens: true
                                                     }
                                                 };
-1
+
                                                 const pickers = {};
 
 
@@ -823,8 +822,7 @@
                                                     <label class="form-label">{{ __('Course instructor: *') }}</label>
                                                     <select class="form-select" name="INSTRUCTOR_ID_PROJECT">
                                                         <option value="">Seleccionar...</option>
-                                                        <option value="1">Ing. Pedro Frias</option>
-                                                        <option value="2">Ing. Rafael Suarez</option>
+                                                        <option value="1">Rafael Suarez</option>
                                                     </select>
                                                     <div class="error-message">{{ __('Select an instructor') }} </div>
                                                 </div>

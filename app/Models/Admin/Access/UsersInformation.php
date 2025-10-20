@@ -20,4 +20,8 @@ class UsersInformation extends Model
         'ROLES_USER',
         'ACTIVO_USER',
     ];
+
+    protected $casts = [
+        'ROLES_USER' => 'array'
+    ];
 }

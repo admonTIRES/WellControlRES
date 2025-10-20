@@ -851,7 +851,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.22"></script>
     @endif
      @if(request()->is('roles'))
-    <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.0"></script>
+    <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.1"></script>
     @endif
 
 </body>

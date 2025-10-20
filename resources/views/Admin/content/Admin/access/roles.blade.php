@@ -335,28 +335,32 @@
                         </div>
 
                         <!-- Columna 2 -->
-                        <div class="col-md-4">
+                       <div class="col-md-4">
                             <div class="form-section">
                                 <label class="form-label fw-bold mb-3">{{ __('User role') }} <span class="text-danger">*</span></label>
 
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="superusuario">
+                                    <input class="form-check-input role-switch" type="checkbox" id="superusuario">
                                     <label class="form-check-label" for="superusuario">{{ __('Superusuario') }}</label>
                                 </div>
+
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="admin">
+                                    <input class="form-check-input role-switch" type="checkbox" id="admin">
                                     <label class="form-check-label" for="admin">{{ __('Administrador') }}</label>
                                 </div>
+
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="logistica">
-                                    <label class="form-check-label" for="logistica">{{ __('Logistica') }}</label>
+                                    <input class="form-check-input role-switch" type="checkbox" id="logistica">
+                                    <label class="form-check-label" for="logistica">{{ __('Logística') }}</label>
                                 </div>
+
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="roleInstructor">
+                                    <input class="form-check-input role-switch" type="checkbox" id="roleInstructor">
                                     <label class="form-check-label" for="roleInstructor">{{ __('Instructor') }}</label>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -369,6 +373,22 @@
 
 <script>
 $(document).ready(function(){
+
+const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"];
+
+    // Control exclusivo para roles principales
+    $(".role-switch").on("change", function () {
+        const idActual = $(this).attr("id");
+
+        if ($(this).is(":checked")) {
+            // Desactiva los demás
+            rolesPrincipales.forEach(id => {
+                if (id !== idActual) {
+                    $("#" + id).prop("checked", false);
+                }
+            });
+        }
+    });
 
     const $instructorSelect = $('#instructorSelect');
     const $instructorSwitch = $('#instructorSwitch');

@@ -25,11 +25,41 @@ class usuariosController extends Controller
             ->get();
 
         foreach ($usuarios as $value) {
+               $roles = json_decode($value->ROLES_USER, true);
+
+    $badges = '';
+
+    if (is_array($roles)) {
+        foreach ($roles as $rol => $activo) {
+            if ($activo) {
+                switch ($rol) {
+                    case 'superusuario':
+                        $badges .= '<span class="badge bg-danger me-1">Superusuario</span>';
+                        break;
+                    case 'admin':
+                        $badges .= '<span class="badge bg-success me-1">Administrador</span>';
+                        break;
+                    case 'logistica':
+                        $badges .= '<span class="badge bg-primary me-1">Logística</span>';
+                        break;
+                    case 'instructor':
+                        $badges .= '<span class="badge bg-warning text-dark me-1">Instructor</span>';
+                        break;
+                }
+            }
+        }
+    }
+
+    if ($badges == '') {
+        $badges = '<span class="badge bg-secondary">Sin rol</span>';
+    }
+
+    $value->ROLES_BADGET = $badges;
             if ($value->ACTIVO_USER == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_USER . '">
                                                                 </div>';
-                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#usuariosModal">
                                                                     <span class="btn-inner">
                                                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -42,7 +72,7 @@ class usuariosController extends Controller
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                 <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_USER . '" checked>
                                             </div>';
-                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#usuariosModal">
                                                                     <span class="btn-inner">
                                                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>

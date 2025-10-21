@@ -845,7 +845,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.37"></script>
     @endif
      @if(request()->is('projectsInstructor'))
-    <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.12"></script>
+    <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.13"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
     <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.22"></script>

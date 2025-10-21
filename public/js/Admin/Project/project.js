@@ -663,10 +663,6 @@ class WizardManager {
                             title="Regenerar contraseña">
                         <i class="ri-refresh-line"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-info btn-sm" 
-                            title="Enviar correo">
-                        <i class="ri-mail-send-fill"></i>
-                    </button>
                 </td>
             `;
 

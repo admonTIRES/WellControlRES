@@ -51,7 +51,11 @@ class loginController extends Controller
             $user = Auth::user();
             
             $profile = Candidate::where('EMAIL_PROJECT', $user->email)->first();
-            $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
+            $proyecto = null;
+            if ($profile) {
+                $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
+            }
+
 
             session([
                 'profile_name' => $profile->FIRST_NAME_PROJECT ?? null,

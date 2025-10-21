@@ -111,25 +111,24 @@ class usuariosController extends Controller
                     ], 422);
                 }
 
-                // Revisar si el usuario ya existe
-                $existingUser = DB::table('users')->where('email', $email)->first();
-                if ($existingUser) {
-                    $userId = $existingUser->id;
-                } else {
-                    $userId = DB::table('users')->insertGetId([
+                $userId = DB::table('users')->updateOrInsert(
+                    ['email' => $email],
+                    [
                         'username'   => $username,
-                        'email'      => $email,
                         'password'   => Hash::make($password),
-                        'rol'        => 2, // Rol por defecto
+                        'rol'        => 2,
+                        'updated_at' => now(),
                         'created_at' => now(),
-                        'updated_at' => now()
-                    ]);
-                }
+                    ]
+                );
 
-                // Insertar en user_information
+                $existingUser = DB::table('users')->where('email', $email)->first();
+                $userId = $existingUser->id;
+
                 DB::table('user_information')->updateOrInsert(
                     ['ID_USER' => $userId],
                     [
+                        'USER_ID' => $userId,
                         'FNAME_USER'      => $request->FNAME_USER,
                         'MDNAME_USER'     => $request->MDNAME_USER,
                         'LSNAME_USER'     => $request->LSNAME_USER,

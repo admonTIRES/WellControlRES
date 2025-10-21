@@ -240,7 +240,7 @@
                             <div class="row">
                                 <!-- Tipo de usuario -->
                                 <div class="form-check form-switch col-md-12 mb-2 d-flex justify-content-center align-items-center">
-                                    <input class="form-check-input me-2" type="checkbox" id="instructorSwitch">
+                                    <input class="form-check-input me-2" type="checkbox" id="instructorSwitch" name="INSTRUCTOR_USER">
                                     <label class="form-check-label" for="instructorSwitch">{{ __('Instructor?') }}</label>
                                 </div>
 

@@ -1658,5 +1658,6 @@
     "Instructor?":"¿Este usuario es instructor?",
     "Confirm password":"Confirmar contraseña",
     "Instructor selected":"Instructor seleccionado",
-    "Fields are auto-filled. To modify, use the Instructor catalog.":"Algunos campos se han llenado de forma automática, si deseas modificar esta información debes hacerlo desde el catálogo de instructores."
+    "Fields are auto-filled. To modify, use the Instructor catalog.":"Algunos campos se han llenado de forma automática, si deseas modificar esta información debes hacerlo desde el catálogo de instructores.",
+    "Generate Password": "Generar contraseña"
 }

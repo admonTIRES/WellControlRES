@@ -397,14 +397,13 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "instructor"];
     // Inicial: ocultar select
     $('#instructorSelectDiv').hide();
 
-    // Limpiar campos
     function clearInstructorFields() {
         $('#FNAME_USER, #MDNAME_USER, #LSNAME_USER').val('').prop('readonly', false);
         $('#email').val('').prop('readonly', false);
+        
         $instructorSwitch.prop('checked', false);
     }
 
-    // Cambia switch Instructor
     $instructorSwitch.change(function(){
         if(this.checked){
             $('#instructorSelectDiv').show();
@@ -414,7 +413,6 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "instructor"];
         }
     });
 
-    // Cambia selección de instructor
     $instructorSelect.change(function(){
         const selectedId = $(this).val();
         if(selectedId != '0'){
@@ -457,6 +455,16 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "instructor"];
             input.attr('type', 'password');
             icon.removeClass('bi-eye-slash').addClass('bi-eye');
         }
+    });
+
+      $('button[data-bs-target="#usuariosModal"]').click(function(){
+        $('#usuariosForm').append('<input type="hidden" id="ID_USER" name="ID_USER" value="0">');
+        $('#usuariosForm')[0].reset();
+        $('#instructorSelectDiv').hide();
+        clearInstructorFields();
+        $('#ID_USER').val(0);
+
+        $('#userTitle').text('{{ __("New user") }}');
     });
 
 });

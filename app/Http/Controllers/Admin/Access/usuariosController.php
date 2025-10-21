@@ -43,7 +43,7 @@ class usuariosController extends Controller
                         $badges .= '<span class="badge bg-primary me-1">Logística</span>';
                         break;
                     case 'instructor':
-                        $badges .= '<span class="badge bg-warning text-dark me-1">Instructor</span>';
+                        $badges .= '<span class="badge bg-warning me-1">Instructor</span>';
                         break;
                 }
             }

@@ -1,7 +1,4 @@
 ID_USER = 0
-
-
-
 var usuariosDatatable = $("#usuarios-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -29,6 +26,7 @@ var usuariosDatatable = $("#usuarios-list-table").DataTable({
         },
         complete: function () {
             usuariosDatatable.columns.adjust().draw();
+            ID_USER = 0;
             // ocultarCarga();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -189,7 +187,7 @@ $('#usuarios-list-table tbody').on('click', 'td>button.EDITAR', function () {
             $('#instructorSelectDiv').hide();
             $instructorSelect.val('0');
         }
-    $('#usuariosModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
+    $('#usuariosModal .modal-title').html(row.data().FNAME_USER);
 });
 
 $('#usuarios-list-table tbody').on('change', 'input.ACTIVAR', function () {

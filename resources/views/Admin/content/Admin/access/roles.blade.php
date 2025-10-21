@@ -341,7 +341,7 @@
 
                                 <div class="form-check form-switch mb-2">
                                     <input class="form-check-input role-switch" type="checkbox" id="superusuario">
-                                    <label class="form-check-label" for="superusuario">{{ __('Superusuario') }}</label>
+                                    <label class="form-check-label" for="superusuario">{{ __('Superadministrador') }}</label>
                                 </div>
 
                                 <div class="form-check form-switch mb-2">

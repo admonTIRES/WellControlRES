@@ -34,7 +34,7 @@ class usuariosController extends Controller
             if ($activo) {
                 switch ($rol) {
                     case 'superusuario':
-                        $badges .= '<span class="badge bg-danger me-1">Superusuario</span>';
+                        $badges .= '<span class="badge bg-danger me-1">Superadministrador</span>';
                         break;
                     case 'admin':
                         $badges .= '<span class="badge bg-success me-1">Administrador</span>';

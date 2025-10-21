@@ -28,7 +28,6 @@
             <div class="container-left">
                 <div class="left-card animate-on-scroll stagger-1">
                     <h2>{{ __('Learning') }}</h2>
-                        <p>Hola, {{ session('ACCREDITING_ENTITY_PROJECT') }}</p>
                     <p>{{ __('Master the fundamentals of drilling engineering through our comprehensive learning platform. From basic mathematical calculations to advanced well planning techniques, we provide interactive tools and real-world scenarios that prepare you for field operations.') }}</p>
                     <!-- <button class="arrow-button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

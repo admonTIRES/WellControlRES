@@ -89,6 +89,9 @@ use Illuminate\Support\Str;
         <div class="sidebar-body pt-0 data-scrollbar">
             <div class="collapse navbar-collapse" id="sidebar-parent">
                 <ul class="navbar-nav iq-main-menu py-4">
+                   @if( (session('ROLES_USER')['logistica'] ?? false)
+        || (session('ROLES_USER')['admin'] ?? false)
+        || (session('ROLES_USER')['superusuario'] ?? false) )
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="page"
                             href="{{ route('home') }}">
@@ -278,6 +281,7 @@ use Illuminate\Support\Str;
                             <span class="item-name">{{ __('Reports') }}</span>
                         </a>
                     </li>
+                    @endif
                     <li>
                         <hr class="hr-horizontal">
                     </li>

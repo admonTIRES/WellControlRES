@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Project\candidate;
 use App\Models\Admin\Project\Course;
 use App\Models\Admin\Project\Proyect;
+use App\Models\Admin\Access\UsersInformation;
 
 
 class loginController extends Controller
@@ -51,6 +52,8 @@ class loginController extends Controller
             $user = Auth::user();
             
             $profile = Candidate::where('EMAIL_PROJECT', $user->email)->first();
+            $profileAdministrador = UsersInformation::where('USER_ID', $user->id)->first();
+
             $proyecto = null;
             if ($profile) {
                 $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
@@ -60,7 +63,8 @@ class loginController extends Controller
             session([
                 'profile_name' => $profile->FIRST_NAME_PROJECT ?? null,
                 'ACCREDITING_ENTITY_PROJECT' => $proyecto->ACCREDITING_ENTITY_PROJECT ?? null,
-                'ID_PROJECT' => $profile->ID_PROJECT ?? null
+                'ID_PROJECT' => $profile->ID_PROJECT ?? null,
+                'ROLES_USER' => json_decode($profileAdministrador->ROLES_USER, true) ?? null
             ]);
 
             if ($user->rol === 1) { // Usuario normal

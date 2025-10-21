@@ -14,6 +14,30 @@
                                         <span class="text-secondary">{{ __('User access') }}
                                     </h1>
                                 </div>
+                                    @if (session('ROLES_USER')['superusuario'] ?? false)
+                                        <div id="div-superusuario">
+                                            <p>Acceso total al sistema.</p>
+                                        </div>
+                                    @endif
+
+                                    @if (session('ROLES_USER')['admin'] ?? false)
+                                        <div id="div-admin">
+                                            <p>Gestión de usuarios y proyectos.</p>
+                                        </div>
+                                    @endif
+
+                                    @if (session('ROLES_USER')['logistica'] ?? false)
+                                        <div id="div-logistica">
+                                            <p>Control de materiales y recursos.</p>
+                                        </div>
+                                    @endif
+
+                                    @if (session('ROLES_USER')['instructor'] ?? false)
+                                        <div id="div-instructor">
+                                            <p>Gestión de cursos e instructores.</p>
+                                        </div>
+                                    @endif
+
                                 <p class="mb-4">{{ __('You can create new users, assign roles and permissions, manage passwords, and activate or deactivate accounts') }}.</p>
                             </div>
                             <div class="col-lg-6 banner-img">

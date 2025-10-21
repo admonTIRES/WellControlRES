@@ -35,7 +35,7 @@
         <h2 class="steps-title">
             <img src="/assets/images/principal/logoSmithMasonCO.png" />
         </h2>
-        <div class="container2">
+        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 1)
             <div class="options">
                 <div class="option-card">
                     <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
@@ -44,7 +44,11 @@
                         <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
                     </button> -->
                 </div>
-
+            </div>
+            @endif
+        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 2)
+        <div class="container2">
+            <div class="options">             
                 <div class="option-card" data-company="iwcf">
                     <!-- <h3 class="option-title">IWCF</h3> -->
                     <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
@@ -55,6 +59,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 

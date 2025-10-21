@@ -119,7 +119,7 @@
                
             </div>
 
-            <div class="three-container">
+            {{-- <div class="three-container">
                 <div class="sp-title titlePrincipal sp-delay-title-1">
                     <h2>{{ __('Pendientes') }}</h2>
                     <p>{{ __('') }}</p>
@@ -134,8 +134,8 @@
                     <p>{{ __('') }}</p>
 
                 </div>
-            </div>
-             <div class="three-container">
+            </div> --}}
+             {{-- <div class="three-container">
                 <div class="sp-step sp-delay-2">
                     <div class="exercise-list">
                         <div class="exercise-item">
@@ -293,7 +293,7 @@
                         </div>
                     </div>
                 </div>
-             </div>
+             </div> --}}
             
         </div>
         <div class="sp-path-container">
@@ -303,7 +303,7 @@
             </div>
            
             
-            <div class="sp-step sp-step-right sp-delay-2">
+            {{-- <div class="sp-step sp-step-right sp-delay-2">
                  <div class="sp-section-title sp-delay-title-2">
                         <h3>{{ __('Information') }}</h3>
                         <p>{{ __('Know the Killsheet') }}</p>
@@ -318,7 +318,27 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> --}}
+             
+            <div class="sp-step sp-step-right sp-delay-2">
+                 <div class="sp-section-title sp-delay-title-2">
+                    <h3>{{ __('Information') }}</h3>
+                    <p>{{ __('Know the Killsheet') }}</p>
+                </div>
+                <a href="" target="_blank" class="alert-development">
+                    <div class="sp-item-container">
+                        <div class="sp-item">
+                            <div class="sp-item-image" style="right: -5vw;">
+                                <img src="/assets/images/killsheets/information.png">
+                            </div>
+                            <div class="sp-item-base"><img src="/assets/images/principal/pasto.png"></div>
+                        </div>
+                    </div>
+                </a>
+            </div> 
+
+
+            
 
             <div class="sp-step sp-step-right sp-delay-2">
                  <div class="sp-section-title sp-delay-title-2">
@@ -342,7 +362,7 @@
                         <h3>{{ __('My first killsheet') }}</h3>
                         <p>{{ __('Practice and learn') }}</p>
                     </div>
-                <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -5vw;">
@@ -358,7 +378,7 @@
                         <h3>{{ __('Exercise practice') }}</h3>
                         <p>{{ __('Practice an exercise and ') }}  {{ __('check your results') }}</p>
                     </div>
-                <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -374,7 +394,7 @@
                         <h3>{{ __('Exercise simulator') }}</h3>
                         <p>{{ __('Killsheet with stopwatch') }}</p>
                     </div>
-                <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -390,7 +410,7 @@
                         <h3>{{ __('Exercise fast') }}</h3>
                         <p>{{ __('Practice in record time') }}</p>
                     </div>
-                <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
+                <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -2vw; top:1vw;">
@@ -407,7 +427,57 @@
             
             
         </div>
-        
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.alert-development').forEach(function(el) {
+                    el.addEventListener('click', function(e) {
+                        e.preventDefault(); // <-- Previene que se abra el enlace
+                        Swal.fire({
+                            title: '<strong>🚧 Módulo en Construcción</strong>',
+                            html: `
+                                <p>Este apartado aún se encuentra en desarrollo.</p>
+                                <p>Próximamente estará disponible para que puedas acceder y usar todas sus funcionalidades.</p>
+                                <p>Gracias por tu paciencia.</p>
+                            `,
+                            icon: 'info',
+                            customClass: {
+                                popup: 'swal2-modal-construction',
+                                title: 'swal2-title-construction',
+                                content: 'swal2-content-construction',
+                                confirmButton: 'swal2-confirm-construction'
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+        <style>
+.swal2-modal-construction {
+    text-align: center;
+    font-family: Arial, sans-serif;
+   display: flex !important;
+    flex-direction: column;
+    align-items: center; /* centra horizontalmente todo */
+    text-align: center; 
+}
+
+.swal2-title-construction {
+    font-size: 1.8rem;
+}
+
+.swal2-content-construction p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    text-align: center;
+    text-justify: center;
+}
+.swal2-confirm-construction {
+    background-color: #236192 !important; /* azul cielo */
+    color: white !important;
+    font-weight: bold;
+    border-radius: 5px;
+}
+</style>
         
         <!-- <div class="sp-path-container">
         </div> -->

@@ -19,6 +19,7 @@ class UsersInformation extends Model
         'INSTRUCTOR_ID',
         'ROLES_USER',
         'ACTIVO_USER',
+        'password_v'
     ];
 
     protected $casts = [

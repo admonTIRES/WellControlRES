@@ -102,7 +102,7 @@ class usuariosController extends Controller
             if (intval($request->api) === 1) {
                 $email = $request->email ?? null;
                 $username = $request->username ?? null;
-                $password = $request->password ?? null;
+                $password = $request->password_v ?? null;
 
                 if (!$email || !$username || !$password) {
                     return response()->json([
@@ -136,6 +136,7 @@ class usuariosController extends Controller
                         'INSTRUCTOR_USER' => $request->INSTRUCTOR_USER,
                         'INSTRUCTOR_ID'   => $request->INSTRUCTOR_ID,
                         'ROLES_USER'      => $request->ROLES_USER,
+                        'password_v'      => $request->password_v,
                         'ACTIVO_USER'     => 1,
                         'created_at'      => now(),
                         'updated_at'      => now()

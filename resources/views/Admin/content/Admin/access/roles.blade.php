@@ -246,10 +246,10 @@
 
                                 <!-- Select instructor -->
                                 <div class="form-section col-md-12 mb-3" id="instructorSelectDiv">
-                                    <label for="instructorSelect" class="form-label required-field fw-bold">
+                                    <label for="instructorSelect" class="form-label fw-bold">
                                         {{ __('Instructor') }} <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="instructorSelect" name="INSTRUCTOR_ID" required>
+                                    <select class="form-select" id="instructorSelect" name="INSTRUCTOR_ID">
                                         <option value="0">{{ __('Select an instructor') }}</option>
                                         @foreach ($instructores as $instructor) 
                                         <option value="{{ $instructor->ID_CATALOGO_INSTRUCTOR }}">
@@ -263,10 +263,10 @@
 
                                 <!-- Nombre -->
                                 <div class="form-section col-md-6 mb-3">
-                                    <label for="FNAME_USER" class="form-label required-field fw-bold">
+                                    <label for="FNAME_USER" class="form-label fw-bold">
                                         {{ __('First name') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control text-capitalize" name="FNAME_USER" id="FNAME_USER" required>
+                                    <input type="text" class="form-control text-capitalize" name="FNAME_USER" id="FNAME_USER">
                                 </div>
 
                                 <!-- Segundo nombre -->
@@ -279,25 +279,25 @@
 
                                 <!-- Apellido -->
                                 <div class="form-section col-md-12 mb-3">
-                                    <label for="LSNAME_USER" class="form-label required-field fw-bold">
+                                    <label for="LSNAME_USER" class="form-label  fw-bold">
                                         {{ __('Family or last name') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control text-capitalize" name="LSNAME_USER" id="LSNAME_USER" required>
+                                    <input type="text" class="form-control text-capitalize" name="LSNAME_USER" id="LSNAME_USER" >
                                 </div>
 
                                 <hr class="my-3">
 
                                 <!-- Correo -->
                                 <div class="form-section col-md-6 mb-3">
-                                    <label for="email" class="form-label required-field fw-bold">
+                                    <label for="email" class="form-label fw-bold">
                                         {{ __('Email') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" class="form-control" name="email" id="email" required>
+                                    <input type="email" class="form-control" name="email" id="email" >
                                 </div>
 
                                 <!-- Usuario -->
                                 <div class="form-section col-md-6 mb-3">
-                                    <label for="username" class="form-label required-field fw-bold">
+                                    <label for="username" class="form-label  fw-bold">
                                         {{ __('Username') }} <span class="text-danger">*</span>
                                     </label>
                                    <input 
@@ -305,7 +305,7 @@
                                         class="form-control" 
                                         name="username" 
                                         id="username" 
-                                        required
+                                
                                         oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')"
                                         maxlength="50"
                                     >
@@ -313,19 +313,19 @@
 
                                 <!-- Contraseña -->
                                 <div class="form-section col-md-6 mb-3 position-relative">
-                                    <label for="password" class="form-label required-field fw-bold">
+                                    <label for="password" class="form-label  fw-bold">
                                         {{ __('Password') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="password" class="form-control pe-5" name="password" id="password" required>
+                                    <input type="password" class="form-control pe-5" name="password_v" id="password">
                                     <i class="bi bi-eye toggle-password position-absolute bottom-0 end-0 translate-middle-y me-3" style="cursor: pointer;" toggle="#password"></i>
                                 </div>
 
                                 <!-- Confirmar contraseña -->
                                 <div class="form-section col-md-6 mb-3 position-relative">
-                                    <label for="confirmPassword" class="form-label required-field fw-bold">
+                                    <label for="confirmPassword" class="form-label fw-bold">
                                         {{ __('Confirm password') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="password" class="form-control pe-5" name="CONFIRM_PASSWORD" id="confirmPassword" required>
+                                    <input type="password" class="form-control pe-5" name="CONFIRM_PASSWORD" id="confirmPassword" >
                                     <i class="bi bi-eye toggle-password position-absolute bottom-0 end-0 translate-middle-y me-3" style="cursor: pointer;" toggle="#confirmPassword"></i>
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -396,7 +396,6 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"
 
     // Inicial: ocultar select
     $('#instructorSelectDiv').hide();
-    $instructorSelect.prop('required', false);
 
     // Limpiar campos
     function clearInstructorFields() {
@@ -409,10 +408,8 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"
     $instructorSwitch.change(function(){
         if(this.checked){
             $('#instructorSelectDiv').show();
-            $instructorSelect.prop('required', true);
         } else {
             $('#instructorSelectDiv').hide();
-            $instructorSelect.prop('required', false).val('0');
             clearInstructorFields();
         }
     });
@@ -430,7 +427,6 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"
                 $instructorSwitch.prop('checked', true);
                 $instructorRoleSwitch.prop('checked', true);
                 $('#instructorSelectDiv').show();
-                $instructorSelect.prop('required', true);
 
                 Swal.fire({
                     icon: 'info',

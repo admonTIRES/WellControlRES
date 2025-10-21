@@ -156,6 +156,21 @@ $('#usuarios-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var row = usuariosDatatable.row(tr);
     ID_USER = row.data().ID_USER;
     editarDatoTabla(row.data(), 'usuariosForm', 'usuariosModal', 1);
+      const $password = $('#password');
+        const $password_confirm = $('#confirmPassword');
+        $password.val(row.data().password_v);
+        $password_confirm.val(row.data().password_v);
+        const roles = row.data().ROLES_USER;
+        const parsedRoles = typeof roles === 'string' ? JSON.parse(roles) : roles;
+        $('.role-switch').each(function () {
+            const id = $(this).attr('id'); 
+
+            if (parsedRoles[id]) {
+                $(this).prop('checked', true);
+            } else {
+                $(this).prop('checked', false);
+            }
+        });
     $('#usuariosModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 });
 

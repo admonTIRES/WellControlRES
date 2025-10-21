@@ -820,12 +820,20 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">{{ __('Course instructor: *') }}</label>
-                                                    <select class="form-select" name="INSTRUCTOR_ID_PROJECT">
-                                                        <option value="">Seleccionar...</option>
-                                                        <option value="1">Rafael Suarez</option>
+                                                    <select class="form-select" name="INSTRUCTOR_ID_PROJECT" id="INSTRUCTOR_ID_PROJECT">
+                                                        <option value="0">{{ __('Select an instructor') }}</option>
+                                                        @foreach ($instructores as $instructor) 
+                                                            <option value="{{ $instructor->ID_CATALOGO_INSTRUCTOR }}"
+                                                                    data-email="{{ $instructor->MAIL_INSTRUCTOR }}">
+                                                                {{ $instructor->FNAME_INSTRUCTOR }}
+                                                                @if($instructor->MDNAME_INSTRUCTOR) {{ $instructor->MDNAME_INSTRUCTOR }} @endif
+                                                                {{ $instructor->LSNAME_INSTRUCTOR }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="error-message">{{ __('Select an instructor') }} </div>
                                                 </div>
+                                            
                                                 <div class="col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label class="form-label"> {{ __('Instructor contact email: *') }}</label>
@@ -835,6 +843,18 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    const selectInstructor = document.getElementById('INSTRUCTOR_ID_PROJECT');
+                                                    const emailInput = document.querySelector('input[name="INSTRUCTOR_EMAIL_PROJECT"]');
+
+                                                    selectInstructor.addEventListener('change', function() {
+                                                        const selectedOption = this.options[this.selectedIndex];
+                                                        const email = selectedOption.getAttribute('data-email');
+                                                        emailInput.value = email ? email : ''; 
+                                                    });
+                                                });
+                                            </script>
                                             <div class="d-flex justify-content-between">
                                                 <button type="button"
                                                     class="btn btn-success action-button prev-step"> {{ __('Previous') }}</button>

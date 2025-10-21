@@ -166,12 +166,14 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
         $idiomas = IdiomasExamenes::all();
         $operaciones = Operacion::all();
         $NombreProyecto = NombreProyecto::all();
+        $instructores = Instructor::all();
+
 
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
 
-        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto'))->with('user_role', 0);
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

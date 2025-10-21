@@ -97,10 +97,10 @@
             </a>
         </div>
 
-        <div id="simuladoresDiv" class="card">
+        <div id="simuladoresDiv" class="card alert-development">
             <h2 class="card-title">{{ __('Simulators') }}</h2>
             <img src="/assets/images/principal/casco.png" alt="{{ __('Reports') }}" class="card-image">
-            <a href="#" class="card-link">
+            <a href="#" class="card-link alert-development">
                 {{ __('Learn more') }}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -108,10 +108,10 @@
             </a>
         </div>
 
-        <div id="evaluacionesDiv" class="card">
+        <div id="evaluacionesDiv" class="card alert-development">
             <h2 class="card-title">{{ __('Evaluation') }}</h2>
             <img src="/assets/images/principal/laptop.png" alt="{{ __('Statistics') }}" class="card-image">
-            <a href="#" class="card-link">
+            <a href="#" class="card-link alert-development">
                 {{ __('Learn more') }}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -120,10 +120,10 @@
         </div>
     </section>
      <section class="cards-container-bottom">
-        <div id="modelsDiv" class="card">
+        <div id="modelsDiv" class="card alert-development">
             <h2 class="card-title">{{ __('3D ') }}<br>{{ __('Models') }}</h2>
-            <img src="/assets/images/principal/bop 3d.png" alt="{{ __('Models') }}" class="card-image">
-            <a href="#" class="card-link">
+            <img src="/assets/images/principal/bop 3d.png" alt="{{ __('Models') }}" class="card-image" >
+            <a href="#" class="card-link alert-development">
                 {{ __('Learn more') }}   
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -132,6 +132,57 @@
         </div>
     </section>
 </div>
+<script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.alert-development').forEach(function(el) {
+                    el.addEventListener('click', function(e) {
+                        e.preventDefault(); // <-- Previene que se abra el enlace
+                        Swal.fire({
+                            title: '<strong>🚧 Módulo en Construcción</strong>',
+                            html: `
+                                <p>Este apartado aún se encuentra en desarrollo.</p>
+                                <p>Próximamente estará disponible para que puedas acceder y usar todas sus funcionalidades.</p>
+                                <p>Gracias por tu paciencia.</p>
+                            `,
+                            icon: 'info',
+                            customClass: {
+                                popup: 'swal2-modal-construction',
+                                title: 'swal2-title-construction',
+                                content: 'swal2-content-construction',
+                                confirmButton: 'swal2-confirm-construction'
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+        <style>
+.swal2-modal-construction {
+    text-align: center;
+    font-family: Arial, sans-serif;
+   display: flex !important;
+    flex-direction: column;
+    align-items: center; /* centra horizontalmente todo */
+    text-align: center; 
+}
+
+.swal2-title-construction {
+    font-size: 1.8rem;
+}
+
+.swal2-content-construction p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    text-align: center;
+    text-justify: center;
+}
+.swal2-confirm-construction {
+    background-color: #236192 !important; /* azul cielo */
+    color: white !important;
+    font-weight: bold;
+    border-radius: 5px;
+}
+</style>
 
 <script src="/js/Principal/Principal.js?v=1.1"></script>
 @endsection

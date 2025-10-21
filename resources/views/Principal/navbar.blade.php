@@ -19,16 +19,16 @@
         <a href="{{ route('killsheet') }}" class="nav-element" data-title="Hojas de matar">
             <img src="/assets/images/principal/iconExamen.png" alt="Lista" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}" class="nav-element" data-title="Simuladores">
+        <a href="{{ route('home') }}" class="nav-element alert-development" data-title="Simuladores">
             <img src="/assets/images/principal/iconSimulador.png" alt="Edificio" class="nav-icon">
         </a>
-        <a href="{{ route('evaluation') }}" class="nav-element" data-title="Exámenes">
+        <a href="{{ route('evaluation') }}" class="nav-element alert-development" data-title="Exámenes">
             <img src="/assets/images/principal/iconCalificacion.png" alt="Tareas" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}" class="nav-element" data-title="Modelos 3D">
+        <a href="{{ route('home') }}" class="nav-element alert-development" data-title="Modelos 3D">
             <img src="/assets/images/principal/iconModelo3D.png" alt="Átomo" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}" class="nav-element notification" data-title="Notificaciones">
+        <a href="{{ route('home') }}" class="nav-element notification alert-development" data-title="Notificaciones">
             <img src="/assets/images/principal/bell3.png" alt="campana" class="nav-icon">
             <span class="notification-count">3</span>
         </a>

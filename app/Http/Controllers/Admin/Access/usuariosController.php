@@ -21,7 +21,7 @@ class usuariosController extends Controller
     try {
         $usuarios = DB::table('user_information as ui')
             ->join('users as u', 'ui.ID_USER', '=', 'u.id')
-            ->select('ui.*', 'u.username', 'u.email', 'u.rol')
+            ->select('ui.*', 'u.username', 'u.email', 'u.rol', 'u.password')
             ->get();
 
         foreach ($usuarios as $value) {

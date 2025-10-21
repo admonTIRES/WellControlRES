@@ -153,83 +153,23 @@ $("#usuariosbtnModal").click(function (e) {
 
 $('#usuarios-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
-    var row = instructoresDatatable.row(tr);
-    ID_CATALOGO_INSTRUCTOR = row.data().ID_CATALOGO_INSTRUCTOR;
-
-    editarDatoTabla(row.data(), 'instructoresForm', 'instructoresModal', 1);
-    console.log(row.data().ACREDITACION_INSTRUCTOR);
-    function initializeSelectizedFields(row, fieldIds) {
-        fieldIds.forEach(function (fieldId) {
-            var values = row.data()[fieldId];
-            var $select = $('#' + fieldId);
-
-            if (!$select[0].selectize) {
-                $select.selectize({
-                    plugins: ['remove_button'],
-                    delimiter: ',',
-                    persist: false,
-                    create: false
-                });
-            }
-
-            var selectize = $select[0].selectize;
-            selectize.clear();            
-            selectize.setValue(values);  
-        });
-    }
-
-    initializeSelectizedFields(row, [
-        'ACREDITACION_INSTRUCTOR'
-    ]);
-
-    $('#documentos-container').html(''); // Limpia primero el contenedor
-
-    let documentos = row.data().DOC_INSTRUCTOR;
-
-    if (documentos) {
-        try {
-            documentos = JSON.parse(documentos); // Convierte el JSON a array
-            documentos.forEach((doc, index) => {
-                $('#documentos-container').append(`
-                    <div class="d-flex align-items-center mb-2 doc-row">
-                        <input type="text" name="documents[${index}][name]" 
-                            class="form-control me-2" 
-                            value="${doc.nombre}" 
-                            placeholder="Nombre del documento" required>
-                        
-                        <a href="/storage/${doc.ruta.replace('app/', '')}" 
-                        target="_blank" 
-                        class="btn btn-outline-secondary btn-sm me-2">
-                        <i class="fas fa-file-pdf"></i>
-                        </a>
-                        
-                        <input type="file" name="documents[${index}][file]" 
-                            class="form-control" accept=".pdf">
-                        
-                        <button type="button" class="btn btn-danger btn-sm ms-2 remove-doc">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `);
-            });
-        } catch (e) {
-            console.error('Error al parsear documentos:', e);
-        }
-    }
-    $('#instructoresModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
-
+    var row = usuariosDatatable.row(tr);
+    ID_USER = row.data().ID_USER;
+    editarDatoTabla(row.data(), 'usuariosForm', 'usuariosModal', 1);
+    $('#usuariosModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 });
 
 $('#usuarios-list-table tbody').on('change', 'input.ACTIVAR', function () {
     var tr = $(this).closest('tr');
-    var row = instructoresDatatable.row(tr);
+    var row = usuariosDatatable.row(tr);
     var estado = $(this).is(':checked') ? 1 : 0;
-
     var data = {
         api: 1,
         ACTIVAR: estado == 0 ? 1 : 0,
-        ID_CATALOGO_INSTRUCTOR: row.data().ID_CATALOGO_INSTRUCTOR
+        ID_USER: row.data().ID_USER
     };
 
-    eliminarDatoTabla(data, [instructoresDatatable], 'instructorActive');
+    eliminarDatoTabla(data, [usuariosDatatable], 'usuarioActive');
 });
+
+

@@ -387,7 +387,7 @@
             
             <!-- Botón de Acción -->
             <center>
-                <a href="https://wclearningexperience.results-in-performance.com/" class="cta-button" target="_blank">Comenzar ahora</a>
+                <a href="https://wcle.results-in-performance.com/" class="cta-button" target="_blank">Comenzar ahora</a>
             </center>
             
             <div class="support-section">

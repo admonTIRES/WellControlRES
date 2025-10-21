@@ -171,6 +171,24 @@ $('#usuarios-list-table tbody').on('click', 'td>button.EDITAR', function () {
                 $(this).prop('checked', false);
             }
         });
+        const $instructorSelect = $('#instructorSelect');
+        const $instructorSwitch = $('#instructorSwitch');
+         const $instructorRoleSwitch = $('#instructor');
+        if (row.data().INSTRUCTOR_USER === 'on' || row.data().INSTRUCTOR_USER === 1 || row.data().INSTRUCTOR_USER === true) {
+            $instructorSwitch.prop('checked', true);
+            $instructorRoleSwitch.prop('checked', true);
+
+            $('#instructorSelectDiv').show();
+
+            if (row.data().INSTRUCTOR_ID && row.data().INSTRUCTOR_ID !== '0') {
+                $instructorSelect.val(row.data().INSTRUCTOR_ID);
+            }
+        } else {
+            $instructorSwitch.prop('checked', false);
+            $instructorRoleSwitch.prop('checked', false);
+            $('#instructorSelectDiv').hide();
+            $instructorSelect.val('0');
+        }
     $('#usuariosModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 });
 

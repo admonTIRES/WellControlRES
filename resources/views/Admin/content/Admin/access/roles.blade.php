@@ -355,7 +355,7 @@
                                 </div>
 
                                 <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input role-switch" type="checkbox" id="roleInstructor">
+                                    <input class="form-check-input role-switch" type="checkbox" id="instructor">
                                     <label class="form-check-label" for="roleInstructor">{{ __('Instructor') }}</label>
                                 </div>
                             </div>
@@ -374,7 +374,7 @@
 <script>
 $(document).ready(function(){
 
-const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"];
+const rolesPrincipales = ["superusuario", "admin", "logistica", "instructor"];
 
     // Control exclusivo para roles principales
     $(".role-switch").on("change", function () {
@@ -392,7 +392,7 @@ const rolesPrincipales = ["superusuario", "admin", "logistica", "roleInstructor"
 
     const $instructorSelect = $('#instructorSelect');
     const $instructorSwitch = $('#instructorSwitch');
-    const $instructorRoleSwitch = $('#roleInstructor');
+    const $instructorRoleSwitch = $('#instructor');
 
     // Inicial: ocultar select
     $('#instructorSelectDiv').hide();

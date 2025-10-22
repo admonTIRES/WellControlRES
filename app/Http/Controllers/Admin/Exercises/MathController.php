@@ -157,11 +157,10 @@ class MathController extends Controller
                     //ESTRUSTURA DE LA PREGUNTA 
                     $imagen1 = $request->hasFile('SOLUCIONIMG_MATH') ? $this->uploadFile($request->file('SOLUCIONIMG_MATH')) : null;
 
-                 $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
-                    $textos = $request->respuesta_text ? (array)$request->respuesta_text : [];
+                    $correctas = $request->input('respuesta_check') ? (array)$request->input('respuesta_check') : [];
+                    $textos = $request->input('respuesta_text') ? (array)$request->input('respuesta_text') : [];
 
                     $respuestas = [];
-
                     for ($i = 0; $i < count($textos); $i++) {
                         $respuestas[] = [
                             'numero' => $i + 1,
@@ -170,8 +169,7 @@ class MathController extends Controller
                         ];
                     }
 
-                    // Guardar JSON en la columna
-                    $OPCIONES_MATH =$respuestas;
+                    $OPCIONES_MATH = $respuestas;
 
                     $CALCULADORA_MATH = [];
 
@@ -196,11 +194,11 @@ class MathController extends Controller
                     } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
-                                $question = Math::where('ID_MATH_EXERCISE', $request['ID_MATH_EXERCISE'])->update(['ACTIVO_MATH' => 0]);
+                                $math = Math::where('ID_MATH_EXERCISE', $request['ID_MATH_EXERCISE'])->update(['ACTIVO_MATH' => 0]);
                                 $response['code'] = 1;
                                 $response['math'] = 'Desactivado';
                             } else {
-                                $question = Math::where('ID_MATH_EXERCISE', $request['ID_MATH_EXERCISE'])->update(['ACTIVO_MATH' => 1]);
+                                $math = Math::where('ID_MATH_EXERCISE', $request['ID_MATH_EXERCISE'])->update(['ACTIVO_MATH' => 1]);
                                 $response['code'] = 1;
                                 $response['math'] = 'Activado';
                             }

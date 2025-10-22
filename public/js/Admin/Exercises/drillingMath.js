@@ -208,6 +208,7 @@ $("#mathbtnModal").click(function (e) {
 $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = mathDatatable.row(tr);
+    var data = row.data();
     ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
     editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
 
@@ -238,6 +239,32 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'BOP_MATH',
         'OPERATION_MATH'
     ]);
+
+  var $opcionesContainer = $('#OPCIONES_MATH');
+$opcionesContainer.empty();
+
+if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
+    data.OPCIONES_MATH.forEach(function(opcion, index) {
+        var numero = index + 1;
+        var texto = opcion.texto || '';
+        var correcta = opcion.correcta ? 'checked' : '';
+        var placeholder = `Escriba la opción ${String.fromCharCode(64 + numero)}`;
+
+        var opcionHtml = `
+            <div class="opcion-item mb-2">
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" 
+                               name="respuesta_check[]" value="${numero}" ${correcta}>
+                    </div>
+                    <input type="text" class="form-control opcion-texto" 
+                           name="respuesta_text[]" value="${texto}" placeholder="${placeholder}">
+                </div>
+            </div>
+        `;
+        $opcionesContainer.append(opcionHtml);
+    });
+}
 
     var tipo = row.data().TIPO_MATH;
     $('.ejercicio-fraccion').addClass('d-none');

@@ -197,7 +197,9 @@ $datosGraficos = $this->prepararDatosGraficos($estudiantes);
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
         $bops = TipoBOP::all();
-        return view('Admin.content.Instructor.exercises.math', compact('entes', 'niveles', 'bops'))->with('user_role', 0);
+         $operaciones = Operacion::all();
+        $idiomas = IdiomasExamenes::all();
+        return view('Admin.content.Instructor.exercises.math', compact('entes', 'niveles', 'bops', 'operaciones', 'idiomas'))->with('user_role', 0);
     }
         /**
      * @return \Illuminate\View\View

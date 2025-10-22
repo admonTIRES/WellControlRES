@@ -30,16 +30,6 @@ class MathController extends Controller
             $operaciones = Operacion::pluck('NOMBRE_OPERACION', 'ID_CATALOGO_OPERACION')->toArray();
             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
 
-            function mapIdsToNames($ids, $catalogo)
-            {
-                if (!is_array($ids)) {
-                    $ids = json_decode($ids, true) ?? [];
-                }
-
-                return implode(', ', array_map(function ($id) use ($catalogo) {
-                    return $catalogo[$id] ?? '';
-                }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
-            }
 
             foreach ($tabla as $value) {
 
@@ -194,12 +184,12 @@ class MathController extends Controller
                                 'CALCULADORA_MATH' => $CALCULADORA_MATH
                             ]);
                             $response['code'] = 1;
-                            $response['question'] = 'Actualizado';
+                            $response['math'] = 'Actualizado';
                         }
                         return response()->json($response);
                     }
                     $response['code']  = 1;
-                    $response['question']  = $question;
+                    $response['math']  = $question;
                     return response()->json($response);
                     break;
 

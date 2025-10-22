@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance = $select[0].selectize;
-    var $select2 = $('#NIVEL_MATH').selectize({
+    var $select2 = $('#NIVELES_MATH').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -37,6 +37,18 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance3 = $select3[0].selectize;
+     var $select4 = $('#OPERATION_MATH').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance4 = $select4[0].selectize;
     // RESET MODALS
     $('#mathModal').on('hidden.bs.modal', function () {
         ID_MATH_EXERCISE = 0;
@@ -137,11 +149,11 @@ $("#mathbtnModal").click(function (e) {
         if (ID_MATH_EXERCISE == 0) {
             alertMensajeConfirm({
                 title: "¿Desea guardar la información?",
-                text: "El ente se agregará al catálogo",
+                text: "El ejercicio se agregará al catálogo",
                 icon: "question",
             }, async function () {
-                await loaderbtn('entesbtnModal')
-                await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ENTE: ID_CATALOGO_ENTE }, 'enteSave', 'entesForm', 'entesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await loaderbtn('mathbtnModal')
+                await ajaxAwaitFormData({ api: 1, ID_MATH_EXERCISE: ID_MATH_EXERCISE }, 'mathSave', 'mathForm', 'mathbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                     Swal.fire({
                         icon: 'info',
                         title: 'Espere un momento',
@@ -150,11 +162,11 @@ $("#mathbtnModal").click(function (e) {
                     })
                     $('.swal2-popup').addClass('ld ld-breath')
                 }, function (data) {
-                    ID_CATALOGO_ENTE = data.ente.ID_CATALOGO_ENTE
+                    ID_MATH_EXERCISE = data.math.ID_MATH_EXERCISE
                     alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
-                    $('#entesModal').modal('hide')
-                    document.getElementById('entesForm').reset();
-                    entesDatatable.ajax.reload()
+                    $('#mathModal').modal('hide')
+                    document.getElementById('mathForm').reset();
+                    mathDatatable.ajax.reload()
                 })
             }, 1)
 
@@ -164,30 +176,22 @@ $("#mathbtnModal").click(function (e) {
                 text: "Al guardarla, se podra usar",
                 icon: "question",
             }, async function () {
-
-                await loaderbtn('entesbtnModal')
-                await ajaxAwaitFormData({ api: 1, ID_CATALOGO_ENTE: ID_CATALOGO_ENTE }, 'enteSave', 'entesForm', 'entesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
-
+                await loaderbtn('mathbtnModal')
+                await ajaxAwaitFormData({ api: 1, ID_MATH_EXERCISE: ID_MATH_EXERCISE }, 'mathSave', 'mathForm', 'mathbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                     Swal.fire({
                         icon: 'info',
                         title: 'Espere un momento',
                         text: 'Estamos guardando la información',
                         showConfirmButton: false
                     })
-
                     $('.swal2-popup').addClass('ld ld-breath')
-
-
                 }, function (data) {
-
                     setTimeout(() => {
-
-
-                        ID_CATALOGO_ENTE = data.ente.ID_CATALOGO_ENTE
+                        ID_MATH_EXERCISE = data.math.ID_MATH_EXERCISE
                         alertMensaje('success', 'Información editada correctamente', 'Información guardada')
-                        $('#entesModal').modal('hide')
-                        document.getElementById('entesForm').reset();
-                        entesDatatable.ajax.reload()
+                        $('#mathModal').modal('hide')
+                        document.getElementById('mathForm').reset();
+                        mathDatatable.ajax.reload()
                     }, 300);
                 })
             }, 1)

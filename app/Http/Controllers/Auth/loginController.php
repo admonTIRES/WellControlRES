@@ -54,6 +54,16 @@ class loginController extends Controller
             $profile = Candidate::where('EMAIL_PROJECT', $user->email)->first();
             $profileAdministrador = UsersInformation::where('USER_ID', $user->id)->first();
 
+
+           if ($profileAdministrador) {
+                $roles = $profileAdministrador->ROLES_USER;
+
+                // Si el valor es un string JSON, decodifícalo
+                if (is_string($roles)) {
+                    $roles = json_decode($roles, true);
+                }
+            }
+
             $proyecto = null;
             if ($profile) {
                 $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
@@ -64,7 +74,8 @@ class loginController extends Controller
                 'profile_name' => $profile->FIRST_NAME_PROJECT ?? null,
                 'ACCREDITING_ENTITY_PROJECT' => $proyecto->ACCREDITING_ENTITY_PROJECT ?? null,
                 'ID_PROJECT' => $profile->ID_PROJECT ?? null,
-                'ROLES_USER' => json_decode($profileAdministrador->ROLES_USER, true) ?? null
+                    'ROLES_USER' => $roles ?? null
+
             ]);
 
             if ($user->rol === 1) { // Usuario normal

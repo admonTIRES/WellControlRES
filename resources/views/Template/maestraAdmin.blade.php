@@ -90,8 +90,8 @@ use Illuminate\Support\Str;
             <div class="collapse navbar-collapse" id="sidebar-parent">
                 <ul class="navbar-nav iq-main-menu py-4">
                    @if( (session('ROLES_USER')['logistica'] ?? false)
-        || (session('ROLES_USER')['admin'] ?? false)
-        || (session('ROLES_USER')['superusuario'] ?? false) )
+                    || (session('ROLES_USER')['admin'] ?? false)
+                    || (session('ROLES_USER')['superusuario'] ?? false))
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="page"
                             href="{{ route('home') }}">
@@ -441,12 +441,12 @@ use Illuminate\Support\Str;
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-exercise" data-bs-parent="#sidebar-parent">
                             <li class="nav-item">
-                                {{-- <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" aria-current="page"
-                                    href="{{ route('math') }}"> --}}
+                                <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" aria-current="page"
+                                    href="{{ route('math') }}">
 
-                                    <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" 
+                                    {{-- <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" 
                                         href="#" 
-                                        onclick="alertaDesarrollo(event)">
+                                        onclick="alertaDesarrollo(event)"> --}}
                                     <i class="icon">
                                         <svg width="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -834,7 +834,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.15"></script>
     @endif
     @if(request()->is('math'))
-    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.0"></script>
+    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.1"></script>
     @endif
     @if(request()->is('exercises'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"

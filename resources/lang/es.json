@@ -1660,5 +1660,9 @@
     "Instructor selected":"Instructor seleccionado",
     "Fields are auto-filled. To modify, use the Instructor catalog.":"Algunos campos se han llenado de forma automática, si deseas modificar esta información debes hacerlo desde el catálogo de instructores.",
     "Generate Password": "Generar contraseña",
-    "Master the fundamentals of drilling engineering through our comprehensive learning platform. From basic mathematical calculations to advanced well planning techniques, we provide interactive tools and real-world scenarios that prepare you for field operations.":"Domine los fundamentos de la ingeniería de perforación con nuestra plataforma integral de aprendizaje. Desde cálculos matemáticos básicos hasta técnicas avanzadas de planificación de pozos, ofrecemos herramientas interactivas y escenarios reales que lo preparan para las operaciones de campo."
+    "Master the fundamentals of drilling engineering through our comprehensive learning platform. From basic mathematical calculations to advanced well planning techniques, we provide interactive tools and real-world scenarios that prepare you for field operations.":"Domine los fundamentos de la ingeniería de perforación con nuestra plataforma integral de aprendizaje. Desde cálculos matemáticos básicos hasta técnicas avanzadas de planificación de pozos, ofrecemos herramientas interactivas y escenarios reales que lo preparan para las operaciones de campo.",
+    "Exercise type":"Tipo de ejercicio",
+    "Drilling Math ": "Matemáticas para perforación",
+    "Drilling Math list":"Lista de ejercicios matemáticos"
+
 }

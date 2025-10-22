@@ -55,20 +55,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="mathForm">
+                        {!! csrf_field() !!}
                         <div class="row">
                             <!-- Columna Izquierda -->
                             <div class="col-md-4">
                                 <!-- Tipo de Ejercicio -->
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Exercise type') }}</label>
-                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH" required>
+                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH">
                                         <option value="">Seleccionar...</option>
                                         <option value="1">Despejes</option>
                                         <option value="2">Jerarquía</option>
                                         <option value="3">Fracciones</option>
                                         <option value="4">Elevación</option>
                                         <option value="5">Redondeos</option>
+                                    </select>
+                                </div>
+                                 <div class="mb-3">
+                                    <label class="form-label">{{ __('Language') }}</label>
+                                    <select class="form-select" id="LANGUAGE_MATH" name="LANGUAGE_MATH">
+                                        <option value="">Seleccionar...</option>
+                                         @foreach ($idiomas as $idioma)
+                                                <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
+                                            @endforeach
                                     </select>
                                 </div>
                                 
@@ -219,7 +229,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Ejercicio</button>
+                    <button type="button" class="btn btn-primary" id="mathbtnModal" name="mathbtnModal">Guardar Ejercicio</button>
                 </div>
             </div>
         </div>

@@ -24,30 +24,41 @@ class MathController extends Controller
         try {
 
             $tabla = Math::get();
-            $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
-            $niveles = NivelAcreditacion::pluck('DESCRIPCION_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
-            $bops = TipoBOP::pluck('DESCRIPCION_TIPOBOP', 'ID_CATALOGO_TIPOBOP')->toArray();
-            $operaciones = Operacion::pluck('NOMBRE_OPERACION', 'ID_CATALOGO_OPERACION')->toArray();
-            $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
-            function mapIdsToNames($ids, $catalogo)
-            {
-                if (!is_array($ids)) {
-                    $ids = json_decode($ids, true) ?? [];
-                }
+            // $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
+            // $niveles = NivelAcreditacion::pluck('DESCRIPCION_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
+            // $bops = TipoBOP::pluck('DESCRIPCION_TIPOBOP', 'ID_CATALOGO_TIPOBOP')->toArray();
+            // $operaciones = Operacion::pluck('NOMBRE_OPERACION', 'ID_CATALOGO_OPERACION')->toArray();
+             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
+            // function mapIdsToNames($ids, $catalogo)
+            // {
+            //     if (empty($ids)) {
+            //         return '';
+            //     }
 
-                return implode(', ', array_map(function ($id) use ($catalogo) {
-                    return $catalogo[$id] ?? '';
-                }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
-            }
+            //     if (!is_array($ids)) {
+            //         $ids = json_decode($ids, true);
+            //         if (!is_array($ids)) {
+            //             $ids = [];
+            //         }
+            //     }
+
+            //     return implode(', ', array_map(function ($id) use ($catalogo) {
+            //         return $catalogo[$id] ?? '';
+            //     }, $ids));
+            // }
             foreach ($tabla as $value) {
 
-                $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ENTE_MATH ?? [], $entes);
-                $value->NIVELES_NOMBRES = mapIdsToNames($value->NIVELES_MATH ?? [], $niveles);
-                $value->BOPS_NOMBRES = mapIdsToNames($value->BOP_MATH ?? [], $bops);
-                $value->OPERACIONES_NOMBRES = mapIdsToNames($value->OPERATION_MATH ?? [], $operaciones);
+                // $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ENTE_MATH ?? [], $entes);
+                // $value->NIVELES_NOMBRES = mapIdsToNames($value->NIVELES_MATH ?? [], $niveles);
+                // $value->BOPS_NOMBRES = mapIdsToNames($value->BOP_MATH ?? [], $bops);
+                // $value->OPERACIONES_NOMBRES = mapIdsToNames($value->OPERATION_MATH ?? [], $operaciones);
 
                 $idiomaId = $value->LANGUAGE_MATH ?? null;
-                $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
+                if($idiomaId != null){
+                    $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
+                }else{
+                    $value->IDIOMA_NOMBRE = null;
+                }
                 switch ($value->TIPO_MATH) {
                     case 1:
                         $tipoNombre = 'Despejes';

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Artisan;
 use Exception;
 use DB;
+use Illuminate\Support\Facades\Storage;
 //MODELS
 use App\Models\Admin\Exercise\Math;
 use App\Models\Admin\catalogs\EnteAcreditador;
@@ -154,9 +155,6 @@ class MathController extends Controller
                     $BOP_MATH = $request->has('BOP_MATH') ? (array)$request->input('BOP_MATH') : [];
                     $OPERATION_MATH = $request->has('OPERATION_MATH') ? (array)$request->input('OPERATION_MATH') : [];
 
-                    //ESTRUSTURA DE LA PREGUNTA 
-                    $imagen1 = $request->hasFile('SOLUCIONIMG_MATH') ? $this->uploadFile($request->file('SOLUCIONIMG_MATH')) : null;
-
                     $correctas = $request->input('respuesta_check') ? (array)$request->input('respuesta_check') : [];
                     $textos = $request->input('respuesta_text') ? (array)$request->input('respuesta_text') : [];
 
@@ -187,10 +185,16 @@ class MathController extends Controller
                             'FORMULA_MATH' => cleanTextareaInput($request->FORMULA_MATH),
                             'OPCIONES_MATH' => $OPCIONES_MATH,
                             'EXPLICACION_MATH' => $request->EXPLICACION_MATH,
-                            'SOLUCIONIMG_MATH' => $request->SOLUCIONIMG_MATH,
+                            'SOLUCIONIMG_MATH' => null,
                             'CALCULADORA_MATH' => $CALCULADORA_MATH,
                             'ACTIVO_MATH' => 1
                         ]);
+                        $idMath = $math->ID_MATH_EXERCISE;
+                        $imagen1 = $request->hasFile('SOLUCIONIMG_MATH') ? $this->uploadFile($request->file('SOLUCIONIMG_MATH'), $idMath, 1) : null;
+                        
+
+                        $math->SOLUCIONIMG_MATH = $imagen1;
+                        $math->save();
                     } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
@@ -204,6 +208,21 @@ class MathController extends Controller
                             }
                         } else {
                             $math = Math::find($request->ID_MATH_EXERCISE);
+                            $idMath = $math->ID_MATH_EXERCISE;
+                            $imagen1 = null;
+                            $imagenPath = $math->SOLUCIONIMG_MATH;
+
+                            // Si llega un nuevo archivo, reemplazar
+                            if ($request->hasFile('SOLUCIONIMG_MATH')) {
+                                // Eliminar la anterior si existe
+                                if ($imagenPath) {
+                                    Storage::delete($imagenPath); // la ruta ya está guardada en storage
+                                }
+
+                                // Subir nuevo archivo
+                                $file = $request->file('SOLUCIONIMG_MATH');
+                                $imagenPath = $this->uploadFile($file, $idMath, 1); // retorna la nueva ruta
+                            }
                             $math->update([
                                 'TIPO_MATH' => $request->TIPO_MATH,
                                 'ENTE_MATH' => $ENTE_MATH,
@@ -217,7 +236,7 @@ class MathController extends Controller
                                 'FORMULA_MATH' =>  cleanTextareaInput($request->FORMULA_MATH),
                                 'OPCIONES_MATH' => $OPCIONES_MATH,
                                 'EXPLICACION_MATH' =>  cleanTextareaInput($request->EXPLICACION_MATH),
-                                'SOLUCIONIMG_MATH' => $request->SOLUCIONIMG_MATH,
+                                'SOLUCIONIMG_MATH' => $imagenPath,
                                 'CALCULADORA_MATH' => $CALCULADORA_MATH
                             ]);
                             $response['code'] = 1;
@@ -240,6 +259,43 @@ class MathController extends Controller
         }
     }
 
-    //limpiar los textareas
+     private function uploadFile($file, $mathId, $tipoImagen)
+    {
+        if (!$file || !$file->isValid()) {
+            return null;
+        }
+        
+        try {
+            // Crear directorio en storage/app: admin/exam/questions/{ID}/imagen/
+            $directorio = 'admin/exercises/math';
+            
+            // Obtener extensión original del archivo
+            $extension = $file->getClientOriginalExtension();
+            
+            // Nombre del archivo basado en el tipo: 1.jpg, 2.png, 3.jpeg
+            $nombreArchivo = $mathId . '.' . $extension;
+            
+            // Guardar el archivo en storage/app/admin/exam/questions/{ID}/imagen/
+            $rutaCompleta = $file->storeAs($directorio, $nombreArchivo);
+            
+            // Retornar la ruta completa: admin/exam/questions/23/imagen/1.png
+            return $rutaCompleta;
+            
+        } catch (\Exception $e) {
+            // Log del error si es necesario
+           
+            return null;
+        }
+    }
+
+    public function showImage($ruta)
+    {
+        // Buscar archivo en storage/app/...
+        if (Storage::exists($ruta)) {
+            return Storage::response($ruta);
+        }
+
+        abort(404, 'Imagen no encontrada');
+    }
    
 }

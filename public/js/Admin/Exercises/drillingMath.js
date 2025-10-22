@@ -1,6 +1,7 @@
 ID_MATH_EXERCISE = 0
 
 $(document).ready(function () {
+     $('#SOLUCIONIMG_MATH').dropify();
     var $select = $('#ENTE_MATH').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -53,7 +54,7 @@ $(document).ready(function () {
     $('#mathModal').on('hidden.bs.modal', function () {
         ID_MATH_EXERCISE = 0;
         $('#mathForm')[0].reset();
-        $('#mathModal .modal-title').text('New Drilling Math exercise');
+        $('#mathModal .modal-title').text('Nuevo ejercicio de matemáticas');
     });
     // RESET MODALS - END
     $('#TIPO_MATH').on('change', function () {
@@ -211,6 +212,9 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var data = row.data();
     ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
     editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
+     $('#SOLUCIONIMG_MATH').val('');
+	$('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
+	$('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
 
     // Inicializar campos selectize
     function initializeSelectizedFields(row, fieldIds) {
@@ -279,6 +283,45 @@ if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
             $('.calculator-container').removeClass('d-none');
         }
     }
+
+    function manejarImagen(inputId, rutaImagen) {
+        var $input = $('#' + inputId);
+        
+        if (rutaImagen) {
+            // Limpiar la ruta y crear URL de storage
+            var rutaLimpia = rutaImagen.replace(/\\/g, '/'); 
+            var archivo = row.data().SOLUCIONIMG_MATH;
+            var extension = archivo.substring(archivo.lastIndexOf("."));
+            
+            console.log('Ruta:', rutaLimpia);
+
+            var imagenUrl = '/showImage/'+ rutaLimpia;
+            
+            // Destruir dropify existente
+            $input.dropify().data('dropify').destroy();
+            
+            // Configurar nueva imagen por defecto
+            $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
+            $input.dropify().data('dropify').init();
+            
+            // No requerir el campo
+            $input.attr('required', false);
+            $input.removeClass('campo-requerido');
+
+        } else {
+            // Resetear campo si no hay imagen
+            $input.val('');
+            $input.dropify().data('dropify').resetPreview();
+            $input.dropify().data('dropify').clearElement();
+            $input.attr('required', false);
+            $input.removeClass('campo-requerido');
+        }
+    }
+
+    // Esperar a que los campos estén visibles antes de inicializar Dropify
+    setTimeout(function() {
+            manejarImagen('SOLUCIONIMG_MATH', data.SOLUCIONIMG_MATH);
+    }, 200);
     $('#mathModal .modal-title').html(`Editar ejercicio ${row.data().ID_MATH_EXERCISE}`);
 });
 

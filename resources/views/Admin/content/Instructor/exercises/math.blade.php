@@ -51,7 +51,7 @@
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="mathModalLabel">Math Drilling Exercise</h5>
+                    <h5 class="modal-title" id="mathModalLabel">{{ __('Math Drilling Exercise') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -86,7 +86,7 @@
                                 <div class="mb-3 d-flex"> 
                                     <div class="col-12 me-1 text-center">
                                         <label>{{ __('Accrediting Entity') }}</label>
-                                        <select class="form-select" id="ENTE_MATH" name="ENTE_MATH" multiple >
+                                        <select class="form-select" id="ENTE_MATH" name="ENTE_MATH[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($entes as $ente)
                                                 <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
@@ -99,7 +99,7 @@
                                 <div class="mb-3">
                                     <div class="col-12 me-1 text-center">
                                         <label>{{ __('Levels') }}</label>
-                                        <select class="form-select" id="NIVELES_MATH" name="NIVELES_MATH" multiple >
+                                        <select class="form-select" id="NIVELES_MATH" name="NIVELES_MATH[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
                                                 <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
@@ -110,7 +110,7 @@
                                 <div class="mb-3">
                                     <div class="col-12 me-1 text-center">
                                         <label>BOP</label>
-                                        <select class="form-select" id="BOP_MATH" name="BOP_MATH" multiple >
+                                        <select class="form-select" id="BOP_MATH" name="BOP_MATH[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($bops as $bop)
                                         <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
@@ -121,7 +121,7 @@
                                 <div class="mb-3">
                                     <div class="col-12 me-1 text-center">
                                         <label>{{ __('Operation type') }}</label>
-                                        <select class="form-select" id="OPERATION_MATH" name="OPERATION_MATH" multiple >
+                                        <select class="form-select" id="OPERATION_MATH" name="OPERATION_MATH[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($operaciones as $operacion)
                                         <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
@@ -209,9 +209,11 @@
                                 </div>
 
                                 <!-- Imagen -->
+
                                 <div class="mb-3">
                                     <label for="imagenEjercicio" class="form-label">Imagen con solución</label>
-                                    <input class="form-control" type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" accept="image/*">
+                                    <input type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" class="dropify" data-allowed-file-extensions="jpg png jpeg gif" data-height="300" />
+
                                 </div>
 
                                 

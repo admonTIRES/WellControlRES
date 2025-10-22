@@ -165,40 +165,41 @@
                                 <!-- Opciones -->
                                 <div class="mb-3">
                                     <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
-                                    <div id="OPCIONES_MATH">
+                                                                        <div id="OPCIONES_MATH">
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="correctas[]">
+                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="1">
                                                 </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción A">
+                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción A">
                                             </div>
                                         </div>
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
+                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="2">
                                                 </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción B">
+                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción B">
                                             </div>
                                         </div>
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
+                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="3">
                                                 </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción C">
+                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción C">
                                             </div>
                                         </div>
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox"  name="correctas[]">
+                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="4">
                                                 </div>
-                                                <input type="text" class="form-control opcion-texto" name="opciones[]" placeholder="Escriba la opción D">
+                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción D">
                                             </div>
                                         </div>
-                                    </div>                
+                                    </div>
+               
                                 </div>
 
                                 <!-- Solución -->

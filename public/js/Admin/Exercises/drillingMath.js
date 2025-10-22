@@ -144,6 +144,7 @@ var mathDatatable = $("#math-list-table").DataTable({
 // Guardar catalogos
 $("#mathbtnModal").click(function (e) {
     e.preventDefault();
+    
     formularioValido = validarFormulario($('#mathForm'))
     if (formularioValido) {
         if (ID_MATH_EXERCISE == 0) {

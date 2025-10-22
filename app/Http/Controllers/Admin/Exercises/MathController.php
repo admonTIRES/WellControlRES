@@ -157,20 +157,7 @@ class MathController extends Controller
                     //ESTRUSTURA DE LA PREGUNTA 
                     $imagen1 = $request->hasFile('SOLUCIONIMG_MATH') ? $this->uploadFile($request->file('SOLUCIONIMG_MATH')) : null;
 
-                    $OPCIONES_MATH  = [
-                        'OPCION_A' => $request->OPCION_A ?? '',
-                        'OPCION_A_CORRECT' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_B' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_B_CORRECT' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_C' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_C_CORRECT' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_D' => $request->OPCION_A == 1 ? $request->TEXTO1_QUESTION : null,
-                        'OPCION_D_CORRECT' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on',
-                    ];
-
-                    //RESPUESTAS ESTRUCTURA
-                    $OPCIONES_MATH = [];
-                    $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
+                 $correctas = $request->respuesta_check ? (array)$request->respuesta_check : [];
                     $textos = $request->respuesta_text ? (array)$request->respuesta_text : [];
 
                     $respuestas = [];
@@ -183,7 +170,8 @@ class MathController extends Controller
                         ];
                     }
 
-                    $OPCIONES_MATH = $respuestas;
+                    // Guardar JSON en la columna
+                    $OPCIONES_MATH =$respuestas;
 
                     $CALCULADORA_MATH = [];
 
@@ -224,7 +212,7 @@ class MathController extends Controller
                                 'NIVELES_MATH' => $NIVELES_MATH,
                                 'BOP_MATH' => $BOP_MATH,
                                 'OPERATION_MATH' => $OPERATION_MATH,
-                                'LANGUAGE_MATH' => $request->SUBTOPICS_QUESTION,
+                                'LANGUAGE_MATH' => $request->LANGUAGE_MATH,
                                 'FRACCION_MATH' => $request->FRACCION_MATH,
                                 'DECIMAL_MATH' => $request->DECIMAL_MATH,
                                 'PREGUNTA_MATH' =>  cleanTextareaInput($request->PREGUNTA_MATH),

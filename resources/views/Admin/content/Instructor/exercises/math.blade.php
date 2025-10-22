@@ -165,7 +165,7 @@
                                 <!-- Opciones -->
                                 <div class="mb-3">
                                     <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
-                                                                        <div id="OPCIONES_MATH">
+                                    <div id="OPCIONES_MATH">
                                         <div class="opcion-item mb-2">
                                             <div class="input-group">
                                                 <div class="input-group-text">

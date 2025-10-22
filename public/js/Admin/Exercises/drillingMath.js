@@ -1,7 +1,7 @@
 ID_MATH_EXERCISE = 0
 
 $(document).ready(function () {
-     $('#SOLUCIONIMG_MATH').dropify();
+    $('#SOLUCIONIMG_MATH').dropify();
     var $select = $('#ENTE_MATH').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -38,7 +38,7 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance3 = $select3[0].selectize;
-     var $select4 = $('#OPERATION_MATH').selectize({
+    var $select4 = $('#OPERATION_MATH').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -54,6 +54,26 @@ $(document).ready(function () {
     $('#mathModal').on('hidden.bs.modal', function () {
         ID_MATH_EXERCISE = 0;
         $('#mathForm')[0].reset();
+
+        ['ENTE_MATH', 'NIVELES_MATH', 'BOP_MATH', 'OPERATION_MATH'].forEach(function (id) {
+            var $select = $('#' + id);
+            if ($select[0].selectize) {
+                $select[0].selectize.clear();
+            }
+        });
+
+
+        inicializarOpcionesPorDefecto();
+
+        var $inputImg = $('#SOLUCIONIMG_MATH');
+        if ($inputImg.data('dropify')) {
+            $inputImg.dropify().data('dropify').resetPreview();
+            $inputImg.dropify().data('dropify').clearElement();
+            $inputImg.attr('required', false).removeClass('campo-requerido');
+        }
+        $('.ejercicio-fraccion, .ejercicio-general, .calculator-container').addClass('d-none');
+
+
         $('#mathModal .modal-title').text('Nuevo ejercicio de matemáticas');
     });
     // RESET MODALS - END
@@ -145,7 +165,7 @@ var mathDatatable = $("#math-list-table").DataTable({
 // Guardar catalogos
 $("#mathbtnModal").click(function (e) {
     e.preventDefault();
-    
+
     formularioValido = validarFormulario($('#mathForm'))
     if (formularioValido) {
         if (ID_MATH_EXERCISE == 0) {
@@ -212,9 +232,9 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var data = row.data();
     ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
     editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
-     $('#SOLUCIONIMG_MATH').val('');
-	$('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
-	$('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
+    $('#SOLUCIONIMG_MATH').val('');
+    $('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
+    $('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
 
     // Inicializar campos selectize
     function initializeSelectizedFields(row, fieldIds) {
@@ -232,8 +252,8 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
             }
 
             var selectize = $select[0].selectize;
-            selectize.clear();            
-            selectize.setValue(values);  
+            selectize.clear();
+            selectize.setValue(values);
         });
     }
 
@@ -244,17 +264,17 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'OPERATION_MATH'
     ]);
 
-  var $opcionesContainer = $('#OPCIONES_MATH');
-$opcionesContainer.empty();
+    var $opcionesContainer = $('#OPCIONES_MATH');
+    $opcionesContainer.empty();
 
-if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
-    data.OPCIONES_MATH.forEach(function(opcion, index) {
-        var numero = index + 1;
-        var texto = opcion.texto || '';
-        var correcta = opcion.correcta ? 'checked' : '';
-        var placeholder = `Escriba la opción ${String.fromCharCode(64 + numero)}`;
+    if (data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)) {
+        data.OPCIONES_MATH.forEach(function (opcion, index) {
+            var numero = index + 1;
+            var texto = opcion.texto || '';
+            var correcta = opcion.correcta ? 'checked' : '';
+            var placeholder = `Escriba la opción ${String.fromCharCode(64 + numero)}`;
 
-        var opcionHtml = `
+            var opcionHtml = `
             <div class="opcion-item mb-2">
                 <div class="input-group">
                     <div class="input-group-text">
@@ -266,19 +286,19 @@ if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
                 </div>
             </div>
         `;
-        $opcionesContainer.append(opcionHtml);
-    });
-}
+            $opcionesContainer.append(opcionHtml);
+        });
+    }
 
     var tipo = row.data().TIPO_MATH;
     $('.ejercicio-fraccion').addClass('d-none');
     $('.ejercicio-general').addClass('d-none');
     $('.calculator-container').addClass('d-none');
-    if(tipo != null){
-        if(tipo === 3){
+    if (tipo != null) {
+        if (tipo === 3) {
             $('.ejercicio-fraccion').removeClass('d-none');
             $('.calculator-container').removeClass('d-none');
-        }else{
+        } else {
             $('.ejercicio-general').removeClass('d-none');
             $('.calculator-container').removeClass('d-none');
         }
@@ -286,24 +306,24 @@ if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
 
     function manejarImagen(inputId, rutaImagen) {
         var $input = $('#' + inputId);
-        
+
         if (rutaImagen) {
             // Limpiar la ruta y crear URL de storage
-            var rutaLimpia = rutaImagen.replace(/\\/g, '/'); 
+            var rutaLimpia = rutaImagen.replace(/\\/g, '/');
             var archivo = row.data().SOLUCIONIMG_MATH;
             var extension = archivo.substring(archivo.lastIndexOf("."));
-            
+
             console.log('Ruta:', rutaLimpia);
 
-            var imagenUrl = '/showImage/'+ rutaLimpia;
-            
+            var imagenUrl = '/showImage/' + rutaLimpia;
+
             // Destruir dropify existente
             $input.dropify().data('dropify').destroy();
-            
+
             // Configurar nueva imagen por defecto
             $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
             $input.dropify().data('dropify').init();
-            
+
             // No requerir el campo
             $input.attr('required', false);
             $input.removeClass('campo-requerido');
@@ -319,8 +339,8 @@ if(data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)){
     }
 
     // Esperar a que los campos estén visibles antes de inicializar Dropify
-    setTimeout(function() {
-            manejarImagen('SOLUCIONIMG_MATH', data.SOLUCIONIMG_MATH);
+    setTimeout(function () {
+        manejarImagen('SOLUCIONIMG_MATH', data.SOLUCIONIMG_MATH);
     }, 200);
     $('#mathModal .modal-title').html(`Editar ejercicio ${row.data().ID_MATH_EXERCISE}`);
 });
@@ -338,3 +358,41 @@ $('#math-list-table tbody').on('change', 'input.ACTIVAR', function () {
 
     eliminarDatoTabla(data, [mathDatatable], 'mathActive');
 });
+
+function inicializarOpcionesPorDefecto() {
+    var $opcionesContainer = $('#OPCIONES_MATH');
+    $opcionesContainer.html(`
+        <div class="opcion-item mb-2">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="1">
+                </div>
+                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción A">
+            </div>
+        </div>
+        <div class="opcion-item mb-2">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="2">
+                </div>
+                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción B">
+            </div>
+        </div>
+        <div class="opcion-item mb-2">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="3">
+                </div>
+                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción C">
+            </div>
+        </div>
+        <div class="opcion-item mb-2">
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="4">
+                </div>
+                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción D">
+            </div>
+        </div>
+    `);
+}

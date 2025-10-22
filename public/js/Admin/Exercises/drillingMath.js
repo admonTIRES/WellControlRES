@@ -126,15 +126,15 @@ var mathDatatable = $("#math-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'TIPO_MATH' },
-        { data: 'TEMA_MATH' },
+        { data: 'TIPO' },
+        { data: 'IDIOMA_NOMBRE' },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Tipo', className: 'text-center' },
-        { targets: 2, title: 'Tema', className: 'text-center' },
+        { targets: 2, title: 'Idioma', className: 'text-center' },
         { targets: 3, title: 'Editar', className: 'text-center' },
         { targets: 4, title: 'Activo', className: 'text-center' }
     ]
@@ -202,4 +202,68 @@ $("#mathbtnModal").click(function (e) {
 
     }
 
+});
+
+$('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = mathDatatable.row(tr);
+    ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
+    editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
+
+    // Inicializar campos selectize
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();            
+            selectize.setValue(values);  
+        });
+    }
+
+    initializeSelectizedFields(row, [
+        'ENTE_MATH',
+        'NIVELES_MATH',
+        'BOP_MATH',
+        'OPERATION_MATH'
+    ]);
+
+    var tipo = row.data().TIPO_MATH;
+    $('.ejercicio-fraccion').addClass('d-none');
+    $('.ejercicio-general').addClass('d-none');
+    $('.calculator-container').addClass('d-none');
+    if(tipo != null){
+        if(tipo === 3){
+            $('.ejercicio-fraccion').removeClass('d-none');
+            $('.calculator-container').removeClass('d-none');
+        }else{
+            $('.ejercicio-general').removeClass('d-none');
+            $('.calculator-container').removeClass('d-none');
+        }
+    }
+    $('#mathModal .modal-title').html(`Editar ejercicio ${row.data().ID_MATH_EXERCISE}`);
+});
+
+$('#math-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = mathDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 1,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_MATH_EXERCISE: row.data().ID_MATH_EXERCISE
+    };
+
+    eliminarDatoTabla(data, [mathDatatable], 'mathActive');
 });

@@ -29,8 +29,16 @@ class MathController extends Controller
             $bops = TipoBOP::pluck('DESCRIPCION_TIPOBOP', 'ID_CATALOGO_TIPOBOP')->toArray();
             $operaciones = Operacion::pluck('NOMBRE_OPERACION', 'ID_CATALOGO_OPERACION')->toArray();
             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
+            function mapIdsToNames($ids, $catalogo)
+            {
+                if (!is_array($ids)) {
+                    $ids = json_decode($ids, true) ?? [];
+                }
 
-
+                return implode(', ', array_map(function ($id) use ($catalogo) {
+                    return $catalogo[$id] ?? '';
+                }, array_filter($ids, fn($id) => isset($catalogo[$id]))));
+            }
             foreach ($tabla as $value) {
 
                 $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ENTE_MATH ?? [], $entes);
@@ -40,7 +48,31 @@ class MathController extends Controller
 
                 $idiomaId = $value->LANGUAGE_MATH ?? null;
                 $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
+                switch ($value->TIPO_MATH) {
+                    case 1:
+                        $tipoNombre = 'Despejes';
+                        break;
+                    case 2:
+                        $tipoNombre = 'Jerarquía';
+                        break;
+                    case 3:
+                        $tipoNombre = 'Fracciones';
+                        break;
+                    case 4:
+                        $tipoNombre = 'Elevación';
+                        break;
+                    case 5:
+                        $tipoNombre = 'Redondeos';
+                        break;
+                    default:
+                        $tipoNombre = 'Sin tipo';
+                        break;
+                }
 
+                $value->TIPO = $tipoNombre;
+
+
+                 
                 // $OPCIONES_MATH = $value->OPCIONES_MATH ?? null;
                 // $value->OPCION_A = $OPCIONES_MATH['OPCION_A'] ?? null;
                 // $value->OPCION_A_CORRECT = $OPCIONES_MATH['OPCION_A_CORRECT'] ?? false;
@@ -55,7 +87,7 @@ class MathController extends Controller
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_MATH_EXERCISE . '">
                                                                 </div>';
-                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#temaModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#mathModal">
                                                                     <span class="btn-inner">
                                                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -68,7 +100,7 @@ class MathController extends Controller
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                 <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_MATH_EXERCISE . '" checked>
                                             </div>';
-                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#temaModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#mathModal">
                                                                     <span class="btn-inner">
                                                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -96,8 +128,16 @@ class MathController extends Controller
     {
         try {
             switch (intval($request->api)) {
+                 
                 // Caso para pregunta/question
                 case 1:
+                    function cleanTextareaInput($input)
+                    {
+                        if (empty($input)) {
+                            return null;
+                        }
+                        return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+                    }
                     $ENTE_MATH = $request->has('ENTE_MATH') ? (array)$request->input('ENTE_MATH') : [];
                     $NIVELES_MATH = $request->has('NIVELES_MATH') ? (array)$request->input('NIVELES_MATH') : [];
                     $BOP_MATH = $request->has('BOP_MATH') ? (array)$request->input('BOP_MATH') : [];
@@ -136,8 +176,8 @@ class MathController extends Controller
 
                     $CALCULADORA_MATH = [];
 
-                    if ($request->ID_QUESTION == 0) {
-                        $question = Math::create([
+                    if ($request->ID_MATH_EXERCISE == 0) {
+                        $math = Math::create([
                             'TIPO_MATH' => $request->TIPO_MATH,
                             'ENTE_MATH' => $ENTE_MATH,
                             'NIVELES_MATH' => $NIVELES_MATH,
@@ -189,7 +229,7 @@ class MathController extends Controller
                         return response()->json($response);
                     }
                     $response['code']  = 1;
-                    $response['math']  = $question;
+                    $response['math']  = $math;
                     return response()->json($response);
                     break;
 
@@ -204,11 +244,5 @@ class MathController extends Controller
     }
 
     //limpiar los textareas
-    protected function cleanTextareaInput($input)
-    {
-        if (empty($input)) {
-            return null;
-        }
-        return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
-    }
+   
 }

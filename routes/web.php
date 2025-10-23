@@ -53,7 +53,9 @@ Route::middleware('auth')->get('/', [PrincipalController::class, 'index'])->name
 
 //----------------------------CALCULATOR-------------------------------//
 Route::middleware('auth')->get('/Calculator', [calculatorController::class, 'index'])->name('calculator');
-
+Route::get('/exercise/image/{path}', [MathController::class, 'showImage'])
+    ->where('path', '.*')
+    ->name('exercise.image');
 //----------------------------KILLSHEET-------------------------------//
 Route::middleware(['auth'])->group(function () {
     Route::get('/Killsheet', [killsheetController::class, 'index'])->name('killsheet');

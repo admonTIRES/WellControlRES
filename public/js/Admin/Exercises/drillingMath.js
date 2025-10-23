@@ -77,6 +77,85 @@ $(document).ready(function () {
         $('#mathModal .modal-title').text('Nuevo ejercicio de matemáticas');
     });
     // RESET MODALS - END
+    //   CALCULADORA
+   const screen = document.getElementById("screen");
+    const buttons = document.querySelectorAll(".calculator .btn");
+    
+    let fieldJson = document.getElementById("CALCULADORA_MATH");
+    if (!fieldJson) {
+        fieldJson = document.createElement("input");
+        fieldJson.type = "hidden";
+        fieldJson.name = "CALCULADORA_MATH";
+        fieldJson.id = "CALCULADORA_MATH";
+        document.querySelector(".calculator-container").appendChild(fieldJson);
+    }
+
+    let currentInput = "";  
+    let pressedKeys = [];    
+
+    const operators = {
+        "×": "*",
+        "÷": "/",
+        "−": "-",
+        "+": "+",
+        "^": "**"
+    };
+
+    function updateScreen(value) {
+        screen.textContent = value || "0";
+    }
+
+    function updateJson() {
+         const jsonValue = {
+            sequence: pressedKeys,
+            final: currentInput
+        };
+        fieldJson.value = JSON.stringify(jsonValue);
+        console.log("JSON calculadora:", jsonValue);
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            const value = btn.textContent.trim();
+
+            if (btn.id === "all-clear") {
+                currentInput = "";
+                pressedKeys.push("C");
+                updateScreen(currentInput);
+            } 
+            else if (btn.id === "delete") {
+                if (currentInput.length > 0) {
+                    currentInput = currentInput.slice(0, -1);
+                    pressedKeys.push("DEL");
+                    updateScreen(currentInput);
+                }
+            } 
+            else if (btn.id === "equals") {
+                try {
+                    const safeExp = currentInput.replace(/[×÷−]/g, m => operators[m]);
+                    const result = Function('"use strict";return (' + safeExp + ')')();
+                    currentInput = result.toString();
+                    pressedKeys.push("=");
+                    updateScreen(currentInput);
+                } catch (err) {
+                    updateScreen("Error");
+                    console.error("Invalid expression:", err);
+                }
+            } 
+            else {
+                if (operators[value]) {
+                    currentInput += operators[value];
+                } else {
+                    currentInput += value;
+                }
+                pressedKeys.push(value);
+                updateScreen(currentInput);
+            }
+            updateJson();
+        });
+    });
+    // CALCULADORA END
     $('#TIPO_MATH').on('change', function () {
         var valor = $(this).val();
 

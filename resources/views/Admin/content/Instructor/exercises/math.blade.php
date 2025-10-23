@@ -220,7 +220,7 @@
                             </div>
 
                             <div class="col-md-4">
-                              
+                              <input type="hidden" id="CALCULADORA_MATH" name="CALCULADORA_MATH">
                                 <div class="calculator-container d-none">
                                         @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
                                 </div>

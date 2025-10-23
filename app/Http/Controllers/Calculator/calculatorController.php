@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Calculator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Language\languageController;
+use App\Models\Admin\Exercise\Math;
+
 
 use Illuminate\Http\Request;
 
@@ -29,6 +31,14 @@ class calculatorController extends Controller
             'audioRoundingPath' => 'calculator_formula_10.mp3',
 
         ];
+        $math = Math::all();
+      $despejes = $math->filter(fn($item) => $item->TIPO_MATH == 1)->values()->all();
+$jerarquia = $math->filter(fn($item) => $item->TIPO_MATH == 2)->values()->all();
+$fracciones = $math->filter(fn($item) => $item->TIPO_MATH == 3)->values()->all();
+$elevacion = $math->filter(fn($item) => $item->TIPO_MATH == 4)->values()->all();
+$redondeos = $math->filter(fn($item) => $item->TIPO_MATH == 5)->values()->all();
+
+
         
         $audioPaths = [];
         foreach ($audioFiles as $key => $file) {
@@ -39,6 +49,6 @@ class calculatorController extends Controller
         // return view('Calculator.menuCalculator', $audioPaths);
         $enteAcreditador = 3;
 
-        return view('Calculator.menuCalculator', compact('audioPaths', 'enteAcreditador'));
+        return view('Calculator.menuCalculator', compact('audioPaths', 'enteAcreditador', 'math', 'fracciones', 'despejes', 'jerarquia', 'elevacion', 'redondeos'));
     }
 }

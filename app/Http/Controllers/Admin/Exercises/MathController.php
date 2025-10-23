@@ -15,6 +15,8 @@ use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\catalogs\IdiomasExamenes;
 use App\Models\Admin\catalogs\NivelAcreditacion;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 
 
 class MathController extends Controller
@@ -141,14 +143,18 @@ class MathController extends Controller
         try {
             switch (intval($request->api)) {
                  
-                // Caso para pregunta/question
                 case 1:
-                    function cleanTextareaInput($input)
+                     function cleanTextareaInput($input)
                     {
                         if (empty($input)) {
                             return null;
                         }
-                        return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+
+                        $config = HTMLPurifier_Config::createDefault();
+                        $config->set('HTML.Allowed', 'b,i,u,sub,sup,br,p');
+                        $purifier = new HTMLPurifier($config);
+
+                        return $purifier->purify(trim($input));
                     }
                     $ENTE_MATH = $request->has('ENTE_MATH') ? (array)$request->input('ENTE_MATH') : [];
                     $NIVELES_MATH = $request->has('NIVELES_MATH') ? (array)$request->input('NIVELES_MATH') : [];
@@ -169,8 +175,6 @@ class MathController extends Controller
 
                     $OPCIONES_MATH = $respuestas;
 
-                    $CALCULADORA_MATH = [];
-
                     if ($request->ID_MATH_EXERCISE == 0) {
                         $math = Math::create([
                             'TIPO_MATH' => $request->TIPO_MATH,
@@ -186,7 +190,9 @@ class MathController extends Controller
                             'OPCIONES_MATH' => $OPCIONES_MATH,
                             'EXPLICACION_MATH' => $request->EXPLICACION_MATH,
                             'SOLUCIONIMG_MATH' => null,
-                            'CALCULADORA_MATH' => $CALCULADORA_MATH,
+                            'CALCULADORA_MATH' => is_string($request->CALCULADORA_MATH)
+                                                ? json_decode($request->CALCULADORA_MATH, true)
+                                                : $request->CALCULADORA_MATH,
                             'ACTIVO_MATH' => 1
                         ]);
                         $idMath = $math->ID_MATH_EXERCISE;
@@ -212,16 +218,13 @@ class MathController extends Controller
                             $imagen1 = null;
                             $imagenPath = $math->SOLUCIONIMG_MATH;
 
-                            // Si llega un nuevo archivo, reemplazar
                             if ($request->hasFile('SOLUCIONIMG_MATH')) {
-                                // Eliminar la anterior si existe
                                 if ($imagenPath) {
-                                    Storage::delete($imagenPath); // la ruta ya está guardada en storage
+                                    Storage::delete($imagenPath); 
                                 }
 
-                                // Subir nuevo archivo
                                 $file = $request->file('SOLUCIONIMG_MATH');
-                                $imagenPath = $this->uploadFile($file, $idMath, 1); // retorna la nueva ruta
+                                $imagenPath = $this->uploadFile($file, $idMath, 1); 
                             }
                             $math->update([
                                 'TIPO_MATH' => $request->TIPO_MATH,
@@ -237,7 +240,9 @@ class MathController extends Controller
                                 'OPCIONES_MATH' => $OPCIONES_MATH,
                                 'EXPLICACION_MATH' =>  cleanTextareaInput($request->EXPLICACION_MATH),
                                 'SOLUCIONIMG_MATH' => $imagenPath,
-                                'CALCULADORA_MATH' => $CALCULADORA_MATH
+                                'CALCULADORA_MATH' => is_string($request->CALCULADORA_MATH)
+                                                    ? json_decode($request->CALCULADORA_MATH, true)
+                                                    : $request->CALCULADORA_MATH
                             ]);
                             $response['code'] = 1;
                             $response['math'] = 'Actualizado';
@@ -266,23 +271,17 @@ class MathController extends Controller
         }
         
         try {
-            // Crear directorio en storage/app: admin/exam/questions/{ID}/imagen/
             $directorio = 'admin/exercises/math';
             
-            // Obtener extensión original del archivo
             $extension = $file->getClientOriginalExtension();
             
-            // Nombre del archivo basado en el tipo: 1.jpg, 2.png, 3.jpeg
             $nombreArchivo = $mathId . '.' . $extension;
             
-            // Guardar el archivo en storage/app/admin/exam/questions/{ID}/imagen/
             $rutaCompleta = $file->storeAs($directorio, $nombreArchivo);
             
-            // Retornar la ruta completa: admin/exam/questions/23/imagen/1.png
             return $rutaCompleta;
             
         } catch (\Exception $e) {
-            // Log del error si es necesario
            
             return null;
         }
@@ -290,7 +289,6 @@ class MathController extends Controller
 
     public function showImage($ruta)
     {
-        // Buscar archivo en storage/app/...
         if (Storage::exists($ruta)) {
             return Storage::response($ruta);
         }

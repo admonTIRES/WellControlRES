@@ -73,7 +73,7 @@ use Illuminate\Support\Str;
     <!-- loader END -->
     <aside class="sidebar sidebar-default navs-shape">
         <div class="sidebar-header d-flex align-items-center justify-content-start">
-            <a href="../dashboard/index.html" class="navbar-brand d-flex justify-content-center align-items-center">
+            <a href="{{ route('home') }}" class="navbar-brand d-flex justify-content-center align-items-center">
                 <img src="/assets/images/logo.png" class="sidebar-color-logo">
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
@@ -564,7 +564,7 @@ use Illuminate\Support\Str;
             <!--Nav Start-->
             <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
                 <div class="container-fluid navbar-inner">
-                    <a href="../dashboard/index.html" class="navbar-brand">
+                    <a href="{{ route('home') }}" class="navbar-brand">
                     </a>
                     <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                         <i class="icon">

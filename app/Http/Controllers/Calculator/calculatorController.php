@@ -32,11 +32,11 @@ class calculatorController extends Controller
 
         ];
         $math = Math::all();
-      $despejes = $math->filter(fn($item) => $item->TIPO_MATH == 1)->values()->all();
-$jerarquia = $math->filter(fn($item) => $item->TIPO_MATH == 2)->values()->all();
-$fracciones = $math->filter(fn($item) => $item->TIPO_MATH == 3)->values()->all();
-$elevacion = $math->filter(fn($item) => $item->TIPO_MATH == 4)->values()->all();
-$redondeos = $math->filter(fn($item) => $item->TIPO_MATH == 5)->values()->all();
+        $despejes = $math->filter(fn($item) => $item->TIPO_MATH == 1)->values()->all();
+        $jerarquia = $math->filter(fn($item) => $item->TIPO_MATH == 2)->values()->all();
+        $fracciones = $math->filter(fn($item) => $item->TIPO_MATH == 3)->values()->all();
+        $elevacion = $math->filter(fn($item) => $item->TIPO_MATH == 4)->values()->all();
+        $redondeos = $math->filter(fn($item) => $item->TIPO_MATH == 5)->values()->all();
 
 
         

@@ -20,4 +20,8 @@ class SubtemaPreguntas extends Model
      protected $casts = [
         'CERTIFICACION_SUBTEMA' => 'array'
     ];
+    public function tema()
+    {
+        return $this->belongsTo(TemaPreguntas::class, 'TEMAPREGUNTA_ID', 'ID_CATALOGO_TEMAPREGUNTA');
+    }
 }

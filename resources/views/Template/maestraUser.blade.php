@@ -135,6 +135,6 @@ use Illuminate\Support\Str;
 @if(request()->is('Calculator'))
 <script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.1"></script>
 @endif
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.8"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.9"></script>
 
 </html>

@@ -73,18 +73,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form id="examForm" enctype="multipart/form-data">
+                        {!! csrf_field() !!}   
                         <div class="row">
                             <div class="col-md-12 text-center pastel-box">
                                 <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalities') }}
                                 </h4>
-                                <!-- Agrupación horizontal -->
                                 <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
                                     <!-- Ente Acreditador -->
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('Accrediting Entity') }}</label>
-                                        <select class="form-select" id="ENTE1_MATH" name="ENTE_MATH" multiple >
+                                        <select class="form-select" id="ACCREDITATION_ENTITIES_EXAM" name="ACCREDITATION_ENTITIES_EXAM" multiple >
                                         <option selected disabled></option>
                                         @foreach ($entes as $ente)
                                                 <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
@@ -92,10 +92,10 @@
                                         </select>
                                     </div>
 
-                                <!-- Niveles -->
+                                    <!-- Niveles -->
                                      <div class="col-md-3 text-start">
                                         <label> {{ __('Levels') }}</label>
-                                        <select class="form-select" id="NIVEL1_MATH" name="NIVEL_MATH" multiple >
+                                        <select class="form-select" id="LEVELS_EXAM" name="LEVELS_EXAM" multiple >
                                         <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
                                                 <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('BOP') }}</label>
-                                        <select class="form-select" id="BOP1_MATH" name="BOP_MATH" multiple >
+                                        <select class="form-select" id="BOPS_EXAM" name="BOPS_EXAM" multiple >
                                         <option selected disabled></option>
                                         @foreach ($bops as $bop)
                                         <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
@@ -127,7 +127,7 @@
                                  <div class="mb-3 d-flex"> 
                                     <div class="col-12 me-1 text-center">
                                         <label> {{ __('What is the language of the question?*') }}</label>
-                                        <select class="form-select" id="IDIOMAEXAM_QUESTION" name="IDIOMAEXAM_QUESTION">
+                                        <select class="form-select" id="LANGUAGE_ID_EXAM" name="LANGUAGE_ID_EXAM">
                                         <option selected disabled></option>
                                         <option value="0">Seleccionar...</option>
                                         <option value="2">Spanish</option>
@@ -145,7 +145,7 @@
                                 </h4>
                                  <div class="mb-3">
                                     <label class="form-label"> {{ __('What type of exam is it?*') }}</label>
-                                    <select class="form-select" id="TIPOEXAM_QUESTION" name="TIPOEXAM_QUESTION" multiple>
+                                    <select class="form-select" id="EVALUATION_TYPES_EXAM" name="EVALUATION_TYPES_EXAM" multiple>
                                          <option value="1"> {{ __('Diagnostic') }}</option>
                                         <option value="2"> {{ __('Intermediate') }}</option>
                                         <option value="3"> {{ __('Final') }}</option>
@@ -160,7 +160,7 @@
                                 </h4>
                                 <div class="mb-3" id="nombreTexto">
                                     <label class="form-label"> {{ __('Enter the name of this assesment:*') }}</label>
-                                    <input type="text" class="form-control campo-requerido" name="TEXTO1_QUESTION" id="TEXTO1_QUESTION">
+                                    <input type="text" class="form-control campo-requerido" name="NAME_EXAM" id="NAME_EXAM">
                                 </div>
                             </div>
                             <!-- Columna Derecha si es fracciones-->
@@ -366,7 +366,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-    "Cancel": "Cancelar",
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
                     <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>

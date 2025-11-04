@@ -905,7 +905,7 @@
                 <div class="math-drilling-section">
                     <h2 class="math-drilling-subtitle">{{ __('Fraction to Decimal Conversion') }}</h2>
                         <p class="exercise-description">
-                        {{ __('Convert the following fractions to decimal and write the result in the corresponding box (use 2 decimals):') }}
+                        {{ __('Convert the following fractions to decimal and write the result in the corresponding box:') }}
                         </p>
                 </div>
                 <div class="exercise-container">

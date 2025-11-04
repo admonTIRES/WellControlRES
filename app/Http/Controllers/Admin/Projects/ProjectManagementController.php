@@ -54,7 +54,7 @@ class ProjectManagementController extends Controller
                                             </span>
                                         </button>';
 
-
+                $value->GESTIONAR = '';
                 $companies = [];
 
                 if (is_array($value->COMPANIES_PROJECT)) {

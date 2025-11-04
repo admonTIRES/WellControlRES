@@ -30,9 +30,9 @@ $(document).ready(function () {
     });
     // RESET MODALS - END
     //   CALCULADORA
-   const screen = document.getElementById("screen");
+    const screen = document.getElementById("screen");
     const buttons = document.querySelectorAll(".calculator .btn");
-    
+
     let fieldJson = document.getElementById("CALCULADORA_MATH");
     if (!fieldJson) {
         fieldJson = document.createElement("input");
@@ -42,8 +42,8 @@ $(document).ready(function () {
         document.querySelector(".calculator-container").appendChild(fieldJson);
     }
 
-    let currentInput = "";  
-    let pressedKeys = [];    
+    let currentInput = "";
+    let pressedKeys = [];
 
     const operators = {
         "×": "*",
@@ -58,7 +58,7 @@ $(document).ready(function () {
     }
 
     function updateJson() {
-         const jsonValue = {
+        const jsonValue = {
             sequence: pressedKeys,
             final: currentInput
         };
@@ -68,7 +68,7 @@ $(document).ready(function () {
 
     buttons.forEach(btn => {
         btn.addEventListener("click", (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             const value = btn.textContent.trim();
 
             if (btn.id === "all-clear") {
@@ -76,14 +76,14 @@ $(document).ready(function () {
                 // pressedKeys.push("C");
                 pressedKeys = [];
                 updateScreen(currentInput);
-            } 
+            }
             else if (btn.id === "delete") {
                 if (currentInput.length > 0) {
                     currentInput = currentInput.slice(0, -1);
                     pressedKeys.push("DEL");
                     updateScreen(currentInput);
                 }
-            } 
+            }
             else if (btn.id === "equals") {
                 try {
                     const safeExp = currentInput.replace(/[×÷−]/g, m => operators[m]);
@@ -95,7 +95,7 @@ $(document).ready(function () {
                     updateScreen("Error");
                     console.error("Invalid expression:", err);
                 }
-            } 
+            }
             else {
                 if (operators[value]) {
                     currentInput += operators[value];
@@ -267,7 +267,8 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#SOLUCIONIMG_MATH').val('');
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
-
+    const screen = document.getElementById("screen");
+    screen.textContent = value || "0";
     // Inicializar campos selectize
     function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {
@@ -289,12 +290,12 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
         });
     }
 
-    initializeSelectizedFields(row, [
-        'ENTE_MATH',
-        'NIVELES_MATH',
-        'BOP_MATH',
-        'OPERATION_MATH'
-    ]);
+    // initializeSelectizedFields(row, [
+    //     'ENTE_MATH',
+    //     'NIVELES_MATH',
+    //     'BOP_MATH',
+    //     'OPERATION_MATH'
+    // ]);
 
     var $opcionesContainer = $('#OPCIONES_MATH');
     $opcionesContainer.empty();

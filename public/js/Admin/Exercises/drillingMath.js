@@ -121,7 +121,8 @@ $(document).ready(function () {
 
             if (btn.id === "all-clear") {
                 currentInput = "";
-                pressedKeys.push("C");
+                // pressedKeys.push("C");
+                pressedKeys = [];
                 updateScreen(currentInput);
             } 
             else if (btn.id === "delete") {

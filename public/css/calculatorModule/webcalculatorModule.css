@@ -383,16 +383,17 @@ scrollbar        .hero-button {
 }
 
 .exercise-container {
-    display: flex;
+        /* display: flex; */
+        max-width: 70%;
     gap: 12px;
     margin-top: 44px;
 }
 
 .calculator-container {
-    position: fixed; /* Fija la calculadora en la pantalla */
-    top: 20px; /* Distancia desde la parte superior */
-    right: 20px; /* Distancia desde la derecha */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    position: fixed; 
+    top: 20px; 
+    right: 40px; 
+    z-index: 1000; 
     width: 330px;
 }
 

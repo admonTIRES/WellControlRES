@@ -421,11 +421,12 @@ scrollbar        .hero-button {
 }
 
 .exercise-description {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    max-width: 60%;
     color: #666;
     margin-bottom: 24px;
     line-height: 1.5;
-    text-align: center;
+    text-align: start;
 }
 
 .result-container {

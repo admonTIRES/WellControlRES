@@ -156,10 +156,10 @@ class MathController extends Controller
 
                         return $purifier->purify(trim($input));
                     }
-                    $ENTE_MATH = $request->has('ENTE_MATH') ? (array)$request->input('ENTE_MATH') : [];
-                    $NIVELES_MATH = $request->has('NIVELES_MATH') ? (array)$request->input('NIVELES_MATH') : [];
-                    $BOP_MATH = $request->has('BOP_MATH') ? (array)$request->input('BOP_MATH') : [];
-                    $OPERATION_MATH = $request->has('OPERATION_MATH') ? (array)$request->input('OPERATION_MATH') : [];
+                    // $ENTE_MATH = $request->has('ENTE_MATH') ? (array)$request->input('ENTE_MATH') : [];
+                    // $NIVELES_MATH = $request->has('NIVELES_MATH') ? (array)$request->input('NIVELES_MATH') : [];
+                    // $BOP_MATH = $request->has('BOP_MATH') ? (array)$request->input('BOP_MATH') : [];
+                    // $OPERATION_MATH = $request->has('OPERATION_MATH') ? (array)$request->input('OPERATION_MATH') : [];
 
                     $correctas = $request->input('respuesta_check') ? (array)$request->input('respuesta_check') : [];
                     $textos = $request->input('respuesta_text') ? (array)$request->input('respuesta_text') : [];
@@ -178,17 +178,17 @@ class MathController extends Controller
                     if ($request->ID_MATH_EXERCISE == 0) {
                         $math = Math::create([
                             'TIPO_MATH' => $request->TIPO_MATH,
-                            'ENTE_MATH' => $ENTE_MATH,
-                            'NIVELES_MATH' => $NIVELES_MATH,
-                            'BOP_MATH' => $BOP_MATH,
-                            'OPERATION_MATH' => $OPERATION_MATH,
+                            'ENTE_MATH' => null,
+                            'NIVELES_MATH' => null,
+                            'BOP_MATH' =>null,
+                            'OPERATION_MATH' => null,
                             'LANGUAGE_MATH' => $request->LANGUAGE_MATH,
                             'FRACCION_MATH' => cleanTextareaInput($request->FRACCION_MATH),
                             'DECIMAL_MATH' => cleanTextareaInput($request->DECIMAL_MATH),
                             'PREGUNTA_MATH' => cleanTextareaInput($request->PREGUNTA_MATH),
                             'FORMULA_MATH' => cleanTextareaInput($request->FORMULA_MATH),
                             'OPCIONES_MATH' => $OPCIONES_MATH,
-                            'EXPLICACION_MATH' => $request->EXPLICACION_MATH,
+                            'EXPLICACION_MATH' => null,
                             'SOLUCIONIMG_MATH' => null,
                             'CALCULADORA_MATH' => is_string($request->CALCULADORA_MATH)
                                                 ? json_decode($request->CALCULADORA_MATH, true)
@@ -228,17 +228,17 @@ class MathController extends Controller
                             }
                             $math->update([
                                 'TIPO_MATH' => $request->TIPO_MATH,
-                                'ENTE_MATH' => $ENTE_MATH,
-                                'NIVELES_MATH' => $NIVELES_MATH,
-                                'BOP_MATH' => $BOP_MATH,
-                                'OPERATION_MATH' => $OPERATION_MATH,
+                                'ENTE_MATH' =>null,
+                                'NIVELES_MATH' =>null,
+                                'BOP_MATH' => null,
+                                'OPERATION_MATH' => null,
                                 'LANGUAGE_MATH' => $request->LANGUAGE_MATH,
                                 'FRACCION_MATH' => $request->FRACCION_MATH,
                                 'DECIMAL_MATH' => $request->DECIMAL_MATH,
                                 'PREGUNTA_MATH' =>  cleanTextareaInput($request->PREGUNTA_MATH),
                                 'FORMULA_MATH' =>  cleanTextareaInput($request->FORMULA_MATH),
                                 'OPCIONES_MATH' => $OPCIONES_MATH,
-                                'EXPLICACION_MATH' =>  cleanTextareaInput($request->EXPLICACION_MATH),
+                                'EXPLICACION_MATH' =>  null,
                                 'SOLUCIONIMG_MATH' => $imagenPath,
                                 'CALCULADORA_MATH' => is_string($request->CALCULADORA_MATH)
                                                     ? json_decode($request->CALCULADORA_MATH, true)

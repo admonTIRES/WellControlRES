@@ -82,54 +82,6 @@
                                     </select>
                                 </div>
                                 
-                                <!-- Ente Acreditador -->
-                                <div class="mb-3 d-flex"> 
-                                    <div class="col-12 me-1 text-center">
-                                        <label>{{ __('Accrediting Entity') }}</label>
-                                        <select class="form-select" id="ENTE_MATH" name="ENTE_MATH[]" multiple >
-                                        <option selected disabled></option>
-                                        @foreach ($entes as $ente)
-                                                <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Niveles -->
-                                <div class="mb-3">
-                                    <div class="col-12 me-1 text-center">
-                                        <label>{{ __('Levels') }}</label>
-                                        <select class="form-select" id="NIVELES_MATH" name="NIVELES_MATH[]" multiple >
-                                        <option selected disabled></option>
-                                        @foreach ($niveles as $nivel)
-                                                <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="col-12 me-1 text-center">
-                                        <label>BOP</label>
-                                        <select class="form-select" id="BOP_MATH" name="BOP_MATH[]" multiple >
-                                        <option selected disabled></option>
-                                        @foreach ($bops as $bop)
-                                        <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="col-12 me-1 text-center">
-                                        <label>{{ __('Operation type') }}</label>
-                                        <select class="form-select" id="OPERATION_MATH" name="OPERATION_MATH[]" multiple >
-                                        <option selected disabled></option>
-                                        @foreach ($operaciones as $operacion)
-                                        <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                
 
                             </div>
                             <!-- Columna Derecha si es fracciones-->
@@ -202,11 +154,7 @@
                
                                 </div>
 
-                                <!-- Solución -->
-                                <div class="mb-3">
-                                    <label class="form-label">Explicación de la solución</label>
-                                    <textarea class="form-control" id="EXPLICACION_MATH" name="EXPLICACION_MATH" rows="3"></textarea>
-                                </div>
+                              
 
                                 <!-- Imagen -->
 

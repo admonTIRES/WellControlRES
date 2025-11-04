@@ -40,7 +40,7 @@ use Illuminate\Support\Str;
         <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
         @break
         @case('calculator')
-        <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.1" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.2" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}?v=1.6" media="(max-width: 1023px)">
         @break
         @case('killSheets')

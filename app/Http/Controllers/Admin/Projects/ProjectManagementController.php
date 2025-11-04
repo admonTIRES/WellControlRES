@@ -35,7 +35,7 @@ class ProjectManagementController extends Controller
     public function proyectoDatatable()
     {
         try {
-            $tabla = Proyect::get();
+            $tabla = Proyect::orderBy('COURSE_START_DATE_PROJECT', 'asc')->get();
             
             foreach ($tabla as $value) {
                 $value->BTN_EDITAR = '<button type="button"

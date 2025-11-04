@@ -268,7 +268,7 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
     const screen = document.getElementById("screen");
-    screen.textContent = value || "0";
+    screen.textContent = "0";
     // Inicializar campos selectize
     function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {

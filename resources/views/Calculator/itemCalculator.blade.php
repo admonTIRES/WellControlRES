@@ -197,7 +197,7 @@
     </div>
     <div id="screen" class="screen">Enter</div>
 
-    <div class="top-section">
+    {{-- <div class="top-section">
         <div class="parButtons">
             <div class="topButtons seccion1">
                 <button id="shift" class="btn top-row shift"><span class="shift-title">SHIFT</span></button>
@@ -239,7 +239,7 @@
         <button id="recall" class="btn function">RCL<span class="shift-text">STO</span></button>
         <button id="engineering" class="btn function">ENG<span class="shift-text">←</span></button>
         <button id="open-parenthesis" class="btn function parentesis">(</button>
-        <button id="close-parenthesis" class="btn function parentesis">)<span class="letter-label">X</span></button>
+        <button id="close-parenthesis" class="btn function parentesis" data-value=")">)<span class="letter-label">X</span></button>
         <button id="comma-xy" class="btn function">,<span class="letter-label">Y</span></button>
         <button id="memory-add" class="btn function">M+<span class="letter-label">M</span></button>
     </div>
@@ -267,6 +267,81 @@
         <button id="decimal" class="btn number seccion6">.</button>
         <button id="exponent" class="btn number seccion6">EXP<span class="shift-text">π</span></button>
         <button id="answer" class="btn number seccion6">Ans<span class="shift-text">DRG▶</span></button>
+        <button id="equals" class="btn operator seccion6 result">=<span class="shift-text">%</span></button>
+    </div> --}}
+    <div class="top-section">
+        <div class="parButtons">
+            <div class="topButtons seccion1">
+                <button id="shift" class="btn top-row shift"><span class="shift-title">SHIFT</span></button>
+                <button id="alpha" class="btn top-row"><span class="alpha-text">ALPHA</span></button>
+            </div>
+            <div class="topButtons seccion2">
+                <button id="inverse" class="btn function" data-value="^(-1)">x⁻¹<span class="shift-text">x!</span></button>
+                <button id="combination" class="btn function" data-value="nCr">nCr<span class="shift-text">nPr</span></button>
+            </div>
+        </div>
+        <div class="display-circle">REPLAY</div>
+        <div class="parButtons">
+            <div class="topButtons seccion1">
+                <button id="mode-clear" class="btn top-row">MODE<span class="shift-text">CLR</span></button>
+                <button id="on" class="btn top-row">ON</button>
+            </div>
+            <div class="topButtons seccion2">
+                <button id="polar" class="btn function" data-value="Pol(">Pol(<span class="shift-text">Rec( :</span></button>
+                <button id="cube-root" class="btn function" data-value="^3">x³<span class="shift-text"> ∛</span></button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="function-section seccion2">
+        <button id="fraction" class="btn function" data-value="ab/c">a b/c<span class="shift-text">d/c</span></button>
+        <button id="square-root" class="btn function" data-value="√">√</button>
+        <button id="square" class="btn function elevate" data-value="^2">x²</button>
+        <button id="power" class="btn function" data-value="^">^</button>
+        <button id="log" class="btn function" data-value="log">log<span class="shift-text">10ˣ</span></button>
+        <button id="natural-log" class="btn function" data-value="ln">ln<span class="shift-text">eˣ</span></button>
+
+        <button id="negative" class="btn function" data-value="(-)">(-)<span class="letter-label">A</span></button>
+        <button id="comma" class="btn function" data-value=",">,...<span class="letter-label">B</span></button>
+        <button id="hyperbolic" class="btn function" data-value="hyp">hyp<span class="letter-label">C</span></button>
+        <button id="sin" class="btn function" data-value="sin">sin<span class="shift-text">sin⁻¹</span></button>
+        <button id="cos" class="btn function" data-value="cos">cos<span class="shift-text">cos⁻¹</span></button>
+        <button id="tan" class="btn function" data-value="tan">tan<span class="shift-text">tan⁻¹</span></button>
+
+        <button id="recall" class="btn function" data-value="RCL">RCL<span class="shift-text">STO</span></button>
+        <button id="engineering" class="btn function" data-value="ENG">ENG<span class="shift-text">←</span></button>
+        <button id="open-parenthesis" class="btn function parentesis" data-value="(">(</button>
+        <button id="close-parenthesis" class="btn function parentesis" data-value=")">)<span class="letter-label">X</span></button>
+        <button id="comma-xy" class="btn function" data-value=",">,<span class="letter-label">Y</span></button>
+        <button id="memory-add" class="btn function" data-value="M+">M+<span class="letter-label">M</span></button>
+    </div>
+
+
+    <div class="keypad-section">
+        <button id="seven" class="btn number seccion3" data-value="7">7</button>
+        <button id="eight" class="btn number seccion3" data-value="8">8</button>
+        <button id="nine" class="btn number seccion3" data-value="9">9</button>
+        <button id="delete" class="btn del-ac seccion4">DEL<span class="shift-text">INS</span></button>
+        <button id="all-clear" class="btn del-ac seccion4">AC<span class="shift-text">OFF</span></button>
+
+        <button id="four" class="btn number seccion3" data-value="4">4</button>
+        <button id="five" class="btn number seccion3" data-value="5">5</button>
+        <button id="six" class="btn number seccion3" data-value="6">6</button>
+        <button id="multiply" class="btn operator seccion5 multiplicate" data-value="×">×</button>
+        <button id="divide" class="btn operator seccion5 division" data-value="÷">÷</button>
+
+        <button id="one" class="btn number seccion3" data-value="1">1</button>
+        <button id="two" class="btn number seccion3" data-value="2">2</button>
+        <button id="three" class="btn number seccion3" data-value="3">3</button>
+        <button id="add" class="btn operator seccion5 sum" data-value="+">+</button>
+        <button id="subtract" class="btn operator seccion5 rest" data-value="−">−</button>
+
+        <button id="zero" class="btn number seccion3" data-value="0">0</button>
+        <button id="decimal" class="btn number seccion6" data-value=".">.</button>
+        <button id="exponent" class="btn number seccion6" data-value="EXP">EXP<span class="shift-text">π</span></button> 
+        <button id="answer" class="btn number seccion6" data-value="Ans">Ans<span class="shift-text">DRG▶</span></button>
         <button id="equals" class="btn operator seccion6 result">=<span class="shift-text">%</span></button>
     </div>
 </div>

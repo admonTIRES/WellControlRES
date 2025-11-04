@@ -828,7 +828,8 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
     <!-- Tagify JS -->
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-
+    {{-- MATH --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
     <!-- Select opcion selectize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
@@ -837,7 +838,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.15"></script>
     @endif
     @if(request()->is('math'))
-    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.37"></script>
+    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>
     @endif
     @if(request()->is('exercises'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"

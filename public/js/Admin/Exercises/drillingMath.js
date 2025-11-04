@@ -46,11 +46,27 @@ $(document).ready(function () {
     let pressedKeys = [];
 
     const operators = {
+        // Símbolos aritméticos
         "×": "*",
         "÷": "/",
         "−": "-",
         "+": "+",
-        "^": "**"
+        "^": "^", // Math.js usa '^' o '**' para potencia. Usaremos '^' por simplicidad.
+
+        // Funciones científicas (solo mapeo visual, Math.js maneja su precedencia)
+        "log": "log(",
+        "ln": "log(", // Mapear ln a log en base e
+        "sin": "sin(",
+        "cos": "cos(",
+        "tan": "tan(",
+        "√": "sqrt(",
+        "x²": "^2", // El botón x² se puede manejar como operador o función.
+        "x³": "^3",
+        "x⁻¹": "^(-1)",
+        "EXP": "e", // Representa E o *10^, dependiendo del contexto Casio. Usaremos 'e' por ahora.
+    };
+    const constants = {
+        "π": "pi"
     };
 
     function updateScreen(value) {
@@ -69,8 +85,8 @@ $(document).ready(function () {
     buttons.forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
-            const value = btn.textContent.trim();
-
+            // const value = btn.textContent.trim();
+            const value = btn.getAttribute('data-value') || btn.textContent.trim();
             if (btn.id === "all-clear") {
                 currentInput = "";
                 // pressedKeys.push("C");
@@ -85,9 +101,31 @@ $(document).ready(function () {
                 }
             }
             else if (btn.id === "equals") {
+                // try {
+                //     const safeExp = currentInput.replace(/[×÷−]/g, m => operators[m]);
+                //     const result = Function('"use strict";return (' + safeExp + ')')();
+                //     currentInput = result.toString();
+                //     pressedKeys.push("=");
+                //     updateScreen(currentInput);
+                // } catch (err) {
+                //     updateScreen("Error");
+                //     console.error("Invalid expression:", err);
+                // }
                 try {
-                    const safeExp = currentInput.replace(/[×÷−]/g, m => operators[m]);
-                    const result = Function('"use strict";return (' + safeExp + ')')();
+
+                    let finalExpression = currentInput.replace(/[×÷−]/g, m => operators[m]);
+
+                    finalExpression = finalExpression
+                        .replace(/log/g, 'log10(')
+                        .replace(/ln/g, 'log(')
+                        .replace(/sin/g, 'sin(')
+                        .replace(/cos/g, 'cos(')
+                        .replace(/tan/g, 'tan(')
+                        .replace(/√/g, 'sqrt(')
+                        .replace(/\^/g, '^')
+
+                    const result = math.evaluate(finalExpression);
+
                     currentInput = result.toString();
                     pressedKeys.push("=");
                     updateScreen(currentInput);
@@ -96,12 +134,28 @@ $(document).ready(function () {
                     console.error("Invalid expression:", err);
                 }
             }
+            // else {
+            //     if (value === ')') {
+            //         currentInput += value;
+            //     }
+            //     else if (operators[value]) {
+            //         currentInput += operators[value];
+            //     }
+            //     else {
+            //         currentInput += value;
+            //     }
+            //     pressedKeys.push(value);
+            //     updateScreen(currentInput);
+            // }
             else {
-                if (operators[value]) {
-                    currentInput += operators[value];
+                const cleanedValue = value.replace(/\s(.*?)\s/g, '').trim();
+
+                if (operators[cleanedValue]) {
+                    currentInput += operators[cleanedValue];
                 } else {
-                    currentInput += value;
+                    currentInput += cleanedValue;
                 }
+
                 pressedKeys.push(value);
                 updateScreen(currentInput);
             }
@@ -341,7 +395,6 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
         var $input = $('#' + inputId);
 
         if (rutaImagen) {
-            // Limpiar la ruta y crear URL de storage
             var rutaLimpia = rutaImagen.replace(/\\/g, '/');
             var archivo = row.data().SOLUCIONIMG_MATH;
             var extension = archivo.substring(archivo.lastIndexOf("."));
@@ -350,19 +403,15 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
             var imagenUrl = '/showImage/' + rutaLimpia;
 
-            // Destruir dropify existente
             $input.dropify().data('dropify').destroy();
-
-            // Configurar nueva imagen por defecto
             $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
             $input.dropify().data('dropify').init();
 
-            // No requerir el campo
             $input.attr('required', false);
             $input.removeClass('campo-requerido');
 
+
         } else {
-            // Resetear campo si no hay imagen
             $input.val('');
             $input.dropify().data('dropify').resetPreview();
             $input.dropify().data('dropify').clearElement();

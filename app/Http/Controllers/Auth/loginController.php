@@ -11,6 +11,7 @@ use App\Models\Admin\Project\Course;
 use App\Models\Admin\Project\Proyect;
 use App\Models\Admin\Access\UsersInformation;
 
+use Illuminate\Support\Carbon;
 
 class loginController extends Controller
 {
@@ -19,7 +20,7 @@ class loginController extends Controller
         return view('Auth.login');
     }
 
-   public function login(Request $request)
+    public function login(Request $request)
     {
         $request->validate([
             'username' => 'required|string',
@@ -28,16 +29,16 @@ class loginController extends Controller
 
         $credentials = $request->only('password');
         $loginValue = $request->username;
-        
+
         $loginAttempts = [
             ['email' => $loginValue, 'password' => $request->password],
             ['username' => $loginValue, 'password' => $request->password]
         ];
 
         $usuario = \App\Models\User::where('username', $loginValue)
-                        ->orWhere('email', $loginValue)
-                        ->first();
-        
+            ->orWhere('email', $loginValue)
+            ->first();
+
         $authenticated = false;
         foreach ($loginAttempts as $attempt) {
             if (Auth::attempt($attempt)) {
@@ -46,27 +47,45 @@ class loginController extends Controller
             }
         }
 
-        
-        
+
+
         if ($authenticated) {
             $user = Auth::user();
-            
+
             $profile = Candidate::where('EMAIL_PROJECT', $user->email)->first();
             $profileAdministrador = UsersInformation::where('USER_ID', $user->id)->first();
 
 
-           if ($profileAdministrador) {
+            if ($profileAdministrador) {
                 $roles = $profileAdministrador->ROLES_USER;
 
-                // Si el valor es un string JSON, decodifícalo
                 if (is_string($roles)) {
                     $roles = json_decode($roles, true);
                 }
             }
-
             $proyecto = null;
             if ($profile) {
                 $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
+
+                if ($proyecto) {
+                    $now = Carbon::now();
+                    $startDate = Carbon::parse($proyecto->MEMBERSHIP_START_PROJECT);
+                    $endDate = Carbon::parse($proyecto->MEMBERSHIP_END_PROJECT);
+
+                    if (!($now->greaterThanOrEqualTo($startDate) && $now->lessThanOrEqualTo($endDate))) {
+                        Auth::logout(); 
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+
+                        $errorMessage = (app()->getLocale() === 'es')
+                            ? 'Su membresía ha expirado o aún no está disponible.'
+                            : 'Your membership has expired or is not yet available.';
+
+                       
+                        return back()->withErrors(['message' => $errorMessage]);
+                    }
+                }
+                
             }
 
 
@@ -74,7 +93,7 @@ class loginController extends Controller
                 'profile_name' => $profile->FIRST_NAME_PROJECT ?? null,
                 'ACCREDITING_ENTITY_PROJECT' => $proyecto->ACCREDITING_ENTITY_PROJECT ?? null,
                 'ID_PROJECT' => $profile->ID_PROJECT ?? null,
-                    'ROLES_USER' => $roles ?? null
+                'ROLES_USER' => $roles ?? null
 
             ]);
 
@@ -86,16 +105,16 @@ class loginController extends Controller
         }
 
         $userExists = \App\Models\User::where('username', $loginValue)
-                                    ->orWhere('email', $loginValue)
-                                    ->exists();
+            ->orWhere('email', $loginValue)
+            ->exists();
 
         if (!$userExists) {
-            $errorMessage = (app()->getLocale() === 'es') 
-                ? 'El usuario o email no existe' 
+            $errorMessage = (app()->getLocale() === 'es')
+                ? 'El usuario o email no existe'
                 : 'User or email does not exist';
         } else {
-            $errorMessage = (app()->getLocale() === 'es') 
-                ? 'Contraseña incorrecta' 
+            $errorMessage = (app()->getLocale() === 'es')
+                ? 'Contraseña incorrecta'
                 : 'Incorrect password';
         }
 
@@ -107,11 +126,11 @@ class loginController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('login');
     }
 }

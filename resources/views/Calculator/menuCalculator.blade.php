@@ -908,87 +908,11 @@
                         {{ __('Convert the following fractions to decimal and write the result in the corresponding box:') }}
                         </p>
                 </div>
-                <div class="exercise-container">
-                    
-                    <div class="exercise-content" id="fraccionesContent">
-                       
-                        <div class="exercise-container">
-                            <p class="exercise-description">
-                               7 ÷ 8 =
-                            </p>
-                            <label class="result-label" for="result-1"></label>
-                            <input type="number" class="result-input" id="result-1">
-                            <span class="feedback" id="feedback-1"></span>
-                        </div>
-                        <div class="math-answer-exercise">
-                            <p class="math-drilling-text">
-                            {{ __('The correct answer is ') }}<strong> 0.8758</strong> 
-                            </p>
-                            <button id="fraccion_1" class="answer-button" onclick="showExample(0,7,8)"> {{ __('View in calculator') }}</button>
-                        </div>
-
-                        <div class="exercise-container">
-                            <p class="exercise-description">
-                            8 1/2" =
-                            </p>
-                            <input type="number" class="result-input" id="result-2">
-                            <span class="feedback" id="feedback-2"></span>
-                        </div>
-                        <div class="math-answer-exercise">
-                            <p class="math-drilling-text">
-                            {{ __('The correct answer is ') }} <strong> 8.5</strong> 
-                            </p>
-                            <button id="fraccion_2" class="answer-button" onclick="showExample(8,1,2)"> {{ __('View in calculator') }}</button>
-                        </div>
-
-                        <div class="exercise-container">
-                            <p class="exercise-description">
-                                9 1/4" =
-                            </p>
-                            <input type="number" class="result-input" id="result-3">
-                            <span class="feedback" id="feedback-3"></span>
-                        </div>
-                        <div class="math-answer-exercise">
-                            <p class="math-drilling-text">
-                            {{ __('The correct answer is ') }} <strong> 9.25</strong> 
-                            </p>
-                            <button id="fraccion_3" class="answer-button" onclick="showExample(9,1,4)"> {{ __('View in calculator') }}</button>
-                        </div>
-
-                        <div class="exercise-container">
-                            <p class="exercise-description">
-                                3 ÷ 8 =
-                            </p>
-                            <input type="number" class="result-input" id="result-4">
-                            <span class="feedback" id="feedback-4"></span>
-                        </div>
-                        <div class="math-answer-exercise">
-                            <p class="math-drilling-text">
-                            {{ __('The correct answer is ') }} <strong> 0.375</strong> 
-                            </p>
-                            <button id="fraccion_4" class="answer-button" onclick="showExample(0,3,8)"> {{ __('View in calculator') }}</button>
-                        </div>
-
-                        <div class="exercise-container">
-                            <p class="exercise-description">
-                                15 ÷ 4 =
-                            </p>
-                            <input type="number" class="result-input" id="result-5">
-                            <span class="feedback" id="feedback-5"></span>
-                        </div>
-                        <div class="math-answer-exercise">
-                            <p class="math-drilling-text">
-                            {{ __('The correct answer is ') }} <strong> 3.75</strong> 
-                            </p>
-                            <button id="fraccion_5" class="answer-button" onclick="showExample(0,15,4)"> {{ __('View in calculator') }}</button>
-                        </div>
-
-                       
-                    </div>
-                    <div class="calculator-container">
+                <div class="exercise-container" id="fraccionesContent">
+                </div>
+                 <div class="calculator-container">
                     @include('Calculator.itemCalculator', ['id' => 'calculator3'])
                     </div>
-                </div>
                 <div class="button-container">
                     <button id="ejercicio1_btn" class="submit-button">
                     <span class="icon">

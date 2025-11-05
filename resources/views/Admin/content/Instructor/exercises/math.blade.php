@@ -99,7 +99,7 @@
                                 </div>
 
                             </div>
-
+                            
                             <!-- Para los otros tipos -->
                             <div class="col-md-4 ejercicio-general d-none">
                                 <!-- Pregunta Principal -->

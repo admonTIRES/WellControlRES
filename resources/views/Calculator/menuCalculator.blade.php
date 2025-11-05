@@ -1056,11 +1056,7 @@
 
             <div id="redondeos" class="content-section scrollable-content">
                 <h1 class="content-title">Ejercicios de redondeos</h1>
-                <div class="exercise-container" id="redondeos-container">
-                </div>
-
-                <div class="calculator-container">
-                    @include('Calculator.itemCalculator', ['id' => 'calculator7'])
+                <div class="exercise-container" id="redondeos-container" style=" max-width: 100%;">
                 </div>
 
                 <div class="button-container">
@@ -1450,7 +1446,6 @@
             const calculator4 = document.getElementById('calculator4'); 
             const calculator5 = document.getElementById('calculator5'); 
             const calculator6 = document.getElementById('calculator6'); 
-            const calculator7 = document.getElementById('calculator7'); 
 
 
             if (calculator_3) {
@@ -1466,9 +1461,7 @@
             if (calculator6) {
             initializeCalculator(calculator6);
             }
-            if (calculator7) {
-            initializeCalculator(calculator7);
-            }
+            
 
             function initializeCalculator (calculator3) {
                 // Variables para el estado de la calculadora

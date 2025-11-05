@@ -46,24 +46,21 @@ $(document).ready(function () {
     let pressedKeys = [];
 
     const operators = {
-        // Símbolos aritméticos
         "×": "*",
         "÷": "/",
         "−": "-",
         "+": "+",
-        "^": "^", // Math.js usa '^' o '**' para potencia. Usaremos '^' por simplicidad.
-
-        // Funciones científicas (solo mapeo visual, Math.js maneja su precedencia)
+        "^": "^", 
         "log": "log(",
-        "ln": "log(", // Mapear ln a log en base e
+        "ln": "log(",
         "sin": "sin(",
         "cos": "cos(",
         "tan": "tan(",
         "√": "sqrt(",
-        "x²": "^2", // El botón x² se puede manejar como operador o función.
+        "x²": "^2",
         "x³": "^3",
         "x⁻¹": "^(-1)",
-        "EXP": "e", // Representa E o *10^, dependiendo del contexto Casio. Usaremos 'e' por ahora.
+        "EXP": "e",
     };
     const constants = {
         "π": "pi"

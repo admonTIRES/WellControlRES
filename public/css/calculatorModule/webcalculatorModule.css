@@ -384,7 +384,7 @@ scrollbar        .hero-button {
 
 .exercise-container {
         /* display: flex; */
-        max-width: 70%;
+    max-width: 50%;
     gap: 12px;
     margin-top: 44px;
 }

@@ -40,7 +40,7 @@ use Illuminate\Support\Str;
         <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
         @break
         @case('calculator')
-        <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.3" media="(min-width: 1024px)">
+        <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.4" media="(min-width: 1024px)">
         <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}?v=1.6" media="(max-width: 1023px)">
         @break
         @case('killSheets')
@@ -133,8 +133,8 @@ use Illuminate\Support\Str;
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/index.js') }}?v=1.2"></script>
 @if(request()->is('Calculator'))
-<script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.1"></script>
+<script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.2"></script>
 @endif
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.9"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.9"></script>  
 
 </html>

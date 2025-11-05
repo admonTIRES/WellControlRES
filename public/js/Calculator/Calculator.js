@@ -7,9 +7,9 @@ document.getElementById('reset_btn').addEventListener('click', function () {
 });
 
 document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function () {
         const section = this.getAttribute('data-section');
-        resetExercises(section, section+'-container');
+        resetExercises(section, section + '-container');
     });
 });
 
@@ -77,6 +77,15 @@ function loadExercises(type, containerId) {
         'despejes': 6,
         'redondeos': 7
     };
+    const calculatorButtonHTML = (type !== 'redondeos') ?
+        `
+        <button class="answer-button" 
+            onclick="showExampleGlobal('${type}', \${qNum}, 'calculator\${calculatorIdMap[type]}')">
+            Ver en calculadora
+        </button>
+        `
+        : '';
+
     currentExercises[type].forEach((ex, index) => {
         const qNum = index + 1;
         const div = document.createElement('div');
@@ -96,10 +105,7 @@ function loadExercises(type, containerId) {
                 <span class="feedback" id="feedback-${type}-q${qNum}"></span>
                 <div class="math-answer-exercise ${type}" id="answer-${type}-${qNum}" style="display:none">
                     <p class="math-drilling-text">La respuesta correcta es <strong>${ex.OPCIONES_MATH.find(op => op.correcta).texto}</strong></p>
-                    <button class="answer-button" 
-                            onclick="showExampleGlobal('${type}', ${qNum}, 'calculator${calculatorIdMap[type]}')">
-                        Ver en calculadora
-                    </button>
+                    ${calculatorButtonHTML.replace(/\${qNum}/g, qNum)}
                     <button class="solution-button" onclick="showSolution('${type}', ${qNum})">Ver solución</button>
                 </div>
                 <div id="solution-${type}-${qNum}" class="math-drilling-solution" style="display:none">
@@ -108,6 +114,7 @@ function loadExercises(type, containerId) {
             `;
         container.appendChild(div);
     });
+
 }
 
 function checkExercises(type) {
@@ -174,13 +181,11 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '÷': 'divide',
         '/': 'divide',
         '+': 'add',
-        '-': 'subtract',    
+        '-': 'subtract',
         '−': 'subtract',
         '^': 'power',
-
         '(': 'open-parenthesis',
         ')': 'close-parenthesis',
-
         '0': 'zero',
         '1': 'one',
         '2': 'two',
@@ -191,7 +196,6 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '7': 'seven',
         '8': 'eight',
         '9': 'nine',
-
         '.': 'decimal',
         ',': 'decimal',
         'DEL': 'delete',
@@ -244,7 +248,7 @@ function checkExercise(type) {
         }
 
         const correctIndex = ex.OPCIONES_MATH.findIndex(option => option.correcta === true);
-        
+
         const isCorrect = parseInt(selected.value) === correctIndex;
 
         if (isCorrect) {
@@ -321,26 +325,26 @@ function renderExercises(exercises) {
 
 function showExampleFromFractionByIndex(exerciseIndex) {
     const exercise = currentExercises1[exerciseIndex];
-    if(!exercise || !exercise.CALCULADORA_MATH) {
+    if (!exercise || !exercise.CALCULADORA_MATH) {
         console.error('Ejercicio no encontrado o sin datos de calculadora');
         return;
     }
-    
+
     showExampleFromFraction(exercise.CALCULADORA_MATH, exerciseIndex);
 }
 
 function showExampleFromFraction(calculatorData, exerciseIndex) {
     const calculator = document.querySelector('#fracciones .calculator');
-    if(!calculator) {
+    if (!calculator) {
         console.error('Calculadora no encontrada en la sección de fracciones');
         return;
     }
 
     const screen = calculator.querySelector('.screen');
-    if(screen) screen.textContent = '0';
+    if (screen) screen.textContent = '0';
 
     const clearBtn = calculator.querySelector('#all-clear');
-    if(clearBtn) clearBtn.click();
+    if (clearBtn) clearBtn.click();
 
     const keyMap = {
         // Operadores
@@ -353,11 +357,11 @@ function showExampleFromFraction(calculatorData, exerciseIndex) {
         '-': 'subtract',
         '−': 'subtract',
         '^': 'power',
-        
+
         // Paréntesis
         '(': 'open-parenthesis',
         ')': 'close-parenthesis',
-        
+
         // Números
         '0': 'zero',
         '1': 'one',
@@ -369,7 +373,7 @@ function showExampleFromFraction(calculatorData, exerciseIndex) {
         '7': 'seven',
         '8': 'eight',
         '9': 'nine',
-        
+
         // Otros
         '.': 'decimal',
         ',': 'decimal',
@@ -382,11 +386,11 @@ function showExampleFromFraction(calculatorData, exerciseIndex) {
     const clickSequence = async (sequence) => {
         for (const key of sequence) {
             await new Promise(resolve => setTimeout(resolve, 300));
-            
-            const btnId = keyMap[key] || key; 
+
+            const btnId = keyMap[key] || key;
             const btn = calculator.querySelector(`#${btnId}`);
-            
-            if(btn) {
+
+            if (btn) {
                 btn.click();
                 console.log(`Clicked: ${key} -> ${btnId}`);
             } else {
@@ -395,7 +399,7 @@ function showExampleFromFraction(calculatorData, exerciseIndex) {
         }
     };
 
-    if(calculatorData && calculatorData.sequence) {
+    if (calculatorData && calculatorData.sequence) {
         clickSequence(calculatorData.sequence);
     }
 

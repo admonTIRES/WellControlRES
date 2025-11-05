@@ -97,7 +97,7 @@ class loginController extends Controller
 
             ]);
 
-            if ($user->rol === 1) { // Usuario normal
+            if ($user->rol === 1) { 
                 return redirect()->intended('/')->with('user_role', 1);
             } else { // Administrador (0)
                 return redirect()->intended('/')->with('user_role', 0);

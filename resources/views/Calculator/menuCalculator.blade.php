@@ -1388,127 +1388,171 @@
             
 
             function initializeCalculator (calculator3) {
-                // Variables para el estado de la calculadora
-                let currentInput = '';
-                let shouldResetScreen = false;
-                
-                // Función para actualizar la pantalla
-                const updateScreen = (value) => {
-                    const screen = calculator3.querySelector('#screen');
-                    screen.textContent = value || '0';
-                };
+    let currentInput = '';
+    let shouldResetScreen = false;
+    let modeState = 0; // 0: Normal, 1: Modo FIX (Presionar MODE 3 veces)
+    let fixedDecimals = null; // null: sin FIX, 0-9: número de decimales
 
-                // Función para limpiar la calculadora
-                const clearCalculator = () => {
-                    currentInput = '';
-                    updateScreen('0');
-                };
+    // Variable para la pantalla (se busca una sola vez)
+    const screen = calculator3.querySelector('#screen');
+    const screenDisplay = calculator3.querySelector('#screen-display'); // Asumiendo que tienes un elemento para el indicador FIX
 
-                // Función para evaluar la expresión matemática de manera segura
-                const evaluateExpression = (expression) => {
-                    try {
-                        // Reemplazar los símbolos de la calculadora por los operadores de JavaScript
-                        expression = expression
-                            .replace(/×/g, '*')
-                            .replace(/÷/g, '/')
-                            .replace(/−/g, '-')
-                            .replace(/\^/g, '**')
-                            .replace(/²/g, '**2');
-                        
-                        // Evaluar la expresión
-                        const result = Function('"use strict";return (' + expression + ')')();
-                        
-                        // Formatear el resultado
-                        return Number.isInteger(result) ? result : parseFloat(result.toFixed(8));
-                    } catch (error) {
-                        return 'Error';
+    // Función para actualizar la pantalla y el indicador FIX
+   const updateScreen = (value, overrideMessage = null) => {
+        // Muestra el mensaje de configuración si existe
+        if (overrideMessage) {
+            screen.textContent = overrideMessage;
+        } else {
+            // Si no hay mensaje de configuración, muestra el input/resultado normal
+            screen.textContent = value || '0';
+        }
+    };
+
+    // Función para limpiar la calculadora
+    const clearCalculator = () => {
+        currentInput = '';
+        updateScreen('0');
+        // NOTA: El AC no restablece el modo FIX en Casio, solo el estado de la expresión.
+    };
+
+    // Función para formatear el resultado basado en el modo FIX
+   const formatResult = (result) => {
+        if (result === 'Error') return 'Error';
+
+        if (fixedDecimals !== null) {
+            const num = parseFloat(result);
+            if (isNaN(num)) return result; 
+            
+            return num.toFixed(fixedDecimals); // Aplica el redondeo FIX
+        }
+
+        // Formato normal
+        const num = parseFloat(result);
+        return Number.isInteger(num) ? result : parseFloat(num.toFixed(8)).toString();
+    };
+
+    // Función para evaluar la expresión matemática
+    const evaluateExpression = (expression) => {
+        try {
+            // Reemplazar los símbolos de la calculadora por los operadores de JavaScript
+            expression = expression
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/')
+                .replace(/−/g, '-')
+                .replace(/\^/g, '**')
+                .replace(/²/g, '**2');
+            
+            // Evaluar la expresión
+            const result = Function('"use strict";return (' + expression + ')')();
+            
+            return result.toString(); // Devolver como cadena para el formateo posterior
+        } catch (error) {
+            return 'Error';
+        }
+    };
+
+    const handleModePress = () => {
+        modeState++;
+
+        switch (modeState) {
+            case 1:
+                updateScreen(null, "COMP 1  :  SD 2  :  REG 3"); 
+                break;
+            case 2:
+                updateScreen(null, "Deg 1  :  Rad 2  :  Gra 3"); 
+                break;
+            case 3: 
+                updateScreen(null, "Fix 1  :  Sci 2  :  Norm 3");
+                break;
+            default:
+                // Si presionamos MODE por cuarta vez o más, reinicia a la primera pantalla de modo
+                modeState = 1;
+                updateScreen(null, "COMP 1   SD 2   REG 3"); 
+                break;
+        }
+    };
+    calculator3.querySelectorAll(".btn").forEach((button) => {
+        button.addEventListener("click", () => {
+            // Preferir data-value sobre textContent para una mayor precisión
+            const value = button.getAttribute('data-value') || button.textContent.split('\n')[0].trim();
+            
+            // 💡 Manejo del botón MODE (usando el ID 'mode-clear' de tu HTML)
+            if (button.id === 'mode-clear') {
+                handleModePress();
+                return;
+            }
+
+            // 💡 Lógica de selección de FIX (solo si estamos en el estado 3, esperando '1')
+            if (modeState === 3 && value === '1') {
+                modeState = 4; // Cambiar al estado de 'Esperando 0-9'
+                updateScreen(null, "FIX 0~9?");
+                return;
+            }
+
+            // 💡 Lógica de configuración del decimal FIX (solo si estamos en el estado 4)
+            if (modeState === 4 && button.classList.contains('number')) {
+                const numDecimals = parseInt(value);
+                if (numDecimals >= 0 && numDecimals <= 9) {
+                    fixedDecimals = numDecimals;
+                    modeState = 0; // Salir del modo de configuración
+                    // Restaurar la pantalla al input/resultado actual, aplicando FIX si es un resultado
+                    const displayValue = shouldResetScreen ? formatResult(currentInput) : currentInput || '0';
+                    updateScreen(displayValue); 
+                    return;
+                }
+            }
+            
+            // Si estábamos en modo de configuración (3 o 4) y presionamos una tecla NO relevante, volvemos a 0 y limpiamos la pantalla del modo.
+            if (modeState >= 3) {
+                 modeState = 0;
+                 updateScreen(currentInput || '0');
+            }
+            
+            // --- Lógica Estándar de la Calculadora ---
+            
+            switch(button.id) {
+                case 'all-clear':
+                    clearCalculator();
+                    modeState = 0; // También reiniciar el estado del modo
+                    break;
+                    
+                case 'equals':
+                    if (currentInput) {
+                        const rawResult = evaluateExpression(currentInput);
+                        const finalResult = formatResult(rawResult); // Aplicar FIX
+                        currentInput = rawResult; // Mantener valor sin formatear para Ans o cálculos posteriores
+                        updateScreen(finalResult);
+                        shouldResetScreen = true;
                     }
-                };
-
-                calculator3.querySelectorAll(".btn").forEach((button) => {
-                    button.addEventListener("click", () => {
-                        const value = button.textContent.split('\n')[0]; // Obtener solo el primer valor
-
-                        // Manejar diferentes tipos de botones
-                        switch(button.id) {
-                            case 'all-clear':
-                                clearCalculator();
-                                break;
-                                
-                            case 'equals':
-                                if (currentInput) {
-                                    const result = evaluateExpression(currentInput);
-                                    currentInput = result.toString();
-                                    updateScreen(currentInput);
-                                    shouldResetScreen = true;
-                                }
-                                break;
-                                
-                            case 'square':
-                                if (currentInput) {
-                                    const result = evaluateExpression(`(${currentInput})**2`);
-                                    currentInput = result.toString();
-                                    updateScreen(currentInput);
-                                }
-                                break;
-                                
-                            case 'open-parenthesis':
-                                if (shouldResetScreen) {
-                                    currentInput = '';
-                                    shouldResetScreen = false;
-                                }
-                                currentInput += '(';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'close-parenthesis':
-                                currentInput += ')';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'add':
-                                currentInput += '+';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'subtract':
-                                currentInput += '−';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'multiply':
-                                currentInput += '×';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'divide':
-                                currentInput += '÷';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            case 'power':
-                                currentInput += '^';
-                                updateScreen(currentInput);
-                                break;
-                                
-                            default:
-                                // Manejar números y punto decimal
-                                if (button.classList.contains('number')) {
-                                    if (shouldResetScreen) {
-                                        currentInput = '';
-                                        shouldResetScreen = false;
-                                    }
-                                    // No permitir múltiples ceros al inicio
-                                    if (value === '0' && currentInput === '0') return;
-                                    // No permitir múltiples puntos decimales en un número
-                                    if (value === '.' && currentInput.includes('.')) return;
-                                    
-                                    currentInput += value;
-                                    updateScreen(currentInput);
-                                }
+                    break;
+                
+                case 'delete':
+                    currentInput = currentInput.slice(0, -1);
+                    updateScreen(currentInput);
+                    shouldResetScreen = false;
+                    break;
+                    
+                default:
+                    // Manejo general de entrada
+                    const isOperator = button.classList.contains('operator');
+                    const isNumber = button.classList.contains('number') || button.id === 'decimal';
+                    
+                    if (isNumber || isOperator || button.classList.contains('parentesis')) {
+                        if (shouldResetScreen && isNumber) {
+                            currentInput = '';
+                            shouldResetScreen = false;
                         }
-                    });
-                });
+
+                        currentInput += value;
+                        updateScreen(currentInput);
+                    }
+            }
+        });
+    });
+    
+    // (Lógica de entrada por teclado puede requerir ajustes similares para 'MODE' y números)
+    
+
 
                 // Manejar entrada por teclado
                 document.addEventListener('keydown', (event) => {
@@ -1597,17 +1641,17 @@
             }
 
             if (entero >= 1) {
-                enterNumber(entero); // Ingresar el entero
-                clickButton('+'); // Ingresar el operador de suma
-                clickButton('('); // Abrir paréntesis
-                enterNumber(numerador); // Ingresar el numerador
-                clickButton('÷'); // Ingresar el operador de división
-                enterNumber(denominador); // Ingresar el denominador
-                clickButton(')'); // Cerrar paréntesis
+                enterNumber(entero);
+                clickButton('+'); 
+                clickButton('('); 
+                enterNumber(numerador);
+                clickButton('÷');
+                enterNumber(denominador);
+                clickButton(')'); 
             } else {
-                enterNumber(numerador); // Ingresar el numerador
-                clickButton('÷'); // Ingresar el operador de división
-                enterNumber(denominador); // Ingresar el denominador
+                enterNumber(numerador); 
+                clickButton('÷'); 
+                enterNumber(denominador); 
             }
         }
 
@@ -1634,10 +1678,8 @@
                 'C': calculator.querySelector('#all-clear')
             };
 
-            // Limpiar la calculadora
             buttons['C'].click();
 
-            // Función para hacer clic en un botón
             function clickButton(character) {
                 if (buttons[character]) {
                     buttons[character].click();
@@ -1646,13 +1688,11 @@
                 }
             }
 
-            // Función para ingresar un número de varios dígitos
             function enterNumber(number) {
                 const digits = String(number).split('');
                 digits.forEach(digit => clickButton(digit));
             }
 
-            // Ingresar la fracción
             if (identificador === 1) {
                 clickButton('(');
                 clickButton('(');
@@ -1683,7 +1723,6 @@
 
        
 
-        // jerarquia
         const calculator5 = document.getElementById('calculator5');
         function showExampleJerarquia(identificador) {
             const calculator = calculator5;
@@ -1707,10 +1746,8 @@
                 'C': calculator.querySelector('#all-clear')
             };
 
-            // Limpiar la calculadora
             buttons['C'].click();
 
-            // Función para hacer clic en un botón
             function clickButton(character) {
                 if (buttons[character]) {
                     buttons[character].click();
@@ -1719,13 +1756,11 @@
                 }
             }
 
-            // Función para ingresar un número de varios dígitos
             function enterNumber(number) {
                 const digits = String(number).split('');
                 digits.forEach(digit => clickButton(digit));
             }
 
-            // Ingresar la fracción
             if (identificador === 1) {
                  clickButton('(');
                 clickButton('(');
@@ -1780,44 +1815,6 @@
         }
 
        
-        // function showSolutionJerarquia(id) {
-        //     // Obtener el elemento que se debe mostrar
-        //     const solutionElement = document.getElementById(`solution${id}_jerarquia`);
-
-        //     // Verificar si el elemento existe
-        //     if (solutionElement) {
-        //         // Cambiar el estilo display a flex
-        //         solutionElement.style.display = 'flex';
-        //     } else {
-        //         console.error(`No se encontró el elemento con ID solution${id}_jerarquia`);
-        //     }
-        // }
-
-        // function resetFormJerarquia() {
-        //     // Limpiar todos los campos de entrada
-        //     const inputs = document.querySelectorAll('.result-input');
-        //     inputs.forEach(input => {
-        //         input.value = ''; // Vaciar el valor del input
-        //         input.style.borderColor = '';
-        //     });
-
-        //     const answerDivs = document.querySelectorAll('.math-answer-exercise jerarquia');
-        //         answerDivs.forEach(div => {
-        //             div.style.display = 'none'; 
-        //         });
-
-        //     // Ocultar todos los mensajes de retroalimentación
-        //     const feedbacks = document.querySelectorAll('.feedback jerarquia');
-        //     feedbacks.forEach(feedback => {
-        //         feedback.textContent = ''; // Limpiar el contenido del span
-        //         feedback.style.display = 'none'; // Ocultar el span
-        //     });
-        // }
-
-        // // Asignar la función al botón de "Reset"
-        // document.getElementById('reset3_btn').addEventListener('click', resetFormJerarquia);
-
-    //  despejes
         const calculator6 = document.getElementById('calculator6');
         function showExampleDespejes(identificador) {
             const calculator = calculator6;
@@ -1841,10 +1838,8 @@
                 'C': calculator.querySelector('#all-clear')
             };
 
-            // Limpiar la calculadora
             buttons['C'].click();
 
-            // Función para hacer clic en un botón
             function clickButton(character) {
                 if (buttons[character]) {
                     buttons[character].click();
@@ -1853,13 +1848,11 @@
                 }
             }
 
-            // Función para ingresar un número de varios dígitos
             function enterNumber(number) {
                 const digits = String(number).split('');
                 digits.forEach(digit => clickButton(digit));
             }
 
-            // Ingresar la fracción
             if (identificador === 1) {
                   clickButton('(');
                 clickButton('(');
@@ -1889,45 +1882,6 @@
             } 
         }
 
-       
-        // function showSolutionDespejes(id) {
-        //     // Obtener el elemento que se debe mostrar
-        //     const solutionElement = document.getElementById(`solution${id}_despejes`);
-
-        //     // Verificar si el elemento existe
-        //     if (solutionElement) {
-        //         // Cambiar el estilo display a flex
-        //         solutionElement.style.display = 'flex';
-        //     } else {
-        //         console.error(`No se encontró el elemento con ID solution${id}_despejes`);
-        //     }
-        // }
-
-        // function resetFormDespejes() {
-        //     // Limpiar todos los campos de entrada
-        //     const inputs = document.querySelectorAll('.result-input');
-        //     inputs.forEach(input => {
-        //         input.value = ''; // Vaciar el valor del input
-        //         input.style.borderColor = '';
-        //     });
-
-        //     const answerDivs = document.querySelectorAll('.math-answer-exercise despejes');
-        //         answerDivs.forEach(div => {
-        //             div.style.display = 'none'; 
-        //         });
-
-        //     // Ocultar todos los mensajes de retroalimentación
-        //     const feedbacks = document.querySelectorAll('.feedback despejes');
-        //     feedbacks.forEach(feedback => {
-        //         feedback.textContent = ''; // Limpiar el contenido del span
-        //         feedback.style.display = 'none'; // Ocultar el span
-        //     });
-        // }
-
-        // // Asignar la función al botón de "Reset"
-        // document.getElementById('reset5_btn').addEventListener('click', resetFormDespejes);
-
-     
      
 
         function toggleSpeakText(audioId) {
@@ -1957,20 +1911,7 @@
                 button.querySelector('span:last-child').textContent = 'Escuchar';
             }
         }
-        // function toggleSpeakText2() {
-        //     const audioPlayer = document.getElementById('audioPlayer');
-
-        //     if (audioPlayer.paused) {
-        //         audioPlayer.play();
-        //         document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_off';
-        //         document.querySelector('#voiceButton2 span:last-child').textContent = 'Detener';
-        //     } else {
-        //         audioPlayer.pause();
-        //         audioPlayer.currentTime = 0; // Reinicia el audio al principio
-        //         document.querySelector('#voiceButton2 .material-icons').textContent = 'volume_up';
-        //         document.querySelector('#voiceButton2 span:last-child').textContent = 'Escuchar';
-        //     }
-        // }
+       
 
         document.querySelectorAll("li").forEach((item) => {
             item.addEventListener("click", function () {
@@ -1989,42 +1930,42 @@
         function iluminarSeccion(li) {
             let section = li.getAttribute("data-section");
 
-            // Quitar el borde de todas las secciones antes de aplicar uno nuevo
+           
             quitarBorde();
 
             if (section === "screen") {
                 document.querySelectorAll(".screen").forEach(div => {
-                    div.style.border = "4px solid #d2ff93"; // Resaltar sección
+                    div.style.border = "4px solid #d2ff93"; 
                 });
             }
             if (section === "seccion1") {
                 document.querySelectorAll(".seccion1").forEach(div => {
-                    div.style.border = "4px solid #A4D65E"; // Resaltar sección
+                    div.style.border = "4px solid #A4D65E"; 
                 });
             }
             if (section === "seccion2") {
                 document.querySelectorAll(".seccion2").forEach(div => {
-                    div.style.border = "4px solid #5fbae8"; // Resaltar sección
+                    div.style.border = "4px solid #5fbae8"; 
                 });
             }
             if (section === "seccion3") {
                 document.querySelectorAll(".seccion3").forEach(div => {
-                    div.style.border = "4px solid #007DBA"; // Resaltar sección
+                    div.style.border = "4px solid #007DBA"; 
                 });
             }
             if (section === "seccion4") {
                 document.querySelectorAll(".seccion4").forEach(div => {
-                    div.style.border = "4px solid #236192"; // Resaltar sección
+                    div.style.border = "4px solid #236192";
                 });
             }
             if (section === "seccion5") {
                 document.querySelectorAll(".seccion5").forEach(div => {
-                    div.style.border = "4px solid #FF585D"; // Resaltar sección
+                    div.style.border = "4px solid #FF585D"; 
                 });
             }
             if (section === "seccion6") {
                 document.querySelectorAll(".seccion6").forEach(div => {
-                    div.style.border = "4px solid #ff9da0"; // Resaltar sección
+                    div.style.border = "4px solid #ff9da0"; 
                 });
             }
             if (section === "sum") {
@@ -2100,14 +2041,9 @@
 
         function showExampleFunctions(type) {
             const screen = calculator2.querySelector('#screen');
-            //screen.textContent =  '';
             screen.innerHTML = '';
             switch (type) {
                 case 'sum':
-                    //screen.textContent =  '10 + 5 <br> 3';
-                    // screen.appendChild(document.createTextNode('10 + 5'));
-                    // screen.appendChild(document.createElement('br')); // Salto de línea
-                    // screen.appendChild(document.createTextNode('3'));
                     const line1 = document.createElement('div');
                     line1.textContent = '10 + 5';
                     const line2 = document.createElement('div');
@@ -2121,7 +2057,7 @@
                     restLine1.textContent = '10 - 5';
                     const restLine2 = document.createElement('div');
                     restLine2.textContent = '5';
-                    restLine2.style.marginLeft = '200px'; // Sangría
+                    restLine2.style.marginLeft = '200px';
                     screen.appendChild(restLine1);
                     screen.appendChild(restLine2);
                     break;
@@ -2131,7 +2067,7 @@
                     multiLine1.textContent = '10 x 5';
                     const multiLine2 = document.createElement('div');
                     multiLine2.textContent = '50';
-                    multiLine2.style.marginLeft = '200px'; // Sangría
+                    multiLine2.style.marginLeft = '200px'; 
                     screen.appendChild(multiLine1);
                     screen.appendChild(multiLine2);
                     break;
@@ -2141,7 +2077,7 @@
                     divLine1.textContent = '10 ÷ 5';
                     const divLine2 = document.createElement('div');
                     divLine2.textContent = '2';
-                    divLine2.style.marginLeft = '200px'; // Sangría
+                    divLine2.style.marginLeft = '200px';
                     screen.appendChild(divLine1);
                     screen.appendChild(divLine2);
                     break;
@@ -2151,8 +2087,7 @@
                     elevateLine1.textContent = '10²';
                     const elevateLine2 = document.createElement('div');
                     elevateLine2.textContent = '100';
-                    elevateLine2.style.marginLeft = '200px'; // Sangría
-                    screen.appendChild(elevateLine1);
+                    elevateLine2.style.marginLeft = '200px';
                     screen.appendChild(elevateLine2);
                     break;
 
@@ -2161,7 +2096,7 @@
                     parenLine1.textContent = '(10 ÷ 5) + 0.052';
                     const parenLine2 = document.createElement('div');
                     parenLine2.textContent = '2.052';
-                    parenLine2.style.marginLeft = '200px'; // Sangría
+                    parenLine2.style.marginLeft = '200px';
                     screen.appendChild(parenLine1);
                     screen.appendChild(parenLine2);
                     break;  
@@ -2173,7 +2108,7 @@
                     percentLine1.textContent = '100 x 50%';
                     const percentLine2 = document.createElement('div');
                     percentLine2.textContent = '50';
-                    percentLine2.style.marginLeft = '200px'; // Sangría
+                    percentLine2.style.marginLeft = '200px';
                     screen.appendChild(percentLine1);
                     screen.appendChild(percentLine2);
                     break;  

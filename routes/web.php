@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Projects\ProjectManagementController;
 use App\Http\Controllers\Admin\Exercises\ExamController;
 use App\Http\Controllers\Admin\Exercises\KillsheetsController;
 use App\Http\Controllers\Admin\Exercises\MathController;
+
 //usuarios
 use App\Http\Controllers\Admin\Access\usuariosController;
 
@@ -114,6 +115,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/examDatatable', [ExamController::class, 'examDatatable']);
     Route::post('/examSave', [ExamController::class, 'store']);
     Route::get('/examActive', [ExamController::class, 'store']);
+    Route::get('/temas', [ExamController::class, 'getTemas']);
+
+
+
 
     // --------------------------MATH-------------------------------------- //
     Route::get('/math', [adminController::class, 'math'])->name('math');

@@ -106,7 +106,99 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
+
     var selectizeInstance6 = $select6[0].selectize;
+    selectizeInstance6.on('change', function (value) {
+        console.log("El valor seleccionado ha cambiado:", value);
+
+        // Asegurarnos de que `value` es un array
+        if (Array.isArray(value)) {
+            const selectedEnteIds = value;
+            console.log("IDs seleccionados:", selectedEnteIds);
+
+            // Usamos jQuery para hacer la solicitud AJAX
+            $.ajax({
+                url: '/temas',  // URL de la API
+                type: 'GET',
+                data: { entes: JSON.stringify(selectedEnteIds) }, // Convertir el array a un string JSON
+                dataType: 'json', // Esperamos una respuesta JSON
+                success: function (data) {
+                    console.log('Respuesta del servidor:', data);
+
+                    // Limpiar el contenedor de temas
+                    const temasContainer = document.getElementById('temas-container');
+                    temasContainer.innerHTML = '';
+
+                    // Renderizar los temas y subtemas
+                    data.forEach(tema => {
+                        const temaContainer = document.createElement('div');
+                        temaContainer.classList.add('tema-container');
+                        temaContainer.dataset.tema = tema.ID_CATALOGO_TEMAPREGUNTA;
+
+                        const temaHeader = document.createElement('div');
+                        temaHeader.classList.add('tema-header');
+                        temaHeader.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="tema${tema.ID_CATALOGO_TEMAPREGUNTA}-check" onchange="toggleAllSubtemas(${tema.ID_CATALOGO_TEMAPREGUNTA}, this.checked)">
+                                <h5 class="tema-title">${tema.NOMBRE_TEMA}</h5>
+                            </div>
+                            <i class="fas fa-chevron-down expand-icon" id="icon-${tema.ID_CATALOGO_TEMAPREGUNTA}"></i>
+                        </div>
+                    `;
+
+                        temaContainer.appendChild(temaHeader);
+
+                        const subtemasContainer = document.createElement('div');
+                        subtemasContainer.classList.add('subtemas-container');
+                        subtemasContainer.id = `subtemas-${tema.ID_CATALOGO_TEMAPREGUNTA}`;
+
+                        // Renderizar los subtemas
+                        tema.subtemas.forEach(subtema => {
+                            const subtemaItem = document.createElement('div');
+                            subtemaItem.classList.add('subtema-item');
+                            subtemaItem.innerHTML = `
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="subtema${subtema.ID_CATALOGO_SUBTEMA}-check" onchange="updateCalculos()">
+                                <h6 class="subtema-title">${subtema.NOMBRE_SUBTEMA}</h6>
+                            </div>
+                            <div class="control-row">
+                                <div class="time-input-group">
+                                    <label class="form-label small">Preguntas:</label>
+                                    <input type="number" class="form-control small" min="1" max="50" value="5" onchange="updateCalculos()">
+                                </div>
+                                <div class="time-input-group">
+                                    <label class="form-label small">Rango de tiempo (min):</label>
+                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="300" value="3" onchange="updateCalculos()">
+                                    <span>-</span>
+                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="300" value="6" onchange="updateCalculos()">
+                                </div>
+                                <div class="time-input-group">
+                                    <label class="form-label small">Puntajes (pts):</label>
+                                    <input type="number" class="form-control small" placeholder="Min" min="1" max="100" value="1" onchange="updateCalculos()">
+                                    <span>-</span>
+                                    <input type="number" class="form-control small" placeholder="Max" min="1" max="100" value="10" onchange="updateCalculos()">
+                                </div>
+                            </div>
+                        `;
+
+                            subtemasContainer.appendChild(subtemaItem);
+                        });
+
+                        temaContainer.appendChild(subtemasContainer);
+                        temasContainer.appendChild(temaContainer);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar los temas:', error);
+                    alert('Hubo un problema al cargar los temas');
+                }
+            });
+        } else {
+            console.warn('El valor recibido no es un array:', value);
+        }
+    });
+
     var $select7 = $('#LEVELS_EXAM').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -313,12 +405,20 @@ $(document).ready(function () {
         }
     }
 
-    function toggleAllSubtemas(temaId, checked) {
-        const subtemas = document.querySelectorAll(`#subtemas-${temaId} input[type="checkbox"]`);
-        subtemas.forEach(checkbox => {
-            checkbox.checked = checked;
+
+    function toggleAllSubtemas(temaId, isChecked) {
+        const subtemasContainer = document.getElementById('subtemas-' + temaId);
+        const subtemas = subtemasContainer.querySelectorAll('.subtema-item input[type="checkbox"]');
+
+        subtemas.forEach(subtema => {
+            subtema.checked = isChecked;
         });
-        updateCalculos();
+
+        if (isChecked) {
+            subtemasContainer.style.display = 'block'; 
+        } else {
+            subtemasContainer.style.display = 'none';
+        }
     }
 
     function updateCalculos() {
@@ -354,15 +454,15 @@ $(document).ready(function () {
             if (checkbox.checked) {
                 const inputs = subtema.querySelectorAll('input[type="number"]');
 
-                const preguntas = parseInt(inputs[0].value) || 0;        
-                const tiempoMin = parseInt(inputs[1].value) || 0;        
-                const tiempoMax = parseInt(inputs[2].value) || 0;       
-                const puntajeMin = parseInt(inputs[3].value) || 0;       
-                const puntajeMax = parseInt(inputs[4].value) || 0;       
+                const preguntas = parseInt(inputs[0].value) || 0;
+                const tiempoMin = parseInt(inputs[1].value) || 0;
+                const tiempoMax = parseInt(inputs[2].value) || 0;
+                const puntajeMin = parseInt(inputs[3].value) || 0;
+                const puntajeMax = parseInt(inputs[4].value) || 0;
 
                 totalPreguntas += preguntas;
-                totalTiempo += (preguntas * tiempoMax); 
-                totalPuntaje += (preguntas * puntajeMax); 
+                totalTiempo += (preguntas * tiempoMax);
+                totalPuntaje += (preguntas * puntajeMax);
             }
         });
 
@@ -427,8 +527,12 @@ $(document).ready(function () {
     window.updateCalculos = updateCalculos;
 
     document.addEventListener('DOMContentLoaded', function () {
+
+
         updateCalculos();
     });
+
+
 });
 
 // DATATABLES
@@ -515,39 +619,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     selectizeInstance = $select[0].selectize;
 
-    const calendarEl = document.getElementById('calendar');
-    calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        buttonText: {
-            today: 'Hoy',
-            month: 'Mes',
-            week: 'Semana',
-            day: 'Día'
-        },
-        height: 'auto',
-        events: events,
-        eventClick: function (info) {
-            editEvent(info.event.id);
-        },
-        dateClick: function (info) {
-            document.getElementById('startDate').value = info.dateStr;
-            document.getElementById('endDate').value = info.dateStr;
-            $('#eventModal').modal('show');
-        }
-    });
-
-    calendar.render();
-
     document.getElementById('saveEvent').addEventListener('click', saveEvent);
 
     setDefaultDateTime();
-    updateEventsList();
 });
 
 function setDefaultDateTime() {

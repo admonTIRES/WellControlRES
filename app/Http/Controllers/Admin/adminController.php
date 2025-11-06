@@ -18,8 +18,8 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\Instructor;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\User; 
-use App\Models\Candidate; 
+use App\Models\User;
+use App\Models\Candidate;
 
 
 
@@ -176,7 +176,9 @@ class adminController extends Controller
         $subtemas = SubtemaPreguntas::all();
         $bops = TipoBOP::all();
         $idiomas = IdiomasExamenes::all();
-        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas'))->with('user_role', 0);
+        $temasFiltrados = null;
+
+        return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'temasFiltrados'))->with('user_role', 0);
     }
     /**
      * @return \Illuminate\View\View
@@ -319,7 +321,7 @@ class adminController extends Controller
     /**
      * Permite al administrador iniciar sesión como un estudiante.
      */
-  public function simulateStudentPanel(Request $request)
+    public function simulateStudentPanel(Request $request)
     {
         $adminUser = Auth::user();
         if ($adminUser->rol !== 0) {
@@ -328,16 +330,16 @@ class adminController extends Controller
 
         $request->session()->put('original_admin_id', $adminUser->id);
         $request->session()->put('original_admin_roles', $request->session()->get('ROLES_USER'));
-        
+
         $request->session()->forget(['ROLES_USER', 'profile_name', 'ACCREDITING_ENTITY_PROJECT', 'ID_PROJECT']);
 
-       session([
-            'profile_name' => 'Usuario de Prueba', 
-            'ID_PROJECT' => 'TEST-PROJECT-001', 
+        session([
+            'profile_name' => 'Usuario de Prueba',
+            'ID_PROJECT' => 'TEST-PROJECT-001',
             'ACCREDITING_ENTITY_PROJECT' => 'Entidad de Prueba',
         ]);
-        
-         return redirect()->intended('/')->with('simulating', true);
+
+        return redirect()->intended('/')->with('simulating', true);
     }
 
     /**
@@ -351,20 +353,20 @@ class adminController extends Controller
 
         $originalAdminId = $request->session()->get('original_admin_id');
         $originalAdminRoles = $request->session()->pull('original_admin_roles');
-        
 
-       $request->session()->forget([
-            'original_admin_id', 
-            'profile_name', 
-            'ID_PROJECT', 
+
+        $request->session()->forget([
+            'original_admin_id',
+            'profile_name',
+            'ID_PROJECT',
             'ACCREDITING_ENTITY_PROJECT'
         ]);
 
         session([
             'ROLES_USER' => $originalAdminRoles,
-            'profile_name' => 'Administrador', 
+            'profile_name' => 'Administrador',
         ]);
-        
+
         return redirect()->intended('/');
     }
 }

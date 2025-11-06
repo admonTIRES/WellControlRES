@@ -235,7 +235,6 @@ class ExamController extends Controller
                             'IMAGEN3_QUESTION' => $request->has('SECCION_EXTRA2') && $request->SECCION_EXTRA2 == 'on' && $request->TIPO3_QUESTION == 2 ? $imagen3 : null,
                         ];
 
-                        // Actualizamos la pregunta con la estructura completa
                         $question->QUESTION_STRUCTURE_QUESTION = $QUESTION_STRUCTURE_QUESTION;
                         $question->save();
                     } else {
@@ -254,20 +253,16 @@ class ExamController extends Controller
                             $idQuestion = $question->ID_QUESTION;
                             $QUESTION_STRUCTURE_ACTUAL = $question->QUESTION_STRUCTURE_QUESTION ?? [];
                             
-                            // Manejar imágenes nuevas o mantener las existentes
                             $imagen1 = null;
                             if ($request->hasFile('IMAGEN1_QUESTION')) {
-                                // Eliminar imagen anterior si existe
                                 if (isset($QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']) && $QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']) {
                                     Storage::delete($QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION']);
                                 }
                                 $imagen1 = $this->uploadFile($request->file('IMAGEN1_QUESTION'), $idQuestion, 1);
                             } else {
-                                // Mantener imagen existente
                                 $imagen1 = $QUESTION_STRUCTURE_ACTUAL['IMAGEN1_QUESTION'] ?? null;
                             }
                             
-                            // Repetir para imagen2 e imagen3...
                             $imagen2 = null;
                             if ($request->hasFile('IMAGEN2_QUESTION')) {
                                 if (isset($QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION']) && $QUESTION_STRUCTURE_ACTUAL['IMAGEN2_QUESTION']) {
@@ -288,7 +283,6 @@ class ExamController extends Controller
                                 $imagen3 = $QUESTION_STRUCTURE_ACTUAL['IMAGEN3_QUESTION'] ?? null;
                             }
                             
-                            // Actualizar estructura
                             $QUESTION_STRUCTURE_QUESTION  = [
                                 'TIPO1_QUESTION' => $request->TIPO1_QUESTION ?? '',
                                 'TEXTO1_QUESTION' => $request->TIPO1_QUESTION == 1 ? $request->TEXTO1_QUESTION : null,
@@ -357,7 +351,7 @@ class ExamController extends Controller
     public function cleanTextareaInput($input)
     {
         if (empty($input)) {
-            return null; // valor por defecto si no hay input
+            return null; 
         }
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
@@ -367,38 +361,51 @@ class ExamController extends Controller
         if (!$file || !$file->isValid()) {
             return null;
         }
-        
         try {
-            // Crear directorio en storage/app: admin/exam/questions/{ID}/imagen/
             $directorio = 'admin/exam/questions/' . $questionId . '/imagen';
-            
-            // Obtener extensión original del archivo
             $extension = $file->getClientOriginalExtension();
-            
-            // Nombre del archivo basado en el tipo: 1.jpg, 2.png, 3.jpeg
             $nombreArchivo = $tipoImagen . '.' . $extension;
-            
-            // Guardar el archivo en storage/app/admin/exam/questions/{ID}/imagen/
             $rutaCompleta = $file->storeAs($directorio, $nombreArchivo);
-            
-            // Retornar la ruta completa: admin/exam/questions/23/imagen/1.png
             return $rutaCompleta;
             
         } catch (\Exception $e) {
-            // Log del error si es necesario
-           
             return null;
         }
     }
 
     public function showImage($ruta)
     {
-        // Buscar archivo en storage/app/...
         if (Storage::exists($ruta)) {
             return Storage::response($ruta);
         }
 
         abort(404, 'Imagen no encontrada');
+    }
+    public function getTemas(Request $request)
+    {
+        $entesIds = json_decode($request->input('entes', '[]'), true);
+
+        if (!is_array($entesIds) || empty($entesIds)) {
+            return response()->json(['error' => 'El parámetro "entes" no es válido o está vacío'], 400);
+        }
+
+        try {
+            $temas = TemaPreguntas::whereHas('subtemas', function ($query) use ($entesIds) {
+                foreach ($entesIds as $enteId) {
+                    $query->orWhereRaw('FIND_IN_SET(?, CERTIFICACION_SUBTEMA)', [$enteId]);
+                }
+            })
+            ->with(['subtemas' => function ($query) use ($entesIds) {
+                foreach ($entesIds as $enteId) {
+                    $query->orWhereRaw('FIND_IN_SET(?, CERTIFICACION_SUBTEMA)', [$enteId]);
+                }
+            }])
+            ->get();
+
+            return response()->json($temas);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Hubo un problema al cargar los temas', 'message' => $e->getMessage()], 500);
+        }
     }
 
 }

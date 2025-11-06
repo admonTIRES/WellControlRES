@@ -19,7 +19,6 @@ class principalController extends Controller
     {
         $user = Auth::user();
         
-       
         $isSimulatingStudent = session()->has('original_admin_id'); 
         
         if ($user->rol === 1 || $isSimulatingStudent) { 

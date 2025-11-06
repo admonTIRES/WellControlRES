@@ -30,7 +30,6 @@ class principalController extends Controller
                 'ID_PROJECT' => session('ID_PROJECT', 'TEST-PROJECT-001'),
             ];
             
-            // Retorna la vista del Usuario normal/Estudiante
             return view('Principal.principal', $profileData)->with('user_role', 1);
 
         } else { 

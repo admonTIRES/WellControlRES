@@ -362,11 +362,9 @@ class adminController extends Controller
 
         session([
             'ROLES_USER' => $originalAdminRoles,
-            // Restaurar cualquier otra variable del admin si aplica
-            'profile_name' => 'Administrador', // Ejemplo
+            'profile_name' => 'Administrador', 
         ]);
         
-        // Redirige al inicio, donde el PrincipalController detectará la ausencia de 'original_admin_id'
         return redirect()->intended('/');
     }
 }

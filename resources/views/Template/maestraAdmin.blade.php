@@ -7,58 +7,46 @@ use Illuminate\Support\Str;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Well Control Learning Experience</title>
-
-    <!-- Favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-
-    <!-- Estilos globales-->
     <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" />
-
-    <!-- Dropify CSS solo para 'exercises' -->
     @if(request()->is('exercises'))
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
-        integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endif
 
-    <!-- Scripts externos -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">  
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 
     @if (isset($css_identifier))
-    @switch($css_identifier)
-    @case('exercises')
-    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.2" media="(min-width: 1024px)">
-    @break
-    @case('math')
-    <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">
-    @break
-    @case('catalogs')
-    <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}?v=1.1" media="(min-width: 1024px)">
-    @break
-    @case('projectsAdmin')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
-    @break
-    @case('detailsProject')
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.1" media="(min-width: 1024px)">
-    @break
-    @endswitch
+        @switch($css_identifier)
+            @case('exercises')
+                <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.2" media="(min-width: 1024px)">
+            @break
+            @case('math')
+                <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">
+            @break
+            @case('catalogs')
+                <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}?v=1.1" media="(min-width: 1024px)">
+            @break
+            @case('projectsAdmin')
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+                <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
+                <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
+            @break
+            @case('detailsProject')
+                <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.1" media="(min-width: 1024px)">
+            @break
+        @endswitch
     @endif
 </head>
 
@@ -799,7 +787,6 @@ use Illuminate\Support\Str;
             </div>
         </footer>
     </main>
-
     
     <script src="/assets/js/libs.min.js"></script>
     <script src="/assets/js/charts/widgetcharts.js"></script>
@@ -811,48 +798,38 @@ use Illuminate\Support\Str;
     <script src="/assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <!-- Dropify -->
     <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
-    {{-- selectized --}}
     <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
-
-    <!-- Tagify CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
-    <!-- Tagify JS -->
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    {{-- MATH --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
-    <!-- Select opcion selectize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
     <script src="/js/Admin/admin.js?v=1.3"></script>
     @if(request()->is('catalogs'))
-    <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.15"></script>
+        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.15"></script>
     @endif
     @if(request()->is('math'))
-    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>
+        <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>
     @endif
     @if(request()->is('exercises'))
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
-        integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.20"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.20"></script>
     @endif
     @if(request()->is('killsheets'))
-    <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
+        <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
     @endif
     @if(request()->is('projectsAdmin'))
-    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.37"></script>
+        <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.37"></script>
     @endif
-     @if(request()->is('projectsInstructor'))
-    <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.13"></script>
+    @if(request()->is('projectsInstructor'))
+        <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.13"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-    <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.22"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.22"></script>
     @endif
      @if(request()->is('roles'))
-    <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
+        <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
     @endif
 
 </body>

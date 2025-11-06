@@ -1,3 +1,817 @@
+document.oncontextmenu = function () { return false }
+document.addEventListener('DOMContentLoaded', function () {
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function () {
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            this.classList.add('active');
+
+            const activeSection = document.querySelector('.content-section.active');
+            const sectionId = this.getAttribute('data-section');
+            const newSection = document.getElementById(sectionId);
+
+            if (activeSection !== newSection) {
+                activeSection.classList.add('fade-out');
+                setTimeout(() => {
+                    activeSection.classList.remove('active', 'fade-out');
+                    activeSection.style.visibility = 'hidden';
+
+                    newSection.style.visibility = 'visible';
+                    newSection.classList.add('active', 'fade-in');
+                    setTimeout(() => newSection.classList.remove('fade-in'), 500);
+                }, 500);
+            }
+        });
+    });
+});
+
+const modal = document.getElementById("exampleModalCenter");
+const modalTitle = document.getElementById("exampleModalLongTitle");
+const modalText = document.getElementById("exampleModalLText");
+const modalImage = document.getElementById("modal-image");
+
+function openModal(title, text, imageSrc) {
+    modalTitle.textContent = title;
+    modalText.textContent = text;
+    if (imageSrc) {
+        modalImage.src = imageSrc;
+        modalImage.style.display = "block";
+    } else {
+        modalImage.style.display = "none";
+    }
+    $(modal).modal('show');
+}
+
+function openModal2(title, text) {
+    modalTitle.textContent = title;
+    modalText.textContent = text;
+    $(modal).modal('show');
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const calculator1 = document.getElementById('calculator1');
+    if (calculator1) {
+        calculator1.querySelectorAll(".btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const id = button.id;
+                let title = "";
+                let text = "";
+                let imageSrc = "";
+
+                switch (id) {
+
+                    // ==================== SECCIÓN 1: Sección principal ====================
+                    case "shift":
+                    case "alpha":
+                    case "mode-clear":
+                    case "on":
+                        title = "Sección principal";
+                        text = "Esta sección está conformada por las teclas SHIFT, ALFA, MODE y ON. En esta sección se puede encender y configurar la calculadora.";
+                        imageSrc = "/assets/images/principal/calculadora_seccion1.png";
+                        break;
+
+                    // ==================== SECCIÓN 2: Funciones de teclas negras ====================
+                    case "square":
+                    case "square-root":
+                    case "sin":
+                    case "cos":
+                    case "tan":
+                    case "comma-xy":
+                    case "close-parenthesis":
+                    case "open-parenthesis":
+                    case "engineering":
+                    case "hyperbolic":
+                    case "comma":
+                    case "negative":
+                    case "natural-log":
+                    case "log":
+                    case "power":
+                    case "fraction":
+                    case "cube-root":
+                    case "polar":
+                    case "combination":
+                    case "inverse":
+                    case "memory-add":
+                        title = "Funciones avanzadas";
+                        text = "Esta sección incluye funciones avanzadas como elevar al cuadrado, calcular raíces cuadradas y funciones trigonométricas (seno, coseno y tangente).";
+                        imageSrc = "/assets/images/principal/calculadora_seccion2.png";
+                        break;
+
+                    // ==================== SECCIÓN 3: Operadores de matemáticas básicas ====================
+                    case "add":
+                    case "subtract":
+                    case "multiply":
+                    case "divide":
+                        title = "Operadores de matemáticas básicas";
+                        text = "En esta sección se encuentran los operadores básicos para realizar sumas, restas, multiplicaciones y divisiones.";
+                        imageSrc = "/assets/images/principal/calculadora_seccion4.png";
+                        break;
+
+                    // ==================== SECCIÓN 4: Teclado numérico ====================
+                    case "zero":
+                    case "one":
+                    case "two":
+                    case "three":
+                    case "four":
+                    case "five":
+                    case "six":
+                    case "seven":
+                    case "eight":
+                    case "nine":
+                    case "decimal":
+                        title = "Teclado numérico";
+                        text = "Esta sección permite ingresar números del 0 al 9 y el punto decimal.";
+                        imageSrc = "/assets/images/principal/calculadora_seccion3.png";
+                        break;
+
+                    // ==================== SECCIÓN 5: Interruptor de apagado ====================
+                    case "all-clear":
+                    case "delete":
+                        title = "Interruptor y borrado";
+                        text = "Esta sección permite borrar el contenido de la calculadora o apagarla.";
+                        imageSrc = "/assets/images/principal/calculadora_seccion5.png";
+                        break;
+
+                    // ==================== SECCIÓN 6: Signo igual y funciones adicionales ====================
+                    case "equals":
+                    case "answer":
+                    case "exponent":
+                        title = "Resultado y funciones adicionales";
+                        text = "En esta sección puedes calcular el resultado de una operación y acceder a funciones adicionales como la última respuesta (Ans) o notación científica.";
+                        imageSrc = "/assets/images/principal/calculadora_seccion6.png";
+                        break;
+
+                    default:
+                        title = "Botón no reconocido";
+                        text = "Este botón no tiene una función asignada.";
+                        imageSrc = "/assets/images/principal/bocapozo.png";
+                }
+
+
+                openModal(title, text, imageSrc);
+            });
+        });
+    }
+
+    const calculator2 = document.getElementById('calculator2');
+    if (calculator2) {
+        calculator2.querySelectorAll(".btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const id = button.id;
+                let title = "";
+                let text = "";
+
+                switch (id) {
+                    case "shift":
+                        title = "SHIFT";
+                        text = "Activa funciones secundarias de los botones.";
+                        break;
+                    case "alpha":
+                        title = "ALPHA";
+                        text = "Activa el modo de entrada de letras.";
+                        break;
+                    case "inverse":
+                        title = "Inverso (x⁻¹) / Factorial (x!)";
+                        text = "Calcula el inverso de un número o su factorial.";
+                        break;
+                    case "combination":
+                        title = "Combinación (nCr) / Permutación (nPr)";
+                        text = "Calcula combinaciones o permutaciones.";
+                        break;
+                    case "mode-clear":
+                        title = "MODE CLR";
+                        text = "Cambia el modo o limpia la pantalla.";
+                        break;
+                    case "on":
+                        title = "ON";
+                        text = "Enciende la calculadora.";
+                        break;
+                    case "polar":
+                        title = "Pol( / Rec(";
+                        text = "Convierte entre coordenadas polares y rectangulares.";
+                        break;
+                    case "cube-root":
+                        title = "x³ / ∛";
+                        text = "Eleva un número al cubo o calcula su raíz cúbica.";
+                        break;
+                    case "fraction":
+                        title = "Fracción (a b/c) / Conversión (d/c)";
+                        text = "Ingresa fracciones o convierte entre formatos.";
+                        break;
+                    case "square-root":
+                        title = "Raíz cuadrada (√)";
+                        text = "Calcula la raíz cuadrada de un número.";
+                        break;
+                    case "square":
+                        title = "x²";
+                        text = "Eleva un número al cuadrado.";
+                        break;
+                    case "power":
+                        title = "Exponente (^)";
+                        text = "Eleva un número a una potencia.";
+                        break;
+                    case "log":
+                        title = "Logaritmo (log) / 10ˣ";
+                        text = "Calcula el logaritmo base 10 o 10 elevado a x.";
+                        break;
+                    case "natural-log":
+                        title = "Logaritmo natural (ln) / eˣ";
+                        text = "Calcula el logaritmo natural o e elevado a x.";
+                        break;
+                    case "negative":
+                        title = "Negativo (-)";
+                        text = "Ingresa un número negativo.";
+                        break;
+                    case "comma":
+                        title = "Coma (,...)";
+                        text = "Ingresa una coma decimal.";
+                        break;
+                    case "hyperbolic":
+                        title = "Hiperbólico (hyp)";
+                        text = "Activa funciones hiperbólicas.";
+                        break;
+                    case "sin":
+                        title = "Seno (sin) / Arco seno (sin⁻¹)";
+                        text = "Calcula el seno o el arco seno de un número.";
+                        break;
+                    case "cos":
+                        title = "Coseno (cos) / Arco coseno (cos⁻¹)";
+                        text = "Calcula el coseno o el arco coseno de un número.";
+                        break;
+                    case "tan":
+                        title = "Tangente (tan) / Arco tangente (tan⁻¹)";
+                        text = "Calcula la tangente o el arco tangente de un número.";
+                        break;
+                    case "recall":
+                        title = "RCL / STO";
+                        text = "Recupera o almacena un valor en memoria.";
+                        break;
+                    case "engineering":
+                        title = "ENG / ←";
+                        text = "Cambia a notación de ingeniería o retrocede.";
+                        break;
+                    case "open-parenthesis":
+                        title = "Paréntesis abierto (()";
+                        text = "Abre un paréntesis para agrupar operaciones.";
+                        break;
+                    case "close-parenthesis":
+                        title = "Paréntesis cerrado ())";
+                        text = "Cierra un paréntesis para agrupar operaciones.";
+                        break;
+                    case "comma-xy":
+                        title = "Coma (,)";
+                        text = "Separa valores en coordenadas.";
+                        break;
+                    case "memory-add":
+                        title = "M+";
+                        text = "Añade un valor a la memoria.";
+                        break;
+                    case "seven":
+                        title = "7";
+                        text = "Ingresa el número 7.";
+                        break;
+                    case "eight":
+                        title = "8";
+                        text = "Ingresa el número 8.";
+                        break;
+                    case "nine":
+                        title = "9";
+                        text = "Ingresa el número 9.";
+                        break;
+                    case "delete":
+                        title = "DEL / INS";
+                        text = "Borra o inserta un carácter.";
+                        break;
+                    case "all-clear":
+                        title = "AC / OFF";
+                        text = "Borra todo o apaga la calculadora.";
+                        break;
+                    case "four":
+                        title = "4";
+                        text = "Ingresa el número 4.";
+                        break;
+                    case "five":
+                        title = "5";
+                        text = "Ingresa el número 5.";
+                        break;
+                    case "six":
+                        title = "6";
+                        text = "Ingresa el número 6.";
+                        break;
+                    case "multiply":
+                        title = "×";
+                        text = "Multiplica dos números.";
+                        break;
+                    case "divide":
+                        title = "÷";
+                        text = "Divide dos números.";
+                        break;
+                    case "one":
+                        title = "1";
+                        text = "Ingresa el número 1.";
+                        break;
+                    case "two":
+                        title = "2";
+                        text = "Ingresa el número 2.";
+                        break;
+                    case "three":
+                        title = "3";
+                        text = "Ingresa el número 3.";
+                        break;
+                    case "add":
+                        title = "+";
+                        text = "Suma dos números.";
+                        break;
+                    case "subtract":
+                        title = "−";
+                        text = "Resta dos números.";
+                        break;
+                    case "zero":
+                        title = "0";
+                        text = "Ingresa el número 0.";
+                        break;
+                    case "decimal":
+                        title = ".";
+                        text = "Ingresa un punto decimal.";
+                        break;
+                    case "exponent":
+                        title = "EXP / π";
+                        text = "Ingresa notación científica o el valor de π.";
+                        break;
+                    case "answer":
+                        title = "Ans / DRG▶";
+                        text = "Recupera la última respuesta o cambia el modo angular.";
+                        break;
+                    case "equals":
+                        title = "= / %";
+                        text = "Calcula el resultado o convierte a porcentaje.";
+                        break;
+                    default:
+                        title = "Botón no reconocido";
+                        text = "Este botón no tiene una función asignada.";
+                }
+                openModal2(title, text);
+            });
+
+        });
+    }
+
+    const calculator_3 = document.getElementById('calculator3');
+    const calculator4 = document.getElementById('calculator4');
+    const calculator5 = document.getElementById('calculator5');
+    const calculator6 = document.getElementById('calculator6');
+
+    if (calculator_3) {
+        initializeCalculator(calculator_3);
+    }
+
+    if (calculator4) {
+        initializeCalculator(calculator4);
+    }
+    if (calculator5) {
+        initializeCalculator(calculator5);
+    }
+    if (calculator6) {
+        initializeCalculator(calculator6);
+    }
+
+    function initializeCalculator(calculator3) {
+        let currentInput = '';
+        let shouldResetScreen = false;
+        let modeState = 0;
+        let fixedDecimals = null;
+
+        const screen = calculator3.querySelector('#screen');
+        const screenDisplay = calculator3.querySelector('#screen-display');
+
+        const updateScreen = (value, overrideMessage = null) => {
+            if (overrideMessage) {
+                screen.textContent = overrideMessage;
+            } else {
+                screen.textContent = value || '0';
+            }
+        };
+
+        const clearCalculator = () => {
+            currentInput = '';
+            updateScreen('0');
+        };
+
+        const formatResult = (result) => {
+            if (result === 'Error') return 'Error';
+
+            if (fixedDecimals !== null) {
+                const num = parseFloat(result);
+                if (isNaN(num)) return result;
+
+                return num.toFixed(fixedDecimals);
+            }
+
+            const num = parseFloat(result);
+            return Number.isInteger(num) ? result : parseFloat(num.toFixed(8)).toString();
+        };
+
+        const evaluateExpression = (expression) => {
+            try {
+                expression = expression
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/−/g, '-')
+                    .replace(/\^/g, '**')
+                    .replace(/²/g, '**2');
+
+                const result = Function('"use strict";return (' + expression + ')')();
+
+                return result.toString();
+            } catch (error) {
+                return 'Error';
+            }
+        };
+
+        const handleModePress = () => {
+            modeState++;
+
+            switch (modeState) {
+                case 1:
+                    updateScreen(null, "COMP 1  :  SD 2  :  REG 3");
+                    break;
+                case 2:
+                    updateScreen(null, "Deg 1  :  Rad 2  :  Gra 3");
+                    break;
+                case 3:
+                    updateScreen(null, "Fix 1  :  Sci 2  :  Norm 3");
+                    break;
+                default:
+                    modeState = 1;
+                    updateScreen(null, "COMP 1   SD 2   REG 3");
+                    break;
+            }
+        };
+        calculator3.querySelectorAll(".btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const value = button.getAttribute('data-value') || button.textContent.split('\n')[0].trim();
+
+                if (button.id === 'mode-clear') {
+                    handleModePress();
+                    return;
+                }
+
+                if (modeState === 3 && value === '1') {
+                    modeState = 4;
+                    updateScreen(null, "FIX 0~9?");
+                    return;
+                }
+
+                if (modeState === 4 && button.classList.contains('number')) {
+                    const numDecimals = parseInt(value);
+                    if (numDecimals >= 0 && numDecimals <= 9) {
+                        fixedDecimals = numDecimals;
+                        modeState = 0;
+                        const displayValue = shouldResetScreen ? formatResult(currentInput) : currentInput || '0';
+                        updateScreen(displayValue);
+                        return;
+                    }
+                }
+
+                if (modeState >= 3) {
+                    modeState = 0;
+                    updateScreen(currentInput || '0');
+                }
+
+
+                switch (button.id) {
+                    case 'all-clear':
+                        clearCalculator();
+                        modeState = 0;
+                        break;
+
+                    case 'equals':
+                        if (currentInput) {
+                            const rawResult = evaluateExpression(currentInput);
+                            const finalResult = formatResult(rawResult);
+                            currentInput = rawResult;
+                            updateScreen(finalResult);
+                            shouldResetScreen = true;
+                        }
+                        break;
+
+                    case 'delete':
+                        currentInput = currentInput.slice(0, -1);
+                        updateScreen(currentInput);
+                        shouldResetScreen = false;
+                        break;
+
+                    default:
+                        const isOperator = button.classList.contains('operator');
+                        const isNumber = button.classList.contains('number') || button.id === 'decimal';
+
+                        if (isNumber || isOperator || button.classList.contains('parentesis')) {
+                            if (shouldResetScreen && isNumber) {
+                                currentInput = '';
+                                shouldResetScreen = false;
+                            }
+
+                            currentInput += value;
+                            updateScreen(currentInput);
+                        }
+                }
+            });
+        });
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+
+            const isInputFocused = document.activeElement.tagName === 'INPUT';
+
+            if (isInputFocused) {
+                return;
+            }
+            const keyMapping = {
+                'Enter': 'equals',
+                'Escape': 'all-clear',
+                '+': 'add',
+                '-': 'subtract',
+                '*': 'multiply',
+                '/': 'divide',
+                '(': 'open-parenthesis',
+                ')': 'close-parenthesis',
+                '^': 'power',
+                '.': 'decimal',
+                '0': 'zero',
+                '1': 'one',
+                '2': 'two',
+                '3': 'three',
+                '4': 'four',
+                '5': 'five',
+                '6': 'six',
+                '7': 'seven',
+                '8': 'eight',
+                '9': 'nine'
+            };
+
+            if (/^[0-9.]$/.test(key) || key in keyMapping) {
+                event.preventDefault();
+                const buttonId = keyMapping[key] || key;
+                const button = calculator3.querySelector(`#${buttonId}`) ||
+                    calculator3.querySelector(`.btn.number:not([id]):contains('${key}')`);
+                if (button) button.click();
+            }
+        });
+
+    }
+
+});
+
+function toggleSpeakText(audioId) {
+    const audioPlayer = document.getElementById(audioId);
+    const button = document.querySelector(`button[onclick="toggleSpeakText('${audioId}')"]`);
+
+    document.querySelectorAll('audio').forEach(audio => {
+        if (audio.id !== audioId) {
+            audio.pause();
+            audio.currentTime = 0;
+            const otherButton = document.querySelector(`button[onclick="toggleSpeakText('${audio.id}')"]`);
+            if (otherButton) {
+                otherButton.querySelector('.material-icons').textContent = 'volume_up';
+                otherButton.querySelector('span:last-child').textContent = 'Escuchar';
+            }
+        }
+    });
+
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        button.querySelector('.material-icons').textContent = 'volume_off';
+        button.querySelector('span:last-child').textContent = 'Detener';
+    } else {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+        button.querySelector('.material-icons').textContent = 'volume_up';
+        button.querySelector('span:last-child').textContent = 'Escuchar';
+    }
+}
+
+document.querySelectorAll("li").forEach((item) => {
+    item.addEventListener("click", function () {
+        iluminarSeccion(this);
+    });
+
+    item.addEventListener("mouseover", function () {
+        iluminarSeccion(this);
+    });
+
+    item.addEventListener("mouseout", function () {
+        quitarBorde();
+    });
+});
+
+function iluminarSeccion(li) {
+    let section = li.getAttribute("data-section");
+
+
+    quitarBorde();
+
+    if (section === "screen") {
+        document.querySelectorAll(".screen").forEach(div => {
+            div.style.border = "4px solid #d2ff93";
+        });
+    }
+    if (section === "seccion1") {
+        document.querySelectorAll(".seccion1").forEach(div => {
+            div.style.border = "4px solid #A4D65E";
+        });
+    }
+    if (section === "seccion2") {
+        document.querySelectorAll(".seccion2").forEach(div => {
+            div.style.border = "4px solid #5fbae8";
+        });
+    }
+    if (section === "seccion3") {
+        document.querySelectorAll(".seccion3").forEach(div => {
+            div.style.border = "4px solid #007DBA";
+        });
+    }
+    if (section === "seccion4") {
+        document.querySelectorAll(".seccion4").forEach(div => {
+            div.style.border = "4px solid #236192";
+        });
+    }
+    if (section === "seccion5") {
+        document.querySelectorAll(".seccion5").forEach(div => {
+            div.style.border = "4px solid #FF585D";
+        });
+    }
+    if (section === "seccion6") {
+        document.querySelectorAll(".seccion6").forEach(div => {
+            div.style.border = "4px solid #ff9da0";
+        });
+    }
+    if (section === "sum") {
+        document.querySelectorAll(".sum").forEach(div => {
+            div.style.border = "4px solid #d2ff93";
+            div.style.background = "#d2ff93";
+            div.style.color = "black";
+        });
+        showExampleFunctions('sum');
+    }
+    if (section === "rest") {
+        document.querySelectorAll(".rest").forEach(div => {
+            div.style.border = "4px solid #A4D65E";
+            div.style.background = "#A4D65E";
+            div.style.color = "black";
+        });
+        showExampleFunctions('rest');
+    }
+    if (section === "multiplicate") {
+        document.querySelectorAll(".multiplicate").forEach(div => {
+            div.style.border = "4px solid #5fbae8";
+            div.style.background = "#5fbae8";
+            div.style.color = "black";
+        });
+        showExampleFunctions('multiplicate');
+    }
+    if (section === "division") {
+        document.querySelectorAll(".division").forEach(div => {
+            div.style.border = "4px solid #007DBA";
+            div.style.background = "#007DBA";
+            div.style.color = "black";
+        });
+        showExampleFunctions('division');
+    }
+    if (section === "elevate") {
+        document.querySelectorAll(".elevate").forEach(div => {
+            div.style.border = "4px solid #236192";
+            div.style.background = "#236192";
+            div.style.color = "black";
+        });
+        showExampleFunctions('elevate');
+    }
+    if (section === "parentesis") {
+        document.querySelectorAll(".parentesis").forEach(div => {
+            div.style.border = "4px solid #FF585D";
+            div.style.background = "#FF585D";
+            div.style.color = "black";
+        });
+        showExampleFunctions('parentesis');
+    }
+    if (section === "result") {
+        document.querySelectorAll(".result").forEach(div => {
+            div.style.border = "4px solid #ff9da0";
+            div.style.background = "#ff9da0";
+            div.style.color = "black";
+        });
+        showExampleFunctions('result');
+    }
+    if (section === "percent") {
+        document.querySelectorAll(".result").forEach(div => {
+            div.style.border = "4px solid #ff9da0";
+            div.style.background = "#ff9da0";
+            div.style.color = "black";
+        });
+        document.querySelectorAll(".shift").forEach(div => {
+            div.style.border = "4px solid #ff9da0";
+            div.style.background = "#ff9da0";
+            div.style.color = "black";
+        });
+        showExampleFunctions('percent');
+    }
+}
+
+function showExampleFunctions(type) {
+    const screen = calculator2.querySelector('#screen');
+    screen.innerHTML = '';
+    switch (type) {
+        case 'sum':
+            const line1 = document.createElement('div');
+            line1.textContent = '10 + 5';
+            const line2 = document.createElement('div');
+            line2.textContent = '15';
+            line2.style.marginLeft = '200px';
+            screen.appendChild(line1);
+            screen.appendChild(line2);
+            break;
+        case 'rest':
+            const restLine1 = document.createElement('div');
+            restLine1.textContent = '10 - 5';
+            const restLine2 = document.createElement('div');
+            restLine2.textContent = '5';
+            restLine2.style.marginLeft = '200px';
+            screen.appendChild(restLine1);
+            screen.appendChild(restLine2);
+            break;
+
+        case 'multiplicate':
+            const multiLine1 = document.createElement('div');
+            multiLine1.textContent = '10 x 5';
+            const multiLine2 = document.createElement('div');
+            multiLine2.textContent = '50';
+            multiLine2.style.marginLeft = '200px';
+            screen.appendChild(multiLine1);
+            screen.appendChild(multiLine2);
+            break;
+
+        case 'division':
+            const divLine1 = document.createElement('div');
+            divLine1.textContent = '10 ÷ 5';
+            const divLine2 = document.createElement('div');
+            divLine2.textContent = '2';
+            divLine2.style.marginLeft = '200px';
+            screen.appendChild(divLine1);
+            screen.appendChild(divLine2);
+            break;
+
+        case 'elevate':
+            const elevateLine1 = document.createElement('div');
+            elevateLine1.textContent = '10²';
+            const elevateLine2 = document.createElement('div');
+            elevateLine2.textContent = '100';
+            elevateLine2.style.marginLeft = '200px';
+            screen.appendChild(elevateLine2);
+            break;
+
+        case 'parentesis':
+            const parenLine1 = document.createElement('div');
+            parenLine1.textContent = '(10 ÷ 5) + 0.052';
+            const parenLine2 = document.createElement('div');
+            parenLine2.textContent = '2.052';
+            parenLine2.style.marginLeft = '200px';
+            screen.appendChild(parenLine1);
+            screen.appendChild(parenLine2);
+            break;
+        case 'result':
+            screen.textContent = '';
+            break;
+        case 'percent':
+            const percentLine1 = document.createElement('div');
+            percentLine1.textContent = '100 x 50%';
+            const percentLine2 = document.createElement('div');
+            percentLine2.textContent = '50';
+            percentLine2.style.marginLeft = '200px';
+            screen.appendChild(percentLine1);
+            screen.appendChild(percentLine2);
+            break;
+        default:
+            break;
+    }
+
+}
+
+function quitarBorde() {
+    document.querySelectorAll(".screen, .seccion1, .seccion2, .seccion3, .seccion4, .seccion5, .seccion6").forEach(div => {
+        div.style.border = "none";
+    });
+    document.querySelectorAll(".parentesis, .elevate").forEach(div => {
+        div.style.border = "none";
+        div.style.background = "linear-gradient(145deg,rgb(42, 37, 37), rgb(0, 0, 0))";
+        div.style.color = "white";
+    });
+    document.querySelectorAll(".sum, .rest, .multiplicate, .division, .result, .shift").forEach(div => {
+        div.style.border = "none";
+        div.style.background = " linear-gradient(145deg, rgba(200, 196, 196, 1), rgb(135, 135, 135))";
+        div.style.color = "black";
+    });
+}
+
+
 let currentExercises1 = getRandomExercises(allFracciones);
 renderExercises(currentExercises1);
 

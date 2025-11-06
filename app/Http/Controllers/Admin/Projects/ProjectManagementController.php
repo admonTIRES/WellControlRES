@@ -336,6 +336,33 @@ class ProjectManagementController extends Controller
                 $response['code'] = 1;
                 return response()->json($response);
                 break;
+                case 3: 
+                  $data = $request->all(); 
+                    foreach ($data['courses'] as $candidateId => $courseData) {
+                        $courseData['ID_PROJECT'] = $data['ID_PROJECT'];
+                        $course = candidate::where('EMAIL_PROJECT', $courseData['EMAIL_PROJECT'])
+                            ->where('ID_PROJECT', $data['ID_PROJECT'])
+                            ->first();
+                        if ($course) {
+                            $course->update($courseData);
+                        } else {
+                            candidate::create($courseData);
+                        }
+                    }
+                $response['code'] = 1;
+                return response()->json($response);
+                break;
+                case 4:
+                    $id = $request->ID_CANDIDATE;
+
+                    $candidate = candidate::find($id);
+                    if ($candidate) {
+                        $candidate->delete();
+                        return response()->json(['code' => 1, 'message' => 'Candidato eliminado']);
+                    } else {
+                        return response()->json(['code' => 0, 'message' => 'Candidato no encontrado']);
+                    }
+                break;
                 default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';

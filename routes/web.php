@@ -84,6 +84,8 @@ Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
 Route::prefix('projectsAdmin/details')->group(function () {
     Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
+    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
+
 });
 
 Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);

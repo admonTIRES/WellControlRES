@@ -16881,8 +16881,11 @@ th {
 }
 
 .sidebar-mini .sidebar-footer-default,
-.sidebar-mini .sidebar-footer-color {
+.sidebar-mini .sidebar-footer-color .botton-slidebar{
   display: none;
+}
+.botton-slidebar {
+    display: none;
 }
 
 .sidebar-color .sidebar-footer-default {
@@ -16893,6 +16896,9 @@ th {
   display: none;
 }
 
+.sidebar:not(.sidebar-mini) .botton-slidebar {
+    display: block; 
+}
 @media (max-width: 1199.98px) {
   .sidebar .sidebar-toggle {
     right: 18px;

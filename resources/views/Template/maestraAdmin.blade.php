@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
     <!-- Estilos globales-->
     <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- FullCalendar CSS -->
@@ -534,21 +534,14 @@ use Illuminate\Support\Str;
                     </li>
                 </ul>
             </div>
-            <div id="sidebar-footer" class="sidebar-footer-color">
-                <div class="sidebar-footer-main pb-5">
-                    <div class="card ms-3 me-3 bg-white sidebar-footer-contain">
-                        <div class="card-body">
-                            <div class="sidebarbottom-content">
-                                <div>
-                                    <img src="/assets/images/Colorlargo.png" alt="icon" class="img-fluid">
-                                </div>
-                                <h5 class="mt-3"><span class="text-secondary">Be more</span> sssss <span
-                                        class="text-secondary">with</span> Pro Feature</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <a href="{{ route('test.student') }}" 
+                type="button" 
+                class="btn btn-secondary botton-slidebar" 
+                style="margin-left: 1vw; border-radius:20px;">
+                    <i class="fas fa-chalkboard-user me-2"></i> 
+                    <span>{{ __('View the student panel') }}</span>
+             </a>
             <div id="sidebar-footer" class="position-relative sidebar-footer sidebar-footer-default">
                 <div class="sidebar-footer-main pb-2">
                     <img src="/assets/images/principal/pasto.png" alt="icon" class="img-fluid">
@@ -844,7 +837,7 @@ use Illuminate\Support\Str;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
         integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.19"></script>
+    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.20"></script>
     @endif
     @if(request()->is('killsheets'))
     <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>

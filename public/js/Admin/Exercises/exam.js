@@ -1,7 +1,6 @@
 ID_EXAM_EXERCISE = 0
 ID_QUESTION = 0
 
-// Función para alternar campos según el tipo (texto o imagen)
 function manejarCambioTipo(selectorTipo, campoTexto, campoImagen) {
     $(selectorTipo).on('change', function () {
         const tipo = $(this).val();
@@ -10,7 +9,6 @@ function manejarCambioTipo(selectorTipo, campoTexto, campoImagen) {
     });
 }
 
-// Función para activar o desactivar secciones extra
 function manejarSeccionExtra(selectorCheckbox, seccion, campos) {
     $(selectorCheckbox).on('change', function () {
         const activo = $(this).is(':checked');
@@ -26,19 +24,16 @@ $(document).ready(function () {
         const tipo = $(this).val();
 
         if (tipo === '1') {
-            // Mostrar rango, ocultar opciones y respuestas
             $('#rangoRespuesta').removeClass('d-none');
             $('#selectorOpciones').addClass('d-none');
             $('#selectorCorrectas').addClass('d-none');
             $('#respuestas-container').hide();
         } else if (tipo === '2') {
-            // Ocultar rango, mostrar opciones y respuestas
             $('#rangoRespuesta').addClass('d-none');
             $('#selectorOpciones').removeClass('d-none');
             $('#selectorCorrectas').removeClass('d-none');
             $('#respuestas-container').show();
         } else {
-            // Si selecciona "Seleccionar..." (valor 0), ocultar todo
             $('#rangoRespuesta').addClass('d-none');
             $('#selectorOpciones').addClass('d-none');
             $('#selectorCorrectas').addClass('d-none');
@@ -53,7 +48,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -65,7 +59,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -77,7 +70,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -89,7 +81,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -101,7 +92,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -113,7 +103,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -125,7 +114,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -137,7 +125,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -149,7 +136,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -161,7 +147,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -209,55 +194,6 @@ $(document).ready(function () {
     });
     // RESET MODALS - END
 
-
-
-    // Mostrar campos según selección
-    // $('#TIPO1_QUESTION').on('change', function () {
-    //     const tipo = $(this).val();
-    //     $('#campoTexto').toggleClass('d-none', tipo !== '1');
-    //     $('#campoImagen').toggleClass('d-none', tipo !== '2');
-    // });
-
-    // $('#TIPO2_QUESTION').on('change', function () {
-    //     const tipo = $(this).val();
-    //     $('#campoTexto2').toggleClass('d-none', tipo !== '1');
-    //     $('#campoImagen2').toggleClass('d-none', tipo !== '2');
-    // });
-
-    // $('#TIPO3_QUESTION').on('change', function () {
-    //     const tipo = $(this).val();
-    //     $('#campoTexto3').toggleClass('d-none', tipo !== '1');
-    //     $('#campoImagen3').toggleClass('d-none', tipo !== '2');
-    // });
-
-    // $('#HAS_FEEDBACK_QUESTION').on('change', function () {
-    //     const tipo = $(this).val();
-    //     $('#feedbackTextContainer').toggleClass('d-none', tipo !== '1');
-    // });
-
-    // $('#activarSeccionExtra').on('change', function () {
-    //     const activo = $(this).is(':checked');
-
-    //     $('#seccionExtra')
-    //         .toggleClass('opacity-50 pointer-events-none', !activo);
-
-    //     $('#TIPO2_QUESTION, #TEXTO2_QUESTION').prop('disabled', !activo);
-
-    // });
-
-    // $('#activarSeccionExtra2').on('change', function () {
-    //     const activo = $(this).is(':checked');
-
-    //     $('#seccionExtra2')
-    //         .toggleClass('opacity-50 pointer-events-none', !activo);
-
-    //     $('#TIPO3_QUESTION, #TEXTO3_QUESTION').prop('disabled', !activo);
-
-    // });
-
-
-
-    // Aplicar funciones para cada sección
     manejarCambioTipo('#TIPO1_QUESTION', '#campoTexto', '#campoImagen');
     manejarCambioTipo('#TIPO2_QUESTION', '#campoTexto2', '#campoImagen2');
     manejarCambioTipo('#TIPO3_QUESTION', '#campoTexto3', '#campoImagen3');
@@ -322,23 +258,18 @@ $(document).ready(function () {
             $(`#respuesta${i}`).show();
         }
 
-        // Reiniciar los checkboxes
         resetearCheckboxes();
     }
 
-    // Función para reiniciar los checkboxes
     function resetearCheckboxes() {
         $('input[type="checkbox"]').prop('checked', false);
         $('.checkbox-wrapper').removeClass('correct incorrect');
         respuestasSeleccionadas = 0;
     }
 
-    // Manejar el clic en los checkboxes
     $('#respuestas-container input[type="checkbox"]').on('change', function () {
-        // Contar cuántos checkboxes están seleccionados
         const checkeados = $('#respuestas-container input[type="checkbox"]:checked').length;
 
-        // Si se están seleccionando más de los permitidos, deseleccionar este
         if (checkeados > numRespuestasCorrectas) {
             $(this).prop('checked', false);
             Toast.fire({
@@ -350,18 +281,14 @@ $(document).ready(function () {
             return;
         }
 
-        // Actualizar los estilos según estén checkeados o no
         actualizarEstilosCheckboxes();
     });
 
-    // Función para actualizar los estilos de los checkboxes
     function actualizarEstilosCheckboxes() {
-        // Recorrer los checkboxes visibles
         for (let i = 1; i <= numOpciones; i++) {
             const checkbox = $(`#respuesta${i}-check`);
             const contenedor = checkbox.closest('.checkbox-wrapper');
 
-            // Aplicar la clase según esté checkeado o no
             if (checkbox.is(':checked')) {
                 contenedor.addClass('correct').removeClass('incorrect');
             } else {
@@ -369,9 +296,6 @@ $(document).ready(function () {
             }
         }
     }
-
-    // SOLUCIÓN 1: Hacer las funciones globales explícitamente
-    // En tu archivo JS separado (ej: tema-selector.js)
 
     function toggleTema(temaId) {
         const subtemas = document.getElementById(`subtemas-${temaId}`);
@@ -430,17 +354,15 @@ $(document).ready(function () {
             if (checkbox.checked) {
                 const inputs = subtema.querySelectorAll('input[type="number"]');
 
-                // Obtener valores de los inputs
-                const preguntas = parseInt(inputs[0].value) || 0;        // Preguntas
-                const tiempoMin = parseInt(inputs[1].value) || 0;        // Tiempo mínimo
-                const tiempoMax = parseInt(inputs[2].value) || 0;        // Tiempo máximo
-                const puntajeMin = parseInt(inputs[3].value) || 0;       // Puntaje mínimo
-                const puntajeMax = parseInt(inputs[4].value) || 0;       // Puntaje máximo
+                const preguntas = parseInt(inputs[0].value) || 0;        
+                const tiempoMin = parseInt(inputs[1].value) || 0;        
+                const tiempoMax = parseInt(inputs[2].value) || 0;       
+                const puntajeMin = parseInt(inputs[3].value) || 0;       
+                const puntajeMax = parseInt(inputs[4].value) || 0;       
 
-                // Calcular totales
                 totalPreguntas += preguntas;
-                totalTiempo += (preguntas * tiempoMax); // Usar tiempo máximo para el cálculo
-                totalPuntaje += (preguntas * puntajeMax); // Usar puntaje máximo para el cálculo
+                totalTiempo += (preguntas * tiempoMax); 
+                totalPuntaje += (preguntas * puntajeMax); 
             }
         });
 
@@ -476,12 +398,10 @@ $(document).ready(function () {
         let totalTiempo = 0;
         let totalPuntaje = 0;
 
-        // Sumar todos los temas
         [1, 2].forEach(temaId => {
             const preguntas = parseInt(document.querySelector(`#resumen-tema-${temaId} .preguntas-count`).textContent) || 0;
             const tiempo = parseInt(document.querySelector(`#resumen-tema-${temaId} .tiempo-total`).textContent) || 0;
 
-            // Obtener puntaje si existe el elemento
             const puntajeElement = document.querySelector(`#resumen-tema-${temaId} .puntaje-total`);
             const puntaje = puntajeElement ? parseInt(puntajeElement.textContent) || 0 : 0;
 
@@ -490,13 +410,11 @@ $(document).ready(function () {
             totalPuntaje += puntaje;
         });
 
-        // Actualizar totales generales
         document.getElementById('total-preguntas').textContent = totalPreguntas;
         // document.getElementById('total-tiempo').textContent = totalTiempo;
         document.getElementById('total-tiempo').value = totalTiempo;
 
 
-        // Agregar puntaje total si tienes el elemento
         const puntajeTotalElement = document.getElementById('total-puntaje');
         if (puntajeTotalElement) {
             puntajeTotalElement.textContent = totalPuntaje;
@@ -504,12 +422,10 @@ $(document).ready(function () {
     }
 
 
-    // Hacer las funciones explícitamente globales
     window.toggleTema = toggleTema;
     window.toggleAllSubtemas = toggleAllSubtemas;
     window.updateCalculos = updateCalculos;
 
-    // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', function () {
         updateCalculos();
     });
@@ -599,7 +515,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     selectizeInstance = $select[0].selectize;
 
-    // Inicializar calendario
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -621,7 +536,6 @@ document.addEventListener('DOMContentLoaded', function () {
             editEvent(info.event.id);
         },
         dateClick: function (info) {
-            // Establecer fecha seleccionada en el modal
             document.getElementById('startDate').value = info.dateStr;
             document.getElementById('endDate').value = info.dateStr;
             $('#eventModal').modal('show');
@@ -630,10 +544,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
-    // Event listeners
     document.getElementById('saveEvent').addEventListener('click', saveEvent);
 
-    // Establecer valores por defecto
     setDefaultDateTime();
     updateEventsList();
 });
@@ -801,7 +713,6 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-// Limpiar formulario al cerrar modal
 $('#eventModal').on('hidden.bs.modal', function () {
     if (!currentEventId) {
         clearForm();

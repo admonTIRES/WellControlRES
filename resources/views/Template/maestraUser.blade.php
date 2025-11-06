@@ -114,15 +114,22 @@ use Illuminate\Support\Str;
         <header>
             @include('Principal.navbar')
         </header>
+        
         <!-- /HEADER -->
         <!-- CONTENIDO Y FOOTER -->
         <div class="page-wrapper">
             <div class="container-fluid">
                 <div id="contenido_pag">
+                  
                     @yield('contenido')
+
                 </div>
             </div>
-            <footer class="footer"> </footer>
+            <footer class="footer">   @if (session()->has('original_admin_id'))
+                        <a href="{{ route('test.leave') }}" class="btn btn-danger">
+                            Salir de la vista de Prueba (Volver a Admin)
+                        </a>
+                    @endif</footer>
         </div>
         <!-- /CONTENIDO Y FOOTER -->
     </div>

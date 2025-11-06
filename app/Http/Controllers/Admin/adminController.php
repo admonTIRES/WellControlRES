@@ -16,8 +16,10 @@ use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\Project\Proyect;
 use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\Instructor;
+use Illuminate\Support\Facades\Auth;
 
-
+use App\Models\User; 
+use App\Models\Candidate; 
 
 
 
@@ -312,5 +314,59 @@ class adminController extends Controller
     public function messages()
     {
         return view('Admin.content.Public.messages')->with('user_role', 0);
+    }
+
+    /**
+     * Permite al administrador iniciar sesión como un estudiante.
+     */
+  public function simulateStudentPanel(Request $request)
+    {
+        $adminUser = Auth::user();
+        if ($adminUser->rol !== 0) {
+            // return redirect('/')->with('error', 'Acceso denegado.');
+        }
+
+        $request->session()->put('original_admin_id', $adminUser->id);
+        $request->session()->put('original_admin_roles', $request->session()->get('ROLES_USER'));
+        
+        $request->session()->forget(['ROLES_USER', 'profile_name', 'ACCREDITING_ENTITY_PROJECT', 'ID_PROJECT']);
+
+       session([
+            'profile_name' => 'Usuario de Prueba', 
+            'ID_PROJECT' => 'TEST-PROJECT-001', 
+            'ACCREDITING_ENTITY_PROJECT' => 'Entidad de Prueba',
+        ]);
+        
+         return redirect()->intended('/')->with('simulating', true);
+    }
+
+    /**
+     * Permite al usuario volver a su sesión de administrador.
+     */
+    public function leaveSimulatedPanel(Request $request)
+    {
+        if (!$request->session()->has('original_admin_id')) {
+            return redirect('/');
+        }
+
+        $originalAdminId = $request->session()->get('original_admin_id');
+        $originalAdminRoles = $request->session()->pull('original_admin_roles');
+        
+
+       $request->session()->forget([
+            'original_admin_id', 
+            'profile_name', 
+            'ID_PROJECT', 
+            'ACCREDITING_ENTITY_PROJECT'
+        ]);
+
+        session([
+            'ROLES_USER' => $originalAdminRoles,
+            // Restaurar cualquier otra variable del admin si aplica
+            'profile_name' => 'Administrador', // Ejemplo
+        ]);
+        
+        // Redirige al inicio, donde el PrincipalController detectará la ausencia de 'original_admin_id'
+        return redirect()->intended('/');
     }
 }

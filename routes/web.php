@@ -184,6 +184,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarioActive', [usuariosController::class, 'store']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/simulate/student', [AdminController::class, 'simulateStudentPanel'])->name('test.student');
+    
+    Route::get('/simulate/leave', [AdminController::class, 'leaveSimulatedPanel'])->name('test.leave');
+});
+
 Route::get('/users', [adminController::class, 'users'])->name('users');
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');
 Route::get('/individual', [adminController::class, 'individual'])->name('individual');

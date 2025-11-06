@@ -27,7 +27,7 @@ use Illuminate\Support\Str;
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.css">
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
-    
+
     <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.3" media="(min-width: 1024px)">
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1.4" media="(max-width: 1023px)">
 
@@ -119,8 +119,8 @@ use Illuminate\Support\Str;
             </div>
             <footer class="footer">   
                 @if (session()->has('original_admin_id'))
-                    <a href="{{ route('test.leave') }}" class="btn btn-danger">
-                        Salir de la vista de Prueba (Volver a Admin)
+                    <a href="{{ route('test.leave') }}" class="btn btn-danger" style="margin-left:2vw; color:black; background-color:#ffffff;">
+                        Salir de la vista de Estudiante (Volver al panel Administrador)
                     </a>
                 @endif
             </footer>

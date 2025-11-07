@@ -240,8 +240,7 @@
                                     width="100%" 
                                     height="450px"
                                     frameborder="0" 
-                                    allowfullscreen
-                                    style="position: relative; z-index: 1;">
+                                    allowfullscreen>
                                 </iframe>
                             </div>
 

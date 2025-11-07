@@ -111,25 +111,21 @@ $(document).ready(function () {
     selectizeInstance6.on('change', function (value) {
         console.log("El valor seleccionado ha cambiado:", value);
 
-        // Asegurarnos de que `value` es un array
         if (Array.isArray(value)) {
             const selectedEnteIds = value;
             console.log("IDs seleccionados:", selectedEnteIds);
 
-            // Usamos jQuery para hacer la solicitud AJAX
             $.ajax({
-                url: '/temas',  // URL de la API
+                url: '/temas', 
                 type: 'GET',
-                data: { entes: JSON.stringify(selectedEnteIds) }, // Convertir el array a un string JSON
-                dataType: 'json', // Esperamos una respuesta JSON
+                data: { entes: JSON.stringify(selectedEnteIds) },
+                dataType: 'json', 
                 success: function (data) {
                     console.log('Respuesta del servidor:', data);
 
-                    // Limpiar el contenedor de temas
                     const temasContainer = document.getElementById('temas-container');
                     temasContainer.innerHTML = '';
 
-                    // Renderizar los temas y subtemas
                     data.forEach(tema => {
                         const temaContainer = document.createElement('div');
                         temaContainer.classList.add('tema-container');
@@ -153,7 +149,6 @@ $(document).ready(function () {
                         subtemasContainer.classList.add('subtemas-container');
                         subtemasContainer.id = `subtemas-${tema.ID_CATALOGO_TEMAPREGUNTA}`;
 
-                        // Renderizar los subtemas
                         tema.subtemas.forEach(subtema => {
                             const subtemaItem = document.createElement('div');
                             subtemaItem.classList.add('subtema-item');
@@ -590,6 +585,68 @@ var questionDatatable = $("#question-list-table").DataTable({
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Folio', className: 'text-center' },
         { targets: 2, title: 'Tipos de evaluación', className: 'text-center' },
+        { targets: 3, title: 'Entes acreditadores', className: 'text-center' },
+        { targets: 4, title: 'Niveles de acreditación', className: 'text-center' },
+        { targets: 5, title: 'Idiomas', className: 'text-center' },
+        { targets: 6, title: 'Editar', className: 'text-center' },
+        { targets: 7, title: 'Activo', className: 'text-center' }
+    ]
+
+});
+var examDatatable = $("#exam-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollY: '65vh',
+    scrollX: true,
+    scrollCollapse: true,
+    responsive: true,
+    autoWidth: false,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/examDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            examDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NAME_EXAM' },
+        { data: 'TIPO_EVALUACION_NOMBRES' },
+        { data: 'CERTIFICACIONES_NOMBRES' },        
+        { data: 'NIVELES_NOMBRES' },
+        { data: 'IDIOMA_NOMBRE' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Nombre', className: 'text-center' },
+        { targets: 2, title: 'Tipo de evaluación', className: 'text-center' },
         { targets: 3, title: 'Entes acreditadores', className: 'text-center' },
         { targets: 4, title: 'Niveles de acreditación', className: 'text-center' },
         { targets: 5, title: 'Idiomas', className: 'text-center' },

@@ -82,7 +82,7 @@
                                 <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('Accrediting Entity') }}</label>
-                                        <select class="form-select" id="ACCREDITATION_ENTITIES_EXAM" name="ACCREDITATION_ENTITIES_EXAM" multiple >
+                                        <select class="form-select" id="ACCREDITATION_ENTITIES_EXAM" name="ACCREDITATION_ENTITIES_EXAM[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($entes as $ente)
                                                 <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('Levels') }}</label>
-                                        <select class="form-select" id="LEVELS_EXAM" name="LEVELS_EXAM" multiple >
+                                        <select class="form-select" id="LEVELS_EXAM" name="LEVELS_EXAM[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($niveles as $nivel)
                                                 <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}</option>
@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('BOP') }}</label>
-                                        <select class="form-select" id="BOPS_EXAM" name="BOPS_EXAM" multiple >
+                                        <select class="form-select" id="BOPS_EXAM" name="BOPS_EXAM[]" multiple >
                                         <option selected disabled></option>
                                         @foreach ($bops as $bop)
                                         <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
@@ -118,11 +118,9 @@
                                         <label> {{ __('What is the language of the question?*') }}</label>
                                         <select class="form-select" id="LANGUAGE_ID_EXAM" name="LANGUAGE_ID_EXAM">
                                         <option selected disabled></option>
-                                        <option value="0">Seleccionar...</option>
-                                        <option value="2">Spanish</option>
-                                        <option value="3">English</option>
-                                        <option value="4">Arabic</option>
-                                        <option value="5">Portuguese</option>
+                                            @foreach ($idiomas as $idioma)
+                                                <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -133,7 +131,7 @@
                                 </h4>
                                  <div class="mb-3">
                                     <label class="form-label"> {{ __('What type of exam is it?*') }}</label>
-                                    <select class="form-select" id="EVALUATION_TYPES_EXAM" name="EVALUATION_TYPES_EXAM" multiple>
+                                    <select class="form-select" id="EVALUATION_TYPES_EXAM" name="EVALUATION_TYPES_EXAM[]" multiple>
                                          <option value="1"> {{ __('Diagnostic') }}</option>
                                         <option value="2"> {{ __('Intermediate') }}</option>
                                         <option value="3"> {{ __('Final') }}</option>

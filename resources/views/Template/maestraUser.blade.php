@@ -34,7 +34,7 @@ use Illuminate\Support\Str;
     @if (isset($css_identifier))
         @switch($css_identifier)
             @case('principal')
-                <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.21" media="(min-width: 1024px)">
+                <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.22" media="(min-width: 1024px)">
                 <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
             @break
             @case('calculator')
@@ -42,8 +42,8 @@ use Illuminate\Support\Str;
                 <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}?v=1.6" media="(max-width: 1023px)">
             @break
             @case('killSheets')
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.3" media="(max-width: 1023px)">
+                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.1" media="(min-width: 1024px)">
+                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.31" media="(max-width: 1023px)">
             @break
             @case('killSheetsPanel')
                 <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">

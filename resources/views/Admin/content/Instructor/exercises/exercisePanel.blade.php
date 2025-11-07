@@ -64,7 +64,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal Fullscreen -->
      <div class="modal fade" id="examModal" tabindex="-1" aria-labelledby="examModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -81,7 +80,6 @@
                                     <span class="text-secondary"> {{ __('1. ') }}</span>   {{ __('Generalities') }}
                                 </h4>
                                 <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
-                                    <!-- Ente Acreditador -->
                                     <div class="col-md-3 text-start">
                                         <label> {{ __('Accrediting Entity') }}</label>
                                         <select class="form-select" id="ACCREDITATION_ENTITIES_EXAM" name="ACCREDITATION_ENTITIES_EXAM" multiple >
@@ -91,9 +89,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-
-                                    <!-- Niveles -->
-                                     <div class="col-md-3 text-start">
+                                    <div class="col-md-3 text-start">
                                         <label> {{ __('Levels') }}</label>
                                         <select class="form-select" id="LEVELS_EXAM" name="LEVELS_EXAM" multiple >
                                         <option selected disabled></option>
@@ -112,15 +108,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!-- Ente Acreditador -->
-                               
-
-                                                        <!-- Contenedor para Tiempo y Puntaje -->
-                                
                             </div>
-                            <!-- Columna Izquierda -->
                              <div class="col-md-4 text-center pastel-box">
-                                <!-- Ente Acreditador -->
                                 <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('2. ') }}</span>   {{ __('Language') }}
                                 </h4>
@@ -139,7 +128,6 @@
                                 </div>
                             </div>
                             <div class="col-md-4 text-center pastel-box">
-                                <!-- Ente Acreditador -->
                                 <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('3. ') }}</span>   {{ __('Tipo de exámen') }}
                                 </h4>
@@ -154,7 +142,6 @@
                                 </div>
                             </div>
                              <div class="col-md-4 text-center pastel-box">
-                                <!-- Ente Acreditador -->
                                  <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('4. ') }}</span>   {{ __('Name of the assesment') }}
                                 </h4>
@@ -163,16 +150,12 @@
                                     <input type="text" class="form-control campo-requerido" name="NAME_EXAM" id="NAME_EXAM">
                                 </div>
                             </div>
-                            <!-- Columna Derecha si es fracciones-->
                             <div class="col-md-12 text-center pastel-box">
-                                <!-- Pregunta Principal -->
-                               
                                 <h4 class="fw-bold mb-4">
                                     <span class="text-secondary"> {{ __('5. ') }}</span>   {{ __('Topics and subtopics') }}
                                 </h4>
                                 <div id="temas-container">
                                 </div>
-                            
                                 <div class="resumen-total" id="resumen-total">
                                     <h4 >TOTAL GENERAL</h4>
                                     <div class="d-flex justify-content-around mt-3">
@@ -191,15 +174,13 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
-                    <button type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button id="saveExamBtn" type="button" class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -554,91 +535,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="eventModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-calendar-plus"></i>{{ __('Exam Deadline and Activation') }}</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="eventForm">
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <label class="form-label"><i class="fas fa-file-alt"></i>  {{ __('Assesment title') }}</label>
-                                <input type="text" class="form-control" id="eventTitle" required placeholder="Ej: Examen de Matemáticas - Módulo 1">
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-play"></i>  {{ __('Start Date and Time') }}</label>
-                                <input type="date" class="form-control mb-2" id="startDate" required>
-                                <div class="time-inputs">
-                                    <input type="number" class="form-control" id="startHour" min="0" max="23" placeholder="HH" required>
-                                    <span>:</span>
-                                    <input type="number" class="form-control" id="startMin" min="0" max="59" placeholder="MM" required>
-                                    <span>:</span>
-                                    <input type="number" class="form-control" id="startSec" min="0" max="59" placeholder="SS" value="0">
-                                </div>
-                                <select class="form-select mt-2 timezone-select" id="startTimezone">
-                                    <option value="America/Mexico_City">UTC-6 (México Central)</option>
-                                    <option value="America/Tijuana">UTC-8 (México Pacífico)</option>
-                                    <option value="America/Cancun">UTC-5 (México Este)</option>
-                                    <option value="America/New_York">UTC-5 (Este EUA)</option>
-                                    <option value="America/Chicago">UTC-6 (Central EUA)</option>
-                                    <option value="America/Denver">UTC-7 (Montaña EUA)</option>
-                                    <option value="America/Los_Angeles">UTC-8 (Pacífico EUA)</option>
-                                    <option value="Europe/Madrid">UTC+1 (España)</option>
-                                    <option value="Europe/London">UTC+0 (Reino Unido)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><i class="fas fa-stop"></i>  {{ __('End Date and Time') }}</label>
-                                <input type="date" class="form-control mb-2" id="endDate" required>
-                                <div class="time-inputs">
-                                    <input type="number" class="form-control" id="endHour" min="0" max="23" placeholder="HH" required>
-                                    <span>:</span>
-                                    <input type="number" class="form-control" id="endMin" min="0" max="59" placeholder="MM" required>
-                                    <span>:</span>
-                                    <input type="number" class="form-control" id="endSec" min="0" max="59" placeholder="SS" value="0">
-                                </div>
-                                <select class="form-select mt-2 timezone-select" id="endTimezone">
-                                    <option value="America/Mexico_City">UTC-6 (México Central)</option>
-                                    <option value="America/Tijuana">UTC-8 (México Pacífico)</option>
-                                    <option value="America/Cancun">UTC-5 (México Este)</option>
-                                    <option value="America/New_York">UTC-5 (Este EUA)</option>
-                                    <option value="America/Chicago">UTC-6 (Central EUA)</option>
-                                    <option value="America/Denver">UTC-7 (Montaña EUA)</option>
-                                    <option value="America/Los_Angeles">UTC-8 (Pacífico EUA)</option>
-                                    <option value="Europe/Madrid">UTC+1 (España)</option>
-                                    <option value="Europe/London">UTC+0 (Reino Unido)</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label"><i class="fas fa-users"></i> {{ __('Assigned Groups') }}</label>
-                            <select id="gruposSelect" multiple placeholder="Selecciona los grupos...">
-                                <option value="grupo1">Fontis - Grupo A</option>
-                                <option value="grupo2">Fontis - Grupo B</option>
-                                <option value="grupo3">Fontis - Grupo C</option>
-                                <option value="grupo4">Fontis - Grupo D</option>
-                                <option value="grupo5">Fontis - Grupo E</option>
-                                <option value="grupo6">Perenco - Grupo F</option>
-                                <option value="grupo7">Perenco - Grupo G</option>
-                                <option value="grupo8">Perenco - Grupo H</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-create" id="saveEvent">Guardar Evento {{ __('') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <style>
 .opcion-item, .pregunta-adicional {
     position: relative;

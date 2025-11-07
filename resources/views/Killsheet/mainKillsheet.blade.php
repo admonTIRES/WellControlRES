@@ -35,31 +35,44 @@
         <h2 class="steps-title">
             <img src="/assets/images/principal/logoSmithMasonCO.png" />
         </h2>
-        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 1)
+        @if(session('simulating') || session('ACCREDITING_ENTITY_PROJECT') === 'Entidad de Prueba')
+            {{-- Mostrar ambos ítems en modo simulación --}}
             <div class="options">
                 <div class="option-card">
-                    <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
-                    <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
-                    <!-- <button class="select-btn">
-                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
-                    </button> -->
+                    <img class="option-image" src="/assets/images/iadc.png" alt="IADC logo" />
+                </div>
+                <div class="option-card" data-company="iwcf">
+                    <img class="option-image" src="/assets/images/iwcflogo.png" alt="IWCF logo" />
+                </div>
+            </div>
+        @else
+            @if((int) session('ACCREDITING_ENTITY_PROJECT') === 1)
+                <div class="options">
+                    <div class="option-card">
+                        <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
+                        <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
+                        <!-- <button class="select-btn">
+                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                        </button> -->
+                    </div>
+                </div>
+            @endif
+            @if((int) session('ACCREDITING_ENTITY_PROJECT') === 2)
+            <div class="container2">
+                <div class="options">             
+                    <div class="option-card" data-company="iwcf">
+                        <!-- <h3 class="option-title">IWCF</h3> -->
+                        <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
+                        <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
+                        <!-- <button class="select-btn">
+                            <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
+                        </button> -->
+                    </div>
                 </div>
             </div>
             @endif
-        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 2)
-        <div class="container2">
-            <div class="options">             
-                <div class="option-card" data-company="iwcf">
-                    <!-- <h3 class="option-title">IWCF</h3> -->
-                    <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
-                    <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
-                    <!-- <button class="select-btn">
-                        <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
-                    </button> -->
-                </div>
-            </div>
-        </div>
         @endif
+
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-ID_EXAM_EXERCISE = 0
+ID_EXAM = 0
 ID_QUESTION = 0
 
 function manejarCambioTipo(selectorTipo, campoTexto, campoImagen) {
@@ -845,6 +845,64 @@ $("#saveQuestionBtn").click(function (e) {
                         $('#questionModal').modal('hide')
                         document.getElementById('questionForm').reset()
                         questionDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#saveExamBtn").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#examForm'))
+    if (formularioValido) {
+        if (ID_EXAM == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar este exámen?",
+                text: "El exámen se guardará en el cátalogo de exámenes",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('saveExamBtn')
+                await ajaxAwaitFormData({ api: 2, ID_EXAM }, 'examSave', 'examForm', 'saveExamBtn', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_EXAM = data.exam.ID_EXAM
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#examModal').modal('hide')
+                    document.getElementById('examForm').reset()
+                    examDatatable.ajax.reload()
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('saveExamBtn')
+                await ajaxAwaitFormData({ api: 2, ID_EXAM }, 'examSave', 'examForm', 'saveExamBtn', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_EXAM = data.exam.ID_EXAM
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#examModal').modal('hide')
+                        document.getElementById('examForm').reset()
+                        examDatatable.ajax.reload()
                     }, 300)
                 })
             }, 1)

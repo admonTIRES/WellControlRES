@@ -140,7 +140,7 @@
 </style>
 
 
-<div class="main-container"> 
+<div class="main-container" oncontextmenu="return false;"> 
     <div class="container">
        <nav aria-label="Breadcrumb" class="breadcrumb-ui">
                     <ol>
@@ -193,15 +193,59 @@
                         <div class="video-title">{{ __('Part 1') }}</div>
                         <div class="video-wrapper">
                             <img class="cover-image" src="/assets/images/Recursos/IADCV01.jpg" alt="Cover 1">
-                            <iframe src="https://jumpshare.com/embed/Gjtuivyvre2JWlSfIxoS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                            <div style="position: relative; width: 100%; height: 450px;">
+                                <div 
+                                    style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 50px; /* Altura que no quieres que se pueda presionar */
+                                        background: transparent;
+                                        z-index: 2;
+                                    ">
+                                </div>
+
+                                <iframe 
+                                    src="https://drive.google.com/file/d/1Znq5vLMESWmm_UqPqBu52voWrqQiCpr0/preview" 
+                                    width="100%" 
+                                    height="450px"
+                                    frameborder="0" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            {{-- <iframe src="https://jumpshare.com/embed/Gjtuivyvre2JWlSfIxoS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> --}}
                         </div>
                     </div>
                     
-                    <div class="video-card">
+                    <div class="video-card" >
                         <div class="video-title">{{ __('Part 2') }}</div>
                         <div class="video-wrapper">
                             <img class="cover-image" src="/assets/images/Recursos/IADCV02.jpg" alt="Cover 2">
-                            <iframe src="https://jumpshare.com/embed/jHPbvxtutlJIhMVQHWsV" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                            <div style="position: relative; width: 100%; height: 450px;">
+                                <div 
+                                    style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 50px; /* Altura que no quieres que se pueda presionar */
+                                        background: transparent;
+                                        z-index: 2;
+                                    ">
+                                </div>
+
+                                <iframe 
+                                    src="https://drive.google.com/file/d/1NdBhCHeleK5O4ROEqfDAWAIQtg-PmXTx/preview" 
+                                    width="100%" 
+                                    height="450px"
+                                    frameborder="0" 
+                                    allowfullscreen
+                                    style="position: relative; z-index: 1;">
+                                </iframe>
+                            </div>
+
+                            {{-- <iframe src="https://jumpshare.com/embed/jHPbvxtutlJIhMVQHWsV" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> --}}
                         </div>
                     </div>
                 @break

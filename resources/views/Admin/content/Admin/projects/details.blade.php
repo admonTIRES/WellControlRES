@@ -1702,7 +1702,7 @@
                                             ${!row.ID_CANDIDATE ? 'disabled' : ''}>
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-info btn-action" onclick="togglePassword(this)">
+                                        <button class="btn btn-sm btn-info btn-action" onclick="togglePassword(event,this)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -2635,7 +2635,7 @@
                         <button class="btn btn-danger btn-action" onclick="deleteCandidate(this, null)" title="Eliminar candidato">
                             <i class="fas fa-trash"></i>
                         </button>
-                        <button class="btn btn-info btn-action" onclick="togglePassword(this)" title="Mostrar/ocultar contraseña">
+                        <button class="btn btn-info btn-action" onclick="togglePassword(event,this)" title="Mostrar/ocultar contraseña">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
@@ -2702,7 +2702,7 @@
         }
     }
 
-    function togglePassword(button) {
+    function togglePassword(event,button) {
         const input = $(button).closest('tr').find('input.password').length  ? $(button).closest('tr').find('input.password') : $(button).closest('tr').find('input[name="password"]');
 
         if (input.length === 0) {

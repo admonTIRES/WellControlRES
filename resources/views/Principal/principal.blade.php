@@ -118,7 +118,7 @@
             </a>
         </div>
     </section>
-     <section class="cards-container-bottom">
+    <section class="cards-container-bottom">
         <div id="modelsDiv" class="card alert-development">
             <h2 class="card-title">{{ __('3D ') }}<br>{{ __('Models') }}</h2>
             <img src="/assets/images/principal/bop 3d.png" alt="{{ __('Models') }}" class="card-image" >

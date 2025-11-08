@@ -28,7 +28,7 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.css">
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
 
-    <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.3" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.31" media="(min-width: 1024px)">
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1.4" media="(max-width: 1023px)">
 
     @if (isset($css_identifier))
@@ -115,14 +115,35 @@ use Illuminate\Support\Str;
             <div class="container-fluid">
                 <div id="contenido_pag">
                     @yield('contenido')
+                    
                 </div>
-            </div>
-            <footer class="footer">   
-                @if (session()->has('original_admin_id'))
-                    <a href="{{ route('test.leave') }}" class="btn btn-danger" style="margin-left:2vw; color:black; background-color:#ffffff;">
+                 @if (session()->has('original_admin_id'))
+                   <a href="{{ route('test.leave') }}" 
+                            style="
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 8px;
+                                padding: 10px 18px;
+                                background-color: #236192; 
+                                color: #fff;
+                                font-weight: 500;
+                                font-size: 1.5rem;
+                                border: none;
+                                border-radius: 10px;
+                                text-decoration: none;
+                                box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+                                transition: all 0.25s ease-in-out;
+                                margin-top:0.5vw;
+                            "
+                            onmouseover="this.style.backgroundColor='#A4D65E'"
+                            onmouseout="this.style.backgroundColor='#236192'">
+                            <i class="fas fa-sign-out-alt" style="font-size: 1rem;"></i>
                         Salir de la vista de Estudiante (Volver al panel Administrador)
                     </a>
                 @endif
+            </div>
+            <footer class="footer">   
+               
             </footer>
         </div>
         <!-- /CONTENIDO Y FOOTER -->

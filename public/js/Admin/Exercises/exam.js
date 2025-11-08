@@ -657,201 +657,6 @@ var examDatatable = $("#exam-list-table").DataTable({
 });
 // DATATABLES-END
 
-let calendar;
-let selectizeInstance;
-let events = [];
-let currentEventId = null;
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Inicializar Selectize
-    const $select = $('#gruposSelect').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    selectizeInstance = $select[0].selectize;
-
-    document.getElementById('saveEvent').addEventListener('click', saveEvent);
-
-    setDefaultDateTime();
-});
-
-function setDefaultDateTime() {
-    const now = new Date();
-    const today = now.toISOString().split('T')[0];
-
-    document.getElementById('startDate').value = today;
-    document.getElementById('endDate').value = today;
-    document.getElementById('startHour').value = now.getHours();
-    document.getElementById('startMin').value = now.getMinutes();
-    document.getElementById('endHour').value = now.getHours() + 2;
-    document.getElementById('endMin').value = now.getMinutes();
-}
-
-function saveEvent() {
-    const title = document.getElementById('eventTitle').value;
-    const startDate = document.getElementById('startDate').value;
-    const startHour = document.getElementById('startHour').value;
-    const startMin = document.getElementById('startMin').value;
-    const startSec = document.getElementById('startSec').value || 0;
-    const startTimezone = document.getElementById('startTimezone').value;
-
-    const endDate = document.getElementById('endDate').value;
-    const endHour = document.getElementById('endHour').value;
-    const endMin = document.getElementById('endMin').value;
-    const endSec = document.getElementById('endSec').value || 0;
-    const endTimezone = document.getElementById('endTimezone').value;
-
-    const selectedGroups = selectizeInstance.getValue();
-
-    if (!title || !startDate || !endDate || startHour === '' || startMin === '' || endHour === '' || endMin === '') {
-        alert('Por favor completa todos los campos obligatorios');
-        return;
-    }
-
-    if (selectedGroups.length === 0) {
-        alert('Por favor selecciona al menos un grupo');
-        return;
-    }
-
-    // Crear fechas con zona horaria
-    const startDateTime = new Date(`${startDate}T${String(startHour).padStart(2, '0')}:${String(startMin).padStart(2, '0')}:${String(startSec).padStart(2, '0')}`);
-    const endDateTime = new Date(`${endDate}T${String(endHour).padStart(2, '0')}:${String(endMin).padStart(2, '0')}:${String(endSec).padStart(2, '0')}`);
-
-    if (endDateTime <= startDateTime) {
-        alert('La fecha de fin debe ser posterior a la fecha de inicio');
-        return;
-    }
-
-    const eventData = {
-        id: currentEventId || 'event_' + Date.now(),
-        title: title,
-        start: startDateTime,
-        end: endDateTime,
-        startTimezone: startTimezone,
-        endTimezone: endTimezone,
-        grupos: selectedGroups,
-        backgroundColor: getRandomColor(),
-        borderColor: getRandomColor()
-    };
-
-    if (currentEventId) {
-        const eventIndex = events.findIndex(e => e.id === currentEventId);
-        if (eventIndex !== -1) {
-            events[eventIndex] = eventData;
-        }
-        calendar.getEventById(currentEventId).remove();
-    } else {
-        events.push(eventData);
-    }
-
-    calendar.addEvent(eventData);
-    updateEventsList();
-
-    clearForm();
-    $('#eventModal').modal('hide');
-    currentEventId = null;
-}
-
-function editEvent(eventId) {
-    const event = events.find(e => e.id === eventId);
-    if (!event) return;
-
-    currentEventId = eventId;
-
-    document.getElementById('eventTitle').value = event.title;
-
-    const startDate = new Date(event.start);
-    const endDate = new Date(event.end);
-
-    document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
-    document.getElementById('startHour').value = startDate.getHours();
-    document.getElementById('startMin').value = startDate.getMinutes();
-    document.getElementById('startSec').value = startDate.getSeconds();
-    document.getElementById('startTimezone').value = event.startTimezone || 'America/Mexico_City';
-
-    document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
-    document.getElementById('endHour').value = endDate.getHours();
-    document.getElementById('endMin').value = endDate.getMinutes();
-    document.getElementById('endSec').value = endDate.getSeconds();
-    document.getElementById('endTimezone').value = event.endTimezone || 'America/Mexico_City';
-
-    selectizeInstance.setValue(event.grupos);
-
-    $('#eventModal').modal('show');
-}
-
-function deleteEvent(eventId) {
-    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
-        events = events.filter(e => e.id !== eventId);
-        calendar.getEventById(eventId).remove();
-        updateEventsList();
-    }
-}
-
-function clearForm() {
-    document.getElementById('eventForm').reset();
-    selectizeInstance.clear();
-    setDefaultDateTime();
-}
-
-function updateEventsList() {
-    const eventsListEl = document.getElementById('eventsList');
-
-    if (events.length === 0) {
-        eventsListEl.innerHTML = '<p class="text-muted"><i class="fas fa-info-circle"></i> No hay eventos programados</p>';
-        return;
-    }
-
-    eventsListEl.innerHTML = events.map(event => {
-        const startDate = new Date(event.start);
-        const endDate = new Date(event.end);
-        const gruposText = event.grupos.map(g => {
-            const option = document.querySelector(`#gruposSelect option[value="${g}"]`);
-            return option ? option.textContent : g;
-        });
-
-        return `
-            <div class="event-item">
-                <div class="event-title">
-                    ${event.title}
-                    <span class="delete-event" onclick="deleteEvent('${event.id}')" title="Eliminar evento">
-                        <i class="fas fa-trash"></i>
-                    </span>
-                </div>
-                <div class="event-details">
-                    <i class="fas fa-clock"></i> 
-                    <strong>Inicio:</strong> ${startDate.toLocaleString()} (${event.startTimezone || 'Local'})
-                    <br>
-                    <strong>Fin:</strong> ${endDate.toLocaleString()} (${event.endTimezone || 'Local'})
-                </div>
-                <div class="event-groups">
-                    <i class="fas fa-users"></i> <strong>Grupos:</strong><br>
-                    ${gruposText.map(grupo => `<span class="group-badge">${grupo}</span>`).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function getRandomColor() {
-    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
-
-$('#eventModal').on('hidden.bs.modal', function () {
-    if (!currentEventId) {
-        clearForm();
-    }
-    currentEventId = null;
-});
-
-
 //GUARDAR
 $("#saveQuestionBtn").click(function (e) {
     e.preventDefault();
@@ -1037,7 +842,19 @@ $('#question-list-table tbody').on('change', 'input.ACTIVAR', function () {
 
     eliminarDatoTabla(data, [questionDatatable], 'questionActive');
 });
+$('#exam-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = examDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
 
+    var data = {
+        api: 2,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_EXAM: row.data().ID_EXAM
+    };
+
+    eliminarDatoTabla(data, [questionDatatable], 'questionActive');
+});
 //EDITAR
 $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');

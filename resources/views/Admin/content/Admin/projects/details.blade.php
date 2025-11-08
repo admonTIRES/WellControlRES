@@ -1682,7 +1682,7 @@
                                 value="${row.EMAIL_PROJECT || ''}" name="courses[${index}][EMAIL_PROJECT]" placeholder="correo@ejemplo.com" /></td>`;
                             
                             // Contraseña - Input password
-                            tr += `<td><input class="table-input" type="password" 
+                            tr += `<td><input class="table-input password" type="password" 
                                 value="${row.PASSWORD_PROJECT || ''}" name="courses[${index}][PASSWORD_PROJECT]" placeholder="Contraseña" /></td>`;
                             
                             // Estado - Switch
@@ -2703,7 +2703,13 @@
     }
 
     function togglePassword(button) {
-        const input = $(button).closest('tr').find('input[name="password"]');
+        const input = $(button).closest('tr').find('input.password').length  ? $(button).closest('tr').find('input.password') : $(button).closest('tr').find('input[name="password"]');
+
+        if (input.length === 0) {
+            console.warn('No se encontró un campo de contraseña en esta fila.');
+            return;
+        }
+        
         const type = input.attr('type');
         const newType = type === 'password' ? 'text' : 'password';
         input.attr('type', newType);

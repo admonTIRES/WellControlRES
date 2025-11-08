@@ -340,6 +340,9 @@ class ProjectManagementController extends Controller
                   $data = $request->all(); 
                     foreach ($data['courses'] as $candidateId => $courseData) {
                         $courseData['ID_PROJECT'] = $data['ID_PROJECT'];
+                        if (!isset($courseData['ACTIVO'])) {
+                            $courseData['ACTIVO'] = 0;
+                        }
                         $course = candidate::where('EMAIL_PROJECT', $courseData['EMAIL_PROJECT'])
                             ->where('ID_PROJECT', $data['ID_PROJECT'])
                             ->first();

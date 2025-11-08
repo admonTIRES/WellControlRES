@@ -63,6 +63,7 @@ class loginController extends Controller
                     $roles = json_decode($roles, true);
                 }
             }
+            
             $proyecto = null;
             if ($profile) {
                 $proyecto = Proyect::where('ID_PROJECT', $profile->ID_PROJECT)->first();
@@ -87,7 +88,24 @@ class loginController extends Controller
                 }
                 
             }
+            $profiles = Candidate::where('EMAIL_PROJECT', $user->email)->get();
+            if ($profiles->count() > 0) {
+                $hasActive = $profiles->contains(function ($candidate) {
+                    return $candidate->ACTIVO == 1;
+                });
 
+                if (!$hasActive) {
+                    Auth::logout(); 
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+
+                    $errorMessage = (app()->getLocale() === 'es')
+                        ? 'Su cuenta está inactiva. Comuníquese con el administrador.'
+                        : 'Your account is inactive. Please contact the administrator.';
+
+                    return back()->withErrors(['message' => $errorMessage]);
+                }
+            }
 
             session([
                 'profile_name' => $profile->FIRST_NAME_PROJECT ?? null,

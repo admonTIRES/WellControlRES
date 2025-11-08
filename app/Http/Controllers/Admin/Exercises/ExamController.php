@@ -417,7 +417,7 @@ class ExamController extends Controller
                             'LANGUAGE_ID_EXAM' => $request->LANGUAGE_ID_EXAM,
                             'EVALUATION_TYPES_EXAM' => $EVALUATION_TYPES_EXAM, 
                             'NAME_EXAM' => $request->NAME_EXAM,
-                            'TEMAS_EXAM' => [],
+                            'TEMAS_EXAM' => json_decode($request->temas_json, true),
                             'TOTAL_QUESTIONS_EXAM' => $request->TOTAL_QUESTIONS_EXAM,
                             'TOTAL_TIME_EXAM' => $request->TOTAL_TIME_EXAM,
                             'TOTAL_POINT_EXAM' => $request->TOTAL_POINT_EXAM,
@@ -428,7 +428,7 @@ class ExamController extends Controller
                         ]);
                         $TEMAS_EXAM = [];
 
-                        $exam->TEMAS_EXAM = $TEMAS_EXAM;
+                        // $exam->TEMAS_EXAM = $TEMAS_EXAM;
                         $exam->save();
                     } else {
                         if (isset($request->ACTIVAR)) {
@@ -443,8 +443,8 @@ class ExamController extends Controller
                             }
                         } else {
                             $exam = Exam::find($request->ID_EXAM);
-                            $TEMAS_EXAM = $exam->TEMAS_EXAM ?? [];
-                            $TEMAS_EXAM = [];
+                            // $TEMAS_EXAM = $exam->TEMAS_EXAM ?? [];
+                            // $TEMAS_EXAM = [];
 
                             $exam->update([
                                 'ACCREDITATION_ENTITIES_EXAM' => $ACCREDITATION_ENTITIES_EXAM,
@@ -453,7 +453,7 @@ class ExamController extends Controller
                                 'LANGUAGE_ID_EXAM' => $request->LANGUAGE_ID_EXAM,
                                 'EVALUATION_TYPES_EXAM' => $EVALUATION_TYPES_EXAM, 
                                 'NAME_EXAM' => $request->NAME_EXAM,
-                                'TEMAS_EXAM' => $TEMAS_EXAM,
+                                'TEMAS_EXAM' => json_decode($request->temas_json, true),
                                 'TOTAL_QUESTIONS_EXAM' => $request->TOTAL_QUESTIONS_EXAM,
                                 'TOTAL_TIME_EXAM' => $request->TOTAL_TIME_EXAM,
                                 'TOTAL_POINT_EXAM' => $request->TOTAL_POINT_EXAM,

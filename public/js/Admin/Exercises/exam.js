@@ -915,6 +915,14 @@ $("#saveExamBtn").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#examForm'))
     if (formularioValido) {
+        const temasSeleccionados = generarJsonTemasYSubtemas();
+        console.log("JSON generado:", JSON.stringify(temasSeleccionados, null, 2));
+
+        const inputHidden = document.createElement('input');
+        inputHidden.type = 'hidden';
+        inputHidden.name = 'TEMAS_EXAM';
+        inputHidden.value = JSON.stringify(temasSeleccionados);
+        document.getElementById('examForm').appendChild(inputHidden);
         if (ID_EXAM == 0) {
             alertMensajeConfirm({
                 title: "¿Desea guardar este exámen?",
@@ -968,6 +976,52 @@ $("#saveExamBtn").click(function (e) {
         alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
     }
 })
+
+function generarJsonTemasYSubtemas() {
+    const temas = [];
+
+    document.querySelectorAll('.tema-container').forEach(temaDiv => {
+        const temaId = parseInt(temaDiv.dataset.tema);
+        const temaNombre = temaDiv.querySelector('.tema-title').textContent.trim();
+        const subtemasActivos = [];
+
+        temaDiv.querySelectorAll('.subtema-item').forEach(subDiv => {
+            const check = subDiv.querySelector('input[type="checkbox"]');
+            if (check && check.checked) {
+                const idSubtema = parseInt(check.id.replace('subtema', '').replace('-check', ''));
+                const nombreSubtema = subDiv.querySelector('.subtema-title').textContent.trim();
+
+                const inputs = subDiv.querySelectorAll('input[type="number"]');
+                const numPreguntas = parseInt(inputs[0].value || 0);
+                const tiempoMin = parseInt(inputs[1].value || 0);
+                const tiempoMax = parseInt(inputs[2].value || 0);
+                const puntajeMin = parseInt(inputs[3].value || 0);
+                const puntajeMax = parseInt(inputs[4].value || 0);
+
+                subtemasActivos.push({
+                    id_subtema: idSubtema,
+                    nombre_subtema: nombreSubtema,
+                    num_preguntas: numPreguntas,
+                    tiempo_min: tiempoMin,
+                    tiempo_max: tiempoMax,
+                    puntaje_min: puntajeMin,
+                    puntaje_max: puntajeMax
+                });
+            }
+        });
+
+        if (subtemasActivos.length > 0) {
+            temas.push({
+                id_tema: temaId,
+                nombre_tema: temaNombre,
+                subtemas: subtemasActivos
+            });
+        }
+    });
+
+    return temas;
+}
+
 
 //ACTIVAR
 $('#question-list-table tbody').on('change', 'input.ACTIVAR', function () {

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Admin\Project\Proyect;
 use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\IdiomasExamenes;
+use App\Models\Admin\catalogs\Instructor;
 use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\Project\candidate;
@@ -36,7 +37,7 @@ class ProjectManagementController extends Controller
     {
         try {
             $tabla = Proyect::orderBy('COURSE_START_DATE_PROJECT', 'asc')->get();
-            
+
             foreach ($tabla as $value) {
                 $value->BTN_EDITAR = '<button type="button"
                                                 class="btn btn-sm btn-icon btn-action1"
@@ -68,8 +69,6 @@ class ProjectManagementController extends Controller
                 $value->COMPANIES = $companies;
                 $nombreProyectoModel = NombreProyecto::find($value->COURSE_NAME_ES_PROJECT);
                 $value->nombreProyecto = $nombreProyectoModel ? $nombreProyectoModel->NOMBRE_PROYECTO : '—';
-
-
             }
 
             return response()->json([
@@ -120,7 +119,7 @@ class ProjectManagementController extends Controller
                                 // $existingUser = DB::table('users')->where('email', $email)->first();
 
                                 // if ($existingUser && (empty($estudiante['USER_ID_PROJECT']) || $existingUser->id != $estudiante['USER_ID_PROJECT'])) {
-                                   
+
                                 // }
 
                                 // $existingCandidate = DB::table('candidate')
@@ -270,17 +269,17 @@ class ProjectManagementController extends Controller
                                         ->update([
                                             'ID_PROJECT'        => $request->input('ID_PROJECT', null),
                                             'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                            'COMPANY_ID_PROJECT'=> $request->input('ID_PROJECT', null),
+                                            'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
                                             'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                             'LAST_NAME_PROJECT' => $lastName,
-                                            'FIRST_NAME_PROJECT'=> $firstName,
-                                            'MIDDLE_NAME_PROJECT'=> $middleName,
+                                            'FIRST_NAME_PROJECT' => $firstName,
+                                            'MIDDLE_NAME_PROJECT' => $middleName,
                                             'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
                                             'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
                                             'EMAIL_PROJECT'     => $email,
                                             'PASSWORD_PROJECT'  => $password,
                                             'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
-                                            'MEMBERSHIP_PROJECT'=> $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                                            'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
                                             'ACTIVO'            => 1,
                                             'updated_at'        => now()
                                         ]);
@@ -288,24 +287,24 @@ class ProjectManagementController extends Controller
                                     $candidateId = DB::table('candidate')->insertGetId([
                                         'ID_PROJECT'        => $request->input('ID_PROJECT', null),
                                         'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                        'COMPANY_ID_PROJECT'=> $request->input('ID_PROJECT', null),
+                                        'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
                                         'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                         'LAST_NAME_PROJECT' => $lastName,
-                                        'FIRST_NAME_PROJECT'=> $firstName,
-                                        'MIDDLE_NAME_PROJECT'=> $middleName,
+                                        'FIRST_NAME_PROJECT' => $firstName,
+                                        'MIDDLE_NAME_PROJECT' => $middleName,
                                         'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
                                         'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
                                         'EMAIL_PROJECT'     => $email,
                                         'PASSWORD_PROJECT'  => $password,
                                         'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
-                                        'MEMBERSHIP_PROJECT'=> $estudiante['MEMBERSHIP_PROJECT'] ?? '',
-                                        'STATUS_MAIL_PROJECT'=> 0,
+                                        'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                                        'STATUS_MAIL_PROJECT' => 0,
                                         'ACTIVO'            => 1,
                                         'created_at'        => now(),
                                         'updated_at'        => now()
                                     ]);
 
-                                    
+
                                     $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
                                 }
                             }
@@ -321,23 +320,23 @@ class ProjectManagementController extends Controller
                     $response['code']  = 1;
                     $response['proyecto']  = $project;
                     return response()->json($response);
-                break;
-                    // tabla de curso
-                case 2: 
-                  $data = $request->all(); // si envías JSON, Laravel lo parsea automáticamente
-                foreach ($data['courses'] as $candidateId => $courseData) {
-                    $course = Course::where('ID_CANDIDATE', $candidateId)->first();
-                    if ($course) {
-                        $course->update($courseData);
-                    } else {
-                        Course::create($courseData);
+                    break;
+                // tabla de curso
+                case 2:
+                    $data = $request->all(); // si envías JSON, Laravel lo parsea automáticamente
+                    foreach ($data['courses'] as $candidateId => $courseData) {
+                        $course = Course::where('ID_CANDIDATE', $candidateId)->first();
+                        if ($course) {
+                            $course->update($courseData);
+                        } else {
+                            Course::create($courseData);
+                        }
                     }
-                }
-                $response['code'] = 1;
-                return response()->json($response);
-                break;
-                case 3: 
-                  $data = $request->all(); 
+                    $response['code'] = 1;
+                    return response()->json($response);
+                    break;
+                case 3:
+                    $data = $request->all();
                     foreach ($data['courses'] as $candidateId => $courseData) {
                         $courseData['ID_PROJECT'] = $data['ID_PROJECT'];
                         if (!isset($courseData['ACTIVO'])) {
@@ -352,9 +351,9 @@ class ProjectManagementController extends Controller
                             candidate::create($courseData);
                         }
                     }
-                $response['code'] = 1;
-                return response()->json($response);
-                break;
+                    $response['code'] = 1;
+                    return response()->json($response);
+                    break;
                 case 4:
                     $id = $request->ID_CANDIDATE;
 
@@ -365,7 +364,7 @@ class ProjectManagementController extends Controller
                     } else {
                         return response()->json(['code' => 0, 'message' => 'Candidato no encontrado']);
                     }
-                break;
+                    break;
                 default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';
@@ -386,53 +385,52 @@ class ProjectManagementController extends Controller
     public function detailsProject($ID_PROJECT)
     {
         $proyect = Proyect::findOrFail($ID_PROJECT);
-        // $idInstructor = $proyect->INSTRUCTOR_ID_PROJECT;
-        // $instructor = Instructor::findOrFail($idInstructor);
-        // $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT; //array
-        // $instructor = NivelAcreditacion::findOrFail($idsNiveles);
-        // $idsBops = $proyect->BOP_TYPES_PROJECT; //array
-        // $instructor = Instructor::findOrFail($idInstructor);
-        // $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
-        // $instructor = Instructor::findOrFail($idInstructor);
+
         $idIdioma = $proyect->LANGUAGE_PROJECT;
         $idiomaProject = IdiomasExamenes::findOrFail($idIdioma);
 
+        $idNombre = $proyect->COURSE_NAME_ES_PROJECT;
+        $nombres = NombreProyecto::find($idNombre);
+        $NOMBRE_PROYECTO = $nombres->NOMBRE_PROYECTO ?? __('N/A');
 
+        $idInstructor = $proyect->INSTRUCTOR_ID_PROJECT;
+        $instructores = Instructor::find($idInstructor);
+        $NOMBRE_INSTRUCTOR = $instructores ? trim(($instructores->FNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->MDNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->LSNAME_INSTRUCTOR ?? '')) : __('N/A');
         // --- ENTE ACREDITADOR ---
-    $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
-    $enteAcreditador = EnteAcreditador::find($idEnte);
-    $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
+        $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
+        $enteAcreditador = EnteAcreditador::find($idEnte);
+        $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
 
-    // --- NIVELES DE ACREDITACIÓN ---
-    $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
-    $nivelesAcreditacion = collect();
+        // --- NIVELES DE ACREDITACIÓN ---
+        $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
+        $nivelesAcreditacion = collect();
 
-    if (!empty($idsNiveles)) {
-        // Consultar los niveles que correspondan
-        $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
+        if (!empty($idsNiveles)) {
+            // Consultar los niveles que correspondan
+            $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
 
-        // Si el ente es 1 → usar DESCRIPCION_NIVEL
-        // Si el ente es 2 → usar NOMBRE_NIVEL
-        // En otro caso → N/A
-        $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
-            if ($idEnte == 1) {
-                return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
-            } elseif ($idEnte == 2) {
-                return $nivel->NOMBRE_NIVEL ?? 'N/A';
-            } else {
-                return 'N/A';
-            }
-        });
-    }
+            // Si el ente es 1 → usar DESCRIPCION_NIVEL
+            // Si el ente es 2 → usar NOMBRE_NIVEL
+            // En otro caso → N/A
+            $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
+                if ($idEnte == 1) {
+                    return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
+                } elseif ($idEnte == 2) {
+                    return $nivel->NOMBRE_NIVEL ?? 'N/A';
+                } else {
+                    return 'N/A';
+                }
+            });
+        }
 
-    // --- TIPOS DE BOP ---
-    $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
-    $tiposBop = collect();
+        // --- TIPOS DE BOP ---
+        $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
+        $tiposBop = collect();
 
-    if (!empty($idsBops)) {
-        $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
-            ->pluck('DESCRIPCION_TIPOBOP');
-    }
+        if (!empty($idsBops)) {
+            $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
+                ->pluck('DESCRIPCION_TIPOBOP');
+        }
 
 
         $visitas = 2;
@@ -462,7 +460,9 @@ class ProjectManagementController extends Controller
             'historialEmpresas',
             'nombreEnte',
             'nivelesAcreditacion',
-            'tiposBop'
+            'tiposBop',
+            'NOMBRE_PROYECTO',
+            'NOMBRE_INSTRUCTOR'
         ));
     }
 
@@ -756,10 +756,10 @@ class ProjectManagementController extends Controller
 
             $daysRest = 0;
 
-            if($proyecto->ACCREDITING_ENTITY_PROJECT === "1"){ //IADC
-                  $daysRest = 45;
-            } else if($proyecto->ACCREDITING_ENTITY_PROJECT === "2"){ //IWCF
-                    $daysRest = 90;
+            if ($proyecto->ACCREDITING_ENTITY_PROJECT === "1") { //IADC
+                $daysRest = 45;
+            } else if ($proyecto->ACCREDITING_ENTITY_PROJECT === "2") { //IWCF
+                $daysRest = 90;
             }
             $endDate = $startDate->copy()->addDays($daysRest);
 
@@ -772,7 +772,7 @@ class ProjectManagementController extends Controller
             } else {
                 $remainingDays = 'Expirado';
             }
-            
+
             $formattedEndDate = $endDate->locale('es')->isoFormat('DD MMM YYYY');
 
             // Procesar los datos del proyecto

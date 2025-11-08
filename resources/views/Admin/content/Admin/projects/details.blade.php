@@ -36,7 +36,7 @@
                             <div class="col-lg-6 banner-item">
                                 <div class="banner-text">
                                     <h1 class="fw-bold mb-4">
-                                        <span class="text-secondary">{{ __('Project') }} - </span> {{ $proyect->COURSE_NAME_ES_PROJECT }}
+                                        <span class="text-secondary">{{ __('Project') }} - </span> {{ $proyect->FOLIO_PROJECT }}
                                     </h1>
                                 </div>
                                 <p class="mb-4">{{ __('Bienvenido, administrador. Este panel le permitirá gestionar este proyecto (estudiantes, fechas, datos generales, etc)') }}</p>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-             <style>
+            <style>
 
                 .mini-dashboard {
                     max-width: 100%;
@@ -397,7 +397,7 @@
                                         <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
                                             <i class="fas fa-flag"></i> ES
                                         </div>
-                                        <div class="card-value small">{{ $proyect->COURSE_NAME_ES_PROJECT ?? '' }}</div>
+                                        <div class="card-value small">{{ $NOMBRE_PROYECTO ?? '' }}</div>
                                     </div>
                                
                             </div>
@@ -580,7 +580,7 @@
                                     <div class="contact-icon-mini">
                                         <i class="fas fa-id-badge"></i>
                                     </div>
-                                    <div style="font-size: 0.75rem; font-weight: 600;">{{ $proyect->INSTRUCTOR_ID_PROJECT ?? '' }}</div>
+                                    <div style="font-size: 0.75rem; font-weight: 600;">{{ $NOMBRE_INSTRUCTOR ?? 'sdf' }}</div>
                                 </div>
                                 <div class="contact-mini">
                                     <div class="contact-icon-mini">
@@ -2709,7 +2709,7 @@
             console.warn('No se encontró un campo de contraseña en esta fila.');
             return;
         }
-        
+
         const type = input.attr('type');
         const newType = type === 'password' ? 'text' : 'password';
         input.attr('type', newType);

@@ -831,7 +831,5 @@ use Illuminate\Support\Str;
      @if(request()->is('roles'))
         <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
     @endif
-
 </body>
-
 </html>

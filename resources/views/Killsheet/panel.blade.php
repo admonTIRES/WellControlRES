@@ -36,7 +36,7 @@
                             @case('iwcfDeviated')
                             <h3>{{ __('IWCF DEVIATED WELL') }}</h3>
                             @break
-                        
+
                             @default
                                 
                         @endswitch
@@ -119,181 +119,6 @@
                
             </div>
 
-            {{-- <div class="three-container">
-                <div class="sp-title titlePrincipal sp-delay-title-1">
-                    <h2>{{ __('Pendientes') }}</h2>
-                    <p>{{ __('') }}</p>
-                </div>
-                <div class="sp-title titlePrincipal sp-delay-title-1">
-                    <h2>{{ __('Completadas') }}</h2>
-                    <p>{{ __('') }}</p>
-
-                </div>
-                <div class="sp-title titlePrincipal sp-delay-title-1">
-                    <h2>{{ __('Todas') }}</h2>
-                    <p>{{ __('') }}</p>
-
-                </div>
-            </div> --}}
-             {{-- <div class="three-container">
-                <div class="sp-step sp-delay-2">
-                    <div class="exercise-list">
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Ejercicio de Cálculo</h3>
-                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Fórmulas Básicas</h3>
-                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Jerarquía de Operaciones</h3>
-                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <!-- Elementos adicionales para demostrar el scroll -->
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Álgebra Lineal</h3>
-                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Trigonometría</h3>
-                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Geometría Analítica</h3>
-                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sp-step sp-delay-2">
-                    <div class="exercise-list">
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Ejercicio de Cálculo</h3>
-                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Fórmulas Básicas</h3>
-                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Jerarquía de Operaciones</h3>
-                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <!-- Elementos adicionales para demostrar el scroll -->
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Álgebra Lineal</h3>
-                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Trigonometría</h3>
-                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Geometría Analítica</h3>
-                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-                    </div>
-                </div>
-                <div class="sp-step sp-delay-2">
-                    <div class="exercise-list">
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Ejercicio de Cálculo</h3>
-                                <p>Vence en: <span class="status-urgent">00:01:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Fórmulas Básicas</h3>
-                                <p>Vence en: <span class="status-soon">20:60:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Jerarquía de Operaciones</h3>
-                                <p>Vence en: <span class="status-on-time">70:00:05 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <!-- Elementos adicionales para demostrar el scroll -->
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Álgebra Lineal</h3>
-                                <p>Vence en: <span class="status-urgent">02:30:15 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Trigonometría</h3>
-                                <p>Vence en: <span class="status-soon">15:45:30 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-
-                        <div class="exercise-item">
-                            <div class="exercise-text">
-                                <h3>Geometría Analítica</h3>
-                                <p>Vence en: <span class="status-on-time">48:12:00 h</span></p>
-                            </div>
-                            <img src="/assets/images/principal/iconExamen.png" alt="ejercicio">
-                        </div>
-                    </div>
-                </div>
-             </div> --}}
             
         </div>
         <div class="sp-path-container">
@@ -302,23 +127,7 @@
                 <p>{{ __('Learn and practice kill sheet') }}</p>
             </div>
            
-            
-            {{-- <div class="sp-step sp-step-right sp-delay-2">
-                 <div class="sp-section-title sp-delay-title-2">
-                        <h3>{{ __('Information') }}</h3>
-                        <p>{{ __('Know the Killsheet') }}</p>
-                    </div>
-                    <a href="{{ route('killsheet.info', ['TIPO' => $TIPO]) }}" target="_blank">
-                    <div class="sp-item-container">
-                        <div class="sp-item">
-                            <div class="sp-item-image" style="right: -5vw;">
-                                <img src="/assets/images/killsheets/information.png">
-                            </div>
-                            <div class="sp-item-base"><img  src="/assets/images/principal/pasto.png"></div>
-                        </div>
-                    </div>
-                </a>
-            </div> --}}
+         
              
             <div class="sp-step sp-step-right sp-delay-2">
                  <div class="sp-section-title sp-delay-title-2">
@@ -362,7 +171,10 @@
                         <h3>{{ __('My first killsheet') }}</h3>
                         <p>{{ __('Practice and learn') }}</p>
                     </div>
-                <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
+                    {{-- esta linea la puedes descomentar cuando ocupes que se le oculte el panel al estduiante por que esta en construcccion, la lcase define el bloqueo --}}
+                {{-- <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development"> --}}
+
+                <a href="{{ route('killsheet.firstExercise',  ['TIPO' => $TIPO]) }}" target="_blank" >
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -5vw;">
@@ -378,7 +190,8 @@
                         <h3>{{ __('Exercise practice') }}</h3>
                         <p>{{ __('Practice an exercise and ') }}  {{ __('check your results') }}</p>
                     </div>
-                <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
+                {{-- <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development"> --}}
+                <a href="{{ route('killsheet.practiceExercise',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -394,7 +207,8 @@
                         <h3>{{ __('Exercise simulator') }}</h3>
                         <p>{{ __('Killsheet with stopwatch') }}</p>
                     </div>
-                <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
+                {{-- <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development"> --}}
+                <a href="{{ route('killsheet.exerciseSimulator',  ['TIPO' => $TIPO]) }}" target="_blank">
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -4vw;">
@@ -410,7 +224,8 @@
                         <h3>{{ __('Exercise fast') }}</h3>
                         <p>{{ __('Practice in record time') }}</p>
                     </div>
-                <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development">
+                {{-- <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank" class="alert-development"> --}}
+                <a href="{{ route('killsheet.quickExercise',  ['TIPO' => $TIPO]) }}" target="_blank" >
                     <div class="sp-item-container">
                         <div class="sp-item">
                             <div class="sp-item-image" style="right: -2vw; top:1vw;">

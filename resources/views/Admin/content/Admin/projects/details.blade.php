@@ -2703,6 +2703,7 @@
     }
 
     function togglePassword(event,button) {
+        event.preventDefault();
         const input = $(button).closest('tr').find('input.password').length  ? $(button).closest('tr').find('input.password') : $(button).closest('tr').find('input[name="password"]');
 
         if (input.length === 0) {

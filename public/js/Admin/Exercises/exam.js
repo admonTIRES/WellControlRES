@@ -22,7 +22,6 @@ function manejarSeccionExtra(selectorCheckbox, seccion, campos) {
 $(document).ready(function () {
     $('#ANSWER_TYPE_QUESTION').on('change', function () {
         const tipo = $(this).val();
-
         if (tipo === '1') {
             $('#rangoRespuesta').removeClass('d-none');
             $('#selectorOpciones').addClass('d-none');
@@ -853,7 +852,7 @@ $('#exam-list-table tbody').on('change', 'input.ACTIVAR', function () {
         ID_EXAM: row.data().ID_EXAM
     };
 
-    eliminarDatoTabla(data, [questionDatatable], 'questionActive');
+    eliminarDatoTabla(data, [examDatatable], 'examActive');
 });
 //EDITAR
 $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
@@ -869,7 +868,6 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#TEXTO1_QUESTION').removeClass('campo-requerido');
     $('#TEXTO2_QUESTION').removeClass('campo-requerido');
     $('#TEXTO3_QUESTION').removeClass('campo-requerido');
-
 
     $('#IMAGEN1_QUESTION').val('');
     $('#IMAGEN1_QUESTION').dropify().data('dropify').resetPreview();
@@ -974,15 +972,11 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
         }
     }, 200);
 
-
     actualizarVisibilidadTipos();
-
     actualizarRespuestas();
     llenarCheckboxes(row);
 
-
     $('#questionModal .modal-title').html("Editar pregunta con folio: " + row.data().FOLIO_PREGUNTA);
-
 });
 
 function actualizarVisibilidadTipos() {

@@ -107,7 +107,7 @@
             </a>
         </div>
 
-        <div id="evaluacionesDiv" class="card alert-development">
+        <div id="evaluacionesDiv" class="card">
             <h2 class="card-title">{{ __('Evaluation') }}</h2>
             <img src="/assets/images/principal/laptop.png" alt="{{ __('Statistics') }}" class="card-image">
             <a href="#" class="card-link alert-development">

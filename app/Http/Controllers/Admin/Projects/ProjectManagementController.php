@@ -29,6 +29,8 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+
+
 class ProjectManagementController extends Controller
 {
 
@@ -273,6 +275,24 @@ class ProjectManagementController extends Controller
                 'message' => 'Error interno: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function downloadTemplate()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray([
+            ['Company', 'CR', 'First Name', 'Middle Name', 'Last Name', 'Birth Date', 'ID Number', 'Position', 'Email', 'Password']
+        ]);
+
+        $fileName = 'project_template.xlsx';
+        $writer = new Xlsx($spreadsheet);
+
+        $tempFile = tempnam(sys_get_temp_dir(), $fileName);
+        $writer->save($tempFile);
+
+        return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
     }
 
     // DETAILS

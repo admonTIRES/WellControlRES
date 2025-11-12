@@ -47,8 +47,6 @@ $(document).ready(function () {
 });
 
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
     const input = document.querySelector('#COMPANIES');
@@ -65,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         tagify.removeAllTags(); // Limpiar por si acaso
 
         if (tagifyChangeHandler) {
-            tagify.off('change', tagifyChangeHandler); // Eliminar si ya había uno
+            tagify.off('change', tagifyChangeHandler); 
         }
 
         tagifyChangeHandler = function(e) {
@@ -113,7 +111,6 @@ class WizardManager {
         this.renderDestroyButton();
     }
 
-    // Crear botón de destrucción solo en paso 1
     renderDestroyButton() {
         const container = document.getElementById('wizardDestroyContainer');
         if (!container) return;
@@ -131,14 +128,11 @@ class WizardManager {
         });
     }
 
-    // Método para destruir y limpiar el wizard
     destroyWizard() {
-        // Limpiar todos los datos
         this.formData = {};
         this.students = [];
         this.empresas = [];
 
-        // Reset del formulario
         const form = document.getElementById('wizardForm');
         if (form) form.reset();
 
@@ -186,27 +180,6 @@ class WizardManager {
                 }
             });
         });
-
-
-        // Generate students button
-        // document.getElementById('generateStudents').addEventListener('click', () => {
-        //     this.generateStudents();
-        // });
-
-        // Export passwords button
-        // document.getElementById('exportPasswords').addEventListener('click', () => {
-        //     this.exportPasswords();
-        // });
-
-        // Regenerate all passwords button
-        // document.getElementById('regenerateAllPasswords').addEventListener('click', () => {
-        //     this.regenerateAllPasswords();
-        // });
-
-        // Modal reset on close
-        // document.getElementById('proyectoModal').addEventListener('hidden.bs.modal', () => {
-        //     this.resetWizard();
-        // });
     }
 
     nextStep() {

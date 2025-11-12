@@ -92,10 +92,15 @@
                         <div class="w-100 h-100">
                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                 <h4 class="card-title mb-0">{{ __('Projects list') }}</h4>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#proyectoExcelModal">
+                                    {{ __('New project with Excel') }}
+                                </button>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#proyectoModal" onclick="limpiarModal()">
                                     {{ __('New Project') }}
                                 </button>
+                                 
                             </div>
                             <div class="table-container">
                                 <table id="proyecto-list-table" class="table" role="grid">
@@ -917,6 +922,42 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="proyectoExcelModal" tabindex="-1" aria-labelledby="proyectoExcelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary" >
+                <h5 class="modal-title" id="proyectoExcelModalLabel" style="color: #ffffff !important;">
+                    {{ __('Import project from Excel') }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <p class="mb-2">{{ __('Download the template, fill in the data, and upload it here.') }}</p>
+                    <a href="{{ route('project.download.template') }}" class="btn btn-outline-primary">
+                        <i class="ri-download-2-line"></i> {{ __('Download Excel template') }}
+                    </a>
+                </div>
+
+                <form id="uploadExcelForm" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="excelFile" class="form-label">{{ __('Upload filled Excel file:') }}</label>
+                        <input type="file" name="excel_file" id="excelFile" accept=".xlsx, .xls" class="form-control" required>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <button type="button" id="btnUploadExcel" class="btn btn-success">
+                        <i class="ri-upload-2-line"></i> {{ __('Import data') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @php
 $css_identifier = 'projectsAdmin';

@@ -60,7 +60,6 @@ class adminController extends Controller
 
         $FOLIO = $proyecto->FOLIO_PROJECT;
         $NOMBRE_PROYECTO = $proyecto->COURSE_NAME_ES_PROJECT;
-
         $empresa = $proyecto->COMPANIES_PROJECT[0] ?? null;
         $estudiantes = $empresa['STUDENTS_PROJECT'] ?? [];
         $datosGraficos = $this->prepararDatosGraficos($estudiantes);
@@ -70,7 +69,6 @@ class adminController extends Controller
             'PROJECT_ID',
             'estudiantes',
             'datosGraficos'
-
         ));
     }
 

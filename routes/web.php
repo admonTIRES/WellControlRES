@@ -95,6 +95,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/editarTablaCurso/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCurso']);
     Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
 
+    Route::get('/project/template/download', [ProjectManagementController::class, 'downloadTemplate'])->name('project.download.template');
+
     //mails
     Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
     Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');

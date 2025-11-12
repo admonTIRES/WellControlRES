@@ -11,7 +11,7 @@
                                     <div class="col-lg-6 banner-item">
                                         <div class="banner-text">
                                             <h1 class="fw-bold mb-4">
-                                            <span class="text-secondary">{{ __('Projects ') }}</span> {{ __(' management ') }}
+                                            <span class="text-secondary">{{ __('Projects') }}</span> {{ __('management') }}
                                             </h1>
                                         </div>
                                         <p class="mb-4">{{ __('You can manage active projects (assign tests, deadlines, view progress, grades and more).') }}</p>

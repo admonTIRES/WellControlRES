@@ -1666,6 +1666,10 @@
     "Drilling Math list":"Lista de ejercicios matemáticos",
     "Math Drilling Exercise":"Nuevo ejercicio de matemáticas",
     "View the student panel":"Ver el panel de estudiante",
-    "New project with Excel": "Cargar nuevo proyecto con Excel"
-
+    "New project with Excel": "Cargar nuevo proyecto con Excel",
+    "Import project from Excel":"Importar proyecto desde Excel",
+    "Download the template, fill in the data, and upload it here.":"Descargue la plantilla, rellene los datos y súbala aquí.",
+    "Download Excel template":"Descargar plantilla Excel",
+    "Upload filled Excel file:":"Cargar el archivo Excel rellenado:",
+    "Import data":"Importar datos"
 }

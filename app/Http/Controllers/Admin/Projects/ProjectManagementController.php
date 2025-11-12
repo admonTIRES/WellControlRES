@@ -118,8 +118,6 @@ class ProjectManagementController extends Controller
                                 $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
                                 $username = $initials . $lastWord . rand(100, 999);
 
-                               
-
                                 $existingUser = DB::table('users')->where('email', $email)->first();
                                 $userId = null;
                                 if ($existingUser) {
@@ -283,10 +281,59 @@ class ProjectManagementController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         $sheet->fromArray([
-            ['Company', 'CR', 'First Name', 'Middle Name', 'Last Name', 'Birth Date', 'ID Number', 'Position', 'Email', 'Password']
+            ['PROJECT_INFO', 'COURSE_TYPE_PROJECT', ''],
+            ['PROJECT_INFO', 'COURSE_NAME_ES_PROJECT', ''],
+            ['PROJECT_INFO', 'FOLIO_PROJECT', ''],
+            ['PROJECT_INFO', 'CERTIFICATION_CENTER_PROJECT', ''],
+            ['PROJECT_INFO', 'LANGUAGE_PROJECT', ''],
+            ['PROJECT_INFO', 'ACCREDITING_ENTITY_PROJECT', ''],
+            ['PROJECT_INFO', 'OPERATION_TYPE_PROJECT', ''],
+            ['PROJECT_INFO', 'ACCREDITATION_LEVELS_PROJECT', ''], // Múltiples valores separados por coma
+            ['PROJECT_INFO', 'BOP_TYPES_PROJECT', ''], // Múltiples valores separados por coma
+            ['PROJECT_INFO', 'CENTER_NUMBER_PROJECT', ''],
+            ['PROJECT_INFO', 'CONTACT_NAME_PROJEC', ''],
+            ['PROJECT_INFO', 'CONTACT_PHONE_PROJECT', ''],
+            ['PROJECT_INFO', 'LOCATION_PROJECT', ''],
+            ['PROJECT_INFO', 'CITY_PROJECT', ''],
+            ['PROJECT_INFO', 'COMPANIES', ''], // Múltiples empresas separadas por coma
+            
+            // Fechas
+            ['PROJECT_INFO', 'COURSE_START_DATE_PROJECT', ''],
+            ['PROJECT_INFO', 'COURSE_END_DATE_PROJECT', ''],
+            ['PROJECT_INFO', 'PRACTICAL_EXAM_DATE_PROJECT', ''],
+            ['PROJECT_INFO', 'PRACTICAL_EXAM_TIME_PROJECT', ''],
+            ['PROJECT_INFO', 'EXAM_DATE_PROJECT', ''],
+            ['PROJECT_INFO', 'EXAM_TIME_PROJECT', ''],
+            ['PROJECT_INFO', 'MEMBERSHIP_START_PROJECT', ''],
+            ['PROJECT_INFO', 'MEMBERSHIP_END_PROJECT', ''],
+            
+            // Instructor
+            ['PROJECT_INFO', 'INSTRUCTOR_ID_PROJECT', ''],
+            ['PROJECT_INFO', 'INSTRUCTOR_EMAIL_PROJECT', ''],
+            
+            ['', '', '', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', '', '', ''],
+            ['STUDENTS_INFO', 'Company', 'CR', 'First Name', 'Middle Name', 'Last Name', 'Birth Date', 'ID Number', 'Position', 'Email', 'Password']
         ]);
 
-        $fileName = 'project_template.xlsx';
+        $sheet->getStyle('A1:C26')->getFont()->setBold(true);
+        $sheet->getStyle('A28:K28')->getFont()->setBold(true);
+        
+        $sheet->getColumnDimension('A')->setWidth(15);
+        $sheet->getColumnDimension('B')->setWidth(30);
+        $sheet->getColumnDimension('C')->setWidth(30);
+        
+        $sheet->setCellValue('E1', 'INSTRUCCIONES:');
+        $sheet->setCellValue('E2', '1. Las primeras filas son para la información del proyecto');
+        $sheet->setCellValue('E3', '2. Use "PROJECT_INFO" en columna A para datos del proyecto');
+        $sheet->setCellValue('E4', '3. Use "STUDENTS_INFO" en columna A para datos de estudiantes');
+        $sheet->setCellValue('E5', '4. Para campos múltiples (niveles, BOP, empresas) sepárelos por comas');
+        $sheet->setCellValue('E6', '5. No modifique la columna A (identificador de tipo de dato)');
+        
+        $sheet->getStyle('E1:E6')->getFont()->setBold(true);
+        $sheet->getStyle('E1:E6')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF00');
+
+        $fileName = 'project_template_complete.xlsx';
         $writer = new Xlsx($spreadsheet);
 
         $tempFile = tempnam(sys_get_temp_dir(), $fileName);
@@ -1059,7 +1106,6 @@ class ProjectManagementController extends Controller
         $filename = 'Curso_' . $id . '.xlsx';
         $writer = new Xlsx($spreadsheet);
 
-        // Enviar archivo al navegador
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment; filename=\"$filename\"");
         header('Cache-Control: max-age=0');

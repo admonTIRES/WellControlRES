@@ -69,9 +69,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Killsheet/quickExercise/{TIPO}', [KillsheetController::class, 'quickExercise'])->name('killsheet.quickExercise');
 });
 
+
 //----------------------------EXAM-------------------------------//
 Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'index'])->name('evaluation');
 
+Route::middleware(['auth'])->group(function () {
 //---------------------------               ADMIN              -------------------------------//
 //----------------------------INSTRUCTOR-------------------------------//
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
@@ -86,7 +88,7 @@ Route::prefix('projectsAdmin/details')->group(function () {
     Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
     Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
 });
-Route::middleware(['auth'])->group(function () {
+
     Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
     Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
     Route::get('/projectStudentDatatable', [ProjectManagementController::class, 'projectStudentDatatable']);

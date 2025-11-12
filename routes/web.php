@@ -84,7 +84,7 @@ Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
 Route::prefix('projectsAdmin/details')->group(function () {
     Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
-    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);z  z   
+    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);

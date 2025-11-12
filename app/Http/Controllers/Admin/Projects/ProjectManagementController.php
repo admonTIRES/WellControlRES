@@ -608,7 +608,7 @@ class ProjectManagementController extends Controller
                 }
             } else {
                 // Caso 2: No existen cursos - obtener solo datos básicos de candidatos
-                $candidatos = Candidate::where('ID_PROJECT', $ID_PROJECT)
+                $candidatos = candidate::where('ID_PROJECT', $ID_PROJECT)
                     ->where('ACTIVO', 1)
                     ->select(
                         'ID_CANDIDATE',

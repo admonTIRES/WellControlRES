@@ -84,26 +84,21 @@ Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
 Route::prefix('projectsAdmin/details')->group(function () {
     Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
-    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
-
+    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);z  z   
 });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
+    Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
+    Route::get('/projectStudentDatatable', [ProjectManagementController::class, 'projectStudentDatatable']);
+    Route::get('/projectCourseDatatable', [ProjectManagementController::class, 'projecTCourseDatatable']);
+    Route::get('/editarTablaCandidato/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCandidato']);
+    Route::get('/editarTablaCurso/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCurso']);
+    Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
 
-Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
-Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
-Route::get('/projectStudentDatatable', [ProjectManagementController::class, 'projectStudentDatatable']);
-Route::get('/projectCourseDatatable', [ProjectManagementController::class, 'projecTCourseDatatable']);
-
-Route::get('/editarTablaCandidato/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCandidato']);
-Route::get('/editarTablaCurso/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCurso']);
-
-Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
-
-//mails
-Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
-
-
-Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');
-
+    //mails
+    Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
+    Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');
+});
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //
 Route::middleware(['auth'])->group(function () {

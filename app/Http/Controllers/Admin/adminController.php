@@ -19,7 +19,8 @@ use App\Models\Admin\catalogs\Instructor;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
-use App\Models\Candidate;
+use App\Models\Admin\Project\candidate;
+
 
 
 

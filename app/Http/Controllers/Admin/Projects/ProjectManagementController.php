@@ -303,9 +303,14 @@ class ProjectManagementController extends Controller
                         
                         $projectData['COMPANIES_PROJECT'] = $companiesData;
                     
-                        $projectData = $this->processStudentsAndUsers($projectData);
+                       $project = $this->saveProject($projectData, 0); 
+        
+                        $projectData = $this->processStudentsAndUsers($projectData, $project->ID_PROJECT);
+                        
+                        $project->update([
+                            'COMPANIES_PROJECT' => $projectData['COMPANIES_PROJECT']
+                        ]);
 
-                        $project = $this->saveProject($projectData, 0); 
                           error_log("=== DATOS COMPLETOS ANTES DE GUARDAR ===");
                         error_log(json_encode($projectData, JSON_PRETTY_PRINT));
 
@@ -391,6 +396,11 @@ class ProjectManagementController extends Controller
         $sheet->getStyle('A30:C30')->getFont()->setBold(true);
         $sheet->getStyle('A31:C31')->getFont()->setBold(true);
 
+        $lastRow = count($formData) + 1;
+        $sheet->getStyle('B3:B' . $lastRow)
+          ->getNumberFormat()
+          ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+
 
 
         $sheet->getStyle('A2:C17')->getFill()
@@ -464,6 +474,13 @@ class ProjectManagementController extends Controller
         $studentSheet->getStyle('A' . $studentHeaderRow . ':A' . $studentHeaderRow)->getFont()->setBold(true)->setSize(14);
         $studentSheet->getStyle('A' . ($studentHeaderRow + 2) . ':I' . ($studentHeaderRow + 2))->getFont()->setBold(true);
         $studentSheet->getStyle('A' . ($studentHeaderRow + 3) . ':I' . ($studentHeaderRow + 3))->getFont()->setItalic(true);
+
+        $studentSheet->getStyle('I3:I20')
+          ->getNumberFormat()
+          ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+        $studentSheet->getStyle('F3:F20')
+          ->getNumberFormat()
+          ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
         
         $studentSheet->getStyle('A' . ($studentHeaderRow + 2) . ':I' . ($studentHeaderRow + 2))->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
@@ -1277,7 +1294,7 @@ class ProjectManagementController extends Controller
 
         return $tiposBOP;
     }
-  private function processFormData($projectRows)
+    private function processFormData($projectRows)
     {
         $projectData = [];
         
@@ -1426,33 +1443,40 @@ class ProjectManagementController extends Controller
         
         return $companies;
     }
-    private function organizeStudentsByCompany($companies, $students)
-    {
-        $companiesData = [];
+   private function organizeStudentsByCompany($companies, $students)
+{
+    $companiesData = [];
+    
+    foreach ($companies as $companyName) {
+        $companiesData[] = [
+            'NAME_PROJECT' => trim($companyName),
+            'EMAIL_PROJECT' => '', 
+            'STUDENT_COUNT_PROJECT' => 0, 
+            'STUDENTS_PROJECT' => []
+        ];
+    }
+    
+    foreach ($students as $student) {
+        $companyName = $student['COMPANY'];
         
-        foreach ($companies as $companyName) {
-            $companiesData[] = [
-                'NAME_PROJECT' => trim($companyName),
-                'STUDENTS_PROJECT' => []
-            ];
-        }
-
-        foreach ($students as $student) {
-            $companyName = $student['COMPANY'];
-            
-            foreach ($companiesData as &$company) {
-                if ($company['NAME_PROJECT'] === $companyName) {  
-                    unset($student['COMPANY']);
-                    $company['STUDENTS_PROJECT'][] = $student;
-                    break;
-                }
+        foreach ($companiesData as &$company) {
+            if ($company['NAME_PROJECT'] === $companyName) {
+                
+                unset($student['COMPANY']);
+                
+                $student['ID_PROJECT'] = 0; 
+                $student['COMPANY_PROJECT'] = $companyName;
+                
+                $company['STUDENTS_PROJECT'][] = $student;
+                $company['STUDENT_COUNT_PROJECT'] = count($company['STUDENTS_PROJECT']);
+                break;
             }
         }
-        
-        return $companiesData;
     }
-
-    private function processStudentsAndUsers($projectData)
+    
+    return $companiesData;
+}
+    private function processStudentsAndUsers($projectData, $projectId = null)
     {
         if (!isset($projectData['COMPANIES_PROJECT'])) {
             return $projectData;
@@ -1472,12 +1496,18 @@ class ProjectManagementController extends Controller
                     $estudiante['MIDDLE_NAME_PROJECT'] ?? '',
                     $estudiante['LAST_NAME_PROJECT'] ?? ''
                 );
+
                 $userId = $this->createOrUpdateUser($email, $password, $username, $estudiante);
                 $estudiante['USER_ID_PROJECT'] = $userId;
 
-                $candidateId = $this->createOrUpdateCandidate($estudiante, $empresa, $projectData);
+                $candidateId = $this->createOrUpdateCandidate($estudiante, $empresa, $projectId);
                 $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
+                
+                $estudiante['ID_PROJECT'] = $projectId;
+                $estudiante['COMPANY_PROJECT'] = $empresa['NAME_PROJECT'];
             }
+            
+            $empresa['STUDENT_COUNT_PROJECT'] = count($empresa['STUDENTS_PROJECT']);
         }
 
         return $projectData;
@@ -1528,14 +1558,15 @@ class ProjectManagementController extends Controller
         return $password;
     }
 
-    private function createOrUpdateCandidate($estudiante, $empresa, $projectData)
+    private function createOrUpdateCandidate($estudiante, $empresa, $projectId = null)
+
     {
         $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $estudiante['EMAIL_PROJECT'])->first();
 
         $candidateData = [
-            'ID_PROJECT' => $projectData['ID_PROJECT'] ?? null,
+            'ID_PROJECT' => $projectId,
             'COMPANY_PROJECT' => $empresa['NAME_PROJECT'] ?? '',
-            'COMPANY_ID_PROJECT' => $projectData['ID_PROJECT'] ?? null,
+            'COMPANY_ID_PROJECT' => $projectId,
             'CR_PROJECT' => $estudiante['CR_PROJECT'] ?? '',
             'LAST_NAME_PROJECT' => $estudiante['LAST_NAME_PROJECT'] ?? '',
             'FIRST_NAME_PROJECT' => $estudiante['FIRST_NAME_PROJECT'] ?? '',

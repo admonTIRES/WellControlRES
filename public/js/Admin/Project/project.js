@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         typeof item === 'string' ? item : item.value
                     );
                 }
-
                 console.log('Empresas actualizadas:', window.wizard.empresas);
             }
         };
@@ -783,7 +782,6 @@ class WizardManager {
     }
 }
 
-// Initialize wizard when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
 });
@@ -850,10 +848,8 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
 
 function limpiarModal() {
     ID_PROJECT = 0;
-    // 1. Resetear el formulario principal
     document.getElementById('proyectoForm').reset();
 
-    // 2. Limpiar Tagify
     if (tagify) {
         tagify.removeAllTags();
         if (tagifyChangeHandler) {
@@ -862,7 +858,6 @@ function limpiarModal() {
         }
     }
 
-    // 3. Limpiar Selectize
     ['ACCREDITATION_LEVELS_PROJECT', 'BOP_TYPES_PROJECT'].forEach(fieldId => {
         const $select = $('#' + fieldId);
         if ($select[0].selectize) {
@@ -986,7 +981,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         tagifyChangeHandler = null;
     }
 
-    // Inicializar campos selectize
     function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {
             var values = row.data()[fieldId];
@@ -1000,7 +994,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
                     create: false
                 });
             }
-
             var selectize = $select[0].selectize;
             selectize.clear();            
             selectize.setValue(values);  
@@ -1015,7 +1008,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     tagify.removeAllTags();
     tagify.addTags(row.data().COMPANIES);
-
    
     if (row.data().COMPANIES_PROJECT) {
         const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ? 

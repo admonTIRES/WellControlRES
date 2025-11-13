@@ -280,60 +280,190 @@ class ProjectManagementController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray([
-            ['PROJECT_INFO', 'COURSE_TYPE_PROJECT', ''],
-            ['PROJECT_INFO', 'COURSE_NAME_ES_PROJECT', ''],
-            ['PROJECT_INFO', 'FOLIO_PROJECT', ''],
-            ['PROJECT_INFO', 'CERTIFICATION_CENTER_PROJECT', ''],
-            ['PROJECT_INFO', 'LANGUAGE_PROJECT', ''],
-            ['PROJECT_INFO', 'ACCREDITING_ENTITY_PROJECT', ''],
-            ['PROJECT_INFO', 'OPERATION_TYPE_PROJECT', ''],
-            ['PROJECT_INFO', 'ACCREDITATION_LEVELS_PROJECT', ''], // Múltiples valores separados por coma
-            ['PROJECT_INFO', 'BOP_TYPES_PROJECT', ''], // Múltiples valores separados por coma
-            ['PROJECT_INFO', 'CENTER_NUMBER_PROJECT', ''],
-            ['PROJECT_INFO', 'CONTACT_NAME_PROJEC', ''],
-            ['PROJECT_INFO', 'CONTACT_PHONE_PROJECT', ''],
-            ['PROJECT_INFO', 'LOCATION_PROJECT', ''],
-            ['PROJECT_INFO', 'CITY_PROJECT', ''],
-            ['PROJECT_INFO', 'COMPANIES', ''], // Múltiples empresas separadas por coma
-            
-            // Fechas
-            ['PROJECT_INFO', 'COURSE_START_DATE_PROJECT', ''],
-            ['PROJECT_INFO', 'COURSE_END_DATE_PROJECT', ''],
-            ['PROJECT_INFO', 'PRACTICAL_EXAM_DATE_PROJECT', ''],
-            ['PROJECT_INFO', 'PRACTICAL_EXAM_TIME_PROJECT', ''],
-            ['PROJECT_INFO', 'EXAM_DATE_PROJECT', ''],
-            ['PROJECT_INFO', 'EXAM_TIME_PROJECT', ''],
-            ['PROJECT_INFO', 'MEMBERSHIP_START_PROJECT', ''],
-            ['PROJECT_INFO', 'MEMBERSHIP_END_PROJECT', ''],
-            
-            // Instructor
-            ['PROJECT_INFO', 'INSTRUCTOR_ID_PROJECT', ''],
-            ['PROJECT_INFO', 'INSTRUCTOR_EMAIL_PROJECT', ''],
-            
-            ['', '', '', '', '', '', '', '', '', ''],
-            ['', '', '', '', '', '', '', '', '', ''],
-            ['STUDENTS_INFO', 'Company', 'CR', 'First Name', 'Middle Name', 'Last Name', 'Birth Date', 'ID Number', 'Position', 'Email', 'Password']
-        ]);
+        $sheet->setCellValue('A1', 'PLANTILLA PARA CARGAR NUEVO PROYECTO');
+        $sheet->mergeCells('A1:C1');
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        );
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+        
+        $formData = [
+            ['INFORMACIÓN GENERAL DEL PROYECTO', '', ''],
+            ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
+            ['Tipo de curso= *', '', '1=Abierto, 2=Cerrado'],
+            ['Nombre del curso= *', '', 'Ej: Curso de Operaciones Básicas'],
+            ['Folio= *', '', 'Ej: STE-TR24-001'],
+            ['Centro de certificación= *', '', 'Nombre del centro certificador registrado'],
+            ['Idioma= *', '', 'ID del idioma (consultar catálogo)'],
+            ['Ente acreditador= *', '', 'ID del ente acreditador (consultar catálogo)'],
+            ['Tipo de operación= *', '', 'ID del tipo de operación (consultar catálogo)'],
+            ['Niveles de acreditación= *', '', 'IDs separados por coma (ej: 1,2,3)'],
+            ['Tipos BOP= *', '', 'IDs separados por coma (ej: 1,2)'],
+            ['Número de centro= *', '', 'Número asignado al centro'],
+            ['Nombre del contacto= *', '', 'Persona de contacto'],
+            ['Teléfono de contacto= *', '', 'Número telefónico'],
+            ['Ubicación= *', '', 'Dirección o lugar'],
+            ['Ciudad= *', '', 'Ciudad donde se imparte'],
+            ['', '', ''],
+            ['FECHAS Y HORARIOS', '', ''],
+            ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
+            ['Fecha inicio curso= *', '', 'Formato: YYYY-MM-DD (ej: 2024-01-15)'],
+            ['Fecha fin curso= *', '', 'Formato: YYYY-MM-DD (ej: 2024-01-20)'],
+            ['Fecha examen práctico= *', '', 'Formato: YYYY-MM-DD (ej: 2024-01-18)'],
+            ['Hora examen práctico= *', '', 'Formato: HH:MM (ej: 14:30)'],
+            ['Fecha examen teórico= *', '', 'Formato: YYYY-MM-DD (ej: 2024-01-19)'],
+            ['Hora examen teórico= *', '', 'Formato: HH:MM (ej: 10:00)'],
+            ['Inicio membresía= *', '', 'Formato: YYYY-MM-DD HH:MM (ej: 2024-01-15 08:00)'],
+            ['Fin membresía= *', '', 'Formato: YYYY-MM-DD HH:MM (ej: 2024-12-15 18:00)'],
+            ['', '', ''],
+            ['INFORMACIÓN DEL INSTRUCTOR', '', ''],
+            ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
+            ['ID del instructor= *', '', 'ID del instructor (consultar catálogo)'],
+            ['Email del instructor= *', '', 'Correo electrónico del instructor'],
+            ['', '', ''],
+            ['EMPRESAS PARTICIPANTES', '', ''],
+            ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
+            ['Empresas *', '', 'Nombres separados por coma (ej: Empresa A, Empresa B)'],
+            ['', '', ''],
+            ['', '', ''],
+        ];
 
-        $sheet->getStyle('A1:C26')->getFont()->setBold(true);
-        $sheet->getStyle('A28:K28')->getFont()->setBold(true);
-        
-        $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(30);
-        $sheet->getColumnDimension('C')->setWidth(30);
-        
-        $sheet->setCellValue('E1', 'INSTRUCCIONES:');
-        $sheet->setCellValue('E2', '1. Las primeras filas son para la información del proyecto');
-        $sheet->setCellValue('E3', '2. Use "PROJECT_INFO" en columna A para datos del proyecto');
-        $sheet->setCellValue('E4', '3. Use "STUDENTS_INFO" en columna A para datos de estudiantes');
-        $sheet->setCellValue('E5', '4. Para campos múltiples (niveles, BOP, empresas) sepárelos por comas');
-        $sheet->setCellValue('E6', '5. No modifique la columna A (identificador de tipo de dato)');
-        
-        $sheet->getStyle('E1:E6')->getFont()->setBold(true);
-        $sheet->getStyle('E1:E6')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF00');
+        $sheet->fromArray($formData, null, 'A2');
 
-        $fileName = 'project_template_complete.xlsx';
+        $sheet->getStyle('A2:C2')->getFont()->setBold(true);
+        $sheet->getStyle('A3:C3')->getFont()->setBold(true);
+        $sheet->getStyle('A19:C19')->getFont()->setBold(true);
+        $sheet->getStyle('A20:C20')->getFont()->setBold(true);
+        $sheet->getStyle('A30:C30')->getFont()->setBold(true);
+        $sheet->getStyle('A31:C31')->getFont()->setBold(true);
+        $sheet->getStyle('A35:C35')->getFont()->setBold(true);
+        $sheet->getStyle('A36:C36')->getFont()->setBold(true);
+
+        $sheet->getStyle('A2:C17')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('FFE6F3FF');
+        $sheet->getStyle('A19:C28')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('DAEEF3');
+        $sheet->getStyle('A30:C33')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('B7DEE8');
+        $sheet->getStyle('A35:C37')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('92CDDC');
+
+        $sheet->getStyle('A2:C17')->getBorders()->getAllBorders()
+          ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+        $sheet->getStyle('A19:C28')->getBorders()->getAllBorders()
+          ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+        $sheet->getStyle('A30:C33')->getBorders()->getAllBorders()
+          ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+        $sheet->getStyle('A35:C37')->getBorders()->getAllBorders()
+          ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+        $sheet->mergeCells('A2:C2');
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        ); 
+        $sheet->mergeCells('A19:C19');
+        $sheet->getStyle('A19')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        ); 
+        $sheet->mergeCells('A30:C30');
+        $sheet->getStyle('A30')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        ); 
+        $sheet->mergeCells('A35:C35');
+        $sheet->getStyle('A35')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        );
+
+        $studentHeaderRow = 41;
+        $studentHeaders = [
+            ['ESTUDIANTES PARTICIPANTES', '', '', '', '', '', '', '', '', '', ''],
+            ['* Campos obligatorios para creación de usuarios', '', '', '', '', '', '', '', '', '', ''],
+            ['Empresa *', 'CR', 'Nombre *', 'Segundo Nombre', 'Apellido *', 'Fecha Nacimiento', 'Número ID', 'Puesto', 'Email *', 'Password *', 'Membresía'],
+            ['Ej: Empresa ABC', 'Ej: CR001', 'Ej: Juan', 'Ej: Carlos', 'Ej: Pérez', 'YYYY-MM-DD', 'Ej: ABC123', 'Ej: Operador', 'ejemplo@email.com', 'min 6 chars', 'N/A o Miembro'],
+            ['', '', '', '', '', '', '', '', '', '', ''],  
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+            ['', '', '', '', '', '', '', '', '', '', ''], 
+        ];
+
+        $sheet->fromArray($studentHeaders, null, 'A' . $studentHeaderRow);
+
+        $sheet->getStyle('A' . $studentHeaderRow . ':A' . $studentHeaderRow)->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A' . ($studentHeaderRow + 2) . ':K' . ($studentHeaderRow + 2))->getFont()->setBold(true);
+        $sheet->getStyle('A' . ($studentHeaderRow + 3) . ':K' . ($studentHeaderRow + 3))->getFont()->setItalic(true);
+        
+        $sheet->getStyle('A' . ($studentHeaderRow + 2) . ':K' . ($studentHeaderRow + 2))->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('FFF0F8E6');
+
+
+        foreach (range('A', 'K') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        $spreadsheet->createSheet();
+        $instructionSheet = $spreadsheet->getSheet(1);
+        $instructionSheet->setTitle('INSTRUCCIONES');
+        
+        $instructions = [
+            ['INSTRUCCIONES DE LLENADO'],
+            [''],
+            ['SECCIÓN 1: INFORMACIÓN GENERAL'],
+            ['   - Complete todos los campos marcados con *'],
+            ['   - Para campos múltiples (niveles, BOP, empresas): separar por comas'],
+            ['   - Use los IDs correspondientes de los catálogos del sistema'],
+            [''],
+            ['SECCIÓN 2: FECHAS Y HORARIOS'],
+            ['   - Formato fechas: YYYY-MM-DD (año-mes-día)'],
+            ['   - Formato horas: HH:MM (24 horas)'],
+            ['   - Formato fecha/hora: YYYY-MM-DD HH:MM'],
+            [''],
+            ['SECCIÓN 3: ESTUDIANTES'],
+            ['   - EMPRESA: Nombre exacto de la empresa (debe coincidir con la sección anterior)'],
+            ['   - Puede agregar tantos estudiantes como necesite - continúe hacia abajo'],
+            ['   - EMAIL y PASSWORD: Obligatorios para crear cuenta de usuario'],
+            ['   - Si no proporciona password, no se creará usuario para ese estudiante'],
+            ['   - CR: Código de registro (opcional)'],
+            ['   - Membresía: "N/A" o "Miembro"'],
+            [''],
+            ['EJEMPLO DE LLENADO:'],
+            ['   Empresas: Constructora XYZ, Minera ABC'],
+            ['   Luego en estudiantes:'],
+            ['   - Fila 1: Constructora XYZ, CR001, Juan, Carlos, Pérez...'],
+            ['   - Fila 2: Constructora XYZ, CR002, María,, García...'],
+            ['   - Fila 3: Minera ABC, CR003, Pedro, Antonio, López...'],
+            ['   - Continúe agregando filas según necesite'],
+            [''],
+            ['IMPORTANTE:'],
+            ['   - No modifique los encabezados de las columnas'],
+            ['   - Puede agregar tantas filas de estudiantes como necesite'],
+            ['   - Guarde como Excel (.xlsx)']
+        ];
+
+        $instructionSheet->fromArray($instructions, null, 'A1');
+        $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $instructionSheet->getColumnDimension('A')->setWidth(60);
+
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $fileName = 'formulario_proyecto.xlsx';
         $writer = new Xlsx($spreadsheet);
 
         $tempFile = tempnam(sys_get_temp_dir(), $fileName);

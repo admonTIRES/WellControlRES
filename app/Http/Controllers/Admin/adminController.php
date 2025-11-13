@@ -155,12 +155,9 @@ class adminController extends Controller
         $operaciones = Operacion::all();
         $NombreProyecto = NombreProyecto::all();
         $instructores = Instructor::all();
-
-
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
-
         return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores'))->with('user_role', 0);
     }
     /**
@@ -168,7 +165,6 @@ class adminController extends Controller
      */
     public function exercises()
     {
-
         $temas = TemaPreguntas::all();
         $entes = EnteAcreditador::all();
         $niveles = NivelAcreditacion::all();
@@ -176,7 +172,6 @@ class adminController extends Controller
         $bops = TipoBOP::all();
         $idiomas = IdiomasExamenes::all();
         $temasFiltrados = null;
-
         return view('Admin.content.Instructor.exercises.exercisePanel', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'temasFiltrados'))->with('user_role', 0);
     }
     /**

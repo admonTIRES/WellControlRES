@@ -98,7 +98,7 @@ Route::prefix('projectsAdmin/details')->group(function () {
     Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
 
     Route::get('/project/template/download', [ProjectManagementController::class, 'downloadTemplate'])->name('project.download.template');
-
+    Route::post('/projectExcelImport', [ProjectManagementController::class, 'store']);
     //mails
     Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
     Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');

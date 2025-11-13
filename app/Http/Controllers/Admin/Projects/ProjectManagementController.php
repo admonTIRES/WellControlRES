@@ -22,9 +22,7 @@ use App\Models\Admin\Project\candidate;
 use App\Models\Admin\Project\Course;
 use App\Models\Admin\catalogs\NombreProyecto;
 
-
-
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -98,7 +96,6 @@ class ProjectManagementController extends Controller
                             throw new \Exception('Formato inválido para COMPANIES_PROJECT');
                         }
 
-                        // Recorremos cada empresa
                         foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
                             if (!isset($empresa['STUDENTS_PROJECT'])) continue;
 
@@ -262,6 +259,67 @@ class ProjectManagementController extends Controller
                         return response()->json(['code' => 0, 'message' => 'Candidato no encontrado']);
                     }
                     break;
+                case 5: 
+                    try {
+                        $response = ['code' => 0, 'message' => ''];
+                        
+                        if (!$request->hasFile('excel_file')) {
+                            throw new \Exception('No se encontró archivo Excel');
+                        }
+
+                        $file = $request->file('excel_file');
+                        
+                        $extension = $file->getClientOriginalExtension();
+                        if (!in_array($extension, ['xlsx', 'xls'])) {
+                            throw new \Exception('El archivo debe ser un Excel (.xlsx o .xls)');
+                        }
+
+                        $spreadsheet = IOFactory::load($file->getPathname());
+                        
+                        $projectSheet = $spreadsheet->getSheet(0);
+                        $projectRows = $projectSheet->toArray();
+                        
+                        $studentSheet = $spreadsheet->getSheet(1);
+                        $studentRows = $studentSheet->toArray();
+
+                        $projectData = $this->processFormData($projectRows);
+        
+                     
+                        $studentsData = $this->processStudentsTable($studentRows);
+                        
+                        if (empty($studentsData)) {
+                            throw new \Exception('No se encontraron estudiantes en la segunda hoja. Verifique que haya datos después de la fila de ejemplos.');
+                        }
+
+                        $companies = $this->extractCompaniesFromStudents($studentsData);
+                        
+                        if (empty($companies)) {
+                            throw new \Exception('No se encontraron empresas en los datos de estudiantes. Verifique que la columna "Empresa" esté completada.');
+                        }
+
+                        $projectData['COMPANIES'] = $companies;
+                        
+                        $companiesData = $this->organizeStudentsByCompany($projectData['COMPANIES'], $studentsData);
+                        
+                        $projectData['COMPANIES_PROJECT'] = $companiesData;
+                    
+                        $projectData = $this->processStudentsAndUsers($projectData);
+
+                        $project = $this->saveProject($projectData, 0); 
+                          error_log("=== DATOS COMPLETOS ANTES DE GUARDAR ===");
+                        error_log(json_encode($projectData, JSON_PRETTY_PRINT));
+
+                        $response['code'] = 1;
+                        $response['project'] = $project;
+                        $response['message'] = count($studentsData) . ' estudiantes procesados correctamente de ' . count($companies) . ' empresas.';
+
+                    } catch (\Exception $e) {
+                        $response['message'] = 'Error: ' . $e->getMessage();
+                    }
+
+                    return response()->json($response);
+
+                    break;  
                 default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';
@@ -279,6 +337,8 @@ class ProjectManagementController extends Controller
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('INFORMACIÓN DEL PROYECTO');
+
 
         $sheet->setCellValue('A1', 'PLANTILLA PARA CARGAR NUEVO PROYECTO');
         $sheet->mergeCells('A1:C1');
@@ -320,10 +380,6 @@ class ProjectManagementController extends Controller
             ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
             ['ID del instructor= *', '2', 'ID del instructor (consultar catálogo). 2="Rafael Suarez Loaiza"'],
             ['Email del instructor= *', 'rafael.suarez@rs-training-services.com', 'Correo electrónico del instructor'],
-            ['', '', ''],
-            ['EMPRESAS PARTICIPANTES', '', ''],
-            ['CAMPO', 'VALOR', 'INSTRUCCIONES'],
-            ['Empresas *', '', 'Nombres separados por coma (ej: Empresa A, Empresa B)'],
         ];
 
         $sheet->fromArray($formData, null, 'A2');
@@ -334,8 +390,8 @@ class ProjectManagementController extends Controller
         $sheet->getStyle('A20:C20')->getFont()->setBold(true);
         $sheet->getStyle('A30:C30')->getFont()->setBold(true);
         $sheet->getStyle('A31:C31')->getFont()->setBold(true);
-        $sheet->getStyle('A35:C35')->getFont()->setBold(true);
-        $sheet->getStyle('A36:C36')->getFont()->setBold(true);
+
+
 
         $sheet->getStyle('A2:C17')->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
@@ -346,17 +402,12 @@ class ProjectManagementController extends Controller
         $sheet->getStyle('A30:C33')->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('B7DEE8');
-        $sheet->getStyle('A35:C37')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('92CDDC');
-
+       
         $sheet->getStyle('A2:C17')->getBorders()->getAllBorders()
           ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
         $sheet->getStyle('A19:C28')->getBorders()->getAllBorders()
           ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
         $sheet->getStyle('A30:C33')->getBorders()->getAllBorders()
-          ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-        $sheet->getStyle('A35:C37')->getBorders()->getAllBorders()
           ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
         $sheet->mergeCells('A2:C2');
@@ -371,15 +422,22 @@ class ProjectManagementController extends Controller
         $sheet->getStyle('A30')->getAlignment()->setHorizontal(
             \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
         ); 
-        $sheet->mergeCells('A35:C35');
-        $sheet->getStyle('A35')->getAlignment()->setHorizontal(
-            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+    
+        foreach (range('A', 'C') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        $sheet->getStyle('B:B')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT
         );
 
-        $studentHeaderRow = 39;
+        $spreadsheet->createSheet();
+        $studentSheet = $spreadsheet->getSheet(1);
+        $studentSheet->setTitle('ESTUDIANTES');
+
         $studentHeaders = [
             ['ESTUDIANTES PARTICIPANTES', '', '', '', '', '', '', '', '', '', ''],
-            ['* Campos obligatorios para creación de usuarios', '', '', '', '', '', '', '', '', '', ''],
+            ['* Campos obligatorios', '', '', '', '', '', '', '', '', '', ''],
             ['Empresa *', 'CR', 'Nombre *', 'Segundo Nombre', 'Apellidos *', 'Fecha Nacimiento', 'Número ID', 'Puesto', 'Email *'],
             ['Ej: Empresa ABC', 'Ej: CR001', 'Ej: Juan', 'Ej: Carlos', 'Ej: Pérez', 'YYYY-MM-DD', 'Ej: ABC123', 'Ej: Operador', 'ejemplo@email.com'],
             ['', '', '', '', '', '', '', '', '', '', ''],  
@@ -400,68 +458,25 @@ class ProjectManagementController extends Controller
             ['', '', '', '', '', '', '', '', '', '', ''], 
             ['', '', '', '', '', '', '', '', '', '', ''], 
         ];
+        $studentHeaderRow = 1;
+        $studentSheet->fromArray($studentHeaders, null, 'A' . $studentHeaderRow);
 
-        $sheet->fromArray($studentHeaders, null, 'A' . $studentHeaderRow);
-
-        $sheet->getStyle('A' . $studentHeaderRow . ':A' . $studentHeaderRow)->getFont()->setBold(true)->setSize(14);
-        $sheet->getStyle('A' . ($studentHeaderRow + 2) . ':K' . ($studentHeaderRow + 2))->getFont()->setBold(true);
-        $sheet->getStyle('A' . ($studentHeaderRow + 3) . ':K' . ($studentHeaderRow + 3))->getFont()->setItalic(true);
+        $studentSheet->getStyle('A' . $studentHeaderRow . ':A' . $studentHeaderRow)->getFont()->setBold(true)->setSize(14);
+        $studentSheet->getStyle('A' . ($studentHeaderRow + 2) . ':I' . ($studentHeaderRow + 2))->getFont()->setBold(true);
+        $studentSheet->getStyle('A' . ($studentHeaderRow + 3) . ':I' . ($studentHeaderRow + 3))->getFont()->setItalic(true);
         
-        $sheet->getStyle('A' . ($studentHeaderRow + 2) . ':K' . ($studentHeaderRow + 2))->getFill()
+        $studentSheet->getStyle('A' . ($studentHeaderRow + 2) . ':I' . ($studentHeaderRow + 2))->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFF0F8E6');
 
 
-        foreach (range('A', 'K') as $column) {
-            $sheet->getColumnDimension($column)->setAutoSize(true);
+        foreach (range('A', 'I') as $column) {
+            $studentSheet->getColumnDimension($column)->setAutoSize(true);
         }
-
-        $spreadsheet->createSheet();
-        $instructionSheet = $spreadsheet->getSheet(1);
-        $instructionSheet->setTitle('INSTRUCCIONES');
-        
-        $instructions = [
-            ['INSTRUCCIONES DE LLENADO'],
-            [''],
-            ['SECCIÓN 1: INFORMACIÓN GENERAL'],
-            ['   - Complete todos los campos marcados con *'],
-            ['   - Para campos múltiples (niveles, BOP, empresas): separar por comas'],
-            ['   - Use los IDs correspondientes de los catálogos del sistema'],
-            [''],
-            ['SECCIÓN 2: FECHAS Y HORARIOS'],
-            ['   - Formato fechas: YYYY-MM-DD (año-mes-día)'],
-            ['   - Formato horas: HH:MM (24 horas)'],
-            ['   - Formato fecha/hora: YYYY-MM-DD HH:MM'],
-            [''],
-            ['SECCIÓN 3: ESTUDIANTES'],
-            ['   - EMPRESA: Nombre exacto de la empresa (debe coincidir con la sección anterior)'],
-            ['   - Puede agregar tantos estudiantes como necesite - continúe hacia abajo'],
-            ['   - EMAIL y PASSWORD: Obligatorios para crear cuenta de usuario'],
-            ['   - Si no proporciona password, no se creará usuario para ese estudiante'],
-            ['   - CR: Código de registro (opcional)'],
-            ['   - Membresía: "N/A" o "Miembro"'],
-            [''],
-            ['EJEMPLO DE LLENADO:'],
-            ['   Empresas: Constructora XYZ, Minera ABC'],
-            ['   Luego en estudiantes:'],
-            ['   - Fila 1: Constructora XYZ, CR001, Juan, Carlos, Pérez...'],
-            ['   - Fila 2: Constructora XYZ, CR002, María,, García...'],
-            ['   - Fila 3: Minera ABC, CR003, Pedro, Antonio, López...'],
-            ['   - Continúe agregando filas según necesite'],
-            [''],
-            ['IMPORTANTE:'],
-            ['   - No modifique los encabezados de las columnas'],
-            ['   - Puede agregar tantas filas de estudiantes como necesite'],
-            ['   - Guarde como Excel (.xlsx)']
-        ];
-
-        $instructionSheet->fromArray($instructions, null, 'A1');
-        $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
-        $instructionSheet->getColumnDimension('A')->setWidth(60);
 
         $spreadsheet->setActiveSheetIndex(0);
 
-        $fileName = 'formulario_proyecto.xlsx';
+        $fileName = 'plantilla_proyecto.xlsx';
         $writer = new Xlsx($spreadsheet);
 
         $tempFile = tempnam(sys_get_temp_dir(), $fileName);
@@ -727,7 +742,6 @@ class ProjectManagementController extends Controller
         });
         return response()->json($candidatos);
     }
-
     public function editarTablaCurso($ID_PROJECT)
     {
         try {
@@ -900,9 +914,6 @@ class ProjectManagementController extends Controller
             ], 500);
         }
     }
-
-
-
     public function exportProjectExcel($id)
     {
         $proyecto = Proyect::where('ID_PROJECT', $id)->first();
@@ -923,7 +934,6 @@ class ProjectManagementController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Curso');
 
-        // Configurar título principal
         $sheet->setCellValue('A1', 'COURSE/CURSO TITLE');
         $sheet->mergeCells('A1:R1');
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
@@ -931,8 +941,6 @@ class ProjectManagementController extends Controller
         $sheet->getStyle('A1')->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFD9D9D9');
-
-        // Información del centro de certificación
         $sheet->setCellValue('A2', 'Registered Certification Centre Name:');
         $sheet->setCellValue('B2', 'smith mason and co');
         $sheet->mergeCells('B2:F2');
@@ -942,13 +950,9 @@ class ProjectManagementController extends Controller
         $sheet->setCellValue('J2', 'abierto');
         $sheet->setCellValue('K2', 'Folio:');
         $sheet->setCellValue('L2', 'STE-TR-013');
-
-        // Dirección del lugar de prueba
         $sheet->setCellValue('A3', 'Test venue address:');
         $sheet->setCellValue('B3', 'Calle Carmen Cadena de Buendia No. 128 Col. Nueva Villahermosa, CP 86070, Villahermosa');
         $sheet->mergeCells('B3:R3');
-
-        // Fecha y hora de prueba
         $sheet->setCellValue('A5', 'Test date:');
         $sheet->setCellValue('B5', '22/01/2025');
         $sheet->mergeCells('B5:C5');
@@ -959,8 +963,6 @@ class ProjectManagementController extends Controller
         $sheet->mergeCells('G5:I5');
         $sheet->setCellValue('J5', 'Practical time(s):');
         $sheet->setCellValue('K5', '3hours');
-
-        // Contacto
         $sheet->setCellValue('A6', 'Contact:');
         $sheet->setCellValue('B6', 'Leonardo Cuellar Chala');
         $sheet->mergeCells('B6:F6');
@@ -968,7 +970,6 @@ class ProjectManagementController extends Controller
         $sheet->setCellValue('H6', '+52 99299292');
         $sheet->mergeCells('H6:R6');
 
-        // Encabezados de la tabla
         $headers = [
             'A8' => 'Number',
             'B8' => 'Family o last name',
@@ -994,7 +995,6 @@ class ProjectManagementController extends Controller
             $sheet->setCellValue($cell, $value);
         }
 
-        // Combinar celdas de encabezados
         $sheet->mergeCells('B8:B9');  // Family o last name
         $sheet->mergeCells('C8:C9');  // First name
         $sheet->mergeCells('D8:D9');  // md name
@@ -1004,10 +1004,9 @@ class ProjectManagementController extends Controller
         $sheet->mergeCells('H8:H9');  // Language
         $sheet->mergeCells('R8:R9');  // Correo
 
-        // Subencabezados para candidatos
         $sheet->setCellValue('A9', 'Candidate/Candidato');
 
-        // Estilo de encabezados
+
         $headerStyle = [
             'font' => [
                 'bold' => true,
@@ -1031,7 +1030,6 @@ class ProjectManagementController extends Controller
 
         $sheet->getStyle('A8:R9')->applyFromArray($headerStyle);
 
-        // Datos de ejemplo (reemplaza con tus datos reales)
         $estudiantes = [
             [
                 'numero' => 1,
@@ -1115,7 +1113,6 @@ class ProjectManagementController extends Controller
 
         $rowNumber = 10;
         foreach ($estudiantes as $estudiante) {
-            // Fila principal
             $sheet->setCellValue('A' . $rowNumber, $estudiante['numero']);
             $sheet->setCellValue('B' . $rowNumber, $estudiante['apellido']);
             $sheet->setCellValue('C' . $rowNumber, $estudiante['nombre']);
@@ -1135,20 +1132,17 @@ class ProjectManagementController extends Controller
             $sheet->setCellValue('Q' . $rowNumber, $estudiante['vencimiento']);
             $sheet->setCellValue('R' . $rowNumber, $estudiante['correo']);
 
-            // Segunda fila (Equipment)
             $rowNumber++;
             $sheet->setCellValue('I' . $rowNumber, $estudiante['modulo_equipo']);
             $sheet->setCellValue('J' . $rowNumber, $estudiante['score_equipo'] . '%');
             $sheet->setCellValue('K' . $rowNumber, $estudiante['status_equipo']);
             $sheet->setCellValue('M' . $rowNumber, 'P&P');
 
-            // Tercera fila (P&P)
             $rowNumber++;
             $sheet->setCellValue('I' . $rowNumber, $estudiante['modulo_p2p']);
             $sheet->setCellValue('J' . $rowNumber, $estudiante['score_p2p'] . '%');
             $sheet->setCellValue('K' . $rowNumber, $estudiante['status_p2p']);
 
-            // Combinar celdas para cada estudiante
             $startRow = $rowNumber - 2;
             $endRow = $rowNumber;
 
@@ -1167,10 +1161,8 @@ class ProjectManagementController extends Controller
             $sheet->mergeCells('Q' . $startRow . ':Q' . $endRow);
             $sheet->mergeCells('R' . $startRow . ':R' . $endRow);
 
-            // Aplicar colores según el estado
-            $colorFondo = 'FFFFFFFF'; // Blanco por defecto
+            $colorFondo = 'FFFFFFFF'; 
 
-            // Determinar color según el rendimiento general
             $allPassed = ($estudiante['status_practico'] === 'Pass' &&
                 $estudiante['status_equipo'] === 'Pass' &&
                 $estudiante['status_p2p'] === 'Pass');
@@ -1179,21 +1171,18 @@ class ProjectManagementController extends Controller
                 $estudiante['status_p2p'] === 'Unpass');
 
             if ($allPassed) {
-                $colorFondo = 'FFC6EFCE'; // Verde claro
+                $colorFondo = 'FFC6EFCE'; 
             } elseif ($anyUnpass) {
-                $colorFondo = 'FFFFC7CE'; // Rosa claro
+                $colorFondo = 'FFFFC7CE'; 
             }
 
-            // Aplicar color de fondo a toda la fila del estudiante
             $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB($colorFondo);
 
-            // Aplicar bordes
             $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getBorders()
                 ->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-            // Centrar contenido
             $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getAlignment()
                 ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
                 ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
@@ -1201,17 +1190,14 @@ class ProjectManagementController extends Controller
             $rowNumber++;
         }
 
-        // Aplicar bordes a la información del encabezado
         $sheet->getStyle('A2:R6')->getBorders()
             ->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-        // Aplicar negrita a las etiquetas
         $labelCells = ['A2', 'G2', 'I2', 'K2', 'A3', 'A5', 'D5', 'F5', 'J5', 'A6', 'G6'];
         foreach ($labelCells as $cell) {
             $sheet->getStyle($cell)->getFont()->setBold(true);
         }
 
-        // Ajustar ancho de columnas
         $sheet->getColumnDimension('A')->setWidth(8);
         $sheet->getColumnDimension('B')->setWidth(12);
         $sheet->getColumnDimension('C')->setWidth(12);
@@ -1241,7 +1227,6 @@ class ProjectManagementController extends Controller
         $writer->save('php://output');
         exit;
     }
-
     private function getNivelesAcreditacion($nivelesIds)
     {
         if (!is_array($nivelesIds)) {
@@ -1274,10 +1259,6 @@ class ProjectManagementController extends Controller
 
         return $languajes;
     }
-
-
-
-    // Función para obtener los tipos BOP
     private function getTiposBOP($bopIds)
     {
         if (!is_array($bopIds)) {
@@ -1295,5 +1276,341 @@ class ProjectManagementController extends Controller
             });
 
         return $tiposBOP;
+    }
+  private function processFormData($projectRows)
+    {
+        $projectData = [];
+        
+         $fieldMap = [
+            'Tipo de curso= *' => 'COURSE_TYPE_PROJECT',
+            'Nombre del curso= *' => 'COURSE_NAME_ES_PROJECT',
+            'Folio= *' => 'FOLIO_PROJECT',
+            'Centro de certificación= *' => 'CERTIFICATION_CENTER_PROJECT',
+            'Idioma= *' => 'LANGUAGE_PROJECT',
+            'Ente acreditador= *' => 'ACCREDITING_ENTITY_PROJECT',
+            'Tipo de operación= *' => 'OPERATION_TYPE_PROJECT',
+            'Niveles de acreditación= *' => 'ACCREDITATION_LEVELS_PROJECT',
+            'Tipos BOP= *' => 'BOP_TYPES_PROJECT',
+            'Número de centro= *' => 'CENTER_NUMBER_PROJECT',
+            'Nombre del contacto= *' => 'CONTACT_NAME_PROJEC',
+            'Teléfono de contacto= *' => 'CONTACT_PHONE_PROJECT',
+            'Ubicación= *' => 'LOCATION_PROJECT',
+            'Ciudad= *' => 'CITY_PROJECT',
+            'Fecha inicio curso= *' => 'COURSE_START_DATE_PROJECT',
+            'Fecha fin curso= *' => 'COURSE_END_DATE_PROJECT',
+            'Fecha examen práctico= *' => 'PRACTICAL_EXAM_DATE_PROJECT',
+            'Hora examen práctico= *' => 'PRACTICAL_EXAM_TIME_PROJECT',
+            'Fecha examen teórico= *' => 'EXAM_DATE_PROJECT',
+            'Hora examen teórico= *' => 'EXAM_TIME_PROJECT',
+            'Inicio membresía= *' => 'MEMBERSHIP_START_PROJECT',
+            'Fin membresía= *' => 'MEMBERSHIP_END_PROJECT',
+            'ID del instructor= *' => 'INSTRUCTOR_ID_PROJECT',
+            'Email del instructor= *' => 'INSTRUCTOR_EMAIL_PROJECT'
+        ];
+
+        foreach ($projectRows as $row) {
+            $fieldName = trim($row[0] ?? '');
+            $value = trim($row[1] ?? '');
+            
+            if (isset($fieldMap[$fieldName]) && !empty($value)) {
+                error_log("Campo encontrado: {$fieldName} => {$value}");
+            }
+            
+            if (isset($fieldMap[$fieldName]) && !empty($value)) {
+                $dbField = $fieldMap[$fieldName];
+                
+                if (in_array($dbField, ['ACCREDITATION_LEVELS_PROJECT', 'BOP_TYPES_PROJECT'])) {
+                    $projectData[$dbField] = array_map('trim', explode(',', $value));
+                } else {
+                    $projectData[$dbField] = $value;
+                }
+            }
+        }
+
+        return $projectData;
+    }
+    private function formatDate($dateString)
+    {
+        if (empty($dateString)) {
+            return null;
+        }
+        
+        try {
+            if (is_numeric($dateString)) {
+                $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateString);
+                return $date->format('Y-m-d');
+            }
+            
+            $formats = ['Y-m-d', 'd/m/Y', 'm/d/Y', 'd-m-Y', 'm-d-Y'];
+            
+            foreach ($formats as $format) {
+                $date = \DateTime::createFromFormat($format, $dateString);
+                if ($date !== false) {
+                    return $date->format('Y-m-d');
+                }
+            }
+            
+            return $dateString;
+            
+        } catch (\Exception $e) {
+            return $dateString;
+        }
+    }
+    private function processStudentsTable($studentRows)
+    {
+        $students = [];
+        $headersFound = false;
+        $startProcessing = false;
+
+        foreach ($studentRows as $index => $row) {
+            $firstCell = trim($row[0] ?? '');
+            
+            if ($firstCell === 'Empresa *') {
+                $headersFound = true;
+                continue; 
+            }
+            
+           
+            if ($headersFound) {
+               
+                if (isset($row[0]) && strpos(trim($row[0]), 'Ej:') === 0) {
+                    continue;
+                }
+        
+                $empresa = $row[0] ?? '';
+                $cr = $row[1] ?? '';
+                $firstName = $row[2] ?? '';
+                $middleName = $row[3] ?? '';
+                $lastName = $row[4] ?? '';
+                $birthDate = $row[5] ?? '';
+                $idNumber = $row[6] ?? '';
+                $position = $row[7] ?? '';
+                $email = $row[8] ?? '';
+
+                if (!empty(trim($empresa)) && 
+                    !empty(trim($firstName)) && 
+                    !empty(trim($lastName)) && 
+                    !empty(trim($email))) {
+                    
+                    $password = $this->generateRandomPassword(8);
+                    
+                    $students[] = [
+                        'COMPANY' => trim($empresa),
+                        'CR_PROJECT' => trim($cr),
+                        'FIRST_NAME_PROJECT' => trim($firstName),
+                        'MIDDLE_NAME_PROJECT' => trim($middleName),
+                        'LAST_NAME_PROJECT' => trim($lastName),
+                        'BIRTH_DATE_PROJECT' => $this->formatDate(trim($birthDate)),
+                        'ID_NUMBER_PROJECT' => trim($idNumber),
+                        'POSITION_PROJECT' => trim($position),
+                        'EMAIL_PROJECT' => trim($email),
+                        'PASSWORD_PROJECT' => $password,
+                        'MEMBERSHIP_PROJECT' => 1
+                    ];
+                }
+            }
+        }
+
+        return $students;
+    }
+    private function extractCompaniesFromStudents($studentsData)
+    {
+        $companies = [];
+        
+        foreach ($studentsData as $student) {
+            $companyName = $student['COMPANY'] ?? '';
+            if (!empty($companyName) && !in_array($companyName, $companies)) {
+                $companies[] = $companyName;
+            }
+        }
+        
+        return $companies;
+    }
+    private function organizeStudentsByCompany($companies, $students)
+    {
+        $companiesData = [];
+        
+        foreach ($companies as $companyName) {
+            $companiesData[] = [
+                'NAME_PROJECT' => trim($companyName),
+                'STUDENTS_PROJECT' => []
+            ];
+        }
+
+        foreach ($students as $student) {
+            $companyName = $student['COMPANY'];
+            
+            foreach ($companiesData as &$company) {
+                if ($company['NAME_PROJECT'] === $companyName) {  
+                    unset($student['COMPANY']);
+                    $company['STUDENTS_PROJECT'][] = $student;
+                    break;
+                }
+            }
+        }
+        
+        return $companiesData;
+    }
+
+    private function processStudentsAndUsers($projectData)
+    {
+        if (!isset($projectData['COMPANIES_PROJECT'])) {
+            return $projectData;
+        }
+
+        foreach ($projectData['COMPANIES_PROJECT'] as &$empresa) {
+            if (!isset($empresa['STUDENTS_PROJECT'])) continue;
+
+            foreach ($empresa['STUDENTS_PROJECT'] as &$estudiante) {
+                $email = $estudiante['EMAIL_PROJECT'] ?? null;
+                $password = $estudiante['PASSWORD_PROJECT'] ?? null;
+
+                if (!$email || !$password) continue;
+
+                $username = $this->generateUsername(
+                    $estudiante['FIRST_NAME_PROJECT'] ?? '',
+                    $estudiante['MIDDLE_NAME_PROJECT'] ?? '',
+                    $estudiante['LAST_NAME_PROJECT'] ?? ''
+                );
+                $userId = $this->createOrUpdateUser($email, $password, $username, $estudiante);
+                $estudiante['USER_ID_PROJECT'] = $userId;
+
+                $candidateId = $this->createOrUpdateCandidate($estudiante, $empresa, $projectData);
+                $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
+            }
+        }
+
+        return $projectData;
+    }
+
+    private function generateUsername($firstName, $middleName, $lastName)
+    {
+        $initials = Str::lower(Str::substr($firstName, 0, 1)) .
+                   ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
+
+        $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
+        return $initials . $lastWord . rand(100, 999);
+    }
+
+    private function createOrUpdateUser($email, $password, $username, $estudiante)
+    {
+        $existingUser = DB::table('users')->where('email', $email)->first();
+
+        if ($existingUser) {
+            DB::table('users')
+                ->where('id', $existingUser->id)
+                ->update([
+                    'username' => $username,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                    'updated_at' => now()
+                ]);
+            return $existingUser->id;
+        } else {
+            return DB::table('users')->insertGetId([
+                'username' => $username,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'rol' => 1, // estudiante
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+    }
+
+    private function generateRandomPassword($length = 8)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+        return $password;
+    }
+
+    private function createOrUpdateCandidate($estudiante, $empresa, $projectData)
+    {
+        $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $estudiante['EMAIL_PROJECT'])->first();
+
+        $candidateData = [
+            'ID_PROJECT' => $projectData['ID_PROJECT'] ?? null,
+            'COMPANY_PROJECT' => $empresa['NAME_PROJECT'] ?? '',
+            'COMPANY_ID_PROJECT' => $projectData['ID_PROJECT'] ?? null,
+            'CR_PROJECT' => $estudiante['CR_PROJECT'] ?? '',
+            'LAST_NAME_PROJECT' => $estudiante['LAST_NAME_PROJECT'] ?? '',
+            'FIRST_NAME_PROJECT' => $estudiante['FIRST_NAME_PROJECT'] ?? '',
+            'MIDDLE_NAME_PROJECT' => $estudiante['MIDDLE_NAME_PROJECT'] ?? '',
+            'DOB_PROJECT' => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
+            'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
+            'EMAIL_PROJECT' => $estudiante['EMAIL_PROJECT'] ?? '',
+            'PASSWORD_PROJECT' => $estudiante['PASSWORD_PROJECT'] ?? '',
+            'POSITION_PROJECT' => $estudiante['POSITION_PROJECT'] ?? '',
+            'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? 1,
+            'ACTIVO' => 1,
+            'updated_at' => now()
+        ];
+
+        if ($existingCandidate) {
+            DB::table('candidate')
+                ->where('EMAIL_PROJECT', $estudiante['EMAIL_PROJECT'])
+                ->update($candidateData);
+            return $existingCandidate->ID_CANDIDATE;
+        } else {
+            $candidateData['STATUS_MAIL_PROJECT'] = 0;
+            $candidateData['created_at'] = now();
+            
+            return DB::table('candidate')->insertGetId($candidateData);
+        }
+    }
+
+    private function saveProject($data, $projectId)
+    {
+
+        $fillableFields = [
+            'CONTACT_NAME_PROJEC',
+            'CONTACT_PHONE_PROJECT',
+            'COURSE_TYPE_PROJECT',
+            'COURSE_NAME_ES_PROJECT',
+            'COURSE_NAME_EN_PROJECT',
+            'FOLIO_PROJECT',
+            'LOCATION_PROJECT',
+            'CITY_PROJECT',
+            'CENTER_NUMBER_PROJECT',
+            'CERTIFICATION_CENTER_PROJECT',
+            'LANGUAGE_PROJECT',
+            'ACCREDITING_ENTITY_PROJECT',
+            'OPERATION_TYPE_PROJECT',
+            'ACCREDITATION_LEVELS_PROJECT',
+            'BOP_TYPES_PROJECT',
+            'COMPANIES_PROJECT',
+            'COURSE_START_DATE_PROJECT',
+            'COURSE_END_DATE_PROJECT',
+            'MEMBERSHIP_START_PROJECT',
+            'MEMBERSHIP_END_PROJECT',
+            'EXAM_DATE_PROJECT',
+            'EXAM_TIME_PROJECT',
+            'PRACTICAL_EXAM_DATE_PROJECT',
+            'PRACTICAL_EXAM_TIME_PROJECT',
+            'INSTRUCTOR_ID_PROJECT',
+            'INSTRUCTOR_EMAIL_PROJECT'
+        ];
+
+        $projectData = [];
+        foreach ($fillableFields as $field) {
+            if (isset($data[$field])) {
+                $projectData[$field] = $data[$field];
+            } else {
+                $projectData[$field] = null; 
+            }
+        }
+
+        if ($projectId == 0) {
+            DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+            return Proyect::create($projectData);
+        } else {
+            $project = Proyect::find($projectId);
+            $project->update($projectData);
+            return $project;
+        }
     }
 }

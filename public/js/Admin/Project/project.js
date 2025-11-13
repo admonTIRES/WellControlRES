@@ -964,6 +964,70 @@ $("#proyectobtnModal").click(function (e) {
     }
 });
 
+$("#btnUploadExcelProject").click(function (e) {
+    e.preventDefault();
+    
+    const excelFile = document.getElementById('excelProject').files[0];
+    
+    if (!excelFile) {
+        alertToast('Por favor, seleccione un archivo Excel.', 'error', 2000);
+        return;
+    }
+
+    const allowedExtensions = ['.xlsx', '.xls'];
+    const fileExtension = excelFile.name.toLowerCase().substring(excelFile.name.lastIndexOf('.'));
+    
+    if (!allowedExtensions.includes(fileExtension)) {
+        alertToast('Por favor, seleccione un archivo Excel válido (.xlsx o .xls).', 'error', 2000);
+        return;
+    }
+
+    alertMensajeConfirm({
+        title: "¿Desea importar los datos del Excel?",
+        text: "Se crearán proyectos y estudiantes según la plantilla",
+        icon: "question",
+    }, async function () {
+        await loaderbtn('btnUploadExcelProject')
+        
+         const dataToSend = {
+            api: 5,
+            ID_PROJECT: ID_PROJECT,
+            excel_file: excelFile
+        };
+
+        await ajaxAwaitFormData(dataToSend, 'projectExcelImport', 'uploadExcelProject', 'btnUploadExcelProject', { 
+            callbackAfter: true, 
+            callbackBefore: true 
+        }, () => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Espere un momento',
+                text: 'Estamos procesando el archivo Excel',
+                showConfirmButton: false
+            });
+            $('.swal2-popup').addClass('ld ld-breath');
+        }, function (data) {
+            if (data.code === 1) {
+                ID_PROJECT = data.project.ID_PROJECT;
+                alertMensaje('success', 'Excel importado correctamente', 
+                    `Proyecto creado con ${data.message}`, null, null, 1500);
+                $('#proyectoExcelModal').modal('hide');
+                document.getElementById('uploadExcelProject').reset();
+                proyectoDatatable.ajax.reload();
+            } else {
+                alertMensaje('error', 'Error al importar', data.message, null, null, 3000);
+            }
+        });
+    }, 1);
+});
+
+$('#excelProject').on('change', function(e) {
+    const fileName = e.target.files[0]?.name;
+    if (fileName) {
+        $(this).next('.custom-file-label').remove();
+        $(this).after(`<div class="text-success small mt-1"><i class="ri-file-excel-2-line"></i> ${fileName}</div>`);
+    }
+});
 
 $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
      isEditing = true; 

@@ -940,16 +940,16 @@
                     </a>
                 </div>
 
-                <form id="uploadExcelForm" enctype="multipart/form-data">
+                <form id="uploadExcelProject" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="excelFile" class="form-label">{{ __('Upload filled Excel file:') }}</label>
-                        <input type="file" name="excel_file" id="excelFile" accept=".xlsx, .xls" class="form-control" required>
+                        <input type="file" name="excel_file" id="excelProject" accept=".xlsx, .xls" class="form-control" required>
                     </div>
                 </form>
 
                 <div class="text-center mt-3">
-                    <button type="button" id="btnUploadExcel" class="btn btn-success">
+                    <button type="button" id="btnUploadExcelProject" class="btn btn-success">
                         <i class="ri-upload-2-line"></i> {{ __('Import data') }}
                     </button>
                 </div>

@@ -2,14 +2,11 @@ ID_PROJECT = 0
 
 let tagify = null;
 let empresas = null;
-
 let tagifyChangeHandler = null;
 let isEditing = false;
-
-
-
 let nombresP = null;
 let selectize = null;
+
 $(document).ready(function () {
     var $select3 = $('#BOP_TYPES_PROJECT').selectize({
         plugins: ['remove_button'],
@@ -18,7 +15,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -30,7 +26,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -45,7 +40,6 @@ $(document).ready(function () {
         maxItems: 1
     })[0].selectize;
 });
-
 
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
@@ -101,7 +95,13 @@ class WizardManager {
         this.formData = {};
         this.students = [];
         this.empresas = [];
+        this.isEditMode = false;
         this.init();
+    }
+
+    setEditMode(editMode) {
+        this.isEditMode = editMode;
+        this.updateWizard();
     }
 
     init() {
@@ -135,13 +135,11 @@ class WizardManager {
         const form = document.getElementById('wizardForm');
         if (form) form.reset();
 
-        // Limpiar previews
         const photoPreview = document.getElementById('photoPreview');
         if (photoPreview) photoPreview.innerHTML = '';
         const signaturePreview = document.getElementById('signaturePreview');
         if (signaturePreview) signaturePreview.innerHTML = '';
 
-        // Limpiar contenedores de estudiantes y empresas
         const studentsContainers = document.querySelectorAll('[id^="studentsContainer_"]');
         studentsContainers.forEach(c => c.style.display = 'none');
         const studentsTables = document.querySelectorAll('[id^="studentsTableBody_"]');
@@ -149,32 +147,31 @@ class WizardManager {
         const empresasContainer = document.getElementById('empresasContainer');
         if (empresasContainer) empresasContainer.innerHTML = '';
 
-        // Limpiar errores
         document.querySelectorAll('.form-control, .form-select').forEach(input => {
             this.clearError(input);
         });
 
-        // Volver al paso 1
         this.currentStep = 1;
         this.updateWizard();
     }
 
     bindEvents() {
-        // Next step buttons
         document.querySelectorAll('.next-step').forEach(btn => {
             btn.addEventListener('click', () => this.nextStep());
         });
 
-        // Previous step buttons
         document.querySelectorAll('.prev-step').forEach(btn => {
             btn.addEventListener('click', () => this.prevStep());
         });
 
-        // Navigation clicks
         document.querySelectorAll('.wizard-nav li').forEach(nav => {
             nav.addEventListener('click', (e) => {
+                // const step = parseInt(e.currentTarget.dataset.step);
+                // if (step < this.currentStep) {
+                //     this.goToStep(step);
+                // }
                 const step = parseInt(e.currentTarget.dataset.step);
-                if (step < this.currentStep) {
+                if (this.isEditMode || step <= this.currentStep) {
                     this.goToStep(step);
                 }
             });
@@ -198,12 +195,28 @@ class WizardManager {
         }
     }
 
-    goToStep(step) {
-        this.currentStep = step;
-        this.updateWizard();
+    // goToStep(step) {
+    //     this.currentStep = step;
+    //     this.updateWizard();
+    // }
+     goToStep(step) {
+        if (this.isEditMode || step <= this.currentStep + 1) {
+            this.currentStep = step;
+            this.updateWizard();
+        }
     }
 
+    updateNavigationButtons() {
+        const prevButtons = document.querySelectorAll('.prev-step');
+        const nextButtons = document.querySelectorAll('.next-step');
+        prevButtons.forEach(btn => btn.style.display = 'inline-block');
+        nextButtons.forEach(btn => btn.style.display = 'inline-block');
+    }
+    
     validateCurrentStep() {
+        if (this.isEditMode) {
+            return true;
+        }
         const currentStepElement = document.querySelector(`[data-step="${this.currentStep}"].wizard-step`);
         const requiredInputs = currentStepElement.querySelectorAll('input[required], select[required]');
         let isValid = true;
@@ -249,7 +262,6 @@ class WizardManager {
             }
         });
 
-        // Save students data if on step 2
         if (this.currentStep === 2 && this.students.length > 0) {
             this.formData.students = this.students.map((student, index) => {
                 const row = document.querySelector(`#student-${index}`);
@@ -268,37 +280,73 @@ class WizardManager {
         }
     }
 
+    // updateWizard() {
+    //     document.querySelectorAll('.wizard-step').forEach(step => {
+    //         step.classList.remove('active');
+    //     });
+    //     document.querySelector(`[data-step="${this.currentStep}"].wizard-step`).classList.add('active');
+
+    //     document.querySelectorAll('.wizard-nav li').forEach((nav, index) => {
+    //         nav.classList.remove('active', 'completed');
+    //         if (index + 1 === this.currentStep) {
+    //             nav.classList.add('active');
+    //         } else if (index + 1 < this.currentStep) {
+    //             nav.classList.add('completed');
+    //         }
+    //     });
+
+    //     this.updateProgressBar();
+
+
+    //     if (this.currentStep === 4) {
+    //         this.renderEmpresasSections();
+    //     }
+
+    //     const saveBtn = document.getElementById('proyectobtnModal');
+    //     if (this.currentStep === this.totalSteps) {
+    //         saveBtn.style.display = 'inline-block';
+    //     } else {
+    //         saveBtn.style.display = 'none';
+    //     }
+    // }
+
     updateWizard() {
-        // Update steps visibility
         document.querySelectorAll('.wizard-step').forEach(step => {
             step.classList.remove('active');
         });
         document.querySelector(`[data-step="${this.currentStep}"].wizard-step`).classList.add('active');
 
-        // Update navigation
         document.querySelectorAll('.wizard-nav li').forEach((nav, index) => {
             nav.classList.remove('active', 'completed');
-            if (index + 1 === this.currentStep) {
-                nav.classList.add('active');
-            } else if (index + 1 < this.currentStep) {
+            
+            if (this.isEditMode) {
                 nav.classList.add('completed');
+                if (index + 1 === this.currentStep) {
+                    nav.classList.add('active');
+                }
+            } else {
+                if (index + 1 === this.currentStep) {
+                    nav.classList.add('active');
+                } else if (index + 1 < this.currentStep) {
+                    nav.classList.add('completed');
+                }
             }
         });
 
-        // Update progress bar
         this.updateProgressBar();
-
 
         if (this.currentStep === 4) {
             this.renderEmpresasSections();
         }
 
         const saveBtn = document.getElementById('proyectobtnModal');
-        if (this.currentStep === this.totalSteps) {
+        if (this.currentStep === this.totalSteps && !this.isEditMode) {
             saveBtn.style.display = 'inline-block';
         } else {
             saveBtn.style.display = 'none';
         }
+
+        this.updateNavigationButtons();
     }
 
     updateProgressBar() {
@@ -348,18 +396,11 @@ class WizardManager {
         this.formData = {};
         this.students = [];
 
-        // Reset form
         document.getElementById('wizardForm').reset();
-
-        // Clear previews
         document.getElementById('photoPreview').innerHTML = '';
         document.getElementById('signaturePreview').innerHTML = '';
-
-        // Hide students container
         document.getElementById('studentsContainer').style.display = 'none';
         document.getElementById('studentsTableBody').innerHTML = '';
-
-        // Clear errors
         document.querySelectorAll('.form-control, .form-select').forEach(input => {
             this.clearError(input);
         });
@@ -376,11 +417,9 @@ class WizardManager {
             return;
         }
 
-        // Determinar si estamos en modo edición (datos completos) o creación (solo nombres)
         const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
 
         this.empresas.forEach((empresa, index) => {
-            // Obtener datos según el modo
             const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
             const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
             const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
@@ -460,18 +499,13 @@ class WizardManager {
             
             container.appendChild(section);
             
-            // Eventos
             section.querySelector(`.generate-students`).addEventListener('click', () => {
                 this.generateStudentsForEmpresa(empresaId);
             });
-            
-            
             section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
                 this.regenerateAllPasswordsForEmpresa(empresaId);
             });
-            
 
-            // Si hay estudiantes, cargarlos
             if (students.length > 0) {
                 if (!this.students[empresaId]) {
                     this.students[empresaId] = [];
@@ -512,15 +546,12 @@ class WizardManager {
 
         this.clearError(countInput);
         
-        // Inicializar el array de estudiantes para esta empresa si no existe
         if (!this.students[empresaId]) {
             this.students[empresaId] = [];
         }
 
-        // Limpiar estudiantes existentes
         this.students[empresaId] = [];
 
-        // Generar nuevos estudiantes
         for (let i = 0; i < count; i++) {
             this.students[empresaId].push({
                 id: i + 1,
@@ -542,7 +573,6 @@ class WizardManager {
         document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
     }
 
-    // Renderizar tabla de estudiantes para una empresa específica
     renderStudentsTableForEmpresa(empresaId) {
         const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
         tbody.innerHTML = '';
@@ -642,18 +672,15 @@ class WizardManager {
         });
     }
 
-    // Regenerar contraseña para un estudiante específico
     regeneratePassword(empresaId, studentIndex) {
         this.students[empresaId][studentIndex].password = this.generateRandomPassword();
         const passwordInput = document.querySelector(`#student-${empresaId}-${studentIndex} input[name="password"]`);
         passwordInput.value = this.students[empresaId][studentIndex].password;
 
-        // Update copy button
         const copyBtn = document.querySelector(`#student-${empresaId}-${studentIndex} .copy-btn`);
         copyBtn.setAttribute('onclick', `wizard.copyToClipboard('${this.students[empresaId][studentIndex].password}', this)`);
     }
 
-    // Regenerar todas las contraseñas para una empresa
     regenerateAllPasswordsForEmpresa(empresaId) {
         if (confirm('¿Estás seguro de regenerar todas las contraseñas para esta empresa?')) {
             this.students[empresaId].forEach((student, index) => {
@@ -662,7 +689,6 @@ class WizardManager {
         }
     }
 
-    // Exportar contraseñas para una empresa
     exportPasswordsForEmpresa(empresaId) {
         if (!this.students[empresaId] || this.students[empresaId].length === 0) {
             alert('No hay estudiantes para exportar');
@@ -693,12 +719,10 @@ class WizardManager {
         document.body.removeChild(link);
     }
 
-    // Enviar correos para una empresa (simulado)
     sendMailsForEmpresa(empresaId) {
         alert(`Función de enviar correos para la empresa ${empresaId} sería implementada aquí`);
     }
 
-    // Resto de los métodos permanecen iguales...
     generateRandomPassword(length = 8) {
         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
         let password = '';
@@ -730,7 +754,6 @@ class WizardManager {
         
         const companiesProject = [];
         
-        // Recorrer todas las empresas
         for (const empresaId in this.students) {
             if (this.students.hasOwnProperty(empresaId)) {
                 const empresaSection = document.getElementById(`empresa-${empresaId}`);
@@ -740,7 +763,6 @@ class WizardManager {
                 const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
                 const empresaEmail = emailInput ? emailInput.value : '';
                 
-                // Crear el objeto de la empresa
                 const empresaObj = {
                     NAME_PROJECT: empresaName,
                     EMAIL_PROJECT: empresaEmail,
@@ -748,7 +770,6 @@ class WizardManager {
                     STUDENTS_PROJECT: []
                 };
                 
-                // Recorrer todos los estudiantes de esta empresa
                 this.students[empresaId].forEach((student, index) => {
                     const row = document.querySelector(`#student-${empresaId}-${index}`);
                     
@@ -775,9 +796,7 @@ class WizardManager {
             }
         }
         
-        // Convertir a JSON string para asegurar el formato correcto
         this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
-        
         return this.formData;
     }
 }
@@ -878,7 +897,6 @@ function limpiarModal() {
 
     selectize.clear();
 }
-
 
 $("#proyectobtnModal").click(function (e) {
     e.preventDefault();
@@ -981,7 +999,6 @@ $("#btnUploadExcelProject").click(function (e) {
         alertToast('Por favor, seleccione un archivo Excel válido (.xlsx o .xls).', 'error', 2000);
         return;
     }
-
     alertMensajeConfirm({
         title: "¿Desea importar los datos del Excel?",
         text: "Se crearán proyectos y estudiantes según la plantilla",
@@ -1039,7 +1056,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_PROJECT = row.data().ID_PROJECT;
     editarDatoTabla(row.data(), 'proyectoForm', 'proyectoModal', 1);
 
-    
+    window.wizard.setEditMode(true);
+
     if (tagifyChangeHandler) {
         tagify.off('change', tagifyChangeHandler);
         tagifyChangeHandler = null;
@@ -1083,13 +1101,11 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         window.wizard.empresas = row.data().COMPANIES || [];
     }
     
-    console.log('Datos de empresas cargados:', window.wizard.empresas);
-    
-    // Desactivar modo edición después de un breve tiempo
+    // console.log('Datos de empresas cargados:', window.wizard.empresas);
+
     setTimeout(() => {
         isEditing = false;
     }, 1000);
 
     $('#proyectoModal .modal-title').html(`Editar Proyecto ${row.data().FOLIO_PROJECT}`);
 });
-

@@ -89,6 +89,76 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- NUEVAS GRÁFICAS -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between flex-wrap">
+                            <div class="header-title">
+                                <h4 class="card-title">Estadísticas de Estudiantes</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Estudiantes por Acreditación</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="chartAcreditacion" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Cursos por Año</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="chartCursosAnio" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Éxito en Primer Intento</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="chartPrimerIntento" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Estudiantes a Resit</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="chartResit" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Estudiantes a Segundo Resit</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="chartSegundoResit" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between flex-wrap">
@@ -121,9 +191,9 @@
                         <div class="card-body">
                             <div id="d-main" class="d-main"></div>
                         </div>
-                     
                     </div>
                 </div>
+
                 <div class="col-md-12 col-lg-12">
                     <div class="card overflow-hidden">
                         <div class="card-header d-flex justify-content-between flex-wrap">
@@ -432,48 +502,167 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-md-12 col-lg-12">
-                    <div class="card bg-primary">
-                        <div class="card-header bg-primary">
-                            <h4 class="text-white">Galeria</h4>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="swiper-container scale-item-slider d-slider1">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset('assets/images/principal/drilling2.png') }}" class="img-fluid w-75" alt="img8">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-button-next text-white">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13.5857 3.53148C13.3269 3.20803 12.8549 3.15559 12.5315 3.41435C12.208 3.67311 12.1556 4.14507 12.4143 4.46852L13.5857 3.53148ZM18 10.25L18.5857 10.7185L18.9605 10.25L18.5857 9.78148L18 10.25ZM12.4143 16.0315C12.1556 16.3549 12.208 16.8269 12.5315 17.0857C12.8549 17.3444 13.3269 17.292 13.5857 16.9685L12.4143 16.0315ZM12.4143 4.46852L17.4143 10.7185L18.5857 9.78148L13.5857 3.53148L12.4143 4.46852ZM17.4143 9.78148L12.4143 16.0315L13.5857 16.9685L18.5857 10.7185L17.4143 9.78148Z" fill="currentColor" />
-                                        <path d="M3 9.5C2.58579 9.5 2.25 9.83579 2.25 10.25C2.25 10.6642 2.58579 11 3 11V9.5ZM17.5 9.5H3V11H17.5V9.5Z" fill="currentColor" />
-                                    </svg>
-                                </div>
-                                <div class="swiper-button-prev text-white">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.41435 3.53148C7.67311 3.20803 8.14507 3.15559 8.46852 3.41435C8.79197 3.67311 8.84441 4.14507 8.58565 4.46852L7.41435 3.53148ZM3 10.25L2.41435 10.7185L2.03953 10.25L2.41435 9.78148L3 10.25ZM8.58565 16.0315C8.84441 16.3549 8.79197 16.8269 8.46852 17.0857C8.14507 17.3444 7.67311 17.292 7.41435 16.9685L8.58565 16.0315ZM8.58565 4.46852L3.58565 10.7185L2.41435 9.78148L7.41435 3.53148L8.58565 4.46852ZM3.58565 9.78148L8.58565 16.0315L7.41435 16.9685L2.41435 10.7185L3.58565 9.78148Z" fill="currentColor" />
-                                        <path d="M18 9.5C18.4142 9.5 18.75 9.83579 18.75 10.25C18.75 10.6642 18.4142 11 18 11V9.5ZM3.5 9.5H18V11H3.5V9.5Z" fill="currentColor" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const datos = {
+        acreditacion: {
+            labels: ['Acreditado', 'No Acreditado', 'En Proceso'],
+            series: [65, 20, 15]
+        },
+        cursosAnio: {
+            labels: ['2020', '2021', '2022', '2023', '2024'],
+            series: [45, 52, 38, 60, 75]
+        },
+        primerIntento: {
+            labels: ['Aprobados', 'Reprobados'],
+            series: [70, 30]
+        },
+        resit: {
+            labels: ['Van a Resit', 'No van a Resit'],
+            series: [25, 75]
+        },
+        segundoResit: {
+            labels: ['Van a 2do Resit', 'No van a 2do Resit'],
+            series: [10, 90]
+        }
+    };
+
+    var chartAcreditacion = new ApexCharts(document.querySelector("#chartAcreditacion"), {
+        series: datos.acreditacion.series,
+        chart: {
+            type: 'pie',
+            height: 300
+        },
+        labels: datos.acreditacion.labels,
+        colors: ['#007DBA', '#FF585D', '#A4D65E'],
+        legend: {
+            position: 'bottom'
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    });
+    chartAcreditacion.render();
+
+    var chartCursosAnio = new ApexCharts(document.querySelector("#chartCursosAnio"), {
+        series: [{
+            name: 'Cursos',
+            data: datos.cursosAnio.series
+        }],
+        chart: {
+            type: 'bar',
+            height: 300
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: false,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: datos.cursosAnio.labels,
+        },
+        colors: ['#007DBA']
+    });
+    chartCursosAnio.render();
+
+    var chartPrimerIntento = new ApexCharts(document.querySelector("#chartPrimerIntento"), {
+        series: datos.primerIntento.series,
+        chart: {
+            type: 'donut',
+            height: 300
+        },
+        labels: datos.primerIntento.labels,
+        colors: ['#A4D65E', '#FF585D'],
+        legend: {
+            position: 'bottom'
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    });
+    chartPrimerIntento.render();
+
+    var chartResit = new ApexCharts(document.querySelector("#chartResit"), {
+        series: [{
+            name: 'Estudiantes',
+            data: datos.resit.series
+        }],
+        chart: {
+            type: 'bar',
+            height: 300
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: datos.resit.labels,
+        },
+        colors: ['#FF585D']
+    });
+    chartResit.render();
+
+    var chartSegundoResit = new ApexCharts(document.querySelector("#chartSegundoResit"), {
+        series: [{
+            name: 'Estudiantes',
+            data: [12, 15, 8, 10, 7, 9, 11, 13, 10, 8]
+        }],
+        chart: {
+            height: 300,
+            type: 'line',
+            zoom: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'],
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+        },
+        colors: ['#007DBA']
+    });
+    chartSegundoResit.render();
+});
+</script>
 @endsection

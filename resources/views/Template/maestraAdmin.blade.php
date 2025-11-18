@@ -23,7 +23,6 @@ use Illuminate\Support\Str;
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-
     @if (isset($css_identifier))
         @switch($css_identifier)
             @case('exercises')
@@ -828,8 +827,8 @@ use Illuminate\Support\Str;
     @if (Route::currentRouteName() === 'projectsAdmin.details')
         <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.23"></script>
     @endif
-     @if(request()->is('roles'))
-        <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
+    @if(request()->is('roles'))
+     <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
     @endif
 </body>
 </html>

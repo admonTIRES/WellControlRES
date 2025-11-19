@@ -87,6 +87,135 @@ class ProjectManagementController extends Controller
     {
         try {
             switch (intval($request->api)) {
+                // case 1:
+                //     $data = $request->all();
+                //     if ($request->has('COMPANIES_PROJECT') && is_string($request->COMPANIES_PROJECT)) {
+                //         $data['COMPANIES_PROJECT'] = json_decode($request->COMPANIES_PROJECT, true);
+
+                //         if (json_last_error() !== JSON_ERROR_NONE) {
+                //             throw new \Exception('Formato inválido para COMPANIES_PROJECT');
+                //         }
+
+                //         foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
+                //             if (!isset($empresa['STUDENTS_PROJECT'])) continue;
+
+                //             foreach ($empresa['STUDENTS_PROJECT'] as &$estudiante) {
+                //                 $email = $estudiante['EMAIL_PROJECT'] ?? null;
+                //                 $password = $estudiante['PASSWORD_PROJECT'] ?? null;
+
+                //                 if (!$email || !$password) continue;
+
+                //                 $firstName = $estudiante['FIRST_NAME_PROJECT'] ?? '';
+                //                 $middleName = $estudiante['MIDDLE_NAME_PROJECT'] ?? '';
+                //                 $lastName = $estudiante['LAST_NAME_PROJECT'] ?? '';
+
+                //                 $initials = Str::lower(Str::substr($firstName, 0, 1)) .
+                //                     ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
+
+                //                 $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
+                //                 $username = $initials . $lastWord . rand(100, 999);
+
+                //                 $existingUser = DB::table('users')->where('email', $email)->first();
+                //                 $userId = null;
+                //                 if ($existingUser) {
+                //                     if (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id == $estudiante['USER_ID_PROJECT']) {
+                //                         DB::table('users')
+                //                             ->where('id', $existingUser->id)
+                //                             ->update([
+                //                                 'username'   => $username,
+                //                                 'email'      => $email,
+                //                                 'password'   => Hash::make($password),
+                //                                 'updated_at' => now()
+                //                             ]);
+                //                         $userId = $existingUser->id;
+                //                     }
+                //                     else if (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT']) {
+                //                         DB::table('users')
+                //                             ->where('id', $existingUser->id)
+                //                             ->update([
+                //                                 'username'   => $username,
+                //                                 'email'      => $email,
+                //                                 'password'   => Hash::make($password),
+                //                                 'updated_at' => now()
+                //                             ]);
+                //                         $userId = $existingUser->id;
+                //                     }
+                //                     else {
+                //                         $userId = $existingUser->id;
+                //                     }
+                //                 } else {
+                //                     $userId = DB::table('users')->insertGetId([
+                //                         'username'   => $username,
+                //                         'email'      => $email,
+                //                         'password'   => Hash::make($password),
+                //                         'rol'        => 1, // estudiante
+                //                         'created_at' => now(),
+                //                         'updated_at' => now()
+                //                     ]);
+                //                 }
+
+                //                 $estudiante['USER_ID_PROJECT'] = $userId;
+
+                //                 $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $email)->first();
+
+                //                 if ($existingCandidate) {
+                //                     DB::table('candidate')
+                //                         ->where('EMAIL_PROJECT', $email)
+                //                         ->update([
+                //                             'ID_PROJECT'        => $request->input('ID_PROJECT', null),
+                //                             'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
+                //                             'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
+                //                             'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
+                //                             'LAST_NAME_PROJECT' => $lastName,
+                //                             'FIRST_NAME_PROJECT' => $firstName,
+                //                             'MIDDLE_NAME_PROJECT' => $middleName,
+                //                             'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
+                //                             'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
+                //                             'EMAIL_PROJECT'     => $email,
+                //                             'PASSWORD_PROJECT'  => $password,
+                //                             'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
+                //                             'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                //                             'ACTIVO'            => 1,
+                //                             'updated_at'        => now()
+                //                         ]);
+                //                 } else {
+                //                     $candidateId = DB::table('candidate')->insertGetId([
+                //                         'ID_PROJECT'        => $request->input('ID_PROJECT', null),
+                //                         'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
+                //                         'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
+                //                         'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
+                //                         'LAST_NAME_PROJECT' => $lastName,
+                //                         'FIRST_NAME_PROJECT' => $firstName,
+                //                         'MIDDLE_NAME_PROJECT' => $middleName,
+                //                         'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
+                //                         'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
+                //                         'EMAIL_PROJECT'     => $email,
+                //                         'PASSWORD_PROJECT'  => $password,
+                //                         'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
+                //                         'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                //                         'STATUS_MAIL_PROJECT' => 0,
+                //                         'ACTIVO'            => 1,
+                //                         'created_at'        => now(),
+                //                         'updated_at'        => now()
+                //                     ]);
+
+
+                //                     $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
+                //                 }
+                //             }
+                //         }
+                //     }
+                //     if ($request->ID_PROJECT == 0) {
+                //         DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+                //         $project = Proyect::create($data);
+                //     } else {
+                //         $project = Proyect::find($request->ID_PROJECT);
+                //         $project->update($data);
+                //     }
+                //     $response['code']  = 1;
+                //     $response['proyecto']  = $project;
+                //     return response()->json($response);
+                //     break;
                 case 1:
                     $data = $request->all();
                     if ($request->has('COMPANIES_PROJECT') && is_string($request->COMPANIES_PROJECT)) {
@@ -95,6 +224,15 @@ class ProjectManagementController extends Controller
                         if (json_last_error() !== JSON_ERROR_NONE) {
                             throw new \Exception('Formato inválido para COMPANIES_PROJECT');
                         }
+                        if ($request->ID_PROJECT == 0) {
+                            DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+                            $project = Proyect::create($data);
+                        } else {
+                            $project = Proyect::find($request->ID_PROJECT);
+                            $project->update($data);
+                        }
+
+                        $projectId = $project->ID_PROJECT;
 
                         foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
                             if (!isset($empresa['STUDENTS_PROJECT'])) continue;
@@ -117,6 +255,7 @@ class ProjectManagementController extends Controller
 
                                 $existingUser = DB::table('users')->where('email', $email)->first();
                                 $userId = null;
+                                
                                 if ($existingUser) {
                                     if (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id == $estudiante['USER_ID_PROJECT']) {
                                         DB::table('users')
@@ -128,19 +267,7 @@ class ProjectManagementController extends Controller
                                                 'updated_at' => now()
                                             ]);
                                         $userId = $existingUser->id;
-                                    }
-                                    else if (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id != $estudiante['USER_ID_PROJECT']) {
-                                        DB::table('users')
-                                            ->where('id', $existingUser->id)
-                                            ->update([
-                                                'username'   => $username,
-                                                'email'      => $email,
-                                                'password'   => Hash::make($password),
-                                                'updated_at' => now()
-                                            ]);
-                                        $userId = $existingUser->id;
-                                    }
-                                    else {
+                                    } else {
                                         $userId = $existingUser->id;
                                     }
                                 } else {
@@ -162,9 +289,9 @@ class ProjectManagementController extends Controller
                                     DB::table('candidate')
                                         ->where('EMAIL_PROJECT', $email)
                                         ->update([
-                                            'ID_PROJECT'        => $request->input('ID_PROJECT', null),
+                                            'ID_PROJECT'        => $projectId, 
                                             'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                            'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
+                                            'COMPANY_ID_PROJECT' => $projectId, 
                                             'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                             'LAST_NAME_PROJECT' => $lastName,
                                             'FIRST_NAME_PROJECT' => $firstName,
@@ -180,9 +307,9 @@ class ProjectManagementController extends Controller
                                         ]);
                                 } else {
                                     $candidateId = DB::table('candidate')->insertGetId([
-                                        'ID_PROJECT'        => $request->input('ID_PROJECT', null),
+                                        'ID_PROJECT'        => $projectId, 
                                         'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                        'COMPANY_ID_PROJECT' => $request->input('ID_PROJECT', null),
+                                        'COMPANY_ID_PROJECT' => $projectId, 
                                         'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                         'LAST_NAME_PROJECT' => $lastName,
                                         'FIRST_NAME_PROJECT' => $firstName,
@@ -199,21 +326,22 @@ class ProjectManagementController extends Controller
                                         'updated_at'        => now()
                                     ]);
 
-
                                     $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
                                 }
                             }
                         }
-                    }
-                    if ($request->ID_PROJECT == 0) {
-                        DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
-                        $project = Proyect::create($data);
                     } else {
-                        $project = Proyect::find($request->ID_PROJECT);
-                        $project->update($data);
+                        if ($request->ID_PROJECT == 0) {
+                            DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+                            $project = Proyect::create($data);
+                        } else {
+                            $project = Proyect::find($request->ID_PROJECT);
+                            $project->update($data);
+                        }
                     }
-                    $response['code']  = 1;
-                    $response['proyecto']  = $project;
+
+                    $response['code'] = 1;
+                    $response['proyecto'] = $project;
                     return response()->json($response);
                     break;
                 case 2:

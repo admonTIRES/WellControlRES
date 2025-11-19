@@ -19,7 +19,7 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance3 = $select3[0].selectize;
-     var $select4 = $('#ACCREDITATION_LEVELS_PROJECT').selectize({
+    var $select4 = $('#ACCREDITATION_LEVELS_PROJECT').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -49,42 +49,48 @@ document.addEventListener('DOMContentLoaded', function () {
         maxTags: 20,
         placeholder: "Escribe el nombre de la empresa y presiona ENTER"
     });
-    
+
     let isEditing = false;
 
     $('button[data-bs-target="#proyectoModal"]').on('click', function () {
+        // isEditing = false;
+        // tagify.removeAllTags(); 
+
+        // if (tagifyChangeHandler) {
+        //     tagify.off('change', tagifyChangeHandler); 
+        // }
+
+        // tagifyChangeHandler = function(e) {
+        //     if (!isEditing && window.wizard) {
+        //         let empresasArray;
+        //         try {
+        //             if (typeof e.detail.value === 'string') {
+        //                 empresasArray = JSON.parse(e.detail.value);
+        //             } else if (Array.isArray(e.detail.value)) {
+        //                 empresasArray = e.detail.value;
+        //             } else {
+        //                 empresasArray = tagify.value;
+        //             }
+
+        //             window.wizard.empresas = Array.isArray(empresasArray)
+        //                 ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
+        //                 : [empresasArray.value || empresasArray];
+        //         } catch (error) {
+        //             window.wizard.empresas = tagify.value.map(item =>
+        //                 typeof item === 'string' ? item : item.value
+        //             );
+        //         }
+        //         console.log('Empresas actualizadas:', window.wizard.empresas);
+        //     }
+        // };
+
+        // tagify.on('change', tagifyChangeHandler);
         isEditing = false;
-        tagify.removeAllTags(); // Limpiar por si acaso
 
-        if (tagifyChangeHandler) {
-            tagify.off('change', tagifyChangeHandler); 
+        if (window.tagifyManager) {
+            window.tagifyManager.setEditMode(false);
+            window.tagifyManager.resetTagify();
         }
-
-        tagifyChangeHandler = function(e) {
-            if (!isEditing && window.wizard) {
-                let empresasArray;
-                try {
-                    if (typeof e.detail.value === 'string') {
-                        empresasArray = JSON.parse(e.detail.value);
-                    } else if (Array.isArray(e.detail.value)) {
-                        empresasArray = e.detail.value;
-                    } else {
-                        empresasArray = tagify.value;
-                    }
-
-                    window.wizard.empresas = Array.isArray(empresasArray)
-                        ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
-                        : [empresasArray.value || empresasArray];
-                } catch (error) {
-                    window.wizard.empresas = tagify.value.map(item =>
-                        typeof item === 'string' ? item : item.value
-                    );
-                }
-                console.log('Empresas actualizadas:', window.wizard.empresas);
-            }
-        };
-
-        tagify.on('change', tagifyChangeHandler);
     });
 });
 
@@ -199,7 +205,7 @@ class WizardManager {
     //     this.currentStep = step;
     //     this.updateWizard();
     // }
-     goToStep(step) {
+    goToStep(step) {
         if (this.isEditMode || step <= this.currentStep + 1) {
             this.currentStep = step;
             this.updateWizard();
@@ -212,7 +218,7 @@ class WizardManager {
         prevButtons.forEach(btn => btn.style.display = 'inline-block');
         nextButtons.forEach(btn => btn.style.display = 'inline-block');
     }
-    
+
     validateCurrentStep() {
         if (this.isEditMode) {
             return true;
@@ -288,26 +294,35 @@ class WizardManager {
 
     //     document.querySelectorAll('.wizard-nav li').forEach((nav, index) => {
     //         nav.classList.remove('active', 'completed');
-    //         if (index + 1 === this.currentStep) {
-    //             nav.classList.add('active');
-    //         } else if (index + 1 < this.currentStep) {
+
+    //         if (this.isEditMode) {
     //             nav.classList.add('completed');
+    //             if (index + 1 === this.currentStep) {
+    //                 nav.classList.add('active');
+    //             }
+    //         } else {
+    //             if (index + 1 === this.currentStep) {
+    //                 nav.classList.add('active');
+    //             } else if (index + 1 < this.currentStep) {
+    //                 nav.classList.add('completed');
+    //             }
     //         }
     //     });
 
     //     this.updateProgressBar();
-
 
     //     if (this.currentStep === 4) {
     //         this.renderEmpresasSections();
     //     }
 
     //     const saveBtn = document.getElementById('proyectobtnModal');
-    //     if (this.currentStep === this.totalSteps) {
+    //     if (this.currentStep === this.totalSteps && !this.isEditMode) {
     //         saveBtn.style.display = 'inline-block';
     //     } else {
     //         saveBtn.style.display = 'none';
     //     }
+
+    //     this.updateNavigationButtons();
     // }
 
     updateWizard() {
@@ -318,7 +333,7 @@ class WizardManager {
 
         document.querySelectorAll('.wizard-nav li').forEach((nav, index) => {
             nav.classList.remove('active', 'completed');
-            
+
             if (this.isEditMode) {
                 nav.classList.add('completed');
                 if (index + 1 === this.currentStep) {
@@ -336,6 +351,13 @@ class WizardManager {
         this.updateProgressBar();
 
         if (this.currentStep === 4) {
+            if (window.tagifyManager) {
+                const updatedCompanies = window.tagifyManager.getUpdatedCompanies();
+                if (updatedCompanies && updatedCompanies.length > 0) {
+                    this.empresas = updatedCompanies;
+                    console.log('Empresas cargadas desde tagifyManager:', this.empresas);
+                }
+            }
             this.renderEmpresasSections();
         }
 
@@ -348,6 +370,8 @@ class WizardManager {
 
         this.updateNavigationButtons();
     }
+
+
 
     updateProgressBar() {
         const progress = (this.currentStep / this.totalSteps) * 100;
@@ -408,7 +432,7 @@ class WizardManager {
         this.updateWizard();
     }
 
-   renderEmpresasSections() {
+    renderEmpresasSections() {
         const container = document.getElementById('empresasContainer');
         container.innerHTML = '';
 
@@ -496,9 +520,9 @@ class WizardManager {
                     </div>
                 </div>
             `;
-            
+
             container.appendChild(section);
-            
+
             section.querySelector(`.generate-students`).addEventListener('click', () => {
                 this.generateStudentsForEmpresa(empresaId);
             });
@@ -531,9 +555,9 @@ class WizardManager {
             }
         });
     }
-    
+
     generateStudentsForEmpresa(empresaId) {
-    
+
         const empresaSection = document.getElementById(`empresa-${empresaId}`);
         const countInput = empresaSection.querySelector('.student-count');
         const count = parseInt(countInput.value);
@@ -545,7 +569,7 @@ class WizardManager {
         }
 
         this.clearError(countInput);
-        
+
         if (!this.students[empresaId]) {
             this.students[empresaId] = [];
         }
@@ -749,30 +773,30 @@ class WizardManager {
         });
     }
 
-   getFormData() {
+    getFormData() {
         this.saveStepData();
-        
+
         const companiesProject = [];
-        
+
         for (const empresaId in this.students) {
             if (this.students.hasOwnProperty(empresaId)) {
                 const empresaSection = document.getElementById(`empresa-${empresaId}`);
                 if (!empresaSection) continue;
-                
+
                 const empresaName = empresaSection.dataset.empresa;
                 const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
                 const empresaEmail = emailInput ? emailInput.value : '';
-                
+
                 const empresaObj = {
                     NAME_PROJECT: empresaName,
                     EMAIL_PROJECT: empresaEmail,
                     STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
                     STUDENTS_PROJECT: []
                 };
-                
+
                 this.students[empresaId].forEach((student, index) => {
                     const row = document.querySelector(`#student-${empresaId}-${index}`);
-                    
+
                     if (row) {
                         empresaObj.STUDENTS_PROJECT.push({
                             ID_PROJECT: ID_PROJECT,
@@ -791,11 +815,11 @@ class WizardManager {
                         });
                     }
                 });
-                
+
                 companiesProject.push(empresaObj);
             }
         }
-        
+
         this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
         return this.formData;
     }
@@ -892,25 +916,206 @@ function limpiarModal() {
     });
 
     window.wizard = new WizardManager();
-    window.wizard.empresas =  [];
+    window.wizard.empresas = [];
     window.wizard.destroyWizard();
 
     selectize.clear();
+}
+
+function initializeTagifyWithEditSupport(tagifyInput) {
+    let originalCompanies = [];
+    let currentCompanies = [];
+    let isEditMode = false;
+
+    const tagify = new Tagify(tagifyInput, {
+        dropdown: {
+            enabled: 0,
+            maxItems: 50
+        },
+        duplicates: false,
+        whitelist: [],
+        enforceWhitelist: false
+    });
+
+    function loadCompaniesForEdit(companiesData) {
+        if (!companiesData || companiesData.length === 0) return;
+
+        isEditMode = true;
+        originalCompanies = Array.isArray(companiesData) ?
+            [...companiesData] :
+            JSON.parse(companiesData);
+
+        currentCompanies = [...originalCompanies];
+
+        const tagifyData = originalCompanies.map(empresa =>
+            typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT
+        );
+
+        tagify.removeAllTags();
+        tagify.addTags(tagifyData);
+
+        console.log('Empresas originales cargadas:', originalCompanies);
+        console.log('Modo edición activado en Tagify');
+    }
+
+    tagify.on('change', function (e) {
+        console.log('Evento change disparado:', e.detail);
+        const currentTags = tagify.value.map(tag =>
+            typeof tag === 'string' ? tag : tag.value
+        );
+
+        console.log('Tags actuales:', currentTags);
+        console.log('Modo edición:', isEditMode);
+
+        if (isEditMode) {
+            handleEditModeChanges(currentTags);
+        } else {
+            if (window.wizard) {
+                window.wizard.empresas = currentTags;
+                console.log('Empresas actualizadas en wizard (modo nuevo):', window.wizard.empresas);
+            }
+        }
+    });
+
+    tagify.on('remove', function (e) {
+        console.log('Evento remove disparado:', e.detail);
+        if (isEditMode) {
+            const removedCompany = e.detail.data.value;
+            console.log('Empresa a eliminar:', removedCompany);
+            showDeleteConfirmation(removedCompany);
+        }
+    });
+
+    tagify.on('add', function (e) {
+        console.log('Evento add disparado:', e.detail);
+        if (isEditMode) {
+            const currentTags = tagify.value.map(tag =>
+                typeof tag === 'string' ? tag : tag.value
+            );
+            handleEditModeChanges(currentTags);
+        }
+    });
+
+    function handleEditModeChanges(currentTags) {
+        console.log('Manejando cambios en modo edición');
+
+        const addedCompanies = currentTags.filter(tag =>
+            !originalCompanies.some(orig =>
+                (typeof orig === 'string' ? orig : orig.NAME_PROJECT) === tag
+            )
+        );
+
+        const removedCompanies = originalCompanies.filter(orig => {
+            const origName = typeof orig === 'string' ? orig : orig.NAME_PROJECT;
+            return !currentTags.includes(origName);
+        });
+
+        console.log('Empresas agregadas:', addedCompanies);
+        console.log('Empresas removidas:', removedCompanies);
+
+        currentCompanies = currentTags.map(tag => {
+            const existingCompany = originalCompanies.find(orig =>
+                (typeof orig === 'string' ? orig : orig.NAME_PROJECT) === tag
+            );
+
+            if (existingCompany) {
+                return existingCompany;
+            } else {
+                return { NAME_PROJECT: tag };
+            }
+        });
+
+        if (window.wizard) {
+            window.wizard.empresas = currentCompanies;
+            console.log('Empresas actualizadas en wizard (modo edición):', window.wizard.empresas);
+        }
+    }
+
+    function showDeleteConfirmation(companyName) {
+        console.log('Mostrando confirmación para eliminar:', companyName);
+
+        Swal.fire({
+            title: '¿Eliminar empresa?',
+            html: `¿Estás seguro de que deseas eliminar la empresa <strong>"${companyName}"</strong> y todos sus estudiantes?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('Confirmado eliminar:', companyName);
+
+                if (window.wizard) {
+                    window.wizard.empresas = window.wizard.empresas.filter(empresa => {
+                        const empName = typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT;
+                        return empName !== companyName;
+                    });
+
+                    if (window.wizard.students) {
+                        const empresaId = companyName.replace(/\s+/g, '-').toLowerCase();
+                        delete window.wizard.students[empresaId];
+                        console.log('Estudiantes eliminados para empresa:', empresaId);
+                    }
+
+                    console.log('Empresas después de eliminar:', window.wizard.empresas);
+                }
+
+                Swal.fire(
+                    'Eliminada',
+                    `La empresa "${companyName}" y sus estudiantes han sido eliminados.`,
+                    'success'
+                );
+            } else {
+                console.log('Cancelada eliminación, revertiendo...');
+                setTimeout(() => {
+                    tagify.addTags(companyName);
+                }, 100);
+            }
+        });
+    }
+
+    function getUpdatedCompanies() {
+        return currentCompanies;
+    }
+
+    function resetTagify() {
+        isEditMode = false;
+        originalCompanies = [];
+        currentCompanies = [];
+        tagify.removeAllTags();
+        console.log('Tagify reseteado');
+    }
+
+    function setEditMode(mode) {
+        isEditMode = mode;
+        console.log('Modo edición establecido:', isEditMode);
+    }
+
+    return {
+        loadCompaniesForEdit,
+        getUpdatedCompanies,
+        resetTagify,
+        setEditMode,
+        tagify
+    };
 }
 
 $("#proyectobtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#proyectoForm'))
     if (formularioValido) {
-        
-       const formData = window.wizard.getFormData();
-        
+
+        const formData = window.wizard.getFormData();
+
         const dataToSend = {
             api: 1,
             ID_PROJECT: ID_PROJECT,
             COMPANIES_PROJECT: formData.COMPANIES_PROJECT
         };
-        
+
 
         $('#proyectoForm').serializeArray().forEach(item => {
             dataToSend[item.name] = item.value;
@@ -925,7 +1130,7 @@ $("#proyectobtnModal").click(function (e) {
                 icon: "question",
             }, async function () {
                 await loaderbtn('proyectobtnModal')
-                await ajaxAwaitFormData( dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
                     Swal.fire({
                         icon: 'info',
                         title: 'Espere un momento',
@@ -950,7 +1155,7 @@ $("#proyectobtnModal").click(function (e) {
             }, async function () {
 
                 await loaderbtn('proyectobtnModal')
-                await ajaxAwaitFormData( dataToSend , 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
 
                     Swal.fire({
                         icon: 'info',
@@ -984,9 +1189,9 @@ $("#proyectobtnModal").click(function (e) {
 
 $("#btnUploadExcelProject").click(function (e) {
     e.preventDefault();
-    
+
     const excelFile = document.getElementById('excelProject').files[0];
-    
+
     if (!excelFile) {
         alertToast('Por favor, seleccione un archivo Excel.', 'error', 2000);
         return;
@@ -994,7 +1199,7 @@ $("#btnUploadExcelProject").click(function (e) {
 
     const allowedExtensions = ['.xlsx', '.xls'];
     const fileExtension = excelFile.name.toLowerCase().substring(excelFile.name.lastIndexOf('.'));
-    
+
     if (!allowedExtensions.includes(fileExtension)) {
         alertToast('Por favor, seleccione un archivo Excel válido (.xlsx o .xls).', 'error', 2000);
         return;
@@ -1005,16 +1210,16 @@ $("#btnUploadExcelProject").click(function (e) {
         icon: "question",
     }, async function () {
         await loaderbtn('btnUploadExcelProject')
-        
-         const dataToSend = {
+
+        const dataToSend = {
             api: 5,
             ID_PROJECT: ID_PROJECT,
             excel_file: excelFile
         };
 
-        await ajaxAwaitFormData(dataToSend, 'projectExcelImport', 'uploadExcelProject', 'btnUploadExcelProject', { 
-            callbackAfter: true, 
-            callbackBefore: true 
+        await ajaxAwaitFormData(dataToSend, 'projectExcelImport', 'uploadExcelProject', 'btnUploadExcelProject', {
+            callbackAfter: true,
+            callbackBefore: true
         }, () => {
             Swal.fire({
                 icon: 'info',
@@ -1026,7 +1231,7 @@ $("#btnUploadExcelProject").click(function (e) {
         }, function (data) {
             if (data.code === 1) {
                 ID_PROJECT = data.project.ID_PROJECT;
-                alertMensaje('success', 'Excel importado correctamente', 
+                alertMensaje('success', 'Excel importado correctamente',
                     `Proyecto creado con ${data.message}`, null, null, 1500);
                 $('#proyectoExcelModal').modal('hide');
                 document.getElementById('uploadExcelProject').reset();
@@ -1038,7 +1243,7 @@ $("#btnUploadExcelProject").click(function (e) {
     }, 1);
 });
 
-$('#excelProject').on('change', function(e) {
+$('#excelProject').on('change', function (e) {
     const fileName = e.target.files[0]?.name;
     if (fileName) {
         $(this).next('.custom-file-label').remove();
@@ -1047,7 +1252,7 @@ $('#excelProject').on('change', function(e) {
 });
 
 $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
-     isEditing = true; 
+    isEditing = true;
     window.wizard = new WizardManager();
     window.wizard.destroyWizard();
 
@@ -1058,10 +1263,19 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     window.wizard.setEditMode(true);
 
-    if (tagifyChangeHandler) {
-        tagify.off('change', tagifyChangeHandler);
-        tagifyChangeHandler = null;
+    if (!window.tagifyManager) {
+        const input = document.querySelector('#COMPANIES');
+        window.tagifyManager = initializeTagifyWithEditSupport(input);
     }
+
+    window.tagifyManager.setEditMode(true);
+    const companiesData = row.data().COMPANIES_PROJECT || row.data().COMPANIES;
+    window.tagifyManager.loadCompaniesForEdit(companiesData);
+
+    // if (tagifyChangeHandler) {
+    //     tagify.off('change', tagifyChangeHandler);
+    //     tagifyChangeHandler = null;
+    // }
 
     function initializeSelectizedFields(row, fieldIds) {
         fieldIds.forEach(function (fieldId) {
@@ -1077,8 +1291,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
                 });
             }
             var selectize = $select[0].selectize;
-            selectize.clear();            
-            selectize.setValue(values);  
+            selectize.clear();
+            selectize.setValue(values);
         });
     }
 
@@ -1090,17 +1304,17 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     tagify.removeAllTags();
     tagify.addTags(row.data().COMPANIES);
-   
+
     if (row.data().COMPANIES_PROJECT) {
-        const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ? 
-            row.data().COMPANIES_PROJECT : 
+        const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ?
+            row.data().COMPANIES_PROJECT :
             JSON.parse(row.data().COMPANIES_PROJECT);
-            
+
         window.wizard.empresas = companiesProject;
     } else {
         window.wizard.empresas = row.data().COMPANIES || [];
     }
-    
+
     // console.log('Datos de empresas cargados:', window.wizard.empresas);
 
     setTimeout(() => {

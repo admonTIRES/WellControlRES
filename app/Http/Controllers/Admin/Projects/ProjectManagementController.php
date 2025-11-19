@@ -481,7 +481,6 @@ class ProjectManagementController extends Controller
         $studentSheet->getStyle('F3:F20')
           ->getNumberFormat()
           ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
-        
         $studentSheet->getStyle('A' . ($studentHeaderRow + 2) . ':I' . ($studentHeaderRow + 2))->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFF0F8E6');
@@ -492,10 +491,8 @@ class ProjectManagementController extends Controller
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-
         $fileName = 'plantilla_proyecto.xlsx';
         $writer = new Xlsx($spreadsheet);
-
         $tempFile = tempnam(sys_get_temp_dir(), $fileName);
         $writer->save($tempFile);
 
@@ -1443,39 +1440,39 @@ class ProjectManagementController extends Controller
         
         return $companies;
     }
-   private function organizeStudentsByCompany($companies, $students)
-{
-    $companiesData = [];
-    
-    foreach ($companies as $companyName) {
-        $companiesData[] = [
-            'NAME_PROJECT' => trim($companyName),
-            'EMAIL_PROJECT' => '', 
-            'STUDENT_COUNT_PROJECT' => 0, 
-            'STUDENTS_PROJECT' => []
-        ];
-    }
-    
-    foreach ($students as $student) {
-        $companyName = $student['COMPANY'];
+    private function organizeStudentsByCompany($companies, $students)
+    {
+        $companiesData = [];
         
-        foreach ($companiesData as &$company) {
-            if ($company['NAME_PROJECT'] === $companyName) {
-                
-                unset($student['COMPANY']);
-                
-                $student['ID_PROJECT'] = 0; 
-                $student['COMPANY_PROJECT'] = $companyName;
-                
-                $company['STUDENTS_PROJECT'][] = $student;
-                $company['STUDENT_COUNT_PROJECT'] = count($company['STUDENTS_PROJECT']);
-                break;
+        foreach ($companies as $companyName) {
+            $companiesData[] = [
+                'NAME_PROJECT' => trim($companyName),
+                'EMAIL_PROJECT' => '', 
+                'STUDENT_COUNT_PROJECT' => 0, 
+                'STUDENTS_PROJECT' => []
+            ];
+        }
+        
+        foreach ($students as $student) {
+            $companyName = $student['COMPANY'];
+            
+            foreach ($companiesData as &$company) {
+                if ($company['NAME_PROJECT'] === $companyName) {
+                    
+                    unset($student['COMPANY']);
+                    
+                    $student['ID_PROJECT'] = 0; 
+                    $student['COMPANY_PROJECT'] = $companyName;
+                    
+                    $company['STUDENTS_PROJECT'][] = $student;
+                    $company['STUDENT_COUNT_PROJECT'] = count($company['STUDENTS_PROJECT']);
+                    break;
+                }
             }
         }
+        
+        return $companiesData;
     }
-    
-    return $companiesData;
-}
     private function processStudentsAndUsers($projectData, $projectId = null)
     {
         if (!isset($projectData['COMPANIES_PROJECT'])) {
@@ -1512,7 +1509,6 @@ class ProjectManagementController extends Controller
 
         return $projectData;
     }
-
     private function generateUsername($firstName, $middleName, $lastName)
     {
         $initials = Str::lower(Str::substr($firstName, 0, 1)) .
@@ -1521,7 +1517,6 @@ class ProjectManagementController extends Controller
         $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
         return $initials . $lastWord . rand(100, 999);
     }
-
     private function createOrUpdateUser($email, $password, $username, $estudiante)
     {
         $existingUser = DB::table('users')->where('email', $email)->first();
@@ -1547,7 +1542,6 @@ class ProjectManagementController extends Controller
             ]);
         }
     }
-
     private function generateRandomPassword($length = 8)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
@@ -1557,9 +1551,7 @@ class ProjectManagementController extends Controller
         }
         return $password;
     }
-
     private function createOrUpdateCandidate($estudiante, $empresa, $projectId = null)
-
     {
         $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $estudiante['EMAIL_PROJECT'])->first();
 
@@ -1593,7 +1585,6 @@ class ProjectManagementController extends Controller
             return DB::table('candidate')->insertGetId($candidateData);
         }
     }
-
     private function saveProject($data, $projectId)
     {
 

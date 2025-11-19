@@ -1,11 +1,74 @@
 @extends('Template/maestraAdmin')
 @section('contenido') 
 <div class="conatiner-fluid content-inner mt-5 py-0">
+       <div class="row">
+        <div class="col-md-12">
+            <div class="card banner">
+                <div class="card-body ">
+                    <div class="row justify-content-center align-items-center banner-container">
+                        <div class="col-lg-6 banner-item">
+                            <div class="banner-text">
+                                <h1 class="fw-bold mb-4">
+                                 {{ __('Welcome') }}, 
+                                    @if(session('ROLES_USER')['superusuario'] ?? false)
+                                        <span class="text-secondary">{{ __('Superadministrador') }} !</span>
+                                    @elseif(session('ROLES_USER')['admin'] ?? false)
+                                        <span class="text-secondary">{{ __('Administrador') }} !</span>
+                                    @elseif(session('ROLES_USER')['logistica'] ?? false)
+                                        <span class="text-secondary">{{ __('Logística') }} !</span>
+                                    @endif
+                                </h1>
+                            </div> 
+                        <p class="mb-4">{{ __('Este es su panel de administrador. Aqui se muestra un resumen  de algunos datos relevantes que recolecta la plataforma WCLE de Results') }}</p>
+                            <!-- <button type="button" class="btn btn-primary">Get Started</button> -->
+                        </div>
+                        <div class="col-lg-6 banner-img">
+                            <div class="img">
+                                <img src="../assets/images/principal/personas.png" class="img-fluid w-55" alt="img8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12 col-lg-8">
             <div class="row">
-        
-                <div class="swiper-container  d-slider2">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes por Acreditación</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartAcreditacion" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Éxito en Primer Intento</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartPrimerIntento" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Cursos por Año</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartCursosAnio" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div> --}}
+
+               
+                {{-- <div class="swiper-container  d-slider2">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="card">
@@ -88,7 +151,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-12 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Estudiantes a Segundo Resit</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="chartSegundoResit" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
 
                 <!-- NUEVAS GRÁFICAS -->
                 <div class="col-md-12">
@@ -100,60 +173,9 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Estudiantes por Acreditación</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="chartAcreditacion" style="height: 300px;"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                              
 
-                                <div class="col-md-6 mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Cursos por Año</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="chartCursosAnio" style="height: 300px;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Éxito en Primer Intento</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="chartPrimerIntento" style="height: 300px;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Estudiantes a Resit</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="chartResit" style="height: 300px;"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Estudiantes a Segundo Resit</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div id="chartSegundoResit" style="height: 300px;"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -341,7 +363,7 @@
         </div>
         <div class="col-md-12 col-lg-4">
             <div class="row">
-                <div class="col-md-12 col-lg-12">
+                {{-- <div class="col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between flex-wrap">
                             <div class="header-title">
@@ -422,7 +444,31 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes a Resit</h5>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="chartResit" style="height: 300px;"></div>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Cursos por Año</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartCursosAnio" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+               
                 <div class="col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">

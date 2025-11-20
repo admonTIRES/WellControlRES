@@ -1671,5 +1671,6 @@
     "Download the template, fill in the data, and upload it here.":"Descargue la plantilla, rellene los datos y súbala aquí.",
     "Download Excel template":"Descargar plantilla Excel",
     "Upload filled Excel file:":"Cargar el archivo Excel rellenado:",
-    "Import data":"Importar datos"
+    "Import data":"Importar datos",
+    "This is your administrator panel. Here is a summary of some relevant data collected by the Results WCLE platform.":"Este es su panel de administrador. Aqui se muestra un resumen  de algunos datos relevantes que recolecta la plataforma WCLE de Results"
 }

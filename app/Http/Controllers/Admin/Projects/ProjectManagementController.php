@@ -214,7 +214,7 @@ class ProjectManagementController extends Controller
                 //     }
                 //     $response['code']  = 1;
                 //     $response['proyecto']  = $project;
-                //     return response()->json($response);
+                //     return respon  se()->json($response);
                 //     break;
                 case 1:
                     $data = $request->all();

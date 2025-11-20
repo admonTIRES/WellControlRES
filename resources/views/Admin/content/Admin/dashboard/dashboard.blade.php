@@ -19,7 +19,7 @@
                                     @endif
                                 </h1>
                             </div> 
-                        <p class="mb-4">{{ __('Este es su panel de administrador. Aqui se muestra un resumen  de algunos datos relevantes que recolecta la plataforma WCLE de Results') }}</p>
+                        <p class="mb-4">{{ __('This is your administrator panel. Here is a summary of some relevant data collected by the Results WCLE platform.') }}</p>
                             <!-- <button type="button" class="btn btn-primary">Get Started</button> -->
                         </div>
                         <div class="col-lg-6 banner-img">

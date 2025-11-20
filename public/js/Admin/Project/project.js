@@ -362,7 +362,7 @@ class WizardManager {
         }
 
         const saveBtn = document.getElementById('proyectobtnModal');
-        if (this.currentStep === this.totalSteps && !this.isEditMode) {
+        if (this.currentStep === this.totalSteps) {
             saveBtn.style.display = 'inline-block';
         } else {
             saveBtn.style.display = 'none';
@@ -643,9 +643,9 @@ class WizardManager {
                     <div class="error-message"></div>
                 </td>
                 <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="dob" placeholder="dob" 
-                           value="${student.dob}" required>
+                    <input type="text" class="form-control input-lg dob-input" 
+                        name="dob" placeholder="dd/mm/aaaa" 
+                        value="${student.dob}" required>
                     <div class="error-message"></div>
                 </td>
                 <td>
@@ -694,7 +694,27 @@ class WizardManager {
 
             tbody.appendChild(row);
         });
+        this.addDateFormatting(empresaId);
     }
+    addDateFormatting(empresaId) {
+    const dobInputs = document.querySelectorAll(`#studentsTableBody_${empresaId} .dob-input`);
+    
+    dobInputs.forEach(input => {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Aplicar formato dd/mm/aaaa
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+            if (value.length > 5) {
+                value = value.substring(0, 5) + '/' + value.substring(5, 9);
+            }
+            
+            e.target.value = value;
+        });
+    });
+}
 
     regeneratePassword(empresaId, studentIndex) {
         this.students[empresaId][studentIndex].password = this.generateRandomPassword();

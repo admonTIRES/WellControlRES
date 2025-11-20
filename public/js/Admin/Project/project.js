@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $('button[data-bs-target="#proyectoModal"]').on('click', function () {
         // isEditing = false;
-        // tagify.removeAllTags(); 
+        // tagify.removeAllTags(); x
 
         // if (tagifyChangeHandler) {
         //     tagify.off('change', tagifyChangeHandler); 
@@ -477,7 +477,7 @@ class WizardManager {
                         <input type="number" class="form-control student-count" 
                             name="studentCount_${empresaId}"
                             placeholder="Número de estudiantes" min="1" max="50" 
-                            value="${studentCount || ''}" ${students.length > 0 ? 'readonly' : ''} />
+                            value="${studentCount || ''}" />
                         <div class="error-message">Ingresa una cantidad válida (1-50)</div>
                     </div>
                     <div class="col-md-3 mt-3 d-flex align-items-center">
@@ -621,7 +621,7 @@ class WizardManager {
                 <td>
                     <input type="text" class="form-control input-lg" 
                            name="cr" placeholder="cr" 
-                           value="${student.cr}" required>
+                           value="${student.cr}">
                     <div class="error-message"></div>
                 </td>
                 <td>

@@ -286,45 +286,6 @@ class WizardManager {
         }
     }
 
-    // updateWizard() {
-    //     document.querySelectorAll('.wizard-step').forEach(step => {
-    //         step.classList.remove('active');
-    //     });
-    //     document.querySelector(`[data-step="${this.currentStep}"].wizard-step`).classList.add('active');
-
-    //     document.querySelectorAll('.wizard-nav li').forEach((nav, index) => {
-    //         nav.classList.remove('active', 'completed');
-
-    //         if (this.isEditMode) {
-    //             nav.classList.add('completed');
-    //             if (index + 1 === this.currentStep) {
-    //                 nav.classList.add('active');
-    //             }
-    //         } else {
-    //             if (index + 1 === this.currentStep) {
-    //                 nav.classList.add('active');
-    //             } else if (index + 1 < this.currentStep) {
-    //                 nav.classList.add('completed');
-    //             }
-    //         }
-    //     });
-
-    //     this.updateProgressBar();
-
-    //     if (this.currentStep === 4) {
-    //         this.renderEmpresasSections();
-    //     }
-
-    //     const saveBtn = document.getElementById('proyectobtnModal');
-    //     if (this.currentStep === this.totalSteps && !this.isEditMode) {
-    //         saveBtn.style.display = 'inline-block';
-    //     } else {
-    //         saveBtn.style.display = 'none';
-    //     }
-
-    //     this.updateNavigationButtons();
-    // }
-
     updateWizard() {
         document.querySelectorAll('.wizard-step').forEach(step => {
             step.classList.remove('active');
@@ -1124,35 +1085,43 @@ function initializeTagifyWithEditSupport(tagifyInput) {
 }
 
 function initializeTagifyForNew(tagifyInput) {
-    const tagify = new Tagify(tagifyInput, {
-        dropdown: {
-            enabled: 0,
-            maxItems: 50
-        },
+    isEditing = false;
+    tagify = new Tagify(tagifyInput, {
         duplicates: false,
-        whitelist: [],
-        enforceWhitelist: false
+        maxTags: 20,
+        placeholder: "Escribe el nombre de la empresa y presiona ENTER"
     });
+    tagify.removeAllTags(); 
 
-    tagify.on('change', function(e) {
-        console.log('Tagify (creación) - Cambio detectado:', e.detail);
-        const currentTags = tagify.value.map(tag => 
-            typeof tag === 'string' ? tag : tag.value
-        );
+    if (tagifyChangeHandler) {
+        tagify.off('change', tagifyChangeHandler); 
+    }
 
-        if (window.wizard) {
-            window.wizard.empresas = currentTags;
-            console.log('Empresas actualizadas en wizard (creación):', window.wizard.empresas);
-        }
-    });
+    tagifyChangeHandler = function(e) {
+        if (!isEditing && window.wizard) {
+            let empresasArray;
+            try {
+                if (typeof e.detail.value === 'string') {
+                    empresasArray = JSON.parse(e.detail.value);
+                } else if (Array.isArray(e.detail.value)) {
+                    empresasArray = e.detail.value;
+                } else {
+                    empresasArray = tagify.value;
+                }
 
-    return {
-        tagify,
-        reset: function() {
-            tagify.removeAllTags();
-            console.log('Tagify (creación) reseteado');
+                window.wizard.empresas = Array.isArray(empresasArray)
+                    ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
+                    : [empresasArray.value || empresasArray];
+            } catch (error) {
+                window.wizard.empresas = tagify.value.map(item =>
+                    typeof item === 'string' ? item : item.value
+                );
+            }
+            console.log('Empresas actualizadas:', window.wizard.empresas);
         }
     };
+
+    tagify.on('change', tagifyChangeHandler);
 }
 
 

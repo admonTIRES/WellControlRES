@@ -913,13 +913,13 @@ function limpiarModal() {
     ID_PROJECT = 0;
     document.getElementById('proyectoForm').reset();
 
-    if (tagify) {
-        tagify.removeAllTags();
-        if (tagifyChangeHandler) {
-            tagify.off('change', tagifyChangeHandler);
-            tagifyChangeHandler = null;
-        }
+    if (window.tagifyManager) {
+        window.tagifyManager.resetTagify();
+        window.tagifyManager = null;
     }
+
+    const input = document.querySelector('#COMPANIES');
+    window.tagifyManager = initializeTagifyForNew(input);
 
     ['ACCREDITATION_LEVELS_PROJECT', 'BOP_TYPES_PROJECT'].forEach(fieldId => {
         const $select = $('#' + fieldId);
@@ -1123,6 +1123,39 @@ function initializeTagifyWithEditSupport(tagifyInput) {
     };
 }
 
+function initializeTagifyForNew(tagifyInput) {
+    const tagify = new Tagify(tagifyInput, {
+        dropdown: {
+            enabled: 0,
+            maxItems: 50
+        },
+        duplicates: false,
+        whitelist: [],
+        enforceWhitelist: false
+    });
+
+    tagify.on('change', function(e) {
+        console.log('Tagify (creación) - Cambio detectado:', e.detail);
+        const currentTags = tagify.value.map(tag => 
+            typeof tag === 'string' ? tag : tag.value
+        );
+
+        if (window.wizard) {
+            window.wizard.empresas = currentTags;
+            console.log('Empresas actualizadas en wizard (creación):', window.wizard.empresas);
+        }
+    });
+
+    return {
+        tagify,
+        reset: function() {
+            tagify.removeAllTags();
+            console.log('Tagify (creación) reseteado');
+        }
+    };
+}
+
+
 $("#proyectobtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#proyectoForm'))
@@ -1283,10 +1316,15 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     window.wizard.setEditMode(true);
 
-    if (!window.tagifyManager) {
-        const input = document.querySelector('#COMPANIES');
-        window.tagifyManager = initializeTagifyWithEditSupport(input);
+     if (window.tagifyManager) {
+        window.tagifyManager.reset();
+        window.tagifyManager = null;
     }
+
+   
+    const input = document.querySelector('#COMPANIES');
+    window.tagifyManager = initializeTagifyWithEditSupport(input);
+    
 
     window.tagifyManager.setEditMode(true);
     const companiesData = row.data().COMPANIES_PROJECT || row.data().COMPANIES;

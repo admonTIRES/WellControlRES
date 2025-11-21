@@ -627,7 +627,8 @@ class adminController extends Controller
      public function getDashboardData()
     {
         try {
-            // 1. Proyectos por Ente Acreditador (basado en ACCREDITING_ENTITY_PROJECT)
+
+            $metricas = $this->getMetricasPrincipales();
             $proyectosAcreditacion = DB::table('proyect')
                 ->join('entes_acreditadores', 'proyect.ACCREDITING_ENTITY_PROJECT', '=', 'entes_acreditadores.ID_CATALOGO_ENTE')
                 ->select('entes_acreditadores.NOMBRE_ENTE', DB::raw('COUNT(*) as total'))
@@ -636,7 +637,6 @@ class adminController extends Controller
                 ->orderByDesc('total')
                 ->get();
 
-            // 2. Proyectos por Año (basado en COURSE_START_DATE_PROJECT)
             $proyectosAnio = DB::table('proyect')
                 ->select(DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'), DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_START_DATE_PROJECT')
@@ -644,17 +644,8 @@ class adminController extends Controller
                 ->orderBy('year')
                 ->get();
 
-            // 3. Proyectos por Empresa (basado en COMPANIES_PROJECT)
-            $proyectosEmpresa = DB::table('proyect')
-                ->select('COMPANIES_PROJECT', DB::raw('COUNT(*) as total'))
-                ->whereNotNull('COMPANIES_PROJECT')
-                ->where('COMPANIES_PROJECT', '!=', '')
-                ->groupBy('COMPANIES_PROJECT')
-                ->orderByDesc('total')
-                ->limit(5)
-                ->get();
+            $proyectosEmpresa = $this->getProyectosPorEmpresa();
 
-            // 4. Proyectos por Tipo de Curso (basado en COURSE_TYPE_PROJECT)
             $proyectosTipoCurso = DB::table('proyect')
                 ->select('COURSE_TYPE_PROJECT', DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_TYPE_PROJECT')
@@ -663,7 +654,6 @@ class adminController extends Controller
                 ->orderByDesc('total')
                 ->get();
 
-            // 5. Tendencia Mensual del Año Actual
             $tendenciaMensual = DB::table('proyect')
                 ->select(
                     DB::raw('MONTH(COURSE_START_DATE_PROJECT) as month'),
@@ -675,8 +665,8 @@ class adminController extends Controller
                 ->orderBy('month')
                 ->get();
 
-            // Formatear datos para las gráficas
             $datosFormateados = [
+                 'metricas' => $metricas,
                 'acreditacion' => [
                     'labels' => $proyectosAcreditacion->pluck('NOMBRE_ENTE')->toArray(),
                     'series' => $proyectosAcreditacion->pluck('total')->toArray()
@@ -686,8 +676,8 @@ class adminController extends Controller
                     'series' => $proyectosAnio->pluck('total')->toArray()
                 ],
                 'proyectosEmpresa' => [
-                    'labels' => $proyectosEmpresa->pluck('COMPANIES_PROJECT')->toArray(),
-                    'series' => $proyectosEmpresa->pluck('total')->toArray()
+                    'labels' => $proyectosEmpresa['labels'],
+                    'series' => $proyectosEmpresa['series']
                 ],
                 'tipoCurso' => [
                     'labels' => $proyectosTipoCurso->pluck('COURSE_TYPE_PROJECT')->toArray(),
@@ -708,6 +698,70 @@ class adminController extends Controller
             ], 500);
         }
     }
+     private function getProyectosPorEmpresa()
+    {
+        $proyectos = DB::table('proyect')
+            ->select('COMPANIES_PROJECT')
+            ->whereNotNull('COMPANIES_PROJECT')
+            ->where('COMPANIES_PROJECT', '!=', '')
+            ->get();
+
+        $empresasCount = [];
+
+        foreach ($proyectos as $proyecto) {
+            $companiesData = json_decode($proyecto->COMPANIES_PROJECT, true);
+            
+            if (json_last_error() === JSON_ERROR_NONE && is_array($companiesData)) {
+                foreach ($companiesData as $company) {
+                    if (isset($company['NAME_PROJECT'])) {
+                        $empresa = $company['NAME_PROJECT'];
+                        if (!isset($empresasCount[$empresa])) {
+                            $empresasCount[$empresa] = 0;
+                        }
+                        $empresasCount[$empresa]++;
+                    }
+                }
+            } else {
+                $empresa = trim($proyecto->COMPANIES_PROJECT);
+                if ($empresa && $empresa != '[]') {
+                    if (!isset($empresasCount[$empresa])) {
+                        $empresasCount[$empresa] = 0;
+                    }
+                    $empresasCount[$empresa]++;
+                }
+            }
+        }
+
+        arsort($empresasCount);
+        $topEmpresas = array_slice($empresasCount, 0, 5, true);
+
+        return [
+            'labels' => array_keys($topEmpresas),
+            'series' => array_values($topEmpresas)
+        ];
+    }
+
+     private function getMetricasPrincipales()
+    {
+        $totalProyectos = DB::table('proyect')
+            ->whereNotNull('COURSE_START_DATE_PROJECT')
+            ->count();
+
+        $totalEstudiantes = DB::table('candidate')
+            ->whereNotNull('ID_PROJECT')
+            ->count();
+
+        $estudiantesAprobados = DB::table('course')
+            ->where('FINAL_STATUS', 'Pass')
+            ->count();
+
+
+        return [
+            'totalProyectos' => $totalProyectos,
+            'totalEstudiantes' => $totalEstudiantes,
+            'estudiantesAprobados' => $estudiantesAprobados
+        ];
+    }
 
     private function formatTendenciaMensual($tendenciaMensual)
     {
@@ -719,7 +773,6 @@ class adminController extends Controller
         $datosCompletos = [];
         $seriesCompletos = [];
 
-        // Inicializar todos los meses con 0
         foreach ($meses as $numero => $nombre) {
             $datosCompletos[$numero] = [
                 'month' => $nombre,
@@ -727,14 +780,12 @@ class adminController extends Controller
             ];
         }
 
-        // Llenar con datos reales
         foreach ($tendenciaMensual as $mes) {
             if (isset($datosCompletos[$mes->month])) {
                 $datosCompletos[$mes->month]['total'] = $mes->total;
             }
         }
 
-        // Preparar arrays para la gráfica
         $labels = [];
         $series = [];
 

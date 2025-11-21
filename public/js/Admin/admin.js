@@ -622,13 +622,20 @@ $('#' + modalID).modal('show');
 
 
 }
+
+
 document.addEventListener('DOMContentLoaded', function() {
+    let charts = []; // Array para almacenar todas las instancias de gráficas
+
+    // Mostrar loading en todas las gráficas
     showLoading();
 
+    // Cargar datos reales del servidor
     fetch('/api/dashboard/data')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+              updateMetricas(data.data.metricas);
                 renderCharts(data.data);
             } else {
                 throw new Error(data.message);
@@ -641,9 +648,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showLoading() {
         const chartContainers = [
-            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 
-            'chartTipoCurso', 'chartTendenciaMensual'
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa'
         ];
+
+        document.getElementById('totalProyectos').textContent = '...';
+        document.getElementById('totalEstudiantes').textContent = '...';
+        document.getElementById('estudiantesAprobados').textContent = '...';
         
         chartContainers.forEach(containerId => {
             const container = document.getElementById(containerId);
@@ -659,12 +669,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+     function updateMetricas(metricas) {
+        document.getElementById('totalProyectos').textContent = metricas.totalProyectos;
+        document.getElementById('totalEstudiantes').textContent = metricas.totalEstudiantes;
+        document.getElementById('estudiantesAprobados').textContent = metricas.estudiantesAprobados;
+    }
 
     function showError(message) {
         const chartContainers = [
-            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 
-            'chartTipoCurso', 'chartTendenciaMensual'
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa'
         ];
+
+        document.getElementById('totalProyectos').textContent = 'Error';
+        document.getElementById('totalEstudiantes').textContent = 'Error';
+        document.getElementById('estudiantesAprobados').textContent = 'Error';
         
         chartContainers.forEach(containerId => {
             const container = document.getElementById(containerId);
@@ -679,146 +697,135 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderCharts(datos) {
-        if (datos.acreditacion.labels.length > 0) {
-            var chartAcreditacion = new ApexCharts(document.querySelector("#chartAcreditacion"), {
+
+       const chartContainers = [
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa'
+        ];
+        
+        chartContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                `;
+            }
+        });
+        charts = [];
+
+        const colorsPalette = [
+            '#007DBA', '#FF585D', '#A4D65E', '#764ba2', '#FF9F40', 
+            '#36A2EB', '#FF6384', '#4BC0C0', '#9966FF', '#C9CBCF',
+            '#7CFFB2', '#FFB6C1', '#20B2AA', '#DEB887', '#9370DB',
+            '#3CB371', '#FF4500', '#6A5ACD', '#FFD700', '#32CD32'
+        ];
+
+        const commonPieConfig = {
+            chart: {
+                type: 'pie',
+                height: 300
+            },
+            legend: {
+                position: 'bottom',
+                fontSize: '12px',
+                fontFamily: 'Arial, sans-serif',
+                itemMargin: {
+                    horizontal: 10,
+                    vertical: 5
+                }
+            },
+            tooltip: {
+                y: {
+                    formatter: function(value) {
+                        return value + ' proyectos';
+                    }
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom',
+                        fontSize: '10px'
+                    }
+                }
+            }]
+        };
+
+        if (datos.acreditacion.labels.length > 0 && datos.acreditacion.series.length > 0) {
+            const chartAcreditacion = new ApexCharts(document.querySelector("#chartAcreditacion"), {
+                ...commonPieConfig,
                 series: datos.acreditacion.series,
-                chart: {
-                    type: 'pie',
-                    height: 300
-                },
                 labels: datos.acreditacion.labels,
-                colors: ['#007DBA', '#FF585D', '#A4D65E', '#764ba2', '#FF9F40', '#36A2EB'],
-                legend: {
-                    position: 'bottom'
-                },
-                tooltip: {
-                    y: {
-                        formatter: function(value) {
-                            return value + ' proyectos';
-                        }
-                    }
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
+                colors: colorsPalette.slice(0, datos.acreditacion.labels.length)
             });
             chartAcreditacion.render();
+            charts.push(chartAcreditacion);
         } else {
             document.getElementById('chartAcreditacion').innerHTML = '<div class="alert alert-warning text-center">No hay datos de acreditación</div>';
         }
 
-        if (datos.proyectosAnio.labels.length > 0) {
-            var chartProyectosAnio = new ApexCharts(document.querySelector("#chartProyectosAnio"), {
-                series: [{
-                    name: 'Proyectos',
-                    data: datos.proyectosAnio.series
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 300,
-                    toolbar: {
-                        show: false
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 4,
-                        horizontal: false,
-                        columnWidth: '60%',
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                xaxis: {
-                    categories: datos.proyectosAnio.labels,
-                    title: {
-                        text: 'Año'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Número de Proyectos'
-                    }
-                },
-                colors: ['#007DBA'],
-                tooltip: {
-                    y: {
-                        formatter: function(value) {
-                            return value + ' proyectos';
-                        }
-                    }
-                }
+        if (datos.proyectosAnio.labels.length > 0 && datos.proyectosAnio.series.length > 0) {
+            const chartProyectosAnio = new ApexCharts(document.querySelector("#chartProyectosAnio"), {
+                ...commonPieConfig,
+                series: datos.proyectosAnio.series,
+                labels: datos.proyectosAnio.labels.map(year => `Año ${year}`),
+                colors: colorsPalette.slice(0, datos.proyectosAnio.labels.length)
             });
             chartProyectosAnio.render();
+            charts.push(chartProyectosAnio);
         } else {
             document.getElementById('chartProyectosAnio').innerHTML = '<div class="alert alert-warning text-center">No hay datos por año</div>';
         }
 
-        if (datos.proyectosEmpresa.labels.length > 0) {
-            var chartProyectosEmpresa = new ApexCharts(document.querySelector("#chartProyectosEmpresa"), {
-                series: [{
-                    name: 'Proyectos',
-                    data: datos.proyectosEmpresa.series
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 300,
-                    toolbar: {
-                        show: false
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 4,
-                        horizontal: true,
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                xaxis: {
-                    categories: datos.proyectosEmpresa.labels,
-                },
-                colors: ['#A4D65E'],
-                tooltip: {
-                    y: {
-                        formatter: function(value) {
-                            return value + ' proyectos';
-                        }
-                    }
-                }
+        if (datos.proyectosEmpresa.labels.length > 0 && datos.proyectosEmpresa.series.length > 0) {
+            const chartProyectosEmpresa = new ApexCharts(document.querySelector("#chartProyectosEmpresa"), {
+                ...commonPieConfig,
+                series: datos.proyectosEmpresa.series,
+                labels: datos.proyectosEmpresa.labels,
+                colors: colorsPalette.slice(0, datos.proyectosEmpresa.labels.length)
             });
             chartProyectosEmpresa.render();
+            charts.push(chartProyectosEmpresa);
         } else {
             document.getElementById('chartProyectosEmpresa').innerHTML = '<div class="alert alert-warning text-center">No hay datos por empresa</div>';
         }
 
-       
+        console.log('Todas las gráficas de pastel renderizadas correctamente');
     }
 
-    setInterval(() => {
+    function actualizarDatos() {
+        console.log('Actualizando datos del dashboard...');
         fetch('/api/dashboard/data')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    charts.forEach(chart => {
+                        if (chart && typeof chart.destroy === 'function') {
+                            chart.destroy();
+                        }
+                    });
+                    
+                    renderCharts(data.data);
                 }
             })
             .catch(error => {
                 console.error('Error actualizando datos:', error);
             });
-    }, 120000); // 2 minutos
-});
+    }
 
+    const actualizarBtn = document.createElement('button');
+    actualizarBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar Datos';
+    actualizarBtn.className = 'btn btn-primary btn-sm position-fixed';
+    actualizarBtn.style.bottom = '20px';
+    actualizarBtn.style.right = '20px';
+    actualizarBtn.style.zIndex = '1000';
+    actualizarBtn.onclick = actualizarDatos;
+    document.body.appendChild(actualizarBtn);
+
+    setInterval(actualizarDatos, 300000); // 5 minutos
+});
 
 let chart = null;
 let currentChartType = 'column';

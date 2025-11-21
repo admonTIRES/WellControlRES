@@ -296,6 +296,8 @@
 
 @endsection
 @section('scripts')
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.1"></script>
+
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

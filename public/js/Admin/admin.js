@@ -30,12 +30,10 @@ function loaderbtn(btn) {
     })
 }
 
-// Notifiación  movil
 if (window.innerWidth <= 768) {
     position = 'top';
   } else {
     position = 'top';
-    // position = 'top-start';
   }
   
 const Toast = Swal.mixin({
@@ -134,10 +132,8 @@ function alertMensajeConfirm(options, callback = function () { }, set = 0, callb
 function validarFormulario(form) {
     var formulario = form;
   
-    // Busca todos los elementos input, textarea y select dentro del formulario y agrega la clase "validar"
     formulario.find('input[required]:not([disabled]), textarea[required]:not([disabled]), select[required]:not([disabled])').addClass('validar').removeClass('error');
   
-    // Busca todos los elementos con la clase "validar"
     var campos =  formulario.find('.validar');
     var formularioValido = true;
   
@@ -145,7 +141,6 @@ function validarFormulario(form) {
         var tipoCampo = $(this).attr('type');
         var valorCampo = $(this).val();
   
-        // Verifica si el campo es un radio o checkbox y si hay uno seleccionado
         if (tipoCampo === 'radio' || tipoCampo === 'checkbox') {
             var nombreGrupo = $(this).attr('name');
             if ($('input[name="' + nombreGrupo + '"]:checked').length === 0) {
@@ -155,7 +150,6 @@ function validarFormulario(form) {
                 $('input[name="' + nombreGrupo + '"]').removeClass('error');
             }
         } 
-        // Valida otros tipos de campos (text, email, etc.)
         else if (valorCampo === '' || valorCampo === null) {
             $(this).addClass('error');
             formularioValido = false;
@@ -224,7 +218,6 @@ function ifnull(data, siNull = '', values =
     ? [values]
     : values;
 
-  // Comprobar si el dato es nulo o no es un objeto
   if (!data || typeof data !== 'object') {
     if (data === undefined || data === null || data === 'NaN' || data === '' || data === NaN) {
       switch (siNull) {
@@ -250,7 +243,6 @@ function ifnull(data, siNull = '', values =
       return callback(data)
     }
   }
-  // Iterar a través de las claves en values
   for (const key of values) {
     if (typeof key === 'string' && key in data) {
       return callback(data[key] || siNull)
@@ -282,7 +274,6 @@ function escapeHtmlEntities(input) {
 
   const result = input.replace(regex, match => replacements[match]);
 
-  // Si el resultado aún contiene un & no reemplazado y no es seguido por caracteres, reemplazarlo con &amp;
   if (result.includes('&') && !/[a-zA-Z0-9#]/.test(result.charAt(result.indexOf('&') + 1))) {
     return result.replace('&', '&amp;');
   }
@@ -349,7 +340,6 @@ function mensajeAjax(data, modulo = null) {
         });
         break;
         case 0:
-          // Caso específico para la postulación a una vacante
           if (data.msj === 'Ya te has postulado a esta vacante') {
             Swal.fire({
               icon: 'warning',
@@ -358,7 +348,6 @@ function mensajeAjax(data, modulo = null) {
               confirmButtonText: 'Entendido'
             });
           } else {
-            // Manejo general de otros posibles errores con code 0
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -404,13 +393,13 @@ function alertMensaje1(icon = 'success', title = '¡Completado!', text = 'Datos 
     html: html,
     footer: footer,
     timer: timer,
-    showConfirmButton: false,  // No muestra el botón "OK"
-    timerProgressBar: true,    // Muestra una barra de progreso
+    showConfirmButton: false,  
+    timerProgressBar: true,    
     
   });
 }
 function alertaDesarrollo(e) {
-    e.preventDefault(); // evita que el enlace haga scroll o navegue
+    e.preventDefault(); 
     Swal.fire({
         title: '🚧 Estamos trabajando en ello',
         html: `<p style="font-size:16px; margin-top:10px;">
@@ -426,17 +415,17 @@ function alertaDesarrollo(e) {
 }
 
 function configAjaxAwait(config) {
-    //valores por defecto de la funcion ajaxAwait y ajaxAwaitFormData
+ 
     const defaults = {
-        alertBefore: false, //Alerta por defecto, "Estamos cargando la solucitud" <- Solo si la api consume tiempo
-        response: true, //Si la api tiene la estructura correcta (response.code)
-        callbackBefore: false, //Activa la function antes de enviar datos, before
-        callbackAfter: false, //Activa una funcion para tratar datos enviados desde ajax, osea success
-        returnData: true, // regresa los datos o confirmado (1)
-        WithoutResponseData: false, //Manda los datos directos
-        resetForm: false, //Reinicia el formulario en ajaxAwaitFormData,
-        ajaxComplete: () => { }, //Mete una funcion para cuando se complete
-        ajaxError: () => { }, //Mete una funcion para cuando de error
+        alertBefore: false, 
+        response: true, 
+        callbackBefore: false, 
+        callbackAfter: false, 
+        returnData: true, 
+        WithoutResponseData: false, 
+        resetForm: false, 
+        ajaxComplete: () => { }, 
+        ajaxError: () => { }, 
     }
 
     Object.entries(defaults).forEach(([key, value]) => {
@@ -472,11 +461,11 @@ function alertErrorAJAX(jqXHR, exception, data) {
 }
 
 //Ajax Async FormData
-async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyForm'  /* <-- Formulario sin # */, btn = 'OnlyBtn',
+async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyForm' , btn = 'OnlyBtn',
     config = {
         alertBefore: false
     },
-    //Callback antes de enviar datos
+
     callbackBefore = () => {
         alertMsj({
             title: 'Espera un momento...',
@@ -485,7 +474,7 @@ async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyFor
             showCancelButton: false
         })
     },
-    //Callback, antes de devolver la data
+
     callbackSuccess = () => {
         console.log('callback ajaxAwait por defecto')
     }
@@ -493,7 +482,6 @@ async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyFor
 
     return new Promise(function (resolve, reject) {
 
-        //Configura la funcion misma
         config = configAjaxAwait(config)
 
         let formID = document.getElementById(form);
@@ -539,9 +527,7 @@ async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyFor
                 }
 
             },
-            // complete: ajaxComplete(),
             error: function (jqXHR, exception, data) {
-                // ajaxError()
                  $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
                 alertErrorAJAX(jqXHR, exception, data)
             },
@@ -632,6 +618,568 @@ $('#' + modalID).modal('show');
   
 }
 
-  
 
+
+
+}
+document.addEventListener('DOMContentLoaded', function() {
+    showLoading();
+
+    fetch('/api/dashboard/data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderCharts(data.data);
+            } else {
+                throw new Error(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error cargando datos:', error);
+            showError('Error al cargar los datos: ' + error.message);
+        });
+
+    function showLoading() {
+        const chartContainers = [
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 
+            'chartTipoCurso', 'chartTendenciaMensual'
+        ];
+        
+        chartContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <span class="ms-2">Cargando datos...</span>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    function showError(message) {
+        const chartContainers = [
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 
+            'chartTipoCurso', 'chartTendenciaMensual'
+        ];
+        
+        chartContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                    <div class="alert alert-danger text-center">
+                        ${message}
+                    </div>
+                `;
+            }
+        });
+    }
+
+    function renderCharts(datos) {
+        if (datos.acreditacion.labels.length > 0) {
+            var chartAcreditacion = new ApexCharts(document.querySelector("#chartAcreditacion"), {
+                series: datos.acreditacion.series,
+                chart: {
+                    type: 'pie',
+                    height: 300
+                },
+                labels: datos.acreditacion.labels,
+                colors: ['#007DBA', '#FF585D', '#A4D65E', '#764ba2', '#FF9F40', '#36A2EB'],
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + ' proyectos';
+                        }
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            });
+            chartAcreditacion.render();
+        } else {
+            document.getElementById('chartAcreditacion').innerHTML = '<div class="alert alert-warning text-center">No hay datos de acreditación</div>';
+        }
+
+        if (datos.proyectosAnio.labels.length > 0) {
+            var chartProyectosAnio = new ApexCharts(document.querySelector("#chartProyectosAnio"), {
+                series: [{
+                    name: 'Proyectos',
+                    data: datos.proyectosAnio.series
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: false,
+                        columnWidth: '60%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: datos.proyectosAnio.labels,
+                    title: {
+                        text: 'Año'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Número de Proyectos'
+                    }
+                },
+                colors: ['#007DBA'],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + ' proyectos';
+                        }
+                    }
+                }
+            });
+            chartProyectosAnio.render();
+        } else {
+            document.getElementById('chartProyectosAnio').innerHTML = '<div class="alert alert-warning text-center">No hay datos por año</div>';
+        }
+
+        if (datos.proyectosEmpresa.labels.length > 0) {
+            var chartProyectosEmpresa = new ApexCharts(document.querySelector("#chartProyectosEmpresa"), {
+                series: [{
+                    name: 'Proyectos',
+                    data: datos.proyectosEmpresa.series
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: datos.proyectosEmpresa.labels,
+                },
+                colors: ['#A4D65E'],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + ' proyectos';
+                        }
+                    }
+                }
+            });
+            chartProyectosEmpresa.render();
+        } else {
+            document.getElementById('chartProyectosEmpresa').innerHTML = '<div class="alert alert-warning text-center">No hay datos por empresa</div>';
+        }
+
+       
+    }
+
+    setInterval(() => {
+        fetch('/api/dashboard/data')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error actualizando datos:', error);
+            });
+    }, 120000); // 2 minutos
+});
+
+
+let chart = null;
+let currentChartType = 'column';
+let currentColorPalette = 'results';
+
+const colorPalettes = {
+    default: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+    
+    vibrant: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'],
+    
+    pastel: ['#FFB3BA', '#BAFFC9', '#BAE1FF', '#FFFFBA', '#FFDFBA', '#E0BBE4', '#FEC8D8', '#D9F0FF'],
+    
+    results: ['#FF585D', '#A4D65E', '#007DBA', '#236192', '#2C2A29', '#BC6C25', '#D4A373', '#FAEDCD'],
+    
+    cool: ['#6A4C93', '#1982C4', '#8AC926', '#FF595E', '#6A0572', '#118AB2', '#06D6A0', '#FFD166'],
+    
+    earth: ['#8B4513', '#CD853F', '#D2691E', '#A0522D', '#DEB887', '#BC8F8F', '#F4A460', '#D2B48C'],
+    
+    ocean: ['#1E3A8A', '#3B82F6', '#60A5FA', '#93C5FD', '#1E40AF', '#2563EB', '#3B82F6', '#60A5FA'],
+    
+    forest: ['#14532D', '#15803D', '#16A34A', '#22C55E', '#4ADE80', '#86EFAC', '#BBF7D0', '#22C55E'],
+    
+    sunset: ['#F59E0B', '#F97316', '#EF4444', '#8B5CF6', '#EC4899', '#F59E0B', '#F97316', '#EF4444'],
+    
+    rainbow: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8B00FF', '#FF1493']
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado, inicializando gráfica...');
+    initializeEventListeners();
+    loadAvailableYears();
+    
+     const periodType = document.getElementById('periodType');
+    if (periodType) {
+        periodType.dispatchEvent(new Event('change'));
+    }
+    setTimeout(() => {
+        loadChartData();
+    }, 500);
+});
+
+function initializeEventListeners() {
+    const periodType = document.getElementById('periodType');
+    const chartType = document.getElementById('chartType');
+    const yearSelectGroup = document.getElementById('yearSelectGroup'); 
+    
+    if (periodType) {
+        periodType.addEventListener('change', function() {
+            const periodTypeValue = this.value;
+            const dateRange = document.getElementById('dateRange');
+            const yearSelectGroup = document.getElementById('yearSelectGroup');
+            
+            if (periodTypeValue === 'day') {
+                dateRange.style.display = 'block';
+                yearSelectGroup.style.display = 'block';
+            } else if (periodTypeValue === 'month') {
+                dateRange.style.display = 'none';
+                yearSelectGroup.style.display = 'block';
+            } else if (periodTypeValue === 'year') {
+                dateRange.style.display = 'none';
+                yearSelectGroup.style.display = 'none'; 
+            }
+        });
+    }
+    
+    if (chartType) {
+        chartType.addEventListener('change', function() {
+            currentChartType = this.value;
+            loadChartData();
+        });
+    }
+}
+
+async function loadChartData() {
+    console.log('Cargando datos del gráfico...');
+    
+    const periodType = document.getElementById('periodType').value;
+    const yearSelect = document.getElementById('yearSelect');
+    const year = yearSelect ? yearSelect.value : null;
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const chartType = currentChartType;
+
+    const params = new URLSearchParams({
+        period_type: periodType,
+        chart_type: chartType
+    });
+
+    if (periodType !== 'year' && year) {
+        params.append('year', year);
+    }
+
+    if (startDate && endDate) {
+        params.append('start_date', startDate);
+        params.append('end_date', endDate);
+    }
+
+    const chartDiv = document.getElementById('chartdiv');
+    chartDiv.innerHTML = `
+        <div class="text-center" style="padding: 50px;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando datos...</p>
+        </div>
+    `;
+
+    try {
+        const response = await fetch(`/api/chart/candidates?${params}`);
+        const data = await response.json();
+
+        if (data.success) {
+            console.log('Datos recibidos:', data);
+            
+            chartDiv.innerHTML = '';
+            
+            updateChart(data.data, chartType);
+            updateTotals(data.totals);
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        console.error('Error cargando datos del gráfico:', error);
+        
+        chartDiv.innerHTML = `
+            <div class="alert alert-danger text-center">
+                <h5>Error al cargar los datos</h5>
+                <p>${error.message}</p>
+                <button class="btn btn-primary btn-sm" onclick="loadChartData()">Reintentar</button>
+            </div>
+        `;
+        
+        updateTotals({});
+    }
+}
+
+async function loadAvailableYears() {
+    try {
+        const response = await fetch('/api/chart/years');
+        const data = await response.json();
+        
+        if (data.success) {
+            const yearSelect = document.getElementById('yearSelect');
+            if (yearSelect) {
+                yearSelect.innerHTML = '';
+                
+                data.years.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                });
+                
+                yearSelect.value = new Date().getFullYear();
+            }
+        }
+    } catch (error) {
+        console.error('Error cargando años:', error);
+    }
+}
+
+
+function updateChart(chartData, chartType) {
+    console.log('Actualizando gráfica tipo:', chartType);
+    
+    if (chart) {
+        chart.dispose();
+        chart = null;
+    }
+
+    if (typeof am5 === 'undefined') {
+        console.error('AMCharts no está cargado');
+        alert('Error: La librería de gráficas no se cargó correctamente');
+        return;
+    }
+
+    try {
+        if (chartType === 'pie') {
+            createPieChart(chartData);
+        } else {
+            createXYChart(chartData, chartType);
+        }
+    } catch (error) {
+        console.error('Error creando gráfica:', error);
+        alert('Error al crear la gráfica: ' + error.message);
+    }
+}
+
+function getColors(count) {
+    const palette = colorPalettes[currentColorPalette] || colorPalettes.default;
+    
+    if (count <= palette.length) {
+        return palette.slice(0, count);
+    }
+    
+    const additionalColors = [];
+    for (let i = palette.length; i < count; i++) {
+        const hue = (i * 137.5) % 360;
+        additionalColors.push(`hsl(${hue}, 70%, 65%)`);
+    }
+    
+    return [...palette, ...additionalColors];
+}
+
+function createXYChart(chartData, chartType) {
+    console.log('Creando gráfica XY:', chartType);
+    
+    chart = am5.Root.new("chartdiv");
+    
+    chart.setThemes([
+        am5themes_Animated.new(chart)
+    ]);
+
+    const xyChart = chart.container.children.push(
+        am5xy.XYChart.new(chart, {
+            panX: true,
+            panY: false,
+            wheelX: "panX",
+            wheelY: "zoomX"
+        })
+    );
+
+    const xAxis = xyChart.xAxes.push(
+        am5xy.CategoryAxis.new(chart, {
+            categoryField: "category",
+            renderer: am5xy.AxisRendererX.new(chart, {
+                minGridDistance: 30
+            })
+        })
+    );
+
+    const yAxis = xyChart.yAxes.push(
+        am5xy.ValueAxis.new(chart, {
+            renderer: am5xy.AxisRendererY.new(chart, {})
+        })
+    );
+
+    xAxis.data.setAll(chartData.data);
+
+    
+    const colors = getColors(chartData.categories.length);
+
+    if (chartData.categories && chartData.data) {
+        chartData.categories.forEach((category, index) => {
+            let series;
+            
+            if (chartType === 'line') {
+                series = xyChart.series.push(
+                    am5xy.LineSeries.new(chart, {
+                        name: category,
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: category,
+                        categoryXField: "category",
+                        tooltip: am5.Tooltip.new(chart, {
+                            labelText: "{name}: {valueY}"
+                        })
+                    })
+                );
+
+                series.strokes.template.setAll({
+                    strokeWidth: 3,
+                    stroke: am5.color(colors[index])
+                });
+                
+                series.bullets.push(function() {
+                    return am5.Bullet.new(chart, {
+                        sprite: am5.Circle.new(chart, {
+                            radius: 5,
+                            fill: am5.color(colors[index])
+                        })
+                    });
+                });
+                
+            } else {
+                series = xyChart.series.push(
+                    am5xy.ColumnSeries.new(chart, {
+                        name: category,
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: category,
+                        categoryXField: "category",
+                        tooltip: am5.Tooltip.new(chart, {
+                            labelText: "{name}: {valueY}"
+                        })
+                    })
+                );
+                series.columns.template.setAll({
+                    fill: am5.color(colors[index]),
+                    stroke: am5.color(colors[index])
+                });
+            }
+            
+            series.data.setAll(chartData.data);
+        });
+    }
+
+    const legend = xyChart.children.push(
+        am5.Legend.new(chart, {
+            centerX: am5.p50,
+            x: am5.p50
+        })
+    );
+    legend.data.setAll(xyChart.series.values);
+
+    xyChart.set("cursor", am5xy.XYCursor.new(chart, {}));
+
+    xyChart.appear(1000, 100);
+}
+
+function createPieChart(chartData) {
+    console.log('Creando gráfica circular');
+    
+    chart = am5.Root.new("chartdiv");
+    
+    chart.setThemes([
+        am5themes_Animated.new(chart)
+    ]);
+
+    const pieChart = chart.container.children.push(
+        am5.PieChart.new(chart, {})
+    );
+
+    const pieSeries = pieChart.series.push(
+        am5.PieSeries.new(chart, {
+            name: "Candidatos",
+            valueField: "value",
+            categoryField: "category"
+        })
+    );
+
+    pieSeries.slices.template.set("tooltipText", "{category}: {value}");
+
+    pieSeries.data.setAll(chartData);
+
+    const legend = pieChart.children.push(
+        am5.Legend.new(chart, {
+            centerX: am5.p50,
+            x: am5.p50
+        })
+    );
+    legend.data.setAll(pieSeries.dataItems);
+
+    pieChart.appear(1000, 100);
+}
+
+function updateTotals(totals) {
+    const container = document.getElementById('totalsContainer');
+    if (!container) return;
+    
+    let html = '<strong>Totales por Ente Acreditador:</strong><br>';
+    
+    if (totals) {
+        Object.keys(totals).forEach(key => {
+            if (key !== 'general') {
+                html += `<span class="badge bg-primary me-2 mb-1">${key}: ${totals[key]}</span>`;
+            }
+        });
+        
+        html += `<br><strong class="mt-2">Total General: ${totals.general || 0}</strong>`;
+    }
+    
+    container.innerHTML = html;
 }

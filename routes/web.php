@@ -75,6 +75,11 @@ Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'ind
 
 Route::middleware(['auth'])->group(function () {
 //---------------------------               ADMIN              -------------------------------//
+//----------------------------DASHBOARD-------------------------------//
+Route::get('/api/chart/candidates', [adminController::class, 'getCandidateStats']);
+Route::get('/api/chart/years', [adminController::class, 'getAvailableYears']);
+Route::get('/api/dashboard/data', [adminController::class, 'getDashboardData']);
+
 //----------------------------INSTRUCTOR-------------------------------//
 Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
 Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'projectsManagement'])->name('projects.management');

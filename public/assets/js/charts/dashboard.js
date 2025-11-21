@@ -185,88 +185,88 @@ if (jQuery('#d-activity').length) {
   }
 
 
-if (jQuery('#d-main').length) {
-  const options = {
-      series: [{
-          name: 'Individuales',
-          data: [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75]
-      }, {
-          name: 'Empresas',
-          data: [65, 63, 68, 71, 73, 76, 65, 62, 70, 69, 67, 60]
-      }],
-      chart: {
-          fontFamily: '"Inter", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-          height: 245,
-          type: 'area',
-          toolbar: {
-              show: false
-          },
-          sparkline: {
-              enabled: false,
-          }
-      },
-      colors: ["#FF585D", "#A4D65E"],
-      dataLabels: {
-          enabled: false
-      },
-      stroke: {
-          curve: 'smooth',
-          width: 3,
-      },
-      yaxis: {
-        show: true,
-        labels: {
-          show: true,
-          minWidth: 19,
-          maxWidth: 19,
-          style: {
-            colors: "#8A92A6",
-          },
-          offsetX: -5,
-        },
-      },
-      legend: {
-          show: false,
-      },
-      xaxis: {
-          labels: {
-              minHeight:22,
-              maxHeight:22,
-              show: true,
-              style: {
-                colors: "#8A92A6",
-              },
-          },
-          lines: {
-              show: false  
-          },
-          categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      },
-      grid: {
-          show: false,
-      },
-      fill: {
-          type: 'gradient',
-          gradient: {
-              shade: 'dark',
-              type: "vertical",
-              shadeIntensity: 0,
-              gradientToColors: undefined, 
-              inverseColors: true,
-              opacityFrom: .4,
-              opacityTo: .1,
-              stops: [0, 50, 80],
-              colors: ["#3a57e8", "#4bc7d2"]
-          }
-      },
-      tooltip: {
-        enabled: true,
-      },
-  };
+// if (jQuery('#d-main').length) {
+//   const options = {
+//       series: [{
+//           name: 'Individuales',
+//           data: [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75]
+//       }, {
+//           name: 'Empresas',
+//           data: [65, 63, 68, 71, 73, 76, 65, 62, 70, 69, 67, 60]
+//       }],
+//       chart: {
+//           fontFamily: '"Inter", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+//           height: 245,
+//           type: 'area',
+//           toolbar: {
+//               show: false
+//           },
+//           sparkline: {
+//               enabled: false,
+//           }
+//       },
+//       colors: ["#FF585D", "#A4D65E"],
+//       dataLabels: {
+//           enabled: false
+//       },
+//       stroke: {
+//           curve: 'smooth',
+//           width: 3,
+//       },
+//       yaxis: {
+//         show: true,
+//         labels: {
+//           show: true,
+//           minWidth: 19,
+//           maxWidth: 19,
+//           style: {
+//             colors: "#8A92A6",
+//           },
+//           offsetX: -5,
+//         },
+//       },
+//       legend: {
+//           show: false,
+//       },
+//       xaxis: {
+//           labels: {
+//               minHeight:22,
+//               maxHeight:22,
+//               show: true,
+//               style: {
+//                 colors: "#8A92A6",
+//               },
+//           },
+//           lines: {
+//               show: false  
+//           },
+//           categories: ["Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+//       },
+//       grid: {
+//           show: false,
+//       },
+//       fill: {
+//           type: 'gradient',
+//           gradient: {
+//               shade: 'dark',
+//               type: "vertical",
+//               shadeIntensity: 0,
+//               gradientToColors: undefined, 
+//               inverseColors: true,
+//               opacityFrom: .4,
+//               opacityTo: .1,
+//               stops: [0, 50, 80],
+//               colors: ["#3a57e8", "#4bc7d2"]
+//           }
+//       },
+//       tooltip: {
+//         enabled: true,
+//       },
+//   };
 
-  var chart = new ApexCharts(document.querySelector("#d-main"), options);
-  chart.render();
-}
+//   var chart = new ApexCharts(document.querySelector("#d-main"), options);
+//   chart.render();
+// }
 if ($('.d-slider1').length > 0) {
     const options = {
         centeredSlides: true,

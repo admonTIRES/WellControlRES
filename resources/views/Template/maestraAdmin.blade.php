@@ -803,8 +803,10 @@ use Illuminate\Support\Str;
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="/js/Admin/admin.js?v=1.3"></script>
+    <script src="/js/Admin/admin.js?v=1.5"></script>
     @if(request()->is('catalogs'))
         <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.15"></script>
     @endif
@@ -830,5 +832,6 @@ use Illuminate\Support\Str;
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
     @endif
+    @yield('scripts')
 </body>
 </html>

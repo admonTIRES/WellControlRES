@@ -33,28 +33,94 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-lg-8">
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="p-2 rounded bg-soft-warning">
+                            <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM7 12H9V17H7V12ZM7 7H9V9H7V7Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="mb-1">{{ $totalProyectos ?? 0 }}</h4>
+                            <small class="mb-0">Total Proyectos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="p-2 rounded bg-soft-primary">
+                            <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V7H9V5.5L3 7V9L9 10.5V12L3 13.5V15.5L9 14V16L3 17.5V19.5L9 18V22H15V18L21 19.5V17.5L15 16V14L21 15.5V13.5L15 12V10.5L21 9Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="mb-1">{{ $totalEstudiantes ?? 0 }}</h4>
+                            <small class="mb-0">Total Estudiantes</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="p-2 rounded bg-soft-success">
+                            <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM9.29 16.29L5.7 12.7C5.31 12.31 5.31 11.68 5.7 11.29C6.09 10.9 6.72 10.9 7.11 11.29L10 14.17L16.88 7.29C17.27 6.9 17.9 6.9 18.29 7.29C18.68 7.68 18.68 8.31 18.29 8.7L10.7 16.29C10.32 16.68 9.68 16.68 9.29 16.29Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="mb-1">{{ $estudiantesAprobados ?? 0 }}</h4>
+                            <small class="mb-0">Estudiantes Aprobados</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes por Acreditación</h5>
+                            <h5 class="card-title">Proyectos por Ente Acreditador</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartAcreditacion" style="height: 300px;"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-4">
+
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Éxito en Primer Intento</h5>
+                            <h5 class="card-title">Proyectos por Año</h5>
                         </div>
                         <div class="card-body">
-                            <div id="chartPrimerIntento" style="height: 300px;"></div>
+                            <div id="chartProyectosAnio" style="height: 300px;"></div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Proyectos por Empresa</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartProyectosEmpresa" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
 
                 {{-- <div class="col-md-6 mb-4">
                     <div class="card">
@@ -163,204 +229,71 @@
                     </div>
                 </div> --}}
 
-                <!-- NUEVAS GRÁFICAS -->
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between flex-wrap">
-                            <div class="header-title">
-                                <h4 class="card-title">Estadísticas de Estudiantes</h4>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                              
+                
 
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between flex-wrap">
-                            <div class="header-title">
-                                <h4 class="card-title">Historial de membresias</h4>
-                            </div>
-                            <div class="d-flex align-items-center align-self-center">
-                                <div class="d-flex align-items-center text-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
-                                        <g>
-                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                        </g>
-                                    </svg>
-                                    <div class="ms-2">
-                                        <span>Total membresias para empresas</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center ms-3 text-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
-                                        <g>
-                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                        </g>
-                                    </svg>
-                                    <div class="ms-2">
-                                        <span>Total membresias individuales</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="d-main" class="d-main"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 col-lg-12">
-                    <div class="card overflow-hidden">
-                        <div class="card-header d-flex justify-content-between flex-wrap">
-                            <div class="header-title">
-                                <h4 class="card-title mb-2">Progreso estudiantes</h4>
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                <input type="checkbox" class="btn-check" id="btncheck1">
-                                <label class="btn btn-outline-primary" for="btncheck1">Today</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck2">
-                                <label class="btn btn-outline-primary" for="btncheck2">This Week</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck3">
-                                <label class="btn btn-outline-primary" for="btncheck3">This Month</label>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive mt-4">
-                                <table id="basic-table" class="table table-striped mb-0 transactions-table" role="grid">
-                                    <thead>
-                                        <tr>
-                                            <th>USER</th>
-                                            <th>ID</th>
-                                            <th>VISITAS</th>
-                                            <th>PROGRESO</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
-                                                    <h6>USER 1</h6>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                927937
-                                            </td>
-                                            <td>45,332</td>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <h6>60%</h6>
-                                                </div>
-                                                <div class="progress w-100" style="height: 8px">
-                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
-
-                                                <h6>USER 2</h6>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                465547
-                                            </td>
-                                            <td>13,830</td>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <h6>25%</h6>
-                                                </div>
-                                                <div class="progress w-100" style="height: 8px">
-                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
-
-                                                <h6>USER 3</h6>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                46554
-                                            </td>
-                                            <td>95,98</td>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <h6>100%</h6>
-                                                </div>
-                                                <div class="progress bg-soft-secondary shadow-none w-100" style="height: 8px">
-                                                    <div class="progress-bar bg-secondary" data-toggle="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
-
-                                                <h6>USER 4</h6>
-
-                                                </div>
-                                            </td>
-                                            <td>
-                                                45646
-                                            </td>
-                                            <td>58,732</td>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <h6>100%</h6>
-                                                </div>
-                                                <div class="progress bg-soft-secondary shadow-none w-100" style="height: 8px">
-                                                    <div class="progress-bar bg-secondary" data-toggle="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
-
-                                                    <h6>USER 5</h6>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                243534
-                                            </td>
-                                            <td>95,332</td>
-                                            <td>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <h6>75%</h6>
-                                                </div>
-                                                <div class="progress w-100" style="height: 8px">
-                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
+         <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Estudiantes por Acreditación</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Filtros -->
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label for="periodType" class="form-label">Tipo de Período:</label>
+                                    <select id="periodType" class="form-select">
+                                        <option value="year">Año</option>
+                                        <option value="month" selected>Mes</option>
+                                        <option value="day">Día</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="yearSelect" class="form-label">Año:</label>
+                                    <select id="yearSelect" class="form-select">
+                                    </select>
+                                </div>
+                                <div class="col-md-3" id="dateRange" style="display:none;">
+                                    <label for="startDate" class="form-label">Fecha Inicio:</label>
+                                    <input type="date" id="startDate" class="form-control">
+                                    <label for="endDate" class="form-label">Fecha Fin:</label>
+                                    <input type="date" id="endDate" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="chartType" class="form-label">Tipo de Gráfica:</label>
+                                    <select id="chartType" class="form-select">
+                                        <option value="column">Columnas Agrupadas</option>
+                                        <option value="line">Líneas</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button type="button" class="btn btn-primary w-100" onclick="loadChartData()">
+                                        <i class="fas fa-chart-bar"></i> Generar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Totales -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="alert alert-info" id="totalsContainer">
+                                        <strong>Totales:</strong> Seleccione filtros y haga clic en Generar
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gráfica -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="chartdiv" style="width: 100%; height: 500px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       
         <div class="col-md-12 col-lg-4">
             <div class="row">
                 {{-- <div class="col-md-12 col-lg-12">
@@ -548,167 +481,163 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- <div class="col-md-12 col-lg-12">
+                    <div class="card overflow-hidden">
+                        <div class="card-header d-flex justify-content-between flex-wrap">
+                            <div class="header-title">
+                                <h4 class="card-title mb-2">Progreso estudiantes</h4>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" class="btn-check" id="btncheck1">
+                                <label class="btn btn-outline-primary" for="btncheck1">Today</label>
+
+                                <input type="checkbox" class="btn-check" id="btncheck2">
+                                <label class="btn btn-outline-primary" for="btncheck2">This Week</label>
+
+                                <input type="checkbox" class="btn-check" id="btncheck3">
+                                <label class="btn btn-outline-primary" for="btncheck3">This Month</label>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive mt-4">
+                                <table id="basic-table" class="table table-striped mb-0 transactions-table" role="grid">
+                                    <thead>
+                                        <tr>
+                                            <th>USER</th>
+                                            <th>ID</th>
+                                            <th>VISITAS</th>
+                                            <th>PROGRESO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+                                                    <h6>USER 1</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                927937
+                                            </td>
+                                            <td>45,332</td>
+                                            <td>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <h6>60%</h6>
+                                                </div>
+                                                <div class="progress w-100" style="height: 8px">
+                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                <h6>USER 2</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                465547
+                                            </td>
+                                            <td>13,830</td>
+                                            <td>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <h6>25%</h6>
+                                                </div>
+                                                <div class="progress w-100" style="height: 8px">
+                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                <h6>USER 3</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                46554
+                                            </td>
+                                            <td>95,98</td>
+                                            <td>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <h6>100%</h6>
+                                                </div>
+                                                <div class="progress bg-soft-secondary shadow-none w-100" style="height: 8px">
+                                                    <div class="progress-bar bg-secondary" data-toggle="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                <h6>USER 4</h6>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                45646
+                                            </td>
+                                            <td>58,732</td>
+                                            <td>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <h6>100%</h6>
+                                                </div>
+                                                <div class="progress bg-soft-secondary shadow-none w-100" style="height: 8px">
+                                                    <div class="progress-bar bg-secondary" data-toggle="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                <img class="me-2" style="width: 24px; height: 24px; object-fit: cover; border-radius: 50%;" src="{{ asset('assets/images/avatar/man-1.png') }}" alt="profile">
+
+                                                    <h6>USER 5</h6>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                243534
+                                            </td>
+                                            <td>95,332</td>
+                                            <td>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <h6>75%</h6>
+                                                </div>
+                                                <div class="progress w-100" style="height: 8px">
+                                                    <div class="progress-bar bg-primary" data-toggle="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </div>
+        
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const datos = {
-        acreditacion: {
-            labels: ['Acreditado', 'No Acreditado', 'En Proceso'],
-            series: [65, 20, 15]
-        },
-        cursosAnio: {
-            labels: ['2020', '2021', '2022', '2023', '2024'],
-            series: [45, 52, 38, 60, 75]
-        },
-        primerIntento: {
-            labels: ['Aprobados', 'Reprobados'],
-            series: [70, 30]
-        },
-        resit: {
-            labels: ['Van a Resit', 'No van a Resit'],
-            series: [25, 75]
-        },
-        segundoResit: {
-            labels: ['Van a 2do Resit', 'No van a 2do Resit'],
-            series: [10, 90]
-        }
-    };
 
-    var chartAcreditacion = new ApexCharts(document.querySelector("#chartAcreditacion"), {
-        series: datos.acreditacion.series,
-        chart: {
-            type: 'pie',
-            height: 300
-        },
-        labels: datos.acreditacion.labels,
-        colors: ['#007DBA', '#FF585D', '#A4D65E'],
-        legend: {
-            position: 'bottom'
-        },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    });
-    chartAcreditacion.render();
-
-    var chartCursosAnio = new ApexCharts(document.querySelector("#chartCursosAnio"), {
-        series: [{
-            name: 'Cursos',
-            data: datos.cursosAnio.series
-        }],
-        chart: {
-            type: 'bar',
-            height: 300
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                horizontal: false,
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: datos.cursosAnio.labels,
-        },
-        colors: ['#007DBA']
-    });
-    chartCursosAnio.render();
-
-    var chartPrimerIntento = new ApexCharts(document.querySelector("#chartPrimerIntento"), {
-        series: datos.primerIntento.series,
-        chart: {
-            type: 'donut',
-            height: 300
-        },
-        labels: datos.primerIntento.labels,
-        colors: ['#A4D65E', '#FF585D'],
-        legend: {
-            position: 'bottom'
-        },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    });
-    chartPrimerIntento.render();
-
-    var chartResit = new ApexCharts(document.querySelector("#chartResit"), {
-        series: [{
-            name: 'Estudiantes',
-            data: datos.resit.series
-        }],
-        chart: {
-            type: 'bar',
-            height: 300
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                horizontal: true,
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: datos.resit.labels,
-        },
-        colors: ['#FF585D']
-    });
-    chartResit.render();
-
-    var chartSegundoResit = new ApexCharts(document.querySelector("#chartSegundoResit"), {
-        series: [{
-            name: 'Estudiantes',
-            data: [12, 15, 8, 10, 7, 9, 11, 13, 10, 8]
-        }],
-        chart: {
-            height: 300,
-            type: 'line',
-            zoom: {
-                enabled: false
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'],
-                opacity: 0.5
-            },
-        },
-        xaxis: {
-            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
-        },
-        colors: ['#007DBA']
-    });
-    chartSegundoResit.render();
-});
-</script>
+@endsection
+@section('scripts')
+<!-- AMCharts -->
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/pie.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 @endsection

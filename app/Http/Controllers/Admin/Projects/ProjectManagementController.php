@@ -805,66 +805,131 @@ class ProjectManagementController extends Controller
             ]);
         }
     }
+    // public function projectStudentDatatable(Request $request)
+    // {
+    //     $id = $request->input('ID_PROJECT');
+
+    //     try {
+    //         $proyecto = Proyect::where('ID_PROJECT', $id)->first();
+
+    //         if (!$proyecto) {
+    //             return response()->json([
+    //                 'msj' => 'Proyecto no encontrado',
+    //                 'data' => []
+    //             ]);
+    //         }
+
+    //         // $empresas = json_decode($proyecto->COMPANIES_PROJECT, true);
+    //         $empresas = $proyecto->COMPANIES_PROJECT;
+
+
+    //         $estudiantes = [];
+
+    //         foreach ($empresas as $empresa) {
+    //             foreach ($empresa['STUDENTS_PROJECT'] as $estudiante) {
+    //                 $estudiantes[] = [
+    //                     'EMPRESA' => $estudiante['COMPANY_PROJECT'],
+    //                     'CR' => $estudiante['CR_PROJECT'],
+    //                     'LASTNAME' => $estudiante['LAST_NAME_PROJECT'],
+    //                     'FIRSTNAME' =>  $estudiante['FIRST_NAME_PROJECT'],
+    //                     'MIDDLENAME' =>  $estudiante['MIDDLE_NAME_PROJECT'],
+    //                     'DOB' => $estudiante['BIRTH_DATE_PROJECT'],
+    //                     'ID_NUMBER' => $estudiante['ID_NUMBER_PROJECT'],
+    //                     'CARGO' => $estudiante['POSITION_PROJECT'],
+    //                     'EMAIL' => $estudiante['EMAIL_PROJECT'],
+    //                     'PASSWORD' => $estudiante['PASSWORD_PROJECT'],
+    //                     'BTN_EDITAR' => '<button type="button"
+    //                                         class="btn btn-sm btn-icon btn-action1 SENDCORREO"
+    //                                         title="Enviar correo"
+    //                                         onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
+    //                         'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
+    //                         'email' => $estudiante['EMAIL_PROJECT'],
+    //                         'password' => $estudiante['PASSWORD_PROJECT'],
+    //                         'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
+    //                         'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT,
+    //                     ]), ENT_QUOTES, 'UTF-8') . ')">
+    //                                         <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
+    //                                     </button>'
+    //                 ];
+    //             }
+    //         }
+
+    //         return response()->json([
+    //             'data' => $estudiantes,
+    //             'msj' => 'Estudiantes cargados correctamente'
+    //         ]);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'msj' => 'Error: ' . $e->getMessage(),
+    //             'data' => []
+    //         ]);
+    //     }
+    // }
     public function projectStudentDatatable(Request $request)
-    {
-        $id = $request->input('ID_PROJECT');
+{
+    $id = $request->input('ID_PROJECT');
 
-        try {
-            $proyecto = Proyect::where('ID_PROJECT', $id)->first();
+    try {
+        $proyecto = Proyect::find($id);
 
-            if (!$proyecto) {
-                return response()->json([
-                    'msj' => 'Proyecto no encontrado',
-                    'data' => []
-                ]);
-            }
-
-            // $empresas = json_decode($proyecto->COMPANIES_PROJECT, true);
-            $empresas = $proyecto->COMPANIES_PROJECT;
-
-
-            $estudiantes = [];
-
-            foreach ($empresas as $empresa) {
-                foreach ($empresa['STUDENTS_PROJECT'] as $estudiante) {
-                    $estudiantes[] = [
-                        'EMPRESA' => $estudiante['COMPANY_PROJECT'],
-                        'CR' => $estudiante['CR_PROJECT'],
-                        'LASTNAME' => $estudiante['LAST_NAME_PROJECT'],
-                        'FIRSTNAME' =>  $estudiante['FIRST_NAME_PROJECT'],
-                        'MIDDLENAME' =>  $estudiante['MIDDLE_NAME_PROJECT'],
-                        'DOB' => $estudiante['BIRTH_DATE_PROJECT'],
-                        'ID_NUMBER' => $estudiante['ID_NUMBER_PROJECT'],
-                        'CARGO' => $estudiante['POSITION_PROJECT'],
-                        'EMAIL' => $estudiante['EMAIL_PROJECT'],
-                        'PASSWORD' => $estudiante['PASSWORD_PROJECT'],
-                        'BTN_EDITAR' => '<button type="button"
-                                            class="btn btn-sm btn-icon btn-action1 SENDCORREO"
-                                            title="Enviar correo"
-                                            onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
-                            'nombre' => $estudiante['FIRST_NAME_PROJECT'] . ' ' . $estudiante['MIDDLE_NAME_PROJECT'] . ' ' . $estudiante['LAST_NAME_PROJECT'],
-                            'email' => $estudiante['EMAIL_PROJECT'],
-                            'password' => $estudiante['PASSWORD_PROJECT'],
-                            'fechaInicio' =>  $proyecto->MEMBERSHIP_START_PROJECT,
-                            'fechaFin' =>  $proyecto->MEMBERSHIP_END_PROJECT,
-                        ]), ENT_QUOTES, 'UTF-8') . ')">
-                                            <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
-                                        </button>'
-                    ];
-                }
-            }
-
+        if (!$proyecto) {
             return response()->json([
-                'data' => $estudiantes,
-                'msj' => 'Estudiantes cargados correctamente'
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'msj' => 'Error: ' . $e->getMessage(),
+                'msj' => 'Proyecto no encontrado',
                 'data' => []
             ]);
         }
+
+        $fechaFinMembresia = $proyecto->MEMBERSHIP_END_PROJECT;
+        $membresiaVigente = false;
+
+        if ($fechaFinMembresia) {
+            $membresiaVigente = Carbon::parse($fechaFinMembresia)->isFuture();
+        }
+
+        // Consultar directamente desde la tabla candidates como en la segunda función
+        $candidatos = Candidate::where('ID_PROJECT', $id)->get();
+
+        $estudiantes = [];
+
+        foreach ($candidatos as $candidato) {
+            $estudiantes[] = [
+                'EMPRESA' => $candidato->COMPANY_PROJECT,
+                'CR' => $candidato->CR_PROJECT,
+                'LASTNAME' => $candidato->LAST_NAME_PROJECT,
+                'FIRSTNAME' => $candidato->FIRST_NAME_PROJECT,
+                'MIDDLENAME' => $candidato->MIDDLE_NAME_PROJECT,
+                'DOB' => $candidato->BIRTH_DATE_PROJECT,
+                'ID_NUMBER' => $candidato->ID_NUMBER_PROJECT,
+                'CARGO' => $candidato->POSITION_PROJECT,
+                'EMAIL' => $candidato->EMAIL_PROJECT,
+                'PASSWORD' => $candidato->PASSWORD_PROJECT,
+                'ACTIVO' => $membresiaVigente ? 1 : 0,
+                'BTN_EDITAR' => '<button type="button"
+                                    class="btn btn-sm btn-icon btn-action1 SENDCORREO"
+                                    title="Enviar correo"
+                                    onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
+                        'nombre' => $candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT,
+                        'email' => $candidato->EMAIL_PROJECT,
+                        'password' => $candidato->PASSWORD_PROJECT,
+                        'fechaInicio' => $proyecto->MEMBERSHIP_START_PROJECT,
+                        'fechaFin' => $proyecto->MEMBERSHIP_END_PROJECT,
+                    ]), ENT_QUOTES, 'UTF-8') . ')">
+                                    <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
+                                </button>'
+            ];
+        }
+
+        return response()->json([
+            'data' => $estudiantes,
+            'msj' => 'Estudiantes cargados correctamente'
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'msj' => 'Error: ' . $e->getMessage(),
+            'data' => []
+        ]);
     }
+}
     public function editarTablaCandidato($ID_PROJECT)
     {
          $proyecto = Proyect::find($ID_PROJECT);

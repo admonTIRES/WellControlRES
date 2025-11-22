@@ -190,7 +190,7 @@ function enviarCredencialesCorreo(data) {
         }
     });
 }
-  function editarCandidatos() {
+function editarCandidatos() {
         $('#editarCandidatosModal').modal('show');
         loadTableData();
     }
@@ -1278,7 +1278,8 @@ function enviarCredencialesCorreo(data) {
                 row.fadeOut(300, () => row.remove());
                 alertMensaje('success', 'Eliminado', 'El candidato fue eliminado correctamente');
                 loadTableData();
-                projectStudentDatatable.ajax.reload()
+                projectStudentDatatable.ajax.reload();
+                console.log('ya recargo segun');
 
             } else {
                 alertMensaje('error', 'Error', response.message || 'No se pudo eliminar el candidato');

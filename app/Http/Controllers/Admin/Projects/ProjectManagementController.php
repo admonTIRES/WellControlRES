@@ -645,21 +645,15 @@ class ProjectManagementController extends Controller
         $idInstructor = $proyect->INSTRUCTOR_ID_PROJECT;
         $instructores = Instructor::find($idInstructor);
         $NOMBRE_INSTRUCTOR = $instructores ? trim(($instructores->FNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->MDNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->LSNAME_INSTRUCTOR ?? '')) : __('N/A');
-        // --- ENTE ACREDITADOR ---
         $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
         $enteAcreditador = EnteAcreditador::find($idEnte);
         $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
-
-        // --- NIVELES DE ACREDITACIÓN ---
         $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
         $nivelesAcreditacion = collect();
 
         if (!empty($idsNiveles)) {
             $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
 
-            // Si el ente es 1 → usar DESCRIPCION_NIVEL
-            // Si el ente es 2 → usar NOMBRE_NIVEL
-            // En otro caso → N/A
             $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
                 if ($idEnte == 1) {
                     return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
@@ -671,7 +665,6 @@ class ProjectManagementController extends Controller
             });
         }
 
-        // --- TIPOS DE BOP ---
         $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
         $tiposBop = collect();
 
@@ -820,7 +813,7 @@ class ProjectManagementController extends Controller
         }
 
         // Obtener los candidatos relacionados con este proyecto
-        $candidatos = Candidate::where('ID_PROJECT', $id)->get();
+        $candidatos = candidate::where('ID_PROJECT', $id)->get();
 
         $nivelesIDs = $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [];
         $bopsIDs    = $proyecto->BOP_TYPES_PROJECT ?? [];

@@ -969,7 +969,7 @@ class ProjectManagementController extends Controller
             }
 
             // Consultar directamente desde la tabla candidates como en la segunda función
-            $candidatos = Candidate::where('ID_PROJECT', $id)->get();
+            $candidatos = candidate::where('ID_PROJECT', $id)->get();
 
             $estudiantes = [];
 
@@ -1280,7 +1280,7 @@ class ProjectManagementController extends Controller
             }
         } else {
             // Caso 2: No existen cursos - obtener solo datos básicos de candidatos
-            $candidatos = Candidate::where('ID_PROJECT', $ID_PROJECT)
+            $candidatos = candidate::where('ID_PROJECT', $ID_PROJECT)
                 ->select(
                     'ID_CANDIDATE',
                     'ID_PROJECT',

@@ -812,7 +812,6 @@ class ProjectManagementController extends Controller
             ]);
         }
 
-        // Obtener los candidatos relacionados con este proyecto
         $candidatos = candidate::where('ID_PROJECT', $id)->get();
 
         $nivelesIDs = $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [];

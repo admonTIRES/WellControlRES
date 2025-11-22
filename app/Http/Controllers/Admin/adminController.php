@@ -18,6 +18,8 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\Instructor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Admin\Project\Course;
+
 
 use App\Models\User;
 use App\Models\Admin\Project\candidate;
@@ -799,5 +801,77 @@ class adminController extends Controller
             'series' => $series
         ];
     }
+
+
+
+
+
+
+public function getAllCoursesData()
+{
+    try {
+        // Obtener todos los cursos con sus candidatos
+        $cursos = Course::with(['candidate' => function($query) {
+            $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO');
+        }])->get();
+
+        $estudiantes = [];
+
+        foreach ($cursos as $curso) {
+            if ($curso->candidate) {
+                $estudiantes[] = [
+                    'curso_id' => $curso->ID_COURSE,
+                    'candidato' => [
+                        'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
+                        'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
+                        'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
+                        'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
+                        'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
+                        'ACTIVO' => $curso->candidate->ACTIVO
+                    ],
+                    'datos_curso' => [
+                        'PRACTICAL' => $curso->PRACTICAL,
+                        'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
+                        'EQUIPAMENT' => $curso->EQUIPAMENT,
+                        'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
+                        'PYP' => $curso->PYP,
+                        'PYP_PASS' => $curso->PYP_PASS,
+                        'STATUS' => $curso->STATUS,
+                        'RESIT' => $curso->RESIT,
+                        'INTENTOS' => $curso->INTENTOS,
+                        'RESIT_MODULE' => $curso->RESIT_MODULE,
+                        'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
+                        'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
+                        'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
+                        'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
+                        'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
+                        'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
+                        'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
+                        'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
+                        'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
+                        'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
+                        'FINAL_STATUS' => $curso->FINAL_STATUS,
+                        'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
+                        'CERTIFIED' => $curso->CERTIFIED,
+                        'EXPIRATION' => $curso->EXPIRATION
+                    ]
+                ];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'estudiantes' => $estudiantes,
+            'total' => count($estudiantes)
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al obtener los datos: ' . $e->getMessage(),
+            'estudiantes' => []
+        ], 500);
+    }
+}
     
 }

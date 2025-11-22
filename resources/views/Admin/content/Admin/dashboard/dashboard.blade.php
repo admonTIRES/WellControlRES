@@ -289,6 +289,42 @@
                 </div>
             </div>
         </div>
+         <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes por Estado del Curso</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartEstadoCurso" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes con Resit</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartEstudiantesResit" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Tipos de Resit</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartTiposResit" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -296,7 +332,7 @@
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.1"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.2"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

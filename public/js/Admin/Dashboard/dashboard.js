@@ -564,3 +564,388 @@ function updateTotals(totals) {
     
     container.innerHTML = html;
 }
+
+// Función para cargar y generar las gráficas de todos los estudiantes
+function loadAllStudentCharts() {
+    $.ajax({
+        url: '/getAllCoursesData',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success && response.estudiantes && response.estudiantes.length > 0) {
+                generateStudentCharts(response.estudiantes);
+            } else {
+                showEmptyCharts();
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar datos para gráficas:', error);
+            showErrorCharts();
+        }
+    });
+}
+
+// Función para generar las gráficas
+function generateStudentCharts(estudiantes) {
+    // Gráfica 1: Estudiantes por Estado del Curso
+    generateStatusChart(estudiantes);
+    
+    // Gráfica 2: Estudiantes con Resit
+    generateResitChart(estudiantes);
+    
+    // Gráfica 3: Tipos de Resit
+    generateResitTypesChart(estudiantes);
+}
+
+// Gráfica 1: Estudiantes por Estado del Curso
+function generateStatusChart(estudiantes) {
+    const completed = estudiantes.filter(est => est.datos_curso.STATUS === 'Completed').length;
+    const failed = estudiantes.filter(est => est.datos_curso.STATUS === 'Failed').length;
+    const inProgress = estudiantes.filter(est => est.datos_curso.STATUS === 'In Progress').length;
+    const pending = estudiantes.filter(est => est.datos_curso.STATUS === 'Pending').length;
+    const other = estudiantes.length - completed - failed - inProgress - pending;
+
+    const options = {
+        series: [completed, failed, inProgress, pending, other],
+        chart: {
+            type: 'donut',
+            height: 350
+        },
+        colors: ['#A4D65E', '#FF585D', '#236192', '#ffc107', '#007DBA'],
+        labels: ['Completados', 'Fallidos', 'En Progreso', 'Pendientes', 'Otros'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center'
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '45%',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            formatter: function (val) {
+                                return val;
+                            }
+                        },
+                        total: {
+                            show: true,
+                            label: 'Total',
+                            color: '#373d3f',
+                            formatter: function (w) {
+                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return opts.w.config.series[opts.seriesIndex] + ' (' + val.toFixed(1) + '%)';
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (value, { seriesIndex, w }) {
+                    const total = w.config.series.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return value + ' estudiantes (' + percentage + '%)';
+                }
+            }
+        },
+        title: {
+            text: `Estado del Curso - Total: ${estudiantes.length} estudiantes`,
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                fontWeight: 'bold'
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 300
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chartEstadoCurso"), options);
+    chart.render();
+}
+
+// Gráfica 2: Estudiantes con Resit
+function generateResitChart(estudiantes) {
+    const withResit = estudiantes.filter(est => 
+        est.datos_curso.RESIT === '1' || 
+        est.datos_curso.RESIT === 1 || 
+        est.datos_curso.RESIT === 'Yes'
+    ).length;
+    
+    const withoutResit = estudiantes.length - withResit;
+
+    const options = {
+        series: [withResit, withoutResit],
+        chart: {
+            type: 'donut',
+            height: 350
+        },
+        colors: ['#A4D65E', '#FF585D'],
+        labels: ['Con Resit', 'Sin Resit'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center'
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '45%',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        },
+                        total: {
+                            show: true,
+                            label: 'Total',
+                            color: '#373d3f',
+                            formatter: function (w) {
+                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return opts.w.config.series[opts.seriesIndex] + ' (' + val.toFixed(1) + '%)';
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (value, { seriesIndex, w }) {
+                    const total = w.config.series.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return value + ' estudiantes (' + percentage + '%)';
+                }
+            }
+        },
+        title: {
+            text: 'Estudiantes con Resit',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                fontWeight: 'bold'
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 300
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chartEstudiantesResit"), options);
+    chart.render();
+}
+
+// Gráfica 3: Tipos de Resit
+function generateResitTypesChart(estudiantes) {
+    // Estudiantes con resit inmediato solamente
+    const soloInmediato = estudiantes.filter(est => {
+        const datos = est.datos_curso;
+        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+        return tieneInmediato && !tieneProgramado;
+    }).length;
+
+    // Estudiantes con resit programado solamente
+    const soloProgramado = estudiantes.filter(est => {
+        const datos = est.datos_curso;
+        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+        return !tieneInmediato && tieneProgramado;
+    }).length;
+
+    // Estudiantes con ambos tipos de resit
+    const ambosResit = estudiantes.filter(est => {
+        const datos = est.datos_curso;
+        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+        return tieneInmediato && tieneProgramado;
+    }).length;
+
+    // Estudiantes sin ningún resit específico
+    const sinResitEspecifico = estudiantes.length - soloInmediato - soloProgramado - ambosResit;
+
+    const options = {
+        series: [soloInmediato, soloProgramado, ambosResit, sinResitEspecifico],
+        chart: {
+            type: 'pie',
+            height: 350
+        },
+        colors: ['#007DBA', '#FF585D', '#236192', '#A4D65E'],
+        labels: ['Solo Inmediato', 'Solo Programado', 'Ambos Resit', 'Sin Resit Específico'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center'
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return opts.w.config.series[opts.seriesIndex] + ' (' + val.toFixed(1) + '%)';
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (value, { seriesIndex, w }) {
+                    const total = w.config.series.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return value + ' estudiantes (' + percentage + '%)';
+                }
+            }
+        },
+        title: {
+            text: 'Distribución de Tipos de Resit',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                fontWeight: 'bold'
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 300
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chartTiposResit"), options);
+    chart.render();
+}
+
+// Funciones para manejar estados vacíos o errores
+function showEmptyCharts() {
+    const emptyOptions = {
+        series: [1],
+        chart: {
+            type: 'pie',
+            height: 350
+        },
+        colors: ['#6c757d'],
+        labels: ['Sin datos'],
+        legend: {
+            show: false
+        },
+        title: {
+            text: 'No hay datos disponibles',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                color: '#6c757d'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        tooltip: {
+            enabled: false
+        }
+    };
+
+    new ApexCharts(document.querySelector("#chartEstadoCurso"), emptyOptions).render();
+    new ApexCharts(document.querySelector("#chartEstudiantesResit"), emptyOptions).render();
+    new ApexCharts(document.querySelector("#chartTiposResit"), emptyOptions).render();
+}
+
+function showErrorCharts() {
+    const errorOptions = {
+        series: [1],
+        chart: {
+            type: 'pie',
+            height: 350
+        },
+        colors: ['#dc3545'],
+        labels: ['Error'],
+        legend: {
+            show: false
+        },
+        title: {
+            text: 'Error al cargar datos',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                color: '#dc3545'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        tooltip: {
+            enabled: false
+        }
+    };
+
+    new ApexCharts(document.querySelector("#chartEstadoCurso"), errorOptions).render();
+    new ApexCharts(document.querySelector("#chartEstudiantesResit"), errorOptions).render();
+    new ApexCharts(document.querySelector("#chartTiposResit"), errorOptions).render();
+}
+
+// Llamar a la función cuando se cargue la página
+$(document).ready(function() {
+    loadAllStudentCharts();
+});
+
+// Función para actualizar las gráficas
+function updateStudentCharts() {
+    // Destruir gráficas existentes
+    const charts = [
+        document.querySelector("#chartEstadoCurso"),
+        document.querySelector("#chartEstudiantesResit"),
+        document.querySelector("#chartTiposResit")
+    ];
+    
+    charts.forEach(chartElement => {
+        if (chartElement) {
+            chartElement.innerHTML = '';
+        }
+    });
+    
+    // Recargar datos
+    loadAllStudentCharts();
+}

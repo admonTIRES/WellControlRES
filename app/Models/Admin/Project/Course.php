@@ -41,7 +41,7 @@ class Course extends Model
 
     public function candidate()
     {
-        return $this->belongsTo(Candidate::class, 'ID_CANDIDATE', 'ID_CANDIDATE');
+        return $this->belongsTo(candidate::class, 'ID_CANDIDATE', 'ID_CANDIDATE');
     }
 
     public function project()

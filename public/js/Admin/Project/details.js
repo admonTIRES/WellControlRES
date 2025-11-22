@@ -68,6 +68,92 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
     ]
 
 });
+// var projectCourseDatatable = $("#course-list-table").DataTable({
+//     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+//     lengthChange: true,
+//     lengthMenu: [
+//         [10, 25, 50, -1],
+//         [10, 25, 50, 'Todos']
+//     ],
+//     info: false,
+//     paging: true,
+//     searching: true,
+//     filtering: true,
+//     scrollY: '65vh',
+//     scrollX: true,
+//     scrollCollapse: true,
+//     responsive: true,
+//     ajax: {
+//         dataType: 'json',
+//         data: { ID_PROJECT: ID_PROJECT },
+//         method: 'GET',
+//         cache: false,
+//         url: '/projectCourseDatatable',
+//         beforeSend: function () {
+//             // mostrarCarga();
+//         },
+//         complete: function () {
+//             projectCourseDatatable.columns.adjust().draw();
+//             // ocultarCarga();
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             alertErrorAJAX(jqXHR, textStatus, errorThrown);
+//         },
+//         dataSrc: 'data'
+//     },
+//     order: [[0, 'asc']],
+//     columns: [
+//         {
+//             data: null,
+//             render: function (data, type, row, meta) {
+//                 return meta.row + 1;
+//             }
+//         },
+//         { data: 'NOMBRE_COMPLETO' },
+//         { data: 'NIVEL' },
+//         { data: 'BOP' },
+//         { data: 'UNITS' },
+//         { data: 'LANG' },
+//         { data: 'PRACTICAL' },
+//         { data: 'EQUIPAMENT' },
+//         { data: 'P&P' },
+//         { data: 'STATUS' },
+//         { data: 'RESIT' },
+//         { data: 'EQ' },
+//         { data: 'FECHA' },
+//         { data: 'SCORE' },
+//         { data: 'FINALTEST' },
+//         { data: 'VENCIMIENTO' },
+//         { data: 'CORREO' },
+//         { data: 'BTN_ENVIAR' },
+//         { data: 'BTN_EDITAR' }
+
+//     ],
+//     columnDefs: [
+//         { targets: 0, title: '#', className: 'text-center' },
+//         { targets: 1, title: 'NOMBRE', className: 'text-center' },
+//         { targets: 2, title: 'NIVEL', className: 'text-center' },
+//         { targets: 3, title: 'BOP', className: 'text-center' },
+//         { targets: 4, title: 'UNIDADES', className: 'text-center' },
+//         { targets: 5, title: 'IDIOMA', className: 'text-center' },
+//         { targets: 6, title: 'PRACTICO', className: 'text-center' },
+//         { targets: 7, title: 'EQUIPOS', className: 'text-center' },
+//         { targets: 8, title: 'P&P', className: 'text-center' },
+//         { targets: 9, title: 'ESTADO', className: 'text-center' },
+//         { targets: 10, title: 'RESIT', className: 'text-center' },
+//         { targets: 11, title: 'MODULO', className: 'text-center' },
+//         { targets: 12, title: 'FECHA', className: 'text-center' },
+//         { targets: 13, title: 'ESTADO', className: 'text-center' },
+//         { targets: 14, title: 'FINAL', className: 'text-center' },
+//         { targets: 15, title: 'VENCIMIENTO', className: 'text-center' },
+//         { targets: 16, title: 'CORREO', className: 'text-center' },
+//         { targets: 17, title: 'ENVIAR', className: 'text-center' },
+//         { targets: 18, title: 'EDITAR', className: 'text-center' }
+
+//     ]
+
+// });
+
 var projectCourseDatatable = $("#course-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -88,7 +174,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         data: { ID_PROJECT: ID_PROJECT },
         method: 'GET',
         cache: false,
-        url: '/projectCourseDatatable',
+        url: '/editarTablaCurso/' + ID_PROJECT, // Cambiado para usar la misma fuente de datos
         beforeSend: function () {
             // mostrarCarga();
         },
@@ -99,7 +185,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         error: function (jqXHR, textStatus, errorThrown) {
             alertErrorAJAX(jqXHR, textStatus, errorThrown);
         },
-        dataSrc: 'data'
+        dataSrc: 'estudiantes'
     },
     order: [[0, 'asc']],
     columns: [
@@ -109,50 +195,280 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'NOMBRE_COMPLETO' },
-        { data: 'NIVEL' },
-        { data: 'BOP' },
-        { data: 'UNITS' },
-        { data: 'LANG' },
-        { data: 'PRACTICAL' },
-        { data: 'EQUIPAMENT' },
-        { data: 'P&P' },
-        { data: 'STATUS' },
-        { data: 'RESIT' },
-        { data: 'EQ' },
-        { data: 'FECHA' },
-        { data: 'SCORE' },
-        { data: 'FINALTEST' },
-        { data: 'VENCIMIENTO' },
-        { data: 'CORREO' },
-        { data: 'BTN_ENVIAR' },
-        { data: 'BTN_EDITAR' }
-
+        { 
+            data: 'candidato',
+            render: function(data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        { 
+    data: 'datos_curso',
+    render: function(data) {
+        const score = data.PRACTICAL || '';
+        const status = data.PRACTICAL_PASS || '';
+        const statusText = status === 'Unpass' ? 'No Aprobado' : (status === 'Pass' ? 'Aprobado' : '');
+        const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
+        return `
+            <div class="score-status-display">
+                <span class="score-text ${statusClass}">${score}%</span>
+                ${status ? `<span class="status-badge ${statusClass}">${statusText}</span>` : ''}
+            </div>
+        `;
+    }
+},
+{ 
+    data: 'datos_curso',
+    render: function(data) {
+        const score = data.EQUIPAMENT || '';
+        const status = data.EQUIPAMENT_PASS || '';
+        const statusText = status === 'Unpass' ? 'No Aprobado' : (status === 'Pass' ? 'Aprobado' : '');
+        const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
+        return `
+            <div class="score-status-display">
+                <span class="score-text ${statusClass}">${score}%</span>
+                ${status ? `<span class="status-badge ${statusClass}">${statusText}</span>` : ''}
+            </div>
+        `;
+    }
+},
+{ 
+    data: 'datos_curso',
+    render: function(data) {
+        const score = data.PYP || '';
+        const status = data.PYP_PASS || '';
+        const statusText = status === 'Unpass' ? 'No Aprobado' : (status === 'Pass' ? 'Aprobado' : '');
+        const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
+        return `
+            <div class="score-status-display">
+                <span class="score-text ${statusClass}">${score}%</span>
+                ${status ? `<span class="status-badge ${statusClass}">${statusText}</span>` : ''}
+            </div>
+        `;
+    }
+},
+{ 
+    data: 'datos_curso',
+    render: function(data) {
+        const status = data.STATUS || '';
+        let badgeClass = '';
+        let statusText = status;
+        
+        switch(status) {
+            case 'Pending': 
+                badgeClass = 'badge-warning'; 
+                statusText = 'Pendiente';
+                break;
+            case 'In Progress': 
+                badgeClass = 'badge-info'; 
+                statusText = 'En Progreso';
+                break;
+            case 'Completed': 
+                badgeClass = 'badge-success'; 
+                statusText = 'Completado';
+                break;
+            case 'Failed': 
+                badgeClass = 'badge-danger'; 
+                statusText = 'Fallido';
+                break;
+            default: 
+                badgeClass = 'badge-secondary';
+                statusText = status || 'N/A';
+        }
+        return status ? `<span class="badge ${badgeClass}">${statusText}</span>` : '<span class="text-muted">N/A</span>';
+    }
+},
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const resitValue = data.RESIT === '1' || data.RESIT === 1 || data.RESIT === 'Yes' ? 'Yes' : 'No';
+                const badgeClass = resitValue === 'Yes' ? 'badge-warning' : 'badge-secondary';
+                return `<span class="badge ${badgeClass}">${resitValue}</span>`;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const intentos = data.INTENTOS || '';
+                return intentos ? `<span class="badge badge-info">${intentos}</span>` : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const resitModule = data.RESIT_MODULE || '';
+                return resitModule ? `<span class="badge badge-primary">${resitModule}</span>` : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const resitInmediato = data.RESIT_INMEDIATO === '1' || data.RESIT_INMEDIATO === 1 || data.RESIT_INMEDIATO === 'Yes' ? 'Yes' : 'No';
+                const badgeClass = resitInmediato === 'Yes' ? 'badge-warning' : 'badge-secondary';
+                return `<span class="badge ${badgeClass}">${resitInmediato}</span>`;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const date = data.RESIT_INMEDIATO_DATE || '';
+                return date ? formatDateForDisplay(date) : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const score = data.RESIT_INMEDIATO_SCORE || '';
+                const status = data.RESIT_INMEDIATO_STATUS || '';
+                const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
+                return `
+                    <div class="score-status-display">
+                        <span class="score-text ${statusClass}">${score}%</span>
+                        ${status ? `<span class="status-badge ${statusClass}">${status}</span>` : ''}
+                    </div>
+                `;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const resitProgramado = data.RESIT_PROGRAMADO === '1' || data.RESIT_PROGRAMADO === 1 || data.RESIT_PROGRAMADO === 'Yes' ? 'Yes' : 'No';
+                const badgeClass = resitProgramado === 'Yes' ? 'badge-warning' : 'badge-secondary';
+                return `<span class="badge ${badgeClass}">${resitProgramado}</span>`;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const entrenamiento = data.RESIT_ENTRENAMIENTO;
+                let texto = 'N/A';
+                let badgeClass = 'badge-secondary';
+                
+                if (entrenamiento === '1' || entrenamiento === 1) {
+                    texto = 'Sí';
+                    badgeClass = 'badge-info';
+                } else if (entrenamiento === '0' || entrenamiento === 0) {
+                    texto = 'No';
+                    badgeClass = 'badge-secondary';
+                }
+                
+                return `<span class="badge ${badgeClass}">${texto}</span>`;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const date = data.RESIT_PROGRAMADO_DATE || '';
+                return date ? formatDateForDisplay(date) : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const score = data.RESIT_PROGRAMADO_SCORE || '';
+                const status = data.RESIT_PROGRAMADO_STATUS || '';
+                const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
+                return `
+                    <div class="score-status-display">
+                        <span class="score-text ${statusClass}">${score}%</span>
+                        ${status ? `<span class="status-badge ${statusClass}">${status}</span>` : ''}
+                    </div>
+                `;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const finalStatus = data.FINAL_STATUS || '';
+                const badgeClass = finalStatus === 'Pass' ? 'badge-success' : (finalStatus === 'Unpass' ? 'badge-danger' : 'badge-secondary');
+                return finalStatus ? `<span class="badge ${badgeClass}">${finalStatus}</span>` : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const certified = data.HAVE_CERTIFIED === '1' || data.HAVE_CERTIFIED === 1 || data.HAVE_CERTIFIED === 'Yes' ? 'Yes' : 'No';
+                const badgeClass = certified === 'Yes' ? 'badge-success' : 'badge-secondary';
+                return `<span class="badge ${badgeClass}">${certified}</span>`;
+            }
+        },
+        { 
+            data: 'datos_curso',
+            render: function(data) {
+                const expiration = data.EXPIRATION || '';
+                return expiration ? formatDateForDisplay(expiration) : '<span class="text-muted">N/A</span>';
+            }
+        },
+        { 
+            data: 'candidato',
+            render: function(data) {
+                return data.EMAIL_PROJECT || '<span class="text-muted">N/A</span>';
+            }
+        }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
-        { targets: 1, title: 'NOMBRE', className: 'text-center' },
-        { targets: 2, title: 'NIVEL', className: 'text-center' },
-        { targets: 3, title: 'BOP', className: 'text-center' },
-        { targets: 4, title: 'UNIDADES', className: 'text-center' },
-        { targets: 5, title: 'IDIOMA', className: 'text-center' },
-        { targets: 6, title: 'PRACTICO', className: 'text-center' },
-        { targets: 7, title: 'EQUIPOS', className: 'text-center' },
-        { targets: 8, title: 'P&P', className: 'text-center' },
-        { targets: 9, title: 'ESTADO', className: 'text-center' },
-        { targets: 10, title: 'RESIT', className: 'text-center' },
-        { targets: 11, title: 'MODULO', className: 'text-center' },
-        { targets: 12, title: 'FECHA', className: 'text-center' },
-        { targets: 13, title: 'ESTADO', className: 'text-center' },
-        { targets: 14, title: 'FINAL', className: 'text-center' },
-        { targets: 15, title: 'VENCIMIENTO', className: 'text-center' },
-        { targets: 16, title: 'CORREO', className: 'text-center' },
-        { targets: 17, title: 'ENVIAR', className: 'text-center' },
-        { targets: 18, title: 'EDITAR', className: 'text-center' }
-
-    ]
-
+        { targets: 1, title: 'ESTUDIANTE', className: 'text-left' },
+        { targets: 2, title: 'PRÁCTICO', className: 'text-center' },
+        { targets: 3, title: 'EQUIPOS', className: 'text-center' },
+        { targets: 4, title: 'P&P', className: 'text-center' },
+        { targets: 5, title: 'ESTADO', className: 'text-center' },
+        { targets: 6, title: 'RESIT', className: 'text-center' },
+        { targets: 7, title: 'INTENTOS', className: 'text-center' },
+        { targets: 8, title: 'MÓDULO RESIT', className: 'text-center' },
+        { targets: 9, title: 'RESIT INMEDIATO', className: 'text-center' },
+        { targets: 10, title: 'FECHA RESIT', className: 'text-center' },
+        { targets: 11, title: 'SCORE RESIT', className: 'text-center' },
+        { targets: 12, title: 'RESIT PROGRAMADO', className: 'text-center' },
+        { targets: 13, title: 'ENTRENAMIENTO', className: 'text-center' },
+        { targets: 14, title: 'FECHA PROGRAMADA', className: 'text-center' },
+        { targets: 15, title: 'SCORE PROGRAMADO', className: 'text-center' },
+        { targets: 16, title: 'ESTADO FINAL', className: 'text-center' },
+        { targets: 17, title: 'CERTIFICADO', className: 'text-center' },
+        { targets: 18, title: 'VENCIMIENTO', className: 'text-center' },
+        { targets: 19, title: 'CORREO', className: 'text-center' }
+    ],
+    createdRow: function(row, data, dataIndex) {
+        // Aplicar clases de estilo según el estado (similar al modal)
+        const curso = data.datos_curso;
+        const practicalStatus = curso.PRACTICAL_PASS || '';
+        const equipamentStatus = curso.EQUIPAMENT_PASS || '';
+        const pypStatus = curso.PYP_PASS || '';
+        const finalStatus = curso.FINAL_STATUS || '';
+        
+        const allUnpass = practicalStatus === 'Unpass' && equipamentStatus === 'Unpass' && pypStatus === 'Unpass';
+        const allPass = practicalStatus === 'Pass' && equipamentStatus === 'Pass' && pypStatus === 'Pass';
+        
+        if (allUnpass) {
+            $(row).addClass('row-unpass');
+        } else if (allPass || finalStatus === 'Pass') {
+            $(row).addClass('row-pass');
+        }
+    }
 });
+
+// Función auxiliar para formatear fechas (debes implementarla)
+function formatDateForDisplay(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES');
+}
+
+// Función para editar curso del estudiante
+function editStudentCourse(candidateId) {
+    // Aquí puedes abrir el modal de edición o redirigir a la página de edición
+    console.log('Editar curso del candidato:', candidateId);
+    // loadEditCourseModal(candidateId);
+}
+
+// Función para ver detalles del estudiante
+function viewStudentDetails(candidateId) {
+    // Implementar lógica para ver detalles
+    console.log('Ver detalles del candidato:', candidateId);
+}
+
+
+
+
 
 function enviarCredencialesCorreo(data) {
     if (!data.email) {
@@ -1419,11 +1735,13 @@ function editarCandidatos() {
                     });
                     $('.swal2-popup').addClass('ld ld-breath');
                 },
-                (data) => {           // callbackSuccess
+                (data) => {      
+                         
                     Swal.close(); // cerrar loader de SweetAlert
                     alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500);
                     document.getElementById('coursesForm').reset();
                     loadTableCursoModal();
+                    projectCourseDatatable.ajax.reload()
                 }
             );
         });

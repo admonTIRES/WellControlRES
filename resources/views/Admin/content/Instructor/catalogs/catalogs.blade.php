@@ -58,6 +58,28 @@
                                         aria-controls="v-pills-operacion"
                                         aria-selected="false">{{ __('Operation type') }}</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
+                                    <p class="mt-3 mb-2">{{ __('Training center data') }}</p>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-centro-tab"
+                                        data-topic="centro-capacitacion"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-centro"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-centro"
+                                        aria-selected="false">{{ __('Training center') }}</button>
+                                    <hr class="hr-horizontal mt-4 mb-2">
+                                    <p class="mt-3 mb-2">{{ __('Customers') }}</p>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-clientes-tab"
+                                        data-topic="clientes-topic"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-clientes"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-clientes"
+                                        aria-selected="false"> {{ __('Customers') }}</button>
+                                        <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">{{ __('Questions') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
                                         id="v-pills-tema-tab"
@@ -164,6 +186,48 @@
                                             </div>
                                             <div class="table-container">
                                                 <table id="tiposbop-list-table" class="table " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-centro" role="tabpanel" aria-labelledby="v-pills-centro-tab">
+                                        <div class="w-100 h-100">
+                                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Catalog of training centers') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#centroModal">
+                                                     {{ __('New training center') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="centro-list-table" class="table " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-clientes" role="tabpanel" aria-labelledby="v-pills-clientes-tab">
+                                        <div class="w-100 h-100">
+                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('trh4g') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientesModal">
+                                                     {{ __('New hgwreer') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="clientes-list-table" class="table " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-tema" role="tabpanel" aria-labelledby="v-pills-tema-tab">
+                                        <div class="w-100 h-100">
+                                        <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Catalog of topics for questions') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#temaModal">
+                                                     {{ __('New topic') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="temas-list-table" class="table " role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -351,6 +415,344 @@
         </div>
     </div>
 
+    <div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="centroModalLabel">{{ __('Training center data') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="centroForm" method="post" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <div class="form-section">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ACREDITACION_CENTRO" class="form-label ">Tipo de Acreditación</label>
+                                    <select class="form-select" id="ACREDITACION_CENTRO" name="ACREDITACION_CENTRO">
+                                        <option value="" selected disabled>Seleccione una opción</option>
+                                        <option value="1">Acreditación Nacional</option>
+                                        <option value="2">Acreditación Internacional</option>
+                                        <option value="3">Acreditación Sectorial</option>
+                                        <option value="4">Acreditación Especializada</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="TIPO_CENTRO" class="form-label ">Tipo</label>
+                                    <select class="form-select" id="TIPO_CENTRO" name="TIPO_CENTRO">
+                                        <option value="" selected disabled>Seleccione una opción</option>
+                                        <option value="1">Asociado</option>
+                                        <option value="2">Primario</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="asociadoContainer" class="row mb-3" style="display: none;">
+                                <div class="col-12">
+                                    <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
+                                    <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
+                                        <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
+                                        <option value="1">Empresa Primaria A</option>
+                                        <option value="2">Empresa Primaria B</option>
+                                        <option value="3">Empresa Primaria C</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="RAZON_SOCIAL_CENTRO" class="form-label ">Razón Social</label>
+                                    <input type="text" class="form-control" id="RAZON_SOCIAL_CENTRO" name="RAZON_SOCIAL_CENTRO">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="NOMBRE_COMERCIAL_CENTRO" class="form-label ">Nombre Comercial</label>
+                                    <input type="text" class="form-control" id="NOMBRE_COMERCIAL_CENTRO" name="NOMBRE_COMERCIAL_CENTRO">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="NUMERO_ACREDITACION" class="form-label ">Número de Acreditación</label>
+                                    <input type="text" class="form-control" id="NUMERO_CENTRO" name="NUMERO_CENTRO">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="VIGENCIA_DESDE_CENTRO" class="form-label ">Desde</label>
+                                    <input type="date" class="form-control" id="VIGENCIA_DESDE_CENTRO" name="VIGENCIA_DESDE_CENTRO">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="VIGENCIA_HASTA_CENTRO" class="form-label ">Hasta</label>
+                                    <input type="date" class="form-control" id="VIGENCIA_HASTA_CENTRO" name="VIGENCIA_HASTA_CENTRO">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <p id="CONTADOR_CENTRO" class="form-label ">Aqui se indicarán los días restantes vigentes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div id="contactosContainer">
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mt-2" id="addContacto">
+                                <i class="fas fa-plus me-2"></i>Agregar contacto
+                            </button>
+                        </div>
+                        
+                        <!-- Documentos Adjuntos -->
+                        <div class="form-section">
+                            <h5 class="section-title"><i class="fas fa-paperclip"></i>Documentos Adjuntos</h5>
+                            <div class="file-upload mb-3" id="fileUploadArea">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Arrastre y suelte los archivos aquí o haga clic para seleccionar</p>
+                                <input type="file" class="d-none" id="fileInput" multiple>
+                            </div>
+                            <div id="fileList" class="mt-3"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="tipobopbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .file-upload {
+            border: 2px dashed #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--secondary-color);
+            background-color: #f8f9fa;
+        }
+        
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .contact-person {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .remove-contact {
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+    </style>
+
+    <script>
+        let contactCounter = 1;
+        
+        document.getElementById('TIPO').addEventListener('change', function() {
+            const asociadoContainer = document.getElementById('asociadoContainer');
+            if (this.value === 'asociado') {
+                asociadoContainer.style.display = 'block';
+                document.getElementById('ASOCIADO_A').required = true;
+            } else {
+                asociadoContainer.style.display = 'none';
+                document.getElementById('ASOCIADO_A').required = false;
+            }
+        });
+        
+        // Agregar nuevo contacto
+        document.getElementById('addContacto').addEventListener('click', function() {
+            contactCounter++;
+            const newContact = document.createElement('div');
+            newContact.className = 'contact-person';
+            newContact.id = `contacto-${contactCounter}`;
+            
+            newContact.innerHTML = `
+                <div class="contact-header">
+                    <h6 class="mb-0">Persona de Contacto ${contactCounter}</h6>
+                    <span class="remove-contact" onclick="removeContact(${contactCounter})"><i class="fas fa-times"></i></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_NOMBRE_${contactCounter}" class="form-label ">Nombre</label>
+                        <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactCounter}" name="CONTACTO_NOMBRE_${contactCounter}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_CARGO_${contactCounter}" class="form-label ">Cargo</label>
+                        <input type="text" class="form-control" id="CONTACTO_CARGO_${contactCounter}" name="CONTACTO_CARGO_${contactCounter}" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_EMAIL_${contactCounter}" class="form-label ">Email</label>
+                        <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactCounter}" name="CONTACTO_EMAIL_${contactCounter}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_CELULAR_${contactCounter}" class="form-label ">Teléfono Celular</label>
+                        <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactCounter}" name="CONTACTO_CELULAR_${contactCounter}" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_FIJO_${contactCounter}" class="form-label">Teléfono Fijo</label>
+                        <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactCounter}" name="CONTACTO_FIJO_${contactCounter}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="CONTACTO_ADJUNTO_${contactCounter}" class="form-label">Adjuntar Documento</label>
+                        <input type="file" class="form-control" id="CONTACTO_ADJUNTO_${contactCounter}" name="CONTACTO_ADJUNTO_${contactCounter}">
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('contactosContainer').appendChild(newContact);
+        });
+        
+        // Función para eliminar contacto
+        function removeContact(id) {
+            if (contactCounter > 1) {
+                const contactToRemove = document.getElementById(`contacto-${id}`);
+                contactToRemove.remove();
+                contactCounter--;
+                
+                // Renumerar los contactos restantes
+                const contacts = document.querySelectorAll('.contact-person');
+                contacts.forEach((contact, index) => {
+                    const newId = index + 1;
+                    contact.id = `contacto-${newId}`;
+                    
+                    // Actualizar los textos y IDs de los elementos internos
+                    const header = contact.querySelector('.contact-header h6');
+                    header.textContent = `Persona de Contacto ${newId}`;
+                    
+                    const removeBtn = contact.querySelector('.remove-contact');
+                    removeBtn.setAttribute('onclick', `removeContact(${newId})`);
+                    
+                    // Actualizar IDs y nombres de los inputs
+                    const inputs = contact.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        const oldName = input.name;
+                        const newName = oldName.replace(/\d+$/, newId);
+                        input.name = newName;
+                        input.id = newName;
+                    });
+                    
+                    // Actualizar labels
+                    const labels = contact.querySelectorAll('label');
+                    labels.forEach(label => {
+                        const oldFor = label.getAttribute('for');
+                        if (oldFor) {
+                            const newFor = oldFor.replace(/\d+$/, newId);
+                            label.setAttribute('for', newFor);
+                        }
+                    });
+                });
+            }
+        }
+        
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.style.borderColor = '#3498db';
+            fileUploadArea.style.backgroundColor = '#f0f8ff';
+        });
+        
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.style.borderColor = '#dee2e6';
+            fileUploadArea.style.backgroundColor = '';
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.style.borderColor = '#dee2e6';
+            fileUploadArea.style.backgroundColor = '';
+            
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+        
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+        });
+        
+        function handleFiles(files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const listItem = document.createElement('div');
+                listItem.className = 'd-flex justify-content-between align-items-center p-2 border rounded mb-2';
+                
+                listItem.innerHTML = `
+                    <div>
+                        <i class="fas fa-file me-2"></i>
+                        <span>${file.name}</span>
+                        <small class="text-muted ms-2">(${(file.size / 1024).toFixed(2)} KB)</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                fileList.appendChild(listItem);
+            }
+        }
+        
+        // Validación del formulario
+        document.getElementById('cprimarioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validación básica - en una aplicación real, esto sería más completo
+            let isValid = true;
+            const requiredFields = this.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (isValid) {
+                // En una aplicación real, aquí enviarías el formulario
+                alert('Formulario enviado correctamente');
+                // this.submit();
+            } else {
+                alert('Por favor, complete todos los campos obligatorios');
+            }
+        });
+    </script>
+
+
     <div class="modal fade" id="temaModal" tabindex="-1" aria-labelledby="temaModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -527,7 +929,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('First name') }}</label>
+                                    <label class="form-label ">{{ __('First name') }}</label>
                                     <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="FNAME_INSTRUCTOR" required>
                                 </div>
                                 
@@ -537,12 +939,12 @@
                                 </div>
                                 
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('Family or last name') }}</label>
+                                    <label class="form-label ">{{ __('Family or last name') }}</label>
                                     <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="LSNAME_INSTRUCTOR" required>
                                 </div>
                                 
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('Mail') }}</label>
+                                    <label class="form-label ">{{ __('Mail') }}</label>
                                     <input type="email" class="form-control" name="MAIL_INSTRUCTOR" id="MAIL_INSTRUCTOR" required>
                                 </div>
                             </div>
@@ -609,7 +1011,7 @@
                             <!-- Columna 1 -->
                             <div class="col-md-6">
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('First name') }}</label>
+                                    <label class="form-label ">{{ __('First name') }}</label>
                                     <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="FNAME_INSTRUCTOR" required>
                                 </div>
                                 
@@ -619,12 +1021,12 @@
                                 </div>
                                 
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('Family or last name') }}</label>
+                                    <label class="form-label ">{{ __('Family or last name') }}</label>
                                     <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="LSNAME_INSTRUCTOR" required>
                                 </div>
                                 
                                 <div class="form-section">
-                                    <label class="form-label required-field">{{ __('Mail') }}</label>
+                                    <label class="form-label ">{{ __('Mail') }}</label>
                                     <input type="email" class="form-control" name="MAIL_INSTRUCTOR" id="MAIL_INSTRUCTOR" required>
                                 </div>
                             </div>
@@ -640,7 +1042,7 @@
                                 </div>
                                 
                                 <div class="form-section"> 
-                                    <label class="form-label required-field">{{ __('Accreditation type') }}</label>
+                                    <label class="form-label ">{{ __('Accreditation type') }}</label>
                                     <select class="form-select selectize-multiple" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR[]" multiple> 
                                         @foreach ($entes as $ente) 
                                             <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option> 
@@ -720,7 +1122,7 @@
     </div>
 
     <style>
-        .required-field::after {
+        .::after {
             content: " *";
             color: #dc3545;
         }

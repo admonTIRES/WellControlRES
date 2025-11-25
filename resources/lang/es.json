@@ -1672,5 +1672,15 @@
     "Download Excel template":"Descargar plantilla Excel",
     "Upload filled Excel file:":"Cargar el archivo Excel rellenado:",
     "Import data":"Importar datos",
+    "Training center data":"Datos del centro de capacitación",
+    "Primary centers":"Centros Primarios",
+    "Associated centers":"Centros Asociados",
+    "Customers":"Clientes",
+    "Catalog of primary training centers":"Catálogo de Centros de Capacitación Primarios",
+    "Catalog of associated training centers":"Catálogo de Centros de Capacitación Asociados",
+    "New primary training center":"Nuevo Centro de capacitación primario",
+    "New associated training center":"Nuevo Centro de capacitación Asociado",
+    "Catalog of training centers":"Catálogo de Centros de Capacitación",
+    "Catalog of customers":"Catálogo de clientes",
     "This is your administrator panel. Here is a summary of some relevant data collected by the Results WCLE platform.":"Este es su panel de administrador. Aqui se muestra un resumen  de algunos datos relevantes que recolecta la plataforma WCLE de Results"
 }

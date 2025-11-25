@@ -723,15 +723,88 @@
     </div>
 </div>
 
+<div class="modal fade" id="notasModal" tabindex="-1" aria-labelledby="notasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notasModalLabel">Lista de Notas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Botón para crear nueva nota -->
+                <div class="mb-3">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearNotaModal">
+                        Crear Nueva Nota
+                    </button>
+                </div>
+
+                <!-- Tabla de notas -->
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Contenido</th>
+                                <th>Fecha de Creación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay notas disponibles</td>
+                                </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="crearNotaModal" tabindex="-1" aria-labelledby="crearNotaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearNotaModalLabel">Crear Nueva Nota</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           
+              
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="contenido" class="form-label">Contenido de la Nota</label>
+                        <textarea class="form-control" id="contenido" name="contenido" rows="5" placeholder="Escribe tu nota aquí..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Nota</button>
+                </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
 <div class="modal fade" id="editarCursoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-users me-2"></i>Tabla de Candidatos</h5>
+                 
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                
                 <div style="padding: 1vw;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notasModal" style="margin-bottom: 1vw;">
+                    Ver Notas
+                </button>
                     <form id="coursesForm">
                          {!! csrf_field() !!}  
                         <table class="table table-modern" id="edit-course-table">
@@ -797,7 +870,20 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Si hay un error en el formulario de crear nota, abrir automáticamente el modal
+        @if($errors->has('contenido'))
+            var crearNotaModal = new bootstrap.Modal(document.getElementById('crearNotaModal'));
+            crearNotaModal.show();
+        @endif
 
+        // Mostrar mensajes de éxito
+        @if(session('success'))
+            alert('{{ session('success') }}');
+        @endif
+    });
+</script>
 <style>
         :root {
             --color-primary: #A4D65E;

@@ -810,7 +810,6 @@ class adminController extends Controller
 public function getAllCoursesData()
 {
     try {
-        // Obtener todos los cursos con sus candidatos
         $cursos = Course::with(['candidate' => function($query) {
             $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO');
         }])->get();

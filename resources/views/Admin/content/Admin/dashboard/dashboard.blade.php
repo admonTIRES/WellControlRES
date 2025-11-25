@@ -33,6 +33,7 @@
         </div>
     </div>
     <div class="row">
+        <p class="mb-4">{{ __('Totales generales') }}</p>
         <div class="col-md-4 col-sm-6">
             <div class="card">
                 <div class="card-body">
@@ -98,7 +99,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
@@ -230,6 +230,43 @@
                 </div> --}}   
             </div>
         </div>
+         <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes por Estado del Curso</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartEstadoCurso" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Estudiantes con Resit</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartEstudiantesResit" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Tipos de Resit</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartTiposResit" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="mb-4">{{ __('Estudiantes') }}</p>
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -289,42 +326,7 @@
                 </div>
             </div>
         </div>
-         <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Estudiantes por Estado del Curso</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="chartEstadoCurso" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Estudiantes con Resit</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="chartEstudiantesResit" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Tipos de Resit</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="chartTiposResit" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 

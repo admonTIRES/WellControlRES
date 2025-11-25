@@ -1,60 +1,60 @@
-document.getElementById("logout").addEventListener('click', function(event) {
-    event.preventDefault(); 
-    event.stopPropagation();
+document.getElementById("logout").addEventListener('click', function (event) {
+  event.preventDefault();
+  event.stopPropagation();
 
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Quieres cerrar sesión",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, cerrar sesión',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('logout-form').submit();
-        }
-    });
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Quieres cerrar sesión",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, cerrar sesión',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.getElementById('logout-form').submit();
+    }
+  });
 });
 
 
 
 function loaderbtn(btn) {
-    return new Promise(function (resolve, reject) { 
-        $('#' + btn).html('Guardando...').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
-        if ($('#' + btn).length > 0) {
-            resolve(1)                    
-        } else {
-            loaderbtn(btn)  
-        }
-    })
+  return new Promise(function (resolve, reject) {
+    $('#' + btn).html('Guardando...').prop('disabled', true).removeClass('btn-success').addClass('btn-light');
+    if ($('#' + btn).length > 0) {
+      resolve(1)
+    } else {
+      loaderbtn(btn)
+    }
+  })
 }
 
 if (window.innerWidth <= 768) {
-    position = 'top';
-  } else {
-    position = 'top';
-  }
-  
+  position = 'top';
+} else {
+  position = 'top';
+}
+
 const Toast = Swal.mixin({
-    toast: true,
-    position: position,
-    showConfirmButton: false,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
+  toast: true,
+  position: position,
+  showConfirmButton: false,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
 });
 
 function alertToast(msj = 'No ha seleccionado ningún registro', icon = 'error', timer = 7000) {
-    Toast.fire({
-      icon: icon,
-      title: msj,
-      timer: timer,
-      // width: 'auto'
-    });
-  }
+  Toast.fire({
+    icon: icon,
+    title: msj,
+    timer: timer,
+    // width: 'auto'
+  });
+}
 
 function alertMensajeConfirm(options, callback = function () { }, set = 0, callbackDenied = function () { }, callbackCanceled = function () {
 
@@ -130,72 +130,72 @@ function alertMensajeConfirm(options, callback = function () { }, set = 0, callb
 }
 
 function validarFormulario(form) {
-    var formulario = form;
-  
-    formulario.find('input[required]:not([disabled]), textarea[required]:not([disabled]), select[required]:not([disabled])').addClass('validar').removeClass('error');
-  
-    var campos =  formulario.find('.validar');
-    var formularioValido = true;
-  
-    campos.each(function () {
-        var tipoCampo = $(this).attr('type');
-        var valorCampo = $(this).val();
-  
-        if (tipoCampo === 'radio' || tipoCampo === 'checkbox') {
-            var nombreGrupo = $(this).attr('name');
-            if ($('input[name="' + nombreGrupo + '"]:checked').length === 0) {
-                $('input[name="' + nombreGrupo + '"]').addClass('error');
-                formularioValido = false;
-            } else {
-                $('input[name="' + nombreGrupo + '"]').removeClass('error');
-            }
-        } 
-        else if (valorCampo === '' || valorCampo === null) {
-            $(this).addClass('error');
-            formularioValido = false;
-        } else {
-            $(this).removeClass('error');
-        }
-    });
-  
-    return formularioValido;
+  var formulario = form;
+
+  formulario.find('input[required]:not([disabled]), textarea[required]:not([disabled]), select[required]:not([disabled])').addClass('validar').removeClass('error');
+
+  var campos = formulario.find('.validar');
+  var formularioValido = true;
+
+  campos.each(function () {
+    var tipoCampo = $(this).attr('type');
+    var valorCampo = $(this).val();
+
+    if (tipoCampo === 'radio' || tipoCampo === 'checkbox') {
+      var nombreGrupo = $(this).attr('name');
+      if ($('input[name="' + nombreGrupo + '"]:checked').length === 0) {
+        $('input[name="' + nombreGrupo + '"]').addClass('error');
+        formularioValido = false;
+      } else {
+        $('input[name="' + nombreGrupo + '"]').removeClass('error');
+      }
+    }
+    else if (valorCampo === '' || valorCampo === null) {
+      $(this).addClass('error');
+      formularioValido = false;
+    } else {
+      $(this).removeClass('error');
+    }
+  });
+
+  return formularioValido;
 }
 
 function eliminarDatoTabla(data, arregloTable, url) {
-  var accion = data.ACTIVAR == 1 ? 'desactivar' : 'activar'; 
-  var accion1 = data.ACTIVAR == 1 ? 'desactivado' : 'activado'; 
+  var accion = data.ACTIVAR == 1 ? 'desactivar' : 'activar';
+  var accion1 = data.ACTIVAR == 1 ? 'desactivado' : 'activado';
 
-  
+
   alertMensajeConfirm({
-      title: "Confirme para " + accion + " este registro",
-      text: "Esta acción cambiará el estado del registro",
-      icon: "warning",
-  }, function () { 
-      $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: url, 
-          data: data,
-          cache: false,
-          success:function(dato) {
-              for (var i = 0; i < arregloTable.length; i++) {
-                  arregloTable[i].ajax.reload();
-              }
+    title: "Confirme para " + accion + " este registro",
+    text: "Esta acción cambiará el estado del registro",
+    icon: "warning",
+  }, function () {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: url,
+      data: data,
+      cache: false,
+      success: function (dato) {
+        for (var i = 0; i < arregloTable.length; i++) {
+          arregloTable[i].ajax.reload();
+        }
 
-              setTimeout(() => {
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Registro ' + accion1,
-                      text: 'La acción fue realizada exitosamente',
-                      timer: 2000,
-                      timerProgressBar: true
-                  });
-              }, 1000);
-          },
-          error: function(dato) {
-              return false;
-          }
-      });
+        setTimeout(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Registro ' + accion1,
+            text: 'La acción fue realizada exitosamente',
+            timer: 2000,
+            timerProgressBar: true
+          });
+        }, 1000);
+      },
+      error: function (dato) {
+        return false;
+      }
+    });
   }, 1);
 }
 
@@ -256,7 +256,6 @@ function ifnull(data, siNull = '', values =
 
   return callback(siNull)
 }
-
 
 function escapeHtmlEntities(input) {
   if (!input || typeof input !== 'string') {
@@ -339,25 +338,25 @@ function mensajeAjax(data, modulo = null) {
           icon: "warning",
         });
         break;
-        case 0:
-          if (data.msj === 'Ya te has postulado a esta vacante') {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Ya estás postulado a esta vacante',
-              text: 'Nos pondremos en contacto contigo pronto.',
-              confirmButtonText: 'Entendido'
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: data.msj || 'Hubo un problema!',
-              footer: 'Por favor, reporta este problema...'
-            });
-          }
-          break;
-      
-      
+      case 0:
+        if (data.msj === 'Ya te has postulado a esta vacante') {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Ya estás postulado a esta vacante',
+            text: 'Nos pondremos en contacto contigo pronto.',
+            confirmButtonText: 'Entendido'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.msj || 'Hubo un problema!',
+            footer: 'Por favor, reporta este problema...'
+          });
+        }
+        break;
+
+
       default:
         Swal.fire({
           icon: 'error',
@@ -393,45 +392,46 @@ function alertMensaje1(icon = 'success', title = '¡Completado!', text = 'Datos 
     html: html,
     footer: footer,
     timer: timer,
-    showConfirmButton: false,  
-    timerProgressBar: true,    
-    
+    showConfirmButton: false,
+    timerProgressBar: true,
+
   });
 }
+
 function alertaDesarrollo(e) {
-    e.preventDefault(); 
-    Swal.fire({
-        title: '🚧 Estamos trabajando en ello',
-        html: `<p style="font-size:16px; margin-top:10px;">
+  e.preventDefault();
+  Swal.fire({
+    title: '🚧 Estamos trabajando en ello',
+    html: `<p style="font-size:16px; margin-top:10px;">
                 Esta funcionalidad se encuentra en desarrollo.<br>
                 Muy pronto estará disponible. 🙌
                </p>`,
-        icon: 'info',
-        confirmButtonText: 'Entendido',
-        confirmButtonColor: '#3085d6',
-        allowOutsideClick: false,
-        allowEscapeKey: false
-    });
+    icon: 'info',
+    confirmButtonText: 'Entendido',
+    confirmButtonColor: '#3085d6',
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  });
 }
 
 function configAjaxAwait(config) {
- 
-    const defaults = {
-        alertBefore: false, 
-        response: true, 
-        callbackBefore: false, 
-        callbackAfter: false, 
-        returnData: true, 
-        WithoutResponseData: false, 
-        resetForm: false, 
-        ajaxComplete: () => { }, 
-        ajaxError: () => { }, 
-    }
 
-    Object.entries(defaults).forEach(([key, value]) => {
-        config[key] = config[key] ?? value;
-    });
-    return config;
+  const defaults = {
+    alertBefore: false,
+    response: true,
+    callbackBefore: false,
+    callbackAfter: false,
+    returnData: true,
+    WithoutResponseData: false,
+    resetForm: false,
+    ajaxComplete: () => { },
+    ajaxError: () => { },
+  }
+
+  Object.entries(defaults).forEach(([key, value]) => {
+    config[key] = config[key] ?? value;
+  });
+  return config;
 }
 
 function alertErrorAJAX(jqXHR, exception, data) {
@@ -442,183 +442,160 @@ function alertErrorAJAX(jqXHR, exception, data) {
         alertToast('Sin conexión a internet', 'warning'); return 0
       };
     case 404:
-            alertToast('Recurso no encontrado', 'error'); return 0;
+      alertToast('Recurso no encontrado', 'error'); return 0;
     case 422:
-        var response = jqXHR.responseJSON;
-        if (response && response.message) {
-            alertToast(response.message, 'error');
-        } else {
-            alertToast('Error de validación', 'error');
-        }
-        return 0;
+      var response = jqXHR.responseJSON;
+      if (response && response.message) {
+        alertToast(response.message, 'error');
+      } else {
+        alertToast('Error de validación', 'error');
+      }
+      return 0;
     case 500: alertToast('Internal Server Error', 'info'); return 0;
   }
   switch (exception) {
     case 'parsererror': alertMensaje('info', 'Error del servidor', 'Algo ha pasado, estamos trabajando para resolverlo', 'Mensaje de error: ' + data); return 0
-    case 'timeout': 
+    case 'timeout':
     case 'abort': return 0
   }
 }
 
 //Ajax Async FormData
-async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyForm' , btn = 'OnlyBtn',
-    config = {
-        alertBefore: false
-    },
+async function ajaxAwaitFormData(dataJson = { api: 0, }, apiURL, form = 'OnlyForm', btn = 'OnlyBtn',
+  config = {
+    alertBefore: false
+  },
 
-    callbackBefore = () => {
-        alertMsj({
-            title: 'Espera un momento...',
-            text: 'Estamos cargando tu solicitud, esto puede demorar un rato',
-            icon: 'info',
-            showCancelButton: false
-        })
-    },
+  callbackBefore = () => {
+    alertMsj({
+      title: 'Espera un momento...',
+      text: 'Estamos cargando tu solicitud, esto puede demorar un rato',
+      icon: 'info',
+      showCancelButton: false
+    })
+  },
 
-    callbackSuccess = () => {
-        console.log('callback ajaxAwait por defecto')
-    }
+  callbackSuccess = () => {
+    console.log('callback ajaxAwait por defecto')
+  }
 ) {
 
-    return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
 
-        config = configAjaxAwait(config)
+    config = configAjaxAwait(config)
 
-        let formID = document.getElementById(form);
-        let formData = new FormData(formID);
+    let formID = document.getElementById(form);
+    let formData = new FormData(formID);
 
 
 
-        for (const key in dataJson) {
-            if (Object.hasOwnProperty.call(dataJson, key)) {
-                const element = dataJson[key];
-                if (!ifnull(formData.get(`${key}`), false)) {
-                    formData.set(`${key}`, element);
-                }
-            }
+    for (const key in dataJson) {
+      if (Object.hasOwnProperty.call(dataJson, key)) {
+        const element = dataJson[key];
+        if (!ifnull(formData.get(`${key}`), false)) {
+          formData.set(`${key}`, element);
         }
-
-        $.ajax({
-            url: apiURL,
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            type: 'POST',
-            beforeSend: function () {
-                config.callbackBefore ? callbackBefore() : 1;
-                // $('#' + btn).html('Guardando... <img src="/assets/images/loaderbtn.gif" alt="" style="max-width: 100%; max-height: 40px;">').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
-
-                //   mostrarCarga()
-            },
-            success: function (data) {
-                $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
-                //  $('#'+btn).html('Guardando... <img src="/assets/images/loaderbtn.gif" alt="" style="max-width: 100%; max-height: 40px;">').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
-                // ocultarCarga()
-                config.resetForm ? formID.reset() : false;
-                if (config.response) {
-                    if (mensajeAjax(data)) {
-                        config.callbackAfter ? callbackSuccess(config.WithoutResponseData ? data.response.data : data) : 1;
-                        config.returnData ? resolve(config.WithoutResponseData ? data.response.data : data) : resolve(1)
-                    }
-                } else {
-                    config.callbackAfter ? callbackSuccess(config.WithoutResponseData ? data.response.data : data) : 1;
-                    config.returnData ? resolve(config.WithoutResponseData ? data.response.data : data) : resolve(1)
-                }
-
-            },
-            error: function (jqXHR, exception, data) {
-                 $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
-                alertErrorAJAX(jqXHR, exception, data)
-            },
-        })
-    });
-}
-
-function editarDatoTabla( data, form = 'OnlyForm', modalID = 'ModalID', formComplete = 0) {
-  
-$('#'+ form).each(function(){
-    this.reset();
-});
-
-if (formComplete == 0) {
-for (var key in data) {
-  if (data.hasOwnProperty(key)) {
-    if (!key.startsWith("btn") && key !== "created_at" && key !== "updated_at") {
-          
-      var input = $('#' + form).find(`input[name='${key}']`);
-      if (input.length) {
-        input.val(data[key]);
-      } else {
-        $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
       }
     }
-  }
+
+    $.ajax({
+      url: apiURL,
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'POST',
+      beforeSend: function () {
+        config.callbackBefore ? callbackBefore() : 1;
+        // $('#' + btn).html('Guardando... <img src="/assets/images/loaderbtn.gif" alt="" style="max-width: 100%; max-height: 40px;">').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
+
+        //   mostrarCarga()
+      },
+      success: function (data) {
+        $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
+        //  $('#'+btn).html('Guardando... <img src="/assets/images/loaderbtn.gif" alt="" style="max-width: 100%; max-height: 40px;">').prop('disabled', true).removeClass('btn-success').addClass('btn-light');  
+        // ocultarCarga()
+        config.resetForm ? formID.reset() : false;
+        if (config.response) {
+          if (mensajeAjax(data)) {
+            config.callbackAfter ? callbackSuccess(config.WithoutResponseData ? data.response.data : data) : 1;
+            config.returnData ? resolve(config.WithoutResponseData ? data.response.data : data) : resolve(1)
+          }
+        } else {
+          config.callbackAfter ? callbackSuccess(config.WithoutResponseData ? data.response.data : data) : 1;
+          config.returnData ? resolve(config.WithoutResponseData ? data.response.data : data) : resolve(1)
+        }
+
+      },
+      error: function (jqXHR, exception, data) {
+        $('#' + btn).html('Guardar').prop('disabled', false).removeClass('btn-light').addClass('btn-success');
+        alertErrorAJAX(jqXHR, exception, data)
+      },
+    })
+  });
 }
 
-$('#' + modalID).modal('show');
+function editarDatoTabla(data, form = 'OnlyForm', modalID = 'ModalID', formComplete = 0) {
 
-} else {
-  
-for (var key in data) {
-if (data.hasOwnProperty(key)) {
+  $('#' + form).each(function () {
+    this.reset();
+  });
 
+  if (formComplete == 0) {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (!key.startsWith("btn") && key !== "created_at" && key !== "updated_at") {
 
-  if (!key.startsWith("BTN") && key !== "created_at" && key !== "updated_at") {
-        
-    var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number'], input[name='${key}'][type='tel']`);
-    var email = $('#' + form).find(`input[name='${key}'][type='email']`);
-    var date = $('#' + form).find(`input[name='${key}'][type='date']`);
-    var time = $('#' + form).find(`input[name='${key}'][type='time']`);
-    var textarea = $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
-    var select = $('#' + form).find(`select[name='${key}']`).val(data[key]);
-    var hidden = $('#' + form).find(`input[name='${key}'][type='hidden']`);
-
-    
-    if (input.length) {
-      input.val(data[key]);
-      
-    } else if (textarea.length) {
-      textarea.val(data[key]);
-      
+          var input = $('#' + form).find(`input[name='${key}']`);
+          if (input.length) {
+            input.val(data[key]);
+          } else {
+            $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+          }
+        }
+      }
     }
-    else if (email.length) {
-      email.val(data[key]);
-      
-    } else if (select.length) {
 
-      select.val(data[key])
+    $('#' + modalID).modal('show');
 
-    }  else if (date.length) {
-
-      date.val(data[key])
-
-    }else if (time.length) {
-
-      time.val(data[key])
-
-    }else if (hidden.length) {
-
-      hidden.val(data[key])
-
-    } else {
-
-      $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='radio']`).prop('checked', true)
-              
-      $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='checkbox']`).prop('checked', true)
-    }
-    
   }
-}
-}
+  else {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (!key.startsWith("BTN") && key !== "created_at" && key !== "updated_at") {
+          var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number'], input[name='${key}'][type='tel']`);
+          var email = $('#' + form).find(`input[name='${key}'][type='email']`);
+          var date = $('#' + form).find(`input[name='${key}'][type='date']`);
+          var time = $('#' + form).find(`input[name='${key}'][type='time']`);
+          var textarea = $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+          var select = $('#' + form).find(`select[name='${key}']`).val(data[key]);
+          var hidden = $('#' + form).find(`input[name='${key}'][type='hidden']`);
 
+          if (input.length) {
+            input.val(data[key]);
+          } else if (textarea.length) {
+            textarea.val(data[key]);
+          }
+          else if (email.length) {
+            email.val(data[key]);
+          } else if (select.length) {
+            select.val(data[key])
+          } else if (date.length) {
+            date.val(data[key])
+          } else if (time.length) {
+            time.val(data[key])
+          } else if (hidden.length) {
+            hidden.val(data[key])
+          } else {
+            $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='radio']`).prop('checked', true)
+            $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='checkbox']`).prop('checked', true)
+          }
+        }
+      }
+    }
 
-//Abrimos el modal
-$('#' + modalID).modal('show');
-  
-}
-
-
-
+    //Abrimos el modal
+    $('#' + modalID).modal('show');
+  }
 
 }

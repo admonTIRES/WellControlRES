@@ -212,7 +212,7 @@
                                                      {{ __('Nuevo cliente') }}
                                                 </button>
                                             </div>
-                                            <div class="table-container">
+                                            <div >
                                                 <table id="clientes-list-table" class="table " role="grid" >
                                                 </table>
                                             </div>
@@ -541,10 +541,15 @@
 }
 
 .fila-vencido {
-    background-color: #f8d7da !important; /* Rojo intenso */
+     background-color: #f8d7da !important; /* Rojo claro */
     border-left: 4px solid #dc3545;
     font-weight: bold;
-    color: #721c24;
+}
+
+.fila-vence-hoy {
+    background-color: #f8d7da !important; /* Rojo claro */
+    border-left: 4px solid #dc3545;
+    font-weight: bold;
 }
 
 /* MEJORAR VISUALIZACIÓN DE LAS CELDAS */
@@ -1015,32 +1020,7 @@
         document.getElementById('addContactoCliente').addEventListener('click', addContactoCliente);
     });
     
-    // Función para agregar razón social
-    function addRazonSocial(razonSocialData = null) {
-        razonSocialCounter++;
-        const newRazonSocial = document.createElement('div');
-        newRazonSocial.className = 'razon-social-item';
-        newRazonSocial.id = `razon-social-${razonSocialCounter}`;
-        
-        newRazonSocial.innerHTML = `
-            <div class="razon-social-header">
-                <h6 class="mb-0">Razón Social ${razonSocialCounter}</h6>
-                <span class="remove-razon-social" onclick="removeRazonSocial(${razonSocialCounter})">
-                    <i class="fas fa-times"></i>
-                </span>
-            </div>
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <label for="RAZON_SOCIAL_${razonSocialCounter}" class="form-label">Razón Social</label>
-                    <input type="text" class="form-control" id="RAZON_SOCIAL_${razonSocialCounter}" 
-                        name="RAZON_SOCIAL_${razonSocialCounter}" 
-                        placeholder="Nombre legal de la empresa" required>
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('razonesSocialesContainer').appendChild(newRazonSocial);
-    }
+    
     
     // Función para eliminar razón social
     function removeRazonSocial(id) {
@@ -1085,61 +1065,99 @@
         }
     }
     
-    // Función para agregar contacto
-    function addContactoCliente(contactoData = null) {
-        contactoClienteCounter++;
-        const newContacto = document.createElement('div');
-        newContacto.className = 'contacto-cliente-item';
-        newContacto.id = `contacto-cliente-${contactoClienteCounter}`;
-        
-        newContacto.innerHTML = `
-            <div class="contacto-cliente-header">
-                <h6 class="mb-0">Contacto ${contactoClienteCounter}</h6>
-                <span class="remove-contacto-cliente" onclick="removeContactoCliente(${contactoClienteCounter})">
-                    <i class="fas fa-times"></i>
-                </span>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="CONTACTO_NOMBRE_${contactoClienteCounter}" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactoClienteCounter}" 
-                        name="CONTACTO_NOMBRE_${contactoClienteCounter}" 
-                        value="${contactoData ? contactoData.NOMBRE : ''}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="CONTACTO_CARGO_${contactoClienteCounter}" class="form-label">Cargo</label>
-                    <input type="text" class="form-control" id="CONTACTO_CARGO_${contactoClienteCounter}" 
-                        name="CONTACTO_CARGO_${contactoClienteCounter}" 
-                        value="${contactoData ? contactoData.CARGO : ''}" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="CONTACTO_EMAIL_${contactoClienteCounter}" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactoClienteCounter}" 
-                        name="CONTACTO_EMAIL_${contactoClienteCounter}" 
-                        value="${contactoData ? contactoData.EMAIL : ''}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="CONTACTO_CELULAR_${contactoClienteCounter}" class="form-label">Teléfono Celular</label>
-                    <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactoClienteCounter}" 
-                        name="CONTACTO_CELULAR_${contactoClienteCounter}" 
-                        value="${contactoData ? contactoData.CELULAR : ''}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="CONTACTO_FIJO_${contactoClienteCounter}" class="form-label">Teléfono Fijo</label>
-                    <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactoClienteCounter}" 
-                        name="CONTACTO_FIJO_${contactoClienteCounter}" 
-                        value="${contactoData ? contactoData.FIJO : ''}">
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('contactosContainerCliente').appendChild(newContacto);
-    }
     
+// Función para agregar razón social - ACTUALIZADA para llenar datos
+function addRazonSocial(razonSocialData = null) {
+    razonSocialCounter++;
+    const newRazonSocial = document.createElement('div');
+    newRazonSocial.className = 'razon-social-item';
+    newRazonSocial.id = `razon-social-${razonSocialCounter}`;
+    
+    // Valor por defecto si hay datos
+    const razonValue = razonSocialData ? (razonSocialData.RAZON_SOCIAL || '') : '';
+    
+    newRazonSocial.innerHTML = `
+        <div class="razon-social-header">
+            <h6 class="mb-0">Razón Social ${razonSocialCounter}</h6>
+            <span class="remove-razon-social" onclick="removeRazonSocial(${razonSocialCounter})">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label for="RAZON_SOCIAL_${razonSocialCounter}" class="form-label">Razón Social</label>
+                <input type="text" class="form-control" id="RAZON_SOCIAL_${razonSocialCounter}" 
+                    name="RAZON_SOCIAL_${razonSocialCounter}" 
+                    placeholder="Nombre legal de la empresa" 
+                    value="${razonValue}" required>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('razonesSocialesContainer').appendChild(newRazonSocial);
+}
+
+// Función para agregar contacto - ACTUALIZADA para llenar datos
+function addContactoCliente(contactoData = null) {
+    contactoClienteCounter++;
+    const newContacto = document.createElement('div');
+    newContacto.className = 'contacto-cliente-item';
+    newContacto.id = `contacto-cliente-${contactoClienteCounter}`;
+    
+    // Valores por defecto si hay datos
+    const nombreValue = contactoData ? (contactoData.NOMBRE || '') : '';
+    const cargoValue = contactoData ? (contactoData.CARGO || '') : '';
+    const emailValue = contactoData ? (contactoData.EMAIL || '') : '';
+    const celularValue = contactoData ? (contactoData.CELULAR || '') : '';
+    const fijoValue = contactoData ? (contactoData.FIJO || '') : '';
+    
+    newContacto.innerHTML = `
+        <div class="contacto-cliente-header">
+            <h6 class="mb-0">Contacto ${contactoClienteCounter}</h6>
+            <span class="remove-contacto-cliente" onclick="removeContactoCliente(${contactoClienteCounter})">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="CONTACTO_NOMBRE_${contactoClienteCounter}" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactoClienteCounter}" 
+                    name="CONTACTO_NOMBRE_${contactoClienteCounter}" 
+                    value="${nombreValue}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="CONTACTO_CARGO_${contactoClienteCounter}" class="form-label">Cargo</label>
+                <input type="text" class="form-control" id="CONTACTO_CARGO_${contactoClienteCounter}" 
+                    name="CONTACTO_CARGO_${contactoClienteCounter}" 
+                    value="${cargoValue}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="CONTACTO_EMAIL_${contactoClienteCounter}" class="form-label">Email</label>
+                <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactoClienteCounter}" 
+                    name="CONTACTO_EMAIL_${contactoClienteCounter}" 
+                    value="${emailValue}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="CONTACTO_CELULAR_${contactoClienteCounter}" class="form-label">Teléfono Celular</label>
+                <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactoClienteCounter}" 
+                    name="CONTACTO_CELULAR_${contactoClienteCounter}" 
+                    value="${celularValue}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="CONTACTO_FIJO_${contactoClienteCounter}" class="form-label">Teléfono Fijo</label>
+                <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactoClienteCounter}" 
+                    name="CONTACTO_FIJO_${contactoClienteCounter}" 
+                    value="${fijoValue}">
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('contactosContainerCliente').appendChild(newContacto);
+}
     // Función para eliminar contacto
     function removeContactoCliente(id) {
         if (contactoClienteCounter > 1) {

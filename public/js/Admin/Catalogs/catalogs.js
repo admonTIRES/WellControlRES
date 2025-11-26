@@ -162,11 +162,32 @@ $(document).ready(function () {
                          .addClass('form-label');
 });
 
-     $('#clienteModal').on('hidden.bs.modal', function () {
-        ID_CATALOGO_CLIENTE = 0;
-        $('#clienteForm')[0].reset();
-        $('#clienteModal .modal-title').text('Nuevo cliente');
-    });
+   $('#clienteModal').on('hidden.bs.modal', function () {
+    // Resetear ID
+    ID_CATALOGO_CLIENTE = 0;
+    
+    // Resetear formulario básico
+    $('#clienteForm')[0].reset();
+    
+    // Limpiar contenedores dinámicos
+    $('#razonesSocialesContainer').empty();
+    $('#contactosContainerCliente').empty();
+    
+    // Resetear contadores
+    razonSocialCounter = 0;
+    contactoClienteCounter = 0;
+    
+    // Agregar elementos vacíos por defecto
+    addRazonSocial();
+    addContactoCliente();
+    
+    // Resetear título del modal
+    $('#clienteModal .modal-title').text('Nuevo cliente');
+    
+    // Limpiar validaciones
+    $('#clienteForm').find('.is-invalid').removeClass('is-invalid');
+    $('#clienteForm').find('.invalid-feedback').remove();
+});
     // RESET MODALS - END
 
    
@@ -522,6 +543,7 @@ var clientesDatatable = $("#clientes-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -549,16 +571,14 @@ var clientesDatatable = $("#clientes-list-table").DataTable({
             }
         },
         { data: 'NOMBRE_COMERCIAL_CLIENTE' },
-        { data: 'RAZON_SOCIAL_CLIENTE' },
         { data: 'BTN_ACTIVO' },
         { data: 'BTN_EDITAR' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Nombre Comercial', className: 'text-center' },
-        { targets: 2, title: 'Razón Social', className: 'text-center' },
-        { targets: 3, title: 'Activo', className: 'text-center' },
-        { targets: 4, title: 'Editar', className: 'text-center' }
+        { targets: 2, title: 'Activo', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' }
     ]
 });
 var subtemasDatatable = $("#subtemas-list-table").DataTable({
@@ -1268,10 +1288,16 @@ $("#clientebtnModal").click(function (e) {
         $('#razonesSocialesJSON').remove();
         $('#contactosClienteJSON').remove();
         $('#activoClienteField').remove();
+        $('#idClienteField').remove(); // Remover campo ID si existe
         
         // Agregar campos hidden al formulario
         $('#clienteForm').append(`<input type="hidden" id="razonesSocialesJSON" name="razonesSocialesJSON" value='${razonesSocialesJSON}'>`);
         $('#clienteForm').append(`<input type="hidden" id="contactosClienteJSON" name="contactosClienteJSON" value='${contactosJSON}'>`);
+        
+        // AGREGAR ID_CATALOGO_CLIENTE AL FORMULARIO (IMPORTANTE)
+        if (ID_CATALOGO_CLIENTE > 0) {
+            $('#clienteForm').append(`<input type="hidden" id="idClienteField" name="ID_CATALOGO_CLIENTE" value="${ID_CATALOGO_CLIENTE}">`);
+        }
         
         // Agregar ACTIVO_CLIENTE = 1 automáticamente al crear
         if (ID_CATALOGO_CLIENTE == 0) {
@@ -1932,34 +1958,38 @@ $('#tiposbop-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
 });
 
-// ACTIVAR/DESACTIVAR CLIENTE - MISMA ESTRUCTURA
-$('#clientes-list-table tbody').on('change', 'input.ACTIVAR_CLIENTE', function () {
-    var tr = $(this).closest('tr');
-    var row = clientesDatatable.row(tr);
-    var estado = $(this).is(':checked') ? 1 : 0;
 
-    var data = {
-        api: 12,
-        ACTIVAR: estado == 0 ? 1 : 0,
-        ID_CATALOGO_CLIENTE: row.data().ID_CATALOGO_CLIENTE
-    };
 
-    eliminarDatoTabla(data, [clientesDatatable], 'clienteActive');
-});
-
-// EDITAR CLIENTE - MISMA ESTRUCTURA  
 $('#clientes-list-table tbody').on('click', 'td>button.EDITAR_CLIENTE', function () {
+    console.log('ENTRA AQUI CLIENTE');
     var tr = $(this).closest('tr');
     var row = clientesDatatable.row(tr);
-    ID_CATALOGO_CLIENTE = row.data().ID_CATALOGO_CLIENTE;
-    cargarDatosCliente(row.data());
-    editarDatoTabla(row.data(), 'clienteForm', 'clienteModal', 1);
-
-    $('#clienteModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CLIENTE);
+    var rowData = row.data();
+    
+    // DEBUG: Verificar los datos de la fila
+    console.log('Datos de la fila:', rowData);
+    
+    // ESTABLECER EL ID CORRECTAMENTE
+    ID_CATALOGO_CLIENTE = rowData.ID_CATALOGO_CLIENTE;
+    console.log('ID_CATALOGO_CLIENTE establecido:', ID_CATALOGO_CLIENTE);
+    
+    cargarDatosCliente(rowData);
+    
+    // Cambiar el título del modal para mostrar que es edición
+    $('#clienteModal .modal-title').html('Editando cliente: ' + rowData.ID_CATALOGO_CLIENTE);
+    
+    // Abrir el modal
+    $('#clienteModal').modal('show');
 });
 
-// Función para cargar datos del cliente al editar
+// Función para cargar datos del cliente al editar - CORREGIDA
 function cargarDatosCliente(clienteData) {
+    console.log('Cargando datos del cliente:', clienteData);
+    
+    // ESTABLECER EL ID GLOBAL
+    ID_CATALOGO_CLIENTE = clienteData.ID_CATALOGO_CLIENTE;
+    console.log('ID_CATALOGO_CLIENTE en cargarDatos:', ID_CATALOGO_CLIENTE);
+    
     // LLENAR CAMPO ÚNICO
     $('#NOMBRE_COMERCIAL_CLIENTE').val(clienteData.NOMBRE_COMERCIAL_CLIENTE);
     
@@ -1974,8 +2004,13 @@ function cargarDatosCliente(clienteData) {
     // CARGAR RAZONES SOCIALES
     if (clienteData.RAZONES_SOCIALES) {
         try {
-            const razones = JSON.parse(clienteData.RAZONES_SOCIALES);
-            if (razones.length > 0) {
+            const razones = typeof clienteData.RAZONES_SOCIALES === 'string' 
+                ? JSON.parse(clienteData.RAZONES_SOCIALES) 
+                : clienteData.RAZONES_SOCIALES;
+            
+            console.log('Razones sociales cargadas:', razones);
+            
+            if (razones && razones.length > 0) {
                 razones.forEach(razon => {
                     addRazonSocial(razon);
                 });
@@ -1993,8 +2028,13 @@ function cargarDatosCliente(clienteData) {
     // CARGAR CONTACTOS
     if (clienteData.CONTACTO_CLIENTE) {
         try {
-            const contactos = JSON.parse(clienteData.CONTACTO_CLIENTE);
-            if (contactos.length > 0) {
+            const contactos = typeof clienteData.CONTACTO_CLIENTE === 'string' 
+                ? JSON.parse(clienteData.CONTACTO_CLIENTE) 
+                : clienteData.CONTACTO_CLIENTE;
+            
+            console.log('Contactos cargados:', contactos);
+            
+            if (contactos && contactos.length > 0) {
                 contactos.forEach(contacto => {
                     addContactoCliente(contacto);
                 });

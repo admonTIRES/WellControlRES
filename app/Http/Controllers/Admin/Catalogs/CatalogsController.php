@@ -313,17 +313,45 @@ class CatalogsController extends Controller
     }
 }
 
-// FUNCIÓN PARA CALCULAR VIGENCIA
+// FUNCIÓN PARA CALCULAR VIGENCIA (CORREGIDA - POR PORCENTAJE)
 private function calcularVigencia($fechaDesde, $fechaHasta)
 {
     $hoy = new DateTime();
+    
+    // Si no hay fechas válidas
+    if (!$fechaDesde || !$fechaHasta) {
+        return [
+            'texto' => 'SIN FECHAS',
+            'color' => 'fila-gris',
+            'dias_restantes' => 0,
+            'porcentaje' => 0
+        ];
+    }
+    
     $desde = new DateTime($fechaDesde);
     $hasta = new DateTime($fechaHasta);
     
-    // Si la fecha de vencimiento ya pasó
-    if ($hoy > $hasta) {
+    // Formatear fechas para comparación solo por día (sin hora)
+    $hoyFormateado = $hoy->format('Y-m-d');
+    $hastaFormateado = $hasta->format('Y-m-d');
+    
+    // Si la fecha de vencimiento es hoy
+    if ($hoyFormateado == $hastaFormateado) {
         return [
-            'texto' => 'VENCIDO',
+            'texto' => 'VENCE HOY (0 días)',
+            'color' => 'fila-vence-hoy',
+            'dias_restantes' => 0,
+            'porcentaje' => 100
+        ];
+    }
+    
+    // Si la fecha de vencimiento ya pasó (después de hoy)
+    if ($hoy > $hasta) {
+        $diasVencido = $hoy->diff($hasta)->days;
+        $textoVencido = $diasVencido == 1 ? 'VENCIDO (1 día)' : 'VENCIDO (' . $diasVencido . ' días)';
+        
+        return [
+            'texto' => $textoVencido,
             'color' => 'fila-vencido',
             'dias_restantes' => 0,
             'porcentaje' => 100
@@ -338,20 +366,26 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
     // Calcular porcentaje transcurrido
     $porcentajeTranscurrido = $diasTotales > 0 ? ($diasTranscurridos / $diasTotales) * 100 : 0;
     
-    // Determinar color según el porcentaje
+    // DETERMINAR COLOR SEGÚN PORCENTAJE TRANSCURRIDO
     if ($porcentajeTranscurrido <= 40) {
+        // 0% - 40%: VERDE
         $color = 'fila-verde';
         $estado = 'VIGENTE';
     } elseif ($porcentajeTranscurrido <= 70) {
+        // 41% - 70%: AMARILLO
         $color = 'fila-amarillo';
         $estado = 'VIGENTE';
     } else {
+        // 71% - 100%: ROJO (pero aún vigente)
         $color = 'fila-rojo';
         $estado = 'VIGENTE';
     }
     
+    // Texto con días en singular o plural
+    $textoDias = $diasRestantes == 1 ? '1 día' : $diasRestantes . ' días';
+    
     return [
-        'texto' => $estado . ' (' . $diasRestantes . ' días)',
+        'texto' => $estado . ' (' . $textoDias . ')',
         'color' => $color,
         'dias_restantes' => $diasRestantes,
         'porcentaje' => round($porcentajeTranscurrido, 1)
@@ -1235,7 +1269,7 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
             $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
         }
         
-        // Procesar contactos
+        // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
         if ($contactosJSON) {
             $data['CONTACTO_CLIENTE'] = $contactosJSON;
         }
@@ -1275,7 +1309,7 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
                 $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
             }
             
-            // Procesar contactos
+            // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
             if ($contactosJSON) {
                 $data['CONTACTO_CLIENTE'] = $contactosJSON;
             }

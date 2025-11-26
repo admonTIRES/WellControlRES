@@ -809,7 +809,7 @@ use Illuminate\Support\Str;
     <script src="/js/Admin/admin.js?v=1.52"></script>
     @if(request()->is('catalogs'))
     
-        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.16"></script>
+        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.17"></script>
     @endif
     @if(request()->is('math'))
         <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>

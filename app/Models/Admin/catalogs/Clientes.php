@@ -9,9 +9,9 @@ class Clientes extends Model
 {
      use HasFactory;
     protected $table = 'costumers';
-    protected $primaryKey = 'ID_CATALOGO_CENTRO';
+    protected $primaryKey = 'ID_CATALOGO_CLIENTE';
     protected $fillable = [
-        'RAZON_SOCIAL_CLIENTE', 
+        'RAZONES_SOCIALES', 
         'NOMBRE_COMERCIAL_CLIENTE', 
         'CONTACTO_CLIENTE', 
         'ACTIVO_CLIENTE'

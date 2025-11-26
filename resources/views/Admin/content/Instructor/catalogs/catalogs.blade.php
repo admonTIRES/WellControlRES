@@ -195,7 +195,7 @@
                                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
                                                 <h4 class="card-title mb-0"> {{ __('Catalog of training centers') }}</h4> 
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#centroModal">
-                                                     {{ __('New training center') }}
+                                                     {{ __('Nuevo centro de capacitación') }}
                                                 </button>
                                             </div>
                                             <div>

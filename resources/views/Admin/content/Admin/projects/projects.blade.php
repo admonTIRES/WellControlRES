@@ -338,15 +338,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> <strong>{{ __('Registered certification centre name:')}}</strong></label>
-                                                        <input type="text" class="form-control" name="CERTIFICATION_CENTER_PROJECT" id="CERTIFICATION_CENTER_PROJECT"
-                                                            placeholder="Nombre del centro certificador" />
-                                                        <div class="error-message"> {{ __('This field is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
                                                  <div class="col-md-2">
                                                     <div class="col-12 me-1 mt-3">
                                                         <label> <strong>{{ __('Language:')}}</strong></label>
@@ -406,8 +398,20 @@
                                                     </select>
                                                 </div>
                                                 <hr style="margin-top: 2vw;">
-                                                
-                                                 <div class="col-md-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3 mt-3">
+                                                        <label class="form-label"> <strong>{{ __('Registered certification centre name:')}}</strong></label>
+                                                        {{-- <input type="text" class="form-control" name="CERTIFICATION_CENTER_PROJECT" id="CERTIFICATION_CENTER_PROJECT"
+                                                            placeholder="Nombre del centro certificador" /> --}}
+
+                                                       
+                                                            <select class="form-select" id="CERTIFICATION_CENTER_PROJECT" name="CERTIFICATION_CENTER_PROJECT">
+                                                                <option value="" selected disabled>Seleccione el centro de capacitación</option>
+                                                            </select>
+                                                        <div class="error-message"> {{ __('This field is required.')}}</div>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-md-6">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Centre number:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CENTER_NUMBER_PROJECT" id="CENTER_NUMBER_PROJECT"
@@ -416,7 +420,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                {{-- <div class="col-md-3">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Contact name:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CONTACT_NAME_PROJEC" id="CONTACT_NAME_PROJEC"
@@ -433,11 +437,17 @@
                                                         <div class="error-message">{{ __('This field is required.')}}
                                                         </div>
                                                     </div>
+                                                </div> --}}
+                                                <div class="col-12">
+                                                    <div id="contactos-container">
+                                                        <!-- Los contactos se mostrarán aquí automáticamente -->
+                                                        <div class="text-muted text-center py-3">
+                                                            <i class="fas fa-info-circle me-1"></i>
+                                                            Seleccione un centro para ver sus contactos
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                               
-                                               
-                                               
-                                                <div class="col-md-5">
+                                                <div class="col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label class="form-label"> <strong>{{ __('Location:')}}</strong></label>
                                                         <input type="text" class="form-control" name="LOCATION_PROJECT" id="LOCATION_PROJECT"
@@ -446,7 +456,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label class="form-label"> <strong>{{ __('City:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CITY_PROJECT" id="CITY_PROJECT"
@@ -818,7 +828,6 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Contenedor dinámico para las empresas -->
                                             <div id="empresasContainer"></div>
                                             
                                             <div class="d-flex justify-content-between">

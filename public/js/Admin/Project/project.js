@@ -810,6 +810,8 @@ document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
 });
 
+
+
 var proyectoDatatable = $("#proyecto-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -867,6 +869,227 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
         { targets: 5, title: 'ACCIONES', className: 'text-center' }
 
     ]
+
+});
+
+function actualizarCentrosCapacitacion(acreditacionId = null) {
+    const $select = $('#CERTIFICATION_CENTER_PROJECT');
+    $select.html('<option value="" selected disabled>Cargando centros...</option>');
+    
+    // Si no se proporciona acreditacionId, intentar obtenerlo del select
+    if (acreditacionId === null) {
+        acreditacionId = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
+    }
+    
+    $.ajax({
+        url: '/centros-capacitacion',
+        type: 'GET',
+        data: { 
+            tipo: 2,
+            acreditacion: acreditacionId
+        },
+        success: function(response) {
+            let options = '<option value="" selected disabled>Seleccione el centro de capacitación</option>';
+            
+            if (response.success && response.centros.length > 0) {
+                response.centros.forEach(function(centro) {
+                    options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
+                });
+            } else {
+                options = '<option value="" selected disabled>No hay centros disponibles</option>';
+            }
+            
+            $select.html(options);
+        },
+        error: function(xhr, status, error) {
+            $select.html('<option value="" selected disabled>Error al cargar centros</option>');
+        }
+    });
+}
+
+// Evento cuando cambia la acreditación
+$(document).ready(function() {
+    // Cargar centros al inicio si ya hay una acreditación seleccionada
+    const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
+    if (acreditacionInicial) {
+        actualizarCentrosCapacitacion(acreditacionInicial);
+    }
+    
+    // Escuchar cambios en el select de acreditación
+    $('#ACCREDITING_ENTITY_PROJECT').on('change', function() {
+        const acreditacionId = $(this).val() || 0;
+        actualizarCentrosCapacitacion(acreditacionId);
+    });
+});
+// Función para cargar datos del centro y mostrar contactos
+function cargarDatosCentro(centroId) {
+    // Limpiar campos primero
+    limpiarCamposCentro();
+    limpiarListaContactos();
+    
+    if (!centroId || centroId === '') {
+        return;
+    }
+
+    // Mostrar loading
+    $('#CENTER_NUMBER_PROJECT').val('Cargando...');
+    mostrarLoadingContactos();
+
+    $.ajax({
+        url: '/obtener-datos-centro',
+        type: 'GET',
+        data: { 
+            centro_id: centroId
+        },
+        timeout: 10000,
+        success: function(response) {
+            if (response.success && response.centro) {
+                // Llenar número de centro
+                $('#CENTER_NUMBER_PROJECT').val(response.centro.numero_centro || 'No disponible');
+                
+                // Mostrar contactos
+                if (response.centro.contactos && response.centro.contactos.length > 0) {
+                    mostrarContactos(response.centro.contactos);
+                } else {
+                    mostrarSinContactos();
+                }
+            } else {
+                $('#CENTER_NUMBER_PROJECT').val('Error al cargar datos');
+                mostrarErrorContactos();
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#CENTER_NUMBER_PROJECT').val('Error de conexión');
+            mostrarErrorContactos();
+            console.error('Error al cargar datos del centro:', error);
+        }
+    });
+}
+
+// Función para mostrar la lista de contactos
+function mostrarContactos(contactos) {
+    const $contactosContainer = $('#contactos-container');
+    
+    let html = `
+        <div class="mt-3">
+            <h6 class="text-primary"><i class="fas fa-users me-2"></i>Contactos del Centro:</h6>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                            <th>Teléfono Fijo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    
+    contactos.forEach((contacto, index) => {
+        html += `
+            <tr>
+                <td class="fw-semibold">${contacto.nombre || 'N/A'}</td>
+                <td>${contacto.cargo || 'N/A'}</td>
+                <td>
+                    ${contacto.email ? 
+                        `<a href="mailto:${contacto.email}" class="text-decoration-none">
+                            <i class="fas fa-envelope me-1"></i>${contacto.email}
+                         </a>` : 
+                        'N/A'}
+                </td>
+                <td>
+                    ${contacto.celular ? 
+                        `<a href="tel:${contacto.celular}" class="text-decoration-none">
+                            <i class="fas fa-mobile-alt me-1"></i>${contacto.celular}
+                         </a>` : 
+                        'N/A'}
+                </td>
+                <td>
+                    ${contacto.fijo ? 
+                        `<a href="tel:${contacto.fijo}" class="text-decoration-none">
+                            <i class="fas fa-phone me-1"></i>${contacto.fijo}
+                         </a>` : 
+                        'N/A'}
+                </td>
+            </tr>
+        `;
+    });
+    
+    html += `
+                    </tbody>
+                </table>
+            </div>
+            <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                Se encontraron ${contactos.length} contacto(s) registrado(s)
+            </small>
+        </div>
+    `;
+    
+    $contactosContainer.html(html);
+}
+
+// Función para mostrar estado sin contactos
+function mostrarSinContactos() {
+    const $contactosContainer = $('#contactos-container');
+    $contactosContainer.html(`
+        <div class="mt-3">
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                No se encontraron contactos registrados para este centro.
+            </div>
+        </div>
+    `);
+}
+
+// Función para mostrar error al cargar contactos
+function mostrarErrorContactos() {
+    const $contactosContainer = $('#contactos-container');
+    $contactosContainer.html(`
+        <div class="mt-3">
+            <div class="alert alert-danger">
+                <i class="fas fa-times-circle me-2"></i>
+                Error al cargar los contactos del centro.
+            </div>
+        </div>
+    `);
+}
+
+// Función para mostrar loading
+function mostrarLoadingContactos() {
+    const $contactosContainer = $('#contactos-container');
+    $contactosContainer.html(`
+        <div class="mt-3">
+            <div class="text-center py-3">
+                <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <small class="text-muted">Cargando contactos del centro...</small>
+            </div>
+        </div>
+    `);
+}
+
+// Función para limpiar lista de contactos
+function limpiarListaContactos() {
+    $('#contactos-container').html('');
+}
+
+// Función para limpiar campos del centro
+function limpiarCamposCentro() {
+    $('#CENTER_NUMBER_PROJECT').val('');
+    limpiarListaContactos();
+}
+
+
+$(document).ready(function() {
+    // Para el select CERTIFICATION_CENTER_PROJECT
+    $('#CERTIFICATION_CENTER_PROJECT').on('change', function() {
+        const centroId = $(this).val();
+        cargarDatosCentro(centroId);
+    });
 
 });
 

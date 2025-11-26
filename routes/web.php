@@ -77,26 +77,26 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware('auth')->get('/Evaluation', [evaluationController::class, 'index'])->name('evaluation');
 
 Route::middleware(['auth'])->group(function () {
-//---------------------------               ADMIN              -------------------------------//
-//----------------------------DASHBOARD-------------------------------//
-Route::get('/api/chart/candidates', [adminController::class, 'getCandidateStats']);
-Route::get('/api/chart/years', [adminController::class, 'getAvailableYears']);
-Route::get('/api/dashboard/data', [adminController::class, 'getDashboardData']);
-Route::get('/getAllCoursesData', [adminController::class, 'getAllCoursesData']);
+    //---------------------------               ADMIN              -------------------------------//
+    //----------------------------DASHBOARD-------------------------------//
+    Route::get('/api/chart/candidates', [adminController::class, 'getCandidateStats']);
+    Route::get('/api/chart/years', [adminController::class, 'getAvailableYears']);
+    Route::get('/api/dashboard/data', [adminController::class, 'getDashboardData']);
+    Route::get('/getAllCoursesData', [adminController::class, 'getAllCoursesData']);
 
-//----------------------------INSTRUCTOR-------------------------------//
-Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
-Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'projectsManagement'])->name('projects.management');
+    //----------------------------INSTRUCTOR-------------------------------//
+    Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');
+    Route::get('/projectsManagement/{PROJECT_ID}', [adminController::class, 'projectsManagement'])->name('projects.management');
 
 
-//-------------------------------PROJECT----------------------------------------//
-Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');
-Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
+    //-------------------------------PROJECT----------------------------------------//
+    Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');
+    Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
-Route::prefix('projectsAdmin/details')->group(function () {
-    Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
-    Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
-});
+    Route::prefix('projectsAdmin/details')->group(function () {
+        Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
+        Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
+    });
 
     Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
     Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
@@ -193,71 +193,173 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/centrosDatatable', [CatalogsController::class, 'centrosDatatable']);
     Route::post('/centroSave', [CatalogsController::class, 'store']);
 
-     Route::get('/clienteDatatable', [CatalogsController::class, 'clienteDatatable']);
+    Route::get('/clienteDatatable', [CatalogsController::class, 'clienteDatatable']);
     Route::post('/clienteSave', [CatalogsController::class, 'store']);
     Route::get('/clienteActive', [CatalogsController::class, 'store']);
 
-    // Ruta para servir archivos PDF desde storage
-Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
-    $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
-    
-    if (!file_exists($path)) {
-        abort(404, 'Archivo no encontrado: ' . $path);
-    }
-    
-    return response()->file($path, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="' . $filename . '"'
-    ]);
-})->name('archivos.centros');
+    Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
+        $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
 
-Route::get('/centros-capacitacion', function (Request $request) {
-    $tipo = $request->get('tipo', '2');
+        if (!file_exists($path)) {
+            abort(404, 'Archivo no encontrado: ' . $path);
+        }
+
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        ]);
+    })->name('archivos.centros');
+
+  Route::get('/centros-capacitacion', function (Request $request) {
     $acreditacion = $request->get('acreditacion', 0);
-    
-    $query = CentrosCapacitacion::where('TIPO_CENTRO', $tipo)
-        ->where(function($q) {
-            $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
-              ->orWhereNull('VIGENCIA_HASTA_CENTRO');
-        });
-    
-    // Si acreditacion es 0, traer centros con ACREDITACION_CENTRO = 1 o 2
-    // Si es otro valor, traer solo los que coincidan con ese valor
+
+    $query = CentrosCapacitacion::where(function ($q) {
+        $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
+            ->orWhereNull('VIGENCIA_HASTA_CENTRO');
+    });
+
     if ($acreditacion == 0) {
         $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
     } else {
         $query->where('ACREDITACION_CENTRO', $acreditacion);
     }
-    
+
     $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
-    
-    // Log detallado para producción
-    \Log::info('=== CONSULTA CENTROS CAPACITACION ===', [
+
+    \Log::info('=== CONSULTA CENTROS CAPACITACION (MODIFICADA) ===', [
         'acreditacion_recibida' => $acreditacion,
-        'tipo' => $tipo,
         'fecha_actual' => now()->format('Y-m-d'),
         'total_centros_encontrados' => $centros->count(),
-        'centros_detalle' => $centros->map(function($c) {
+        'centros_detalle' => $centros->map(function ($c) {
             return [
                 'id' => $c->ID_CATALOGO_CENTRO,
                 'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
+                'tipo_centro' => $c->TIPO_CENTRO,
                 'acreditacion' => $c->ACREDITACION_CENTRO,
                 'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO
             ];
         })
     ]);
-    
+
     return response()->json([
         'success' => true,
         'centros' => $centros,
         'total' => $centros->count(),
         'fecha_consulta' => now()->format('Y-m-d'),
         'filtro_acreditacion' => $acreditacion,
-        'filtro_tipo' => $tipo
+        'nota' => 'Se traen centros de cualquier tipo (primario o asociado) que estén vigentes'
     ]);
 });
 
+    // Route::get('/centros-capacitacion', function (Request $request) {
+    //     $tipo = $request->get('tipo', '2');
+    //     $acreditacion = $request->get('acreditacion', 0);
 
+    //     $query = CentrosCapacitacion::where('TIPO_CENTRO', $tipo)
+    //         ->where(function ($q) {
+    //             $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
+    //                 ->orWhereNull('VIGENCIA_HASTA_CENTRO');
+    //         });
+
+    //     if ($acreditacion == 0) {
+    //         $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
+    //     } else {
+    //         $query->where('ACREDITACION_CENTRO', $acreditacion);
+    //     }
+
+    //     $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
+
+    //     $centros->load('contactos');
+
+    //     \Log::info('=== CONSULTA CENTROS CAPACITACION ===', [
+    //         'acreditacion_recibida' => $acreditacion,
+    //         'tipo' => $tipo,
+    //         'fecha_actual' => now()->format('Y-m-d'),
+    //         'total_centros_encontrados' => $centros->count(),
+    //         'centros_detalle' => $centros->map(function ($c) {
+    //             return [
+    //                 'id' => $c->ID_CATALOGO_CENTRO,
+    //                 'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
+    //                 'acreditacion' => $c->ACREDITACION_CENTRO,
+    //                 'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO,
+    //                 'contactos_count' => $c->contactos ? $c->contactos->count() : 0
+    //             ];
+    //         })
+    //     ]);
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'centros' => $centros,
+    //         'total' => $centros->count(),
+    //         'fecha_consulta' => now()->format('Y-m-d'),
+    //         'filtro_acreditacion' => $acreditacion,
+    //         'filtro_tipo' => $tipo
+    //     ]);
+    // });
+
+    Route::get('/obtener-datos-centro', function (Request $request) {
+        $centroId = $request->get('centro_id');
+
+        if (!$centroId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'ID de centro no proporcionado'
+            ]);
+        }
+
+        $centro = CentrosCapacitacion::find($centroId);
+
+        if (!$centro) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Centro no encontrado'
+            ]);
+        }
+
+        // Procesar contactos del campo JSON
+        $contactos = [];
+        if (!empty($centro->CONTACTOS_CENTRO)) {
+            \Log::info('CONTACTOS_CENTRO raw: ' . $centro->CONTACTOS_CENTRO);
+            try {
+                // Si es un string JSON, decodificarlo
+                if (is_string($centro->CONTACTOS_CENTRO)) {
+                    $contactosData = json_decode($centro->CONTACTOS_CENTRO, true);
+                    \Log::info('CONTACTOS_CENTRO decoded: ', $contactosData);
+                } else {
+                    $contactosData = $centro->CONTACTOS_CENTRO;
+                }
+
+                // Si es un array de contactos
+                if (is_array($contactosData)) {
+                    foreach ($contactosData as $contacto) {
+                        if (is_array($contacto)) {
+                            $contactos[] = [
+                                'nombre' => $contacto['NOMBRE'] ?? '',
+                                'cargo' => $contacto['CARGO'] ?? '',
+                                'email' => $contacto['EMAIL'] ?? '',
+                                'celular' => $contacto['CELULAR'] ?? '',
+                                'fijo' => $contacto['FIJO'] ?? ''
+                            ];
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Error al procesar contactos_centro: ' . $e->getMessage());
+            }
+        }
+
+        \Log::info('Contactos final: ', $contactos);
+
+        return response()->json([
+            'success' => true,
+            'centro' => [
+                'id' => $centro->ID_CATALOGO_CENTRO,
+                'nombre_comercial' => $centro->NOMBRE_COMERCIAL_CENTRO,
+                'numero_centro' => $centro->NUMERO_CENTRO, // Ajusta según tu BD
+                'contactos' => $contactos
+            ]
+        ]);
+    });
 });
 
 
@@ -269,9 +371,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('/simulate/student', [AdminController::class, 'simulateStudentPanel'])->name('test.student');
-    
+
     Route::get('/simulate/leave', [AdminController::class, 'leaveSimulatedPanel'])->name('test.leave');
 });
 

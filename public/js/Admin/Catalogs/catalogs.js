@@ -451,10 +451,10 @@ var centrosDatatable = $("#centros-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
-    scrollX: true,
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -481,21 +481,30 @@ var centrosDatatable = $("#centros-list-table").DataTable({
                 return meta.row + 1;
             }
         },
-        { data: 'ACREDITACION_CENTRO' },
-        { data: 'TIPO_CENTRO' },
+        { data: 'NOMBRE_ENTE' }, // Nombre del ente en lugar del ID
+        { data: 'TIPO_CENTRO_TEXTO' }, // Tipo en texto
         { data: 'NOMBRE_COMERCIAL_CENTRO' },
+        { data: 'VIGENCIA_TEXTO' }, // Columna de vigencia
         { data: 'BTN_EDITAR' },
         { data: 'BTN_PDF' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Acreditación', className: 'text-center' },
-        { targets: 2, title: 'Tipo de centro', className: 'text-center' },
+        { targets: 2, title: 'Tipo', className: 'text-center' },
         { targets: 3, title: 'Nombre', className: 'text-center' },
-        { targets: 4, title: 'Editar', className: 'text-center' },
-        { targets: 5, title: 'Ver documento', className: 'text-center' }
-    ]
-
+        { targets: 4, title: 'Vigencia', className: 'text-center' },
+        { targets: 5, title: 'Editar', className: 'text-center' },
+        { targets: 6, title: 'Documento', className: 'text-center' }
+    ],
+    createdRow: function (row, data, dataIndex) {
+        // APLICAR COLOR A TODA LA FILA SEGÚN LA VIGENCIA
+        $(row).addClass(data.COLOR_FILA);
+        
+        // AGREGAR TOOLTIP CON MÁS INFORMACIÓN
+        $(row).attr('title', 'Porcentaje transcurrido: ' + data.PORCENTAJE + '% - Días restantes: ' + data.DIAS_RESTANTES);
+        $(row).tooltip();
+    }
 });
 
 var clientesDatatable = $("#clientes-list-table").DataTable({
@@ -1943,16 +1952,14 @@ $('#clientes-list-table tbody').on('click', 'td>button.EDITAR_CLIENTE', function
     var tr = $(this).closest('tr');
     var row = clientesDatatable.row(tr);
     ID_CATALOGO_CLIENTE = row.data().ID_CATALOGO_CLIENTE;
-
+    cargarDatosCliente(row.data());
     editarDatoTabla(row.data(), 'clienteForm', 'clienteModal', 1);
-cargarDatosCliente(row.data());
+
     $('#clienteModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CLIENTE);
 });
 
 // Función para cargar datos del cliente al editar
 function cargarDatosCliente(clienteData) {
-    ID_CATALOGO_CLIENTE = clienteData.ID_CATALOGO_CLIENTE;
-    
     // LLENAR CAMPO ÚNICO
     $('#NOMBRE_COMERCIAL_CLIENTE').val(clienteData.NOMBRE_COMERCIAL_CLIENTE);
     

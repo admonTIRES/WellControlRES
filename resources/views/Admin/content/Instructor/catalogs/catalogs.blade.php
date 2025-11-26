@@ -523,6 +523,51 @@
     #pdfLoading, #pdfError {
         padding: 50px 0;
     }
+
+    /* ESTILOS PARA LAS FILAS SEGÚN VIGENCIA */
+.fila-verde {
+    background-color: #d4edda !important; /* Verde claro */
+    border-left: 4px solid #28a745;
+}
+
+.fila-amarillo {
+    background-color: #fff3cd !important; /* Amarillo claro */
+    border-left: 4px solid #ffc107;
+}
+
+.fila-rojo {
+    background-color: #f8d7da !important; /* Rojo claro */
+    border-left: 4px solid #dc3545;
+}
+
+.fila-vencido {
+    background-color: #f8d7da !important; /* Rojo intenso */
+    border-left: 4px solid #dc3545;
+    font-weight: bold;
+    color: #721c24;
+}
+
+/* MEJORAR VISUALIZACIÓN DE LAS CELDAS */
+#centros-list-table td {
+    vertical-align: middle;
+    padding: 8px 12px;
+}
+
+/* ESTILOS PARA LOS BOTONES */
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HOVER EFFECTS PARA LAS FILAS */
+#centros-list-table tbody tr:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
 </style>
 <div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">

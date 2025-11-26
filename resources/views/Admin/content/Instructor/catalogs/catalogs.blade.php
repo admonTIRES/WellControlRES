@@ -67,7 +67,7 @@
                                         type="button"
                                         role="tab"
                                         aria-controls="v-pills-centro"
-                                        aria-selected="false">{{ __('Training center') }}</button>
+                                        aria-selected="false">{{ __('Centros de capacitación') }}</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">{{ __('Customers') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"

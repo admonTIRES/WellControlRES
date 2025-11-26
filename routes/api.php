@@ -19,20 +19,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/centros-capacitacion', function (Request $request) {
-    $tipo = $request->get('tipo', '2');
-    
-    $centros = CentrosCapacitacion::where('TIPO_CENTRO', $tipo)
-        ->where(function($query) {
-            $query->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
-                  ->orWhereNull('VIGENCIA_HASTA_CENTRO');
-        })
-        ->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')
-        ->get();
-    
-    return response()->json([
-        'centros' => $centros,
-        'total' => $centros->count(),
-        'fecha_consulta' => now()->format('Y-m-d')
-    ]);
-});

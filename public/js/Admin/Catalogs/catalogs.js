@@ -2127,27 +2127,79 @@ function cargarContactos(contactosJSON) {
     }
 }
 
-function actualizarCentrosCapacitacion() {
-    $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Cargando centros...</option>');
+// function actualizarCentrosCapacitacion() {
+//     $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Cargando centros...</option>');
+//     console.log('se ejecuto la funcion actualizarCentrosCapacitacion()');
+//     $.ajax({
+//         url: '/api/centros-capacitacion',
+//         type: 'GET',
+//         data: { tipo: 2 },
+//         success: function(data) {
+//             let options = `<option value="" selected disabled>Seleccione el centro de capacitación primario vigente (${data.fecha_consulta}) </option>`;
+//             console.log(`${data.fecha_consulta}` );
+            
+//             data.centros.forEach(function(centro) {
+//                 options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
+//             });
+            
+//             $('#ASOCIADO_CENTRO').html(options);
+//         },
+//         error: function() {
+            
+//             $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Error al cargar centros</option>');
+//         }
+//     });
+// }
+
+function actualizarCentrosCapacitacion(acreditacionId = null) {
+    const $select = $('#ASOCIADO_CENTRO');
+    $select.html('<option value="" selected disabled>Cargando centros...</option>');
+    
+    // Si no se proporciona acreditacionId, intentar obtenerlo del select
+    if (acreditacionId === null) {
+        acreditacionId = $('#ACREDITACION_CENTRO').val() || 0;
+    }
     
     $.ajax({
-        url: '/api/centros-capacitacion',
+        url: '/centros-capacitacion',
         type: 'GET',
-        data: { tipo: 2 },
-        success: function(data) {
+        data: { 
+            tipo: 2,
+            acreditacion: acreditacionId
+        },
+        success: function(response) {
             let options = '<option value="" selected disabled>Seleccione el centro de capacitación primario</option>';
             
-            data.centros.forEach(function(centro) {
-                options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
-            });
+            if (response.success && response.centros.length > 0) {
+                response.centros.forEach(function(centro) {
+                    options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
+                });
+            } else {
+                options = '<option value="" selected disabled>No hay centros disponibles</option>';
+            }
             
-            $('#ASOCIADO_CENTRO').html(options);
+            $select.html(options);
         },
-        error: function() {
-            $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Error al cargar centros</option>');
+        error: function(xhr, status, error) {
+            $select.html('<option value="" selected disabled>Error al cargar centros</option>');
         }
     });
 }
+
+// Evento cuando cambia la acreditación
+$(document).ready(function() {
+    // Cargar centros al inicio si ya hay una acreditación seleccionada
+    const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
+    if (acreditacionInicial) {
+        actualizarCentrosCapacitacion(acreditacionInicial);
+    }
+    
+    // Escuchar cambios en el select de acreditación
+    $('#ACREDITACION_CENTRO').on('change', function() {
+        const acreditacionId = $(this).val() || 0;
+        actualizarCentrosCapacitacion(acreditacionId);
+    });
+});
 
 // Función para cargar información del PDF
 function cargarInformacionPDF(docInfo) {
@@ -2414,21 +2466,6 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
     }
     $('#instructoresModal .modal-title').html(row.data().FNAME_INSTRUCTOR);
 
-});
-
-// Reemplaza el onclick por event listeners
-$(document).ready(function() {
-    // Event listener para el botón de descarga en el footer
-    $('#descargarPdfBtn').on('click', function() {
-        console.log('Botón descargar clickeado');
-        descargarPDF();
-    });
-    
-    // Event listener para el botón de descarga en el área de error
-    $('#pdfError').on('click', '.btn-primary', function() {
-        console.log('Botón descarga error clickeado');
-        descargarPDF();
-    });
 });
 
 // Mueve las variables globales al inicio

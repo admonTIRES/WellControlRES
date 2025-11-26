@@ -211,7 +211,51 @@ Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
     ]);
 })->name('archivos.centros');
 
-
+Route::get('/centros-capacitacion', function (Request $request) {
+    $tipo = $request->get('tipo', '2');
+    $acreditacion = $request->get('acreditacion', 0);
+    
+    $query = CentrosCapacitacion::where('TIPO_CENTRO', $tipo)
+        ->where(function($q) {
+            $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
+              ->orWhereNull('VIGENCIA_HASTA_CENTRO');
+        });
+    
+    // Si acreditacion es 0, traer centros con ACREDITACION_CENTRO = 1 o 2
+    // Si es otro valor, traer solo los que coincidan con ese valor
+    if ($acreditacion == 0) {
+        $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
+    } else {
+        $query->where('ACREDITACION_CENTRO', $acreditacion);
+    }
+    
+    $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
+    
+    // Log detallado para producción
+    \Log::info('=== CONSULTA CENTROS CAPACITACION ===', [
+        'acreditacion_recibida' => $acreditacion,
+        'tipo' => $tipo,
+        'fecha_actual' => now()->format('Y-m-d'),
+        'total_centros_encontrados' => $centros->count(),
+        'centros_detalle' => $centros->map(function($c) {
+            return [
+                'id' => $c->ID_CATALOGO_CENTRO,
+                'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
+                'acreditacion' => $c->ACREDITACION_CENTRO,
+                'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO
+            ];
+        })
+    ]);
+    
+    return response()->json([
+        'success' => true,
+        'centros' => $centros,
+        'total' => $centros->count(),
+        'fecha_consulta' => now()->format('Y-m-d'),
+        'filtro_acreditacion' => $acreditacion,
+        'filtro_tipo' => $tipo
+    ]);
+});
 
 
 });

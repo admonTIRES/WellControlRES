@@ -198,7 +198,7 @@
                                                      {{ __('New training center') }}
                                                 </button>
                                             </div>
-                                            <div class="table-container">
+                                            <div>
                                                 <table id="centros-list-table" class="table " role="grid" >
                                                 </table>
                                             </div>

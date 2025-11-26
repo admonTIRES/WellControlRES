@@ -34,6 +34,9 @@ use App\Http\Controllers\Admin\Mail\correoController;
 use App\Mail\Correo;
 use Illuminate\Support\Facades\Mail;
 
+use App\Models\Admin\catalogs\CentrosCapacitacion;
+
+
 //---------------------------               ALL              -------------------------------//
 //----------------------------LANGUAGE-------------------------------//
 Route::get('lang/{lang}', [languageController::class, 'switchLang'])->name('switch.lang');
@@ -207,6 +210,9 @@ Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
         'Content-Disposition' => 'inline; filename="' . $filename . '"'
     ]);
 })->name('archivos.centros');
+
+
+
 
 });
 

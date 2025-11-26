@@ -131,11 +131,12 @@ $(document).ready(function () {
         $('#nombresModal .modal-title').text('Nuevo nombre de proyecto');
     });
 
-     $('#centroModal').on('hidden.bs.modal', function () {
+    actualizarCentrosCapacitacion();
+    $('#centroModal').on('hidden.bs.modal', function () {
     ID_CATALOGO_CENTRO = 0;
     $('#centroForm')[0].reset();
     $('#centroModal .modal-title').text('Nuevo centro de capacitación');
-    
+    actualizarCentrosCapacitacion();
     // LIMPIAR CONTENEDORES DINÁMICOS
     $('#contactosContainer').empty();
     $('#queIncluyeContainer').empty();
@@ -2054,6 +2055,7 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = centrosDatatable.row(tr);
     ID_CATALOGO_CENTRO = row.data().ID_CATALOGO_CENTRO;
+    actualizarCentrosCapacitacion();
 
     editarDatoTabla(row.data(), 'centroForm', 'centroModal', 1);
     $('#centroModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CENTRO);
@@ -2123,6 +2125,28 @@ function cargarContactos(contactosJSON) {
         // Si no hay datos, agregar un contacto vacío
         addContacto();
     }
+}
+
+function actualizarCentrosCapacitacion() {
+    $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Cargando centros...</option>');
+    
+    $.ajax({
+        url: '/api/centros-capacitacion',
+        type: 'GET',
+        data: { tipo: 2 },
+        success: function(data) {
+            let options = '<option value="" selected disabled>Seleccione el centro de capacitación primario</option>';
+            
+            data.centros.forEach(function(centro) {
+                options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
+            });
+            
+            $('#ASOCIADO_CENTRO').html(options);
+        },
+        error: function() {
+            $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Error al cargar centros</option>');
+        }
+    });
 }
 
 // Función para cargar información del PDF

@@ -610,9 +610,7 @@
                                 <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
                                 <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
                                     <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
-                                     @foreach ($centros as $centro)
-                                            <option value="{{ $centro->ID_CATALOGO_CENTRO }}">{{ $centro->NOMBRE_COMERCIAL_CENTRO }}</option>
-                                        @endforeach
+                                    
                                 </select>
                             </div>
                         </div>

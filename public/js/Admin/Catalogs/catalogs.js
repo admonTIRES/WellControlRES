@@ -9,6 +9,9 @@ ID_CATALOGO_MEMBRESIA = 0
 ID_CATALOGO_OPERACION = 0
 ID_CATALOGO_INSTRUCTOR = 0
 ID_CATALOGO_NPROYECTOS = 0
+ID_CATALOGO_CENTRO = 0
+ID_CATALOGO_CLIENTE = 0
+
 
 
 $(document).ready(function () {
@@ -126,6 +129,43 @@ $(document).ready(function () {
         ID_CATALOGO_NPROYECTOS = 0;
         $('#nombresForm')[0].reset();
         $('#nombresModal .modal-title').text('Nuevo nombre de proyecto');
+    });
+
+     $('#centroModal').on('hidden.bs.modal', function () {
+    ID_CATALOGO_CENTRO = 0;
+    $('#centroForm')[0].reset();
+    $('#centroModal .modal-title').text('Nuevo centro de capacitación');
+    
+    // LIMPIAR CONTENEDORES DINÁMICOS
+    $('#contactosContainer').empty();
+    $('#queIncluyeContainer').empty();
+    
+    // REMOVER INFORMACIÓN DEL PDF
+    $('#documento-info').remove();
+    
+    // REMOVER CAMPOS HIDDEN DE JSON SI EXISTEN
+    $('#contactosJSON').remove();
+    $('#queIncluyeJSON').remove();
+    
+    // RESETEAR CONTADORES
+    contactCounter = 0;
+    queIncluyeCounter = 0;
+
+    
+    // RESETEAR EL SELECT DE ASOCIADO
+    $('#asociadoContainer').hide();
+    $('#ASOCIADO_CENTRO').val('').prop('required', false);
+    
+    // RESETEAR EL CONTADOR DE VIGENCIA
+    $('#CONTADOR_CENTRO').text('Aquí se indicarán los días restantes vigentes')
+                         .removeClass('vigencia-verde vigencia-amarillo vigencia-rojo')
+                         .addClass('form-label');
+});
+
+     $('#clienteModal').on('hidden.bs.modal', function () {
+        ID_CATALOGO_CLIENTE = 0;
+        $('#clienteForm')[0].reset();
+        $('#clienteModal .modal-title').text('Nuevo cliente');
     });
     // RESET MODALS - END
 
@@ -399,6 +439,118 @@ var temasDatatable = $("#temas-list-table").DataTable({
         { targets: 4, title: 'Activo', className: 'text-center' }
     ]
 
+});
+var centrosDatatable = $("#centros-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollX: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/centrosDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            centrosDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'ACREDITACION_CENTRO' },
+        { data: 'TIPO_CENTRO' },
+        { data: 'NOMBRE_COMERCIAL_CENTRO' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_PDF' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Acreditación', className: 'text-center' },
+        { targets: 2, title: 'Tipo de centro', className: 'text-center' },
+        { targets: 3, title: 'Nombre', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' },
+        { targets: 5, title: 'Ver documento', className: 'text-center' }
+    ]
+
+});
+
+var clientesDatatable = $("#clientes-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollX: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/clienteDatatable',
+        beforeSend: function () {
+            // mostrarCarga();
+        },
+        complete: function () {
+            clientesDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_COMERCIAL_CLIENTE' },
+        { data: 'RAZON_SOCIAL_CLIENTE' },
+        { data: 'BTN_ACTIVO' },
+        { data: 'BTN_EDITAR' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Nombre Comercial', className: 'text-center' },
+        { targets: 2, title: 'Razón Social', className: 'text-center' },
+        { targets: 3, title: 'Activo', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' }
+    ]
 });
 var subtemasDatatable = $("#subtemas-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
@@ -944,6 +1096,242 @@ $("#tipobopbtnModal").click(function (e) {
                         $('#tipobopModal').modal('hide')
                         document.getElementById('tipobopForm').reset()
                         tiposbopDatatable.ajax.reload()
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#centrobtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#centroForm'))
+    if (formularioValido) {
+        
+        // Procesar contactos a JSON
+        const contactosArray = [];
+        $('.contact-person').each(function(index) {
+            const contactoId = index + 1;
+            contactosArray.push({
+                NOMBRE: $(`#CONTACTO_NOMBRE_${contactoId}`).val(),
+                CARGO: $(`#CONTACTO_CARGO_${contactoId}`).val(),
+                EMAIL: $(`#CONTACTO_EMAIL_${contactoId}`).val(),
+                CELULAR: $(`#CONTACTO_CELULAR_${contactoId}`).val(),
+                FIJO: $(`#CONTACTO_FIJO_${contactoId}`).val()
+            });
+        });
+        
+        // Procesar "Qué incluye" a JSON
+        const queIncluyeArray = [];
+        $('.que-incluye-item').each(function(index) {
+            const elementoId = index + 1;
+            queIncluyeArray.push({
+                DESCRIPCION: $(`#QUE_INCLUYE_${elementoId}`).val()
+            });
+        });
+        
+        // Crear campos hidden para enviar los JSON
+        let contactosJSON = JSON.stringify(contactosArray);
+        let queIncluyeJSON = JSON.stringify(queIncluyeArray);
+        
+        // Remover campos hidden existentes
+        $('#contactosJSON').remove();
+        $('#queIncluyeJSON').remove();
+        
+        // Agregar campos hidden al formulario
+        $('#centroForm').append(`<input type="hidden" id="contactosJSON" name="contactosJSON" value='${contactosJSON}'>`);
+        $('#centroForm').append(`<input type="hidden" id="queIncluyeJSON" name="queIncluyeJSON" value='${queIncluyeJSON}'>`);
+
+        // Crear FormData para enviar archivos
+        let formData = new FormData($('#centroForm')[0]);
+
+        if (ID_CATALOGO_CENTRO == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El centro de capacitación se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('centrobtnModal')
+                // CORRECCIÓN: Enviar FormData en lugar del formulario directamente
+                await ajaxAwaitFormData({ 
+                    api: 11, 
+                    ID_CATALOGO_CENTRO 
+                }, 'centroSave', 'centroForm', 'centrobtnModal', { 
+                    callbackAfter: true, 
+                    callbackBefore: true 
+                }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_CENTRO = data.centro.ID_CATALOGO_CENTRO
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#centroModal').modal('hide')
+                    document.getElementById('centroForm').reset()
+                    // Recargar datatable si existe
+                    if(typeof centrosDatatable !== 'undefined') {
+                        centrosDatatable.ajax.reload()
+                    }
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('centrobtnModal')
+                // CORRECCIÓN: Enviar FormData en lugar del formulario directamente
+                await ajaxAwaitFormData({ 
+                    api: 11, 
+                    ID_CATALOGO_CENTRO 
+                }, 'centroSave', 'centroForm', 'centrobtnModal', { 
+                    callbackAfter: true, 
+                    callbackBefore: true 
+                }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_CENTRO = data.centro.ID_CATALOGO_CENTRO
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#centroModal').modal('hide')
+                        document.getElementById('centroForm').reset()
+                        // Recargar datatable si existe
+                        if(typeof centrosDatatable !== 'undefined') {
+                            centrosDatatable.ajax.reload()
+                        }
+                    }, 300)
+                })
+            }, 1)
+        }
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+})
+
+$("#clientebtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#clienteForm'))
+    if (formularioValido) {
+        
+        // Procesar razones sociales a JSON
+        const razonesSocialesArray = [];
+        $('.razon-social-item').each(function(index) {
+            const razonId = index + 1;
+            const razonSocial = $(`#RAZON_SOCIAL_${razonId}`).val().trim();
+            if (razonSocial) {
+                razonesSocialesArray.push({
+                    RAZON_SOCIAL: razonSocial
+                });
+            }
+        });
+        
+        // Procesar contactos a JSON
+        const contactosArray = [];
+        $('.contacto-cliente-item').each(function(index) {
+            const contactoId = index + 1;
+            contactosArray.push({
+                NOMBRE: $(`#CONTACTO_NOMBRE_${contactoId}`).val().trim(),
+                CARGO: $(`#CONTACTO_CARGO_${contactoId}`).val().trim(),
+                EMAIL: $(`#CONTACTO_EMAIL_${contactoId}`).val().trim(),
+                CELULAR: $(`#CONTACTO_CELULAR_${contactoId}`).val().trim(),
+                FIJO: $(`#CONTACTO_FIJO_${contactoId}`).val().trim()
+            });
+        });
+        
+        // Crear campos hidden para enviar los JSON
+        let razonesSocialesJSON = JSON.stringify(razonesSocialesArray);
+        let contactosJSON = JSON.stringify(contactosArray);
+        
+        // Remover campos hidden existentes
+        $('#razonesSocialesJSON').remove();
+        $('#contactosClienteJSON').remove();
+        $('#activoClienteField').remove();
+        
+        // Agregar campos hidden al formulario
+        $('#clienteForm').append(`<input type="hidden" id="razonesSocialesJSON" name="razonesSocialesJSON" value='${razonesSocialesJSON}'>`);
+        $('#clienteForm').append(`<input type="hidden" id="contactosClienteJSON" name="contactosClienteJSON" value='${contactosJSON}'>`);
+        
+        // Agregar ACTIVO_CLIENTE = 1 automáticamente al crear
+        if (ID_CATALOGO_CLIENTE == 0) {
+            $('#clienteForm').append(`<input type="hidden" id="activoClienteField" name="ACTIVO_CLIENTE" value="1">`);
+        }
+
+        if (ID_CATALOGO_CLIENTE == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El cliente se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('clientebtnModal')
+                await ajaxAwaitFormData({ 
+                    api: 12, 
+                    ID_CATALOGO_CLIENTE 
+                }, 'clienteSave', 'clienteForm', 'clientebtnModal', { 
+                    callbackAfter: true, 
+                    callbackBefore: true 
+                }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_CLIENTE = data.cliente.ID_CATALOGO_CLIENTE
+                    alertMensaje('success', 'Información guardada correctamente', 'Lista para usarse')
+                    $('#clienteModal').modal('hide')
+                    document.getElementById('clienteForm').reset()
+                    // Recargar datatable si existe
+                    if(typeof clientesDatatable !== 'undefined') {
+                        clientesDatatable.ajax.reload()
+                    }
+                })
+            }, 1)
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('clientebtnModal')
+                await ajaxAwaitFormData({ 
+                    api: 12, 
+                    ID_CATALOGO_CLIENTE 
+                }, 'clienteSave', 'clienteForm', 'clientebtnModal', { 
+                    callbackAfter: true, 
+                    callbackBefore: true 
+                }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_CLIENTE = data.cliente.ID_CATALOGO_CLIENTE
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#clienteModal').modal('hide')
+                        document.getElementById('clienteForm').reset()
+                        // Recargar datatable si existe
+                        if(typeof clientesDatatable !== 'undefined') {
+                            clientesDatatable.ajax.reload()
+                        }
                     }, 300)
                 })
             }, 1)
@@ -1503,6 +1891,7 @@ $('#instructores-list-table tbody').on('change', 'input.ACTIVAR', function () {
 });
 
 
+
 // editar
 $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
@@ -1533,6 +1922,259 @@ $('#tiposbop-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#tipobopModal .modal-title').html(row.data().ABREVIATURA);
 
 });
+
+// ACTIVAR/DESACTIVAR CLIENTE - MISMA ESTRUCTURA
+$('#clientes-list-table tbody').on('change', 'input.ACTIVAR_CLIENTE', function () {
+    var tr = $(this).closest('tr');
+    var row = clientesDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 12,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_CLIENTE: row.data().ID_CATALOGO_CLIENTE
+    };
+
+    eliminarDatoTabla(data, [clientesDatatable], 'clienteActive');
+});
+
+// EDITAR CLIENTE - MISMA ESTRUCTURA  
+$('#clientes-list-table tbody').on('click', 'td>button.EDITAR_CLIENTE', function () {
+    var tr = $(this).closest('tr');
+    var row = clientesDatatable.row(tr);
+    ID_CATALOGO_CLIENTE = row.data().ID_CATALOGO_CLIENTE;
+
+    editarDatoTabla(row.data(), 'clienteForm', 'clienteModal', 1);
+cargarDatosCliente(row.data());
+    $('#clienteModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CLIENTE);
+});
+
+// Función para cargar datos del cliente al editar
+function cargarDatosCliente(clienteData) {
+    ID_CATALOGO_CLIENTE = clienteData.ID_CATALOGO_CLIENTE;
+    
+    // LLENAR CAMPO ÚNICO
+    $('#NOMBRE_COMERCIAL_CLIENTE').val(clienteData.NOMBRE_COMERCIAL_CLIENTE);
+    
+    // LIMPIAR CONTENEDORES
+    $('#razonesSocialesContainer').empty();
+    $('#contactosContainerCliente').empty();
+    
+    // RESETEAR CONTADORES
+    razonSocialCounter = 0;
+    contactoClienteCounter = 0;
+    
+    // CARGAR RAZONES SOCIALES
+    if (clienteData.RAZONES_SOCIALES) {
+        try {
+            const razones = JSON.parse(clienteData.RAZONES_SOCIALES);
+            if (razones.length > 0) {
+                razones.forEach(razon => {
+                    addRazonSocial(razon);
+                });
+            } else {
+                addRazonSocial();
+            }
+        } catch (e) {
+            console.error('Error parsing razones sociales JSON:', e);
+            addRazonSocial();
+        }
+    } else {
+        addRazonSocial();
+    }
+    
+    // CARGAR CONTACTOS
+    if (clienteData.CONTACTO_CLIENTE) {
+        try {
+            const contactos = JSON.parse(clienteData.CONTACTO_CLIENTE);
+            if (contactos.length > 0) {
+                contactos.forEach(contacto => {
+                    addContactoCliente(contacto);
+                });
+            } else {
+                addContactoCliente();
+            }
+        } catch (e) {
+            console.error('Error parsing contactos JSON:', e);
+            addContactoCliente();
+        }
+    } else {
+        addContactoCliente();
+    }
+}
+
+$('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = centrosDatatable.row(tr);
+    ID_CATALOGO_CENTRO = row.data().ID_CATALOGO_CENTRO;
+
+    editarDatoTabla(row.data(), 'centroForm', 'centroModal', 1);
+    $('#centroModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CENTRO);
+
+    // CARGAR "QUÉ INCLUYE"
+    cargarQueIncluye(row.data().INCLUYE_CENTRO);
+    
+    // CARGAR CONTACTOS
+    cargarContactos(row.data().CONTACTOS_CENTRO);
+    
+    // CARGAR INFORMACIÓN DEL PDF
+    cargarInformacionPDF(row.data().DOC_CENTRO);
+    
+    // CALCULAR VIGENCIA
+    calcularVigencia();
+});
+
+// Función para cargar "Qué incluye"
+function cargarQueIncluye(incluyeJSON) {
+    // Limpiar contenedor
+    $('#queIncluyeContainer').empty();
+    queIncluyeCounter = 0;
+    
+    if (incluyeJSON) {
+        try {
+            const queIncluye = JSON.parse(incluyeJSON);
+            queIncluye.forEach(elemento => {
+                addQueIncluye();
+                const currentElement = $(`#que-incluye-${queIncluyeCounter}`);
+                currentElement.find(`[name="QUE_INCLUYE_${queIncluyeCounter}"]`).val(elemento.DESCRIPCION);
+            });
+        } catch (e) {
+            console.error('Error parsing qué incluye JSON:', e);
+            // Si hay error, agregar un elemento vacío
+            addQueIncluye();
+        }
+    } else {
+        // Si no hay datos, agregar un elemento vacío
+        addQueIncluye();
+    }
+}
+
+// Función para cargar contactos
+function cargarContactos(contactosJSON) {
+    // Limpiar contenedor
+    $('#contactosContainer').empty();
+    contactCounter = 0;
+    
+    if (contactosJSON) {
+        try {
+            const contactos = JSON.parse(contactosJSON);
+            contactos.forEach(contacto => {
+                addContacto();
+                const currentContact = $(`#contacto-${contactCounter}`);
+                currentContact.find(`[name="CONTACTO_NOMBRE_${contactCounter}"]`).val(contacto.NOMBRE || '');
+                currentContact.find(`[name="CONTACTO_CARGO_${contactCounter}"]`).val(contacto.CARGO || '');
+                currentContact.find(`[name="CONTACTO_EMAIL_${contactCounter}"]`).val(contacto.EMAIL || '');
+                currentContact.find(`[name="CONTACTO_CELULAR_${contactCounter}"]`).val(contacto.CELULAR || '');
+                currentContact.find(`[name="CONTACTO_FIJO_${contactCounter}"]`).val(contacto.FIJO || '');
+            });
+        } catch (e) {
+            console.error('Error parsing contactos JSON:', e);
+            // Si hay error, agregar un contacto vacío
+            addContacto();
+        }
+    } else {
+        // Si no hay datos, agregar un contacto vacío
+        addContacto();
+    }
+}
+
+// Función para cargar información del PDF
+function cargarInformacionPDF(docInfo) {
+    const docInput = $('#DOCUMENTO_CENTRO');
+    const docText = $('#documento-info');
+    
+    // Remover información anterior si existe
+    if (docText.length) {
+        docText.remove();
+    }
+    
+    if (docInfo) {
+        try {
+            // Si es un JSON (para compatibilidad con versiones anteriores)
+            if (docInfo.startsWith('[') || docInfo.startsWith('{')) {
+                const docData = JSON.parse(docInfo);
+                if (Array.isArray(docData) && docData.length > 0) {
+                    // Mostrar información del primer documento
+                    const primerDoc = docData[0];
+                    docInput.after(`
+                        <div id="documento-info" class="mt-2">
+                            <small class="text-muted">
+                                <i class="fas fa-file-pdf text-danger"></i>
+                                Documento actual: ${primerDoc.nombre || primerDoc.archivo_original}
+                                ${primerDoc.fecha_subida ? `(Subido: ${primerDoc.fecha_subida})` : ''}
+                            </small>
+                            <br>
+                            <small class="text-info">
+                                <i class="fas fa-info-circle"></i>
+                                Al seleccionar un nuevo archivo, se reemplazará el existente.
+                            </small>
+                        </div>
+                    `);
+                }
+            } else {
+                // Si es solo una ruta (nueva implementación)
+                const nombreArchivo = docInfo.split('/').pop().replace(/^\d+_/, '');
+                docInput.after(`
+                    <div id="documento-info" class="mt-2">
+                        <small class="text-muted">
+                            <i class="fas fa-file-pdf text-danger"></i>
+                            Documento actual: ${nombreArchivo}
+                        </small>
+                        <br>
+                        <small class="text-info">
+                            <i class="fas fa-info-circle"></i>
+                            Al seleccionar un nuevo archivo, se reemplazará el existente.
+                        </small>
+                    </div>
+                `);
+            }
+        } catch (e) {
+            console.error('Error parsing documento info:', e);
+            // Si es solo texto (ruta del archivo)
+            const nombreArchivo = docInfo.split('/').pop().replace(/^\d+_/, '');
+            docInput.after(`
+                <div id="documento-info" class="mt-2">
+                    <small class="text-muted">
+                        <i class="fas fa-file-pdf text-danger"></i>
+                        Documento actual: ${nombreArchivo}
+                    </small>
+                </div>
+            `);
+        }
+    } else {
+        // Si no hay documento
+        docInput.after(`
+            <div id="documento-info" class="mt-2">
+                <small class="text-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    No hay documento cargado actualmente.
+                </small>
+            </div>
+        `);
+    }
+}
+
+// Función para extraer nombre legible del archivo
+function getNombreArchivoLegible(ruta) {
+    if (!ruta) return 'Sin documento';
+    
+    try {
+        // Si es JSON
+        if (ruta.startsWith('[') || ruta.startsWith('{')) {
+            const docData = JSON.parse(ruta);
+            if (Array.isArray(docData) && docData.length > 0) {
+                return docData[0].nombre || docData[0].archivo_original || 'Documento PDF';
+            }
+        }
+        // Si es ruta directa
+        const nombreCompleto = ruta.split('/').pop();
+        // Remover el prefijo único (uniqid_)
+        return nombreCompleto.replace(/^[a-f0-9]+_/, '');
+    } catch (e) {
+        // Si falla el parsing, devolver la ruta original
+        return ruta.split('/').pop() || 'Documento PDF';
+    }
+}
 
 $('#temas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
@@ -1703,3 +2345,139 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
 
 });
 
+// Reemplaza el onclick por event listeners
+$(document).ready(function() {
+    // Event listener para el botón de descarga en el footer
+    $('#descargarPdfBtn').on('click', function() {
+        console.log('Botón descargar clickeado');
+        descargarPDF();
+    });
+    
+    // Event listener para el botón de descarga en el área de error
+    $('#pdfError').on('click', '.btn-primary', function() {
+        console.log('Botón descarga error clickeado');
+        descargarPDF();
+    });
+});
+
+// Mueve las variables globales al inicio
+let pdfRutaActual = '';
+let pdfIdCentroActual = '';
+
+
+
+// Función para construir la URL del PDF (corregida)
+function construirURLPDF(rutaArchivo, idCentro) {
+    if (!rutaArchivo) return '';
+    
+    let rutaLimpia = rutaArchivo.trim();
+    const baseUrl = window.location.origin;
+    
+    console.log('Construyendo URL para:', { rutaArchivo, rutaLimpia, idCentro });
+    
+    // Si la ruta ya es completa (contiene admin/catalogs/centros/)
+    if (rutaLimpia.includes('admin/catalogs/centros/')) {
+        // Extraer solo el nombre del archivo
+        const nombreArchivo = rutaLimpia.split('/').pop();
+        return `${baseUrl}/archivos/centros/${idCentro}/${nombreArchivo}`;
+    }
+    
+    // Si es solo el nombre del archivo
+    return `${baseUrl}/archivos/centros/${idCentro}/${rutaLimpia}`;
+}
+
+// Función para extraer la ruta real del archivo (simplificada)
+function extraerRutaArchivo(ruta) {
+    try {
+        // Si es un JSON string
+        if (typeof ruta === 'string' && (ruta.trim().startsWith('[') || ruta.trim().startsWith('{'))) {
+            const docData = JSON.parse(ruta);
+            if (Array.isArray(docData) && docData.length > 0) {
+                return docData[0].ruta || '';
+            }
+        }
+        // Si es solo texto (ruta directa)
+        return ruta;
+    } catch (e) {
+        console.error('Error al extraer ruta:', e);
+        return ruta;
+    }
+}
+
+// Función para cargar el PDF (actualizada)
+function cargarPDF(ruta, idCentro) {
+    $('#pdfLoading').show();
+    $('#pdfViewer').hide();
+    $('#pdfError').hide();
+    
+    let rutaArchivo = extraerRutaArchivo(ruta);
+    
+    if (!rutaArchivo) {
+        $('#pdfLoading').hide();
+        $('#pdfError').show();
+        $('#errorMessage').text('No se encontró la ruta del documento.');
+        return;
+    }
+    
+    // Extraer solo el nombre del archivo para la URL
+    const nombreArchivo = rutaArchivo.split('/').pop();
+    const urlCompleta = construirURLPDF(nombreArchivo, idCentro);
+    
+    console.log('URL final del PDF:', urlCompleta);
+    
+    const pdfFrame = document.getElementById('pdfFrame');
+    
+    setTimeout(() => {
+        pdfFrame.src = urlCompleta;
+        
+        pdfFrame.onload = function() {
+            $('#pdfLoading').hide();
+            $('#pdfViewer').show();
+        };
+        
+        pdfFrame.onerror = function() {
+            $('#pdfLoading').hide();
+            $('#pdfError').show();
+            $('#errorMessage').html('No se pudo cargar el documento PDF.<br>URL: ' + urlCompleta);
+        };
+        
+    }, 500);
+}
+
+
+
+
+// Evento para el botón Ver PDF (corregido)
+$('#centros-list-table tbody').on('click', 'button.VER_PDF', function () {
+    const idCentro = $(this).data('id');
+    const rutaDocumento = $(this).data('ruta');
+    
+    pdfRutaActual = rutaDocumento;
+    pdfIdCentroActual = idCentro;
+    
+    console.log('Abriendo PDF:', { idCentro, rutaDocumento });
+    
+    // Mostrar modal
+    $('#pdfModal').modal('show');
+    
+    // Cargar el PDF
+    cargarPDF(rutaDocumento, idCentro);
+});
+
+function descargarPDF() {
+    console.log('descargando');
+    if (!pdfRutaActual || !pdfIdCentroActual) return;
+    
+    const nombreArchivo = extraerRutaArchivo(pdfRutaActual);
+    const urlDescarga = construirURLPDF(nombreArchivo, pdfIdCentroActual);
+    
+    // Forzar descarga cambiando la URL
+    const urlDescargaForzada = urlDescarga + '?download=1';
+    
+    const link = document.createElement('a');
+    link.href = urlDescargaForzada;
+    link.download = 'documento_centro_' + pdfIdCentroActual + '.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

@@ -199,7 +199,7 @@
                                                 </button>
                                             </div>
                                             <div class="table-container">
-                                                <table id="centro-list-table" class="table " role="grid" >
+                                                <table id="centros-list-table" class="table " role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -207,9 +207,9 @@
                                     <div class="tab-pane fade" id="v-pills-clientes" role="tabpanel" aria-labelledby="v-pills-clientes-tab">
                                         <div class="w-100 h-100">
                                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                                                <h4 class="card-title mb-0"> {{ __('trh4g') }}</h4> 
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientesModal">
-                                                     {{ __('New hgwreer') }}
+                                                <h4 class="card-title mb-0"> {{ __('Clientes') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                                                     {{ __('Nuevo cliente') }}
                                                 </button>
                                             </div>
                                             <div class="table-container">
@@ -415,343 +415,747 @@
         </div>
     </div>
 
-    <div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="centroModalLabel">{{ __('Training center data') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+<style>
+    .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+    .section-title {
+        color: #495057;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    .contact-person, .que-incluye-item {
+        border: 1px solid #e9ecef;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: #f8f9fa;
+    }
+    .contact-header, .que-incluye-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .remove-contact, .remove-que-incluye {
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+    .remove-contact:hover, .remove-que-incluye:hover {
+        color: #bd2130;
+    }
+    .vigencia-verde {
+        color: #198754;
+        font-weight: bold;
+    }
+    .vigencia-amarillo {
+        color: #ffc107;
+        font-weight: bold;
+    }
+    .vigencia-rojo {
+        color: #dc3545;
+        font-weight: bold;
+    }
+    .btn-outline-primary {
+        border-color: #0d6efd;
+        color: #0d6efd;
+    }
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+</style>
+<!-- Modal para visualizar PDF -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Visualizar Documento PDF</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center" id="pdfLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando PDF...</span>
+                    </div>
+                    <p class="mt-2">Cargando documento...</p>
                 </div>
-                <div class="modal-body">
-                    <form id="centroForm" method="post" enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                        <div class="form-section">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="ACREDITACION_CENTRO" class="form-label ">Tipo de Acreditación</label>
-                                    <select class="form-select" id="ACREDITACION_CENTRO" name="ACREDITACION_CENTRO">
-                                        <option value="" selected disabled>Seleccione una opción</option>
-                                        <option value="1">Acreditación Nacional</option>
-                                        <option value="2">Acreditación Internacional</option>
-                                        <option value="3">Acreditación Sectorial</option>
-                                        <option value="4">Acreditación Especializada</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="TIPO_CENTRO" class="form-label ">Tipo</label>
-                                    <select class="form-select" id="TIPO_CENTRO" name="TIPO_CENTRO">
-                                        <option value="" selected disabled>Seleccione una opción</option>
-                                        <option value="1">Asociado</option>
-                                        <option value="2">Primario</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="asociadoContainer" class="row mb-3" style="display: none;">
-                                <div class="col-12">
-                                    <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
-                                    <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
-                                        <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
-                                        <option value="1">Empresa Primaria A</option>
-                                        <option value="2">Empresa Primaria B</option>
-                                        <option value="3">Empresa Primaria C</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="RAZON_SOCIAL_CENTRO" class="form-label ">Razón Social</label>
-                                    <input type="text" class="form-control" id="RAZON_SOCIAL_CENTRO" name="RAZON_SOCIAL_CENTRO">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="NOMBRE_COMERCIAL_CENTRO" class="form-label ">Nombre Comercial</label>
-                                    <input type="text" class="form-control" id="NOMBRE_COMERCIAL_CENTRO" name="NOMBRE_COMERCIAL_CENTRO">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="NUMERO_ACREDITACION" class="form-label ">Número de Acreditación</label>
-                                    <input type="text" class="form-control" id="NUMERO_CENTRO" name="NUMERO_CENTRO">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="VIGENCIA_DESDE_CENTRO" class="form-label ">Desde</label>
-                                    <input type="date" class="form-control" id="VIGENCIA_DESDE_CENTRO" name="VIGENCIA_DESDE_CENTRO">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="VIGENCIA_HASTA_CENTRO" class="form-label ">Hasta</label>
-                                    <input type="date" class="form-control" id="VIGENCIA_HASTA_CENTRO" name="VIGENCIA_HASTA_CENTRO">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <p id="CONTADOR_CENTRO" class="form-label ">Aqui se indicarán los días restantes vigentes</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <div id="contactosContainer">
-                            </div>
-                            <button type="button" class="btn btn-outline-primary mt-2" id="addContacto">
-                                <i class="fas fa-plus me-2"></i>Agregar contacto
-                            </button>
-                        </div>
-                        
-                        <!-- Documentos Adjuntos -->
-                        <div class="form-section">
-                            <h5 class="section-title"><i class="fas fa-paperclip"></i>Documentos Adjuntos</h5>
-                            <div class="file-upload mb-3" id="fileUploadArea">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Arrastre y suelte los archivos aquí o haga clic para seleccionar</p>
-                                <input type="file" class="d-none" id="fileInput" multiple>
-                            </div>
-                            <div id="fileList" class="mt-3"></div>
-                        </div>
-                    </form>
+                <div id="pdfViewer" style="display: none;">
+                    <iframe id="pdfFrame" src="" width="100%" height="600px" style="border: none;"></iframe>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button id="tipobopbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                <div id="pdfError" class="text-center" style="display: none;">
+                    <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
+                    <h5>Error al cargar el documento</h5>
+                    <p id="errorMessage" class="text-muted"></p>
+                    <button type="button" class="btn btn-primary mt-2 btn-descargar-error">
+                        <i class="fas fa-download me-2"></i>Descargar PDF
+                    </button>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="descargarPdfBtn">
+                    <i class="fas fa-download me-2"></i>Descargar
+                </button>
             </div>
         </div>
     </div>
+</div>
+<style>
+    #pdfFrame {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-icon {
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #pdfLoading, #pdfError {
+        padding: 50px 0;
+    }
+</style>
+<div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="centroModalLabel">Datos del Centro de Capacitación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="centroForm" method="post" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                    
+                    <div class="form-section">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="ACREDITACION_CENTRO" class="form-label">Tipo de Acreditación</label>
+                                <select class="form-select" id="ACREDITACION_CENTRO" name="ACREDITACION_CENTRO">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    @foreach ($entes as $ente)
+                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="TIPO_CENTRO" class="form-label">Tipo</label>
+                                <select class="form-select" id="TIPO_CENTRO" name="TIPO_CENTRO">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="1">Asociado</option>
+                                    <option value="2">Primario</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="asociadoContainer" class="row mb-3" style="display: none;">
+                            <div class="col-12">
+                                <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
+                                <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
+                                    <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
+                                     @foreach ($centros as $centro)
+                                            <option value="{{ $centro->ID_CATALOGO_CENTRO }}">{{ $centro->NOMBRE_COMERCIAL_CENTRO }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="RAZON_SOCIAL_CENTRO" class="form-label">Razón Social</label>
+                                <input type="text" class="form-control" id="RAZON_SOCIAL_CENTRO" name="RAZON_SOCIAL_CENTRO">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="NOMBRE_COMERCIAL_CENTRO" class="form-label">Nombre Comercial</label>
+                                <input type="text" class="form-control" id="NOMBRE_COMERCIAL_CENTRO" name="NOMBRE_COMERCIAL_CENTRO">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="NUMERO_CENTRO" class="form-label">Número de Acreditación</label>
+                                <input type="text" class="form-control" id="NUMERO_CENTRO" name="NUMERO_CENTRO">
+                            </div>
+                        </div>
+                        
+                        <!-- Sección Qué incluye con el mismo diseño que Contacto -->
+                        <div class="form-section">
+                            <h6 class="section-title">¿Qué incluye?</h6>
+                            <div id="queIncluyeContainer">
+                                <!-- Los elementos "Qué incluye" se agregarán aquí dinámicamente -->
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mt-2" id="addQueIncluye">
+                                <i class="fas fa-plus me-2"></i>Agregar elemento
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h6 class="section-title">Vigencia</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="VIGENCIA_DESDE_CENTRO" class="form-label">Desde</label>
+                                <input type="date" class="form-control" id="VIGENCIA_DESDE_CENTRO" name="VIGENCIA_DESDE_CENTRO">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="VIGENCIA_HASTA_CENTRO" class="form-label">Hasta</label>
+                                <input type="date" class="form-control" id="VIGENCIA_HASTA_CENTRO" name="VIGENCIA_HASTA_CENTRO">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <p id="CONTADOR_CENTRO" class="form-label">Aquí se indicarán los días restantes vigentes</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h6 class="section-title">Contacto</h6>
+                        <div id="contactosContainer">
+                        </div>
+                        <button type="button" class="btn btn-outline-primary mt-2" id="addContacto">
+                            <i class="fas fa-plus me-2"></i>Agregar contacto
+                        </button>
+                    </div>
+                    
+                    <!-- Documentos Adjuntos -->
+                    <div class="form-section">
+                        <div class="mb-3">
+                            <label for="DOCUMENTO_CENTRO" class="form-label">Documentos Adjuntos</label>
+                            <input type="file" class="form-control" id="DOCUMENTO_CENTRO" name="DOCUMENTO_CENTRO" accept=".pdf">
+                            <div class="form-text">Solo se permiten archivos PDF</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="centrobtnModal" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <style>
-        .file-upload {
-            border: 2px dashed #dee2e6;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+<script>
+    let contactCounter = 0;
+    let queIncluyeCounter = 0;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Agregar primer contacto y elemento "Qué incluye" al cargar
+        
+        document.getElementById('VIGENCIA_DESDE_CENTRO').addEventListener('change', calcularVigencia);
+        document.getElementById('VIGENCIA_HASTA_CENTRO').addEventListener('change', calcularVigencia);
+    });
+    
+    document.getElementById('TIPO_CENTRO').addEventListener('change', function() {
+        const asociadoContainer = document.getElementById('asociadoContainer');
+        if (this.value === '1') {
+            asociadoContainer.style.display = 'block';
+            document.getElementById('ASOCIADO_CENTRO').required = true;
+        } else {
+            asociadoContainer.style.display = 'none';
+            document.getElementById('ASOCIADO_CENTRO').required = false;
         }
+    });
+    
+    document.getElementById('addContacto').addEventListener('click', addContacto);
+    
+    function addContacto() {
+        contactCounter++;
+        const newContact = document.createElement('div');
+        newContact.className = 'contact-person';
+        newContact.id = `contacto-${contactCounter}`;
         
-        .file-upload:hover {
-            border-color: var(--secondary-color);
-            background-color: #f8f9fa;
-        }
+        newContact.innerHTML = `
+            <div class="contact-header">
+                <h6 class="mb-0">Contacto ${contactCounter}</h6>
+                <span class="remove-contact" onclick="removeContact(${contactCounter})"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_NOMBRE_${contactCounter}" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactCounter}" name="CONTACTO_NOMBRE_${contactCounter}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_CARGO_${contactCounter}" class="form-label">Cargo</label>
+                    <input type="text" class="form-control" id="CONTACTO_CARGO_${contactCounter}" name="CONTACTO_CARGO_${contactCounter}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_EMAIL_${contactCounter}" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactCounter}" name="CONTACTO_EMAIL_${contactCounter}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_CELULAR_${contactCounter}" class="form-label">Teléfono Celular</label>
+                    <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactCounter}" name="CONTACTO_CELULAR_${contactCounter}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_FIJO_${contactCounter}" class="form-label">Teléfono Fijo</label>
+                    <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactCounter}" name="CONTACTO_FIJO_${contactCounter}">
+                </div>
+            </div>
+        `;
         
-        .file-upload i {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-        }
-        
-        .contact-person {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .contact-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .remove-contact {
-            color: var(--accent-color);
-            cursor: pointer;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-        }
-    </style>
-
-    <script>
-        let contactCounter = 1;
-        
-        document.getElementById('TIPO').addEventListener('change', function() {
-            const asociadoContainer = document.getElementById('asociadoContainer');
-            if (this.value === 'asociado') {
-                asociadoContainer.style.display = 'block';
-                document.getElementById('ASOCIADO_A').required = true;
-            } else {
-                asociadoContainer.style.display = 'none';
-                document.getElementById('ASOCIADO_A').required = false;
-            }
-        });
-        
-        // Agregar nuevo contacto
-        document.getElementById('addContacto').addEventListener('click', function() {
-            contactCounter++;
-            const newContact = document.createElement('div');
-            newContact.className = 'contact-person';
-            newContact.id = `contacto-${contactCounter}`;
+        document.getElementById('contactosContainer').appendChild(newContact);
+    }
+    
+    function removeContact(id) {
+        if (contactCounter > 1) {
+            const contactToRemove = document.getElementById(`contacto-${id}`);
+            contactToRemove.remove();
+            contactCounter--;
             
-            newContact.innerHTML = `
-                <div class="contact-header">
-                    <h6 class="mb-0">Persona de Contacto ${contactCounter}</h6>
-                    <span class="remove-contact" onclick="removeContact(${contactCounter})"><i class="fas fa-times"></i></span>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_NOMBRE_${contactCounter}" class="form-label ">Nombre</label>
-                        <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactCounter}" name="CONTACTO_NOMBRE_${contactCounter}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_CARGO_${contactCounter}" class="form-label ">Cargo</label>
-                        <input type="text" class="form-control" id="CONTACTO_CARGO_${contactCounter}" name="CONTACTO_CARGO_${contactCounter}" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_EMAIL_${contactCounter}" class="form-label ">Email</label>
-                        <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactCounter}" name="CONTACTO_EMAIL_${contactCounter}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_CELULAR_${contactCounter}" class="form-label ">Teléfono Celular</label>
-                        <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactCounter}" name="CONTACTO_CELULAR_${contactCounter}" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_FIJO_${contactCounter}" class="form-label">Teléfono Fijo</label>
-                        <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactCounter}" name="CONTACTO_FIJO_${contactCounter}">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="CONTACTO_ADJUNTO_${contactCounter}" class="form-label">Adjuntar Documento</label>
-                        <input type="file" class="form-control" id="CONTACTO_ADJUNTO_${contactCounter}" name="CONTACTO_ADJUNTO_${contactCounter}">
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('contactosContainer').appendChild(newContact);
-        });
-        
-        // Función para eliminar contacto
-        function removeContact(id) {
-            if (contactCounter > 1) {
-                const contactToRemove = document.getElementById(`contacto-${id}`);
-                contactToRemove.remove();
-                contactCounter--;
+            const contacts = document.querySelectorAll('.contact-person');
+            contacts.forEach((contact, index) => {
+                const newId = index + 1;
+                contact.id = `contacto-${newId}`;
                 
-                // Renumerar los contactos restantes
-                const contacts = document.querySelectorAll('.contact-person');
-                contacts.forEach((contact, index) => {
-                    const newId = index + 1;
-                    contact.id = `contacto-${newId}`;
-                    
-                    // Actualizar los textos y IDs de los elementos internos
-                    const header = contact.querySelector('.contact-header h6');
-                    header.textContent = `Persona de Contacto ${newId}`;
-                    
-                    const removeBtn = contact.querySelector('.remove-contact');
-                    removeBtn.setAttribute('onclick', `removeContact(${newId})`);
-                    
-                    // Actualizar IDs y nombres de los inputs
-                    const inputs = contact.querySelectorAll('input');
-                    inputs.forEach(input => {
-                        const oldName = input.name;
-                        const newName = oldName.replace(/\d+$/, newId);
-                        input.name = newName;
-                        input.id = newName;
-                    });
-                    
-                    // Actualizar labels
-                    const labels = contact.querySelectorAll('label');
-                    labels.forEach(label => {
-                        const oldFor = label.getAttribute('for');
-                        if (oldFor) {
-                            const newFor = oldFor.replace(/\d+$/, newId);
-                            label.setAttribute('for', newFor);
-                        }
-                    });
+                const header = contact.querySelector('.contact-header h6');
+                header.textContent = `Contacto ${newId}`;
+                
+                const removeBtn = contact.querySelector('.remove-contact');
+                removeBtn.setAttribute('onclick', `removeContact(${newId})`);
+                
+                // Actualizar IDs y nombres de los inputs
+                const inputs = contact.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const oldName = input.name;
+                    const newName = oldName.replace(/\d+$/, newId);
+                    input.name = newName;
+                    input.id = newName;
                 });
-            }
-        }
-        
-        const fileUploadArea = document.getElementById('fileUploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-        
-        fileUploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        fileUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUploadArea.style.borderColor = '#3498db';
-            fileUploadArea.style.backgroundColor = '#f0f8ff';
-        });
-        
-        fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.style.borderColor = '#dee2e6';
-            fileUploadArea.style.backgroundColor = '';
-        });
-        
-        fileUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUploadArea.style.borderColor = '#dee2e6';
-            fileUploadArea.style.backgroundColor = '';
-            
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        });
-        
-        fileInput.addEventListener('change', () => {
-            handleFiles(fileInput.files);
-        });
-        
-        function handleFiles(files) {
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const listItem = document.createElement('div');
-                listItem.className = 'd-flex justify-content-between align-items-center p-2 border rounded mb-2';
                 
-                listItem.innerHTML = `
-                    <div>
-                        <i class="fas fa-file me-2"></i>
-                        <span>${file.name}</span>
-                        <small class="text-muted ms-2">(${(file.size / 1024).toFixed(2)} KB)</small>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.remove()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                
-                fileList.appendChild(listItem);
-            }
+                // Actualizar labels
+                const labels = contact.querySelectorAll('label');
+                labels.forEach(label => {
+                    const oldFor = label.getAttribute('for');
+                    if (oldFor) {
+                        const newFor = oldFor.replace(/\d+$/, newId);
+                        label.setAttribute('for', newFor);
+                    }
+                });
+            });
         }
+    }
+    
+    // Agregar elemento "Qué incluye" con el mismo diseño que Contacto
+    document.getElementById('addQueIncluye').addEventListener('click', addQueIncluye);
+    
+    function addQueIncluye() {
+        queIncluyeCounter++;
+        const newItem = document.createElement('div');
+        newItem.className = 'que-incluye-item';
+        newItem.id = `que-incluye-${queIncluyeCounter}`;
         
-        // Validación del formulario
-        document.getElementById('cprimarioForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        newItem.innerHTML = `
+            <div class="que-incluye-header">
+                <h6 class="mb-0">Elemento ${queIncluyeCounter}</h6>
+                <span class="remove-que-incluye" onclick="removeQueIncluye(${queIncluyeCounter})"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="QUE_INCLUYE_${queIncluyeCounter}" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="QUE_INCLUYE_${queIncluyeCounter}" name="QUE_INCLUYE_${queIncluyeCounter}" rows="3" placeholder="Describa lo que incluye..." ></textarea>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('queIncluyeContainer').appendChild(newItem);
+    }
+    
+    // Función para eliminar elemento "Qué incluye"
+    function removeQueIncluye(id) {
+        if (queIncluyeCounter > 1) {
+            const itemToRemove = document.getElementById(`que-incluye-${id}`);
+            itemToRemove.remove();
+            queIncluyeCounter--;
             
-            // Validación básica - en una aplicación real, esto sería más completo
-            let isValid = true;
-            const requiredFields = this.querySelectorAll('[required]');
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    field.classList.remove('is-invalid');
+            // Renumerar los elementos restantes
+            const items = document.querySelectorAll('.que-incluye-item');
+            items.forEach((item, index) => {
+                const newId = index + 1;
+                item.id = `que-incluye-${newId}`;
+                
+                // Actualizar los textos y IDs de los elementos internos
+                const header = item.querySelector('.que-incluye-header h6');
+                header.textContent = `Elemento ${newId}`;
+                
+                const removeBtn = item.querySelector('.remove-que-incluye');
+                removeBtn.setAttribute('onclick', `removeQueIncluye(${newId})`);
+                
+                // Actualizar IDs y nombres de los textareas
+                const textarea = item.querySelector('textarea');
+                const oldName = textarea.name;
+                const newName = oldName.replace(/\d+$/, newId);
+                textarea.name = newName;
+                textarea.id = newName;
+                
+                // Actualizar labels
+                const label = item.querySelector('label');
+                const oldFor = label.getAttribute('for');
+                if (oldFor) {
+                    const newFor = oldFor.replace(/\d+$/, newId);
+                    label.setAttribute('for', newFor);
                 }
             });
-            
-            if (isValid) {
-                // En una aplicación real, aquí enviarías el formulario
-                alert('Formulario enviado correctamente');
-                // this.submit();
-            } else {
-                alert('Por favor, complete todos los campos obligatorios');
-            }
-        });
-    </script>
+        }
+    }
+    
+    // Función para calcular la vigencia
+    function calcularVigencia() {
+        const desde = document.getElementById('VIGENCIA_DESDE_CENTRO').value;
+        const hasta = document.getElementById('VIGENCIA_HASTA_CENTRO').value;
+        const contador = document.getElementById('CONTADOR_CENTRO');
+        
+        if (!desde || !hasta) {
+            contador.textContent = "Aquí se indicarán los días restantes vigentes";
+            contador.className = "form-label";
+            return;
+        }
+        
+        const fechaDesde = new Date(desde);
+        const fechaHasta = new Date(hasta);
+        const hoy = new Date();
+        
+        // Si la fecha de vencimiento ya pasó
+        if (hoy > fechaHasta) {
+            contador.textContent = "VENCIDO";
+            contador.className = "form-label vigencia-rojo";
+            return;
+        }
+        
+        // Calcular días totales y días transcurridos
+        const diasTotales = Math.ceil((fechaHasta - fechaDesde) / (1000 * 60 * 60 * 24));
+        const diasTranscurridos = Math.ceil((hoy - fechaDesde) / (1000 * 60 * 60 * 24));
+        const diasRestantes = Math.ceil((fechaHasta - hoy) / (1000 * 60 * 60 * 24));
+        
+        // Calcular porcentaje transcurrido
+        const porcentajeTranscurrido = (diasTranscurridos / diasTotales) * 100;
+        
+        // Determinar color según el porcentaje
+        let claseColor = "";
+        if (porcentajeTranscurrido <= 40) {
+            claseColor = "vigencia-verde";
+        } else if (porcentajeTranscurrido <= 70) {
+            claseColor = "vigencia-amarillo";
+        } else {
+            claseColor = "vigencia-rojo";
+        }
+        
+        contador.textContent = `${diasRestantes} días restantes (${porcentajeTranscurrido.toFixed(1)}% transcurrido)`;
+        contador.className = `form-label ${claseColor}`;
+    }
+    
+</script>
 
+
+<div class="modal fade" id="clienteModal" tabindex="-1" aria-labelledby="clienteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clienteModalLabel">Datos del cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="clienteForm" method="post" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                    
+                    <!-- Nombre Comercial Único -->
+                    <div class="form-section">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="NOMBRE_COMERCIAL_CLIENTE" class="form-label">Nombre Comercial</label>
+                                <input type="text" class="form-control" id="NOMBRE_COMERCIAL_CLIENTE" 
+                                    name="NOMBRE_COMERCIAL_CLIENTE" placeholder="Nombre comercial o marca del cliente">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección de Razones Sociales Múltiples -->
+                    <div class="form-section">
+                        <h6 class="section-title">Razones Sociales</h6>
+                        <div id="razonesSocialesContainer">
+                            <!-- Las razones sociales se agregarán aquí dinámicamente -->
+                        </div>
+                        <button type="button" class="btn btn-outline-primary mt-2" id="addRazonSocial">
+                            <i class="fas fa-plus me-2"></i>Agregar razón social
+                        </button>
+                    </div>
+                    
+                    <!-- Sección de Contactos -->
+                    <div class="form-section">
+                        <h6 class="section-title">Contactos</h6>
+                        <div id="contactosContainerCliente">
+                            <!-- Los contactos se agregarán aquí dinámicamente -->
+                        </div>
+                        <button type="button" class="btn btn-outline-primary mt-2" id="addContactoCliente">
+                            <i class="fas fa-plus me-2"></i>Agregar contacto
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="clientebtnModal" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .section-title {
+        color: #495057;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    .razon-social-item, .contacto-cliente-item {
+        border: 1px solid #e9ecef;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: #f8f9fa;
+    }
+    .razon-social-header, .contacto-cliente-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .remove-razon-social, .remove-contacto-cliente {
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+    .remove-razon-social:hover, .remove-contacto-cliente:hover {
+        color: #bd2130;
+    }
+    .btn-outline-primary {
+        border-color: #0d6efd;
+        color: #0d6efd;
+    }
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+</style>
+
+<script>
+    // Contadores globales
+    let razonSocialCounter = 0;
+    let contactoClienteCounter = 0;
+    
+    // Inicializar al cargar el documento
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Event listeners para botones de agregar
+        document.getElementById('addRazonSocial').addEventListener('click', addRazonSocial);
+        document.getElementById('addContactoCliente').addEventListener('click', addContactoCliente);
+    });
+    
+    // Función para agregar razón social
+    function addRazonSocial(razonSocialData = null) {
+        razonSocialCounter++;
+        const newRazonSocial = document.createElement('div');
+        newRazonSocial.className = 'razon-social-item';
+        newRazonSocial.id = `razon-social-${razonSocialCounter}`;
+        
+        newRazonSocial.innerHTML = `
+            <div class="razon-social-header">
+                <h6 class="mb-0">Razón Social ${razonSocialCounter}</h6>
+                <span class="remove-razon-social" onclick="removeRazonSocial(${razonSocialCounter})">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="RAZON_SOCIAL_${razonSocialCounter}" class="form-label">Razón Social</label>
+                    <input type="text" class="form-control" id="RAZON_SOCIAL_${razonSocialCounter}" 
+                        name="RAZON_SOCIAL_${razonSocialCounter}" 
+                        placeholder="Nombre legal de la empresa" required>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('razonesSocialesContainer').appendChild(newRazonSocial);
+    }
+    
+    // Función para eliminar razón social
+    function removeRazonSocial(id) {
+        if (razonSocialCounter > 1) {
+            const razonToRemove = document.getElementById(`razon-social-${id}`);
+            razonToRemove.remove();
+            razonSocialCounter--;
+            
+            // Renumerar las razones sociales restantes
+            const razones = document.querySelectorAll('.razon-social-item');
+            razones.forEach((razon, index) => {
+                const newId = index + 1;
+                razon.id = `razon-social-${newId}`;
+                
+                // Actualizar header
+                const header = razon.querySelector('.razon-social-header h6');
+                header.textContent = `Razón Social ${newId}`;
+                
+                // Actualizar botón de eliminar
+                const removeBtn = razon.querySelector('.remove-razon-social');
+                removeBtn.setAttribute('onclick', `removeRazonSocial(${newId})`);
+                
+                // Actualizar IDs y nombres de los inputs
+                const inputs = razon.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const oldName = input.name;
+                    const newName = oldName.replace(/\d+$/, newId);
+                    input.name = newName;
+                    input.id = newName;
+                });
+                
+                // Actualizar labels
+                const labels = razon.querySelectorAll('label');
+                labels.forEach(label => {
+                    const oldFor = label.getAttribute('for');
+                    if (oldFor) {
+                        const newFor = oldFor.replace(/\d+$/, newId);
+                        label.setAttribute('for', newFor);
+                    }
+                });
+            });
+        }
+    }
+    
+    // Función para agregar contacto
+    function addContactoCliente(contactoData = null) {
+        contactoClienteCounter++;
+        const newContacto = document.createElement('div');
+        newContacto.className = 'contacto-cliente-item';
+        newContacto.id = `contacto-cliente-${contactoClienteCounter}`;
+        
+        newContacto.innerHTML = `
+            <div class="contacto-cliente-header">
+                <h6 class="mb-0">Contacto ${contactoClienteCounter}</h6>
+                <span class="remove-contacto-cliente" onclick="removeContactoCliente(${contactoClienteCounter})">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_NOMBRE_${contactoClienteCounter}" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="CONTACTO_NOMBRE_${contactoClienteCounter}" 
+                        name="CONTACTO_NOMBRE_${contactoClienteCounter}" 
+                        value="${contactoData ? contactoData.NOMBRE : ''}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_CARGO_${contactoClienteCounter}" class="form-label">Cargo</label>
+                    <input type="text" class="form-control" id="CONTACTO_CARGO_${contactoClienteCounter}" 
+                        name="CONTACTO_CARGO_${contactoClienteCounter}" 
+                        value="${contactoData ? contactoData.CARGO : ''}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_EMAIL_${contactoClienteCounter}" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="CONTACTO_EMAIL_${contactoClienteCounter}" 
+                        name="CONTACTO_EMAIL_${contactoClienteCounter}" 
+                        value="${contactoData ? contactoData.EMAIL : ''}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_CELULAR_${contactoClienteCounter}" class="form-label">Teléfono Celular</label>
+                    <input type="tel" class="form-control" id="CONTACTO_CELULAR_${contactoClienteCounter}" 
+                        name="CONTACTO_CELULAR_${contactoClienteCounter}" 
+                        value="${contactoData ? contactoData.CELULAR : ''}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="CONTACTO_FIJO_${contactoClienteCounter}" class="form-label">Teléfono Fijo</label>
+                    <input type="tel" class="form-control" id="CONTACTO_FIJO_${contactoClienteCounter}" 
+                        name="CONTACTO_FIJO_${contactoClienteCounter}" 
+                        value="${contactoData ? contactoData.FIJO : ''}">
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('contactosContainerCliente').appendChild(newContacto);
+    }
+    
+    // Función para eliminar contacto
+    function removeContactoCliente(id) {
+        if (contactoClienteCounter > 1) {
+            const contactoToRemove = document.getElementById(`contacto-cliente-${id}`);
+            contactoToRemove.remove();
+            contactoClienteCounter--;
+            
+            // Renumerar los contactos restantes
+            const contactos = document.querySelectorAll('.contacto-cliente-item');
+            contactos.forEach((contacto, index) => {
+                const newId = index + 1;
+                contacto.id = `contacto-cliente-${newId}`;
+                
+                // Actualizar header
+                const header = contacto.querySelector('.contacto-cliente-header h6');
+                header.textContent = `Contacto ${newId}`;
+                
+                // Actualizar botón de eliminar
+                const removeBtn = contacto.querySelector('.remove-contacto-cliente');
+                removeBtn.setAttribute('onclick', `removeContactoCliente(${newId})`);
+                
+                // Actualizar IDs y nombres de los inputs
+                const inputs = contacto.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const oldName = input.name;
+                    const newName = oldName.replace(/\d+$/, newId);
+                    input.name = newName;
+                    input.id = newName;
+                });
+                
+                // Actualizar labels
+                const labels = contacto.querySelectorAll('label');
+                labels.forEach(label => {
+                    const oldFor = label.getAttribute('for');
+                    if (oldFor) {
+                        const newFor = oldFor.replace(/\d+$/, newId);
+                        label.setAttribute('for', newFor);
+                    }
+                });
+            });
+        }
+    }
+    
+    // Limpiar modal cuando se cierre
+    $('#clienteModal').on('hidden.bs.modal', function () {
+        // Limpiar contenedores
+        $('#razonesSocialesContainer').empty();
+        $('#contactosContainerCliente').empty();
+        
+        // Resetear campos únicos
+        $('#NOMBRE_COMERCIAL_CLIENTE').val('');
+        
+        // Resetear contadores
+        razonSocialCounter = 0;
+        contactoClienteCounter = 0;
+        
+        // Agregar elementos vacíos
+        addRazonSocial();
+        addContactoCliente();
+    });
+</script>
 
     <div class="modal fade" id="temaModal" tabindex="-1" aria-labelledby="temaModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -915,87 +1319,6 @@
             </div>
         </div>
     </div>
-
-     {{-- <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="instructoresModalLabel">{{ __('Instructors') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="instructoresForm" method="post"  enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-section">
-                                    <label class="form-label ">{{ __('First name') }}</label>
-                                    <input type="text" class="form-control" name="FNAME_INSTRUCTOR" id="FNAME_INSTRUCTOR" required>
-                                </div>
-                                
-                                <div class="form-section">
-                                    <label class="form-label">{{ __('Middle name') }}</label>
-                                    <input type="text" class="form-control" name="MDNAME_INSTRUCTOR" id="MDNAME_INSTRUCTOR">
-                                </div>
-                                
-                                <div class="form-section">
-                                    <label class="form-label ">{{ __('Family or last name') }}</label>
-                                    <input type="text" class="form-control" name="LSNAME_INSTRUCTOR" id="LSNAME_INSTRUCTOR" required>
-                                </div>
-                                
-                                <div class="form-section">
-                                    <label class="form-label ">{{ __('Mail') }}</label>
-                                    <input type="email" class="form-control" name="MAIL_INSTRUCTOR" id="MAIL_INSTRUCTOR" required>
-                                </div>
-                            </div>
-                            
-                            <!-- Columna 2 -->
-                            <div class="col-md-6">
-                                <div class="form-section">
-                                    <label class="form-label">{{ __('Phone number') }}</label>
-                                    <div class="phone-group">
-                                        <input type="text" class="form-control" placeholder="{{ __('Lada') }}" name="LADA_INSTRUCTOR" id="LADA_INSTRUCTOR">
-                                        <input type="tel" class="form-control" placeholder="{{ __('Phone') }}" name="TEL_INSTRUCTOR" id="TEL_INSTRUCTOR">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-section">
-                                     <label>{{ __('Accreditation type') }}</label>
-                                    <select class="form-select" id="ACREDITACION_INSTRUCTOR" name="ACREDITACION_INSTRUCTOR" required>
-                                        @foreach ($temas as $tema)
-                                            <option value="{{ $tema->ID_CATALOGO_TEMAPREGUNTA }}">{{ $tema->NOMBRE_TEMA }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                   
-                                </div>
-                                
-                                <div class="form-section">
-                                    <label class="form-label">{{ __('Expiration') }}</label>
-                                    <input type="date" class="form-control" name="EXPIRACION_INSTRUCTOR" id="EXPIRACION_INSTRUCTOR">
-                                </div>
-                                
-                                <div class="form-section">
-                                    <label class="form-label">{{ __('Document') }}</label>
-                                    <input type="text" class="form-control" name="DOC_INSTRUCTOR" id="DOC_INSTRUCTOR">
-                                </div>
-                                
-                                <div class="form-section" id="vigenciaInstructor">
-                                    <!-- Espacio para contenido adicional -->
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                    <button id="instructoresbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 
     <div class="modal fade" id="instructoresModal" tabindex="-1" aria-labelledby="instructoresModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="max-width: 70%;">

@@ -186,6 +186,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/instructoresDatatable', [CatalogsController::class, 'instructoresDatatable']);
     Route::post('/instructorSave', [CatalogsController::class, 'store']);
     Route::get('/instructorActive', [CatalogsController::class, 'store']);
+
+    Route::get('/centrosDatatable', [CatalogsController::class, 'centrosDatatable']);
+    Route::post('/centroSave', [CatalogsController::class, 'store']);
+
+     Route::get('/clienteDatatable', [CatalogsController::class, 'clienteDatatable']);
+    Route::post('/clienteSave', [CatalogsController::class, 'store']);
+    Route::get('/clienteActive', [CatalogsController::class, 'store']);
+
+    // Ruta para servir archivos PDF desde storage
+Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
+    $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
+    
+    if (!file_exists($path)) {
+        abort(404, 'Archivo no encontrado: ' . $path);
+    }
+    
+    return response()->file($path, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"'
+    ]);
+})->name('archivos.centros');
+
 });
 
 

@@ -20,6 +20,9 @@ use App\Models\Admin\catalogs\Membresias;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\Instructor;
+use App\Models\Admin\catalogs\CentrosCapacitacion;
+use App\Models\Admin\catalogs\Clientes;
+
 
 
 
@@ -59,7 +62,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -105,7 +108,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -151,7 +154,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -171,16 +174,16 @@ class CatalogsController extends Controller
             $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
             foreach ($tabla as $value) {
                 $certificacionesIds = $value->CERTIFICACION_TEMA ?? [];
-            
+
                 $nombresEntes = [];
                 foreach ($certificacionesIds as $id) {
                     if (isset($entes[$id])) {
                         $nombresEntes[] = $entes[$id];
                     }
                 }
-                
+
                 $value->CERTIFICACIONES_NOMBRES  = implode(', ', $nombresEntes);
-                
+
                 if ($value->ACTIVO_TEMA == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_TEMA . '">
@@ -209,7 +212,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -222,6 +225,120 @@ class CatalogsController extends Controller
         }
     }
 
+    public function centrosDatatable()
+    {
+        try {
+            $tabla = CentrosCapacitacion::get();
+            $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
+            foreach ($tabla as $value) {
+
+
+
+
+                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#centroModal">
+                                                                    <span class="btn-inner">
+                                                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </button>';
+                 $tieneDocumento = false;
+            $rutaDocumento = '';
+            $idCentro = $value->ID_CATALOGO_CENTRO;
+            
+            if (!empty($value->DOC_CENTRO)) {
+                try {
+                    $docData = json_decode($value->DOC_CENTRO, true);
+                    
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($docData) && !empty($docData)) {
+                        $primerDoc = $docData[0];
+                        $tieneDocumento = true;
+                        // Guardar solo el nombre del archivo para la URL
+                        $rutaCompleta = $primerDoc['ruta'] ?? '';
+                        $nombreArchivo = basename($rutaCompleta); // Extraer solo el nombre del archivo
+                        $rutaDocumento = $nombreArchivo;
+                    }
+                } catch (Exception $e) {
+                    // Si es ruta directa, extraer solo el nombre del archivo
+                    $tieneDocumento = !empty($value->DOC_CENTRO);
+                    $rutaDocumento = basename($value->DOC_CENTRO);
+                }
+            }
+            
+            // Botón Ver PDF
+            $value->BTN_PDF = $tieneDocumento ? 
+                '<button type="button" class="btn btn-sm btn-icon btn-info VER_PDF" data-toggle="tooltip" data-placement="top" title="Ver PDF" data-id="'.$idCentro.'" data-ruta="'.htmlspecialchars($rutaDocumento, ENT_QUOTES).'">
+                    <span class="btn-inner">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                </button>' : 
+                '<button type="button" class="btn btn-sm btn-icon btn-secondary" disabled data-toggle="tooltip" data-placement="top" title="Sin documento">
+                    <span class="btn-inner">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                </button>';
+            }
+
+            return response()->json([
+                'data' => $tabla,
+                'msj' => 'Información consultada correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error ' . $e->getMessage(),
+                'data' => 0
+            ]);
+        }
+    }
+
+    public function clienteDatatable()
+{
+    try {
+        $tabla = Clientes::get();
+        foreach ($tabla as $value) {
+            if ($value->ACTIVO_CLIENTE == 0) {
+                $value->BTN_ACTIVO = '<div class="form-check form-switch">
+                                                            <input class="form-check-input ACTIVAR_CLIENTE" type="checkbox" data-id="' . $value->ID_CATALOGO_CLIENTE . '">
+                                                        </div>';
+                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                                                            <span class="btn-inner">
+                                                                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </button>';
+            } else {
+                $value->BTN_ACTIVO = '<div class="form-check form-switch">
+                                            <input class="form-check-input ACTIVAR_CLIENTE" type="checkbox" data-id="' . $value->ID_CATALOGO_CLIENTE . '" checked>
+                                        </div>';
+                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                                                            <span class="btn-inner">
+                                                                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </button>';
+            }
+        }
+
+        return response()->json([
+            'data' => $tabla,
+            'msj' => 'Información consultada correctamente'
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'msj' => 'Error ' . $e->getMessage(),
+            'data' => 0
+        ]);
+    }
+}
+
     public function subtemasDatatable()
     {
         try {
@@ -229,16 +346,16 @@ class CatalogsController extends Controller
             $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
             foreach ($tabla as $value) {
                 $certificacionesIds = $value->CERTIFICACION_SUBTEMA ?? [];
-            
+
                 $nombresEntes = [];
                 foreach ($certificacionesIds as $id) {
                     if (isset($entes[$id])) {
                         $nombresEntes[] = $entes[$id];
                     }
                 }
-                
+
                 $value->CERTIFICACIONES_NOMBRES  = implode(', ', $nombresEntes);
-                
+
                 if ($value->ACTIVO_SUBTEMA == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_SUBTEMA . '">
@@ -267,7 +384,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -313,7 +430,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -359,7 +476,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -405,7 +522,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -451,7 +568,7 @@ class CatalogsController extends Controller
                                                                 </button>';
                 }
             }
-            
+
             return response()->json([
                 'data' => $tabla,
                 'msj' => 'Información consultada correctamente'
@@ -557,7 +674,7 @@ class CatalogsController extends Controller
                     if ($request->ID_CATALOGO_ENTE == 0) {
                         DB::statement('ALTER TABLE entes_acreditadores AUTO_INCREMENT=1;');
                         $enteAcreditador = EnteAcreditador::create($request->all());
-                    } else { 
+                    } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
                                 $enteAcreditador = EnteAcreditador::where('ID_CATALOGO_ENTE', $request['ID_CATALOGO_ENTE'])->update(['ACTIVO_ENTE' => 0]);
@@ -576,16 +693,16 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['ente']  = $enteAcreditador;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['ente']  = $enteAcreditador;
+                    return response()->json($response);
+                    break;
 
                 // Caso para Nivel de Acreditación
                 case 2:
                     if ($request->ID_CATALOGO_NIVELACREDITACION == 0) {
                         $nivelAcreditacion = NivelAcreditacion::create($request->all());
-                    } else { 
+                    } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
                                 $nivelAcreditacion = NivelAcreditacion::where('ID_CATALOGO_NIVELACREDITACION', $request['ID_CATALOGO_NIVELACREDITACION'])->update(['ACTIVO_NIVEL' => 0]);
@@ -604,10 +721,10 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['nivel']  = $nivelAcreditacion;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['nivel']  = $nivelAcreditacion;
+                    return response()->json($response);
+                    break;
 
                 // Caso para Tipo de BOP
                 case 3:
@@ -632,17 +749,17 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['tipobop']  = $tipoBop;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['tipobop']  = $tipoBop;
+                    return response()->json($response);
+                    break;
 
                 // Caso para Tema de Preguntas
                 case 4:
-                    $certificaciones = $request->has('CERTIFICACION_TEMA') ? (array)$request->input('CERTIFICACION_TEMA'): [];
+                    $certificaciones = $request->has('CERTIFICACION_TEMA') ? (array)$request->input('CERTIFICACION_TEMA') : [];
 
                     if ($request->ID_CATALOGO_TEMAPREGUNTA == 0) {
-                       $temaPregunta = TemaPreguntas::create([
+                        $temaPregunta = TemaPreguntas::create([
                             'NOMBRE_TEMA' => $request->NOMBRE_TEMA,
                             'CERTIFICACION_TEMA' => $certificaciones,
                             'ACTIVO_TEMA' => 1
@@ -669,10 +786,10 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['tema']  = $temaPregunta;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['tema']  = $temaPregunta;
+                    return response()->json($response);
+                    break;
 
                 // Caso para Idiomas de Examen
                 case 5:
@@ -697,10 +814,10 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['idioma']  = $idiomaExamen;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['idioma']  = $idiomaExamen;
+                    return response()->json($response);
+                    break;
 
                 // Caso para Membresías
                 case 6:
@@ -725,16 +842,16 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['membresia']  = $membresia;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['membresia']  = $membresia;
+                    return response()->json($response);
+                    break;
 
                 case 7:
-                    $certificaciones = $request->has('CERTIFICACION_SUBTEMA') ? (array)$request->input('CERTIFICACION_SUBTEMA'): [];
+                    $certificaciones = $request->has('CERTIFICACION_SUBTEMA') ? (array)$request->input('CERTIFICACION_SUBTEMA') : [];
 
                     if ($request->ID_CATALOGO_SUBTEMA == 0) {
-                       $subtemaPregunta = SubtemaPreguntas::create([
+                        $subtemaPregunta = SubtemaPreguntas::create([
                             'TEMAPREGUNTA_ID' => $request->TEMAPREGUNTA_ID,
                             'NOMBRE_SUBTEMA' => $request->NOMBRE_SUBTEMA,
                             'CERTIFICACION_SUBTEMA' => $certificaciones,
@@ -763,16 +880,16 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['subtema']  = $subtemaPregunta;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['subtema']  = $subtemaPregunta;
+                    return response()->json($response);
+                    break;
 
                 case 8:
                     if ($request->ID_CATALOGO_OPERACION == 0) {
                         DB::statement('ALTER TABLE tipo_operacion AUTO_INCREMENT=1;');
                         $Operacion = Operacion::create($request->all());
-                    } else { 
+                    } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
                                 $Operacion = Operacion::where('ID_CATALOGO_OPERACION', $request['ID_CATALOGO_OPERACION'])->update(['ACTIVO_OPERACION' => 0]);
@@ -791,13 +908,13 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['operacion']  = $Operacion;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['operacion']  = $Operacion;
+                    return response()->json($response);
+                    break;
                 case 9:
                     $data = $request->except('documents');
-                   
+
                     $data['ACTIVO_INSTRUCTOR'] = 1;
 
                     if ($request->ID_CATALOGO_INSTRUCTOR == 0) {
@@ -846,8 +963,7 @@ class CatalogsController extends Controller
                         $response['code'] = 1;
                         $response['instructor'] = $Instructor;
                         return response()->json($response);
-                    } 
-                    else {
+                    } else {
                         // ACTUALIZACIÓN
                         $Instructor = Instructor::find($request->ID_CATALOGO_INSTRUCTOR);
 
@@ -882,15 +998,15 @@ class CatalogsController extends Controller
                         $response['instructor'] = 'Actualizado';
                         return response()->json($response);
                     }
-                break;
+                    break;
                 case 10:
                     if ($request->ID_CATALOGO_NPROYECTOS == 0) {
                         DB::statement('ALTER TABLE tipo_operacion AUTO_INCREMENT=1;');
                         $data = $request->all();
                         $data['ACTIVO_NPROYECTO'] = 1;
-                        
+
                         $NombreProyecto = NombreProyecto::create($data);
-                    } else { 
+                    } else {
                         if (isset($request->ACTIVAR)) {
                             if ($request->ACTIVAR == 1) {
                                 $NombreProyecto = NombreProyecto::where('ID_CATALOGO_NPROYECTOS', $request['ID_CATALOGO_NPROYECTOS'])->update(['ACTIVO_NPROYECTO' => 0]);
@@ -909,12 +1025,208 @@ class CatalogsController extends Controller
                         }
                         return response()->json($response);
                     }
-                $response['code']  = 1;
-                $response['nombres']  = $NombreProyecto;
-                return response()->json($response);
-                break;
+                    $response['code']  = 1;
+                    $response['nombres']  = $NombreProyecto;
+                    return response()->json($response);
+                    break;
+                case 11:
+                    $data = $request->except('DOCUMENTO_CENTRO');
+                    $contactosJSON = $request->contactosJSON;
+                    $queIncluyeJSON = $request->queIncluyeJSON;
 
-                default:
+                    // Validar que sean JSON válidos
+                    if ($contactosJSON) {
+                        json_decode($contactosJSON);
+                        if (json_last_error() !== JSON_ERROR_NONE) {
+                            return response()->json([
+                                'success' => false,
+                                'message' => 'Formato de contactos inválido'
+                            ]);
+                        }
+                        // Agregar al array de datos
+                        $data['CONTACTOS_CENTRO'] = $contactosJSON;
+                    }
+
+                    if ($queIncluyeJSON) {
+                        json_decode($queIncluyeJSON);
+                        if (json_last_error() !== JSON_ERROR_NONE) {
+                            return response()->json([
+                                'success' => false,
+                                'message' => 'Formato de "qué incluye" inválido'
+                            ]);
+                        }
+                        // Agregar al array de datos
+                        $data['INCLUYE_CENTRO'] = $queIncluyeJSON;
+                    }
+
+                    if ($request->ID_CATALOGO_CENTRO == 0) {
+                        DB::statement('ALTER TABLE centro_capacitacion AUTO_INCREMENT=1;');
+
+                        // Crear primero el registro sin documentos
+                        $CentrosCapacitacion = CentrosCapacitacion::create($data);
+
+                        $documentosArray = [];
+
+                        if ($request->hasFile('DOCUMENTO_CENTRO')) {
+                            $directory = 'admin/catalogs/centros/' . $CentrosCapacitacion->ID_CATALOGO_CENTRO;
+                            $fullPath = storage_path('app/' . $directory);
+
+                            if (!file_exists($fullPath)) {
+                                mkdir($fullPath, 0755, true);
+                            }
+
+                            $file = $request->file('DOCUMENTO_CENTRO');
+
+                            if ($file->getClientOriginalExtension() !== 'pdf') {
+                                return response()->json(['code' => 0, 'error' => 'El archivo debe ser PDF']);
+                            }
+
+                            if ($file->getSize() > 10485760) {
+                                return response()->json(['code' => 0, 'error' => 'El archivo no debe exceder los 10MB']);
+                            }
+
+                            $fileName = uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                            $file->move($fullPath, $fileName);
+
+                            $documentosArray[] = [
+                                'nombre' => $file->getClientOriginalName(),
+                                'ruta' => $directory . '/' . $fileName, // Ruta relativa sin 'app/'
+                                'archivo_original' => $file->getClientOriginalName(),
+                                'fecha_subida' => now()->toDateTimeString()
+                            ];
+                        }
+
+                        // Guardar como JSON
+                        if (!empty($documentosArray)) {
+                            $CentrosCapacitacion->update([
+                                'DOC_CENTRO' => json_encode($documentosArray, JSON_UNESCAPED_UNICODE),
+                            ]);
+                        }
+
+                        $response['code'] = 1;
+                        $response['centro'] = $CentrosCapacitacion;
+                        return response()->json($response);
+                    } else {
+                        // ACTUALIZACIÓN
+                        $CentrosCapacitacion = CentrosCapacitacion::find($request->ID_CATALOGO_CENTRO);
+
+                        $documentosArray = json_decode($CentrosCapacitacion->DOC_CENTRO, true) ?? [];
+
+                        if ($request->hasFile('DOCUMENTO_CENTRO')) {
+                            $directory = 'admin/catalogs/centros/' . $CentrosCapacitacion->ID_CATALOGO_CENTRO;
+                            $fullPath = storage_path('app/' . $directory);
+
+                            if (!file_exists($fullPath)) {
+                                mkdir($fullPath, 0755, true);
+                            }
+
+                            $file = $request->file('DOCUMENTO_CENTRO');
+
+                            if ($file->getClientOriginalExtension() !== 'pdf') {
+                                return response()->json(['code' => 0, 'error' => 'El archivo debe ser PDF']);
+                            }
+
+                            if ($file->getSize() > 10485760) {
+                                return response()->json(['code' => 0, 'error' => 'El archivo no debe exceder los 10MB']);
+                            }
+
+                            $fileName = uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                            $file->move($fullPath, $fileName);
+
+                            $documentosArray[] = [
+                                'nombre' => $file->getClientOriginalName(),
+                                'ruta' => $directory . '/' . $fileName,
+                                'archivo_original' => $file->getClientOriginalName(),
+                                'fecha_subida' => now()->toDateTimeString()
+                            ];
+                        }
+
+                        $data['DOC_CENTRO'] = !empty($documentosArray) ? json_encode($documentosArray, JSON_UNESCAPED_UNICODE) : null;
+                        $CentrosCapacitacion->update($data);
+
+                        $response['code'] = 1;
+                        $response['centro'] = 'Actualizado';
+                        return response()->json($response);
+                    }
+                    break;
+
+               case 12:
+    if ($request->ID_CATALOGO_CLIENTE == 0) {
+        // NUEVO REGISTRO
+        DB::statement('ALTER TABLE costumers AUTO_INCREMENT=1;');
+        
+        $data = $request->all();
+        
+        // PROCESAR DATOS DINÁMICOS PARA NUEVO REGISTRO
+        $razonesSocialesJSON = $request->razonesSocialesJSON;
+        $contactosJSON = $request->contactosClienteJSON;
+        
+        // Procesar razones sociales
+        if ($razonesSocialesJSON) {
+            $razonesArray = json_decode($razonesSocialesJSON, true);
+            if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
+                $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
+            }
+            $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
+        }
+        
+        // Procesar contactos
+        if ($contactosJSON) {
+            $data['CONTACTO_CLIENTE'] = $contactosJSON;
+        }
+        
+        // ACTIVO_CLIENTE = 1 por defecto
+        $data['ACTIVO_CLIENTE'] = 1;
+        
+        $cliente = Clientes::create($data);
+        
+    } else {
+        // EDICIÓN O ACTIVAR/DESACTIVAR
+        if (isset($request->ACTIVAR)) {
+            // ESTRUCTURA IDÉNTICA PARA ACTIVAR/DESACTIVAR
+            if ($request->ACTIVAR == 1) {
+                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 0]);
+                $response['code'] = 1;
+                $response['cliente'] = 'Desactivado';
+            } else {
+                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 1]);
+                $response['code'] = 1;
+                $response['cliente'] = 'Activado';
+            }
+        } else {
+            // EDICIÓN NORMAL - ADAPTADA PARA PROCESAR JSON
+            $data = $request->all();
+            
+            // PROCESAR DATOS DINÁMICOS PARA EDICIÓN
+            $razonesSocialesJSON = $request->razonesSocialesJSON;
+            $contactosJSON = $request->contactosClienteJSON;
+            
+            // Procesar razones sociales
+            if ($razonesSocialesJSON) {
+                $razonesArray = json_decode($razonesSocialesJSON, true);
+                if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
+                    $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
+                }
+                $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
+            }
+            
+            // Procesar contactos
+            if ($contactosJSON) {
+                $data['CONTACTO_CLIENTE'] = $contactosJSON;
+            }
+            
+            $cliente = Clientes::find($request->ID_CATALOGO_CLIENTE);
+            $cliente->update($data);
+            $response['code'] = 1;
+            $response['cliente'] = 'Actualizado';
+        }
+        return response()->json($response);
+    }
+    $response['code']  = 1;
+    $response['cliente']  = $cliente;
+    return response()->json($response);
+    break;
+                    default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';
                     return response()->json($response);
@@ -923,7 +1235,4 @@ class CatalogsController extends Controller
             return response()->json('Error al guardar la información');
         }
     }
-
-    
-    
 }

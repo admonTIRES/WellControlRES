@@ -15,6 +15,7 @@ use App\Models\Admin\catalogs\SubtemaPreguntas;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\Project\Proyect;
 use App\Models\Admin\catalogs\NombreProyecto;
+use App\Models\Admin\catalogs\CentrosCapacitacion;
 use App\Models\Admin\catalogs\Instructor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -209,7 +210,8 @@ class adminController extends Controller
     {
         $temas = TemaPreguntas::all();
         $entes = EnteAcreditador::all();
-        return view('Admin.content.Instructor.catalogs.catalogs', compact('entes', 'temas'))->with('user_role', 0);
+        $centros = CentrosCapacitacion::where('TIPO_CENTRO', '2')->get();
+        return view('Admin.content.Instructor.catalogs.catalogs', compact('entes', 'temas', 'centros'))->with('user_role', 0);
     }
     /**
      * @return \Illuminate\View\View

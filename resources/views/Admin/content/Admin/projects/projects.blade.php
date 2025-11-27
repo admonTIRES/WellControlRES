@@ -469,14 +469,26 @@
                                                
                                                 <hr style="margin-top: 2vw;">
 
-                                                <div class="col-md-12">
+                                                {{-- <div class="col-md-12">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Name(s) of company(ies) *')}}</strong></label>
                                                         <input id="COMPANIES" name="COMPANIES" class="form-control" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
                                                         </div>
                                                     </div>
+                                                </div> --}}
+                                                <div class="col-md-12 text-start mt-3">
+                                                    <label> <strong>{{ __('Company(ies) *')}}</strong></label>
+                                                    <select class="form-select" id="COMPANIES" name="COMPANIES[]"
+                                                        multiple>
+                                                        @foreach ($clientes as $cliente)
+                                                        <option value="{{ $cliente->ID_CATALOGO_CLIENTE }}">{{
+                                                            $cliente->NOMBRE_COMERCIAL_CLIENTE }} 
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end">
@@ -870,6 +882,79 @@
         </div>
     </div>
 </div>
+<style>
+    .customLook {
+    --tag-bg                  : #0052BF;
+    --tag-hover               : #CE0078;
+    --tag-text-color          : #FFF;
+    --tags-border-color       : silver;
+    --tag-text-color--edit    : #111;
+    --tag-remove-bg           : var(--tag-hover);
+    --tag-pad                 : .6em 1em;
+    --tag-inset-shadow-size   : 1.4em; /* compensate for the larger --tag-pad value */
+    --tag-remove-btn-color    : white;
+    --tag-remove-btn-bg--hover: black;
+
+    display: inline-block;
+    min-width: 0;
+    border: none;
+}
+
+.customLook .tagify__tag {
+    margin-top: 0;
+}
+
+.customLook .tagify__tag>div {
+    border-radius: 25px;
+}
+
+.customLook .tagify__tag:not(:only-of-type):not(.tagify__tag--editable):hover .tagify__tag-text {
+    margin-inline-end: -1px;
+}
+
+/* Do not show the "remove tag" (x) button when only a single tag remains */
+.customLook .tagify__tag:only-of-type .tagify__tag__removeBtn {
+    display: none;
+}
+
+.customLook .tagify__tag__removeBtn {
+    opacity: 0;
+    transform: translateX(-100%) scale(.5);
+    margin-inline: -20px 6px;
+    /* very specific on purpose  */
+    text-align: right;
+    transition: .12s;
+}
+
+.customLook .tagify__tag:not(.tagify__tag--editable):hover .tagify__tag__removeBtn {
+    transform: none;
+    opacity: 1;
+}
+
+.customLook+button {
+    color: #0052BF;
+    font: bold 1.4em/1.65 Arial;
+    border: 0;
+    background: none;
+    box-shadow: 0 0 0 2px inset currentColor;
+    border-radius: 50%;
+    width: 1.65em;
+    height: 1.65em;
+    cursor: pointer;
+    outline: none;
+    transition: .1s ease-out;
+    margin: 0 0 0 5px;
+    vertical-align: top;
+}
+
+.customLook+button:hover {
+    box-shadow: 0 0 0 5px inset currentColor;
+}
+
+.customLook .tagify__input {
+    display: none;
+}
+</style>
 <div class="modal fade" id="proyectoExcelModal" tabindex="-1" aria-labelledby="proyectoExcelModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

@@ -39,32 +39,24 @@ $(document).ready(function () {
         placeholder: "Selecciona un nombre",
         maxItems: 1
     })[0].selectize;
-  var companiesOptions = [];
-    $('#COMPANIES option').each(function() {
-        companiesOptions.push({
-            value: $(this).val(),
-            text: $(this).text().trim()
-        });
-    });
 
-    $('#COMPANIES').replaceWith('<input type="text" id="COMPANIES" name="COMPANIES" />');
-
-    $('#COMPANIES').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        options: companiesOptions,  
-        valueField: 'value',
-        labelField: 'text',
-        searchField: 'text',
-        maxItems: null,  
-        create: false,
-        placeholder: 'Buscar y seleccionar compañías...',
-    });
+    // var $select5 = $('#COMPANIES').selectize({
+    //     plugins: ['remove_button'],
+    //     delimiter: ',',
+    //     persist: false,
+    //     maxItems: null,
+    //     create: false,
+    //     onInitialize: function () {
+    //         this.$control_input.prop('readonly', true);
+    //     }
+    // });
+    // var selectizeInstance5 = $select5[0].selectize;
+    
 });
 
 document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
+    initializeTagify();
     // const input = document.querySelector('#COMPANIES');
     // tagify = new Tagify(input, {
     //     duplicates: false,
@@ -74,18 +66,86 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let isEditing = false;
 
-    // $('button[data-bs-target="#proyectoModal"]').on('click', function () {
-    //     isEditing = false;
+    $('button[data-bs-target="#proyectoModal"]').on('click', function () {
+        isEditing = false;
 
-    //     if (window.tagifyManager) {
-    //         window.tagifyManager.setEditMode(false);
-    //         window.tagifyManager.resetTagify();
-    //     }
-    // });
+        if (window.tagifyManager) {
+            window.tagifyManager.setEditMode(false);
+            window.tagifyManager.resetTagify();
+        }
+    });
+});
+function initializeTagify() {
+    if (typeof window.clientesData === 'undefined') {
+        console.error('No se encontraron datos de clientes');
+        return;
+    }
 
- });
+    const input = document.getElementById('COMPANIES');
+    
+    if (!input) return;
 
+    // Verificar si ya está inicializado y destruirlo primero
+    if (input.tagify) {
+        input.tagify.destroy();
+    }
 
+    const tagify = new Tagify(input, {
+        tagTextProp: 'value',
+        whitelist: window.clientesData.map(cliente => ({
+            value: cliente.NOMBRE_COMERCIAL_CLIENTE,
+            name: cliente.ID_CATALOGO_CLIENTE
+        })),
+        maxTags: 10,
+        dropdown: {
+            maxItems: 20,
+            classname: "tags-look",
+            enabled: 0,
+            closeOnSelect: false,
+            searchKeys: ['value']
+        }
+    });
+
+    // Para debugging
+    tagify.on('add', function(e) {
+        console.log('Añadido:', e.detail.data);
+    });
+
+    tagify.on('remove', function(e) {
+        console.log('Eliminado:', e.detail.data);
+    });
+
+    tagify.on('input', function(e) {
+        console.log('Input:', e.detail);
+    });
+
+    tagify.on('dropdown:show', function(e) {
+        console.log('Dropdown abierto');
+    });
+
+    tagify.on('dropdown:select', function(e) {
+        console.log('Seleccionado del dropdown:', e.detail);
+    });
+}
+
+// Función para resetear Tagify (si necesitas recargar)
+function resetTagify() {
+    const input = document.getElementById('COMPANIES');
+    if (input && input.tagify) {
+        input.tagify.removeAllTags();
+    }
+}
+
+// Función para destruir y recrear Tagify
+function recreateTagify() {
+    const input = document.getElementById('COMPANIES');
+    if (input) {
+        if (input.tagify) {
+            input.tagify.destroy();
+        }
+        initializeTagify();
+    }
+}
 
 class WizardManager {
     constructor() {
@@ -304,16 +364,16 @@ class WizardManager {
 
         this.updateProgressBar();
 
-        // if (this.currentStep === 4) {
-        //     if (window.tagifyManager) {
-        //         const updatedCompanies = window.tagifyManager.getUpdatedCompanies();
-        //         if (updatedCompanies && updatedCompanies.length > 0) {
-        //             this.empresas = updatedCompanies;
-        //             console.log('Empresas cargadas desde tagifyManager:', this.empresas);
-        //         }
-        //     }
-        //     this.renderEmpresasSections();
-        // }
+        if (this.currentStep === 4) {
+            if (window.tagifyManager) {
+                const updatedCompanies = window.tagifyManager.getUpdatedCompanies();
+                if (updatedCompanies && updatedCompanies.length > 0) {
+                    this.empresas = updatedCompanies;
+                    console.log('Empresas cargadas desde tagifyManager:', this.empresas);
+                }
+            }
+            this.renderEmpresasSections();
+        }
 
         const saveBtn = document.getElementById('proyectobtnModal');
         if (this.currentStep === this.totalSteps) {
@@ -1090,13 +1150,13 @@ function limpiarModal() {
     ID_PROJECT = 0;
     document.getElementById('proyectoForm').reset();
 
-    // if (window.tagifyManager) {
-    //     window.tagifyManager.resetTagify();
-    //     window.tagifyManager = null;
-    // }
+    if (window.tagifyManager) {
+        window.tagifyManager.resetTagify();
+        window.tagifyManager = null;
+    }
 
-    // const input = document.querySelector('#COMPANIES');
-    // window.tagifyManager = initializeTagifyForNew(input);
+    const input = document.querySelector('#COMPANIES');
+    window.tagifyManager = initializeTagifyForNew(input);
 
     ['ACCREDITATION_LEVELS_PROJECT', 'BOP_TYPES_PROJECT'].forEach(fieldId => {
         const $select = $('#' + fieldId);
@@ -1124,15 +1184,15 @@ function initializeTagifyWithEditSupport(tagifyInput) {
     let currentCompanies = [];
     let isEditMode = false;
 
-    // const tagify = new Tagify(tagifyInput, {
-    //     dropdown: {
-    //         enabled: 0,
-    //         maxItems: 50
-    //     },
-    //     duplicates: false,
-    //     whitelist: [],
-    //     enforceWhitelist: false
-    // });
+    const tagify = new Tagify(tagifyInput, {
+        dropdown: {
+            enabled: 0,
+            maxItems: 50
+        },
+        duplicates: false,
+        whitelist: [],
+        enforceWhitelist: false
+    });
 
     function loadCompaniesForEdit(companiesData) {
         if (!companiesData || companiesData.length === 0) return;
@@ -1144,54 +1204,54 @@ function initializeTagifyWithEditSupport(tagifyInput) {
 
         currentCompanies = [...originalCompanies];
 
-        // const tagifyData = originalCompanies.map(empresa =>
-        //     typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT
-        // );
+        const tagifyData = originalCompanies.map(empresa =>
+            typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT
+        );
 
-        // tagify.removeAllTags();
-        // tagify.addTags(tagifyData);
+        tagify.removeAllTags();
+        tagify.addTags(tagifyData);
 
         console.log('Empresas originales cargadas:', originalCompanies);
         console.log('Modo edición activado en Tagify');
     }
 
-    // tagify.on('change', function (e) {
-    //     console.log('Evento change disparado:', e.detail);
-    //     const currentTags = tagify.value.map(tag =>
-    //         typeof tag === 'string' ? tag : tag.value
-    //     );
+    tagify.on('change', function (e) {
+        console.log('Evento change disparado:', e.detail);
+        const currentTags = tagify.value.map(tag =>
+            typeof tag === 'string' ? tag : tag.value
+        );
 
-    //     console.log('Tags actuales:', currentTags);
-    //     console.log('Modo edición:', isEditMode);
+        console.log('Tags actuales:', currentTags);
+        console.log('Modo edición:', isEditMode);
 
-    //     if (isEditMode) {
-    //         handleEditModeChanges(currentTags);
-    //     } else {
-    //         if (window.wizard) {
-    //             window.wizard.empresas = currentTags;
-    //             console.log('Empresas actualizadas en wizard (modo nuevo):', window.wizard.empresas);
-    //         }
-    //     }
-    // });
+        if (isEditMode) {
+            handleEditModeChanges(currentTags);
+        } else {
+            if (window.wizard) {
+                window.wizard.empresas = currentTags;
+                console.log('Empresas actualizadas en wizard (modo nuevo):', window.wizard.empresas);
+            }
+        }
+    });
 
-    // tagify.on('remove', function (e) {
-    //     console.log('Evento remove disparado:', e.detail);
-    //     if (isEditMode) {
-    //         const removedCompany = e.detail.data.value;
-    //         console.log('Empresa a eliminar:', removedCompany);
-    //         showDeleteConfirmation(removedCompany);
-    //     }
-    // });
+    tagify.on('remove', function (e) {
+        console.log('Evento remove disparado:', e.detail);
+        if (isEditMode) {
+            const removedCompany = e.detail.data.value;
+            console.log('Empresa a eliminar:', removedCompany);
+            showDeleteConfirmation(removedCompany);
+        }
+    });
 
-    // tagify.on('add', function (e) {
-    //     console.log('Evento add disparado:', e.detail);
-    //     if (isEditMode) {
-    //         const currentTags = tagify.value.map(tag =>
-    //             typeof tag === 'string' ? tag : tag.value
-    //         );
-    //         handleEditModeChanges(currentTags);
-    //     }
-    // });
+    tagify.on('add', function (e) {
+        console.log('Evento add disparado:', e.detail);
+        if (isEditMode) {
+            const currentTags = tagify.value.map(tag =>
+                typeof tag === 'string' ? tag : tag.value
+            );
+            handleEditModeChanges(currentTags);
+        }
+    });
 
     function handleEditModeChanges(currentTags) {
         console.log('Manejando cambios en modo edición');
@@ -1268,7 +1328,7 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             } else {
                 console.log('Cancelada eliminación, revertiendo...');
                 setTimeout(() => {
-                    // tagify.addTags(companyName);
+                    tagify.addTags(companyName);
                 }, 100);
             }
         });
@@ -1278,13 +1338,13 @@ function initializeTagifyWithEditSupport(tagifyInput) {
         return currentCompanies;
     }
 
-    // function resetTagify() {
-    //     isEditMode = false;
-    //     originalCompanies = [];
-    //     currentCompanies = [];
-    //     tagify.removeAllTags();
-    //     console.log('Tagify reseteado');
-    // }
+    function resetTagify() {
+        isEditMode = false;
+        originalCompanies = [];
+        currentCompanies = [];
+        tagify.removeAllTags();
+        console.log('Tagify reseteado');
+    }
 
     function setEditMode(mode) {
         isEditMode = mode;
@@ -1296,48 +1356,48 @@ function initializeTagifyWithEditSupport(tagifyInput) {
         getUpdatedCompanies,
         resetTagify,
         setEditMode,
-        // tagify
+        tagify
     };
 }
 
 function initializeTagifyForNew(tagifyInput) {
     isEditing = false;
-    // tagify = new Tagify(tagifyInput, {
-    //     duplicates: false,
-    //     maxTags: 20,
-    //     placeholder: "Escribe el nombre de la empresa y presiona ENTER"
-    // });
-    // tagify.removeAllTags(); 
+    tagify = new Tagify(tagifyInput, {
+        duplicates: false,
+        maxTags: 20,
+        placeholder: "Escribe el nombre de la empresa y presiona ENTER"
+    });
+    tagify.removeAllTags(); 
 
-    // if (tagifyChangeHandler) {
-    //     tagify.off('change', tagifyChangeHandler); 
-    // }
+    if (tagifyChangeHandler) {
+        tagify.off('change', tagifyChangeHandler); 
+    }
 
-    // tagifyChangeHandler = function(e) {
-    //     if (!isEditing && window.wizard) {
-    //         let empresasArray;
-    //         try {
-    //             if (typeof e.detail.value === 'string') {
-    //                 empresasArray = JSON.parse(e.detail.value);
-    //             } else if (Array.isArray(e.detail.value)) {
-    //                 empresasArray = e.detail.value;
-    //             } else {
-    //                 empresasArray = tagify.value;
-    //             }
+    tagifyChangeHandler = function(e) {
+        if (!isEditing && window.wizard) {
+            let empresasArray;
+            try {
+                if (typeof e.detail.value === 'string') {
+                    empresasArray = JSON.parse(e.detail.value);
+                } else if (Array.isArray(e.detail.value)) {
+                    empresasArray = e.detail.value;
+                } else {
+                    empresasArray = tagify.value;
+                }
 
-    //             window.wizard.empresas = Array.isArray(empresasArray)
-    //                 ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
-    //                 : [empresasArray.value || empresasArray];
-    //         } catch (error) {
-    //             window.wizard.empresas = tagify.value.map(item =>
-    //                 typeof item === 'string' ? item : item.value
-    //             );
-    //         }
-    //         console.log('Empresas actualizadas:', window.wizard.empresas);
-    //     }
-    // };
+                window.wizard.empresas = Array.isArray(empresasArray)
+                    ? empresasArray.map(item => typeof item === 'string' ? item : item.value)
+                    : [empresasArray.value || empresasArray];
+            } catch (error) {
+                window.wizard.empresas = tagify.value.map(item =>
+                    typeof item === 'string' ? item : item.value
+                );
+            }
+            console.log('Empresas actualizadas:', window.wizard.empresas);
+        }
+    };
 
-    // tagify.on('change', tagifyChangeHandler);
+    tagify.on('change', tagifyChangeHandler);
 }
 
 
@@ -1499,21 +1559,21 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_PROJECT = row.data().ID_PROJECT;
     editarDatoTabla(row.data(), 'proyectoForm', 'proyectoModal', 1);
 
-    // window.wizard.setEditMode(true);
+    window.wizard.setEditMode(true);
 
-    //  if (window.tagifyManager) {
-    //     window.tagifyManager.reset();
-    //     window.tagifyManager = null;
-    // }
+     if (window.tagifyManager) {
+        window.tagifyManager.reset();
+        window.tagifyManager = null;
+    }
 
    
-    // const input = document.querySelector('#COMPANIES');
-    // window.tagifyManager = initializeTagifyWithEditSupport(input);
+    const input = document.querySelector('#COMPANIES');
+    window.tagifyManager = initializeTagifyWithEditSupport(input);
     
 
-    // window.tagifyManager.setEditMode(true);
-    // const companiesData = row.data().COMPANIES_PROJECT || row.data().COMPANIES;
-    // window.tagifyManager.loadCompaniesForEdit(companiesData);
+    window.tagifyManager.setEditMode(true);
+    const companiesData = row.data().COMPANIES_PROJECT || row.data().COMPANIES;
+    window.tagifyManager.loadCompaniesForEdit(companiesData);
 
     // if (tagifyChangeHandler) {
     //     tagify.off('change', tagifyChangeHandler);
@@ -1545,8 +1605,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'COURSE_NAME_ES_PROJECT'
     ]);
 
-    // tagify.removeAllTags();
-    // tagify.addTags(row.data().COMPANIES);
+    tagify.removeAllTags();
+    tagify.addTags(row.data().COMPANIES);
 
     if (row.data().COMPANIES_PROJECT) {
         const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ?

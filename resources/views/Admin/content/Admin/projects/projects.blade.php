@@ -477,7 +477,7 @@
                                                         </div>
                                                     </div>
                                                 </div> --}}
-                                                <div class="col-md-12 text-start mt-3">
+                                                {{-- <div class="col-md-12 text-start mt-3">
                                                     <label> <strong>{{ __('Company(ies) *')}}</strong></label>
                                                     <select class="form-select" id="COMPANIES" name="COMPANIES[]"
                                                         multiple>
@@ -487,7 +487,21 @@
                                                         </option>
                                                         @endforeach
                                                     </select>
+                                                </div> --}}
+                                                <div class="col-md-12 text-start mt-3">
+                                                    <label><strong>Company(ies) *</strong></label>
+                                                    <input class="form-select" id="COMPANIES" name="COMPANIES[]" multiple>
                                                 </div>
+
+                                                <script>
+                                                    window.clientesData = @json($clientes);
+                                                    window.selectedCompanyIds = [];
+
+                                                    window.companiesMap = {};
+                                                    window.clientesData.forEach(cliente => {
+                                                        window.companiesMap[cliente.ID_CATALOGO_CLIENTE] = cliente.NOMBRE_COMERCIAL_CLIENTE;
+                                                    });
+                                                </script>
                                                 
                                             </div>
                                         </div>

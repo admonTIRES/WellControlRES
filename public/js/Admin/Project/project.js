@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function () {
     $('button[data-bs-target="#proyectoModal"]').on('click', function () {
         isEditing = false;
 
-        if (window.tagifyManager) {
-            window.tagifyManager.setEditMode(false);
-            window.tagifyManager.resetTagify();
-        }
+        // if (window.tagifyManager) {
+        //     window.tagifyManager.setEditMode(false);
+        //     window.tagifyManager.resetTagify();
+        // }
     });
 });
 function initializeTagify() {
@@ -80,21 +80,22 @@ function initializeTagify() {
         console.error('No se encontraron datos de clientes');
         return;
     }
-
-    const input = document.getElementById('COMPANIES');
     
+    const input = document.getElementById('COMPANIES');
     if (!input) return;
-
-    // Verificar si ya está inicializado y destruirlo primero
+    
+    // Destruir instancia anterior si existe
     if (input.tagify) {
         input.tagify.destroy();
     }
-
+    
+    // Crear nueva instancia de Tagify
     const tagify = new Tagify(input, {
         tagTextProp: 'value',
         whitelist: window.clientesData.map(cliente => ({
             value: cliente.NOMBRE_COMERCIAL_CLIENTE,
-            name: cliente.ID_CATALOGO_CLIENTE
+            name: cliente.ID_CATALOGO_CLIENTE,
+            razonSocial: cliente.RAZONES_SOCIALES
         })),
         maxTags: 10,
         dropdown: {
@@ -105,46 +106,117 @@ function initializeTagify() {
             searchKeys: ['value']
         }
     });
-
-    // Para debugging
+    
+    // ============================================
+    // PASO 3: Event listener para actualizar arrays
+    // ============================================
+    
+    // Cuando se añade un tag
     tagify.on('add', function(e) {
-        console.log('Añadido:', e.detail.data);
-    });
-
-    tagify.on('remove', function(e) {
-        console.log('Eliminado:', e.detail.data);
-    });
-
-    tagify.on('input', function(e) {
-        console.log('Input:', e.detail);
-    });
-
-    tagify.on('dropdown:show', function(e) {
-        console.log('Dropdown abierto');
-    });
-
-    tagify.on('dropdown:select', function(e) {
-        console.log('Seleccionado del dropdown:', e.detail);
-    });
-}
-
-// Función para resetear Tagify (si necesitas recargar)
-function resetTagify() {
-    const input = document.getElementById('COMPANIES');
-    if (input && input.tagify) {
-        input.tagify.removeAllTags();
-    }
-}
-
-// Función para destruir y recrear Tagify
-function recreateTagify() {
-    const input = document.getElementById('COMPANIES');
-    if (input) {
-        if (input.tagify) {
-            input.tagify.destroy();
+        const data = e.detail.data;
+        const id = data.name;
+        const razonSocial = data.razonSocial;
+        
+        // Agregar a los arrays globales si no existe
+        if (!window.selectedCompanyIds.includes(id)) {
+            window.selectedCompanyIds.push(id);
+            window.selectedRazonesSociales.push({
+                RAZON_SOCIAL: razonSocial
+            });
         }
-        initializeTagify();
+        
+        console.log('✅ Empresa añadida:', data.value);
+        console.log('📋 IDs seleccionados:', window.selectedCompanyIds);
+        console.log('🏢 Razones sociales:', window.selectedRazonesSociales);
+    });
+    
+    // Cuando se elimina un tag
+    tagify.on('remove', function(e) {
+        const data = e.detail.data;
+        const id = data.name;
+        const razonSocial = data.razonSocial;
+        
+        // Eliminar de los arrays globales
+        const index = window.selectedCompanyIds.indexOf(id);
+        if (index > -1) {
+            window.selectedCompanyIds.splice(index, 1);
+            
+            // Eliminar la razón social correspondiente
+            const rsIndex = window.selectedRazonesSociales.findIndex(
+                rs => rs.RAZON_SOCIAL === razonSocial
+            );
+            if (rsIndex > -1) {
+                window.selectedRazonesSociales.splice(rsIndex, 1);
+            }
+        }
+        
+        console.log('❌ Empresa eliminada:', data.value);
+        console.log('📋 IDs seleccionados:', window.selectedCompanyIds);
+        console.log('🏢 Razones sociales:', window.selectedRazonesSociales);
+    });
+    
+    // Guardar referencia global
+    window.tagifyInstance = tagify;
+    
+    return tagify;
+}
+
+// ============================================
+// PASO 4: Funciones auxiliares útiles
+// ============================================
+
+// Función para obtener las selecciones actuales
+function getSelectedCompanies() {
+    return {
+        ids: window.selectedCompanyIds,
+        razonesSociales: window.selectedRazonesSociales,
+        count: window.selectedCompanyIds.length
+    };
+}
+
+// Función para limpiar selecciones
+function clearSelectedCompanies() {
+    window.selectedCompanyIds = [];
+    window.selectedRazonesSociales = [];
+    
+    if (window.tagifyInstance) {
+        window.tagifyInstance.removeAllTags();
     }
+}
+
+// Función para establecer selecciones programáticamente
+function setSelectedCompanies(ids) {
+    if (!window.tagifyInstance) return;
+    
+    clearSelectedCompanies();
+    
+    ids.forEach(id => {
+        const nombreComercial = window.companiesMap[id];
+        const razonSocial = window.razonSocialMap[id];
+        
+        if (nombreComercial && razonSocial) {
+            window.tagifyInstance.addTags([{
+                value: nombreComercial,
+                name: id,
+                razonSocial: razonSocial
+            }]);
+        }
+    });
+}
+
+// ============================================
+// PASO 5: Función para validar antes de enviar
+// ============================================
+function validateAndGetCompanies() {
+    if (window.selectedCompanyIds.length === 0) {
+        alert('Por favor selecciona al menos una empresa');
+        return null;
+    }
+    
+    return {
+        ids: window.selectedCompanyIds,
+        razones_sociales: window.selectedRazonesSociales
+    };
 }
 
 class WizardManager {
@@ -154,6 +226,7 @@ class WizardManager {
         this.formData = {};
         this.students = [];
         this.empresas = [];
+        this.empresasRazonesSociales = {};
         this.isEditMode = false;
         this.init();
     }
@@ -446,270 +519,574 @@ class WizardManager {
         this.updateWizard();
     }
 
+    // renderEmpresasSections() {
+    //     const container = document.getElementById('empresasContainer');
+    //     container.innerHTML = '';
+
+    //     if (!this.empresas || this.empresas.length === 0) {
+    //         container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+    //         return;
+    //     }
+
+    //     const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
+
+    //     this.empresas.forEach((empresa, index) => {
+    //         const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
+    //         const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
+    //         const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
+    //         const students = isEditMode ? (empresa.STUDENTS_PROJECT || []) : [];
+
+    //         const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + index;
+
+    //         const section = document.createElement('div');
+    //         section.className = 'empresa-section mb-4 p-3 border rounded';
+    //         section.id = `empresa-${empresaId}`;
+    //         section.dataset.empresa = empresaName;
+
+    //         section.innerHTML = `
+    //             <div class="row mb-3">
+    //                 <div class="col-md-3">
+    //                     <label class="form-label">Nombre de la empresa: *</label>
+    //                     <input type="text" class="form-control empresa-name" 
+    //                         name="empresa_${empresaId}" value="${empresaName}" readonly />
+    //                 </div>
+    //                 <div class="col-md-3">
+    //                     <div class="form-group mb-3">
+    //                         <label class="form-label">Correo de contacto de la empresa: *
+    //                         </label>
+    //                         <input type="email" class="form-control"  name="email_${empresaId}"
+    //                             placeholder="Correo electrónico" value="${empresaEmail || ''}" />
+    //                         <div class="error-message">El correo es requerido </div>
+    //                     </div>
+    //                 </div>
+    //                 <div class="col-md-3">
+    //                     <label class="form-label">Cantidad de estudiantes: *</label>
+    //                     <input type="number" class="form-control student-count" 
+    //                         name="studentCount_${empresaId}"
+    //                         placeholder="Número de estudiantes" min="1" max="50" 
+    //                         value="${studentCount || ''}" />
+    //                     <div class="error-message">Ingresa una cantidad válida (1-50)</div>
+    //                 </div>
+    //                 <div class="col-md-3 mt-3 d-flex align-items-center">
+    //                     <button type="button" class="btn btn-info action-button generate-students"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+    //                     </button>
+    //                 </div>
+    //             </div>
+    //             <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
+    //                 <hr class="mb-4">
+    //                 <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
+    //                 <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+    //                     <table class="table table-striped table-hover" style="min-width: 800px;">
+    //                         <thead class="table-dark">
+    //                             <tr>
+    //                                 <th>#</th>
+    //                                 <th>Empresa</th>
+    //                                 <th>CR</th>
+    //                                 <th>Apellidos</th>
+    //                                 <th>Nombre</th>
+    //                                 <th>Segundo nombre</th>
+    //                                 <th>Fecha de nacimiento</th>
+    //                                 <th>ID</th>
+    //                                 <th>Cargo</th>
+    //                                 <th>Membresia</th>
+    //                                 <th>Correo Electrónico</th>
+    //                                 <th>Contraseña Generada</th>
+    //                                 <th>Acciones</th>
+    //                             </tr>
+    //                         </thead>
+    //                         <tbody id="studentsTableBody_${empresaId}"></tbody>
+    //                     </table>
+    //                 </div>
+    //                 <div class="mt-3">
+    //                     <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
+    //                             data-empresa="${empresaId}">
+    //                         <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
+    //                     </button>
+    //                 </div>
+    //             </div>
+    //         `;
+
+    //         container.appendChild(section);
+
+    //         section.querySelector(`.generate-students`).addEventListener('click', () => {
+    //             this.generateStudentsForEmpresa(empresaId);
+    //         });
+    //         section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+    //             this.regenerateAllPasswordsForEmpresa(empresaId);
+    //         });
+
+    //         if (students.length > 0) {
+    //             if (!this.students[empresaId]) {
+    //                 this.students[empresaId] = [];
+    //             }
+
+    //             this.students[empresaId] = students.map((student, index) => ({
+    //                 id: ID_PROJECT,
+    //                 empresa: empresaName,
+    //                 cr: student.CR_PROJECT || '',
+    //                 lastName: student.LAST_NAME_PROJECT || '',
+    //                 firstName: student.FIRST_NAME_PROJECT || '',
+    //                 mdName: student.MIDDLE_NAME_PROJECT || '',
+    //                 dob: student.BIRTH_DATE_PROJECT || '',
+    //                 idExp: student.ID_NUMBER_PROJECT || '',
+    //                 cargo: student.POSITION_PROJECT || '',
+    //                 membresia: student.MEMBERSHIP_PROJECT || '',
+    //                 email: student.EMAIL_PROJECT || '',
+    //                 password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+    //                 USER_ID_PROJECT: student.USER_ID_PROJECT || null
+    //             }));
+
+    //             this.renderStudentsTableForEmpresa(empresaId);
+    //         }
+    //     });
+    // }
     renderEmpresasSections() {
-        const container = document.getElementById('empresasContainer');
-        container.innerHTML = '';
+    const container = document.getElementById('empresasContainer');
+    container.innerHTML = '';
 
-        if (!this.empresas || this.empresas.length === 0) {
-            container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
-            return;
-        }
+    if (!this.empresas || this.empresas.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+        return;
+    }
 
-        const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
+    const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
 
-        this.empresas.forEach((empresa, index) => {
-            const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
-            const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
-            const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
-            const students = isEditMode ? (empresa.STUDENTS_PROJECT || []) : [];
-
-            const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + index;
-
-            const section = document.createElement('div');
-            section.className = 'empresa-section mb-4 p-3 border rounded';
-            section.id = `empresa-${empresaId}`;
-            section.dataset.empresa = empresaName;
-
-            section.innerHTML = `
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <label class="form-label">Nombre de la empresa: *</label>
-                        <input type="text" class="form-control empresa-name" 
-                            name="empresa_${empresaId}" value="${empresaName}" readonly />
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Correo de contacto de la empresa: *
-                            </label>
-                            <input type="email" class="form-control"  name="email_${empresaId}"
-                                placeholder="Correo electrónico" value="${empresaEmail || ''}" />
-                            <div class="error-message">El correo es requerido </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Cantidad de estudiantes: *</label>
-                        <input type="number" class="form-control student-count" 
-                            name="studentCount_${empresaId}"
-                            placeholder="Número de estudiantes" min="1" max="50" 
-                            value="${studentCount || ''}" />
-                        <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-                    </div>
-                    <div class="col-md-3 mt-3 d-flex align-items-center">
-                        <button type="button" class="btn btn-info action-button generate-students"
-                                data-empresa="${empresaId}">
-                            <i class="ri-user-add-line me-2"></i>Generar Estudiantes
-                        </button>
-                    </div>
-                </div>
-                <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
-                    <hr class="mb-4">
-                    <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
-                    <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-                        <table class="table table-striped table-hover" style="min-width: 800px;">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Empresa</th>
-                                    <th>CR</th>
-                                    <th>Apellidos</th>
-                                    <th>Nombre</th>
-                                    <th>Segundo nombre</th>
-                                    <th>Fecha de nacimiento</th>
-                                    <th>ID</th>
-                                    <th>Cargo</th>
-                                    <th>Membresia</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Contraseña Generada</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="studentsTableBody_${empresaId}"></tbody>
-                        </table>
-                    </div>
-                    <div class="mt-3">
-                        <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
-                                data-empresa="${empresaId}">
-                            <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            container.appendChild(section);
-
-            section.querySelector(`.generate-students`).addEventListener('click', () => {
-                this.generateStudentsForEmpresa(empresaId);
-            });
-            section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
-                this.regenerateAllPasswordsForEmpresa(empresaId);
-            });
-
-            if (students.length > 0) {
-                if (!this.students[empresaId]) {
-                    this.students[empresaId] = [];
+    // NUEVO: Obtener razones sociales de las empresas seleccionadas
+    if (window.selectedRazonesSociales && window.selectedCompanyIds) {
+        window.selectedCompanyIds.forEach((companyId, index) => {
+            const empresaName = this.empresas[index];
+            const razonSocialData = window.selectedRazonesSociales[index];
+            
+            if (razonSocialData && razonSocialData.RAZON_SOCIAL) {
+                try {
+                    // Parsear el JSON de razones sociales
+                    const razonesSociales = JSON.parse(razonSocialData.RAZON_SOCIAL);
+                    this.empresasRazonesSociales[empresaName] = razonesSociales;
+                    console.log(`Razones sociales para ${empresaName}:`, razonesSociales);
+                } catch (e) {
+                    console.error(`Error al parsear razones sociales para ${empresaName}:`, e);
+                    this.empresasRazonesSociales[empresaName] = [];
                 }
-
-                this.students[empresaId] = students.map((student, index) => ({
-                    id: ID_PROJECT,
-                    empresa: empresaName,
-                    cr: student.CR_PROJECT || '',
-                    lastName: student.LAST_NAME_PROJECT || '',
-                    firstName: student.FIRST_NAME_PROJECT || '',
-                    mdName: student.MIDDLE_NAME_PROJECT || '',
-                    dob: student.BIRTH_DATE_PROJECT || '',
-                    idExp: student.ID_NUMBER_PROJECT || '',
-                    cargo: student.POSITION_PROJECT || '',
-                    membresia: student.MEMBERSHIP_PROJECT || '',
-                    email: student.EMAIL_PROJECT || '',
-                    password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
-                }));
-
-                this.renderStudentsTableForEmpresa(empresaId);
             }
         });
     }
 
+    this.empresas.forEach((empresa, index) => {
+        const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
+        const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
+        const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
+        const students = isEditMode ? (empresa.STUDENTS_PROJECT || []) : [];
+
+        const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + index;
+
+        const section = document.createElement('div');
+        section.className = 'empresa-section mb-4 p-3 border rounded';
+        section.id = `empresa-${empresaId}`;
+        section.dataset.empresa = empresaName;
+
+        section.innerHTML = `
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">Nombre de la empresa: *</label>
+                    <input type="text" class="form-control empresa-name" 
+                        name="empresa_${empresaId}" value="${empresaName}" readonly />
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Correo de contacto de la empresa: *
+                        </label>
+                        <input type="email" class="form-control"  name="email_${empresaId}"
+                            placeholder="Correo electrónico" value="${empresaEmail || ''}" />
+                        <div class="error-message">El correo es requerido </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Cantidad de estudiantes: *</label>
+                    <input type="number" class="form-control student-count" 
+                        name="studentCount_${empresaId}"
+                        placeholder="Número de estudiantes" min="1" max="50" 
+                        value="${studentCount || ''}" />
+                    <div class="error-message">Ingresa una cantidad válida (1-50)</div>
+                </div>
+                <div class="col-md-3 mt-3 d-flex align-items-center">
+                    <button type="button" class="btn btn-info action-button generate-students"
+                            data-empresa="${empresaId}">
+                        <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+                    </button>
+                </div>
+            </div>
+            <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
+                <hr class="mb-4">
+                <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
+                <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
+                    <table class="table table-striped table-hover" style="min-width: 900px;">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Empresa</th>
+                                <th style="min-width: 200px;">Razón Social *</th>
+                                <th>CR</th>
+                                <th>Apellidos</th>
+                                <th>Nombre</th>
+                                <th>Segundo nombre</th>
+                                <th>Fecha de nacimiento</th>
+                                <th>ID</th>
+                                <th>Cargo</th>
+                                <th>Membresia</th>
+                                <th>Correo Electrónico</th>
+                                <th>Contraseña Generada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody_${empresaId}"></tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
+                            data-empresa="${empresaId}">
+                        <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(section);
+
+        section.querySelector(`.generate-students`).addEventListener('click', () => {
+            this.generateStudentsForEmpresa(empresaId);
+        });
+        section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+            this.regenerateAllPasswordsForEmpresa(empresaId);
+        });
+
+        if (students.length > 0) {
+            if (!this.students[empresaId]) {
+                this.students[empresaId] = [];
+            }
+
+            this.students[empresaId] = students.map((student, index) => ({
+                id: student.ID_PROJECT,
+                empresa: empresaName,
+                razonSocial: student.RAZON_SOCIAL_PROJECT || '', // NUEVO
+                cr: student.CR_PROJECT || '',
+                lastName: student.LAST_NAME_PROJECT || '',
+                firstName: student.FIRST_NAME_PROJECT || '',
+                mdName: student.MIDDLE_NAME_PROJECT || '',
+                dob: student.BIRTH_DATE_PROJECT || '',
+                idExp: student.ID_NUMBER_PROJECT || '',
+                cargo: student.POSITION_PROJECT || '',
+                membresia: student.MEMBERSHIP_PROJECT || '',
+                email: student.EMAIL_PROJECT || '',
+                password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+                USER_ID_PROJECT: student.USER_ID_PROJECT || null
+            }));
+
+            this.renderStudentsTableForEmpresa(empresaId);
+        }
+    });
+}
+
+    // generateStudentsForEmpresa(empresaId) {
+
+    //     const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    //     const countInput = empresaSection.querySelector('.student-count');
+    //     const count = parseInt(countInput.value);
+    //     const empresa = empresaSection.dataset.empresa;
+
+    //     if (!count || count < 1 || count > 50) {
+    //         this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
+    //         return;
+    //     }
+
+    //     this.clearError(countInput);
+
+    //     if (!this.students[empresaId]) {
+    //         this.students[empresaId] = [];
+    //     }
+
+    //     this.students[empresaId] = [];
+
+    //     for (let i = 0; i < count; i++) {
+    //         this.students[empresaId].push({
+    //             id: i + 1,
+    //             empresa: empresa,
+    //             cr: '',
+    //             lastName: '',
+    //             firstName: '',
+    //             mdName: '',
+    //             dob: '',
+    //             idExp: '',
+    //             cargo: '',
+    //             membresia: '',
+    //             email: '',
+    //             password: this.generateRandomPassword()
+    //         });
+    //     }
+
+    //     this.renderStudentsTableForEmpresa(empresaId);
+    //     document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+    // }
     generateStudentsForEmpresa(empresaId) {
+    const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    const countInput = empresaSection.querySelector('.student-count');
+    const count = parseInt(countInput.value);
+    const empresa = empresaSection.dataset.empresa;
 
-        const empresaSection = document.getElementById(`empresa-${empresaId}`);
-        const countInput = empresaSection.querySelector('.student-count');
-        const count = parseInt(countInput.value);
-        const empresa = empresaSection.dataset.empresa;
-
-        if (!count || count < 1 || count > 50) {
-            this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
-            return;
-        }
-
-        this.clearError(countInput);
-
-        if (!this.students[empresaId]) {
-            this.students[empresaId] = [];
-        }
-
-        this.students[empresaId] = [];
-
-        for (let i = 0; i < count; i++) {
-            this.students[empresaId].push({
-                id: i + 1,
-                empresa: empresa,
-                cr: '',
-                lastName: '',
-                firstName: '',
-                mdName: '',
-                dob: '',
-                idExp: '',
-                cargo: '',
-                membresia: '',
-                email: '',
-                password: this.generateRandomPassword()
-            });
-        }
-
-        this.renderStudentsTableForEmpresa(empresaId);
-        document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+    if (!count || count < 1 || count > 50) {
+        this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
+        return;
     }
+
+    this.clearError(countInput);
+
+    if (!this.students[empresaId]) {
+        this.students[empresaId] = [];
+    }
+
+    this.students[empresaId] = [];
+
+    for (let i = 0; i < count; i++) {
+        this.students[empresaId].push({
+            id: i + 1,
+            empresa: empresa,
+            razonSocial: '', // NUEVO
+            cr: '',
+            lastName: '',
+            firstName: '',
+            mdName: '',
+            dob: '',
+            idExp: '',
+            cargo: '',
+            membresia: '',
+            email: '',
+            password: this.generateRandomPassword()
+        });
+    }
+
+    this.renderStudentsTableForEmpresa(empresaId);
+    document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+}
+
+    // renderStudentsTableForEmpresa(empresaId) {
+    //     const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+    //     tbody.innerHTML = '';
+
+    //     this.students[empresaId].forEach((student, index) => {
+    //         const row = document.createElement('tr');
+    //         row.id = `student-${empresaId}-${index}`;
+    //         row.className = 'student-row';
+
+    //         row.innerHTML = `
+    //             <td>
+    //                 <input type="text" class="form-control input-lg2" 
+    //                        name="id" placeholder="id" 
+    //                        value="${student.id}">
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="empresa" value="${student.empresa}" readonly>
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="cr" placeholder="cr" 
+    //                        value="${student.cr}">
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="lastName" placeholder="lastName" 
+    //                        value="${student.lastName}" required>
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="firstName" placeholder="firstName" 
+    //                        value="${student.firstName}" required>
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="mdName" placeholder="mdName" 
+    //                        value="${student.mdName}" >
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg dob-input" 
+    //                     name="dob" placeholder="dd/mm/aaaa" 
+    //                     value="${student.dob}" required>
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="idExp" placeholder="idExp" 
+    //                        value="${student.idExp}" >
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="cargo" placeholder="cargo" 
+    //                        value="${student.cargo}" >
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="text" class="form-control input-lg" 
+    //                        name="membresia" placeholder="Membresia" 
+    //                        value="${student.membresia}">
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <input type="email" class="form-control input-lg" 
+    //                        name="email" placeholder="correo@ejemplo.com" 
+    //                        value="${student.email}" required>
+    //                 <div class="error-message"></div>
+    //             </td>
+    //             <td>
+    //                 <div class="d-flex align-items-center">
+    //                     <input type="text" class="form-control form-control-sm generated-password" 
+    //                            name="password" value="${student.password}" readonly>
+    //                     <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
+    //                             onclick="wizard.copyToClipboard('${student.password}', this)" 
+    //                             title="Copiar contraseña">
+    //                         <i class="ri-file-copy-line"></i>
+    //                     </button>
+    //                 </div>
+    //             </td>
+    //             <td>
+    //                 <button type="button" class="btn btn-outline-warning btn-sm" 
+    //                         onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
+    //                         title="Regenerar contraseña">
+    //                     <i class="ri-refresh-line"></i>
+    //                 </button>
+    //             </td>
+    //         `;
+
+    //         tbody.appendChild(row);
+    //     });
+    //     this.addDateFormatting(empresaId);
+    // }
 
     renderStudentsTableForEmpresa(empresaId) {
-        const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
-        tbody.innerHTML = '';
+    const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+    tbody.innerHTML = '';
 
-        this.students[empresaId].forEach((student, index) => {
-            const row = document.createElement('tr');
-            row.id = `student-${empresaId}-${index}`;
-            row.className = 'student-row';
+    const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    const empresaName = empresaSection.dataset.empresa;
+    const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
 
-            row.innerHTML = `
-                <td>
-                    <input type="text" class="form-control input-lg2" 
-                           name="id" placeholder="id" 
-                           value="${student.id}">
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="empresa" value="${student.empresa}" readonly>
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="cr" placeholder="cr" 
-                           value="${student.cr}">
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="lastName" placeholder="lastName" 
-                           value="${student.lastName}" required>
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="firstName" placeholder="firstName" 
-                           value="${student.firstName}" required>
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="mdName" placeholder="mdName" 
-                           value="${student.mdName}" >
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg dob-input" 
-                        name="dob" placeholder="dd/mm/aaaa" 
-                        value="${student.dob}" required>
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="idExp" placeholder="idExp" 
-                           value="${student.idExp}" >
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="cargo" placeholder="cargo" 
-                           value="${student.cargo}" >
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-lg" 
-                           name="membresia" placeholder="Membresia" 
-                           value="${student.membresia}">
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <input type="email" class="form-control input-lg" 
-                           name="email" placeholder="correo@ejemplo.com" 
-                           value="${student.email}" required>
-                    <div class="error-message"></div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <input type="text" class="form-control form-control-sm generated-password" 
-                               name="password" value="${student.password}" readonly>
-                        <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
-                                onclick="wizard.copyToClipboard('${student.password}', this)" 
-                                title="Copiar contraseña">
-                            <i class="ri-file-copy-line"></i>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-warning btn-sm" 
-                            onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
-                            title="Regenerar contraseña">
-                        <i class="ri-refresh-line"></i>
-                    </button>
-                </td>
-            `;
+    this.students[empresaId].forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.id = `student-${empresaId}-${index}`;
+        row.className = 'student-row';
 
-            tbody.appendChild(row);
+        // Generar opciones del select
+        let optionsHTML = '<option value="">Seleccione una razón social</option>';
+        razonesSociales.forEach(rs => {
+            const selected = student.razonSocial === rs.RAZON_SOCIAL ? 'selected' : '';
+            optionsHTML += `<option value="${rs.RAZON_SOCIAL}" ${selected}>${rs.RAZON_SOCIAL}</option>`;
         });
-        this.addDateFormatting(empresaId);
-    }
+
+        row.innerHTML = `
+            <td>
+                <input type="text" class="form-control input-lg2" 
+                       name="id" placeholder="id" 
+                       value="${student.id}">
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="empresa" value="${student.empresa}" readonly>
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <select class="form-select input-lg" name="razonSocial" required 
+                        style="min-width: 200px;">
+                    ${optionsHTML}
+                </select>
+                <div class="error-message">La razón social es requerida</div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="cr" placeholder="cr" 
+                       value="${student.cr}">
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="lastName" placeholder="lastName" 
+                       value="${student.lastName}" required>
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="firstName" placeholder="firstName" 
+                       value="${student.firstName}" required>
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="mdName" placeholder="mdName" 
+                       value="${student.mdName}" >
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg dob-input" 
+                    name="dob" placeholder="dd/mm/aaaa" 
+                    value="${student.dob}" required>
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="idExp" placeholder="idExp" 
+                       value="${student.idExp}" >
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="cargo" placeholder="cargo" 
+                       value="${student.cargo}" >
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control input-lg" 
+                       name="membresia" placeholder="Membresia" 
+                       value="${student.membresia}">
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <input type="email" class="form-control input-lg" 
+                       name="email" placeholder="correo@ejemplo.com" 
+                       value="${student.email}" required>
+                <div class="error-message"></div>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control form-control-sm generated-password" 
+                           name="password" value="${student.password}" readonly>
+                    <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
+                            onclick="wizard.copyToClipboard('${student.password}', this)" 
+                            title="Copiar contraseña">
+                        <i class="ri-file-copy-line"></i>
+                    </button>
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-warning btn-sm" 
+                        onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
+                        title="Regenerar contraseña">
+                    <i class="ri-refresh-line"></i>
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+    this.addDateFormatting(empresaId);
+}
+
     addDateFormatting(empresaId) {
     const dobInputs = document.querySelectorAll(`#studentsTableBody_${empresaId} .dob-input`);
     
@@ -807,56 +1184,107 @@ class WizardManager {
         });
     }
 
+    // getFormData() {
+    //     this.saveStepData();
+
+    //     const companiesProject = [];
+
+    //     for (const empresaId in this.students) {
+    //         if (this.students.hasOwnProperty(empresaId)) {
+    //             const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    //             if (!empresaSection) continue;
+
+    //             const empresaName = empresaSection.dataset.empresa;
+    //             const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
+    //             const empresaEmail = emailInput ? emailInput.value : '';
+
+    //             const empresaObj = {
+    //                 NAME_PROJECT: empresaName,
+    //                 EMAIL_PROJECT: empresaEmail,
+    //                 STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
+    //                 STUDENTS_PROJECT: []
+    //             };
+
+    //             this.students[empresaId].forEach((student, index) => {
+    //                 const row = document.querySelector(`#student-${empresaId}-${index}`);
+
+    //                 if (row) {
+    //                     empresaObj.STUDENTS_PROJECT.push({
+    //                         ID_PROJECT: ID_PROJECT,
+    //                         COMPANY_PROJECT: student.empresa,
+    //                         CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
+    //                         LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
+    //                         FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
+    //                         MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
+    //                         BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
+    //                         ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
+    //                         POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
+    //                         MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
+    //                         EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
+    //                         PASSWORD_PROJECT: student.password,
+    //                         USER_ID_PROJECT: student.USER_ID_PROJECT
+    //                     });
+    //                 }
+    //             });
+
+    //             companiesProject.push(empresaObj);
+    //         }
+    //     }
+
+    //     this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
+    //     return this.formData;
+    // }
     getFormData() {
-        this.saveStepData();
+    this.saveStepData();
 
-        const companiesProject = [];
+    const companiesProject = [];
 
-        for (const empresaId in this.students) {
-            if (this.students.hasOwnProperty(empresaId)) {
-                const empresaSection = document.getElementById(`empresa-${empresaId}`);
-                if (!empresaSection) continue;
+    for (const empresaId in this.students) {
+        if (this.students.hasOwnProperty(empresaId)) {
+            const empresaSection = document.getElementById(`empresa-${empresaId}`);
+            if (!empresaSection) continue;
 
-                const empresaName = empresaSection.dataset.empresa;
-                const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
-                const empresaEmail = emailInput ? emailInput.value : '';
+            const empresaName = empresaSection.dataset.empresa;
+            const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
+            const empresaEmail = emailInput ? emailInput.value : '';
 
-                const empresaObj = {
-                    NAME_PROJECT: empresaName,
-                    EMAIL_PROJECT: empresaEmail,
-                    STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
-                    STUDENTS_PROJECT: []
-                };
+            const empresaObj = {
+                NAME_PROJECT: empresaName,
+                EMAIL_PROJECT: empresaEmail,
+                STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
+                STUDENTS_PROJECT: []
+            };
 
-                this.students[empresaId].forEach((student, index) => {
-                    const row = document.querySelector(`#student-${empresaId}-${index}`);
+            this.students[empresaId].forEach((student, index) => {
+                const row = document.querySelector(`#student-${empresaId}-${index}`);
 
-                    if (row) {
-                        empresaObj.STUDENTS_PROJECT.push({
-                            ID_PROJECT: ID_PROJECT,
-                            COMPANY_PROJECT: student.empresa,
-                            CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
-                            LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
-                            FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
-                            MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
-                            BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
-                            ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
-                            POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
-                            MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
-                            EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
-                            PASSWORD_PROJECT: student.password,
-                            USER_ID_PROJECT: student.USER_ID_PROJECT
-                        });
-                    }
-                });
+                if (row) {
+                    empresaObj.STUDENTS_PROJECT.push({
+                        ID_PROJECT: student.id,
+                        COMPANY_PROJECT: student.empresa,
+                        RAZON_SOCIAL_PROJECT: row.querySelector('select[name="razonSocial"]')?.value || '', // NUEVO
+                        CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
+                        LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
+                        FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
+                        MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
+                        BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
+                        ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
+                        POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
+                        MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
+                        EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
+                        PASSWORD_PROJECT: student.password,
+                        USER_ID_PROJECT: student.USER_ID_PROJECT
+                    });
+                }
+            });
 
-                companiesProject.push(empresaObj);
-            }
+            companiesProject.push(empresaObj);
         }
-
-        this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
-        return this.formData;
     }
+
+    this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
+    return this.formData;
+}
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -495,11 +495,17 @@
 
                                                 <script>
                                                     window.clientesData = @json($clientes);
+                                                    
                                                     window.selectedCompanyIds = [];
-
+                                                    window.selectedRazonesSociales = [];
+                                                    
                                                     window.companiesMap = {};
+                                                    window.razonSocialMap = {};
+                                                    
                                                     window.clientesData.forEach(cliente => {
-                                                        window.companiesMap[cliente.ID_CATALOGO_CLIENTE] = cliente.NOMBRE_COMERCIAL_CLIENTE;
+                                                        const id = cliente.ID_CATALOGO_CLIENTE;
+                                                        window.companiesMap[id] = cliente.NOMBRE_COMERCIAL_CLIENTE;
+                                                        window.razonSocialMap[id] = cliente.RAZON_SOCIAL;
                                                     });
                                                 </script>
                                                 

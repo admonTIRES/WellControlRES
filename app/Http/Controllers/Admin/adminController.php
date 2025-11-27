@@ -214,7 +214,7 @@ class adminController extends Controller
         $entes = EnteAcreditador::all();
         
         // $centros = CentrosCapacitacion::where('TIPO_CENTRO', '2')->get();
-        return view('Admin.content.Instructor.catalogs.catalogs', compact('entes', 'temas', 'centros'))->with('user_role', 0);
+        return view('Admin.content.Instructor.catalogs.catalogs', compact('entes', 'temas'))->with('user_role', 0);
     }
     /**
      * @return \Illuminate\View\View

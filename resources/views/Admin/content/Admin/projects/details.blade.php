@@ -485,8 +485,8 @@
                                     <div class="card-title">{{ __('Participating Companies') }}</div>
                                 </div>
 
-                                @if(!empty($proyect->COMPANIES_PROJECT))
-                                    @foreach($proyect->COMPANIES_PROJECT as $empresa)
+                                {{-- @if(!empty($proyect->COURSE_NAME_ES_PROJECT))
+                                    @foreach($proyect->COURSE_NAME_ES_PROJECT as $empresa)
                                         <div class="company-mini">
                                             <div class="company-name">{{ $empresa['NAME_PROJECT'] ?? __('No name') }}</div>
                                             <div class="company-details">{{ $empresa['EMAIL_PROJECT'] ?? '' }} • {{ __('Students:') }} {{ $empresa['STUDENT_COUNT_PROJECT'] ?? 0 }}</div>
@@ -494,7 +494,7 @@
                                     @endforeach
                                 @else
                                     <h6 class="mb-0 text-muted">{{ __('N/A') }}</h6>
-                                @endif
+                                @endif --}}
                             </div>
 
                             <!-- Schedule -->

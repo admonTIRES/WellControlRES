@@ -95,7 +95,9 @@ function initializeTagify() {
         if (!window.selectedCompanyIds.includes(id)) {
             window.selectedCompanyIds.push(id);
             window.selectedRazonesSociales.push({
-                RAZON_SOCIAL: razonSocial
+                ID: id,
+                RAZON_SOCIAL: razonSocial,
+                EMPRESA: data.value
             });
         }
 
@@ -1226,6 +1228,8 @@ class WizardManager {
         this.saveStepData();
 
         const companiesProject = [];
+        const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
+        console.log('📋 Datos de Tagify:', tagifyData);
 
         for (const empresaId in this.students) {
             if (this.students.hasOwnProperty(empresaId)) {
@@ -1235,6 +1239,11 @@ class WizardManager {
                 const empresaName = empresaSection.dataset.empresa;
                 const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
                 const empresaEmail = emailInput ? emailInput.value : '';
+
+                const empresaTagifyData = tagifyData.find(tag => tag.value === empresaName);
+                const empresaRealId = empresaTagifyData ? empresaTagifyData.name : null;
+
+                console.log(`🏢 Procesando empresa: ${empresaName} (ID: ${empresaRealId})`);
 
                 const empresaObj = {
                     NAME_PROJECT: empresaName,
@@ -1247,10 +1256,15 @@ class WizardManager {
                     const row = document.querySelector(`#student-${empresaId}-${index}`);
 
                     if (row) {
-                        empresaObj.STUDENTS_PROJECT.push({
+                        const razonSocialSelect = row.querySelector('select[name="razonSocial"]');
+                        const razonSocialValue = razonSocialSelect ? razonSocialSelect.value : '';
+                    
+                        const studentData = {
                             ID_PROJECT: student.id,
+                            ID_CANDIDATE: student.idCandidate || null, // ✅ Null para nuevos proyectos
                             COMPANY_PROJECT: student.empresa,
-                            RAZON_SOCIAL_PROJECT: row.querySelector('select[name="razonSocial"]')?.value || '', // NUEVO
+                            COMPANY_ID: empresaRealId, // ✅ ID de la empresa desde Tagify
+                            RAZON_SOCIAL_PROJECT: razonSocialValue, // ✅ Razón social seleccionada
                             CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
                             LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
                             FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
@@ -1262,7 +1276,33 @@ class WizardManager {
                             EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
                             PASSWORD_PROJECT: student.password,
                             USER_ID_PROJECT: student.USER_ID_PROJECT
+                        };
+
+                        console.log(`👤 Estudiante ${index}:`, {
+                            empresa: studentData.COMPANY_PROJECT,
+                            empresaId: studentData.COMPANY_ID,
+                            razonSocial: studentData.RAZON_SOCIAL_PROJECT,
+                            idCandidate: studentData.ID_CANDIDATE
                         });
+
+                        empresaObj.STUDENTS_PROJECT.push(studentData);
+                
+                        // empresaObj.STUDENTS_PROJECT.push({
+                        //     ID_PROJECT: student.id,
+                        //     COMPANY_PROJECT: student.empresa,
+                        //     RAZON_SOCIAL_PROJECT: row.querySelector('select[name="razonSocial"]')?.value || '', // NUEVO
+                        //     CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
+                        //     LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
+                        //     FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
+                        //     MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
+                        //     BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
+                        //     ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
+                        //     POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
+                        //     MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
+                        //     EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
+                        //     PASSWORD_PROJECT: student.password,
+                        //     USER_ID_PROJECT: student.USER_ID_PROJECT
+                        // });
                     }
                 });
 
@@ -1271,6 +1311,7 @@ class WizardManager {
         }
 
         this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
+        console.log('COMPANIES_PROJECT final:', this.formData.COMPANIES_PROJECT);
         return this.formData;
     }
 }
@@ -1826,64 +1867,64 @@ $("#proyectobtnModal").click(function (e) {
 
         console.log('Datos a enviar:', JSON.stringify(window.wizard.getFormData(), null, 2));
 
-        // if (ID_PROJECT == 0) {
-        //     alertMensajeConfirm({
-        //         title: "¿Desea guardar la información?",
-        //         text: "Se creará este proyecto",
-        //         icon: "question",
-        //     }, async function () {
-        //         await loaderbtn('proyectobtnModal')
-        //         await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
-        //             Swal.fire({
-        //                 icon: 'info',
-        //                 title: 'Espere un momento',
-        //                 text: 'Estamos guardando la información',
-        //                 showConfirmButton: false
-        //             })
-        //             $('.swal2-popup').addClass('ld ld-breath')
-        //         }, function (data) {
-        //             ID_PROJECT = data.proyecto.ID_PROJECT
-        //             alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
-        //             $('#proyectoModal').modal('hide')
-        //             document.getElementById('proyectoForm').reset();
-        //             proyectoDatatable.ajax.reload()
-        //         })
-        //     }, 1)
+        if (ID_PROJECT == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "Se creará este proyecto",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('proyectobtnModal')
+                await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_PROJECT = data.proyecto.ID_PROJECT
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
+                    $('#proyectoModal').modal('hide')
+                    document.getElementById('proyectoForm').reset();
+                    proyectoDatatable.ajax.reload()
+                })
+            }, 1)
 
-        // } else {
-        //     alertMensajeConfirm({
-        //         title: "¿Desea editar la información de este formulario?",
-        //         text: "Al guardarla, se podra usar",
-        //         icon: "question",
-        //     }, async function () {
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podra usar",
+                icon: "question",
+            }, async function () {
 
-        //         await loaderbtn('proyectobtnModal')
-        //         await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                await loaderbtn('proyectobtnModal')
+                await ajaxAwaitFormData(dataToSend, 'proyectoSave', 'proyectoForm', 'proyectobtnModal', { callbackAfter: true, callbackBefore: true }, () => {
 
-        //             Swal.fire({
-        //                 icon: 'info',
-        //                 title: 'Espere un momento',
-        //                 text: 'Estamos guardando la información',
-        //                 showConfirmButton: false
-        //             })
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
 
-        //             $('.swal2-popup').addClass('ld ld-breath')
-
-
-        //         }, function (data) {
-
-        //             setTimeout(() => {
+                    $('.swal2-popup').addClass('ld ld-breath')
 
 
-        //                 ID_PROJECT = data.proyecto.ID_PROJECT
-        //                 alertMensaje('success', 'Información editada correctamente', 'Información guardada')
-        //                 $('#proyectoModal').modal('hide')
-        //                 document.getElementById('proyectoForm').reset();
-        //                 proyectoDatatable.ajax.reload()
-        //             }, 300);
-        //         })
-        //     }, 1)
-        // }
+                }, function (data) {
+
+                    setTimeout(() => {
+
+
+                        ID_PROJECT = data.proyecto.ID_PROJECT
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#proyectoModal').modal('hide')
+                        document.getElementById('proyectoForm').reset();
+                        proyectoDatatable.ajax.reload()
+                    }, 300);
+                })
+            }, 1)
+        }
 
     } else {
         alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)

@@ -89,26 +89,43 @@ class ProjectManagementController extends Controller
             switch (intval($request->api)) {
                 case 1:
                     $data = $request->all();
+                    $candidatesCreated = 0;
+                    $candidatesUpdated = 0;
+                    if ($request->has('COMPANIES[]') && is_string($request->get('COMPANIES[]'))) {
+                        $tagifyData = json_decode($request->get('COMPANIES[]'), true);
+                        
+                        $simpleCompanies = [];
+                        foreach ($tagifyData as $empresa) {
+                            $simpleCompanies[] = [
+                                'ID' => $empresa['name'] ?? null,
+                                'NAME' => $empresa['value'] ?? ''
+                            ];
+                        }
+                        
+                        $data['COMPANIES_PROJECT'] = json_encode($simpleCompanies);
+                    }
+
+                    if ($request->ID_PROJECT == 0) {
+                        DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+                        $project = Proyect::create($data);
+                    } else {
+                        $project = Proyect::find($request->ID_PROJECT);
+                        $project->update($data);
+                    }
+
+                    $projectId = $project->ID_PROJECT;
+
                     if ($request->has('COMPANIES_PROJECT') && is_string($request->COMPANIES_PROJECT)) {
-                        $data['COMPANIES_PROJECT'] = json_decode($request->COMPANIES_PROJECT, true);
+                        $companiesData = json_decode($request->COMPANIES_PROJECT, true);
 
                         if (json_last_error() !== JSON_ERROR_NONE) {
                             throw new \Exception('Formato inválido para COMPANIES_PROJECT');
                         }
-                        if ($request->ID_PROJECT == 0) {
-                            DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
-                            $project = Proyect::create($data);
-                        } else {
-                            $project = Proyect::find($request->ID_PROJECT);
-                            $project->update($data);
-                        }
 
-                        $projectId = $project->ID_PROJECT;
-
-                        foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
+                        foreach ($companiesData as $empresa) {
                             if (!isset($empresa['STUDENTS_PROJECT'])) continue;
 
-                            foreach ($empresa['STUDENTS_PROJECT'] as &$estudiante) {
+                            foreach ($empresa['STUDENTS_PROJECT'] as $estudiante) {
                                 $email = $estudiante['EMAIL_PROJECT'] ?? null;
                                 $password = $estudiante['PASSWORD_PROJECT'] ?? null;
 
@@ -152,17 +169,18 @@ class ProjectManagementController extends Controller
                                     ]);
                                 }
 
-                                $estudiante['USER_ID_PROJECT'] = $userId;
-
-                                $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $email)->first();
+                                $existingCandidate = DB::table('candidate')
+                                    ->where('EMAIL_PROJECT', $email)
+                                    ->where('ID_PROJECT', $projectId)
+                                    ->first();
 
                                 if ($existingCandidate) {
                                     DB::table('candidate')
-                                        ->where('EMAIL_PROJECT', $email)
+                                        ->where('ID_CANDIDATE', $existingCandidate->ID_CANDIDATE)
                                         ->update([
                                             'ID_PROJECT'        => $projectId, 
-                                            'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                            'COMPANY_ID_PROJECT' => $projectId, 
+                                            'COMPANY_PROJECT'   => $estudiante['RAZON_SOCIAL_PROJECT'] ?? '', // ✅ Razón social como COMPANY_PROJECT
+                                            'COMPANY_ID_PROJECT' => $estudiante['COMPANY_ID'] ?? null, // ✅ ID de empresa como COMPANY_ID_PROJECT
                                             'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                             'LAST_NAME_PROJECT' => $lastName,
                                             'FIRST_NAME_PROJECT' => $firstName,
@@ -176,11 +194,12 @@ class ProjectManagementController extends Controller
                                             'ACTIVO'            => 1,
                                             'updated_at'        => now()
                                         ]);
+                                    $candidatesUpdated++;
                                 } else {
                                     $candidateId = DB::table('candidate')->insertGetId([
                                         'ID_PROJECT'        => $projectId, 
-                                        'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
-                                        'COMPANY_ID_PROJECT' => $projectId, 
+                                        'COMPANY_PROJECT'   => $estudiante['RAZON_SOCIAL_PROJECT'] ?? '', // ✅ Razón social como COMPANY_PROJECT
+                                        'COMPANY_ID_PROJECT' => $estudiante['COMPANY_ID'] ?? null, // ✅ ID de empresa como COMPANY_ID_PROJECT
                                         'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
                                         'LAST_NAME_PROJECT' => $lastName,
                                         'FIRST_NAME_PROJECT' => $firstName,
@@ -197,24 +216,170 @@ class ProjectManagementController extends Controller
                                         'updated_at'        => now()
                                     ]);
 
-                                    $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
+                                    $candidatesCreated++;
                                 }
                             }
                         }
-                    } else {
-                        if ($request->ID_PROJECT == 0) {
-                            DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
-                            $project = Proyect::create($data);
-                        } else {
-                            $project = Proyect::find($request->ID_PROJECT);
-                            $project->update($data);
-                        }
                     }
 
+                    $projectData = Proyect::find($projectId);
+                    $candidatesData = DB::table('candidate')
+                        ->where('ID_PROJECT', $projectId)
+                        ->get();
+
                     $response['code'] = 1;
-                    $response['proyecto'] = $project;
+                    $response['message'] = "Proyecto guardado exitosamente";
+                    $response['proyecto'] = [
+                        'ID_PROJECT' => $projectData->ID_PROJECT,
+                        'COMPANIES_PROJECT' => $projectData->COMPANIES_PROJECT, 
+                        'created_at' => $projectData->created_at,
+                        'updated_at' => $projectData->updated_at
+                    ];
+                    $response['candidates'] = [
+                        'total' => $candidatesData->count(),
+                        'created' => $candidatesCreated,
+                        'updated' => $candidatesUpdated,
+                        'data' => $candidatesData->map(function($candidate) {
+                            return [
+                                'ID_CANDIDATE' => $candidate->ID_CANDIDATE,
+                                'COMPANY_PROJECT' => $candidate->COMPANY_PROJECT, // Razón social
+                                'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT, // ID empresa
+                                'EMAIL_PROJECT' => $candidate->EMAIL_PROJECT,
+                                'FIRST_NAME_PROJECT' => $candidate->FIRST_NAME_PROJECT,
+                                'LAST_NAME_PROJECT' => $candidate->LAST_NAME_PROJECT
+                            ];
+                        })
+                    ];
                     return response()->json($response);
                     break;
+    //             case 1:
+    //                 $data = $request->all();
+    //                 if ($request->has('COMPANIES_PROJECT') && is_string($request->COMPANIES_PROJECT)) {
+    //                     $data['COMPANIES_PROJECT'] = json_decode($request->COMPANIES_PROJECT, true);
+
+    //                     if (json_last_error() !== JSON_ERROR_NONE) {
+    //                         throw new \Exception('Formato inválido para COMPANIES_PROJECT');
+    //                     }
+    //                     if ($request->ID_PROJECT == 0) {
+    //                         DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+    //                         $project = Proyect::create($data);
+    //                     } else {
+    //                         $project = Proyect::find($request->ID_PROJECT);
+    //                         $project->update($data);
+    //                     }
+
+    //                     $projectId = $project->ID_PROJECT;
+
+    //                     foreach ($data['COMPANIES_PROJECT'] as &$empresa) {
+    //                         if (!isset($empresa['STUDENTS_PROJECT'])) continue;
+
+    //                         foreach ($empresa['STUDENTS_PROJECT'] as &$estudiante) {
+    //                             $email = $estudiante['EMAIL_PROJECT'] ?? null;
+    //                             $password = $estudiante['PASSWORD_PROJECT'] ?? null;
+
+    //                             if (!$email || !$password) continue;
+
+    //                             $firstName = $estudiante['FIRST_NAME_PROJECT'] ?? '';
+    //                             $middleName = $estudiante['MIDDLE_NAME_PROJECT'] ?? '';
+    //                             $lastName = $estudiante['LAST_NAME_PROJECT'] ?? '';
+
+    //                             $initials = Str::lower(Str::substr($firstName, 0, 1)) .
+    //                                 ($middleName && $middleName != 'N/A' ? Str::lower(Str::substr($middleName, 0, 1)) : '');
+
+    //                             $lastWord = Str::lower(Str::slug(Str::afterLast($lastName, ' ')));
+    //                             $username = $initials . $lastWord . rand(100, 999);
+
+    //                             $existingUser = DB::table('users')->where('email', $email)->first();
+    //                             $userId = null;
+                                
+    //                             if ($existingUser) {
+    //                                 if (!empty($estudiante['USER_ID_PROJECT']) && $existingUser->id == $estudiante['USER_ID_PROJECT']) {
+    //                                     DB::table('users')
+    //                                         ->where('id', $existingUser->id)
+    //                                         ->update([
+    //                                             'username'   => $username,
+    //                                             'email'      => $email,
+    //                                             'password'   => Hash::make($password),
+    //                                             'updated_at' => now()
+    //                                         ]);
+    //                                     $userId = $existingUser->id;
+    //                                 } else {
+    //                                     $userId = $existingUser->id;
+    //                                 }
+    //                             } else {
+    //                                 $userId = DB::table('users')->insertGetId([
+    //                                     'username'   => $username,
+    //                                     'email'      => $email,
+    //                                     'password'   => Hash::make($password),
+    //                                     'rol'        => 1, // estudiante
+    //                                     'created_at' => now(),
+    //                                     'updated_at' => now()
+    //                                 ]);
+    //                             }
+
+    //                             $estudiante['USER_ID_PROJECT'] = $userId;
+
+    //                             $existingCandidate = DB::table('candidate')->where('EMAIL_PROJECT', $email)->first();
+
+    //                             if ($existingCandidate) {
+    //                                 DB::table('candidate')
+    //                                     ->where('EMAIL_PROJECT', $email)
+    //                                     ->update([
+    //                                         'ID_PROJECT'        => $projectId, 
+    //                                         'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
+    //                                         'COMPANY_ID_PROJECT' => $projectId, 
+    //                                         'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
+    //                                         'LAST_NAME_PROJECT' => $lastName,
+    //                                         'FIRST_NAME_PROJECT' => $firstName,
+    //                                         'MIDDLE_NAME_PROJECT' => $middleName,
+    //                                         'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
+    //                                         'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
+    //                                         'EMAIL_PROJECT'     => $email,
+    //                                         'PASSWORD_PROJECT'  => $password,
+    //                                         'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
+    //                                         'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+    //                                         'ACTIVO'            => 1,
+    //                                         'updated_at'        => now()
+    //                                     ]);
+    //                             } else {
+    //                                 $candidateId = DB::table('candidate')->insertGetId([
+    //                                     'ID_PROJECT'        => $projectId, 
+    //                                     'COMPANY_PROJECT'   => $empresa['NAME_PROJECT'] ?? '',
+    //                                     'COMPANY_ID_PROJECT' => $projectId, 
+    //                                     'CR_PROJECT'        => $estudiante['CR_PROJECT'] ?? '',
+    //                                     'LAST_NAME_PROJECT' => $lastName,
+    //                                     'FIRST_NAME_PROJECT' => $firstName,
+    //                                     'MIDDLE_NAME_PROJECT' => $middleName,
+    //                                     'DOB_PROJECT'       => $estudiante['BIRTH_DATE_PROJECT'] ?? '',
+    //                                     'ID_NUMBER_PROJECT' => $estudiante['ID_NUMBER_PROJECT'] ?? '',
+    //                                     'EMAIL_PROJECT'     => $email,
+    //                                     'PASSWORD_PROJECT'  => $password,
+    //                                     'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
+    //                                     'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+    //                                     'STATUS_MAIL_PROJECT' => 0,
+    //                                     'ACTIVO'            => 1,
+    //                                     'created_at'        => now(),
+    //                                     'updated_at'        => now()
+    //                                 ]);
+
+    //                                 $estudiante['CANDIDATE_ID_PROJECT'] = $candidateId;
+    //                             }
+    //                         }
+    //                     }
+    //                 } else {
+    //                     if ($request->ID_PROJECT == 0) {
+    //                         DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
+    //                         $project = Proyect::create($data);
+    //                     } else {
+    //                         $project = Proyect::find($request->ID_PROJECT);
+    //                         $project->update($data);
+    //                     }
+    //                 }
+
+    //                 $response['code'] = 1;
+    //                 $response['proyecto'] = $project;
+    //                 return response()->json($response);
+    //                 break;
                 case 2:
                     $data = $request->all();
                     foreach ($data['courses'] as $candidateId => $courseData) {
@@ -682,7 +847,6 @@ public function projectCourseDatatable(Request $request)
             ]);
         }
 
-        // Obtener información del proyecto
         $nivelesIDs = $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [];
         $bopsIDs    = $proyecto->BOP_TYPES_PROJECT ?? [];
         $langID     = $proyecto->LANGUAGE_PROJECT;
@@ -698,7 +862,6 @@ public function projectCourseDatatable(Request $request)
         $lang = IdiomasExamenes::where('ID_CATALOGO_IDIOMAEXAMEN', $langID)
             ->value('NOMBRE_IDIOMA');
 
-        // LEFT JOIN para obtener todos los candidatos con o sin datos en courses
         $candidatos = DB::table('candidate as c')
             ->leftJoin('courses as co', function($join) use ($id) {
                 $join->on('c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
@@ -744,28 +907,24 @@ public function projectCourseDatatable(Request $request)
         $estudiantes = [];
 
         foreach ($candidatos as $candidato) {
-            // Formatear los valores de practical
             $practicalDisplay = '';
             if ($candidato->PRACTICAL !== null) {
                 $practicalStatus = $candidato->PRACTICAL_PASS === 'Pass' ? 'Aprobado' : ($candidato->PRACTICAL_PASS === 'Unpass' ? 'No Aprobado' : '');
                 $practicalDisplay = $candidato->PRACTICAL . '% ' . $practicalStatus;
             }
 
-            // Formatear los valores de equipament
             $equipamentDisplay = '';
             if ($candidato->EQUIPAMENT !== null) {
                 $equipamentStatus = $candidato->EQUIPAMENT_PASS === 'Pass' ? 'Aprobado' : ($candidato->EQUIPAMENT_PASS === 'Unpass' ? 'No Aprobado' : '');
                 $equipamentDisplay = $candidato->EQUIPAMENT . '% ' . $equipamentStatus;
             }
 
-            // Formatear los valores de P&P
             $pypDisplay = '';
             if ($candidato->PYP !== null) {
                 $pypStatus = $candidato->PYP_PASS === 'Pass' ? 'Aprobado' : ($candidato->PYP_PASS === 'Unpass' ? 'No Aprobado' : '');
                 $pypDisplay = $candidato->PYP . '% ' . $pypStatus;
             }
 
-            // Formatear STATUS
             $statusDisplay = '';
             if ($candidato->STATUS) {
                 switch ($candidato->STATUS) {
@@ -786,46 +945,40 @@ public function projectCourseDatatable(Request $request)
                 }
             }
 
-            // Formatear RESIT
             $resitDisplay = '';
             if ($candidato->RESIT !== null) {
                 $resitDisplay = ($candidato->RESIT == 1 || $candidato->RESIT === 'Yes') ? 'Sí' : 'No';
             }
 
-            // Formatear RESIT_INMEDIATO_SCORE
             $resitInmediatoDisplay = '';
             if ($candidato->RESIT_INMEDIATO_SCORE !== null) {
                 $resitInmediatoStatus = $candidato->RESIT_INMEDIATO_STATUS === 'Pass' ? 'Aprobado' : ($candidato->RESIT_INMEDIATO_STATUS === 'Unpass' ? 'No Aprobado' : '');
                 $resitInmediatoDisplay = $candidato->RESIT_INMEDIATO_SCORE . '% ' . $resitInmediatoStatus;
             }
 
-            // Formatear RESIT_PROGRAMADO_SCORE
             $resitProgramadoDisplay = '';
             if ($candidato->RESIT_PROGRAMADO_SCORE !== null) {
                 $resitProgramadoStatus = $candidato->RESIT_PROGRAMADO_STATUS === 'Pass' ? 'Aprobado' : ($candidato->RESIT_PROGRAMADO_STATUS === 'Unpass' ? 'No Aprobado' : '');
                 $resitProgramadoDisplay = $candidato->RESIT_PROGRAMADO_SCORE . '% ' . $resitProgramadoStatus;
             }
 
-            // Formatear FINAL_STATUS
             $finalStatusDisplay = '';
             if ($candidato->FINAL_STATUS) {
                 $finalStatusDisplay = $candidato->FINAL_STATUS === 'Pass' ? 'Aprobado' : ($candidato->FINAL_STATUS === 'Unpass' ? 'No Aprobado' : $candidato->FINAL_STATUS);
             }
 
-            // Formatear HAVE_CERTIFIED
             $certifiedDisplay = '';
             if ($candidato->HAVE_CERTIFIED !== null) {
                 $certifiedDisplay = ($candidato->HAVE_CERTIFIED == 1 || $candidato->HAVE_CERTIFIED === 'Yes') ? 'Sí' : 'No';
             }
 
-            // Formatear fechas
             $expirationDisplay = $candidato->EXPIRATION ? date('d/m/Y', strtotime($candidato->EXPIRATION)) : '';
             $resitInmediatoDateDisplay = $candidato->RESIT_INMEDIATO_DATE ? date('d/m/Y', strtotime($candidato->RESIT_INMEDIATO_DATE)) : '';
             $resitProgramadoDateDisplay = $candidato->RESIT_PROGRAMADO_DATE ? date('d/m/Y', strtotime($candidato->RESIT_PROGRAMADO_DATE)) : '';
 
             $estudiantes[] = [
                 'ID_CANDIDATE' => $candidato->ID_CANDIDATE,
-                'ID_COURSE' => $candidato->ID_COURSE, // null si no tiene datos en courses
+                'ID_COURSE' => $candidato->ID_COURSE,
                 'NOMBRE_COMPLETO' => trim($candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT),
                 'NIVEL' => $niveles,
                 'BOP'   => $bops,
@@ -1158,14 +1311,12 @@ public function editarTablaCurso($ID_PROJECT)
             ], 404);
         }
 
-        // LEFT JOIN para obtener TODOS los candidatos con o sin datos en course
         $estudiantes = DB::table('candidate as c')
             ->leftJoin('course as co', function($join) use ($ID_PROJECT) {
                 $join->on('c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
                      ->where('co.ID_PROJECT', '=', $ID_PROJECT);
             })
             ->select(
-                // Datos del candidato
                 'c.ID_CANDIDATE',
                 'c.ID_PROJECT',
                 'c.LAST_NAME_PROJECT',
@@ -1173,7 +1324,6 @@ public function editarTablaCurso($ID_PROJECT)
                 'c.MIDDLE_NAME_PROJECT',
                 'c.EMAIL_PROJECT',
                 'c.ACTIVO',
-                // Datos del curso (serán NULL si no existe)
                 'co.ID_COURSE as curso_id',
                 'co.PRACTICAL',
                 'co.PRACTICAL_PASS',
@@ -1204,18 +1354,16 @@ public function editarTablaCurso($ID_PROJECT)
             ->orderBy('c.LAST_NAME_PROJECT', 'asc')
             ->get();
 
-        // Formatear los datos
         $estudiantesFormateados = [];
         $existenCursos = false;
 
         foreach ($estudiantes as $estudiante) {
-            // Si al menos un estudiante tiene curso_id, existen cursos
             if ($estudiante->curso_id !== null) {
                 $existenCursos = true;
             }
 
             $estudiantesFormateados[] = [
-                'curso_id' => $estudiante->curso_id, // null si no tiene curso
+                'curso_id' => $estudiante->curso_id, 
                 'candidato' => [
                     'ID_CANDIDATE' => $estudiante->ID_CANDIDATE,
                     'LAST_NAME_PROJECT' => $estudiante->LAST_NAME_PROJECT,
@@ -1253,7 +1401,6 @@ public function editarTablaCurso($ID_PROJECT)
             ];
         }
 
-        // Calcular fechas
         $startDate = Carbon::parse($proyecto->COURSE_END_DATE_PROJECT);
 
         $daysRest = 0;

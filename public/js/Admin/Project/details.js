@@ -1511,48 +1511,50 @@ function addNewRow() {
     }
 
     const rowCount = tbody.children().length;
+    
+    // Usar el mismo formato de nombre que los candidatos existentes
     const newRow = `
-            <tr data-candidate-id="" class="candidate-row new-row">
-                <td class="text-center fw-bold">${rowCount + 1}</td>
-                <td><textarea class="table-input textarea" name="company" placeholder="Nombre de empresa"></textarea></td>
-                <td><textarea class="table-input textarea" name="cr" placeholder="CR"></textarea></td>
-                <td><textarea class="table-input textarea" name="lastname" placeholder="Apellido"></textarea></td>
-                <td><textarea class="table-input textarea" name="firstname" placeholder="Nombre"></textarea></td>
-                <td><textarea class="table-input textarea" name="mdname" placeholder="Segundo nombre"></textarea></td>
-                <td><input class="table-input" type="date" name="dob" /></td>
-                <td><textarea class="table-input textarea" name="id_number" placeholder="Número de ID"></textarea></td>
-                <td>
-                    <select class="table-input membership-select" name="membership">
-                        <option value="">Seleccionar...</option>
-                        <option value="Basic">Basic</option>
-                        <option value="Premium">Premium</option>
-                        <option value="Pro">Pro</option>
-                        <option value="Enterprise">Enterprise</option>
-                    </select>
-                </td>
-                <td><input class="table-input" type="email" name="email" placeholder="correo@ejemplo.com" /></td>
-                <td><input class="table-input" type="password" name="password" placeholder="Contraseña" /></td>
-                <td>
-                    <div class="status-switch-container">
-                        <label class="status-switch">
-                            <input type="checkbox" name="status" checked>
-                            <span class="status-slider"></span>
-                        </label>
-                        <span class="status-label active">Activo</span>
-                    </div>
-                </td>
-                <td class="table-row-actions">
-                    <div class="action-buttons">
-                        <button class="btn btn-danger btn-action" onclick="deleteCandidate(this, null)" title="Eliminar candidato">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button class="btn btn-info btn-action" onclick="togglePassword(event,this)" title="Mostrar/ocultar contraseña">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `;
+        <tr data-candidate-id="" class="candidate-row new-row">
+            <td class="text-center fw-bold">${rowCount + 1}</td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][COMPANY_PROJECT]" placeholder="Nombre de empresa"></textarea></td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][CR_PROJECT]" placeholder="CR"></textarea></td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][LAST_NAME_PROJECT]" placeholder="Apellido"></textarea></td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][FIRST_NAME_PROJECT]" placeholder="Nombre"></textarea></td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][MIDDLE_NAME_PROJECT]" placeholder="Segundo nombre"></textarea></td>
+            <td><input class="table-input" type="date" name="courses[${rowCount}][DOB_PROJECT]" /></td>
+            <td><textarea class="table-input textarea" name="courses[${rowCount}][ID_NUMBER_PROJECT]" placeholder="Número de ID"></textarea></td>
+            <td>
+                <select class="table-input membership-select" name="courses[${rowCount}][MEMBERSHIP_PROJECT]">
+                    <option value="">Seleccionar...</option>
+                    <option value="N/A">N/A</option>
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Pro">Pro</option>
+                    <option value="Enterprise">Enterprise</option>
+                </select>
+            </td>
+            <td><input class="table-input" type="email" name="courses[${rowCount}][EMAIL_PROJECT]" placeholder="correo@ejemplo.com" /></td>
+            <td><input class="table-input" type="password" name="courses[${rowCount}][PASSWORD_PROJECT]" placeholder="Contraseña" /></td>
+            <td>
+                <div class="status-switch-container">
+                    <label class="status-switch">
+                        <input type="checkbox" name="courses[${rowCount}][ACTIVO]" class="candidate-active" checked>
+                        <span class="status-slider"></span>
+                    </label>
+                </div>
+            </td>
+            <td class="table-row-actions">
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-sm btn-danger btn-action" onclick="deleteCandidate(this, null)" title="Eliminar candidato">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-info btn-action" onclick="togglePassword(event,this)" title="Mostrar/ocultar contraseña">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `;
 
     tbody.append(newRow);
     updateRowCount(tbody.find('.candidate-row').length);
@@ -1603,6 +1605,7 @@ async function deleteCandidate(button, candidateId) {
             alertMensaje('success', 'Eliminado', 'El candidato fue eliminado correctamente');
             loadTableData();
             projectStudentDatatable.ajax.reload();
+            projectCourseDatatable.ajax.reload();
             console.log('ya recargo segun');
 
         } else {
@@ -1812,7 +1815,9 @@ $("#candidatebtnModal").click(async function (e) {
                 alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500);
                 document.getElementById('candidateForm').reset();
                 loadTableData();
-                projectStudentDatatable.ajax.reload()
+                projectStudentDatatable.ajax.reload();
+                projectCourseDatatable.ajax.reload();
+
 
             }
         );

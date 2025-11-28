@@ -872,13 +872,11 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Si hay un error en el formulario de crear nota, abrir automáticamente el modal
         @if($errors->has('contenido'))
             var crearNotaModal = new bootstrap.Modal(document.getElementById('crearNotaModal'));
             crearNotaModal.show();
         @endif
 
-        // Mostrar mensajes de éxito
         @if(session('success'))
             alert('{{ session('success') }}');
         @endif

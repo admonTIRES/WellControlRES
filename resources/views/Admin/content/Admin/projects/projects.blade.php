@@ -469,27 +469,8 @@
                                                
                                                 <hr style="margin-top: 2vw;">
 
-                                                {{-- <div class="col-md-12">
-                                                    <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> <strong>{{ __('Name(s) of company(ies) *')}}</strong></label>
-                                                        <input id="COMPANIES" name="COMPANIES" class="form-control" />
-                                                        <div class="error-message"> {{ __('This field is required.')}}
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
-                                                {{-- <div class="col-md-12 text-start mt-3">
-                                                    <label> <strong>{{ __('Company(ies) *')}}</strong></label>
-                                                    <select class="form-select" id="COMPANIES" name="COMPANIES[]"
-                                                        multiple>
-                                                        @foreach ($clientes as $cliente)
-                                                        <option value="{{ $cliente->ID_CATALOGO_CLIENTE }}">{{
-                                                            $cliente->NOMBRE_COMERCIAL_CLIENTE }} 
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div> --}}
                                                 <div class="col-md-12 text-start mt-3">
-                                                    <label><strong>Company(ies) *</strong></label>
+                                                    <label><strong>{{ __('Company(ies) *') }}</strong></label>
                                                     <input class="form-select" id="COMPANIES" name="COMPANIES[]" multiple>
                                                 </div>
 

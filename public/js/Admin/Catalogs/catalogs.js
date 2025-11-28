@@ -338,6 +338,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
                 return meta.row + 1;
             }
         },
+        { data: 'ACREDITACION_NOMBRE' },
         { data: 'NOMBRE_NIVEL' },
         { data: 'DESCRIPCION_NIVEL' },
         { data: 'BTN_EDITAR' },
@@ -345,10 +346,11 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
-        { targets: 1, title: 'Nivel', className: 'text-center' },
-        { targets: 2, title: 'Descripción', className: 'text-center' },
-        { targets: 3, title: 'Editar', className: 'text-center' },
-        { targets: 4, title: 'Activo', className: 'text-center' }
+        { targets: 1, title: 'Acreditación', className: 'text-center' },
+        { targets: 2, title: 'Nivel', className: 'text-center' },
+        { targets: 3, title: 'Programa', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' },
+        { targets: 5, title: 'Activo', className: 'text-center' }
     ]
 
 });

@@ -79,7 +79,9 @@ class CatalogsController extends Controller
     {
         try {
             $tabla = NivelAcreditacion::get();
+            $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
             foreach ($tabla as $value) {
+                $value->ACREDITACION_NOMBRE = $entes[$value->ACREDITACION_NIVEL] ?? 'No especificado';
                 if ($value->ACTIVO_NIVEL == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_NIVEL . '">

@@ -10,6 +10,7 @@ class NivelAcreditacion extends Model
     protected $table = 'nivel_acreditacion';
     protected $primaryKey = 'ID_CATALOGO_NIVELACREDITACION';
     protected $fillable = [
+        'ACREDITACION_NIVEL', 
         'NOMBRE_NIVEL', 
         'DESCRIPCION_NIVEL', 
         'ACTIVO_NIVEL'

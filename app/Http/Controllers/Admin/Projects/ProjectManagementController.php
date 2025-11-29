@@ -116,13 +116,13 @@ class ProjectManagementController extends Controller
             
             // Procesar las empresas
             $companies = [];
-            if (is_array($value->COMPANIES_PROJECT)) {
-                foreach ($value->COMPANIES_PROJECT as $empresa) {
-                    if (!empty($empresa['NAME_PROJECT'])) {
-                        $companies[] = $empresa['NAME_PROJECT'];
-                    }
-                }
-            }
+                // if (is_array($value->COMPANIES_PROJECT)) {
+                //     foreach ($value->COMPANIES_PROJECT as $empresa) {
+                //         if (!empty($empresa['NAME_PROJECT'])) {
+                //             $companies[] = $empresa['NAME_PROJECT'];
+                //         }
+                //     }
+                // }
             $value->COMPANIES = $companies;
 
             // Obtener nombre del proyecto

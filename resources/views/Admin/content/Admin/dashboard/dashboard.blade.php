@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.4"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.41"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

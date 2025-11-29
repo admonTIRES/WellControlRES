@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     actualizarBtn.onclick = actualizarDatos;
     document.body.appendChild(actualizarBtn);
 
-    setInterval(actualizarDatos, 300000); // 5 minutos
+    // setInterval(actualizarDatos, 300000); // 5 minutos
 });
 
 let chart = null;
@@ -944,7 +944,7 @@ function loadAllStudentCharts() {
             console.error('Error al cargar datos para gráficas:', error);
             showErrorCharts();
         }
-    });
+    }); 
 }
 
 // Función para generar las gráficas

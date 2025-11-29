@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
         periodType.dispatchEvent(new Event('change'));
     }
     setTimeout(() => {
-        loadChartData();
+        // loadChartData();
     }, 500);
 });
 
@@ -268,33 +268,425 @@ function initializeEventListeners() {
     if (chartType) {
         chartType.addEventListener('change', function() {
             currentChartType = this.value;
-            loadChartData();
+            // loadChartData();
         });
     }
 }
 
+// async function loadChartData() {
+//     console.log('Cargando datos del gráfico...');
+    
+//     const periodType = document.getElementById('periodType').value;
+//     const yearSelect = document.getElementById('yearSelect');
+//     const year = yearSelect ? yearSelect.value : null;
+//     const startDate = document.getElementById('startDate').value;
+//     const endDate = document.getElementById('endDate').value;
+//     const chartType = currentChartType;
+
+//     const params = new URLSearchParams({
+//         period_type: periodType,
+//         chart_type: chartType
+//     });
+
+//     if (periodType !== 'year' && year) {
+//         params.append('year', year);
+//     }
+
+//     if (startDate && endDate) {
+//         params.append('start_date', startDate);
+//         params.append('end_date', endDate);
+//     }
+
+//     const chartDiv = document.getElementById('chartdiv');
+//     chartDiv.innerHTML = `
+//         <div class="text-center" style="padding: 50px;">
+//             <div class="spinner-border text-primary" role="status">
+//                 <span class="visually-hidden">Cargando...</span>
+//             </div>
+//             <p class="mt-2">Cargando datos...</p>
+//         </div>
+//     `;
+
+//     try {
+//         const response = await fetch(`/api/chart/candidates?${params}`);
+//         const data = await response.json();
+
+//         if (data.success) {
+//             console.log('Datos recibidos:', data);
+            
+//             chartDiv.innerHTML = '';
+            
+//             updateChart(data.data, chartType);
+//             updateTotals(data.totals);
+//         } else {
+//             throw new Error(data.message);
+//         }
+//     } catch (error) {
+//         console.error('Error cargando datos del gráfico:', error);
+        
+//         chartDiv.innerHTML = `
+//             <div class="alert alert-danger text-center">
+//                 <h5>Error al cargar los datos</h5>
+//                 <p>${error.message}</p>
+//                 <button class="btn btn-primary btn-sm" onclick="loadChartData()">Reintentar</button>
+//             </div>
+//         `;
+        
+//         updateTotals({});
+//     }
+// }
+
+
+
+
+let currentChart = null;
+const acreditadorColors = {};
+
+// Función para alternar los filtros según el tipo de período
+function toggleDateFilters() {
+    const periodType = document.getElementById('periodType').value;
+    
+    // Ocultar todos los filtros
+    document.getElementById('yearRangeFilter').style.display = 'none';
+    document.getElementById('monthRangeFilter').style.display = 'none';
+    document.getElementById('dayRangeFilter').style.display = 'none';
+    
+    // Mostrar el filtro correspondiente
+    if (periodType === 'year') {
+        document.getElementById('yearRangeFilter').style.display = 'block';
+        populateYearSelects();
+    } else if (periodType === 'month') {
+        document.getElementById('monthRangeFilter').style.display = 'block';
+        setDefaultMonthRange();
+    } else if (periodType === 'day') {
+        document.getElementById('dayRangeFilter').style.display = 'block';
+        setDefaultDateRange();
+    }
+}
+
+// Poblar los selectores de año
+function populateYearSelects() {
+    const currentYear = new Date().getFullYear();
+    const startYearSelect = document.getElementById('startYear');
+    const endYearSelect = document.getElementById('endYear');
+    
+    startYearSelect.innerHTML = '';
+    endYearSelect.innerHTML = '';
+    
+    for (let year = currentYear - 10; year <= currentYear + 2; year++) {
+        startYearSelect.innerHTML += `<option value="${year}">${year}</option>`;
+        endYearSelect.innerHTML += `<option value="${year}">${year}</option>`;
+    }
+    
+    // Establecer valores por defecto
+    startYearSelect.value = currentYear - 1;
+    endYearSelect.value = currentYear;
+}
+
+// Establecer rango de meses por defecto
+function setDefaultMonthRange() {
+    const today = new Date();
+    const currentMonth = today.toISOString().slice(0, 7);
+    const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
+    const lastYearMonth = lastYear.toISOString().slice(0, 7);
+    
+    document.getElementById('startMonth').value = lastYearMonth;
+    document.getElementById('endMonth').value = currentMonth;
+}
+
+// Establecer rango de fechas por defecto
+function setDefaultDateRange() {
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+    
+    document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+    document.getElementById('endDate').value = today.toISOString().split('T')[0];
+}
+
+// Actualizar totales
+function updateTotals(totals) {
+    console.log('Totales recibidos:', totals);
+    const totalGeneral = totals.total_general || 0;
+    document.getElementById('totalGeneral').textContent = totalGeneral.toLocaleString();
+}
+
+// Actualizar gráfica
+function updateChart(data, chartType) {
+    console.log('Datos originales recibidos:', data);
+    
+    // Asegurar que period sea string y filtrar datos sin valores
+    const filteredData = data.filter(item => {
+        // Verificar si hay al menos un acreditador con valor > 0
+        return Object.keys(item).some(key => {
+            return key !== 'period' && item[key] > 0;
+        });
+    }).map(item => {
+        // Convertir period a string para evitar errores
+        const newItem = {};
+        for (let key in item) {
+            if (key === 'period') {
+                newItem[key] = String(item[key]);
+            } else {
+                newItem[key] = item[key];
+            }
+        }
+        return newItem;
+    });
+
+    console.log('Datos filtrados:', filteredData);
+
+    if (filteredData.length === 0) {
+        document.getElementById('chartdiv').innerHTML = `
+            <div class="alert alert-warning text-center">
+                <h5>No hay datos para mostrar</h5>
+                <p>No se encontraron registros para el período seleccionado.</p>
+            </div>
+        `;
+        return;
+    }
+
+    if (currentChart) {
+        currentChart.dispose();
+    }
+
+    am5.ready(function() {
+        const root = am5.Root.new("chartdiv");
+        
+        root.setThemes([
+            am5themes_Animated.new(root)
+        ]);
+
+        let chart;
+        if (chartType === 'line') {
+            chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 20
+            }));
+        } else {
+            chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout,
+                paddingLeft: 0,
+                paddingRight: 20
+            }));
+        }
+
+        // Cursor
+        const cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+        cursor.lineY.set("visible", false);
+
+        // Eje X
+        const xRenderer = am5xy.AxisRendererX.new(root, { 
+            minGridDistance: 0,
+            minorGridEnabled: true
+        });
+        
+        xRenderer.labels.template.setAll({
+            rotation: -45,
+            centerY: am5.p50,
+            centerX: am5.p100,
+            paddingRight: 15
+        });
+
+        const xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+            maxDeviation: 0.3,
+            categoryField: "period",
+            renderer: xRenderer,
+            tooltip: am5.Tooltip.new(root, {})
+        }));
+
+        // Asegurarse de que los datos están en el formato correcto
+        try {
+            xAxis.data.setAll(filteredData);
+            console.log('Datos asignados al eje X correctamente');
+        } catch (error) {
+            console.error('Error al asignar datos al eje X:', error);
+            throw error;
+        }
+
+        // Eje Y
+        const yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            maxDeviation: 0.3,
+            min: 0,
+            renderer: am5xy.AxisRendererY.new(root, {
+                strokeOpacity: 0.1
+            })
+        }));
+
+        // Obtener acreditadores únicos
+        const acreditadores = new Set();
+        filteredData.forEach(item => {
+            Object.keys(item).forEach(key => {
+                if (key !== 'period') {
+                    acreditadores.add(key);
+                }
+            });
+        });
+
+        // Colores predefinidos
+     const colors = [
+        am5.color(0xFF585D), // Rojo coral
+        am5.color(0xA4D65E), // Verde lima
+        am5.color(0x236192), // Azul oscuro
+        am5.color(0x007DBA), // Azul medio
+        am5.color(0x2C2A29), // Gris oscuro/casi negro
+    ];
+
+        let colorIndex = 0;
+
+        // Crear series para cada acreditador
+        acreditadores.forEach(acreditador => {
+            const color = colors[colorIndex % colors.length];
+            acreditadorColors[acreditador] = color.toString();
+            colorIndex++;
+
+            let series;
+            if (chartType === 'line') {
+                series = chart.series.push(am5xy.LineSeries.new(root, {
+                    name: acreditador,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: acreditador,
+                    categoryXField: "period",
+                    stroke: color,
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{name}: {valueY}"
+                    })
+                }));
+
+                series.strokes.template.setAll({
+                    strokeWidth: 3
+                });
+
+                series.bullets.push(function() {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Circle.new(root, {
+                            radius: 5,
+                            fill: color
+                        })
+                    });
+                });
+            } else {
+                series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: acreditador,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: acreditador,
+                    categoryXField: "period",
+                    fill: color,
+                    stroke: color,
+                    clustered: true,
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{name}: {valueY}"
+                    })
+                }));
+
+                series.columns.template.setAll({
+                    tooltipY: 0,
+                    strokeOpacity: 0,
+                    cornerRadiusTL: 6,
+                    cornerRadiusTR: 6
+                });
+            }
+
+            series.data.setAll(filteredData);
+
+            // Agregar etiquetas con los valores en las barras/líneas
+            series.bullets.push(function() {
+                return am5.Bullet.new(root, {
+                    locationY: 1,
+                    sprite: am5.Label.new(root, {
+                        text: "{valueY}",
+                        fill: am5.color(0xffffff),
+                        centerY: am5.p100,
+                        centerX: am5.p50,
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        populateText: true
+                    })
+                });
+            });
+        });
+
+        // Leyenda con totales por acreditador
+        const legend = chart.children.push(am5.Legend.new(root, {
+            centerX: am5.p50,
+            x: am5.p50,
+            layout: root.horizontalLayout
+        }));
+
+        // Personalizar leyenda para mostrar totales
+        legend.data.setAll(chart.series.values);
+        
+        legend.labels.template.setAll({
+            fontSize: 14,
+            fontWeight: "600"
+        });
+
+        legend.valueLabels.template.setAll({
+            fontSize: 14,
+            fontWeight: "bold"
+        });
+
+        // Calcular y mostrar totales por acreditador en la leyenda
+        chart.series.each(function(series) {
+            let total = 0;
+            series.data.each(function(dataItem) {
+                total += dataItem[series.get("valueYField")] || 0;
+            });
+            
+            series.set("legendLabelText", "[" + acreditadorColors[series.get("name")] + "]" + series.get("name") + "[/]");
+            series.set("legendValueText", "[bold " + acreditadorColors[series.get("name")] + "]Total: " + total + "[/]");
+        });
+
+        chart.appear(1000, 100);
+        currentChart = root;
+    });
+}
+
+// Cargar datos del gráfico
 async function loadChartData() {
     console.log('Cargando datos del gráfico...');
     
     const periodType = document.getElementById('periodType').value;
-    const yearSelect = document.getElementById('yearSelect');
-    const year = yearSelect ? yearSelect.value : null;
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const chartType = currentChartType;
+    const chartType = document.getElementById('chartType').value;
 
     const params = new URLSearchParams({
         period_type: periodType,
         chart_type: chartType
     });
 
-    if (periodType !== 'year' && year) {
-        params.append('year', year);
-    }
-
-    if (startDate && endDate) {
-        params.append('start_date', startDate);
-        params.append('end_date', endDate);
+    // Agregar parámetros según el tipo de período
+    if (periodType === 'year') {
+        const startYear = document.getElementById('startYear').value;
+        const endYear = document.getElementById('endYear').value;
+        params.append('start_year', startYear);
+        params.append('end_year', endYear);
+    } else if (periodType === 'month') {
+        const startMonth = document.getElementById('startMonth').value;
+        const endMonth = document.getElementById('endMonth').value;
+        if (startMonth && endMonth) {
+            params.append('start_date', startMonth + '-01');
+            const endDate = new Date(endMonth + '-01');
+            endDate.setMonth(endDate.getMonth() + 1);
+            endDate.setDate(0);
+            params.append('end_date', endDate.toISOString().split('T')[0]);
+        }
+    } else if (periodType === 'day') {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        if (startDate && endDate) {
+            params.append('start_date', startDate);
+            params.append('end_date', endDate);
+        }
     }
 
     const chartDiv = document.getElementById('chartdiv');
@@ -336,6 +728,13 @@ async function loadChartData() {
     }
 }
 
+
+
+// Inicializar al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    toggleDateFilters();
+});
+
 async function loadAvailableYears() {
     try {
         const response = await fetch('/api/chart/years');
@@ -362,31 +761,7 @@ async function loadAvailableYears() {
 }
 
 
-function updateChart(chartData, chartType) {
-    console.log('Actualizando gráfica tipo:', chartType);
-    
-    if (chart) {
-        chart.dispose();
-        chart = null;
-    }
 
-    if (typeof am5 === 'undefined') {
-        console.error('AMCharts no está cargado');
-        alert('Error: La librería de gráficas no se cargó correctamente');
-        return;
-    }
-
-    try {
-        if (chartType === 'pie') {
-            createPieChart(chartData);
-        } else {
-            createXYChart(chartData, chartType);
-        }
-    } catch (error) {
-        console.error('Error creando gráfica:', error);
-        alert('Error al crear la gráfica: ' + error.message);
-    }
-}
 
 function getColors(count) {
     const palette = colorPalettes[currentColorPalette] || colorPalettes.default;
@@ -546,24 +921,7 @@ function createPieChart(chartData) {
     pieChart.appear(1000, 100);
 }
 
-function updateTotals(totals) {
-    const container = document.getElementById('totalsContainer');
-    if (!container) return;
-    
-    let html = '<strong>Totales por Ente Acreditador:</strong><br>';
-    
-    if (totals) {
-        Object.keys(totals).forEach(key => {
-            if (key !== 'general') {
-                html += `<span class="badge bg-primary me-2 mb-1">${key}: ${totals[key]}</span>`;
-            }
-        });
-        
-        html += `<br><strong class="mt-2">Total General: ${totals.general || 0}</strong>`;
-    }
-    
-    container.innerHTML = html;
-}
+
 
 // Función para cargar y generar las gráficas de todos los estudiantes
 function loadAllStudentCharts() {

@@ -344,9 +344,6 @@ class adminController extends Controller
         return redirect()->intended('/')->with('simulating', true);
     }
 
-    /**
-     * Permite al usuario volver a su sesión de administrador.
-     */
     public function leaveSimulatedPanel(Request $request)
     {
         if (!$request->session()->has('original_admin_id')) {
@@ -372,250 +369,195 @@ class adminController extends Controller
         return redirect()->intended('/');
     }
 
+  public function getCandidateStats(Request $request)
+{
+    try {
+        $periodType = $request->get('period_type', 'month');
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        $startYear = $request->get('start_year');
+        $endYear = $request->get('end_year');
+        $chartType = $request->get('chart_type', 'column');
+        
+        $backendChartType = $chartType === 'donut' ? 'pie' : $chartType;
 
-    public function getCandidateStats(Request $request)
-    {
+        // Consulta corregida
+        $query = DB::table('proyect')
+            ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
+            ->join('entes_acreditadores', function($join) {
+                $join->on(DB::raw('CAST(proyect.ACCREDITING_ENTITY_PROJECT AS UNSIGNED)'), '=', 'entes_acreditadores.ID_CATALOGO_ENTE');
+            })
+            ->select(
+                'entes_acreditadores.NOMBRE_ENTE as ente_acreditador',
+                'proyect.COURSE_START_DATE_PROJECT',
+                'candidate.ID_CANDIDATE'
+            )
+            ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
+            ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '');
+
+        // Aplicar filtros según el tipo de período
+        if ($periodType === 'year' && $startYear && $endYear) {
+            $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                  ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+        } elseif ($startDate && $endDate) {
+            $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+        }
+
+        $baseData = $query->get();
+        
+        // Debug: verificar datos
+        \Log::info('Base data count: ' . $baseData->count());
+        \Log::info('Sample data: ' . json_encode($baseData->take(2)));
+
+        $processedData = $this->processDataByPeriod($baseData, $periodType);
+        
+        // Debug: verificar datos procesados
+        \Log::info('Processed data: ' . json_encode($processedData));
+
+        return response()->json([
+            'success' => true,
+            'data' => $this->formatForAmCharts($processedData, $backendChartType),
+            'totals' => $this->calculateTotals($processedData),
+            'chart_type' => $chartType,
+            'period_type' => $periodType
+        ]);
+
+    } catch (\Exception $e) {
+        \Log::error('Error in getCandidateStats: ' . $e->getMessage());
+        \Log::error('Stack trace: ' . $e->getTraceAsString());
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al obtener datos: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+private function processDataByPeriod($data, $periodType)
+{
+    $grouped = [];
+
+    foreach ($data as $record) {
+        if (empty($record->COURSE_START_DATE_PROJECT)) {
+            \Log::warning('Registro sin fecha de inicio de curso');
+            continue;
+        }
+
+        $date = $record->COURSE_START_DATE_PROJECT;
+        $acreditador = !empty($record->ente_acreditador) ? trim($record->ente_acreditador) : 'Sin Acreditador';
+        
+        // Generar período basado en la fecha de inicio del curso
         try {
-            $periodType = $request->get('period_type', 'month');
-            $startDate = $request->get('start_date');
-            $endDate = $request->get('end_date');
-            $year = $request->get('year');
-            $chartType = $request->get('chart_type', 'column');
-            
-            $backendChartType = $chartType === 'donut' ? 'pie' : $chartType;
-
-            $query = DB::table('proyect')
-                ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
-                ->join('entes_acreditadores', 'proyect.ACCREDITING_ENTITY_PROJECT', '=', 'entes_acreditadores.ID_CATALOGO_ENTE')
-                ->select(
-                    'entes_acreditadores.NOMBRE_ENTE as ente_acreditador',
-                    'proyect.COURSE_START_DATE_PROJECT'
-                );
-
-            if ($startDate && $endDate) {
-                $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
-            } elseif ($year && $periodType !== 'year') {
-                $query->whereYear('proyect.COURSE_START_DATE_PROJECT', $year);
+            $timestamp = strtotime($date);
+            if ($timestamp === false) {
+                \Log::error('Fecha inválida: ' . $date);
+                continue;
             }
 
-            $baseData = $query->get();
-            $processedData = $this->processDataByPeriod($baseData, $periodType, $startDate, $endDate);
-
-            return response()->json([
-                'success' => true,
-                'data' => $this->formatForAmCharts($processedData, $backendChartType),
-                'totals' => $this->calculateTotals($processedData),
-                'chart_type' => $chartType,
-                'period_type' => $periodType
-            ]);
-
+            if ($periodType === 'year') {
+                $period = date('Y', $timestamp);
+            } elseif ($periodType === 'month') {
+                // Formato: Nov 2025
+                $period = date('M Y', $timestamp);
+            } else { // day (curso)
+                // Formato: 28 Nov 2025
+                $period = date('d M Y', $timestamp);
+            }
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al obtener datos: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    private function processDataByPeriod($data, $periodType, $startDate = null, $endDate = null)
-    {
-        $groupedData = [];
-
-        foreach ($data as $item) {
-            $ente = $item->ente_acreditador;
-            $date = $item->COURSE_START_DATE_PROJECT;
-            
-            if (!$date) continue;
-
-            $periodKey = $this->getPeriodKey($date, $periodType, $startDate, $endDate);
-
-            if (!isset($groupedData[$periodKey])) {
-                $groupedData[$periodKey] = [
-                    'periodo' => $periodKey,
-                    'periodo_label' => $this->getPeriodLabel($periodKey, $periodType)
-                ];
-            }
-            if (!isset($groupedData[$periodKey][$ente])) {
-                $groupedData[$periodKey][$ente] = 0;
-            }
-
-            $groupedData[$periodKey][$ente]++;
+            \Log::error('Error processing date: ' . $date . ' - ' . $e->getMessage());
+            continue;
         }
 
-        $result = array_values($groupedData);
-        usort($result, function($a, $b) use ($periodType) {
-            return $this->comparePeriods($a['periodo'], $b['periodo'], $periodType);
-        });
-
-        return $result;
-    }
-
-    private function getPeriodKey($date, $periodType, $startDate, $endDate)
-    {
-        $timestamp = strtotime($date);
-        
-        switch ($periodType) {
-            case 'year':
-                return date('Y', $timestamp);
-                
-            case 'month':
-                return date('Y-m', $timestamp);
-                
-            case 'day':
-                if ($startDate && $endDate) {
-                    return $this->getDateRangeKey($date, $startDate, $endDate);
-                }
-                return date('Y-m-d', $timestamp);
-                
-            default:
-                return date('Y-m', $timestamp);
-        }
-    }
-
-    private function getDateRangeKey($date, $startDate, $endDate)
-    {
-        $start = strtotime($startDate);
-        $end = strtotime($endDate);
-        $current = strtotime($date);
-        
-        $totalDays = ($end - $start) / (60 * 60 * 24);
-        $daysFromStart = ($current - $start) / (60 * 60 * 24);
-        
-        $intervalCount = min(15, max(5, ceil($totalDays / 10)));
-        $daysPerInterval = ceil($totalDays / $intervalCount);
-        
-        $intervalIndex = floor($daysFromStart / $daysPerInterval);
-        $intervalStart = $start + ($intervalIndex * $daysPerInterval * 24 * 60 * 60);
-        $intervalEnd = $intervalStart + ($daysPerInterval * 24 * 60 * 60) - 1;
-        
-        return date('Y-m-d', $intervalStart) . '_' . date('Y-m-d', $intervalEnd);
-    }
-
-    private function getPeriodLabel($periodKey, $periodType)
-    {
-        switch ($periodType) {
-            case 'year':
-                return $periodKey;
-                
-            case 'month':
-                $parts = explode('-', $periodKey);
-                $months = [
-                    '01' => 'Ene', '02' => 'Feb', '03' => 'Mar', '04' => 'Abr',
-                    '05' => 'May', '06' => 'Jun', '07' => 'Jul', '08' => 'Ago',
-                    '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Dic'
-                ];
-                return $months[$parts[1]] . ' ' . $parts[0];
-                
-            case 'day':
-                if (strpos($periodKey, '_') !== false) {
-                    // Es un rango de fechas
-                    list($start, $end) = explode('_', $periodKey);
-                    return date('d/m', strtotime($start)) . ' - ' . date('d/m', strtotime($end));
-                }
-                return date('d/m/Y', strtotime($periodKey));
-                
-            default:
-                return $periodKey;
-        }
-    }
-
-    private function comparePeriods($a, $b, $periodType)
-    {
-        if ($periodType === 'day' && strpos($a, '_') !== false && strpos($b, '_') !== false) {
-            $aStart = explode('_', $a)[0];
-            $bStart = explode('_', $b)[0];
-            return strcmp($aStart, $bStart);
-        }
-        
-        return strcmp($a, $b);
-    }
-
-    private function formatForAmCharts($data, $chartType)
-    {
-        if (in_array($chartType, ['pie', 'donut'])) {
-            return $this->formatForPieChart($data);
+        if (!isset($grouped[$period])) {
+            $grouped[$period] = [];
         }
 
-        return $this->formatForColumnChart($data);
+        if (!isset($grouped[$period][$acreditador])) {
+            $grouped[$period][$acreditador] = 0;
+        }
+
+        $grouped[$period][$acreditador]++;
     }
 
-    private function formatForColumnChart($data)
-    {
-        $entes = [];
-        foreach ($data as $item) {
-            foreach ($item as $key => $value) {
-                if ($key !== 'periodo' && $key !== 'periodo_label' && !in_array($key, $entes)) {
-                    $entes[] = $key;
-                }
+    \Log::info('Grouped data: ' . json_encode($grouped));
+
+    return $grouped;
+}
+
+private function formatForAmCharts($processedData, $chartType)
+{
+    $formatted = [];
+    
+    foreach ($processedData as $period => $acreditadores) {
+        // Asegurar que period sea string y no esté vacío
+        $periodStr = trim((string)$period);
+        if (empty($periodStr)) {
+            continue;
+        }
+        
+        $row = ['period' => $periodStr];
+        
+        // Asegurar que cada acreditador tenga un valor numérico
+        foreach ($acreditadores as $acreditador => $count) {
+            $acreditadorStr = trim((string)$acreditador);
+            if (!empty($acreditadorStr)) {
+                $row[$acreditadorStr] = (int)$count;
             }
         }
-
-        $formattedData = [];
-        foreach ($data as $item) {
-            $formattedItem = [
-                'period' => $item['periodo_label'],
-                'category' => $item['periodo_label']
-            ];
-            
-            foreach ($entes as $ente) {
-                $formattedItem[$ente] = $item[$ente] ?? 0;
-            }
-            
-            $formattedData[] = $formattedItem;
-        }
-
-        return [
-            'data' => $formattedData,
-            'categories' => $entes
-        ];
-    }
-
-    private function formatForPieChart($data)
-    {
-        $totals = [];
         
-        foreach ($data as $periodData) {
-            foreach ($periodData as $key => $value) {
-                if ($key !== 'periodo' && $key !== 'periodo_label') {
-                    $totals[$key] = ($totals[$key] ?? 0) + $value;
-                }
-            }
+        // Solo agregar si hay al menos un acreditador además del period
+        if (count($row) > 1) {
+            $formatted[] = $row;
         }
-
-        $formattedData = [];
-        foreach ($totals as $ente => $total) {
-            $formattedData[] = [
-                'category' => $ente,
-                'value' => $total
-            ];
-        }
-
-        usort($formattedData, function($a, $b) {
-            return $b['value'] - $a['value'];
-        });
-
-        return $formattedData;
     }
 
-    private function calculateTotals($data)
-    {
-        $totals = [];
-        $generalTotal = 0;
+    // Ordenar por período
+    usort($formatted, function($a, $b) {
+        $periodA = $a['period'];
+        $periodB = $b['period'];
         
-        foreach ($data as $periodData) {
-            foreach ($periodData as $key => $value) {
-                if ($key !== 'periodo' && $key !== 'periodo_label') {
-                    $totals[$key] = ($totals[$key] ?? 0) + $value;
-                    $generalTotal += $value;
-                }
-            }
+        // Para años simples (4 dígitos)
+        if (preg_match('/^\d{4}$/', $periodA) && preg_match('/^\d{4}$/', $periodB)) {
+            return (int)$periodA - (int)$periodB;
         }
+        
+        // Para fechas con formato texto
+        $timeA = strtotime($periodA);
+        $timeB = strtotime($periodB);
+        
+        if ($timeA !== false && $timeB !== false) {
+            return $timeA - $timeB;
+        }
+        
+        return strcmp($periodA, $periodB);
+    });
 
-        arsort($totals);
-        $totals['general'] = $generalTotal;
+    // Log para debug
+    \Log::info('Formatted data for AmCharts: ' . json_encode($formatted));
 
-        return $totals;
+    return $formatted;
+}
+
+private function calculateTotals($processedData)
+{
+    $totals = [
+        'por_acreditador' => [],
+        'total_general' => 0
+    ];
+
+    foreach ($processedData as $period => $acreditadores) {
+        foreach ($acreditadores as $acreditador => $count) {
+            if (!isset($totals['por_acreditador'][$acreditador])) {
+                $totals['por_acreditador'][$acreditador] = 0;
+            }
+            $totals['por_acreditador'][$acreditador] += $count;
+            $totals['total_general'] += $count;
+        }
     }
+
+    return $totals;
+}
+
 
     public function getAvailableYears()
     {

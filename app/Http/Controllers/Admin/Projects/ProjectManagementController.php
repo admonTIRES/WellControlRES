@@ -33,55 +33,125 @@ class ProjectManagementController extends Controller
 {
 
     // DATATABLE - CATALOGOS
+    // public function proyectoDatatable()
+    // {
+    //     try {
+    //         $tabla = Proyect::orderBy('COURSE_START_DATE_PROJECT', 'asc')->get();
+
+    //         foreach ($tabla as $value) {
+    //             $value->BTN_EDITAR = '<button type="button"
+    //                                             class="btn btn-sm btn-icon btn-action1"
+    //                                             data-toggle="tooltip"
+    //                                             data-placement="top"
+    //                                             title="Ver proyecto"
+    //                                             onclick="window.location.href=\'/projectsAdmin/details/' . $value->ID_PROJECT . '\'">
+    //                                         <span class="btn-inner">
+    //                                            <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
+    //                                         </span>
+    //                                     </button>
+    //                                     <button type="button" class="btn btn-sm btn-icon btn-action1 EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+    //                                        <span class="btn-inner">
+    //                                            <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
+    //                                         </span>
+    //                                     </button>';
+
+    //             $value->GESTIONAR = '';
+    //             $companies = [];
+
+    //             if (is_array($value->COMPANIES_PROJECT)) {
+    //                 foreach ($value->COMPANIES_PROJECT as $empresa) {
+    //                     if (!empty($empresa['NAME_PROJECT'])) {
+    //                         $companies[] = $empresa['NAME_PROJECT'];
+    //                     }
+    //                 }
+    //             }
+
+    //             $value->COMPANIES = $companies;
+    //             $nombreProyectoModel = NombreProyecto::find($value->COURSE_NAME_ES_PROJECT);
+    //             $value->nombreProyecto = $nombreProyectoModel ? $nombreProyectoModel->NOMBRE_PROYECTO : '—';
+    //         }
+
+    //         return response()->json([
+    //             'data' => $tabla,
+    //             'msj' => 'Información consultada correctamente'
+    //         ]);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'msj' => 'Error ' . $e->getMessage(),
+    //             'data' => 0
+    //         ]);
+    //     }
+    // }
+
     public function proyectoDatatable()
-    {
-        try {
-            $tabla = Proyect::orderBy('COURSE_START_DATE_PROJECT', 'asc')->get();
+{
+    try {
+        // Traer todos los datos de la tabla Proyect con las relaciones necesarias
+        $tabla = Proyect::with(['candidates' => function($query) {
+            // Traer todos los datos de candidates excepto timestamps si no los necesitas
+            $query->select('*');
+        }])
+        ->orderBy('COURSE_START_DATE_PROJECT', 'asc')
+        ->get();
 
-            foreach ($tabla as $value) {
-                $value->BTN_EDITAR = '<button type="button"
-                                                class="btn btn-sm btn-icon btn-action1"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Ver proyecto"
-                                                onclick="window.location.href=\'/projectsAdmin/details/' . $value->ID_PROJECT . '\'">
-                                            <span class="btn-inner">
-                                               <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
-                                            </span>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-icon btn-action1 EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
-                                           <span class="btn-inner">
-                                               <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
-                                            </span>
-                                        </button>';
+        foreach ($tabla as $value) {
+            // Botones de acción
+            $value->BTN_EDITAR = '<button type="button"
+                                            class="btn btn-sm btn-icon btn-action1"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Ver proyecto"
+                                            onclick="window.location.href=\'/projectsAdmin/details/' . $value->ID_PROJECT . '\'">
+                                        <span class="btn-inner">
+                                           <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
+                                        </span>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-icon btn-action1 EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                                       <span class="btn-inner">
+                                           <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
+                                       </span>
+                                    </button>';
 
-                $value->GESTIONAR = '';
-                $companies = [];
-
-                if (is_array($value->COMPANIES_PROJECT)) {
-                    foreach ($value->COMPANIES_PROJECT as $empresa) {
-                        if (!empty($empresa['NAME_PROJECT'])) {
-                            $companies[] = $empresa['NAME_PROJECT'];
-                        }
+            $value->GESTIONAR = '';
+            
+            // Procesar las empresas
+            $companies = [];
+            if (is_array($value->COMPANIES_PROJECT)) {
+                foreach ($value->COMPANIES_PROJECT as $empresa) {
+                    if (!empty($empresa['NAME_PROJECT'])) {
+                        $companies[] = $empresa['NAME_PROJECT'];
                     }
                 }
-
-                $value->COMPANIES = $companies;
-                $nombreProyectoModel = NombreProyecto::find($value->COURSE_NAME_ES_PROJECT);
-                $value->nombreProyecto = $nombreProyectoModel ? $nombreProyectoModel->NOMBRE_PROYECTO : '—';
             }
+            $value->COMPANIES = $companies;
 
-            return response()->json([
-                'data' => $tabla,
-                'msj' => 'Información consultada correctamente'
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'msj' => 'Error ' . $e->getMessage(),
-                'data' => 0
-            ]);
+            // Obtener nombre del proyecto
+            $nombreProyectoModel = NombreProyecto::find($value->COURSE_NAME_ES_PROJECT);
+            $value->nombreProyecto = $nombreProyectoModel ? $nombreProyectoModel->NOMBRE_PROYECTO : '—';
+
+            // Agregar datos de candidatos (todos los campos excepto user)
+            // Si tienes relación definida en el modelo
+            if ($value->candidates) {
+                $value->CANDIDATES_DATA = $value->candidates->map(function($candidate) {
+                    // Remover el campo user si existe
+                    $candidateArray = $candidate->toArray();
+                    unset($candidateArray['user']);
+                    return $candidateArray;
+                });
+            }
         }
+
+        return response()->json([
+            'data' => $tabla,
+            'msj' => 'Información consultada correctamente'
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'msj' => 'Error ' . $e->getMessage(),
+            'data' => 0
+        ]);
     }
+}
     // STORE - CATALOGOS
     public function store(Request $request)
     {
@@ -96,15 +166,26 @@ class ProjectManagementController extends Controller
                         
                         $simpleCompanies = [];
                         foreach ($tagifyData as $empresa) {
+                            $razonesSociales = [];
+                            if (isset($empresa['razonSocial'])) {
+                                try {
+                                    $razonesSociales = json_decode($empresa['razonSocial'], true);
+                                } catch (\Exception $e) {
+                                    $razonesSociales = $empresa['razonSocial'];
+                                }
+                            }
+                            
                             $simpleCompanies[] = [
                                 'ID' => $empresa['name'] ?? null,
-                                'NAME' => $empresa['value'] ?? ''
+                                'NAME' => $empresa['value'] ?? '',
+                                'RAZONES_SOCIALES' => $razonesSociales
                             ];
                         }
                         
                         $data['COMPANIES_PROJECT'] = json_encode($simpleCompanies);
+                    } else {
+                        $data['COMPANIES_PROJECT'] = null;
                     }
-
                     if ($request->ID_PROJECT == 0) {
                         DB::statement('ALTER TABLE proyect AUTO_INCREMENT=1;');
                         $project = Proyect::create($data);

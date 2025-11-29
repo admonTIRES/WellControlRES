@@ -47,7 +47,7 @@ class Proyect extends Model
 
       public function candidates()
     {
-        return $this->hasMany(Candidate::class, 'ID_PROJECT', 'ID_PROJECT');
+        return $this->hasMany(candidate::class, 'ID_PROJECT', 'ID_PROJECT');
     }
 
     public function courses()

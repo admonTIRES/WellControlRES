@@ -647,48 +647,30 @@ private function calculateTotals($processedData)
             ], 500);
         }
     }
-     private function getProyectosPorEmpresa()
-    {
-        $proyectos = DB::table('proyect')
-            ->select('COMPANIES_PROJECT')
-            ->whereNotNull('COMPANIES_PROJECT')
-            ->where('COMPANIES_PROJECT', '!=', '')
-            ->get();
+private function getProyectosPorEmpresa()
+{
+    $empresasCount = DB::table('candidate')
+        ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+        ->join('costumers', 'candidate.COMPANY_ID_PROJECT', '=', 'costumers.ID_CATALOGO_CLIENTE')
+        ->select(
+            'costumers.ID_CATALOGO_CLIENTE',
+            'costumers.NOMBRE_COMERCIAL_CLIENTE as empresa',
+            DB::raw('COUNT(DISTINCT proyect.ID_PROJECT) as total_proyectos')
+        )
+        ->whereNotNull('candidate.COMPANY_ID_PROJECT')
+        ->whereNotNull('candidate.ID_PROJECT')
+        ->where('candidate.COMPANY_ID_PROJECT', '!=', '')
+        ->where('candidate.COMPANY_ID_PROJECT', '!=', 0)
+        ->groupBy('costumers.ID_CATALOGO_CLIENTE', 'costumers.NOMBRE_COMERCIAL_CLIENTE')
+        ->orderByDesc('total_proyectos')
+        ->limit(5)
+        ->get();
 
-        $empresasCount = [];
-
-        foreach ($proyectos as $proyecto) {
-            $companiesData = json_decode($proyecto->COMPANIES_PROJECT, true);
-            
-            if (json_last_error() === JSON_ERROR_NONE && is_array($companiesData)) {
-                foreach ($companiesData as $company) {
-                    if (isset($company['NAME_PROJECT'])) {
-                        $empresa = $company['NAME_PROJECT'];
-                        if (!isset($empresasCount[$empresa])) {
-                            $empresasCount[$empresa] = 0;
-                        }
-                        $empresasCount[$empresa]++;
-                    }
-                }
-            } else {
-                $empresa = trim($proyecto->COMPANIES_PROJECT);
-                if ($empresa && $empresa != '[]') {
-                    if (!isset($empresasCount[$empresa])) {
-                        $empresasCount[$empresa] = 0;
-                    }
-                    $empresasCount[$empresa]++;
-                }
-            }
-        }
-
-        arsort($empresasCount);
-        $topEmpresas = array_slice($empresasCount, 0, 5, true);
-
-        return [
-            'labels' => array_keys($topEmpresas),
-            'series' => array_values($topEmpresas)
-        ];
-    }
+    return [
+        'labels' => $empresasCount->pluck('empresa')->toArray(),
+        'series' => $empresasCount->pluck('total_proyectos')->toArray()
+    ];
+}
 
      private function getMetricasPrincipales()
     {

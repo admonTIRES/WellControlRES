@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showLoading() {
         const chartContainers = [
-            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa'
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 'totalProyectos', 'totalEstudiantes', 'estudiantesAprobados'
         ];
 
         document.getElementById('totalProyectos').textContent = '...';
@@ -237,7 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
         periodType.dispatchEvent(new Event('change'));
     }
     setTimeout(() => {
-        // loadChartData();
+         loadChartData();
+         loadStackedChartData();
     }, 500);
 });
 
@@ -268,7 +269,9 @@ function initializeEventListeners() {
     if (chartType) {
         chartType.addEventListener('change', function() {
             currentChartType = this.value;
-            // loadChartData();
+             loadChartData();
+             loadStackedChartData();
+
         });
     }
 }
@@ -925,6 +928,7 @@ function createPieChart(chartData) {
 
 // Función para cargar y generar las gráficas de todos los estudiantes
 function loadAllStudentCharts() {
+    
     $.ajax({
         url: '/getAllCoursesData',
         method: 'GET',

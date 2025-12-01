@@ -68,91 +68,6 @@ var projectStudentDatatable = $("#students-list-table").DataTable({
     ]
 
 });
-// var projectCourseDatatable = $("#course-list-table").DataTable({
-//     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
-//     lengthChange: true,
-//     lengthMenu: [
-//         [10, 25, 50, -1],
-//         [10, 25, 50, 'Todos']
-//     ],
-//     info: false,
-//     paging: true,
-//     searching: true,
-//     filtering: true,
-//     scrollY: '65vh',
-//     scrollX: true,
-//     scrollCollapse: true,
-//     responsive: true,
-//     ajax: {
-//         dataType: 'json',
-//         data: { ID_PROJECT: ID_PROJECT },
-//         method: 'GET',
-//         cache: false,
-//         url: '/projectCourseDatatable',
-//         beforeSend: function () {
-//             // mostrarCarga();
-//         },
-//         complete: function () {
-//             projectCourseDatatable.columns.adjust().draw();
-//             // ocultarCarga();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             alertErrorAJAX(jqXHR, textStatus, errorThrown);
-//         },
-//         dataSrc: 'data'
-//     },
-//     order: [[0, 'asc']],
-//     columns: [
-//         {
-//             data: null,
-//             render: function (data, type, row, meta) {
-//                 return meta.row + 1;
-//             }
-//         },
-//         { data: 'NOMBRE_COMPLETO' },
-//         { data: 'NIVEL' },
-//         { data: 'BOP' },
-//         { data: 'UNITS' },
-//         { data: 'LANG' },
-//         { data: 'PRACTICAL' },
-//         { data: 'EQUIPAMENT' },
-//         { data: 'P&P' },
-//         { data: 'STATUS' },
-//         { data: 'RESIT' },
-//         { data: 'EQ' },
-//         { data: 'FECHA' },
-//         { data: 'SCORE' },
-//         { data: 'FINALTEST' },
-//         { data: 'VENCIMIENTO' },
-//         { data: 'CORREO' },
-//         { data: 'BTN_ENVIAR' },
-//         { data: 'BTN_EDITAR' }
-
-//     ],
-//     columnDefs: [
-//         { targets: 0, title: '#', className: 'text-center' },
-//         { targets: 1, title: 'NOMBRE', className: 'text-center' },
-//         { targets: 2, title: 'NIVEL', className: 'text-center' },
-//         { targets: 3, title: 'BOP', className: 'text-center' },
-//         { targets: 4, title: 'UNIDADES', className: 'text-center' },
-//         { targets: 5, title: 'IDIOMA', className: 'text-center' },
-//         { targets: 6, title: 'PRACTICO', className: 'text-center' },
-//         { targets: 7, title: 'EQUIPOS', className: 'text-center' },
-//         { targets: 8, title: 'P&P', className: 'text-center' },
-//         { targets: 9, title: 'ESTADO', className: 'text-center' },
-//         { targets: 10, title: 'RESIT', className: 'text-center' },
-//         { targets: 11, title: 'MODULO', className: 'text-center' },
-//         { targets: 12, title: 'FECHA', className: 'text-center' },
-//         { targets: 13, title: 'ESTADO', className: 'text-center' },
-//         { targets: 14, title: 'FINAL', className: 'text-center' },
-//         { targets: 15, title: 'VENCIMIENTO', className: 'text-center' },
-//         { targets: 16, title: 'CORREO', className: 'text-center' },
-//         { targets: 17, title: 'ENVIAR', className: 'text-center' },
-//         { targets: 18, title: 'EDITAR', className: 'text-center' }
-
-//     ]
-
-// });
 
 var projectCourseDatatable = $("#course-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
@@ -454,30 +369,18 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     }
 });
 
-// Función auxiliar para formatear fechas (debes implementarla)
 function formatDateForDisplay(dateString) {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES');
 }
-
-// Función para editar curso del estudiante
 function editStudentCourse(candidateId) {
-    // Aquí puedes abrir el modal de edición o redirigir a la página de edición
     console.log('Editar curso del candidato:', candidateId);
     // loadEditCourseModal(candidateId);
 }
-
-// Función para ver detalles del estudiante
 function viewStudentDetails(candidateId) {
-    // Implementar lógica para ver detalles
     console.log('Ver detalles del candidato:', candidateId);
 }
-
-
-
-
-
 function enviarCredencialesCorreo(data) {
     if (!data.email) {
         alert('El estudiante no tiene un correo registrado.');
@@ -1026,254 +929,6 @@ function loadTableCursoModal() {
         }
     });
 }
-
-const style = document.createElement('style');
-style.textContent = `
-        .student-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .language-badge {
-            padding: 4px 8px;
-            background: #e3f2fd;
-            color: #1976d2;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .level-badge {
-            padding: 3px 6px;
-            background: #f3e5f5;
-            color: #7b1fa2;
-            border-radius: 8px;
-            font-size: 11px;
-            margin: 2px;
-            display: inline-block;
-        }
-        .bop-badge {
-            padding: 3px 6px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-radius: 8px;
-            font-size: 11px;
-            margin: 2px;
-            display: inline-block;
-        }
-        .levels-container, .bops-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2px;
-        }
-        .mail-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .mail-badge.active {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .mail-badge.inactive {
-            background: #ffebee;
-            color: #c62828;
-        }
-        .table-input {
-            width: 100%;
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        .table-input:focus {
-            outline: none;
-            border-color: #2196f3;
-            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
-        }
-        .action-buttons {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
-        }
-        .btn-action {
-            padding: 2px 6px;
-            font-size: 12px;
-        }
-    `;
-document.head.appendChild(style);
-const switchStyles = `
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #A4D65E;
-        }
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        .score-status-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .disabled {
-            background-color: #f5f5f5;
-            color: #999;
-            cursor: not-allowed;
-        }
-        .email-text {
-            font-size: 12px;
-            color: #666;
-            word-break: break-all;
-        }
-    `;
-document.head.appendChild(document.createElement('style')).textContent = switchStyles;
-const colorStyles = `
-        /* Estilos para campos con estado */
-        .pass-status {
-            background-color: #d4edda !important;
-            border-color: #c3e6cb !important;
-            color: #155724 !important;
-        }
-        
-        .unpass-status {
-            background-color: #f8d7da !important;
-            border-color: #f5c6cb !important;
-            color: #721c24 !important;
-        }
-        
-        /* Estilos para filas completas */
-        .row-pass {
-            background-color: #d4edda !important;
-        }
-        
-        .row-pass td {
-            border-color: #c3e6cb !important;
-        }
-        
-        .row-unpass {
-            background-color: #f8d7da !important;
-        }
-        
-        .row-unpass td {
-            border-color: #f5c6cb !important;
-        }
-        
-        /* Campos deshabilitados en gris */
-        .disabled-field {
-            background-color: #f5f5f5 !important;
-            color: #999 !important;
-            cursor: not-allowed !important;
-        }
-        
-        /* Campos normales */
-        .table-input {
-            width: 100%;
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 12px;
-            background-color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .table-input:focus {
-            outline: none;
-            border-color: #2196f3;
-            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
-        }
-        
-        /* Mejora visual para los contenedores de score/status */
-        .score-status-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        
-        .score-status-container input,
-        .score-status-container select {
-            margin-bottom: 2px;
-        }
-        
-        /* Estilos para switches */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: #A4D65E;
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-    `;
-
-document.head.appendChild(document.createElement('style')).textContent = colorStyles;
-
 function addSwitchListeners() {
     $('.resit-switch').on('change', function () {
         const isChecked = $(this).is(':checked');
@@ -1346,13 +1001,11 @@ function addSwitchListeners() {
     });
 }
 function addValidationListeners() {
-    // Listeners para cambios en los status de Practical, Equipament y P&P
     $('.practical-status, .equipament-status, .pyp-status').on('change', function () {
         const row = $(this).closest('tr');
         validateRowStatus(row);
     });
 
-    // Listener para cambios en el resultado del Resit
     $('.resit-status, .resit-inmediato-status, .resit-programado-status').on('change', function () {
         const row = $(this).closest('tr');
         validateRowStatus(row);
@@ -1377,27 +1030,20 @@ function validateRowStatus(row) {
     const certifiedSwitch = row.find('.certified-switch');
     const expirationDate = row.find('.expiration-date');
 
-    // Reset clases
     row.removeClass('row-pass row-unpass row-pending row-inprogress');
     statusSelect.removeClass('status-pending status-inprogress status-completed status-failed');
     finalStatusSelect.removeClass('final-pass final-failed');
     row.find('.resit-inmediato-status').removeClass('resit-pass resit-failed');
     row.find('.resit-programado-status').removeClass('resit-pass resit-failed');
-
-
-    // Aplicar colores a campos individuales
     row.find('.practical-status, .practical-score')
         .removeClass('pass-status unpass-status')
         .addClass(practicalStatus === 'Pass' ? 'pass-status' : (practicalStatus === 'Unpass' ? 'unpass-status' : ''));
-
     row.find('.equipament-status, .equipament-score')
         .removeClass('pass-status unpass-status')
         .addClass(equipamentStatus === 'Pass' ? 'pass-status' : (equipamentStatus === 'Unpass' ? 'unpass-status' : ''));
-
     row.find('.pyp-status, .pyp-score')
         .removeClass('pass-status unpass-status')
         .addClass(pypStatus === 'Pass' ? 'pass-status' : (pypStatus === 'Unpass' ? 'unpass-status' : ''));
-
     if (resitInmediatoStatus === 'Pass') {
         console.log("resit inmediato es pass");
         row.find('.resit-inmediato-status').addClass('resit-pass').removeClass('resit-failed');
@@ -1430,7 +1076,6 @@ function validateRowStatus(row) {
         certifiedSwitch.prop('checked', false);
         expirationDate.prop('disabled', true).addClass('disabled-field');
     }
-    console.log("else de none");
     const allEmpty = !practicalStatus && !equipamentStatus && !pypStatus;
     const allPass = practicalStatus === 'Pass' && equipamentStatus === 'Pass' && pypStatus === 'Pass';
     const anyUnpass = practicalStatus === 'Unpass' || equipamentStatus === 'Unpass' || pypStatus === 'Unpass';
@@ -1505,14 +1150,10 @@ function formatDateForInput(dateString) {
 function addNewRow() {
     const tbody = $('#edit-candidate-table tbody');
 
-    // Si está vacío, limpiar el mensaje de no datos
     if (tbody.children().length === 1 && tbody.find('.text-muted').length) {
         tbody.empty();
     }
-
     const rowCount = tbody.children().length;
-    
-    // Usar el mismo formato de nombre que los candidatos existentes
     const newRow = `
         <tr data-candidate-id="" class="candidate-row new-row">
             <td class="text-center fw-bold">${rowCount + 1}</td>
@@ -1618,7 +1259,6 @@ async function deleteCandidate(button, candidateId) {
         console.error('Error al eliminar candidato:', error);
     }
 }
-
 function togglePassword(event, button) {
     event.preventDefault();
     const input = $(button).closest('tr').find('input.password').length ? $(button).closest('tr').find('input.password') : $(button).closest('tr').find('input[name="password"]');
@@ -1678,23 +1318,19 @@ function saveCandidateTable() {
 
 $("#cursobtnModal").click(async function (e) {
     e.preventDefault();
-    // Convertir todos los checkboxes a 1 o 0
     $('#coursesForm').find('.resit-switch').each(function () {
         $(this).val($(this).is(':checked') ? 1 : 0);
     });
 
-    // Convertir todos los checkboxes a 1 o 0
     $('#coursesForm').find('.resit-switch-inmediato').each(function () {
         $(this).val($(this).is(':checked') ? 1 : 0);
     });
 
 
-    // Convertir todos los checkboxes a 1 o 0
     $('#coursesForm').find('.resit-switch-programado').each(function () {
         $(this).val($(this).is(':checked') ? 1 : 0);
     });
 
-    // Convertir todos los checkboxes a 1 o 0
     $('#coursesForm').find('.certified-switch').each(function () {
         $(this).val($(this).is(':checked') ? 1 : 0);
     });
@@ -1823,3 +1459,18 @@ $("#candidatebtnModal").click(async function (e) {
         );
     });
 });
+
+const style = document.createElement('style');
+style.textContent = `
+      
+    `;
+document.head.appendChild(style);
+const switchStyles = `
+       
+    `;
+document.head.appendChild(document.createElement('style')).textContent = switchStyles;
+const colorStyles = `
+        /* Estilos para campos con estado */
+       
+    `;
+document.head.appendChild(document.createElement('style')).textContent = colorStyles;

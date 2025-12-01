@@ -42,6 +42,20 @@ $(document).ready(function () {
         maxItems: 1
     })[0].selectize;
 
+    const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
+    if (acreditacionInicial) {
+        actualizarCentrosCapacitacion(acreditacionInicial);
+    }
+
+    $('#ACCREDITING_ENTITY_PROJECT').on('change', function () {
+        const acreditacionId = $(this).val() || 0;
+        actualizarCentrosCapacitacion(acreditacionId);
+    });
+
+    $('#CERTIFICATION_CENTER_PROJECT').on('change', function () {
+        const centroId = $(this).val();
+        cargarDatosCentro(centroId);
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -53,133 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
     $('button[data-bs-target="#proyectoModal"]').on('click', function () {
         isEditing = false;
     });
+    window.wizard = new WizardManager();
 });
-function initializeTagify() {
-    if (!window.selectedCompanyIds) window.selectedCompanyIds = [];
-    if (!window.selectedRazonesSociales) window.selectedRazonesSociales = [];
-
-    if (typeof window.clientesData === 'undefined') {
-        console.error('No se encontraron datos de clientes');
-        return;
-    }
-
-    const input = document.getElementById('COMPANIES');
-    if (!input) return;
-
-    if (input.tagify) {
-        input.tagify.destroy();
-    }
-
-    const tagify = new Tagify(input, {
-        tagTextProp: 'value',
-        whitelist: window.clientesData.map(cliente => ({
-            value: cliente.NOMBRE_COMERCIAL_CLIENTE,
-            name: cliente.ID_CATALOGO_CLIENTE,
-            razonSocial: cliente.RAZONES_SOCIALES
-        })),
-        maxTags: 10,
-        dropdown: {
-            maxItems: 20,
-            classname: "tags-look",
-            enabled: 0,
-            closeOnSelect: false,
-            searchKeys: ['value']
-        }
-    });
-
-    tagify.on('add', function (e) {
-        const data = e.detail.data;
-        const id = data.name;
-        razonSocial = data.razonSocial;
-
-        if (!window.selectedCompanyIds.includes(id)) {
-            window.selectedCompanyIds.push(id);
-            window.selectedRazonesSociales.push({
-                ID: id,
-                RAZON_SOCIAL: razonSocial,
-                EMPRESA: data.value
-            });
-        }
-
-        console.log('✅ Empresa añadida:', data.value);
-        console.log('📋 IDs seleccionados:', window.selectedCompanyIds);
-        console.log('🏢 Razones sociales:', window.selectedRazonesSociales);
-    });
-
-    tagify.on('remove', function (e) {
-        const data = e.detail.data;
-        const id = data.name || 0;
-        const razonSocial = data.razonSocial;
-
-        const index = window.selectedCompanyIds.indexOf(id);
-        if (index > -1) {
-            window.selectedCompanyIds.splice(index, 1);
-
-            const rsIndex = window.selectedRazonesSociales.findIndex(
-                rs => rs.RAZON_SOCIAL === razonSocial
-            );
-            if (rsIndex > -1) {
-                window.selectedRazonesSociales.splice(rsIndex, 1);
-            }
-        }
-
-        console.log('Empresa eliminada:', data.value);
-        console.log('IDs seleccionados:', window.selectedCompanyIds);
-        console.log('Razones sociales:', window.selectedRazonesSociales);
-    });
-
-    window.tagifyInstance = tagify;
-
-    return tagify;
-}
-
-function getSelectedCompanies() {
-    return {
-        ids: window.selectedCompanyIds,
-        razonesSociales: window.selectedRazonesSociales,
-        count: window.selectedCompanyIds.length
-    };
-}
-
-function clearSelectedCompanies() {
-    window.selectedCompanyIds = [];
-    window.selectedRazonesSociales = [];
-
-    if (window.tagifyInstance) {
-        window.tagifyInstance.removeAllTags();
-    }
-}
-
-function setSelectedCompanies(ids) {
-    if (!window.tagifyInstance) return;
-
-    clearSelectedCompanies();
-
-    ids.forEach(id => {
-        const nombreComercial = window.companiesMap[id];
-        const razonSocial = window.razonSocialMap[id];
-
-        if (nombreComercial && razonSocial) {
-            window.tagifyInstance.addTags([{
-                value: nombreComercial,
-                name: id,
-                razonSocial: razonSocial
-            }]);
-        }
-    });
-}
-
-function validateAndGetCompanies() {
-    if (window.selectedCompanyIds.length === 0) {
-        alert('Por favor selecciona al menos una empresa');
-        return null;
-    }
-
-    return {
-        ids: window.selectedCompanyIds,
-        razones_sociales: window.selectedRazonesSociales
-    };
-}
 
 class WizardManager {
     constructor() {
@@ -1806,12 +1695,6 @@ class WizardManager {
 
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    window.wizard = new WizardManager();
-});
-
-
-
 var proyectoDatatable = $("#proyecto-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -1905,19 +1788,128 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
         }
     });
 }
+function initializeTagify() {
+    if (!window.selectedCompanyIds) window.selectedCompanyIds = [];
+    if (!window.selectedRazonesSociales) window.selectedRazonesSociales = [];
 
-
-$(document).ready(function () {
-    const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
-    if (acreditacionInicial) {
-        actualizarCentrosCapacitacion(acreditacionInicial);
+    if (typeof window.clientesData === 'undefined') {
+        console.error('No se encontraron datos de clientes');
+        return;
     }
 
-    $('#ACCREDITING_ENTITY_PROJECT').on('change', function () {
-        const acreditacionId = $(this).val() || 0;
-        actualizarCentrosCapacitacion(acreditacionId);
+    const input = document.getElementById('COMPANIES');
+    if (!input) return;
+
+    if (input.tagify) {
+        input.tagify.destroy();
+    }
+
+    const tagify = new Tagify(input, {
+        tagTextProp: 'value',
+        whitelist: window.clientesData.map(cliente => ({
+            value: cliente.NOMBRE_COMERCIAL_CLIENTE,
+            name: cliente.ID_CATALOGO_CLIENTE,
+            razonSocial: cliente.RAZONES_SOCIALES
+        })),
+        maxTags: 10,
+        dropdown: {
+            maxItems: 20,
+            classname: "tags-look",
+            enabled: 0,
+            closeOnSelect: false,
+            searchKeys: ['value']
+        }
     });
-});
+
+    tagify.on('add', function (e) {
+        const data = e.detail.data;
+        const id = data.name;
+        razonSocial = data.razonSocial;
+
+        if (!window.selectedCompanyIds.includes(id)) {
+            window.selectedCompanyIds.push(id);
+            window.selectedRazonesSociales.push({
+                ID: id,
+                RAZON_SOCIAL: razonSocial,
+                EMPRESA: data.value
+            });
+        }
+
+        console.log('✅ Empresa añadida:', data.value);
+        console.log('📋 IDs seleccionados:', window.selectedCompanyIds);
+        console.log('🏢 Razones sociales:', window.selectedRazonesSociales);
+    });
+
+    tagify.on('remove', function (e) {
+        const data = e.detail.data;
+        const id = data.name || 0;
+        const razonSocial = data.razonSocial;
+
+        const index = window.selectedCompanyIds.indexOf(id);
+        if (index > -1) {
+            window.selectedCompanyIds.splice(index, 1);
+
+            const rsIndex = window.selectedRazonesSociales.findIndex(
+                rs => rs.RAZON_SOCIAL === razonSocial
+            );
+            if (rsIndex > -1) {
+                window.selectedRazonesSociales.splice(rsIndex, 1);
+            }
+        }
+
+        console.log('Empresa eliminada:', data.value);
+        console.log('IDs seleccionados:', window.selectedCompanyIds);
+        console.log('Razones sociales:', window.selectedRazonesSociales);
+    });
+
+    window.tagifyInstance = tagify;
+
+    return tagify;
+}
+function getSelectedCompanies() {
+    return {
+        ids: window.selectedCompanyIds,
+        razonesSociales: window.selectedRazonesSociales,
+        count: window.selectedCompanyIds.length
+    };
+}
+function clearSelectedCompanies() {
+    window.selectedCompanyIds = [];
+    window.selectedRazonesSociales = [];
+
+    if (window.tagifyInstance) {
+        window.tagifyInstance.removeAllTags();
+    }
+}
+function setSelectedCompanies(ids) {
+    if (!window.tagifyInstance) return;
+
+    clearSelectedCompanies();
+
+    ids.forEach(id => {
+        const nombreComercial = window.companiesMap[id];
+        const razonSocial = window.razonSocialMap[id];
+
+        if (nombreComercial && razonSocial) {
+            window.tagifyInstance.addTags([{
+                value: nombreComercial,
+                name: id,
+                razonSocial: razonSocial
+            }]);
+        }
+    });
+}
+function validateAndGetCompanies() {
+    if (window.selectedCompanyIds.length === 0) {
+        alert('Por favor selecciona al menos una empresa');
+        return null;
+    }
+
+    return {
+        ids: window.selectedCompanyIds,
+        razones_sociales: window.selectedRazonesSociales
+    };
+}
 function cargarDatosCentro(centroId) {
     // Limpiar campos primero
     limpiarCamposCentro();
@@ -1961,7 +1953,6 @@ function cargarDatosCentro(centroId) {
         }
     });
 }
-
 function mostrarContactos(contactos) {
     const $contactosContainer = $('#contactos-container');
 
@@ -2025,7 +2016,6 @@ function mostrarContactos(contactos) {
 
     $contactosContainer.html(html);
 }
-
 function mostrarSinContactos() {
     const $contactosContainer = $('#contactos-container');
     $contactosContainer.html(`
@@ -2037,7 +2027,6 @@ function mostrarSinContactos() {
         </div>
     `);
 }
-
 function mostrarErrorContactos() {
     const $contactosContainer = $('#contactos-container');
     $contactosContainer.html(`
@@ -2049,7 +2038,6 @@ function mostrarErrorContactos() {
         </div>
     `);
 }
-
 function mostrarLoadingContactos() {
     const $contactosContainer = $('#contactos-container');
     $contactosContainer.html(`
@@ -2063,25 +2051,13 @@ function mostrarLoadingContactos() {
         </div>
     `);
 }
-
 function limpiarListaContactos() {
     $('#contactos-container').html('');
 }
-
 function limpiarCamposCentro() {
     $('#CENTER_NUMBER_PROJECT').val('');
     limpiarListaContactos();
 }
-
-
-$(document).ready(function () {
-    $('#CERTIFICATION_CENTER_PROJECT').on('change', function () {
-        const centroId = $(this).val();
-        cargarDatosCentro(centroId);
-    });
-
-});
-
 function limpiarModal() {
     ID_PROJECT = 0;
     document.getElementById('proyectoForm').reset();
@@ -2257,12 +2233,11 @@ function initializeTagifyWithEditSupport(tagifyInput) {
     return {
         loadCompaniesForEdit,
         getUpdatedCompanies,
-        resetTagify,  // ✅ Cambié de 'reset' a 'resetTagify'
+        resetTagify, 
         setEditMode,
         tagify
     };
 }
-
 function initializeTagifyForNew(tagifyInput) {
     isEditing = false;
     tagify = new Tagify(tagifyInput, {

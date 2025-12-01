@@ -1459,18 +1459,3 @@ $("#candidatebtnModal").click(async function (e) {
         );
     });
 });
-
-const style = document.createElement('style');
-style.textContent = `
-      
-    `;
-document.head.appendChild(style);
-const switchStyles = `
-       
-    `;
-document.head.appendChild(document.createElement('style')).textContent = switchStyles;
-const colorStyles = `
-        /* Estilos para campos con estado */
-       
-    `;
-document.head.appendChild(document.createElement('style')).textContent = colorStyles;

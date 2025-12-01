@@ -509,6 +509,30 @@ function loadTableData() {
                                 </div>
                             </td>`;
 
+                    tr += `<td>
+                        <div class="score-status-container" style="position: relative;">
+                            <div class="status-switch-container">
+                                <label class="status-switch">
+                                    <!-- Checkbox VISUAL sin name -->
+                                    <input type="checkbox" 
+                                        ${(row.ASISTENCIA == 1) ? 'checked' : ''} 
+                                        class="candidate-asistencia-visual"
+                                        data-index="${index}">
+                                    <span class="status-slider"></span>
+                                </label>
+                                <!-- Hidden input que SIEMPRE se envía -->
+                                <input type="hidden" 
+                                    name="courses[${index}][ASISTENCIA]" 
+                                    id="asistencia_hidden_${index}"
+                                    value="${row.ASISTENCIA == 1 ? 1 : 0}">
+                            </div>
+                            <textarea class="table-input textarea ${row.ASISTENCIA == 1 ? 'd-none' : ''}" 
+                                    name="courses[${index}][MOTIVO]" id="asistencia_text_${index}"
+                                    placeholder="Ingrese el motivo por el cual este estudiante no asistio o se retiro del curso" 
+                                    style="padding-right: 25px;">${row.MOTIVO || ''}</textarea>
+                        </div>  
+                    </td>`;
+
                     // Acciones
                     tr += `<td class="table-row-actions">
                                     <div class="action-buttons">
@@ -1315,6 +1339,17 @@ function saveCandidateTable() {
         }
     });
 }
+$(document).on('change', '.candidate-asistencia-visual', function() {
+    const index = $(this).data('index');
+    const isChecked = $(this).is(':checked') ? 1 : 0;
+    $(`#asistencia_hidden_${index}`).val(isChecked);
+    if(isChecked){
+        $(`#asistencia_text_${index}`).addClass('d-none');
+    }else{
+        $(`#asistencia_text_${index}`).removeClass('d-none');
+    }
+    console.log(`Index ${index}: ASISTENCIA = ${isChecked}`);
+});
 
 $("#cursobtnModal").click(async function (e) {
     e.preventDefault();
@@ -1350,7 +1385,6 @@ $("#cursobtnModal").click(async function (e) {
 
         await loaderbtn('cursobtnModal');
 
-        // --- Preparar dataToSend ---
         const formDataArray = $('#coursesForm').serializeArray();
         const dataToSend = { api: 2, ID_PROJECT: ID_PROJECT };
 
@@ -1362,6 +1396,27 @@ $("#cursobtnModal").click(async function (e) {
                 dataToSend[`courses[${candidateId}][${key}]`] = item.value;
             } else {
                 dataToSend[item.name] = item.value;
+            }
+        });
+        $('.candidate-asistencia').each(function() {
+            const name = $(this).attr('name');
+            const match = name.match(/courses\[(\d+)\]\[ASISTENCIA\]/);
+            
+            if (match) {
+                const candidateId = match[1];
+                const isChecked = $(this).is(':checked') ? 1 : 0;
+                
+                const motivoInput = $(`textarea[name="courses[${candidateId}][MOTIVO]"]`);
+                const motivo = motivoInput.val() || '';
+                
+                if (!dataToSend.courses[candidateId]) {
+                    dataToSend.courses[candidateId] = {};
+                }
+                
+                dataToSend.courses[candidateId]['ASISTENCIA'] = isChecked;
+                dataToSend.courses[candidateId]['MOTIVO'] = motivo;
+                
+                console.log(`Candidato ${candidateId}: Asistencia=${isChecked}, Motivo=${motivo}`);
             }
         });
 
@@ -1396,10 +1451,14 @@ $("#cursobtnModal").click(async function (e) {
 
 $("#candidatebtnModal").click(async function (e) {
     e.preventDefault();
+        $('.candidate-asistencia-visual').each(function() {
+        const index = $(this).data('index');
+        const isChecked = $(this).is(':checked') ? 1 : 0;
+        $(`#asistencia_hidden_${index}`).val(isChecked);
+    });
     $('#candidateForm').find('.candidate-active').each(function () {
         $(this).val($(this).is(':checked') ? 1 : 0);
     });
-
     let formularioValido = validarFormulario($('#candidateForm'));
 
     if (!formularioValido) {

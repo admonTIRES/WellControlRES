@@ -25,7 +25,9 @@ class candidate extends Model
         'POSITION_PROJECT', 
         'MEMBERSHIP_PROJECT', 
         'STATUS_MAIL_PROJECT',
-        'ACTIVO'
+        'ACTIVO',
+        'ASISTENCIA',
+        'MOTIVO'
     ];
 
      public function project()

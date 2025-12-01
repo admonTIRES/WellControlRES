@@ -930,11 +930,16 @@
       gap: 1rem;
   }
 
-  /* Estilos para estados de aprobación */
   .pass-status {
       background-color: #d4edda !important;
       border-color: #c3e6cb !important;
       color: #155724 !important;
+  }
+
+  .desert-status {
+      background-color: #c8c8c8 !important;
+      border-color: #d0d0d0 !important;
+      color: #272727 !important;
   }
 
   .unpass-status {
@@ -1368,6 +1373,14 @@
 
   .row-pass td {
       border-color: #c3e6cb !important;
+  }
+
+  .row-desert {
+      background-color: #b6b6b6 !important;
+  }
+
+  .row-desert td {
+      border-color: #c0c0c0 !important;
   }
 
   .row-unpass {

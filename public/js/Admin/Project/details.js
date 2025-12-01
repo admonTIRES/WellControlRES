@@ -351,7 +351,6 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         { targets: 19, title: 'CORREO', className: 'text-center' }
     ],
     createdRow: function (row, data, dataIndex) {
-        // Aplicar clases de estilo según el estado (similar al modal)
         const curso = data.datos_curso;
         const practicalStatus = curso.PRACTICAL_PASS || '';
         const equipamentStatus = curso.EQUIPAMENT_PASS || '';

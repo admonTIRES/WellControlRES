@@ -739,8 +739,10 @@ private function getProyectosPorEmpresa()
 public function getAllCoursesData()
 {
     try {
-        $cursos = Course::with(['candidate' => function($query) {
-            $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO');
+       $cursos = Course::with(['candidate' => function($query) {
+            $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
+                  ->where('ASISTENCIA', '!=', '0')
+                  ->orWhereNull('ASISTENCIA');
         }])->get();
 
         $estudiantes = [];

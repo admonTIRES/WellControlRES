@@ -959,10 +959,9 @@ function generateStudentCharts(estudiantes) {
     generateResitTypesChart(estudiantes);
 }
 
-// Gráfica 1: Estudiantes por Estado del Curso
 function generateStatusChart(estudiantes) {
-    const completed = estudiantes.filter(est => est.datos_curso.STATUS === 'Completed').length;
-    const failed = estudiantes.filter(est => est.datos_curso.STATUS === 'Failed').length;
+    const completed = estudiantes.filter(est => est.datos_curso.FINAL_STATUS === 'Pass').length;
+    const failed = estudiantes.filter(est => est.datos_curso.FINAL_STATUS === 'Unpass').length;
     const inProgress = estudiantes.filter(est => est.datos_curso.STATUS === 'In Progress').length;
     const pending = estudiantes.filter(est => est.datos_curso.STATUS === 'Pending').length;
     const other = estudiantes.length - completed - failed - inProgress - pending;

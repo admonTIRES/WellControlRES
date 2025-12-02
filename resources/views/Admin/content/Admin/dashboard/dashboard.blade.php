@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         <p class="mb-4">{{ __('Totales generales desde 2024') }}</p>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -67,7 +67,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-3 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="p-2 rounded bg-soft-primary">
+                            <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V7H9V5.5L3 7V9L9 10.5V12L3 13.5V15.5L9 14V16L3 17.5V19.5L9 18V22H15V18L21 19.5V17.5L15 16V14L21 15.5V13.5L15 12V10.5L21 9Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="ms-3">
+                            <h4 class="mb-1" id="totalDesercion">0</h4>
+                            <small class="mb-0">Total deserción</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -680,7 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.42"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.43"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

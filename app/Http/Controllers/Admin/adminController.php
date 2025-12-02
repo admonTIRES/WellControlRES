@@ -381,7 +381,6 @@ class adminController extends Controller
         
         $backendChartType = $chartType === 'donut' ? 'pie' : $chartType;
 
-        // Consulta corregida
         $query = DB::table('proyect')
             ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
             ->join('entes_acreditadores', function($join) {
@@ -395,7 +394,6 @@ class adminController extends Controller
             ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
             ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '');
 
-        // Aplicar filtros según el tipo de período
         if ($periodType === 'year' && $startYear && $endYear) {
             $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
                   ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
@@ -405,13 +403,11 @@ class adminController extends Controller
 
         $baseData = $query->get();
         
-        // Debug: verificar datos
         \Log::info('Base data count: ' . $baseData->count());
         \Log::info('Sample data: ' . json_encode($baseData->take(2)));
 
         $processedData = $this->processDataByPeriod($baseData, $periodType);
         
-        // Debug: verificar datos procesados
         \Log::info('Processed data: ' . json_encode($processedData));
 
         return response()->json([
@@ -446,7 +442,6 @@ private function processDataByPeriod($data, $periodType)
         $date = $record->COURSE_START_DATE_PROJECT;
         $acreditador = !empty($record->ente_acreditador) ? trim($record->ente_acreditador) : 'Sin Acreditador';
         
-        // Generar período basado en la fecha de inicio del curso
         try {
             $timestamp = strtotime($date);
             if ($timestamp === false) {
@@ -457,10 +452,8 @@ private function processDataByPeriod($data, $periodType)
             if ($periodType === 'year') {
                 $period = date('Y', $timestamp);
             } elseif ($periodType === 'month') {
-                // Formato: Nov 2025
                 $period = date('M Y', $timestamp);
-            } else { // day (curso)
-                // Formato: 28 Nov 2025
+            } else { 
                 $period = date('d M Y', $timestamp);
             }
         } catch (\Exception $e) {
@@ -489,7 +482,6 @@ private function formatForAmCharts($processedData, $chartType)
     $formatted = [];
     
     foreach ($processedData as $period => $acreditadores) {
-        // Asegurar que period sea string y no esté vacío
         $periodStr = trim((string)$period);
         if (empty($periodStr)) {
             continue;
@@ -497,7 +489,6 @@ private function formatForAmCharts($processedData, $chartType)
         
         $row = ['period' => $periodStr];
         
-        // Asegurar que cada acreditador tenga un valor numérico
         foreach ($acreditadores as $acreditador => $count) {
             $acreditadorStr = trim((string)$acreditador);
             if (!empty($acreditadorStr)) {
@@ -505,23 +496,19 @@ private function formatForAmCharts($processedData, $chartType)
             }
         }
         
-        // Solo agregar si hay al menos un acreditador además del period
         if (count($row) > 1) {
             $formatted[] = $row;
         }
     }
 
-    // Ordenar por período
     usort($formatted, function($a, $b) {
         $periodA = $a['period'];
         $periodB = $b['period'];
         
-        // Para años simples (4 dígitos)
         if (preg_match('/^\d{4}$/', $periodA) && preg_match('/^\d{4}$/', $periodB)) {
             return (int)$periodA - (int)$periodB;
         }
         
-        // Para fechas con formato texto
         $timeA = strtotime($periodA);
         $timeB = strtotime($periodB);
         
@@ -679,6 +666,12 @@ private function getProyectosPorEmpresa()
             ->count();
 
         $totalEstudiantes = DB::table('candidate')
+            ->where('ASISTENCIA', '!=', 0)
+            ->whereNotNull('ID_PROJECT')
+            ->count();
+
+        $totalDesercion = DB::table('candidate')
+            ->where('ASISTENCIA', '=', 0)
             ->whereNotNull('ID_PROJECT')
             ->count();
 
@@ -690,7 +683,8 @@ private function getProyectosPorEmpresa()
         return [
             'totalProyectos' => $totalProyectos,
             'totalEstudiantes' => $totalEstudiantes,
-            'estudiantesAprobados' => $estudiantesAprobados
+            'estudiantesAprobados' => $estudiantesAprobados,
+            'totalDesercion' => $totalDesercion
         ];
     }
 

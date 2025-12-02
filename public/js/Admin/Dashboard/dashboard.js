@@ -22,11 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showLoading() {
         const chartContainers = [
-            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 'totalProyectos', 'totalEstudiantes', 'estudiantesAprobados'
+            'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 'totalProyectos', 'totalEstudiantes', 'totalDesercion', 'estudiantesAprobados'
         ];
 
         document.getElementById('totalProyectos').textContent = '...';
         document.getElementById('totalEstudiantes').textContent = '...';
+        document.getElementById('totalDesercion').textContent = '...';
         document.getElementById('estudiantesAprobados').textContent = '...';
         
         chartContainers.forEach(containerId => {
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
      function updateMetricas(metricas) {
         document.getElementById('totalProyectos').textContent = metricas.totalProyectos;
         document.getElementById('totalEstudiantes').textContent = metricas.totalEstudiantes;
+        document.getElementById('totalDesercion').textContent = metricas.totalDesercion;
         document.getElementById('estudiantesAprobados').textContent = metricas.estudiantesAprobados;
     }
 
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('totalProyectos').textContent = 'Error';
         document.getElementById('totalEstudiantes').textContent = 'Error';
+        document.getElementById('totalDesercion').textContent = 'Error';
         document.getElementById('estudiantesAprobados').textContent = 'Error';
         
         chartContainers.forEach(containerId => {

@@ -29,6 +29,8 @@ class usuariosController extends Controller
 
     $badges = '';
 
+   
+
     if (is_array($roles)) {
         foreach ($roles as $rol => $activo) {
             if ($activo) {
@@ -50,8 +52,12 @@ class usuariosController extends Controller
         }
     }
 
-    if ($badges == '') {
-        $badges = '<span class="badge bg-secondary">Sin rol</span>';
+        // if ($badges == '') {
+        //     $badges = '<span class="badge bg-secondary">Sin rol</span>';
+        // }
+
+    if($value->INSTRUCTOR_USER === 'on'){
+        $badges .= '<span class="badge bg-warning me-1">Instructor</span>';
     }
 
     $value->ROLES_BADGET = $badges;

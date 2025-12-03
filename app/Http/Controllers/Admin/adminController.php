@@ -402,13 +402,7 @@ class adminController extends Controller
             }
 
             $baseData = $query->get();
-
-            \Log::info('Base data count: ' . $baseData->count());
-            \Log::info('Sample data: ' . json_encode($baseData->take(2)));
-
             $processedData = $this->processDataByPeriod($baseData, $periodType);
-
-            \Log::info('Processed data: ' . json_encode($processedData));
 
             return response()->json([
                 'success' => true,
@@ -559,7 +553,399 @@ class adminController extends Controller
         ]);
     }
 
-    public function getDashboardData()
+    public function getDashboardData(Request $request)
+    {
+        try {
+            $periodType = $request->get('period_type', 'month');
+            $startDate = $request->get('start_date');
+            $endDate = $request->get('end_date');
+            $startYear = $request->get('start_year');
+            $endYear = $request->get('end_year');
+            $chartType = $request->get('chart_type', 'column');
+
+            $applyDateFilter = function($query) use ($periodType, $startDate, $endDate, $startYear, $endYear) {
+                if ($periodType === 'year' && $startYear && $endYear) {
+                    $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                        ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+                } elseif ($startDate && $endDate) {
+                    $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+                }
+                return $query;
+            };
+
+            $totalProyectosQuery = DB::table('proyect')
+                ->whereNotNull('COURSE_START_DATE_PROJECT');
+            
+            $totalProyectosQuery = $applyDateFilter($totalProyectosQuery);
+            $totalProyectos = $totalProyectosQuery->count();
+
+            $totalEstudiantesQuery = DB::table('candidate')
+                ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+                ->where('candidate.ASISTENCIA', '!=', 0)
+                ->whereNotNull('candidate.ID_PROJECT');
+            
+            $totalEstudiantesQuery = $applyDateFilter($totalEstudiantesQuery);
+            $totalEstudiantes = $totalEstudiantesQuery->count();
+
+            $totalDesercionQuery = DB::table('candidate')
+                ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+                ->where('candidate.ASISTENCIA', '=', 0)
+                ->whereNotNull('candidate.ID_PROJECT');
+            
+            $totalDesercionQuery = $applyDateFilter($totalDesercionQuery);
+            $totalDesercion = $totalDesercionQuery->count();
+
+            $estudiantesAprobadosQuery = DB::table('course')
+                ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+                ->where('course.FINAL_STATUS', 'Pass');
+            
+            $estudiantesAprobadosQuery = $applyDateFilter($estudiantesAprobadosQuery);
+            $estudiantesAprobados = $estudiantesAprobadosQuery->count();
+
+            $metricas = [
+                'totalProyectos' => $totalProyectos,
+                'totalEstudiantes' => $totalEstudiantes,
+                'estudiantesAprobados' => $estudiantesAprobados,
+                'totalDesercion' => $totalDesercion
+            ];
+
+            $proyectosAcreditacionQuery = DB::table('proyect')
+                ->join('entes_acreditadores', 'proyect.ACCREDITING_ENTITY_PROJECT', '=', 'entes_acreditadores.ID_CATALOGO_ENTE')
+                ->select('entes_acreditadores.NOMBRE_ENTE', DB::raw('COUNT(*) as total'))
+                ->whereNotNull('proyect.COURSE_START_DATE_PROJECT');
+            
+            $proyectosAcreditacionQuery = $applyDateFilter($proyectosAcreditacionQuery);
+            $proyectosAcreditacion = $proyectosAcreditacionQuery
+                ->groupBy('entes_acreditadores.NOMBRE_ENTE')
+                ->orderByDesc('total')
+                ->get();
+
+            $proyectosAnioQuery = DB::table('proyect')
+                ->select(DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'), DB::raw('COUNT(*) as total'))
+                ->whereNotNull('COURSE_START_DATE_PROJECT');
+            
+            $proyectosAnioQuery = $applyDateFilter($proyectosAnioQuery);
+            $proyectosAnio = $proyectosAnioQuery
+                ->groupBy(DB::raw('YEAR(COURSE_START_DATE_PROJECT)'))
+                ->orderBy('year')
+                ->get();
+            
+            $proyectosEmpresa = $this->getProyectosPorEmpresa($periodType, $startDate, $endDate, $startYear, $endYear);
+
+            $proyectosTipoCursoQuery = DB::table('proyect')
+                ->select('COURSE_TYPE_PROJECT', DB::raw('COUNT(*) as total'))
+                ->whereNotNull('COURSE_TYPE_PROJECT')
+                ->where('COURSE_TYPE_PROJECT', '!=', '');
+            
+            $proyectosTipoCursoQuery = $applyDateFilter($proyectosTipoCursoQuery);
+            $proyectosTipoCurso = $proyectosTipoCursoQuery
+                ->groupBy('COURSE_TYPE_PROJECT')
+                ->orderByDesc('total')
+                ->get();
+
+            $tendenciaMensualQuery = DB::table('proyect')
+                ->select(
+                    DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'),
+                    DB::raw('MONTH(COURSE_START_DATE_PROJECT) as month'),
+                    DB::raw('COUNT(*) as total')
+                )
+                ->whereNotNull('COURSE_START_DATE_PROJECT');
+            
+            if ($periodType === 'year' && $startYear && $endYear) {
+                $tendenciaMensualQuery->whereYear('COURSE_START_DATE_PROJECT', '>=', $startYear)
+                    ->whereYear('COURSE_START_DATE_PROJECT', '<=', $endYear);
+            } elseif ($startDate && $endDate) {
+                $tendenciaMensualQuery->whereBetween('COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            } else {
+                $tendenciaMensualQuery->whereYear('COURSE_START_DATE_PROJECT', date('Y'));
+            }
+            
+            $tendenciaMensual = $tendenciaMensualQuery
+                ->groupBy(DB::raw('YEAR(COURSE_START_DATE_PROJECT)'), DB::raw('MONTH(COURSE_START_DATE_PROJECT)'))
+                ->orderBy('year')
+                ->orderBy('month')
+                ->get();
+
+            // AQUI VA LO DE LA GRAFICA DE BARRAS (chardiv)
+            $backendChartType = $chartType === 'donut' ? 'pie' : $chartType;
+
+            $query = DB::table('proyect')
+                ->join('entes_acreditadores', function ($join) {
+                    $join->on(DB::raw('CAST(proyect.ACCREDITING_ENTITY_PROJECT AS UNSIGNED)'), '=', 'entes_acreditadores.ID_CATALOGO_ENTE');
+                })
+                ->select(
+                    'entes_acreditadores.NOMBRE_ENTE as ente_acreditador',
+                    'proyect.COURSE_START_DATE_PROJECT',
+                    'proyect.ID_PROJECT'
+                )
+                ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
+                ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '');
+
+            if ($periodType === 'year' && $startYear && $endYear) {
+                $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                    ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+            } elseif ($startDate && $endDate) {
+                $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            }
+
+            $baseData = $query->get();
+            $processedData = $this->processDataByPeriod($baseData, $periodType);
+            // AQUI TERMINA LO DE BARRAS (chardiv)
+            $datosFormateados = [
+                'metricas' => $metricas,
+                'acreditacion' => [
+                    'labels' => $proyectosAcreditacion->pluck('NOMBRE_ENTE')->toArray(),
+                    'series' => $proyectosAcreditacion->pluck('total')->toArray()
+                ],
+                'proyectosAnio' => [
+                    'labels' => $proyectosAnio->pluck('year')->toArray(),
+                    'series' => $proyectosAnio->pluck('total')->toArray()
+                ],
+                'proyectosEmpresa' => $proyectosEmpresa,
+                'tipoCurso' => [
+                    'labels' => $proyectosTipoCurso->pluck('COURSE_TYPE_PROJECT')->toArray(),
+                    'series' => $proyectosTipoCurso->pluck('total')->toArray()
+                ],
+                'tendenciaMensual' => $this->formatTendenciaMensual($tendenciaMensual),
+                'dataChartdiv' => $this->formatForAmCharts($processedData, $backendChartType),
+                'totals' => $this->calculateTotals($processedData),//pertenece a chartdiv
+                'chart_type' => $chartType,//pertenece a chartdiv
+                'period_type' => $periodType//pertenece a chartdiv
+            ];
+
+            return response()->json([
+                'success' => true,
+                'data' => $datosFormateados
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener datos: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function getProyectosPorEmpresa($periodType = null, $startDate = null, $endDate = null, $startYear = null, $endYear = null)
+    {
+        $query = DB::table('candidate')
+            ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+            ->join('costumers', 'candidate.COMPANY_ID_PROJECT', '=', 'costumers.ID_CATALOGO_CLIENTE')
+            ->select(
+                'costumers.ID_CATALOGO_CLIENTE',
+                'costumers.NOMBRE_COMERCIAL_CLIENTE as empresa',
+                DB::raw('COUNT(DISTINCT proyect.ID_PROJECT) as total_proyectos')
+            )
+            ->whereNotNull('candidate.COMPANY_ID_PROJECT')
+            ->whereNotNull('candidate.ID_PROJECT')
+            ->where('candidate.COMPANY_ID_PROJECT', '!=', '')
+            ->where('candidate.COMPANY_ID_PROJECT', '!=', 0)
+            ->whereNotNull('proyect.COURSE_START_DATE_PROJECT');
+
+        // Aplicar filtros de fecha según el tipo de periodo
+        $hasYearFilter = ($periodType === 'year' && !empty($startYear) && !empty($endYear));
+        $hasDateFilter = (!empty($startDate) && !empty($endDate));
+        
+        if ($hasYearFilter) {
+            $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+        } elseif ($hasDateFilter) {
+            $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+        }
+
+        $empresasCount = $query
+            ->groupBy('costumers.ID_CATALOGO_CLIENTE', 'costumers.NOMBRE_COMERCIAL_CLIENTE')
+            ->orderByDesc('total_proyectos')
+            ->limit(5)
+            ->get();
+
+        return [
+            'labels' => $empresasCount->pluck('empresa')->toArray(),
+            'series' => $empresasCount->pluck('total_proyectos')->toArray()
+        ];
+    }
+
+    private function getMetricasPrincipales()
+    {
+        $totalProyectos = DB::table('proyect')
+            ->whereNotNull('COURSE_START_DATE_PROJECT')
+            ->count();
+
+        $totalEstudiantes = DB::table('candidate')
+            ->where('ASISTENCIA', '!=', 0)
+            ->whereNotNull('ID_PROJECT')
+            ->count();
+
+        $totalDesercion = DB::table('candidate')
+            ->where('ASISTENCIA', '=', 0)
+            ->whereNotNull('ID_PROJECT')
+            ->count();
+
+        $estudiantesAprobados = DB::table('course')
+            ->where('FINAL_STATUS', 'Pass')
+            ->count();
+
+
+        return [
+            'totalProyectos' => $totalProyectos,
+            'totalEstudiantes' => $totalEstudiantes,
+            'estudiantesAprobados' => $estudiantesAprobados,
+            'totalDesercion' => $totalDesercion
+        ];
+    }
+    private function formatTendenciaMensual($tendenciaMensual)
+    {
+        $meses = [
+            1 => 'Ene',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Abr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Ago',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dic'
+        ];
+
+        $datosCompletos = [];
+        $seriesCompletos = [];
+
+        foreach ($meses as $numero => $nombre) {
+            $datosCompletos[$numero] = [
+                'month' => $nombre,
+                'total' => 0
+            ];
+        }
+
+        foreach ($tendenciaMensual as $mes) {
+            if (isset($datosCompletos[$mes->month])) {
+                $datosCompletos[$mes->month]['total'] = $mes->total;
+            }
+        }
+
+        $labels = [];
+        $series = [];
+
+        foreach ($datosCompletos as $mes) {
+            $labels[] = $mes['month'];
+            $series[] = $mes['total'];
+        }
+
+        return [
+            'labels' => $labels,
+            'series' => $series
+        ];
+    }
+    public function getAllCoursesData()
+    {
+        try {
+            $cursos = Course::with(['candidate' => function ($query) {
+                $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
+                    ->where('ASISTENCIA', '!=', '0')
+                    ->orWhereNull('ASISTENCIA');
+            }])->get();
+
+            $estudiantes = [];
+
+            foreach ($cursos as $curso) {
+                if ($curso->candidate) {
+                    $estudiantes[] = [
+                        'curso_id' => $curso->ID_COURSE,
+                        'candidato' => [
+                            'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
+                            'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
+                            'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
+                            'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
+                            'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
+                            'ACTIVO' => $curso->candidate->ACTIVO
+                        ],
+                        'datos_curso' => [
+                            'PRACTICAL' => $curso->PRACTICAL,
+                            'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
+                            'EQUIPAMENT' => $curso->EQUIPAMENT,
+                            'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
+                            'PYP' => $curso->PYP,
+                            'PYP_PASS' => $curso->PYP_PASS,
+                            'STATUS' => $curso->STATUS,
+                            'RESIT' => $curso->RESIT,
+                            'INTENTOS' => $curso->INTENTOS,
+                            'RESIT_MODULE' => $curso->RESIT_MODULE,
+                            'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
+                            'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
+                            'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
+                            'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
+                            'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
+                            'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
+                            'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
+                            'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
+                            'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
+                            'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
+                            'FINAL_STATUS' => $curso->FINAL_STATUS,
+                            'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
+                            'CERTIFIED' => $curso->CERTIFIED,
+                            'EXPIRATION' => $curso->EXPIRATION
+                        ]
+                    ];
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'estudiantes' => $estudiantes,
+                'total' => count($estudiantes)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los datos: ' . $e->getMessage(),
+                'estudiantes' => []
+            ], 500);
+        }
+    }
+    public function estadisticasGeneral()
+    {
+        try {
+            // Obtener todos los cursos con sus candidatos
+            $cursos = Course::with(['candidate' => function($query) {
+                $query->select(
+                    'ID_CANDIDATE',
+                    'ID_PROJECT',
+                    'COMPANY_PROJECT',
+                    'LAST_NAME_PROJECT',
+                    'FIRST_NAME_PROJECT'
+                );
+            }])->get();
+
+            $resultado = [];
+
+            foreach ($cursos as $curso) {
+                $resultado[] = [
+                    'equipo_pass' => $curso->EQUIPAMENT_PASS ?? null,
+                    'py_pass' => $curso->PYP_PASS ?? null,
+                    'resit_inmediato' => $curso->RESIT_INMEDIATO_STATUS ?? null,
+                    'resit_programado' => $curso->RESIT_PROGRAMADO_STATUS ?? null,
+                    'final_status' => $curso->FINAL_STATUS ?? null
+                ];
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $resultado,
+                'total' => count($resultado)
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener estadísticas: ' . $e->getMessage(),
+                'data' => []
+            ], 500);
+        }
+    }
+
+public function getDashboardDataTotals()
     {
         try {
 
@@ -632,216 +1018,4 @@ class adminController extends Controller
             ], 500);
         }
     }
-    private function getProyectosPorEmpresa()
-    {
-        $empresasCount = DB::table('candidate')
-            ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
-            ->join('costumers', 'candidate.COMPANY_ID_PROJECT', '=', 'costumers.ID_CATALOGO_CLIENTE')
-            ->select(
-                'costumers.ID_CATALOGO_CLIENTE',
-                'costumers.NOMBRE_COMERCIAL_CLIENTE as empresa',
-                DB::raw('COUNT(DISTINCT proyect.ID_PROJECT) as total_proyectos')
-            )
-            ->whereNotNull('candidate.COMPANY_ID_PROJECT')
-            ->whereNotNull('candidate.ID_PROJECT')
-            ->where('candidate.COMPANY_ID_PROJECT', '!=', '')
-            ->where('candidate.COMPANY_ID_PROJECT', '!=', 0)
-            ->groupBy('costumers.ID_CATALOGO_CLIENTE', 'costumers.NOMBRE_COMERCIAL_CLIENTE')
-            ->orderByDesc('total_proyectos')
-            ->limit(5)
-            ->get();
-
-        return [
-            'labels' => $empresasCount->pluck('empresa')->toArray(),
-            'series' => $empresasCount->pluck('total_proyectos')->toArray()
-        ];
-    }
-
-    private function getMetricasPrincipales()
-    {
-        $totalProyectos = DB::table('proyect')
-            ->whereNotNull('COURSE_START_DATE_PROJECT')
-            ->count();
-
-        $totalEstudiantes = DB::table('candidate')
-            ->where('ASISTENCIA', '!=', 0)
-            ->whereNotNull('ID_PROJECT')
-            ->count();
-
-        $totalDesercion = DB::table('candidate')
-            ->where('ASISTENCIA', '=', 0)
-            ->whereNotNull('ID_PROJECT')
-            ->count();
-
-        $estudiantesAprobados = DB::table('course')
-            ->where('FINAL_STATUS', 'Pass')
-            ->count();
-
-
-        return [
-            'totalProyectos' => $totalProyectos,
-            'totalEstudiantes' => $totalEstudiantes,
-            'estudiantesAprobados' => $estudiantesAprobados,
-            'totalDesercion' => $totalDesercion
-        ];
-    }
-
-    private function formatTendenciaMensual($tendenciaMensual)
-    {
-        $meses = [
-            1 => 'Ene',
-            2 => 'Feb',
-            3 => 'Mar',
-            4 => 'Abr',
-            5 => 'May',
-            6 => 'Jun',
-            7 => 'Jul',
-            8 => 'Ago',
-            9 => 'Sep',
-            10 => 'Oct',
-            11 => 'Nov',
-            12 => 'Dic'
-        ];
-
-        $datosCompletos = [];
-        $seriesCompletos = [];
-
-        foreach ($meses as $numero => $nombre) {
-            $datosCompletos[$numero] = [
-                'month' => $nombre,
-                'total' => 0
-            ];
-        }
-
-        foreach ($tendenciaMensual as $mes) {
-            if (isset($datosCompletos[$mes->month])) {
-                $datosCompletos[$mes->month]['total'] = $mes->total;
-            }
-        }
-
-        $labels = [];
-        $series = [];
-
-        foreach ($datosCompletos as $mes) {
-            $labels[] = $mes['month'];
-            $series[] = $mes['total'];
-        }
-
-        return [
-            'labels' => $labels,
-            'series' => $series
-        ];
-    }
-
-
-
-
-
-
-    public function getAllCoursesData()
-    {
-        try {
-            $cursos = Course::with(['candidate' => function ($query) {
-                $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
-                    ->where('ASISTENCIA', '!=', '0')
-                    ->orWhereNull('ASISTENCIA');
-            }])->get();
-
-            $estudiantes = [];
-
-            foreach ($cursos as $curso) {
-                if ($curso->candidate) {
-                    $estudiantes[] = [
-                        'curso_id' => $curso->ID_COURSE,
-                        'candidato' => [
-                            'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
-                            'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
-                            'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
-                            'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
-                            'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
-                            'ACTIVO' => $curso->candidate->ACTIVO
-                        ],
-                        'datos_curso' => [
-                            'PRACTICAL' => $curso->PRACTICAL,
-                            'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
-                            'EQUIPAMENT' => $curso->EQUIPAMENT,
-                            'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
-                            'PYP' => $curso->PYP,
-                            'PYP_PASS' => $curso->PYP_PASS,
-                            'STATUS' => $curso->STATUS,
-                            'RESIT' => $curso->RESIT,
-                            'INTENTOS' => $curso->INTENTOS,
-                            'RESIT_MODULE' => $curso->RESIT_MODULE,
-                            'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
-                            'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
-                            'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
-                            'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
-                            'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
-                            'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
-                            'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
-                            'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
-                            'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
-                            'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
-                            'FINAL_STATUS' => $curso->FINAL_STATUS,
-                            'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
-                            'CERTIFIED' => $curso->CERTIFIED,
-                            'EXPIRATION' => $curso->EXPIRATION
-                        ]
-                    ];
-                }
-            }
-
-            return response()->json([
-                'success' => true,
-                'estudiantes' => $estudiantes,
-                'total' => count($estudiantes)
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al obtener los datos: ' . $e->getMessage(),
-                'estudiantes' => []
-            ], 500);
-        }
-    }
-   public function estadisticasGeneral()
-{
-    try {
-        // Obtener todos los cursos con sus candidatos
-        $cursos = Course::with(['candidate' => function($query) {
-            $query->select(
-                'ID_CANDIDATE',
-                'ID_PROJECT',
-                'COMPANY_PROJECT',
-                'LAST_NAME_PROJECT',
-                'FIRST_NAME_PROJECT'
-            );
-        }])->get();
-
-        $resultado = [];
-
-        foreach ($cursos as $curso) {
-            $resultado[] = [
-                'equipo_pass' => $curso->EQUIPAMENT_PASS ?? null,
-                'py_pass' => $curso->PYP_PASS ?? null,
-                'resit_inmediato' => $curso->RESIT_INMEDIATO_STATUS ?? null,
-                'resit_programado' => $curso->RESIT_PROGRAMADO_STATUS ?? null,
-                'final_status' => $curso->FINAL_STATUS ?? null
-            ];
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $resultado,
-            'total' => count($resultado)
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error al obtener estadísticas: ' . $e->getMessage(),
-            'data' => []
-        ], 500);
-    }
-}
 }

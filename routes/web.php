@@ -81,9 +81,11 @@ Route::middleware(['auth'])->group(function () {
     //----------------------------DASHBOARD-------------------------------//
     Route::get('/api/chart/candidates', [adminController::class, 'getCandidateStats']);
     Route::get('/api/chart/years', [adminController::class, 'getAvailableYears']);
-    Route::get('/api/dashboard/data', [adminController::class, 'getDashboardData']);
+    Route::get('/api/dashboard/data', [adminController::class, 'getDashboardDataTotals']);
     Route::get('/getAllCoursesData', [adminController::class, 'getAllCoursesData']);
-Route::get('/api/estadisticas-general', [adminController::class, 'estadisticasGeneral']);
+    Route::get('/api/estadisticas-general', [adminController::class, 'estadisticasGeneral']);
+    Route::get('/dashboard/data', [adminController::class, 'getDashboardData']);
+
 
 
     //----------------------------INSTRUCTOR-------------------------------//

@@ -32,7 +32,73 @@
         </div>
     </div>
     <div class="row">
-        <p class="mb-4">{{ __('Totales generales desde 2024') }}</p>
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <label for="periodType" class="form-label">Tipo de Período:</label>
+                <select id="periodType" class="form-select" onchange="toggleDateFilters()">
+                    <option value="year">Año</option>
+                    <option value="month" selected>Mes</option>
+                    <option value="day">Curso</option>
+                </select>
+            </div>
+
+            <!-- Filtro para Año: De año a año -->
+            <div class="col-md-4" id="yearRangeFilter" style="display:none;">
+                <label class="form-label">Rango de Años:</label>
+                <div class="row">
+                    <div class="col-6">
+                        <select id="startYear" class="form-select">
+                            <!-- Se llenará dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select id="endYear" class="form-select">
+                            <!-- Se llenará dinámicamente -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtro para Mes: De mes-año a mes-año -->
+            <div class="col-md-4" id="monthRangeFilter" style="display:none;">
+                <label class="form-label">Rango de Meses:</label>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="month" id="startMonth" class="form-control">
+                    </div>
+                    <div class="col-6">
+                        <input type="month" id="endMonth" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
+            <div class="col-md-4" id="dayRangeFilter" style="display:none;">
+                <label class="form-label">Rango de Fechas:</label>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="date" id="startDate" class="form-control">
+                    </div>
+                    <div class="col-6">
+                        <input type="date" id="endDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label for="chartType" class="form-label">Tipo de Gráfica:</label>
+                <select id="chartType" class="form-select">
+                    <option value="column">Columnas Agrupadas</option>
+                    <option value="line">Líneas</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-primary w-100" onclick="loadChartData()">
+                    <i class="fas fa-chart-bar"></i> Generar
+                </button>
+            </div>
+        </div>
+
         <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body">
@@ -102,8 +168,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-         <div class="col-md-12">
+    <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card">
@@ -138,6 +203,20 @@
                 </div>
             </div>
         </div>
+    <div class="col-12">
+        <div class="card-header">
+            <h5 class="card-title">Proyectos</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div id="chartdiv" style="width: 100%; height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         
          <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-4">
@@ -175,93 +254,7 @@
             </div>
         </div>
         <p class="mb-4">{{ __('Estudiantes') }}</p>
-        {{-- <div class="col-12">
-           <div class="card-body">
-                <!-- Filtros -->
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <label for="periodType" class="form-label">Tipo de Período:</label>
-                        <select id="periodType" class="form-select" onchange="toggleDateFilters()">
-                            <option value="year">Año</option>
-                            <option value="month" selected>Mes</option>
-                            <option value="day">Curso</option>
-                        </select>
-                    </div>
-
-                    <!-- Filtro para Año: De año a año -->
-                    <div class="col-md-4" id="yearRangeFilter" style="display:none;">
-                        <label class="form-label">Rango de Años:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <select id="startYear" class="form-select">
-                                    <!-- Se llenará dinámicamente -->
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <select id="endYear" class="form-select">
-                                    <!-- Se llenará dinámicamente -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filtro para Mes: De mes-año a mes-año -->
-                    <div class="col-md-4" id="monthRangeFilter" style="display:none;">
-                        <label class="form-label">Rango de Meses:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="month" id="startMonth" class="form-control">
-                            </div>
-                            <div class="col-6">
-                                <input type="month" id="endMonth" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
-                    <div class="col-md-4" id="dayRangeFilter" style="display:none;">
-                        <label class="form-label">Rango de Fechas:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="date" id="startDate" class="form-control">
-                            </div>
-                            <div class="col-6">
-                                <input type="date" id="endDate" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label for="chartType" class="form-label">Tipo de Gráfica:</label>
-                        <select id="chartType" class="form-select">
-                            <option value="column">Columnas Agrupadas</option>
-                            <option value="line">Líneas</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-primary w-100" onclick="loadChartData()">
-                            <i class="fas fa-chart-bar"></i> Generar
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Total General -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="alert alert-primary text-center" id="totalsContainer" style="margin-bottom: 0;">
-                            <h4 class="mb-0"><strong>Total General de Candidatos:</strong> <span id="totalGeneral">-</span></h4>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gráfica -->
-                <div class="row">
-                    <div class="col-12">
-                        <div id="chartdiv" style="width: 100%; height: 600px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+        
 
         <div class="card mt-4">
             <div class="card-header text-white">

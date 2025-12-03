@@ -691,6 +691,94 @@ class adminController extends Controller
             $baseData = $query->get();
             $processedData = $this->processDataByPeriod($baseData, $periodType);
             // AQUI TERMINA LO DE BARRAS (chardiv)
+            //aqui empieza la data de las circulares de estudiantes
+            $cursosQuery = Course::with(['candidate' => function ($query) {
+                    $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
+                        ->where('ASISTENCIA', '!=', '0')
+                        ->orWhereNull('ASISTENCIA');
+                }])
+                ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT');
+
+            // Aplicar filtros de fecha a los cursos
+            if ($periodType === 'year' && $startYear && $endYear) {
+                $cursosQuery->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                    ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+            } elseif ($startDate && $endDate) {
+                $cursosQuery->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            }
+
+            $cursos = $cursosQuery->get();
+
+            $estudiantes = [];
+
+            foreach ($cursos as $curso) {
+                if ($curso->candidate) {
+                    $estudiantes[] = [
+                        'curso_id' => $curso->ID_COURSE,
+                        'candidato' => [
+                            'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
+                            'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
+                            'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
+                            'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
+                            'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
+                            'ACTIVO' => $curso->candidate->ACTIVO
+                        ],
+                        'datos_curso' => [
+                            'PRACTICAL' => $curso->PRACTICAL,
+                            'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
+                            'EQUIPAMENT' => $curso->EQUIPAMENT,
+                            'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
+                            'PYP' => $curso->PYP,
+                            'PYP_PASS' => $curso->PYP_PASS,
+                            'STATUS' => $curso->STATUS,
+                            'RESIT' => $curso->RESIT,
+                            'INTENTOS' => $curso->INTENTOS,
+                            'RESIT_MODULE' => $curso->RESIT_MODULE,
+                            'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
+                            'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
+                            'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
+                            'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
+                            'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
+                            'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
+                            'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
+                            'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
+                            'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
+                            'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
+                            'FINAL_STATUS' => $curso->FINAL_STATUS,
+                            'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
+                            'CERTIFIED' => $curso->CERTIFIED,
+                            'EXPIRATION' => $curso->EXPIRATION
+                        ]
+                    ];
+                }
+            }
+            //aqui terminan la data de ciruclares
+            //aqui empieaza la ultima de estudiantes opor acreditacion
+            $query = DB::table('proyect')
+                ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
+                ->join('entes_acreditadores', function ($join) {
+                    $join->on(DB::raw('CAST(proyect.ACCREDITING_ENTITY_PROJECT AS UNSIGNED)'), '=', 'entes_acreditadores.ID_CATALOGO_ENTE');
+                })
+                ->select(
+                    'entes_acreditadores.NOMBRE_ENTE as ente_acreditador',
+                    'proyect.COURSE_START_DATE_PROJECT',
+                    'candidate.ID_CANDIDATE'
+                )
+                ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
+                ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '')
+                ->where('candidate.ASISTENCIA', '!=', '0')
+                ->orWhereNull('candidate.ASISTENCIA');
+
+            if ($periodType === 'year' && $startYear && $endYear) {
+                $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                    ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+            } elseif ($startDate && $endDate) {
+                $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            }
+
+            $baseData2 = $query->get();
+            $processedData2 = $this->processDataByPeriod($baseData2, $periodType);
+            //aqui termina estudiantes por acreditacion
             $datosFormateados = [
                 'metricas' => $metricas,
                 'acreditacion' => [
@@ -710,11 +798,15 @@ class adminController extends Controller
                 'dataChartdiv' => $this->formatForAmCharts($processedData, $backendChartType),
                 'totals' => $this->calculateTotals($processedData),//pertenece a chartdiv
                 'chart_type' => $chartType,//pertenece a chartdiv
-                'period_type' => $periodType//pertenece a chartdiv
+                'period_type' => $periodType,//pertenece a chartdiv
+                'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType),//pertenece a chart ultimo
+                'totalsChartdivStacked' => $this->calculateTotals($processedData2)//same del de arriba
             ];
 
             return response()->json([
                 'success' => true,
+                'estudiantes' => $estudiantes,
+                'total' => count($estudiantes),
                 'data' => $datosFormateados
             ]);
         } catch (\Exception $e) {

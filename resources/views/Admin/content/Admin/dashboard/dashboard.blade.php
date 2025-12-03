@@ -93,7 +93,7 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <button type="button" class="btn btn-primary w-100" onclick="loadChartData()">
+                <button type="button" class="btn btn-primary w-100" onclick="actualizarDatos()">
                     <i class="fas fa-chart-bar"></i> Generar
                 </button>
             </div>
@@ -205,7 +205,7 @@
         </div>
     <div class="col-12">
         <div class="card-header">
-            <h5 class="card-title">Proyectos</h5>
+            <h5 class="card-title">Proyectos por cada ente acreditador</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -215,14 +215,15 @@
             </div>
         </div>
     </div>
+      <p class="mb-4">{{ __('Estudiantes') }}</p>
     <div class="row">
-         
+
          <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-6 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes por Estado del Curso</h5>
+                            <h5 class="card-title">Estudiantes por estatus final del curso</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartEstadoCurso" style="height: 300px;"></div>
@@ -230,10 +231,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-4">
+                <div class="col-md-6 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes con Resit</h5>
+                            <h5 class="card-title">Estudiantes Aprobados por tipo de aprobación</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartEstudiantesResit" style="height: 300px;"></div>
@@ -241,10 +242,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4" style="display: none">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Tipos de Resit</h5>
+                            <h5 class="card-title">Estudiantes No Aprobados por tipo de falla</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartTiposResit" style="height: 300px;"></div>
@@ -253,75 +254,15 @@
                 </div>
             </div>
         </div>
-        <p class="mb-4">{{ __('Estudiantes') }}</p>
+      
         
 
         <div class="card mt-4">
             <div class="card-header text-white">
-                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Gráfica de Barras Apiladas</h5>
+                <h5 class="mb-0"><i class="fas fa-chart-bar"></i>Estudiantes por cada ente acreditador</h5>
             </div>
             <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <label for="periodTypeStacked" class="form-label">Tipo de Período:</label>
-                        <select id="periodTypeStacked" class="form-select" onchange="toggleDateFiltersStacked()">
-                            <option value="year">Año</option>
-                            <option value="month" selected>Mes</option>
-                            <option value="day">Curso</option>
-                        </select>
-                    </div>
-
-                    <!-- Filtro para Año: De año a año -->
-                    <div class="col-md-4" id="yearRangeFilterStacked" style="display:none;">
-                        <label class="form-label">Rango de Años:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <select id="startYearStacked" class="form-select">
-                                    <!-- Se llenará dinámicamente -->
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <select id="endYearStacked" class="form-select">
-                                    <!-- Se llenará dinámicamente -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filtro para Mes: De mes-año a mes-año -->
-                    <div class="col-md-4" id="monthRangeFilterStacked" style="display:none;">
-                        <label class="form-label">Rango de Meses:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="month" id="startMonthStacked" class="form-control">
-                            </div>
-                            <div class="col-6">
-                                <input type="month" id="endMonthStacked" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
-                    <div class="col-md-4" id="dayRangeFilterStacked" style="display:none;">
-                        <label class="form-label">Rango de Fechas:</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="date" id="startDateStacked" class="form-control">
-                            </div>
-                            <div class="col-6">
-                                <input type="date" id="endDateStacked" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success w-100" onclick="loadStackedChartData()">
-                            <i class="fas fa-chart-bar"></i> Generar Apilada
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="row mb-4">
+               <div class="row mb-4">
                     <div class="col-12">
                         <div class="alert alert-success text-center" id="totalsContainerStacked" style="margin-bottom: 0;">
                             <h4 class="mb-0"><strong>Total General de Candidatos:</strong> <span id="totalGeneralStacked">-</span></h4>
@@ -335,22 +276,10 @@
                 </div>
             </div>
         </div>
-        
-        
-
-<style>
-#chartdivEstudiantesAprob {
-  width: 100%;
-  height: 500px;
-}
-</style>
 <div id="chartdivEstudiantesAprob"></div>
     </div>
 </div>
-<div>
-    <p>Total Estudiantes Aprobados: <span id="totalEstudiantesAprobados">0</span></p>
-    <p>Aprobados en Primera Oportunidad: <span id="aprobadosPrimeraOportunidad">0</span></p>
-</div>
+
 
 
 
@@ -360,7 +289,7 @@
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.44"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.45"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

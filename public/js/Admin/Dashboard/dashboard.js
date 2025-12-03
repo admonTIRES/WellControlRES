@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeEventListeners();
         loadAvailableYears();
         // loadChartData();
-        loadStackedChartData();
+        // loadStackedChartData();
     }, 500);
 
     toggleDateFilters();
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 function showLoading() {
     const chartContainers = [
-        'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 'totalProyectos', 'totalEstudiantes', 'totalDesercion', 'estudiantesAprobados'
+        'chartAcreditacion', 'chartProyectosAnio', 'chartProyectosEmpresa', 'totalProyectos', 'totalEstudiantes', 'totalDesercion', 'estudiantesAprobados', 'chartEstadoCurso','chartEstudiantesResit','chartTiposResit'
     ];
 
     document.getElementById('totalProyectos').textContent = '...';
@@ -271,6 +271,16 @@ function actualizarDatos() {
         </div>
     `;
 
+     const chartDiv2 = document.getElementById('chartdivStacked');
+    chartDiv2.innerHTML = `
+        <div class="text-center" style="padding: 50px;">
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando datos...</p>
+        </div>
+    `;
+
     fetch(`/dashboard/data?${params}`)
         .then(response => response.json())
         .then(data => {
@@ -280,6 +290,17 @@ function actualizarDatos() {
                         chart.destroy();
                     }
                 });
+            const chartContainers = [
+            'chartEstadoCurso', 'chartEstudiantesResit', 'chartTiposResit'
+                ];
+
+            chartContainers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `
+                        `;
+                }
+            });
 
             console.log('Datos recibidos:', data);
 
@@ -289,16 +310,27 @@ function actualizarDatos() {
             // updateTotals(data.totals);
             renderCharts(data.data);
             updateMetricas(data.data.metricas);
-
+            generateStudentCharts(data.estudiantes);   
+            chartDiv2.innerHTML = '';
+            updateStackedChart(data.data.dataChartdivStacked);
+            updateTotalsStacked(data.data.totalsChartdivStacked); 
             }
         })
         .catch(error => {
             console.error('Error actualizando datos:', error);
+            showEmptyCharts();
             chartDiv.innerHTML = `
                 <div class="alert alert-danger text-center">
                     <h5>Error al cargar los datos</h5>
                     <p>${error.message}</p>
-                    <button class="btn btn-primary btn-sm" onclick="loadChartData()">Reintentar</button>
+                    <button class="btn btn-primary btn-sm" onclick="actualizarDatos()">Reintentar</button>
+                </div>
+            `;
+            chartDiv2.innerHTML = `
+                <div class="alert alert-danger text-center">
+                    <h5>Error al cargar los datos</h5>
+                    <p>${error.message}</p>
+                    <button class="btn btn-success btn-sm" onclick="actualizarDatos()">Reintentar</button>
                 </div>
             `;
 
@@ -334,7 +366,7 @@ function initializeEventListeners() {
             currentChartType = this.value;
             // loadChartData();
             actualizarDatos();
-            loadStackedChartData();
+            // loadStackedChartData();
 
         });
     }
@@ -687,7 +719,7 @@ async function loadChartData() {
             <div class="alert alert-danger text-center">
                 <h5>Error al cargar los datos</h5>
                 <p>${error.message}</p>
-                <button class="btn btn-primary btn-sm" onclick="loadChartData()">Reintentar</button>
+                <button class="btn btn-primary btn-sm" onclick="actualizarDatos()">Reintentar</button>
             </div>
         `;
 
@@ -881,7 +913,7 @@ function loadAllStudentCharts() {
         dataType: 'json',
         success: function (response) {
             if (response.success && response.estudiantes && response.estudiantes.length > 0) {
-                generateStudentCharts(response.estudiantes);
+                // generateStudentCharts(response.estudiantes);
             } else {
                 showEmptyCharts();
             }
@@ -893,11 +925,8 @@ function loadAllStudentCharts() {
     });
 }
 function generateStudentCharts(estudiantes) {
-
     generateStatusChart(estudiantes);
-
     generateResitChart(estudiantes);
-
     generateResitTypesChart(estudiantes);
 }
 function generateStatusChart(estudiantes) {
@@ -983,12 +1012,22 @@ function generateStatusChart(estudiantes) {
 }
 function generateResitChart(estudiantes) {
     const withResit = estudiantes.filter(est =>
-        est.datos_curso.RESIT === '1' ||
-        est.datos_curso.RESIT === 1 ||
-        est.datos_curso.RESIT === 'Yes'
+        (est.datos_curso.STATUS === '0' ||
+        est.datos_curso.STATUS === 0 ||
+        est.datos_curso.STATUS === 'Failed') &&
+        (est.datos_curso.FINAL_STATUS === '1' ||
+        est.datos_curso.FINAL_STATUS === 1 ||
+        est.datos_curso.FINAL_STATUS === 'Pass')
     ).length;
 
-    const withoutResit = estudiantes.length - withResit;
+    const withoutResit = estudiantes.filter(est =>
+        (est.datos_curso.STATUS === '1' ||
+        est.datos_curso.STATUS === 1 ||
+        est.datos_curso.STATUS === 'Completed') &&
+        (est.datos_curso.FINAL_STATUS === '1' ||
+        est.datos_curso.FINAL_STATUS === 1 ||
+        est.datos_curso.FINAL_STATUS === 'Pass')
+    ).length;
 
     const options = {
         series: [withResit, withoutResit],
@@ -996,7 +1035,7 @@ function generateResitChart(estudiantes) {
             type: 'donut',
             height: 350
         },
-        colors: ['#A4D65E', '#FF585D'],
+        colors: ['#FF585D', '#A4D65E'],
         labels: ['Con Resit', 'Sin Resit'],
         legend: {
             position: 'bottom',
@@ -1061,44 +1100,136 @@ function generateResitChart(estudiantes) {
     const chart = new ApexCharts(document.querySelector("#chartEstudiantesResit"), options);
     chart.render();
 }
+
 function generateResitTypesChart(estudiantes) {
+  // Primero filtramos solo estudiantes que NO aprobaron
+    const estudiantesReprobados = estudiantes.filter(est => 
+        est.datos_curso.FINAL_STATUS === '0' ||
+        est.datos_curso.FINAL_STATUS === 0 ||
+        est.datos_curso.FINAL_STATUS === 'Unpass'
+    );
 
-    const soloInmediato = estudiantes.filter(est => {
-        const datos = est.datos_curso;
-        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
-        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
-        return tieneInmediato && !tieneProgramado;
+    console.log('Total estudiantes reprobados:', estudiantesReprobados.length);
+
+    const withResit = estudiantesReprobados.filter(est => {
+        const tuvoResit = est.datos_curso.RESIT_INMEDIATO === '1' ||
+                          est.datos_curso.RESIT_INMEDIATO === 1 ||
+                          est.datos_curso.RESIT_PROGRAMADO === '1' ||
+                          est.datos_curso.RESIT_PROGRAMADO === 1;
+        
+        return tuvoResit;
     }).length;
 
-
-    const soloProgramado = estudiantes.filter(est => {
-        const datos = est.datos_curso;
-        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
-        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
-        return !tieneInmediato && tieneProgramado;
+    // 2. Sin oportunidad de resit: Reprobaron equipament Y (reprobaron pyp O pyp es null) Y no tuvieron resit
+    const withoutResitChance = estudiantesReprobados.filter(est => {
+        // Verificar que NO tuvo resit
+        const noTuvoResit = !(est.datos_curso.RESIT === '1' ||
+                             est.datos_curso.RESIT === 1 ||
+                             est.datos_curso.RESIT_INMEDIATO === '1' ||
+                             est.datos_curso.RESIT_INMEDIATO === 1 ||
+                             est.datos_curso.RESIT_PROGRAMADO === '1' ||
+                             est.datos_curso.RESIT_PROGRAMADO === 1);
+        
+        if (!noTuvoResit) return false; // Si tuvo resit, no cuenta aquí
+        
+        // Reprobaron equipament
+        const reproboEquipament = est.datos_curso.EQUIPAMENT_PASS === '0' ||
+                                  est.datos_curso.EQUIPAMENT_PASS === 0 ||
+                                  est.datos_curso.EQUIPAMENT_PASS === 'Unpass';
+        
+        if (!reproboEquipament) return false; // Si no reprobó equipament, no es "sin oportunidad"
+        
+        // Reprobaron pyp O pyp es null
+        const reproboPypONull = est.datos_curso.PYP_PASS === '0' ||
+                                est.datos_curso.PYP_PASS === 0 ||
+                                est.datos_curso.PYP_PASS === 'Unpass' ||
+                                est.datos_curso.PYP_PASS === null;
+        
+        return reproboPypONull;
     }).length;
 
-
-    const ambosResit = estudiantes.filter(est => {
-        const datos = est.datos_curso;
-        const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
-        const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
-        return tieneInmediato && tieneProgramado;
+    // 3. Sin resit (pero SÍ tuvieron oportunidad): No tuvieron resit PERO podrían haberlo tenido
+    // (reprobaron solo 1 módulo O pasaron equipament pero reprobaron pyp, etc.)
+    const withoutResitButChance = estudiantesReprobados.filter(est => {
+        // Verificar que NO tuvo resit
+        const noTuvoResit = !(est.datos_curso.RESIT === '1' ||
+                             est.datos_curso.RESIT === 1 ||
+                             est.datos_curso.RESIT_INMEDIATO === '1' ||
+                             est.datos_curso.RESIT_INMEDIATO === 1 ||
+                             est.datos_curso.RESIT_PROGRAMADO === '1' ||
+                             est.datos_curso.RESIT_PROGRAMADO === 1);
+        
+        if (!noTuvoResit) return false; // Si tuvo resit, no cuenta aquí
+        
+        // Ya contamos los "sin oportunidad", así que excluirlos
+        // Verificar si es de los que SÍ tuvieron oportunidad:
+        const reproboEquipament = est.datos_curso.EQUIPAMENT_PASS === '0' ||
+                                  est.datos_curso.EQUIPAMENT_PASS === 0 ||
+                                  est.datos_curso.EQUIPAMENT_PASS === 'Unpass';
+        
+        const reproboPypONull = est.datos_curso.PYP_PASS === '0' ||
+                                est.datos_curso.PYP_PASS === 0 ||
+                                est.datos_curso.PYP_PASS === 'Unpass' ||
+                                est.datos_curso.PYP_PASS === null;
+        
+        // Si reprobó equipament Y (reprobó pyp O pyp es null) → ya está en "sin oportunidad"
+        if (reproboEquipament && reproboPypONull) return false;
+        return true;
     }).length;
 
-    const sinResitEspecifico = estudiantes.length - soloInmediato - soloProgramado - ambosResit;
+    console.log('Resultados (categorías mutuamente excluyentes):');
+    console.log('1. Con resit:', withResit);
+    console.log('2. Sin resit pero SÍ tuvieron oportunidad:', withoutResitButChance);
+    console.log('3. Sin oportunidad de resit:', withoutResitChance);
+    console.log('Total (debe ser 24):', withResit + withoutResitButChance + withoutResitChance);
 
-    const options = {
-        series: [soloInmediato, soloProgramado, ambosResit, sinResitEspecifico],
+    // Verificar que la suma sea correcta
+    const totalCalculado = withResit + withoutResitButChance + withoutResitChance;
+    if (totalCalculado !== estudiantesReprobados.length) {
+        console.error('ERROR: La suma no coincide. Estudiantes sin clasificar:', 
+                     estudiantesReprobados.length - totalCalculado);
+    }
+
+
+   const options = {
+        series: [withResit, withoutResitButChance, withoutResitChance],
         chart: {
-            type: 'pie',
+            type: 'donut',
             height: 350
         },
-        colors: ['#007DBA', '#FF585D', '#236192', '#A4D65E'],
-        labels: ['Solo Inmediato', 'Solo Programado', 'Ambos Resit', 'Sin Resit Específico'],
+        colors: ['#FF585D', '#A4D65E', '#236192'],
+        labels: ['Con Resit', 'Sin Resit (con oportunidad)', 'Sin oportunidad de resit'],
         legend: {
             position: 'bottom',
             horizontalAlign: 'center'
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '45%',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        },
+                        total: {
+                            show: true,
+                            label: 'Total',
+                            color: '#373d3f',
+                            formatter: function (w) {
+                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            }
+                        }
+                    }
+                }
+            }
         },
         dataLabels: {
             enabled: true,
@@ -1131,6 +1262,76 @@ function generateResitTypesChart(estudiantes) {
     const chart = new ApexCharts(document.querySelector("#chartTiposResit"), options);
     chart.render();
 }
+// function generateResitTypesChart(estudiantes) {
+
+//     const soloInmediato = estudiantes.filter(est => {
+//         const datos = est.datos_curso;
+//         const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+//         const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+//         return tieneInmediato && !tieneProgramado;
+//     }).length;
+
+
+//     const soloProgramado = estudiantes.filter(est => {
+//         const datos = est.datos_curso;
+//         const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+//         const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+//         return !tieneInmediato && tieneProgramado;
+//     }).length;
+
+
+//     const ambosResit = estudiantes.filter(est => {
+//         const datos = est.datos_curso;
+//         const tieneInmediato = datos.RESIT_INMEDIATO === '1' || datos.RESIT_INMEDIATO === 1 || datos.RESIT_INMEDIATO === 'Yes';
+//         const tieneProgramado = datos.RESIT_PROGRAMADO === '1' || datos.RESIT_PROGRAMADO === 1 || datos.RESIT_PROGRAMADO === 'Yes';
+//         return tieneInmediato && tieneProgramado;
+//     }).length;
+
+//     const sinResitEspecifico = estudiantes.length - soloInmediato - soloProgramado - ambosResit;
+
+//     const options = {
+//         series: [soloInmediato, soloProgramado, ambosResit, sinResitEspecifico],
+//         chart: {
+//             type: 'pie',
+//             height: 350
+//         },
+//         colors: ['#007DBA', '#FF585D', '#236192', '#A4D65E'],
+//         labels: ['Solo Inmediato', 'Solo Programado', 'Ambos Resit', 'Sin Resit Específico'],
+//         legend: {
+//             position: 'bottom',
+//             horizontalAlign: 'center'
+//         },
+//         dataLabels: {
+//             enabled: true,
+//             formatter: function (val, opts) {
+//                 return opts.w.config.series[opts.seriesIndex] + ' (' + val.toFixed(1) + '%)';
+//             }
+//         },
+//         tooltip: {
+//             y: {
+//                 formatter: function (value, { seriesIndex, w }) {
+//                     const total = w.config.series.reduce((a, b) => a + b, 0);
+//                     const percentage = ((value / total) * 100).toFixed(1);
+//                     return value + ' estudiantes (' + percentage + '%)';
+//                 }
+//             }
+//         },
+//         responsive: [{
+//             breakpoint: 480,
+//             options: {
+//                 chart: {
+//                     width: 300
+//                 },
+//                 legend: {
+//                     position: 'bottom'
+//                 }
+//             }
+//         }]
+//     };
+
+//     const chart = new ApexCharts(document.querySelector("#chartTiposResit"), options);
+//     chart.render();
+// }
 function showEmptyCharts() {
     const emptyOptions = {
         series: [1],
@@ -1223,28 +1424,28 @@ let currentStackedChart = null;
 const acreditadorColorsStacked = {};
 
 function toggleDateFiltersStacked() {
-    const periodType = document.getElementById('periodTypeStacked').value;
+    const periodType = document.getElementById('periodType').value;
 
-    document.getElementById('yearRangeFilterStacked').style.display = 'none';
-    document.getElementById('monthRangeFilterStacked').style.display = 'none';
-    document.getElementById('dayRangeFilterStacked').style.display = 'none';
+    document.getElementById('yearRangeFilter').style.display = 'none';
+    document.getElementById('monthRangeFilter').style.display = 'none';
+    document.getElementById('dayRangeFilter').style.display = 'none';
     
     if (periodType === 'year') {
-        document.getElementById('yearRangeFilterStacked').style.display = 'block';
+        document.getElementById('yearRangeFilter').style.display = 'block';
         populateYearSelectsStacked();
     } else if (periodType === 'month') {
-        document.getElementById('monthRangeFilterStacked').style.display = 'block';
+        document.getElementById('monthRangeFilter').style.display = 'block';
         setDefaultMonthRangeStacked();
     } else if (periodType === 'day') {
-        document.getElementById('dayRangeFilterStacked').style.display = 'block';
+        document.getElementById('dayRangeFilter').style.display = 'block';
         setDefaultDateRangeStacked();
     }
 }
 
 function populateYearSelectsStacked() {
     const currentYear = new Date().getFullYear();
-    const startYearSelect = document.getElementById('startYearStacked');
-    const endYearSelect = document.getElementById('endYearStacked');
+    const startYearSelect = document.getElementById('startYear');
+    const endYearSelect = document.getElementById('endYear');
     
     startYearSelect.innerHTML = '';
     endYearSelect.innerHTML = '';
@@ -1264,16 +1465,16 @@ function setDefaultMonthRangeStacked() {
     const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
     const lastYearMonth = lastYear.toISOString().slice(0, 7);
     
-    document.getElementById('startMonthStacked').value = lastYearMonth;
-    document.getElementById('endMonthStacked').value = currentMonth;
+    document.getElementById('startMonth').value = lastYearMonth;
+    document.getElementById('endMonth').value = currentMonth;
 }
 
 function setDefaultDateRangeStacked() {
     const today = new Date();
     const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
     
-    document.getElementById('startDateStacked').value = thirtyDaysAgo.toISOString().split('T')[0];
-    document.getElementById('endDateStacked').value = today.toISOString().split('T')[0];
+    document.getElementById('startDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+    document.getElementById('endDate').value = today.toISOString().split('T')[0];
 }
 
 function updateTotalsStacked(totals) {
@@ -1466,7 +1667,7 @@ function updateStackedChart(data) {
 async function loadStackedChartData() {
     console.log('Cargando datos del gráfico apilado...');
     
-    const periodType = document.getElementById('periodTypeStacked').value;
+    const periodType = document.getElementById('periodType').value;
 
     const params = new URLSearchParams({
         period_type: periodType,
@@ -1474,13 +1675,13 @@ async function loadStackedChartData() {
     });
 
     if (periodType === 'year') {
-        const startYear = document.getElementById('startYearStacked').value;
-        const endYear = document.getElementById('endYearStacked').value;
+        const startYear = document.getElementById('startYear').value;
+        const endYear = document.getElementById('endYear').value;
         params.append('start_year', startYear);
         params.append('end_year', endYear);
     } else if (periodType === 'month') {
-        const startMonth = document.getElementById('startMonthStacked').value;
-        const endMonth = document.getElementById('endMonthStacked').value;
+        const startMonth = document.getElementById('startMonth').value;
+        const endMonth = document.getElementById('endMonth').value;
         if (startMonth && endMonth) {
             params.append('start_date', startMonth + '-01');
             const endDate = new Date(endMonth + '-01');
@@ -1489,15 +1690,15 @@ async function loadStackedChartData() {
             params.append('end_date', endDate.toISOString().split('T')[0]);
         }
     } else if (periodType === 'day') {
-        const startDate = document.getElementById('startDateStacked').value;
-        const endDate = document.getElementById('endDateStacked').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
         if (startDate && endDate) {
             params.append('start_date', startDate);
             params.append('end_date', endDate);
         }
     }
 
-    const chartDiv = document.getElementById('chartdivStacked');
+    const chartDiv = document.getElementById('chartdiv');
     chartDiv.innerHTML = `
         <div class="text-center" style="padding: 50px;">
             <div class="spinner-border text-success" role="status">
@@ -1528,7 +1729,7 @@ async function loadStackedChartData() {
             <div class="alert alert-danger text-center">
                 <h5>Error al cargar los datos</h5>
                 <p>${error.message}</p>
-                <button class="btn btn-success btn-sm" onclick="loadStackedChartData()">Reintentar</button>
+                <button class="btn btn-success btn-sm" onclick="actualizarDatos()">Reintentar</button>
             </div>
         `;
         
@@ -1683,12 +1884,12 @@ function updateEstudiantesAprobChart(processedData) {
     console.log('Actualizando gráfica de Estudiantes Aprobados:', processedData);
     
     if (!processedData || processedData.length === 0) {
-        document.getElementById('chartdivEstudiantesAprob').innerHTML = `
-            <div class="alert alert-warning text-center">
-                <h5>No hay datos para mostrar</h5>
-                <p>No se encontraron estudiantes aprobados.</p>
-            </div>
-        `;
+        // document.getElementById('chartdivEstudiantesAprob').innerHTML = `
+        //     <div class="alert alert-warning text-center">
+        //         <h5>No hay datos para mostrar</h5>
+        //         <p>No se encontraron estudiantes aprobados.</p>
+        //     </div>
+        // `;
         return;
     }
 
@@ -1697,220 +1898,220 @@ function updateEstudiantesAprobChart(processedData) {
         currentEstudiantesChart.dispose();
     }
 
-    am5.ready(function() {
-        // Crear raíz para la nueva gráfica
-        const root = am5.Root.new("chartdivEstudiantesAprob");
+    // am5.ready(function() {
+    //     // Crear raíz para la nueva gráfica
+    //     const root = am5.Root.new("chartdivEstudiantesAprob");
         
-        root.setThemes([
-            am5themes_Animated.new(root)
-        ]);
+    //     root.setThemes([
+    //         am5themes_Animated.new(root)
+    //     ]);
 
-        // Crear gráfica
-        const chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: false,
-            panY: false,
-            wheelX: "panX",
-            wheelY: "zoomX",
-            layout: root.verticalLayout,
-            paddingLeft: 0,
-            paddingRight: 20
-        }));
+    //     // Crear gráfica
+    //     const chart = root.container.children.push(am5xy.XYChart.new(root, {
+    //         panX: false,
+    //         panY: false,
+    //         wheelX: "panX",
+    //         wheelY: "zoomX",
+    //         layout: root.verticalLayout,
+    //         paddingLeft: 0,
+    //         paddingRight: 20
+    //     }));
 
-        const cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-        cursor.lineY.set("visible", false);
+    //     const cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+    //     cursor.lineY.set("visible", false);
 
-        // Configurar eje X
-        const xRenderer = am5xy.AxisRendererX.new(root, { 
-            minGridDistance: 30,
-            minorGridEnabled: true
-        });
+    //     // Configurar eje X
+    //     const xRenderer = am5xy.AxisRendererX.new(root, { 
+    //         minGridDistance: 30,
+    //         minorGridEnabled: true
+    //     });
         
-        xRenderer.labels.template.setAll({
-            rotation: 0,
-            centerY: am5.p50,
-            centerX: am5.p50,
-            fontSize: 14,
-            fontWeight: "bold"
-        });
+    //     xRenderer.labels.template.setAll({
+    //         rotation: 0,
+    //         centerY: am5.p50,
+    //         centerX: am5.p50,
+    //         fontSize: 14,
+    //         fontWeight: "bold"
+    //     });
 
-        const xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-            maxDeviation: 0.3,
-            categoryField: "periodo",
-            renderer: xRenderer,
-            tooltip: am5.Tooltip.new(root, {})
-        }));
+    //     const xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+    //         maxDeviation: 0.3,
+    //         categoryField: "periodo",
+    //         renderer: xRenderer,
+    //         tooltip: am5.Tooltip.new(root, {})
+    //     }));
 
-        try {
-            xAxis.data.setAll(processedData);
-            console.log('Datos asignados al eje X correctamente (Estudiantes Aprobados)');
-        } catch (error) {
-            console.error('Error al asignar datos al eje X (Estudiantes Aprobados):', error);
-            throw error;
-        }
+    //     try {
+    //         xAxis.data.setAll(processedData);
+    //         console.log('Datos asignados al eje X correctamente (Estudiantes Aprobados)');
+    //     } catch (error) {
+    //         console.error('Error al asignar datos al eje X (Estudiantes Aprobados):', error);
+    //         throw error;
+    //     }
 
-        // Configurar eje Y
-        const yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            maxDeviation: 0.3,
-            min: 0,
-            renderer: am5xy.AxisRendererY.new(root, {
-                strokeOpacity: 0.1
-            })
-        }));
+    //     // Configurar eje Y
+    //     const yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+    //         maxDeviation: 0.3,
+    //         min: 0,
+    //         renderer: am5xy.AxisRendererY.new(root, {
+    //             strokeOpacity: 0.1
+    //         })
+    //     }));
 
-        // Definir colores específicos para esta gráfica
-        // Usamos diferentes tonos de verde/azul para diferenciar de la otra gráfica
-        const colorsEstudiantes = {
-            'Aprobados en primera oportunidad': am5.color(0x006400), // Verde oscuro
-            'Aprobados con resit inmediato': am5.color(0x32CD32),   // Verde lima
-            'Aprobados con resit programado': am5.color(0x00CED1)   // Turquesa
-        };
+    //     // Definir colores específicos para esta gráfica
+    //     // Usamos diferentes tonos de verde/azul para diferenciar de la otra gráfica
+    //     const colorsEstudiantes = {
+    //         'Aprobados en primera oportunidad': am5.color(0x006400), // Verde oscuro
+    //         'Aprobados con resit inmediato': am5.color(0x32CD32),   // Verde lima
+    //         'Aprobados con resit programado': am5.color(0x00CED1)   // Turquesa
+    //     };
 
-        // Orden de las series
-        const seriesOrder = [
-            'Aprobados en primera oportunidad',
-            'Aprobados con resit inmediato',
-            'Aprobados con resit programado'
-        ];
+    //     // Orden de las series
+    //     const seriesOrder = [
+    //         'Aprobados en primera oportunidad',
+    //         'Aprobados con resit inmediato',
+    //         'Aprobados con resit programado'
+    //     ];
 
-        // Crear series para cada categoría
-        seriesOrder.forEach(categoria => {
-            const color = colorsEstudiantes[categoria];
-            estudiantesColors[categoria] = color.toString();
+    //     // Crear series para cada categoría
+    //     seriesOrder.forEach(categoria => {
+    //         const color = colorsEstudiantes[categoria];
+    //         estudiantesColors[categoria] = color.toString();
 
-            const series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                name: categoria,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: categoria,
-                categoryXField: "periodo",
-                fill: color,
-                stroke: color,
-                stacked: true,
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: "{name}: {valueY}",
-                    fontSize: 14
-                })
-            }));
+    //         const series = chart.series.push(am5xy.ColumnSeries.new(root, {
+    //             name: categoria,
+    //             xAxis: xAxis,
+    //             yAxis: yAxis,
+    //             valueYField: categoria,
+    //             categoryXField: "periodo",
+    //             fill: color,
+    //             stroke: color,
+    //             stacked: true,
+    //             tooltip: am5.Tooltip.new(root, {
+    //                 labelText: "{name}: {valueY}",
+    //                 fontSize: 14
+    //             })
+    //         }));
 
-            series.columns.template.setAll({
-                tooltipY: 0,
-                strokeOpacity: 0,
-                width: am5.percent(60),
-                cornerRadiusBR: 5,
-                cornerRadiusTR: 5,
-                cornerRadiusBL: 5,
-                cornerRadiusTL: 5
-            });
+    //         series.columns.template.setAll({
+    //             tooltipY: 0,
+    //             strokeOpacity: 0,
+    //             width: am5.percent(60),
+    //             cornerRadiusBR: 5,
+    //             cornerRadiusTR: 5,
+    //             cornerRadiusBL: 5,
+    //             cornerRadiusTL: 5
+    //         });
 
-            series.data.setAll(processedData);
+    //         series.data.setAll(processedData);
 
-            // Añadir etiquetas en las barras
-            series.bullets.push(function(root, series, dataItem) {
-                const value = dataItem.get("valueY");
-                if (value > 0) {
-                    return am5.Bullet.new(root, {
-                        locationY: 0.5,
-                        sprite: am5.Label.new(root, {
-                            text: "{valueY}",
-                            fill: am5.color(0xffffff),
-                            centerY: am5.p50,
-                            centerX: am5.p50,
-                            fontSize: 14,
-                            fontWeight: "bold",
-                            populateText: true
-                        })
-                    });
-                }
-            });
-        });
+    //         // Añadir etiquetas en las barras
+    //         series.bullets.push(function(root, series, dataItem) {
+    //             const value = dataItem.get("valueY");
+    //             if (value > 0) {
+    //                 return am5.Bullet.new(root, {
+    //                     locationY: 0.5,
+    //                     sprite: am5.Label.new(root, {
+    //                         text: "{valueY}",
+    //                         fill: am5.color(0xffffff),
+    //                         centerY: am5.p50,
+    //                         centerX: am5.p50,
+    //                         fontSize: 14,
+    //                         fontWeight: "bold",
+    //                         populateText: true
+    //                     })
+    //                 });
+    //             }
+    //         });
+    //     });
 
-        // Crear leyenda
-        const legend = chart.children.push(am5.Legend.new(root, {
-            centerX: am5.p50,
-            x: am5.p50,
-            layout: root.horizontalLayout,
-            height: am5.percent(25),
-            width: am5.percent(90),
-            marginTop: 15,
-            marginBottom: 15
-        }));
+    //     // Crear leyenda
+    //     const legend = chart.children.push(am5.Legend.new(root, {
+    //         centerX: am5.p50,
+    //         x: am5.p50,
+    //         layout: root.horizontalLayout,
+    //         height: am5.percent(25),
+    //         width: am5.percent(90),
+    //         marginTop: 15,
+    //         marginBottom: 15
+    //     }));
 
-        legend.data.setAll(chart.series.values);
+    //     legend.data.setAll(chart.series.values);
         
-        legend.labels.template.setAll({
-            fontSize: 12,
-            fontWeight: "normal",
-            maxWidth: 180,
-            textAlign: "left",
-            oversizedBehavior: "wrap"
-        });
+    //     legend.labels.template.setAll({
+    //         fontSize: 12,
+    //         fontWeight: "normal",
+    //         maxWidth: 180,
+    //         textAlign: "left",
+    //         oversizedBehavior: "wrap"
+    //     });
 
-        legend.valueLabels.template.setAll({
-            fontSize: 12,
-            fontWeight: "bold"
-        });
+    //     legend.valueLabels.template.setAll({
+    //         fontSize: 12,
+    //         fontWeight: "bold"
+    //     });
 
-        // Configurar etiquetas en la leyenda
-        chart.series.each(function(series) {
-            const categoriaNombre = series.get("name");
-            const total = processedData[0][categoriaNombre] || 0;
+    //     // Configurar etiquetas en la leyenda
+    //     chart.series.each(function(series) {
+    //         const categoriaNombre = series.get("name");
+    //         const total = processedData[0][categoriaNombre] || 0;
             
-            series.set("legendLabelText", 
-                "[bold " + estudiantesColors[categoriaNombre] + "]●[/] " + 
-                "[black]" + categoriaNombre + "[/]"
-            );
-            series.set("legendValueText", 
-                "[bold black]" + total + "[/]"
-            );
-        });
+    //         series.set("legendLabelText", 
+    //             "[bold " + estudiantesColors[categoriaNombre] + "]●[/] " + 
+    //             "[black]" + categoriaNombre + "[/]"
+    //         );
+    //         series.set("legendValueText", 
+    //             "[bold black]" + total + "[/]"
+    //         );
+    //     });
 
-        // Añadir título al gráfico
-        const title = chart.children.push(am5.Label.new(root, {
-            text: "Distribución de Estudiantes Aprobados",
-            fontSize: 16,
-            fontWeight: "bold",
-            textAlign: "center",
-            x: am5.percent(50),
-            y: 10,
-            centerX: am5.percent(50)
-        }));
+    //     // Añadir título al gráfico
+    //     const title = chart.children.push(am5.Label.new(root, {
+    //         text: "Distribución de Estudiantes Aprobados",
+    //         fontSize: 16,
+    //         fontWeight: "bold",
+    //         textAlign: "center",
+    //         x: am5.percent(50),
+    //         y: 10,
+    //         centerX: am5.percent(50)
+    //     }));
 
-        chart.appear(1000, 100);
-        currentEstudiantesChart = root;
-    });
+    //     chart.appear(1000, 100);
+    //     currentEstudiantesChart = root;
+    // });
 }
 function updateTotalesEstudiantes(totals) {
     console.log('Actualizando totales de estudiantes aprobados:', totals);
     
     // Actualizar elementos HTML con los totales
-    if (totals.total_aprobados !== undefined) {
-        const elementoTotal = document.getElementById('totalEstudiantesAprobados');
-        if (elementoTotal) {
-            elementoTotal.textContent = totals.total_aprobados.toLocaleString();
-        }
-    }
+    // if (totals.total_aprobados !== undefined) {
+    //     const elementoTotal = document.getElementById('totalEstudiantesAprobados');
+    //     if (elementoTotal) {
+    //         elementoTotal.textContent = totals.total_aprobados.toLocaleString();
+    //     }
+    // }
     
-    if (totals.aprobados_primera !== undefined) {
-        const elementoPrimera = document.getElementById('aprobadosPrimeraOportunidad');
-        if (elementoPrimera) {
-            elementoPrimera.textContent = totals.aprobados_primera.toLocaleString();
-        }
-    }
+    // if (totals.aprobados_primera !== undefined) {
+    //     const elementoPrimera = document.getElementById('aprobadosPrimeraOportunidad');
+    //     if (elementoPrimera) {
+    //         elementoPrimera.textContent = totals.aprobados_primera.toLocaleString();
+    //     }
+    // }
     
     // Puedes añadir más elementos según necesites
 }
 async function loadEstudiantesAprobData() {
     console.log('Cargando datos para gráfica de Estudiantes Aprobados...');
     
-    const chartDiv = document.getElementById('chartdivEstudiantesAprob');
-    chartDiv.innerHTML = `
-        <div class="text-center" style="padding: 50px;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
-            </div>
-            <p class="mt-2">Cargando datos de estudiantes aprobados...</p>
-        </div>
-    `;
+    // const chartDiv = document.getElementById('chartdivEstudiantesAprob');
+    // chartDiv.innerHTML = `
+    //     <div class="text-center" style="padding: 50px;">
+    //         <div class="spinner-border text-primary" role="status">
+    //             <span class="visually-hidden">Cargando...</span>
+    //         </div>
+    //         <p class="mt-2">Cargando datos de estudiantes aprobados...</p>
+    //     </div>
+    // `;
 
     try {
         const response = await fetch('/api/estadisticas-general');

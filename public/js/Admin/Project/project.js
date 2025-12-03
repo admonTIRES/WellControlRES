@@ -2362,7 +2362,6 @@ $("#proyectobtnModal").click(function (e) {
         alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
     }
 });
-
 $("#btnUploadExcelProject").click(function (e) {
     e.preventDefault();
 
@@ -2418,7 +2417,6 @@ $("#btnUploadExcelProject").click(function (e) {
         });
     }, 1);
 });
-
 $('#excelProject').on('change', function (e) {
     const fileName = e.target.files[0]?.name;
     if (fileName) {
@@ -2510,8 +2508,6 @@ $('#excelProject').on('change', function (e) {
 
 //     $('#proyectoModal .modal-title').html(`Editar Proyecto ${row.data().FOLIO_PROJECT}`);
 // });
-
-
 $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
     isEditing = true;
     window.wizard = new WizardManager();

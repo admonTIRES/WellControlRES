@@ -175,7 +175,7 @@
             </div>
         </div>
         <p class="mb-4">{{ __('Estudiantes') }}</p>
-        <div class="col-12">
+        {{-- <div class="col-12">
            <div class="card-body">
                 <!-- Filtros -->
                 <div class="row mb-4">
@@ -261,443 +261,113 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="card mt-4">
-    <div class="card-header text-white">
-        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Gráfica de Barras Apiladas</h5>
-    </div>
-    <div class="card-body">
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <label for="periodTypeStacked" class="form-label">Tipo de Período:</label>
-                <select id="periodTypeStacked" class="form-select" onchange="toggleDateFiltersStacked()">
-                    <option value="year">Año</option>
-                    <option value="month" selected>Mes</option>
-                    <option value="day">Curso</option>
-                </select>
+            <div class="card-header text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Gráfica de Barras Apiladas</h5>
             </div>
-
-            <!-- Filtro para Año: De año a año -->
-            <div class="col-md-4" id="yearRangeFilterStacked" style="display:none;">
-                <label class="form-label">Rango de Años:</label>
-                <div class="row">
-                    <div class="col-6">
-                        <select id="startYearStacked" class="form-select">
-                            <!-- Se llenará dinámicamente -->
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="periodTypeStacked" class="form-label">Tipo de Período:</label>
+                        <select id="periodTypeStacked" class="form-select" onchange="toggleDateFiltersStacked()">
+                            <option value="year">Año</option>
+                            <option value="month" selected>Mes</option>
+                            <option value="day">Curso</option>
                         </select>
                     </div>
-                    <div class="col-6">
-                        <select id="endYearStacked" class="form-select">
-                            <!-- Se llenará dinámicamente -->
-                        </select>
+
+                    <!-- Filtro para Año: De año a año -->
+                    <div class="col-md-4" id="yearRangeFilterStacked" style="display:none;">
+                        <label class="form-label">Rango de Años:</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <select id="startYearStacked" class="form-select">
+                                    <!-- Se llenará dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <select id="endYearStacked" class="form-select">
+                                    <!-- Se llenará dinámicamente -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtro para Mes: De mes-año a mes-año -->
+                    <div class="col-md-4" id="monthRangeFilterStacked" style="display:none;">
+                        <label class="form-label">Rango de Meses:</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="month" id="startMonthStacked" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <input type="month" id="endMonthStacked" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
+                    <div class="col-md-4" id="dayRangeFilterStacked" style="display:none;">
+                        <label class="form-label">Rango de Fechas:</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="date" id="startDateStacked" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <input type="date" id="endDateStacked" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-success w-100" onclick="loadStackedChartData()">
+                            <i class="fas fa-chart-bar"></i> Generar Apilada
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Filtro para Mes: De mes-año a mes-año -->
-            <div class="col-md-4" id="monthRangeFilterStacked" style="display:none;">
-                <label class="form-label">Rango de Meses:</label>
+                
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="alert alert-success text-center" id="totalsContainerStacked" style="margin-bottom: 0;">
+                            <h4 class="mb-0"><strong>Total General de Candidatos:</strong> <span id="totalGeneralStacked">-</span></h4>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-6">
-                        <input type="month" id="startMonthStacked" class="form-control">
-                    </div>
-                    <div class="col-6">
-                        <input type="month" id="endMonthStacked" class="form-control">
+                    <div class="col-12">
+                        <div id="chartdivStacked" style="width: 100%; height: 600px;"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
-            <div class="col-md-4" id="dayRangeFilterStacked" style="display:none;">
-                <label class="form-label">Rango de Fechas:</label>
-                <div class="row">
-                    <div class="col-6">
-                        <input type="date" id="startDateStacked" class="form-control">
-                    </div>
-                    <div class="col-6">
-                        <input type="date" id="endDateStacked" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 d-flex align-items-end">
-                <button type="button" class="btn btn-success w-100" onclick="loadStackedChartData()">
-                    <i class="fas fa-chart-bar"></i> Generar Apilada
-                </button>
-            </div>
         </div>
+        
+        
 
-        <!-- Total General para gráfica apilada -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="alert alert-success text-center" id="totalsContainerStacked" style="margin-bottom: 0;">
-                    <h4 class="mb-0"><strong>Total General de Candidatos:</strong> <span id="totalGeneralStacked">-</span></h4>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gráfica Apilada -->
-        <div class="row">
-            <div class="col-12">
-                <div id="chartdivStacked" style="width: 100%; height: 600px;"></div>
-            </div>
-        </div>
+<style>
+#chartdivEstudiantesAprob {
+  width: 100%;
+  height: 500px;
+}
+</style>
+<div id="chartdivEstudiantesAprob"></div>
     </div>
 </div>
-
-<script>
-let currentStackedChart = null;
-const acreditadorColorsStacked = {};
-
-function toggleDateFiltersStacked() {
-    const periodType = document.getElementById('periodTypeStacked').value;
-    
-    // Ocultar todos los filtros
-    document.getElementById('yearRangeFilterStacked').style.display = 'none';
-    document.getElementById('monthRangeFilterStacked').style.display = 'none';
-    document.getElementById('dayRangeFilterStacked').style.display = 'none';
-    
-    // Mostrar el filtro correspondiente
-    if (periodType === 'year') {
-        document.getElementById('yearRangeFilterStacked').style.display = 'block';
-        populateYearSelectsStacked();
-    } else if (periodType === 'month') {
-        document.getElementById('monthRangeFilterStacked').style.display = 'block';
-        setDefaultMonthRangeStacked();
-    } else if (periodType === 'day') {
-        document.getElementById('dayRangeFilterStacked').style.display = 'block';
-        setDefaultDateRangeStacked();
-    }
-}
-
-// Poblar los selectores de año (gráfica apilada)
-function populateYearSelectsStacked() {
-    const currentYear = new Date().getFullYear();
-    const startYearSelect = document.getElementById('startYearStacked');
-    const endYearSelect = document.getElementById('endYearStacked');
-    
-    startYearSelect.innerHTML = '';
-    endYearSelect.innerHTML = '';
-    
-    for (let year = currentYear - 10; year <= currentYear + 2; year++) {
-        startYearSelect.innerHTML += `<option value="${year}">${year}</option>`;
-        endYearSelect.innerHTML += `<option value="${year}">${year}</option>`;
-    }
-    
-    // Establecer valores por defecto
-    startYearSelect.value = currentYear - 1;
-    endYearSelect.value = currentYear;
-}
-
-// Establecer rango de meses por defecto (gráfica apilada)
-function setDefaultMonthRangeStacked() {
-    const today = new Date();
-    const currentMonth = today.toISOString().slice(0, 7);
-    const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
-    const lastYearMonth = lastYear.toISOString().slice(0, 7);
-    
-    document.getElementById('startMonthStacked').value = lastYearMonth;
-    document.getElementById('endMonthStacked').value = currentMonth;
-}
-
-// Establecer rango de fechas por defecto (gráfica apilada)
-function setDefaultDateRangeStacked() {
-    const today = new Date();
-    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
-    
-    document.getElementById('startDateStacked').value = thirtyDaysAgo.toISOString().split('T')[0];
-    document.getElementById('endDateStacked').value = today.toISOString().split('T')[0];
-}
-
-// Actualizar totales (gráfica apilada)
-function updateTotalsStacked(totals) {
-    console.log('Totales recibidos (apilada):', totals);
-    const totalGeneral = totals.total_general || 0;
-    document.getElementById('totalGeneralStacked').textContent = totalGeneral.toLocaleString();
-}
-
-// Actualizar gráfica apilada
-function updateStackedChart(data) {
-    console.log('Datos originales recibidos (apilada):', data);
-    
-    // Para gráfica apilada, necesitamos todos los acreditadores en cada período
-    const allAcreditadores = new Set();
-    data.forEach(item => {
-        Object.keys(item).forEach(key => {
-            if (key !== 'period') {
-                allAcreditadores.add(key);
-            }
-        });
-    });
-    
-    const processedData = data.map(item => {
-        const newItem = { period: String(item.period) };
-        allAcreditadores.forEach(acred => {
-            newItem[acred] = item[acred] || 0;
-        });
-        return newItem;
-    });
-
-    console.log('Datos procesados (apilada):', processedData);
-
-    if (processedData.length === 0) {
-        document.getElementById('chartdivStacked').innerHTML = `
-            <div class="alert alert-warning text-center">
-                <h5>No hay datos para mostrar</h5>
-                <p>No se encontraron registros para el período seleccionado.</p>
-            </div>
-        `;
-        return;
-    }
-
-    if (currentStackedChart) {
-        currentStackedChart.dispose();
-    }
-
-    am5.ready(function() {
-        const root = am5.Root.new("chartdivStacked");
-        
-        root.setThemes([
-            am5themes_Animated.new(root)
-        ]);
-
-        // Crear gráfica de barras apiladas
-        const chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: false,
-            panY: false,
-            wheelX: "panX",
-            wheelY: "zoomX",
-            layout: root.verticalLayout,
-            paddingLeft: 0,
-            paddingRight: 20
-        }));
-
-        // Cursor
-        const cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-        cursor.lineY.set("visible", false);
-
-        // Eje X
-        const xRenderer = am5xy.AxisRendererX.new(root, { 
-            minGridDistance: 30,
-            minorGridEnabled: true
-        });
-        
-        xRenderer.labels.template.setAll({
-            rotation: -45,
-            centerY: am5.p50,
-            centerX: am5.p100,
-            paddingRight: 15
-        });
-
-        const xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-            maxDeviation: 0.3,
-            categoryField: "period",
-            renderer: xRenderer,
-            tooltip: am5.Tooltip.new(root, {})
-        }));
-
-        try {
-            xAxis.data.setAll(processedData);
-            console.log('Datos asignados al eje X correctamente (apilada)');
-        } catch (error) {
-            console.error('Error al asignar datos al eje X (apilada):', error);
-            throw error;
-        }
-
-        // Eje Y
-        const yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            maxDeviation: 0.3,
-            min: 0,
-            renderer: am5xy.AxisRendererY.new(root, {
-                strokeOpacity: 0.1
-            })
-        }));
-
-        // Colores predefinidos
-       const colors = [
-        am5.color(0xFF585D), // Rojo coral
-        am5.color(0xA4D65E), // Verde lima
-        am5.color(0x236192), // Azul oscuro
-        am5.color(0x007DBA), // Azul medio
-        am5.color(0x2C2A29), // Gris oscuro/casi negro
-    ];
-
-        let colorIndex = 0;
-
-        // Crear series apiladas para cada acreditador
-        allAcreditadores.forEach(acreditador => {
-            const color = colors[colorIndex % colors.length];
-            acreditadorColorsStacked[acreditador] = color.toString();
-            colorIndex++;
-
-            const series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                name: acreditador,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: acreditador,
-                categoryXField: "period",
-                fill: color,
-                stroke: color,
-                stacked: true,
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: "{name}: {valueY}"
-                })
-            }));
-
-            series.columns.template.setAll({
-                tooltipY: 0,
-                strokeOpacity: 0,
-                width: am5.percent(80)
-            });
-
-            series.data.setAll(processedData);
-
-            // Agregar etiquetas con los valores (solo si valor > 0)
-            series.bullets.push(function(root, series, dataItem) {
-                const value = dataItem.get("valueY");
-                if (value > 0) {
-                    return am5.Bullet.new(root, {
-                        locationY: 0.5,
-                        sprite: am5.Label.new(root, {
-                            text: "{valueY}",
-                            fill: am5.color(0xffffff),
-                            centerY: am5.p50,
-                            centerX: am5.p50,
-                            fontSize: 12,
-                            fontWeight: "bold",
-                            populateText: true
-                        })
-                    });
-                }
-            });
-        });
-
-        // Leyenda con totales por acreditador
-        const legend = chart.children.push(am5.Legend.new(root, {
-            centerX: am5.p50,
-            x: am5.p50,
-            layout: root.horizontalLayout
-        }));
-
-        legend.data.setAll(chart.series.values);
-        
-        legend.labels.template.setAll({
-            fontSize: 14,
-            fontWeight: "600"
-        });
-
-        legend.valueLabels.template.setAll({
-            fontSize: 14,
-            fontWeight: "bold"
-        });
-
-        // Calcular y mostrar totales por acreditador en la leyenda
-        chart.series.each(function(series) {
-            let total = 0;
-            series.data.each(function(dataItem) {
-                const value = dataItem[series.get("valueYField")];
-                total += value || 0;
-            });
-            
-            series.set("legendLabelText", "[" + acreditadorColorsStacked[series.get("name")] + "]" + series.get("name") + "[/]");
-            series.set("legendValueText", "[bold " + acreditadorColorsStacked[series.get("name")] + "]Total: " + total + "[/]");
-        });
-
-        chart.appear(1000, 100);
-        currentStackedChart = root;
-    });
-}
-
-// Cargar datos del gráfico apilado
-async function loadStackedChartData() {
-    console.log('Cargando datos del gráfico apilado...');
-    
-    const periodType = document.getElementById('periodTypeStacked').value;
-
-    const params = new URLSearchParams({
-        period_type: periodType,
-        chart_type: 'column'
-    });
-
-    // Agregar parámetros según el tipo de período
-    if (periodType === 'year') {
-        const startYear = document.getElementById('startYearStacked').value;
-        const endYear = document.getElementById('endYearStacked').value;
-        params.append('start_year', startYear);
-        params.append('end_year', endYear);
-    } else if (periodType === 'month') {
-        const startMonth = document.getElementById('startMonthStacked').value;
-        const endMonth = document.getElementById('endMonthStacked').value;
-        if (startMonth && endMonth) {
-            params.append('start_date', startMonth + '-01');
-            const endDate = new Date(endMonth + '-01');
-            endDate.setMonth(endDate.getMonth() + 1);
-            endDate.setDate(0);
-            params.append('end_date', endDate.toISOString().split('T')[0]);
-        }
-    } else if (periodType === 'day') {
-        const startDate = document.getElementById('startDateStacked').value;
-        const endDate = document.getElementById('endDateStacked').value;
-        if (startDate && endDate) {
-            params.append('start_date', startDate);
-            params.append('end_date', endDate);
-        }
-    }
-
-    const chartDiv = document.getElementById('chartdivStacked');
-    chartDiv.innerHTML = `
-        <div class="text-center" style="padding: 50px;">
-            <div class="spinner-border text-success" role="status">
-                <span class="visually-hidden">Cargando...</span>
-            </div>
-            <p class="mt-2">Cargando datos...</p>
-        </div>
-    `;
-
-    try {
-        const response = await fetch(`/api/chart/candidates?${params}`);
-        const data = await response.json();
-
-        if (data.success) {
-            console.log('Datos recibidos (apilada):', data);
-            
-            chartDiv.innerHTML = '';
-            
-            updateStackedChart(data.data);
-            updateTotalsStacked(data.totals);
-        } else {
-            throw new Error(data.message);
-        }
-    } catch (error) {
-        console.error('Error cargando datos del gráfico apilado:', error);
-        
-        chartDiv.innerHTML = `
-            <div class="alert alert-danger text-center">
-                <h5>Error al cargar los datos</h5>
-                <p>${error.message}</p>
-                <button class="btn btn-success btn-sm" onclick="loadStackedChartData()">Reintentar</button>
-            </div>
-        `;
-        
-        updateTotalsStacked({});
-    }
-}
-
-// Inicializar filtros al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-    toggleDateFiltersStacked();
-});
-</script>
-        
-    </div>
+<div>
+    <p>Total Estudiantes Aprobados: <span id="totalEstudiantesAprobados">0</span></p>
+    <p>Aprobados en Primera Oportunidad: <span id="aprobadosPrimeraOportunidad">0</span></p>
 </div>
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.43"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.44"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

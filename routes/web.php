@@ -83,6 +83,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/chart/years', [adminController::class, 'getAvailableYears']);
     Route::get('/api/dashboard/data', [adminController::class, 'getDashboardData']);
     Route::get('/getAllCoursesData', [adminController::class, 'getAllCoursesData']);
+Route::get('/api/estadisticas-general', [adminController::class, 'estadisticasGeneral']);
+
 
     //----------------------------INSTRUCTOR-------------------------------//
     Route::get('/dashboardInstructor', [adminController::class, 'dashboardInstructor'])->name('dashboardInstructor');

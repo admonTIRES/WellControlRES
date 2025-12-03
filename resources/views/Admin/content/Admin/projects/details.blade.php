@@ -124,12 +124,9 @@
                                     <div class="card-title">{{ __('Course Name') }}</div>
                                 </div>
                                 
-                                    <div>
-                                        <div style="font-size: 0.625rem; color: #6b7280; margin-bottom: 0.25rem;">
-                                            <i class="fas fa-flag"></i> ES
-                                        </div>
-                                        <div class="card-value small">{{ $NOMBRE_PROYECTO ?? '' }}</div>
-                                    </div>
+                                <div>
+                                    <div class="card-value small">{{ $NOMBRE_PROYECTO ?? '' }}</div>
+                                </div>
                                
                             </div>
 

@@ -116,6 +116,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
     Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');
 });
+//---------------------------STUDENTS----------------------------------------//
+    Route::get('/studentsList', [adminController::class, 'studentsList'])->name('studentsList');
+    Route::get('/tablaEstudiantesGeneral', [ProjectManagementController::class, 'tablaEstudiantesGeneral']);
+
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //
 Route::middleware(['auth'])->group(function () {

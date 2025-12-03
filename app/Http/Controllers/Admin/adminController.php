@@ -166,6 +166,27 @@ class adminController extends Controller
         $finalizadosChart = 1;
         return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes'))->with('user_role', 0);
     }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function studentsList()
+    {
+        $temas = TemaPreguntas::all();
+        $subtemas = SubtemaPreguntas::all();
+        $entes = EnteAcreditador::all();
+        $niveles = NivelAcreditacion::all();
+        $bops = TipoBOP::all();
+        $idiomas = IdiomasExamenes::all();
+        $operaciones = Operacion::all();
+        $NombreProyecto = NombreProyecto::all();
+        $clientes = Clientes::all();
+        $instructores = Instructor::all();
+        $comenzarChart = 0;
+        $cursoChart = 0;
+        $finalizadosChart = 1;
+        return view('Admin.content.Admin.projects.students', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes'))->with('user_role', 0);
+    }
     /**
      * @return \Illuminate\View\View
      */

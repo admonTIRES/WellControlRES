@@ -115,11 +115,11 @@ Route::middleware(['auth'])->group(function () {
     //mails
     Route::post('/sendStudentCredentials', [correoController::class, 'enviarCredenciales']);
     Route::get('/projectsInstructor', [adminController::class, 'projectsInstructor'])->name('projectsInstructor');
-});
-//---------------------------STUDENTS----------------------------------------//
+
+    //---------------------------STUDENTS----------------------------------------//
     Route::get('/studentsList', [adminController::class, 'studentsList'])->name('studentsList');
     Route::get('/tablaEstudiantesGeneral', [ProjectManagementController::class, 'tablaEstudiantesGeneral']);
-
+});
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //
 Route::middleware(['auth'])->group(function () {
@@ -218,93 +218,46 @@ Route::middleware(['auth'])->group(function () {
         ]);
     })->name('archivos.centros');
 
-  Route::get('/centros-capacitacion', function (Request $request) {
-    $acreditacion = $request->get('acreditacion', 0);
+    Route::get('/centros-capacitacion', function (Request $request) {
+        $acreditacion = $request->get('acreditacion', 0);
 
-    $query = CentrosCapacitacion::where(function ($q) {
-        $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
-            ->orWhereNull('VIGENCIA_HASTA_CENTRO');
+        $query = CentrosCapacitacion::where(function ($q) {
+            $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
+                ->orWhereNull('VIGENCIA_HASTA_CENTRO');
+        });
+
+        if ($acreditacion == 0) {
+            $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
+        } else {
+            $query->where('ACREDITACION_CENTRO', $acreditacion);
+        }
+
+        $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
+
+        \Log::info('=== CONSULTA CENTROS CAPACITACION ===', [
+            'acreditacion_recibida' => $acreditacion,
+            'fecha_actual' => now()->format('Y-m-d'),
+            'total_centros_encontrados' => $centros->count(),
+            'centros_detalle' => $centros->map(function ($c) {
+                return [
+                    'id' => $c->ID_CATALOGO_CENTRO,
+                    'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
+                    'tipo_centro' => $c->TIPO_CENTRO,
+                    'acreditacion' => $c->ACREDITACION_CENTRO,
+                    'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO
+                ];
+            })
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'centros' => $centros,
+            'total' => $centros->count(),
+            'fecha_consulta' => now()->format('Y-m-d'),
+            'filtro_acreditacion' => $acreditacion,
+            'nota' => 'Se traen centros de cualquier tipo (primario o asociado) que estén vigentes'
+        ]);
     });
-
-    if ($acreditacion == 0) {
-        $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
-    } else {
-        $query->where('ACREDITACION_CENTRO', $acreditacion);
-    }
-
-    $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
-
-    \Log::info('=== CONSULTA CENTROS CAPACITACION (MODIFICADA) ===', [
-        'acreditacion_recibida' => $acreditacion,
-        'fecha_actual' => now()->format('Y-m-d'),
-        'total_centros_encontrados' => $centros->count(),
-        'centros_detalle' => $centros->map(function ($c) {
-            return [
-                'id' => $c->ID_CATALOGO_CENTRO,
-                'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
-                'tipo_centro' => $c->TIPO_CENTRO,
-                'acreditacion' => $c->ACREDITACION_CENTRO,
-                'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO
-            ];
-        })
-    ]);
-
-    return response()->json([
-        'success' => true,
-        'centros' => $centros,
-        'total' => $centros->count(),
-        'fecha_consulta' => now()->format('Y-m-d'),
-        'filtro_acreditacion' => $acreditacion,
-        'nota' => 'Se traen centros de cualquier tipo (primario o asociado) que estén vigentes'
-    ]);
-});
-
-    // Route::get('/centros-capacitacion', function (Request $request) {
-    //     $tipo = $request->get('tipo', '2');
-    //     $acreditacion = $request->get('acreditacion', 0);
-
-    //     $query = CentrosCapacitacion::where('TIPO_CENTRO', $tipo)
-    //         ->where(function ($q) {
-    //             $q->whereRaw('DATE(VIGENCIA_HASTA_CENTRO) >= CURDATE()')
-    //                 ->orWhereNull('VIGENCIA_HASTA_CENTRO');
-    //         });
-
-    //     if ($acreditacion == 0) {
-    //         $query->whereIn('ACREDITACION_CENTRO', [1, 2]);
-    //     } else {
-    //         $query->where('ACREDITACION_CENTRO', $acreditacion);
-    //     }
-
-    //     $centros = $query->orderBy('NOMBRE_COMERCIAL_CENTRO', 'asc')->get();
-
-    //     $centros->load('contactos');
-
-    //     \Log::info('=== CONSULTA CENTROS CAPACITACION ===', [
-    //         'acreditacion_recibida' => $acreditacion,
-    //         'tipo' => $tipo,
-    //         'fecha_actual' => now()->format('Y-m-d'),
-    //         'total_centros_encontrados' => $centros->count(),
-    //         'centros_detalle' => $centros->map(function ($c) {
-    //             return [
-    //                 'id' => $c->ID_CATALOGO_CENTRO,
-    //                 'nombre' => $c->NOMBRE_COMERCIAL_CENTRO,
-    //                 'acreditacion' => $c->ACREDITACION_CENTRO,
-    //                 'vigencia_hasta' => $c->VIGENCIA_HASTA_CENTRO,
-    //                 'contactos_count' => $c->contactos ? $c->contactos->count() : 0
-    //             ];
-    //         })
-    //     ]);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'centros' => $centros,
-    //         'total' => $centros->count(),
-    //         'fecha_consulta' => now()->format('Y-m-d'),
-    //         'filtro_acreditacion' => $acreditacion,
-    //         'filtro_tipo' => $tipo
-    //     ]);
-    // });
-
     Route::get('/obtener-datos-centro', function (Request $request) {
         $centroId = $request->get('centro_id');
 

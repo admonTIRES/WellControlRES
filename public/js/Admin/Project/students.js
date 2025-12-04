@@ -14,9 +14,6 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     scrollX: true,
     scrollCollapse: true,
     responsive: false,
-    fixedColumns: {
-        leftColumns: 2  
-    },
     ajax: {
         dataType: 'json',
         method: 'GET',
@@ -342,6 +339,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     }
 });
 
+new $.fn.dataTable.FixedColumns(projectCourseDatatable, {
+    leftColumns: 2
+});
 function formatDateForDisplay(dateString) {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);

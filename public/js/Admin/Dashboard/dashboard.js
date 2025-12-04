@@ -4,6 +4,7 @@ let currentChartType = 'column';
 let currentColorPalette = 'results';
 let currentChart = null;
 const acreditadorColors = {};
+
 const colorPalettes = {
     default: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
 
@@ -73,8 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM cargado, inicializando gráfica...');
-   
+    console.log('DOM cargado, inicializando gráfica...');  
 
 });
 function showLoading() {
@@ -1189,8 +1189,6 @@ function generateResitTypesChart(estudiantes) {
         console.error('ERROR: La suma no coincide. Estudiantes sin clasificar:', 
                      estudiantesReprobados.length - totalCalculado);
     }
-
-
    const options = {
         series: [withResit, withoutResitButChance, withoutResitChance],
         chart: {

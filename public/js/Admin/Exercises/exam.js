@@ -110,6 +110,11 @@ $(document).ready(function () {
     selectizeInstance6.on('change', function (value) {
         console.log("El valor seleccionado ha cambiado:", value);
 
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+            console.warn("Valor vacío, no se hace petición");
+            return;
+        }
+
         if (Array.isArray(value)) {
             const selectedEnteIds = value;
             console.log("IDs seleccionados:", selectedEnteIds);

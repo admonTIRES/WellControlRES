@@ -246,7 +246,7 @@ $(document).ready(function () {
     $('.dropify').dropify();
     // RESET MODALS
     $('#examModal').on('hidden.bs.modal', function () {
-        ID_EXAM_EXERCISE = 0;
+        ID_EXAM = 0;
         $('#examForm')[0].reset();
         $('#examModal .modal-title').text('New exam');
     });

@@ -1,3 +1,4 @@
+
 var projectCourseDatatable = $("#course-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -12,7 +13,10 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     scrollY: '65vh',
     scrollX: true,
     scrollCollapse: true,
-    responsive: true,
+    responsive: false,
+    fixedColumns: {
+        leftColumns: 2  
+    },
     ajax: {
         dataType: 'json',
         method: 'GET',
@@ -30,12 +34,48 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         },
         dataSrc: 'estudiantes'
     },
-    order: [[0, 'asc']],
+     order: [[0, 'asc']],
     columns: [
         {
             data: null,
             render: function (data, type, row, meta) {
                 return meta.row + 1;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+            }
+        },
+        {
+            data: 'candidato',
+            render: function (data) {
+                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
             }
         },
         {
@@ -259,24 +299,30 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'ESTUDIANTE', className: 'text-left' },
-        { targets: 2, title: 'PRÁCTICO', className: 'text-center' },
-        { targets: 3, title: 'EQUIPOS', className: 'text-center' },
-        { targets: 4, title: 'P&P', className: 'text-center' },
-        { targets: 5, title: 'ESTADO', className: 'text-center' },
-        { targets: 6, title: 'RESIT', className: 'text-center' },
-        { targets: 7, title: 'INTENTOS', className: 'text-center' },
-        { targets: 8, title: 'MÓDULO RESIT', className: 'text-center' },
-        { targets: 9, title: 'RESIT INMEDIATO', className: 'text-center' },
-        { targets: 10, title: 'FECHA RESIT', className: 'text-center' },
-        { targets: 11, title: 'SCORE RESIT', className: 'text-center' },
-        { targets: 12, title: 'RESIT PROGRAMADO', className: 'text-center' },
-        { targets: 13, title: 'ENTRENAMIENTO', className: 'text-center' },
-        { targets: 14, title: 'FECHA PROGRAMADA', className: 'text-center' },
-        { targets: 15, title: 'SCORE PROGRAMADO', className: 'text-center' },
-        { targets: 16, title: 'ESTADO FINAL', className: 'text-center' },
-        { targets: 17, title: 'CERTIFICADO', className: 'text-center' },
-        { targets: 18, title: 'VENCIMIENTO', className: 'text-center' },
-        { targets: 19, title: 'CORREO', className: 'text-center' }
+        { targets: 2, title: 'FOLIO PROYECTO', className: 'text-left' },
+        { targets: 3, title: 'EMPRESA', className: 'text-left' },
+        { targets: 4, title: 'RAZON SOCIAL', className: 'text-left' },
+        { targets: 5, title: 'ACREDITACIÓN', className: 'text-left' },
+        { targets: 6, title: 'NIVEL', className: 'text-left' },
+        { targets: 7, title: 'BOP', className: 'text-left' },
+        { targets: 8, title: 'PRÁCTICO', className: 'text-center' },
+        { targets: 9, title: 'EQUIPOS', className: 'text-center' },
+        { targets: 10, title: 'P&P', className: 'text-center' },
+        { targets: 11, title: 'ESTADO', className: 'text-center' },
+        { targets: 12, title: 'RESIT', className: 'text-center' },
+        { targets: 13, title: 'INTENTOS', className: 'text-center' },
+        { targets: 14, title: 'MÓDULO RESIT', className: 'text-center' },
+        { targets: 15, title: 'RESIT INMEDIATO', className: 'text-center' },
+        { targets: 16, title: 'FECHA RESIT', className: 'text-center' },
+        { targets: 17, title: 'SCORE RESIT', className: 'text-center' },
+        { targets: 18, title: 'RESIT PROGRAMADO', className: 'text-center' },
+        { targets: 19, title: 'ENTRENAMIENTO', className: 'text-center' },
+        { targets: 20, title: 'FECHA PROGRAMADA', className: 'text-center' },
+        { targets: 21, title: 'SCORE PROGRAMADO', className: 'text-center' },
+        { targets: 22, title: 'ESTADO FINAL', className: 'text-center' },
+        { targets: 23, title: 'CERTIFICADO', className: 'text-center' },
+        { targets: 24, title: 'VENCIMIENTO', className: 'text-center' },
+        { targets: 25, title: 'CORREO', className: 'text-center' }
     ],
     createdRow: function (row, data, dataIndex) {
         const curso = data.datos_curso;

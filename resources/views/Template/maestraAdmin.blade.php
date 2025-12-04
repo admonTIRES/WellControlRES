@@ -23,6 +23,9 @@ use Illuminate\Support\Str;
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+
 
     @if (isset($css_identifier))
         @switch($css_identifier)
@@ -763,6 +766,11 @@ use Illuminate\Support\Str;
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+
+    
+
     <script src="/js/Admin/admin.js?v=1.52"></script>
     @if(request()->is('catalogs'))
         <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.20"></script>
@@ -772,7 +780,7 @@ use Illuminate\Support\Str;
     @endif
     @if(request()->is('exercises'))
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.25"></script>
+        <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.26"></script>
     @endif
     @if(request()->is('killsheets'))
         <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>

@@ -979,6 +979,81 @@ $('#question-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#questionModal .modal-title').html("Editar pregunta con folio: " + row.data().FOLIO_PREGUNTA);
 });
 
+$('#exam-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = examDatatable.row(tr);
+    var rowData = row.data();
+    ID_EXAM = row.data().ID_EXAM;
+
+    editarDatoTabla(row.data(), 'examForm', 'examModal', 1);
+    // $('#TEXTO1_QUESTION').val(rowData.TEXTO1_QUESTION || '');
+    // $('#TEXTO2_QUESTION').val(rowData.TEXTO2_QUESTION || '');
+    // $('#TEXTO3_QUESTION').val(rowData.TEXTO3_QUESTION || '');
+    // $('#TEXTO1_QUESTION').removeClass('campo-requerido');
+    // $('#TEXTO2_QUESTION').removeClass('campo-requerido');
+    // $('#TEXTO3_QUESTION').removeClass('campo-requerido');
+
+    // $('#IMAGEN1_QUESTION').val('');
+    // $('#IMAGEN1_QUESTION').dropify().data('dropify').resetPreview();
+    // $('#IMAGEN1_QUESTION').dropify().data('dropify').clearElement();
+
+    // $('#IMAGEN2_QUESTION').val('');
+    // $('#IMAGEN2_QUESTION').dropify().data('dropify').resetPreview();
+    // $('#IMAGEN2_QUESTION').dropify().data('dropify').clearElement();
+
+    // $('#IMAGEN3_QUESTION').val('');
+    // $('#IMAGEN3_QUESTION').dropify().data('dropify').resetPreview();
+    // $('#IMAGEN3_QUESTION').dropify().data('dropify').clearElement();
+    // if (rowData.SECCION_EXTRA1) {
+    //     $('#activarSeccionExtra').prop('checked', true);
+    //     $('#seccionExtra').removeClass('opacity-50 pointer-events-none');
+    //     $('#TIPO2_QUESTION').prop('disabled', false);
+    //     $('#TIPO2_QUESTION').val(rowData.TIPO2_QUESTION || '').trigger('change');
+    // }
+
+    // if (rowData.SECCION_EXTRA2) {
+    //     $('#activarSeccionExtra2').prop('checked', true);
+    //     $('#seccionExtra2').removeClass('opacity-50 pointer-events-none');
+    //     $('#TIPO3_QUESTION').prop('disabled', false);
+    //     $('#TIPO3_QUESTION').val(rowData.TIPO3_QUESTION || '').trigger('change');
+    // }
+
+    // $('#TIPO1_QUESTION').val(rowData.TIPO1_QUESTION || '').trigger('change');
+    // $('#TIPO2_QUESTION').val(rowData.TIPO2_QUESTION || '').trigger('change');
+    // $('#TIPO3_QUESTION').val(rowData.TIPO3_QUESTION || '').trigger('change');
+
+
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();
+            selectize.setValue(values);
+        });
+    }
+
+
+    initializeSelectizedFields(row, [
+        'ACCREDITATION_ENTITIES_EXAM',
+        'LEVELS_EXAM',
+        'BOPS_EXAM',
+        'EVALUATION_TYPES_EXAM'
+    ]);
+
+    $('#questionModal .modal-title').html("Editar pregunta con folio: " + row.data().FOLIO_PREGUNTA);
+});
+
 function actualizarVisibilidadTipos() {
     $('#TIPO1_QUESTION').trigger('change');
     $('#TIPO2_QUESTION').trigger('change');

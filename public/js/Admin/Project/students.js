@@ -31,7 +31,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         },
         dataSrc: 'estudiantes'
     },
-     order: [[0, 'asc']],
+    order: [[0, 'asc']],
     columns: [
         {
             data: null,
@@ -46,39 +46,49 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                return data.FOLIO_PROJECT || '<span class="text-muted">N/A</span>';
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                return data.CENTRO_CAPACITACION || '<span class="text-muted">N/A</span>';
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                return data.TIPO_OPERACION || '<span class="text-muted">N/A</span>';
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                return data.ENTE_ACREDITADOR || '<span class="text-muted">N/A</span>';
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                // Mostrar nombres de niveles de acreditación
+                if (data.NIVELES_ACREDITACION && data.NIVELES_ACREDITACION.length > 0) {
+                    const nombres = data.NIVELES_ACREDITACION.map(nivel => nivel.nombre);
+                    return nombres.join(', ');
+                }
+                return '<span class="text-muted">N/A</span>';
             }
         },
         {
-            data: 'candidato',
+            data: 'proyecto',
             render: function (data) {
-                return `${data.LAST_NAME_PROJECT || ''} ${data.FIRST_NAME_PROJECT || ''} ${data.MIDDLE_NAME_PROJECT || ''}`;
+                // Mostrar abreviaturas de tipos BOP
+                if (data.TIPOS_BOP && data.TIPOS_BOP.length > 0) {
+                    const abreviaturas = data.TIPOS_BOP.map(bop => bop.abreviatura);
+                    return abreviaturas.join(', ');
+                }
+                return '<span class="text-muted">N/A</span>';
             }
         },
         {
@@ -339,9 +349,6 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     }
 });
 
-new $.fn.dataTable.FixedColumns(projectCourseDatatable, {
-    leftColumns: 2
-});
 function formatDateForDisplay(dateString) {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);

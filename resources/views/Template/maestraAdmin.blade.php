@@ -23,8 +23,9 @@ use Illuminate\Support\Str;
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+    {{--     
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css"> --}}
 
 
     @if (isset($css_identifier))
@@ -766,8 +767,8 @@ use Illuminate\Support\Str;
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script> --}}
 
     
 
@@ -789,7 +790,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.54"></script>
     @endif
      @if(request()->is('studentsList'))
-        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.1"></script>
+        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.11"></script>
     @endif
     @if(request()->is('projectsInstructor'))
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>

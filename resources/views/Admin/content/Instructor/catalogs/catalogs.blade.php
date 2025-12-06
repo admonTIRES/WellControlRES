@@ -68,6 +68,15 @@
                                         role="tab"
                                         aria-controls="v-pills-centro"
                                         aria-selected="false">{{ __('Centros de capacitación') }}</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-ubicaciones-tab"
+                                        data-topic="centro-ubicaciones"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-ubicaciones"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-ubicaciones"
+                                        aria-selected="false">{{ __('Ubicaciones') }}</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">{{ __('Customers') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
@@ -200,6 +209,20 @@
                                             </div>
                                             <div>
                                                 <table id="centros-list-table" class="table " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-ubicaciones" role="tabpanel" aria-labelledby="v-pills-ubicaciones-tab">
+                                        <div class="w-100 h-100">
+                                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Catálogo de ubicaciones') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ubicacionesModal">
+                                                     {{ __('Nueva ubicación') }}
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <table id="ubicaciones-list-table" class="table " role="grid">
                                                 </table>
                                             </div>
                                         </div>
@@ -913,7 +936,35 @@
     }
     
 </script>
-
+  <div class="modal fade" id="ubicacionesModal" tabindex="-1" aria-labelledby="ubicacionesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ubicacionesModalLabel">{{ __('Ubicaciones') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ubicacionesForm" method="post"  enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Lugar') }}</label>
+                                <input type="text" class="form-control" name="LUGAR_UBICACION" id="LUGAR_UBICACION" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">{{ __('Ciudad') }}</label>
+                                <input type="text" class="form-control"  name="CIUDAD_UBICACION" id="CIUDAD_UBICACION" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button id="ubicacionesbtnModal" type="button" class="btn btn-primary">{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="modal fade" id="clienteModal" tabindex="-1" aria-labelledby="clienteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -926,7 +977,6 @@
                 <form id="clienteForm" method="post" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     
-                    <!-- Nombre Comercial Único -->
                     <div class="form-section">
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -937,22 +987,18 @@
                         </div>
                     </div>
                     
-                    <!-- Sección de Razones Sociales Múltiples -->
                     <div class="form-section">
                         <h6 class="section-title">Razones Sociales</h6>
                         <div id="razonesSocialesContainer">
-                            <!-- Las razones sociales se agregarán aquí dinámicamente -->
                         </div>
                         <button type="button" class="btn btn-outline-primary mt-2" id="addRazonSocial">
                             <i class="fas fa-plus me-2"></i>Agregar razón social
                         </button>
                     </div>
                     
-                    <!-- Sección de Contactos -->
                     <div class="form-section">
                         <h6 class="section-title">Contactos</h6>
                         <div id="contactosContainerCliente">
-                            <!-- Los contactos se agregarán aquí dinámicamente -->
                         </div>
                         <button type="button" class="btn btn-outline-primary mt-2" id="addContactoCliente">
                             <i class="fas fa-plus me-2"></i>Agregar contacto

@@ -45,11 +45,13 @@ $(document).ready(function () {
     const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
+        actualizarComplementos(acreditacionInicial)
     }
 
     $('#ACCREDITING_ENTITY_PROJECT').on('change', function () {
         const acreditacionId = $(this).val() || 0;
         actualizarCentrosCapacitacion(acreditacionId);
+        actualizarComplementos(acreditacionId);
     });
 
     $('#CERTIFICATION_CENTER_PROJECT').on('change', function () {
@@ -1787,6 +1789,20 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
             $select.html('<option value="" selected disabled>Error al cargar centros</option>');
         }
     });
+}
+function actualizarComplementos(acreditacionId = null) {
+    const $select = $('#COMPLEMENT_PROJECT');
+    $select.html('<option value="" selected disabled>Seleccione una opción</option>');
+
+    if (acreditacionId === null) {
+        acreditacionId = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
+    }
+    if (acreditacionId === '1') { // iadc debe elegir si quiere complemento
+        $select.prop('readonly', false);
+    } else if (acreditacionId === '2') { // iwcf no lleva complementos
+        $select.html('<option value="" selected>No aplica para IWCF</option>');
+        $select.prop('readonly', true);
+    }
 }
 function initializeTagify() {
     if (!window.selectedCompanyIds) window.selectedCompanyIds = [];

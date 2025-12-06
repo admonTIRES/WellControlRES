@@ -287,7 +287,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                  <div class="col-md-2 mt-3">
+                                                <div class="col-md-2 mt-3">
                                                     <label class="form-label"> <strong>{{ __('What type of course is it?')}} </strong></label>
                                                     <select class="form-select" id="COURSE_TYPE_PROJECT" name="COURSE_TYPE_PROJECT">
                                                         <option value="0"> {{ __('Select...')}}</option>
@@ -397,6 +397,14 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                <div class="col-md-2 mt-3">
+                                                    <label class="form-label"> <strong>{{ __('¿Incluye complemento?')}} </strong></label>
+                                                    <select class="form-select" id="COMPLEMENT_PROJECT" name="COMPLEMENT_PROJECT" readonly>
+                                                        <option value="0"> {{ __('Select...')}}</option>
+                                                        <option value="1"> {{ __('Yes')}}</option>
+                                                        <option value="0"> {{ __('No')}}</option>
+                                                    </select>
+                                                </div>
                                                 <hr style="margin-top: 2vw;">
                                                 <div class="col-md-6">
                                                     <div class="form-group mb-3 mt-3">
@@ -440,7 +448,6 @@
                                                 </div> --}}
                                                 <div class="col-12">
                                                     <div id="contactos-container">
-                                                        <!-- Los contactos se mostrarán aquí automáticamente -->
                                                         <div class="text-muted text-center py-3">
                                                             <i class="fas fa-info-circle me-1"></i>
                                                             Seleccione un centro para ver sus contactos
@@ -531,7 +538,6 @@
 
                                                 .flatpickr-container input.form-control {
                                                     padding-right: 64px;
-                                                    /* espacio para íconos */
                                                 }
 
                                                 .input-button:hover {
@@ -892,7 +898,7 @@
     --tag-text-color--edit    : #111;
     --tag-remove-bg           : var(--tag-hover);
     --tag-pad                 : .6em 1em;
-    --tag-inset-shadow-size   : 1.4em; /* compensate for the larger --tag-pad value */
+    --tag-inset-shadow-size   : 1.4em; 
     --tag-remove-btn-color    : white;
     --tag-remove-btn-bg--hover: black;
 
@@ -913,7 +919,6 @@
     margin-inline-end: -1px;
 }
 
-/* Do not show the "remove tag" (x) button when only a single tag remains */
 .customLook .tagify__tag:only-of-type .tagify__tag__removeBtn {
     display: none;
 }
@@ -922,7 +927,6 @@
     opacity: 0;
     transform: translateX(-100%) scale(.5);
     margin-inline: -20px 6px;
-    /* very specific on purpose  */
     text-align: right;
     transition: .12s;
 }

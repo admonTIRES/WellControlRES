@@ -10,6 +10,7 @@ ID_CATALOGO_OPERACION = 0
 ID_CATALOGO_INSTRUCTOR = 0
 ID_CATALOGO_NPROYECTOS = 0
 ID_CATALOGO_CENTRO = 0
+ID_CATALOGO_UBICACION = 0
 ID_CATALOGO_CLIENTE = 0
 
 
@@ -129,6 +130,12 @@ $(document).ready(function () {
         ID_CATALOGO_NPROYECTOS = 0;
         $('#nombresForm')[0].reset();
         $('#nombresModal .modal-title').text('Nuevo nombre de proyecto');
+    });
+
+    $('#ubicacionesModal').on('hidden.bs.modal', function () {
+        ID_CATALOGO_UBICACION = 0;
+        $('#ubicacionesForm')[0].reset();
+        $('#ubicacionesModal .modal-title').text('Nueva ubicación');
     });
 
     actualizarCentrosCapacitacion();
@@ -530,7 +537,61 @@ var centrosDatatable = $("#centros-list-table").DataTable({
         $(row).tooltip();
     }
 });
+var ubicacionesDatatable = $("#ubicaciones-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollX: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    autoWidth: false,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/ubicacionesDatatable',
+        beforeSend: function () {
+        },
+        complete: function () {
+            ubicacionesDatatable.columns.adjust().draw();
+            // ocultarCarga();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'LUGAR_UBICACION' },
+        { data: 'CIUDAD_UBICACION' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Lugar', className: 'text-center' },
+        { targets: 2, title: 'Ciudad', className: 'text-center' },
+        { targets: 3, title: 'Editar', className: 'text-center' },
+        { targets: 4, title: 'Activo', className: 'text-center' }
+    ]
 
+});
 var clientesDatatable = $("#clientes-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -929,6 +990,10 @@ $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
         operacionDatatable.columns.adjust().draw();
     }else if (target === "#v-pills-instructores") {
         instructoresDatatable.columns.adjust().draw();
+    }else if (target === "#v-pills-centros") {
+        centrosDatatable.columns.adjust().draw();
+    }else if (target === "#v-pills-ubicaciones") {
+        ubicacionesDatatable.columns.adjust().draw();
     }else if (target === "#v-pills-nombres") {
         nombresDatatable.columns.adjust().draw();
     }
@@ -1253,6 +1318,75 @@ $("#centrobtnModal").click(function (e) {
     }
 })
 
+$("#ubicacionesbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#ubicacionesForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_UBICACION == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "La ubicación se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('ubicacionesbtnModal')
+                await ajaxAwaitFormData({ api: 13, ID_CATALOGO_UBICACION: ID_CATALOGO_UBICACION }, 'ubicacionesSave', 'ubicacionesForm', 'ubicacionesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_UBICACION = data.ubicacion.ID_CATALOGO_UBICACION
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información esta lista para usarse', null, null, 1500)
+                    $('#ubicacionesModal').modal('hide')
+                    document.getElementById('ubicacionesForm').reset();
+                    ubicacionesDatatable.ajax.reload()
+                })
+            }, 1)
+
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podra usar",
+                icon: "question",
+            }, async function () {
+
+                await loaderbtn('ubicacionesbtnModal')
+                await ajaxAwaitFormData({ api: 13, ID_CATALOGO_UBICACION: ID_CATALOGO_UBICACION }, 'ubicacionesSave', 'ubicacionesForm', 'ubicacionesbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+
+                    $('.swal2-popup').addClass('ld ld-breath')
+
+
+                }, function (data) {
+
+                    setTimeout(() => {
+
+
+                        ID_CATALOGO_UBICACION = data.ubicacion.ID_CATALOGO_UBICACION
+                        $('#ubicacionesModal').modal('hide')
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        document.getElementById('ubicacionesForm').reset();
+                        ubicacionesDatatable.ajax.reload()
+                    }, 300);
+                })
+            }, 1)
+        }
+
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+
+    }
+
+});
 $("#clientebtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#clienteForm'))
@@ -1802,6 +1936,20 @@ $('#entes-list-table tbody').on('change', 'input.ACTIVAR', function () {
     eliminarDatoTabla(data, [entesDatatable], 'enteActive');
 });
 
+$('#ubicaciones-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = ubicacionesDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 13,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_UBICACION: row.data().ID_CATALOGO_UBICACION
+    };
+
+    eliminarDatoTabla(data, [ubicacionesDatatable], 'ubicacionesActive');
+});
+
 $('#nivelacreditacion-list-table tbody').on('change', 'input.ACTIVAR', function () {
     var tr = $(this).closest('tr');
     var row = nivelesDatatable.row(tr);
@@ -1935,10 +2083,19 @@ $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = entesDatatable.row(tr);
     ID_CATALOGO_ENTE = row.data().ID_CATALOGO_ENTE;
-    console.log("entro aqui");
     editarDatoTabla(row.data(), 'entesForm', 'entesModal', 1);
 
     $('#entesModal .modal-title').html(row.data().NOMBRE_ENTE);
+
+});
+
+$('#ubicaciones-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = ubicacionesDatatable.row(tr);
+    ID_CATALOGO_UBICACION = row.data().ID_CATALOGO_UBICACION;
+    editarDatoTabla(row.data(), 'ubicacionesForm', 'ubicacionesModal', 1);
+
+    $('#ubicacionesModal .modal-title').html(row.data().NOMBRE_UBICACION);
 
 });
 

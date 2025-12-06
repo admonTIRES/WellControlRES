@@ -21,6 +21,7 @@ use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\Instructor;
 use App\Models\Admin\catalogs\CentrosCapacitacion;
+use App\Models\Admin\catalogs\Ubicaciones;
 use App\Models\Admin\catalogs\Clientes;
 use DateTime;
 
@@ -227,38 +228,38 @@ class CatalogsController extends Controller
         }
     }
 
-  public function centrosDatatable()
-{
-    try {
-        $tabla = CentrosCapacitacion::get();
-        $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
-        
-        foreach ($tabla as $value) {
-            // MOSTRAR NOMBRE DEL ENTE EN LUGAR DEL ID
-            if (isset($entes[$value->ACREDITACION_CENTRO])) {
-                $value->NOMBRE_ENTE = $entes[$value->ACREDITACION_CENTRO];
-            } else {
-                $value->NOMBRE_ENTE = 'No especificado';
-            }
-            
-            // MOSTRAR TIPO DE CENTRO EN TEXTO
-            if ($value->TIPO_CENTRO == 1) {
-                $value->TIPO_CENTRO_TEXTO = 'ASOCIADO';
-            } elseif ($value->TIPO_CENTRO == 2) {
-                $value->TIPO_CENTRO_TEXTO = 'PRIMARIO';
-            } else {
-                $value->TIPO_CENTRO_TEXTO = 'No especificado';
-            }
-            
-            // CALCULAR VIGENCIA Y COLOR
-            $vigenciaInfo = $this->calcularVigencia($value->VIGENCIA_DESDE_CENTRO, $value->VIGENCIA_HASTA_CENTRO);
-            $value->VIGENCIA_TEXTO = $vigenciaInfo['texto'];
-            $value->COLOR_FILA = $vigenciaInfo['color'];
-            $value->DIAS_RESTANTES = $vigenciaInfo['dias_restantes'];
-            $value->PORCENTAJE = $vigenciaInfo['porcentaje'];
-            
-            // BOTÓN EDITAR
-            $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#centroModal">
+    public function centrosDatatable()
+    {
+        try {
+            $tabla = CentrosCapacitacion::get();
+            $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
+
+            foreach ($tabla as $value) {
+                // MOSTRAR NOMBRE DEL ENTE EN LUGAR DEL ID
+                if (isset($entes[$value->ACREDITACION_CENTRO])) {
+                    $value->NOMBRE_ENTE = $entes[$value->ACREDITACION_CENTRO];
+                } else {
+                    $value->NOMBRE_ENTE = 'No especificado';
+                }
+
+                // MOSTRAR TIPO DE CENTRO EN TEXTO
+                if ($value->TIPO_CENTRO == 1) {
+                    $value->TIPO_CENTRO_TEXTO = 'ASOCIADO';
+                } elseif ($value->TIPO_CENTRO == 2) {
+                    $value->TIPO_CENTRO_TEXTO = 'PRIMARIO';
+                } else {
+                    $value->TIPO_CENTRO_TEXTO = 'No especificado';
+                }
+
+                // CALCULAR VIGENCIA Y COLOR
+                $vigenciaInfo = $this->calcularVigencia($value->VIGENCIA_DESDE_CENTRO, $value->VIGENCIA_HASTA_CENTRO);
+                $value->VIGENCIA_TEXTO = $vigenciaInfo['texto'];
+                $value->COLOR_FILA = $vigenciaInfo['color'];
+                $value->DIAS_RESTANTES = $vigenciaInfo['dias_restantes'];
+                $value->PORCENTAJE = $vigenciaInfo['porcentaje'];
+
+                // BOTÓN EDITAR
+                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#centroModal">
                                     <span class="btn-inner">
                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -267,143 +268,189 @@ class CatalogsController extends Controller
                                         </svg>
                                     </span>
                                 </button>';
-            
-            // BOTÓN PDF
-            $tieneDocumento = false;
-            $rutaDocumento = '';
-            $idCentro = $value->ID_CATALOGO_CENTRO;
-            
-            if (!empty($value->DOC_CENTRO)) {
-                try {
-                    $docData = json_decode($value->DOC_CENTRO, true);
-                    
-                    if (json_last_error() === JSON_ERROR_NONE && is_array($docData) && !empty($docData)) {
-                        $primerDoc = $docData[0];
-                        $tieneDocumento = true;
-                        $rutaCompleta = $primerDoc['ruta'] ?? '';
-                        $nombreArchivo = basename($rutaCompleta);
-                        $rutaDocumento = $nombreArchivo;
+
+                // BOTÓN PDF
+                $tieneDocumento = false;
+                $rutaDocumento = '';
+                $idCentro = $value->ID_CATALOGO_CENTRO;
+
+                if (!empty($value->DOC_CENTRO)) {
+                    try {
+                        $docData = json_decode($value->DOC_CENTRO, true);
+
+                        if (json_last_error() === JSON_ERROR_NONE && is_array($docData) && !empty($docData)) {
+                            $primerDoc = $docData[0];
+                            $tieneDocumento = true;
+                            $rutaCompleta = $primerDoc['ruta'] ?? '';
+                            $nombreArchivo = basename($rutaCompleta);
+                            $rutaDocumento = $nombreArchivo;
+                        }
+                    } catch (Exception $e) {
+                        $tieneDocumento = !empty($value->DOC_CENTRO);
+                        $rutaDocumento = basename($value->DOC_CENTRO);
                     }
-                } catch (Exception $e) {
-                    $tieneDocumento = !empty($value->DOC_CENTRO);
-                    $rutaDocumento = basename($value->DOC_CENTRO);
                 }
-            }
-            
-            $value->BTN_PDF = $tieneDocumento ? 
-                '<button type="button" class="btn btn-sm btn-icon btn-info VER_PDF" data-toggle="tooltip" data-placement="top" title="Ver PDF" data-id="'.$idCentro.'" data-ruta="'.htmlspecialchars($rutaDocumento, ENT_QUOTES).'">
+
+                $value->BTN_PDF = $tieneDocumento ?
+                    '<button type="button" class="btn btn-sm btn-icon btn-info VER_PDF" data-toggle="tooltip" data-placement="top" title="Ver PDF" data-id="' . $idCentro . '" data-ruta="' . htmlspecialchars($rutaDocumento, ENT_QUOTES) . '">
                     <span class="btn-inner">
                         <i class="fas fa-file-pdf"></i>
                     </span>
-                </button>' : 
-                '<button type="button" class="btn btn-sm btn-icon btn-secondary" disabled data-toggle="tooltip" data-placement="top" title="Sin documento">
+                </button>' :
+                    '<button type="button" class="btn btn-sm btn-icon btn-secondary" disabled data-toggle="tooltip" data-placement="top" title="Sin documento">
                     <span class="btn-inner">
                         <i class="fas fa-file-pdf"></i>
                     </span>
                 </button>';
+            }
+
+            return response()->json([
+                'data' => $tabla,
+                'msj' => 'Información consultada correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error ' . $e->getMessage(),
+                'data' => 0
+            ]);
+        }
+    }
+    public function ubicacionesDatatable()
+    {
+        try {
+            $tabla = Ubicaciones::get();
+            foreach ($tabla as $value) {
+                if ($value->ACTIVO_UBICACION == 0) {
+                    $value->BTN_ACTIVO = '<div class="form-check form-switch">
+                                                                    <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_UBICACION . '">
+                                                                </div>';
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                                                                    <span class="btn-inner">
+                                                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </button>';
+                } else {
+                    $value->BTN_ACTIVO = '<div class="form-check form-switch">
+                                                <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_UBICACION . '" checked>
+                                            </div>';
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                                                                    <span class="btn-inner">
+                                                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </button>';
+                }
+            }
+
+            return response()->json([
+                'data' => $tabla,
+                'msj' => 'Información consultada correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error ' . $e->getMessage(),
+                'data' => 0
+            ]);
+        }
+    }
+
+
+    // FUNCIÓN PARA CALCULAR VIGENCIA (CORREGIDA - POR PORCENTAJE)
+    private function calcularVigencia($fechaDesde, $fechaHasta)
+    {
+        $hoy = new DateTime();
+
+        // Si no hay fechas válidas
+        if (!$fechaDesde || !$fechaHasta) {
+            return [
+                'texto' => 'SIN FECHAS',
+                'color' => 'fila-gris',
+                'dias_restantes' => 0,
+                'porcentaje' => 0
+            ];
         }
 
-        return response()->json([
-            'data' => $tabla,
-            'msj' => 'Información consultada correctamente'
-        ]);
-    } catch (Exception $e) {
-        return response()->json([
-            'msj' => 'Error ' . $e->getMessage(),
-            'data' => 0
-        ]);
-    }
-}
+        $desde = new DateTime($fechaDesde);
+        $hasta = new DateTime($fechaHasta);
 
-// FUNCIÓN PARA CALCULAR VIGENCIA (CORREGIDA - POR PORCENTAJE)
-private function calcularVigencia($fechaDesde, $fechaHasta)
-{
-    $hoy = new DateTime();
-    
-    // Si no hay fechas válidas
-    if (!$fechaDesde || !$fechaHasta) {
+        // Formatear fechas para comparación solo por día (sin hora)
+        $hoyFormateado = $hoy->format('Y-m-d');
+        $hastaFormateado = $hasta->format('Y-m-d');
+
+        // Si la fecha de vencimiento es hoy
+        if ($hoyFormateado == $hastaFormateado) {
+            return [
+                'texto' => 'VENCE HOY (0 días)',
+                'color' => 'fila-vence-hoy',
+                'dias_restantes' => 0,
+                'porcentaje' => 100
+            ];
+        }
+
+        // Si la fecha de vencimiento ya pasó (después de hoy)
+        if ($hoy > $hasta) {
+            $diasVencido = $hoy->diff($hasta)->days;
+            $textoVencido = $diasVencido == 1 ? 'VENCIDO (1 día)' : 'VENCIDO (' . $diasVencido . ' días)';
+
+            return [
+                'texto' => $textoVencido,
+                'color' => 'fila-vencido',
+                'dias_restantes' => 0,
+                'porcentaje' => 100
+            ];
+        }
+
+        // Calcular días totales y días transcurridos
+        $diasTotales = $hasta->diff($desde)->days;
+        $diasTranscurridos = $hoy->diff($desde)->days;
+        $diasRestantes = $hasta->diff($hoy)->days;
+
+        // Calcular porcentaje transcurrido
+        $porcentajeTranscurrido = $diasTotales > 0 ? ($diasTranscurridos / $diasTotales) * 100 : 0;
+
+        // DETERMINAR COLOR SEGÚN PORCENTAJE TRANSCURRIDO
+        if ($porcentajeTranscurrido <= 40) {
+            // 0% - 40%: VERDE
+            $color = 'fila-verde';
+            $estado = 'VIGENTE';
+        } elseif ($porcentajeTranscurrido <= 70) {
+            // 41% - 70%: AMARILLO
+            $color = 'fila-amarillo';
+            $estado = 'VIGENTE';
+        } else {
+            // 71% - 100%: ROJO (pero aún vigente)
+            $color = 'fila-rojo';
+            $estado = 'VIGENTE';
+        }
+
+        // Texto con días en singular o plural
+        $textoDias = $diasRestantes == 1 ? '1 día' : $diasRestantes . ' días';
+
         return [
-            'texto' => 'SIN FECHAS',
-            'color' => 'fila-gris',
-            'dias_restantes' => 0,
-            'porcentaje' => 0
+            'texto' => $estado . ' (' . $textoDias . ')',
+            'color' => $color,
+            'dias_restantes' => $diasRestantes,
+            'porcentaje' => round($porcentajeTranscurrido, 1)
         ];
     }
-    
-    $desde = new DateTime($fechaDesde);
-    $hasta = new DateTime($fechaHasta);
-    
-    // Formatear fechas para comparación solo por día (sin hora)
-    $hoyFormateado = $hoy->format('Y-m-d');
-    $hastaFormateado = $hasta->format('Y-m-d');
-    
-    // Si la fecha de vencimiento es hoy
-    if ($hoyFormateado == $hastaFormateado) {
-        return [
-            'texto' => 'VENCE HOY (0 días)',
-            'color' => 'fila-vence-hoy',
-            'dias_restantes' => 0,
-            'porcentaje' => 100
-        ];
-    }
-    
-    // Si la fecha de vencimiento ya pasó (después de hoy)
-    if ($hoy > $hasta) {
-        $diasVencido = $hoy->diff($hasta)->days;
-        $textoVencido = $diasVencido == 1 ? 'VENCIDO (1 día)' : 'VENCIDO (' . $diasVencido . ' días)';
-        
-        return [
-            'texto' => $textoVencido,
-            'color' => 'fila-vencido',
-            'dias_restantes' => 0,
-            'porcentaje' => 100
-        ];
-    }
-    
-    // Calcular días totales y días transcurridos
-    $diasTotales = $hasta->diff($desde)->days;
-    $diasTranscurridos = $hoy->diff($desde)->days;
-    $diasRestantes = $hasta->diff($hoy)->days;
-    
-    // Calcular porcentaje transcurrido
-    $porcentajeTranscurrido = $diasTotales > 0 ? ($diasTranscurridos / $diasTotales) * 100 : 0;
-    
-    // DETERMINAR COLOR SEGÚN PORCENTAJE TRANSCURRIDO
-    if ($porcentajeTranscurrido <= 40) {
-        // 0% - 40%: VERDE
-        $color = 'fila-verde';
-        $estado = 'VIGENTE';
-    } elseif ($porcentajeTranscurrido <= 70) {
-        // 41% - 70%: AMARILLO
-        $color = 'fila-amarillo';
-        $estado = 'VIGENTE';
-    } else {
-        // 71% - 100%: ROJO (pero aún vigente)
-        $color = 'fila-rojo';
-        $estado = 'VIGENTE';
-    }
-    
-    // Texto con días en singular o plural
-    $textoDias = $diasRestantes == 1 ? '1 día' : $diasRestantes . ' días';
-    
-    return [
-        'texto' => $estado . ' (' . $textoDias . ')',
-        'color' => $color,
-        'dias_restantes' => $diasRestantes,
-        'porcentaje' => round($porcentajeTranscurrido, 1)
-    ];
-}
 
     public function clienteDatatable()
-{
-    try {
-        $tabla = Clientes::get();
-        foreach ($tabla as $value) {
-            if ($value->ACTIVO_CLIENTE == 0) {
-                $value->BTN_ACTIVO = '<div class="form-check form-switch">
+    {
+        try {
+            $tabla = Clientes::get();
+            foreach ($tabla as $value) {
+                if ($value->ACTIVO_CLIENTE == 0) {
+                    $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                             <input class="form-check-input ACTIVAR_CLIENTE" type="checkbox" data-id="' . $value->ID_CATALOGO_CLIENTE . '">
                                                         </div>';
-                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
                                                             <span class="btn-inner">
                                                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -412,11 +459,11 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
                                                                 </svg>
                                                             </span>
                                                         </button>';
-            } else {
-                $value->BTN_ACTIVO = '<div class="form-check form-switch">
+                } else {
+                    $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                             <input class="form-check-input ACTIVAR_CLIENTE" type="checkbox" data-id="' . $value->ID_CATALOGO_CLIENTE . '" checked>
                                         </div>';
-                $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                    $value->BTN_EDITAR = ' <button type="button" class="btn btn-sm btn-icon btn-warning EDITAR_CLIENTE" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#clienteModal">
                                                             <span class="btn-inner">
                                                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -425,20 +472,20 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
                                                                 </svg>
                                                             </span>
                                                         </button>';
+                }
             }
-        }
 
-        return response()->json([
-            'data' => $tabla,
-            'msj' => 'Información consultada correctamente'
-        ]);
-    } catch (Exception $e) {
-        return response()->json([
-            'msj' => 'Error ' . $e->getMessage(),
-            'data' => 0
-        ]);
+            return response()->json([
+                'data' => $tabla,
+                'msj' => 'Información consultada correctamente'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'msj' => 'Error ' . $e->getMessage(),
+                'data' => 0
+            ]);
+        }
     }
-}
 
     public function subtemasDatatable()
     {
@@ -1251,82 +1298,111 @@ private function calcularVigencia($fechaDesde, $fechaHasta)
                     }
                     break;
 
-               case 12:
-    if ($request->ID_CATALOGO_CLIENTE == 0) {
-        // NUEVO REGISTRO
-        DB::statement('ALTER TABLE costumers AUTO_INCREMENT=1;');
-        
-        $data = $request->all();
-        
-        // PROCESAR DATOS DINÁMICOS PARA NUEVO REGISTRO
-        $razonesSocialesJSON = $request->razonesSocialesJSON;
-        $contactosJSON = $request->contactosClienteJSON;
-        
-        // Procesar razones sociales
-        if ($razonesSocialesJSON) {
-            $razonesArray = json_decode($razonesSocialesJSON, true);
-            if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
-                $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
-            }
-            $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
-        }
-        
-        // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
-        if ($contactosJSON) {
-            $data['CONTACTO_CLIENTE'] = $contactosJSON;
-        }
-        
-        // ACTIVO_CLIENTE = 1 por defecto
-        $data['ACTIVO_CLIENTE'] = 1;
-        
-        $cliente = Clientes::create($data);
-        
-    } else {
-        // EDICIÓN O ACTIVAR/DESACTIVAR
-        if (isset($request->ACTIVAR)) {
-            // ESTRUCTURA IDÉNTICA PARA ACTIVAR/DESACTIVAR
-            if ($request->ACTIVAR == 1) {
-                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 0]);
-                $response['code'] = 1;
-                $response['cliente'] = 'Desactivado';
-            } else {
-                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 1]);
-                $response['code'] = 1;
-                $response['cliente'] = 'Activado';
-            }
-        } else {
-            // EDICIÓN NORMAL - ADAPTADA PARA PROCESAR JSON
-            $data = $request->all();
-            
-            // PROCESAR DATOS DINÁMICOS PARA EDICIÓN
-            $razonesSocialesJSON = $request->razonesSocialesJSON;
-            $contactosJSON = $request->contactosClienteJSON;
-            
-            // Procesar razones sociales
-            if ($razonesSocialesJSON) {
-                $razonesArray = json_decode($razonesSocialesJSON, true);
-                if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
-                    $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
-                }
-                $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
-            }
-            
-            // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
-            if ($contactosJSON) {
-                $data['CONTACTO_CLIENTE'] = $contactosJSON;
-            }
-            
-            $cliente = Clientes::find($request->ID_CATALOGO_CLIENTE);
-            $cliente->update($data);
-            $response['code'] = 1;
-            $response['cliente'] = 'Actualizado';
-        }
-        return response()->json($response);
-    }
-    $response['code']  = 1;
-    $response['cliente']  = $cliente;
-    return response()->json($response);
-    break;
+                case 12:
+                    if ($request->ID_CATALOGO_CLIENTE == 0) {
+                        // NUEVO REGISTRO
+                        DB::statement('ALTER TABLE costumers AUTO_INCREMENT=1;');
+
+                        $data = $request->all();
+
+                        // PROCESAR DATOS DINÁMICOS PARA NUEVO REGISTRO
+                        $razonesSocialesJSON = $request->razonesSocialesJSON;
+                        $contactosJSON = $request->contactosClienteJSON;
+
+                        // Procesar razones sociales
+                        if ($razonesSocialesJSON) {
+                            $razonesArray = json_decode($razonesSocialesJSON, true);
+                            if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
+                                $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
+                            }
+                            $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
+                        }
+
+                        // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
+                        if ($contactosJSON) {
+                            $data['CONTACTO_CLIENTE'] = $contactosJSON;
+                        }
+
+                        // ACTIVO_CLIENTE = 1 por defecto
+                        $data['ACTIVO_CLIENTE'] = 1;
+
+                        $cliente = Clientes::create($data);
+                    } else {
+                        // EDICIÓN O ACTIVAR/DESACTIVAR
+                        if (isset($request->ACTIVAR)) {
+                            // ESTRUCTURA IDÉNTICA PARA ACTIVAR/DESACTIVAR
+                            if ($request->ACTIVAR == 1) {
+                                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 0]);
+                                $response['code'] = 1;
+                                $response['cliente'] = 'Desactivado';
+                            } else {
+                                $cliente = Clientes::where('ID_CATALOGO_CLIENTE', $request['ID_CATALOGO_CLIENTE'])->update(['ACTIVO_CLIENTE' => 1]);
+                                $response['code'] = 1;
+                                $response['cliente'] = 'Activado';
+                            }
+                        } else {
+                            // EDICIÓN NORMAL - ADAPTADA PARA PROCESAR JSON
+                            $data = $request->all();
+
+                            // PROCESAR DATOS DINÁMICOS PARA EDICIÓN
+                            $razonesSocialesJSON = $request->razonesSocialesJSON;
+                            $contactosJSON = $request->contactosClienteJSON;
+
+                            // Procesar razones sociales
+                            if ($razonesSocialesJSON) {
+                                $razonesArray = json_decode($razonesSocialesJSON, true);
+                                if (json_last_error() === JSON_ERROR_NONE && !empty($razonesArray)) {
+                                    $data['RAZON_SOCIAL_CLIENTE'] = $razonesArray[0]['RAZON_SOCIAL'] ?? '';
+                                }
+                                $data['RAZONES_SOCIALES'] = $razonesSocialesJSON;
+                            }
+
+                            // Procesar contactos - GUARDAR COMO JSON EN CONTACTO_CLIENTE
+                            if ($contactosJSON) {
+                                $data['CONTACTO_CLIENTE'] = $contactosJSON;
+                            }
+
+                            $cliente = Clientes::find($request->ID_CATALOGO_CLIENTE);
+                            $cliente->update($data);
+                            $response['code'] = 1;
+                            $response['cliente'] = 'Actualizado';
+                        }
+                        return response()->json($response);
+                    }
+                    $response['code']  = 1;
+                    $response['cliente']  = $cliente;
+                    return response()->json($response);
+                    break;
+                case 13:
+                    if ($request->ID_CATALOGO_UBICACION == 0) {
+                        DB::statement('ALTER TABLE locations AUTO_INCREMENT=1;');
+                        $data = $request->all();
+                        $data['ACTIVO_UBICACION'] = 1;
+
+                        $ubicaciones = Ubicaciones::create($data);
+                    } else {
+                        if (isset($request->ACTIVAR)) {
+                            if ($request->ACTIVAR == 1) {
+                                $ubicaciones = Ubicaciones::where('ID_CATALOGO_UBICACION', $request['ID_CATALOGO_UBICACION'])->update(['ACTIVO_UBICACION' => 0]);
+                                $response['code'] = 1;
+                                $response['ubicacion'] = 'Desactivado';
+                            } else {
+                                $ubicaciones = Ubicaciones::where('ID_CATALOGO_UBICACION', $request['ID_CATALOGO_UBICACION'])->update(['ACTIVO_UBICACION' => 1]);
+                                $response['code'] = 1;
+                                $response['ubicacion'] = 'Activado';
+                            }
+                        } else {
+                            $ubicaciones = Ubicaciones::find($request->ID_CATALOGO_UBICACION);
+                            $ubicaciones->update($request->all());
+                            $response['code'] = 1;
+                            $response['ubicacion'] = 'Actualizado';
+                        }
+                        return response()->json($response);
+                    }
+                    $response['code']  = 1;
+                    $response['ubicacion']  = $ubicaciones;
+                    return response()->json($response);
+                    break;
                     default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';

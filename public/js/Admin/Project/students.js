@@ -15,10 +15,10 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     scrollCollapse: true,
     responsive: false,
     ajax: {
-        dataType: 'json',
+        dataType: 'json', 
         method: 'GET',
         cache: false,
-        url: '/tablaEstudiantesGeneral', // Cambiado para usar la misma fuente de datos
+        url: '/tablaEstudiantesGeneral',
         beforeSend: function () {
             // mostrarCarga();
         },

@@ -12,7 +12,7 @@
                             <div class="col-lg-6 banner-item">
                                 <div class="banner-text">
                                     <h1 class="fw-bold mb-4">
-                                        <span class="text-secondary">{{ __('Students list') }} - </span> 
+                                        <span class="text-secondary">{{ __('Students list') }} </span> 
                                     </h1>
                                 </div>
                                 <p class="mb-4">{{ __('Bienvenido, administrador. Este panel le permitirá consultar información de todos los estudiantes registrados en WCLE)') }}</p>

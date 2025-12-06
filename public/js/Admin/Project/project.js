@@ -1341,6 +1341,11 @@ class WizardManager {
                 </td>
                 <td>
                     <input type="text" class="form-control input-lg" 
+                           name="cr" placeholder="CR" 
+                           value="${student.cr}">
+                </td>
+                <td>
+                    <input type="text" class="form-control input-lg" 
                            name="lastName" placeholder="Apellidos" 
                            value="${student.lastName}" required>
                 </td>
@@ -1791,17 +1796,15 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
     });
 }
 function actualizarComplementos(acreditacionId = null) {
-    const $select = $('#COMPLEMENT_PROJECT');
-    $select.html('<option value="" selected disabled>Seleccione una opción</option>');
 
     if (acreditacionId === null) {
         acreditacionId = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
     }
     if (acreditacionId === '1') { // iadc debe elegir si quiere complemento
-        $select.prop('readonly', false);
+       $('#complementoDiv').removeClass('d-none');
     } else if (acreditacionId === '2') { // iwcf no lleva complementos
-        $select.html('<option value="" selected>No aplica para IWCF</option>');
-        $select.prop('readonly', true);
+       $('#complementoDiv').addClass('d-none');
+       
     }
 }
 function initializeTagify() {
@@ -2566,10 +2569,15 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'COURSE_NAME_ES_PROJECT'
     ]);
 
+
     const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
-
+        if(acreditacionInicial==='1'){//iadc
+            $('#complementoDiv').removeClass('d-none');
+        }else{
+            $('#complementoDiv').addClass('d-none');
+        }
         setTimeout(() => {
             if (rowData.CERTIFICATION_CENTER_PROJECT) {
                 $('#CERTIFICATION_CENTER_PROJECT').val(rowData.CERTIFICATION_CENTER_PROJECT);

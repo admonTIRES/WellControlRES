@@ -397,9 +397,9 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2 mt-3">
-                                                    <label class="form-label"> <strong>{{ __('¿Incluye complemento?')}} </strong></label>
-                                                    <select class="form-select" id="COMPLEMENT_PROJECT" name="COMPLEMENT_PROJECT" readonly>
+                                                <div class="col-md-2 mt-3 d-none" id="complementoDiv">
+                                                    <label class="form-label"> <strong>{{ __('¿Incluye complementos?')}} </strong></label>
+                                                    <select class="form-select" id="COMPLEMENT_PROJECT" name="COMPLEMENT_PROJECT">
                                                         <option value="0"> {{ __('Select...')}}</option>
                                                         <option value="1"> {{ __('Yes')}}</option>
                                                         <option value="0"> {{ __('No')}}</option>

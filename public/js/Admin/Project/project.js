@@ -1956,7 +1956,7 @@ function cargarDatosCentro(centroId) {
 
                 // Mostrar contactos
                 if (response.centro.contactos && response.centro.contactos.length > 0) {
-                    mostrarContactos(response.centro.contactos, response.centro.ubicacion);
+                    mostrarContactos(response.centro.contactos, response.ubicacion);
                 } else {
                     mostrarSinContactos();
                 }

@@ -483,7 +483,6 @@ use Illuminate\Support\Str;
                     </li>
                 </ul>
             </div>
-
             <a href="{{ route('test.student') }}" 
                 type="button" 
                 class="btn btn-secondary botton-slidebar" 
@@ -770,8 +769,6 @@ use Illuminate\Support\Str;
     {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script> --}}
 
-    
-
     <script src="/js/Admin/admin.js?v=1.52"></script>
     @if(request()->is('catalogs'))
         <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.22"></script>
@@ -796,7 +793,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.32"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.33"></script>
     @endif
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

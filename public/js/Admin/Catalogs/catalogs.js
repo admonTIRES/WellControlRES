@@ -144,6 +144,8 @@ $(document).ready(function () {
     $('#centroForm')[0].reset();
     $('#centroModal .modal-title').text('Nuevo centro de capacitación');
     actualizarCentrosCapacitacion();
+    actualizarUbicaciones();
+
     // LIMPIAR CONTENEDORES DINÁMICOS
     $('#contactosContainer').empty();
     $('#queIncluyeContainer').empty();
@@ -2094,7 +2096,6 @@ $('#ubicaciones-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var row = ubicacionesDatatable.row(tr);
     ID_CATALOGO_UBICACION = row.data().ID_CATALOGO_UBICACION;
     editarDatoTabla(row.data(), 'ubicacionesForm', 'ubicacionesModal', 1);
-
     $('#ubicacionesModal .modal-title').html(row.data().NOMBRE_UBICACION);
 
 });
@@ -2215,6 +2216,7 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var row = centrosDatatable.row(tr);
     ID_CATALOGO_CENTRO = row.data().ID_CATALOGO_CENTRO;
     actualizarCentrosCapacitacion();
+    actualizarUbicaciones(row.data().UBICACION_CENTRO);
 
     editarDatoTabla(row.data(), 'centroForm', 'centroModal', 1);
     $('#centroModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CENTRO);
@@ -2341,6 +2343,43 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
         },
         error: function(xhr, status, error) {
             $select.html('<option value="" selected disabled>Error al cargar centros</option>');
+        }
+    });
+}
+
+function actualizarUbicaciones(idSeleccionada = null) {
+    const $select = $('#UBICACION_CENTRO');
+    $select.html('<option value="" selected disabled>Cargando ubicaciones...</option>');
+    
+    $.ajax({
+        url: '/ubicaciones',
+        type: 'GET',
+        data: { 
+            ubicacion: 0
+        },
+        success: function(response) {
+            let options = '<option value="" disabled>Seleccione una opción</option>';
+            
+            if (response.success && response.ubicaciones.length > 0) {
+                response.ubicaciones.forEach(function(ubicacion) {
+
+                    const selected = (idSeleccionada == ubicacion.ID_CATALOGO_UBICACION)
+                                   ? 'selected'
+                                   : '';
+
+                    options += `
+                        <option value="${ubicacion.ID_CATALOGO_UBICACION}" ${selected}>
+                            ${ubicacion.LUGAR_UBICACION} - ${ubicacion.CIUDAD_UBICACION}
+                        </option>`;
+                });
+            } else {
+                options = '<option value="" disabled>No hay ubicaciones disponibles</option>';
+            }
+            
+            $select.html(options);
+        },
+        error: function() {
+            $select.html('<option value="" disabled>Error al cargar ubicaciones</option>');
         }
     });
 }

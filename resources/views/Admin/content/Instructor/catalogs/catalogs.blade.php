@@ -662,6 +662,12 @@
                                 <label for="NUMERO_CENTRO" class="form-label">Número de Acreditación</label>
                                 <input type="text" class="form-control" id="NUMERO_CENTRO" name="NUMERO_CENTRO">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="UBICACION_CENTRO" class="form-label">Ubicación</label>
+                                <select class="form-select" id="UBICACION_CENTRO" name="UBICACION_CENTRO">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                </select>
+                            </div>
                         </div>
                         
                         <!-- Sección Qué incluye con el mismo diseño que Contacto -->

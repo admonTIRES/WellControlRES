@@ -21,7 +21,8 @@ class CentrosCapacitacion extends Model
         'VIGENCIA_HASTA_CENTRO', 
         'CONTACTOS_CENTRO', 
         'INCLUYE_CENTRO', 
-        'DOC_CENTRO'
+        'DOC_CENTRO',
+        'UBICACION_CENTRO'
     ];
 
 }

@@ -35,7 +35,7 @@ use App\Mail\Correo;
 use Illuminate\Support\Facades\Mail;
 
 use App\Models\Admin\catalogs\CentrosCapacitacion;
-
+use App\Models\Admin\catalogs\Ubicaciones;
 
 //---------------------------               ALL              -------------------------------//
 //----------------------------LANGUAGE-------------------------------//
@@ -260,6 +260,19 @@ Route::middleware(['auth'])->group(function () {
             'fecha_consulta' => now()->format('Y-m-d'),
             'filtro_acreditacion' => $acreditacion,
             'nota' => 'Se traen centros de cualquier tipo (primario o asociado) que estén vigentes'
+        ]);
+    });
+
+     Route::get('/ubicaciones', function (Request $request) {
+
+        $ubicaciones = Ubicaciones::get();
+
+
+        return response()->json([
+            'success' => true,
+            'ubicaciones' => $ubicaciones,
+            'total' => $ubicaciones->count(),
+            'nota' => 'Se traen ubicaciones que esten activas en el catálogo'
         ]);
     });
     Route::get('/obtener-datos-centro', function (Request $request) {

@@ -454,7 +454,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 d-none" >
                                                     <div class="form-group mb-3">
                                                         <label class="form-label"> <strong>{{ __('Location:')}}</strong></label>
                                                         <input type="text" class="form-control" name="LOCATION_PROJECT" id="LOCATION_PROJECT"
@@ -463,7 +463,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 d-none">
                                                     <div class="form-group mb-3">
                                                         <label class="form-label"> <strong>{{ __('City:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CITY_PROJECT" id="CITY_PROJECT"

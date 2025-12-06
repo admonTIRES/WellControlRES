@@ -1956,7 +1956,7 @@ function cargarDatosCentro(centroId) {
 
                 // Mostrar contactos
                 if (response.centro.contactos && response.centro.contactos.length > 0) {
-                    mostrarContactos(response.centro.contactos);
+                    mostrarContactos(response.centro.contactos, response.centro.ubicacion);
                 } else {
                     mostrarSinContactos();
                 }
@@ -1972,7 +1972,7 @@ function cargarDatosCentro(centroId) {
         }
     });
 }
-function mostrarContactos(contactos) {
+function mostrarContactos(contactos, ubicacion = null) {
     const $contactosContainer = $('#contactos-container');
 
     let html = `
@@ -1987,6 +1987,7 @@ function mostrarContactos(contactos) {
                             <th>Email</th>
                             <th>Celular</th>
                             <th>Teléfono Fijo</th>
+                            <th>Ubicación</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -2016,6 +2017,13 @@ function mostrarContactos(contactos) {
                 `<a href="tel:${contacto.fijo}" class="text-decoration-none">
                             <i class="fas fa-phone me-1"></i>${contacto.fijo}
                          </a>` :
+                'N/A'}
+                </td>
+                <td>
+                    ${ubicacion ?
+                `
+                            <i class="fas fa-location me-1"></i>${ubicacion}
+                         ` :
                 'N/A'}
                 </td>
             </tr>

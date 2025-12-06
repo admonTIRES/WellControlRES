@@ -326,6 +326,15 @@ Route::middleware(['auth'])->group(function () {
             }
         }
 
+        $ubicacionId = $centro->UBICACION_CENTRO;
+        $ubicacionModel = Ubicaciones::find($ubicacionId);
+        if ($ubicacionModel) {
+            $ubicacion = $ubicacionModel->LUGAR_UBICACION . ' - ' . $ubicacionModel->CIUDAD_UBICACION;
+        } else {
+            $ubicacion = 'Ubicación no encontrada';
+        }
+
+
         \Log::info('Contactos final: ', $contactos);
 
         return response()->json([
@@ -335,7 +344,8 @@ Route::middleware(['auth'])->group(function () {
                 'nombre_comercial' => $centro->NOMBRE_COMERCIAL_CENTRO,
                 'numero_centro' => $centro->NUMERO_CENTRO, // Ajusta según tu BD
                 'contactos' => $contactos
-            ]
+            ],
+            'ubicacion' => $ubicacion
         ]);
     });
 });

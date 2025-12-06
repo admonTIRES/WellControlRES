@@ -649,15 +649,50 @@ function loadTableCursoModal() {
 
                     // Level (Niveles de acreditación) - SPAN
                     tr += `<td>
-                            <div class="levels-container">`;
-                    if (proyecto.ACCREDITATION_LEVELS_PROJECT && proyecto.ACCREDITATION_LEVELS_PROJECT.length > 0) {
-                        proyecto.ACCREDITATION_LEVELS_PROJECT.forEach(nivel => {
-                            tr += `<span class="level-badge">${nivel.nombre || nivel.descripcion}</span>`;
-                        });
-                    } else {
+                    <div class="levels-container">`;
+
+                    const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
+                    const candidatoLevel = candidato.LEVEL || 0;
+
+                    if (niveles.length === 0) {
                         tr += `<span class="text-muted">N/A</span>`;
+                    } else {
+
+                        // SI SOLO HAY UN NIVEL
+                        if (niveles.length === 1) {
+                            const unico = niveles[0];
+                            tr += `
+                                <select class="form-select form-select-sm level-select">
+                                    <option value="${unico.id}" selected>
+                                        ${unico.nombre || unico.descripcion}
+                                    </option>
+                                </select>`;
+                        } else {
+                            // VARIOS NIVELES
+                            tr += `<select class="form-select form-select-sm level-select">`;
+
+                            // Si candidato no tiene nivel seleccionado
+                            if (candidatoLevel <= 0) {
+                                tr += `<option value="">Seleccione un nivel</option>`;
+                            }
+
+                            niveles.forEach(nivel => {
+                                const nivelId = nivel.id;
+                                const selected = (nivelId == candidatoLevel) ? "selected" : "";
+
+                                tr += `
+                                    <option value="${nivelId}" ${selected}>
+                                        ${nivel.nombre || nivel.descripcion}
+                                    </option>`;
+                            });
+
+                            tr += `</select>`;
+                        }
                     }
-                    tr += `</div></td>`;
+
+                    tr += `</div>
+                    </td>`;
+
 
                     // BOP (Tipos BOP) - SPAN
                     tr += `<td>
@@ -921,7 +956,7 @@ function loadTableCursoModal() {
                             <td colspan="20" class="text-center text-muted py-5">
                                 <i class="fas fa-graduation-cap fa-3x mb-3"></i>
                                 <p>No hay estudiantes registrados en este curso</p>
-                                <small class="d-block">Los estudiantes deben estar activos en la tabla de candidatos</small>
+                                <small class="d-block"></small>
                             </td>
                         </tr>
                     `);

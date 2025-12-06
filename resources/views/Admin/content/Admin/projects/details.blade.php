@@ -766,7 +766,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="w-100 h-100">
-                            <h5 class="card-title mb-0">{{ __('Candidatos') }}</h4>
+                            <h4>Tabla de candidatos</h4>
                             <div class="header-title d-flex justify-content-end align-items-center w-100 mb-4">
                                 <button class="btn btn-warning" style="margin-right: 1rem" onclick="editarCandidatos()">
                                     Editar tabla
@@ -787,7 +787,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="w-100 h-100">
-                            <h5 class="card-title mb-0">{{ __('Curso') }}</h4>
+                            <h4>Tabla de calificaciones del curso</h4>
                             <div class="header-title d-flex justify-content-end align-items-center w-100 mb-4">
                                      <button class="btn btn-warning" style="margin-right: 1rem" onclick="editarCurso()">
                                     Editar tabla
@@ -959,8 +959,7 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-users me-2"></i>Tabla de Candidatos</h5>
-                 
+                <h5 class="modal-title"><i class="fas fa-users me-2"></i>Tabla de calificaciones del curso</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -969,41 +968,60 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notasModal" style="margin-bottom: 1vw;">
                     Ver Notas
                 </button>
+                 <p>En esta tabla se muestran los estudiantes marcados con asistencia en la Tabla CANDIDATOS ubicada antes de esta</p>
+
                     <form id="coursesForm">
                          {!! csrf_field() !!}  
                         <table class="table table-modern" id="edit-course-table">
                             <thead>
+                                 <tr>
+                                    <th  colspan="5" class="text-center">Generalidades</th>
+                                    <th  colspan="1" class="text-center">Examen prático</th>
+                                    <th  colspan="2" class="text-center">Examen teórico</th>
+                                    <th  colspan="4" class="text-center" id="encabezadoComplementos">Complementos</th>
+                                    <th  colspan="1" class="text-center" >RESUMEN</th>
+                                    <th  colspan="6" class="text-center" >RE-SIT</th>
+                                    <th  colspan="4" class="text-center" > RE-SIT INMEDIATO</th>
+                                    <th  colspan="6" class="text-center" > RE-SIT PROGRAMADO</th>
+                                    <th  colspan="1" class="text-center" > FINAL</th>
+                                    <th  colspan="5" class="text-center" > Certificación</th>
+                                  </tr>
                                 <tr>
                                     <th width="50px" class="text-center">#</th>
                                     <th class="col-180" width="140px">Estudiante</th>
-                                    <th  width="180px">Nivel</th>
+                                    <th  class="col-180" width="180px">Nivel</th>
                                     <th  width="180px">BOP</th>
                                     <th  width="180px">Idioma</th>
                                     <th class="col-180" width="180px">Práctico</th>
                                     <th class="col-180" width="180px">Equipos</th>
-                                    <th class="col-180" width="180px">P&P</th>
-                                    <th class="col-180" width="180px">Estado</th>
+                                    <th class="col-180" width="180px" id="pypTh">P&P</th>
+                                    <th class="col-180" width="180px" id="complementoTh">Complemento</th>
+                                    <th class="col-180" width="180px" id="d1Th">D1</th>
+                                    <th class="col-180" width="180px" id="d2Th">D2</th>
+                                    <th class="col-180" width="180px" id="d3Th">D3</th>
+                                    <th class="col-180" width="180px">Estatus</th>
                                     <th  width="180px">Resit</th>
                                     <th  width="180px">No. Intentos permitidos</th>
                                     <th  width="180px">Periodo</th>
                                     <th  width="180px">Dias restantes</th>
                                     <th  width="180px">Fecha límite</th>
                                     <th class="col-180" width="180px">Resit módulo</th>
-                                    <th  width="180px">Resit inmediato</th>
-                                    <th class="col-180" width="180px">Resit inmediato fecha</th>
-                                    <th class="col-180" width="180px">Resit inmediato puntaje</th>
-                                    <th class="col-180" width="180px">Resit inmediato estado</th>
-                                    <th  width="180px">Resit programado</th>
+                                    <th  width="180px">Sí</th>
+                                    <th class="col-180" width="180px">Fecha</th>
+                                    <th class="col-180" width="180px">Puntaje</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th  width="180px">Sí</th>
                                     <th  width="180px">Requiere entrenamiento adicional</th>
                                     <th  width="180px">Folio de proyecto para entrenamiento</th>
-                                    <th class="col-180" width="180px">Resit programado fecha</th>
-                                    <th class="col-180" width="180px">Resit programado puntaje</th>
-                                    <th class="col-180" width="180px">Resit programado estado</th>
-                                    <th class="col-180" width="180px">Final Status</th>
-                                    <th  width="180px">Certificado</th>
+                                    <th class="col-180" width="180px">Fecha</th>
+                                    <th class="col-180" width="180px">Puntaje</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th  width="180px">Sí</th>
                                     <th class="col-180" width="180px">Expiración</th>
+                                    <th class="col-180" width="180px">Vigencia</th>
                                     <th class="col-250" width="180px">Correo</th>
-                                    <th width="100px" class="table-row-actions text-center">Acciones</th>
+                                    <th width="100px" class="table-row-actions text-center">Documento</th>
                                 </tr>
                             </thead>
                             <tbody>

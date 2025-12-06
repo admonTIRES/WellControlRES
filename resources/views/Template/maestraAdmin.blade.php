@@ -66,7 +66,7 @@ use Illuminate\Support\Str;
     <aside class="sidebar sidebar-default navs-shape">
         <div class="sidebar-header d-flex align-items-center justify-content-start">
             <a href="{{ route('home') }}" class="navbar-brand d-flex justify-content-center align-items-center">
-                <img src="/assets/images/logo.png" class="sidebar-color-logo">
+                <img src="/assets/images/H COLOR.png" class="sidebar-color-logo">
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                 <i class="icon">
@@ -796,7 +796,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.31"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.32"></script>
     @endif
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

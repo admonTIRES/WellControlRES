@@ -27,7 +27,8 @@ class candidate extends Model
         'STATUS_MAIL_PROJECT',
         'ACTIVO',
         'ASISTENCIA',
-        'MOTIVO'
+        'MOTIVO',
+        'LEVEL'
     ];
 
      public function project()

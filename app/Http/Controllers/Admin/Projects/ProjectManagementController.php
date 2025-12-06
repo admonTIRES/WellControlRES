@@ -833,11 +833,11 @@ class ProjectManagementController extends Controller
             
             $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
                 if ($idEnte == 1) {
-                    return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
+                    return $nivel->NOMBRE_NIVEL ?? 'N/A';
                 } elseif ($idEnte == 2) {
                     return $nivel->NOMBRE_NIVEL ?? 'N/A';
                 } else {
-                    return $nivel->NOMBRE_NIVEL ?? $nivel->DESCRIPCION_NIVEL ?? 'N/A';
+                    return $nivel->NOMBRE_NIVEL ?? $nivel->NOMBRE_NIVEL ?? 'N/A';
                 }
             });
         }
@@ -1114,6 +1114,8 @@ class ProjectManagementController extends Controller
                     'c.EMAIL_PROJECT',
                     'c.PASSWORD_PROJECT',
                     'c.COMPANY_PROJECT',
+                    'c.ASISTENCIA',
+                    'c.LEVEL',
                     'co.ID_COURSE',
                     'co.PRACTICAL',
                     'co.PRACTICAL_PASS',
@@ -1218,6 +1220,8 @@ class ProjectManagementController extends Controller
                 $estudiantes[] = [
                     'ID_CANDIDATE' => $candidato->ID_CANDIDATE,
                     'ID_COURSE' => $candidato->ID_COURSE,
+                    'ASISTENCIA' => $candidato->ASISTENCIA,
+                    'LEVEL' => $candidato->LEVEL,
                     'NOMBRE_COMPLETO' => trim($candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT),
                     'NIVEL' => $niveles,
                     'BOP'   => $bops,

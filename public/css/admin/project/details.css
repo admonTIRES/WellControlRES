@@ -631,10 +631,12 @@
       background: var(--color-secondary);
   }
 
+
+
   .table-modern th {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 100;
       font-weight: 700;
       color: white;
       padding: 16px 12px;
@@ -649,6 +651,14 @@
       overflow-wrap: break-word;
       background-clip: padding-box;
   }
+
+.table-scroll-container {
+    max-height: 600px; 
+    overflow-y: scroll !important; 
+    overflow-x: auto;
+    position: relative;
+    border: 1px solid #ddd;
+}
 
   .table-modern th:first-child {
       border-top-left-radius: var(--border-radius);

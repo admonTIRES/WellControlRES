@@ -587,6 +587,9 @@ function loadTableCursoModal() {
         method: 'GET',
         dataType: 'json',
         beforeSend: function () {
+             if ($.fn.DataTable.isDataTable('#edit-course-table')) {
+                $('#edit-course-table').DataTable().destroy();
+            }
             $('#edit-course-table tbody').html(`
                 <tr>
                     <td colspan="20" class="text-start">
@@ -1180,6 +1183,7 @@ function loadTableCursoModal() {
                     tbody.append(tr);
                 });
 
+                initializeDataTable();
                 addSwitchListeners();
                 addValidationListeners();
 
@@ -1224,6 +1228,42 @@ function loadTableCursoModal() {
         }
     });
 }
+
+function initializeDataTable() {
+    if ($.fn.DataTable.isDataTable('#edit-course-table')) {
+        $('#edit-course-table').DataTable().destroy();
+    }
+    
+    $('#edit-course-table').DataTable({
+        fixedHeader: true,
+        scrollY: '60vh',
+        scrollX: true,
+        scrollCollapse: true,
+        paging: false,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        language: {
+            search: "Buscar:",
+            searchPlaceholder: "Filtrar estudiantes...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "No hay datos disponibles",
+            info: "Mostrando _TOTAL_ estudiantes",
+            infoEmpty: "Sin estudiantes",
+            infoFiltered: "(filtrado de _MAX_ total)"
+        },
+        columnDefs: [
+            { orderable: false, targets: [0, -1] }, 
+            { className: "text-center", targets: [0, 3, 4] }
+        ],
+        drawCallback: function() {
+            addSwitchListeners();
+            addValidationListeners();
+        }
+    });
+}
+
 function addSwitchListeners() {
     $('.resit-switch').on('change', function () {
         const isChecked = $(this).is(':checked');

@@ -21,6 +21,18 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance3 = $select3[0].selectize;
+
+     var $select6 = $('#INSTRUCTOR_ID_PROJECT').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance6 = $select6[0].selectize;
     var $select4 = $('#ACCREDITATION_LEVELS_PROJECT').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -2574,7 +2586,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
     initializeSelectizedFields(row, [
         'ACCREDITATION_LEVELS_PROJECT',
         'BOP_TYPES_PROJECT',
-        'COURSE_NAME_ES_PROJECT'
+        'COURSE_NAME_ES_PROJECT',
+        'INSTRUCTOR_ID_PROJECT'
     ]);
 
 

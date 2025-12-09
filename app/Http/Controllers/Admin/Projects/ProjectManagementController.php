@@ -791,14 +791,40 @@ class ProjectManagementController extends Controller
 
         // Instructor
         $NOMBRE_INSTRUCTOR = __('N/A');
-        if ($proyect->INSTRUCTOR_ID_PROJECT) {
-            $instructor = Instructor::find($proyect->INSTRUCTOR_ID_PROJECT);
-            if ($instructor) {
-                $NOMBRE_INSTRUCTOR = trim(
-                    ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' . 
-                    ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' . 
-                    ($instructor->LSNAME_INSTRUCTOR ?? '')
-                );
+        // if ($proyect->INSTRUCTOR_ID_PROJECT) {
+        //     $instructor = Instructor::find($proyect->INSTRUCTOR_ID_PROJECT);
+        //     if ($instructor) {
+        //         $NOMBRE_INSTRUCTOR = trim(
+        //             ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' . 
+        //             ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' . 
+        //             ($instructor->LSNAME_INSTRUCTOR ?? '')
+        //         );
+        //     }
+        // }
+
+        $instructores = $proyect->INSTRUCTOR_ID_PROJECT; // ahora es array por el cast
+
+        if (!empty($instructores) && is_array($instructores)) {
+            $nombres = [];
+
+            foreach ($instructores as $idInstructor) {
+                $instructor = Instructor::find($idInstructor);
+
+                if ($instructor) {
+                    $nombreCompleto = trim(
+                        ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' .
+                        ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' .
+                        ($instructor->LSNAME_INSTRUCTOR ?? '')
+                    );
+
+                    if (!empty($nombreCompleto)) {
+                        $nombres[] = $nombreCompleto;
+                    }
+                }
+            }
+
+            if (!empty($nombres)) {
+                $NOMBRE_INSTRUCTOR = implode(', ', $nombres);
             }
         }
 

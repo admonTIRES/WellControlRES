@@ -43,7 +43,8 @@ class Proyect extends Model
     protected $casts = [
         'ACCREDITATION_LEVELS_PROJECT' => 'array',
         'BOP_TYPES_PROJECT' => 'array',
-        'COMPANIES_PROJECT' => 'array'
+        'COMPANIES_PROJECT' => 'array',
+        'INSTRUCTOR_ID_PROJECT' => 'array',
     ];
 
       public function candidates()

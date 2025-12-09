@@ -364,6 +364,8 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             $(row).addClass('row-unpass');
         } else if (allPass || finalStatus === 'Pass') {
             $(row).addClass('row-pass');
+        } else if(finalStatus === 'Unpass'){
+            $(row).addClass('row-unpass');
         }
     }
 });
@@ -773,7 +775,7 @@ function loadTableCursoModal() {
                     } else if (allPass || finalStatus === 'Pass') {
                         rowClass = 'row-pass';
                     } else if(finalStatus === 'Unpass'){
-                        $(row).addClass('row-unpass');
+                       rowClass = 'row-unpass';
                     }
 
                     let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE || ''}" data-curso-id="${estudiante.curso_id || ''}" class="course-row ${rowClass}">  `;
@@ -1243,9 +1245,9 @@ function initializeDataTable() {
         scrollX: true,
         scrollCollapse: false,
         paging: false,
-        searching: true,
+        searching: false,
         ordering: true,
-        info: true,
+        info: false,
         autoWidth: false,
         language: {
             search: "Buscar:",

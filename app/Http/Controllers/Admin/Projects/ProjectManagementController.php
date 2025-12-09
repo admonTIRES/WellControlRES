@@ -917,7 +917,7 @@ class ProjectManagementController extends Controller
         $estudiantesPendientes = DB::table('course as co')
             ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
             ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->whereIn('co.STATUS', ['Pending', 'In Progress'])
+            ->where('c.ASISTENCIA', '=', '0')
             ->count();
 
         // ====================
@@ -1449,6 +1449,7 @@ class ProjectManagementController extends Controller
                     'co.EXPIRATION'
                 )
                 ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('c.ASISTENCIA', '!=', '0')
                 ->orderBy('c.LAST_NAME_PROJECT', 'asc')
                 ->get();
 

@@ -962,7 +962,7 @@
                 <h5 class="modal-title"><i class="fas fa-users me-2"></i>Tabla de calificaciones del curso</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div>
+            <div class="modal-body">
                 <div style="padding: 1vw;">
                     <form id="coursesForm">
                         {!! csrf_field() !!}  

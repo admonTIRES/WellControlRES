@@ -701,8 +701,9 @@ function loadTableCursoModal() {
                         <th class="col-180" width="180px" id="pypTh">P&P</th>
 
                         <th class="col-180" width="180px" id="complementoTh">Complemento</th>
-                        <th class="col-180" width="180px" id="d1Th">WorkOver (WO)</th>
-                        <th class="col-180" width="180px" id="d2Th">SubSea (SS)</th>
+                        <th class="col-180" width="180px" id="d1Th">D1</th>
+                        <th class="col-180" width="180px" id="d2Th">D2</th>
+                        <th class="col-180" width="180px" id="d3Th">D3</th>
 
                         <th class="col-180" width="180px">Estatus</th>
 
@@ -891,46 +892,33 @@ function loadTableCursoModal() {
                     if (proyecto.ACCREDITING_ENTITY_PROJECT) {
                         if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {//iadc (segun cada acreditacion cambia los complementos que pueden llevar)(los numeros son los id del catalgo)
                             tr += `<td>
-                                <input type="hidden" name="courses[${key}][RESIT]" value="0">
+                                <input type="hidden" name="courses[${key}][CO]" value="0">
                                 <label class="switch">
-                                    <input type="checkbox" class="resit-switch" name="courses[${key}][RESIT]" 
-                                            ${resitValue === 'Yes' ? 'checked' : ''}>
+                                    <input type="checkbox" class="co-switch" name="courses[${key}][CO]">
                                     <span class="slider"></span>
                                 </label>
-                            </td>`;
+                            </td>`; 
                             tr += `<td>
                                 <div class="score-status-container" style="position: relative;">
-                                    <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-                                        value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
+                                    <input class="table-input" type="number" step="1" min="0" max="100"
+                                        value="${curso.WORKOVER || ''}" name="courses[${key}][WORKOVER]" placeholder="0" style="padding-right: 25px;" />
                                     <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-                                    <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
-                                        <option value="">Status</option>
-                                        <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                        <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Failed</option>
+                                    <select class="table-input" name="courses[${key}][WORKOVER]">
+                                        <option value="">Seleccionar</option>
+                                        <option value="Pass">Pass</option>
+                                        <option value="Unpass">Failed</option>
                                     </select>
                                 </div>
                             </td>`;
                             tr += `<td>
                                 <div class="score-status-container" style="position: relative;">
-                                    <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-                                        value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
+                                    <input class="table-input" type="number" step="1" min="0" max="100"
+                                        value="${curso.SUBSEA || ''}" name="courses[${key}][SUBSEA]" placeholder="0" style="padding-right: 25px;" />
                                     <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-                                    <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
-                                        <option value="">Status</option>
-                                        <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                        <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Failed</option>
-                                    </select>
-                                </div>
-                            </td>`;
-                            tr += `<td>
-                                <div class="score-status-container" style="position: relative;">
-                                    <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-                                        value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
-                                    <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-                                    <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
-                                        <option value="">Status</option>
-                                        <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                        <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Failed</option>
+                                    <select class="table-input" name="courses[${key}][SUBSEA]">
+                                        <option value="">Seleccionar</option>
+                                        <option value="Pass">Pass</option>
+                                        <option value="Unpass">Failed</option>
                                     </select>
                                 </div>
                             </td>`;
@@ -948,34 +936,21 @@ function loadTableCursoModal() {
                                 </div>
                             </td>`;
                             tr += `<td>
-                                <input type="hidden" name="courses[${key}][RESIT]" value="0">
+                                <input type="hidden" name="courses[${key}][CO]" value="0">
                                 <label class="switch">
-                                    <input type="checkbox" class="resit-switch" name="courses[${key}][RESIT]" 
-                                            ${resitValue === 'Yes' ? 'checked' : ''}>
+                                    <input type="checkbox" class="co-switch" name="courses[${key}][CO]">
                                     <span class="slider"></span>
                                 </label>
                             </td>`;
                             tr += `<td>
                                 <div class="score-status-container" style="position: relative;">
-                                    <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-                                        value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
+                                    <input class="table-input" type="number" step="1" min="0" max="100"
+                                         name="courses[${key}][D1]" placeholder="0" style="padding-right: 25px;" />
                                     <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-                                    <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
-                                        <option value="">Status</option>
-                                        <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                        <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Failed</option>
-                                    </select>
-                                </div>
-                            </td>`;
-                            tr += `<td>
-                                <div class="score-status-container" style="position: relative;">
-                                    <input class="table-input pyp-score ${pypClass}" type="number" step="1" min="0" max="100"
-                                        value="${curso.PYP || ''}" name="courses[${key}][PYP]" placeholder="0" style="padding-right: 25px;" />
-                                    <span style="position: absolute; right: 5px; top: 25%; transform: translateY(-50%); color: #555;">%</span>
-                                    <select class="table-input pyp-status ${pypClass}" name="courses[${key}][PYP_PASS]">
-                                        <option value="">Status</option>
-                                        <option value="Pass" ${(pypStatus === 'Pass') ? 'selected' : ''}>Pass</option>
-                                        <option value="Unpass" ${(pypStatus === 'Unpass') ? 'selected' : ''}>Failed</option>
+                                    <select class="table-input" name="courses[${key}][D1_STATUS]">
+                                        <option value="">Seleccionar</option>
+                                        <option value="Pass">Pass</option>
+                                        <option value="Unpass">Failed</option>
                                     </select>
                                 </div>
                             </td>`;
@@ -1165,6 +1140,10 @@ function loadTableCursoModal() {
                             <input class="table-input expiration-date ${certifiedDisabled ? 'disabled-field' : ''}" type="date" 
                                     value="${formatDateForInput(curso.EXPIRATION) || ''}" name="courses[${key}][EXPIRATION]" ${certifiedDisabled} />
                         </td>`;
+                         tr += `<td>
+                            <div class="bops-container resit-restantes" style="justify-content: center;">
+                                <span class="bop-badge"> ${proyecto.DAYS_REMAINING || 'N/A'}</span>
+                            </div></td>`;
 
                     // Mail (Solo email)
                     tr += `<td>

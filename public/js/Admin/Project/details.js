@@ -744,6 +744,7 @@ function loadTableCursoModal() {
             if (response.success && response.estudiantes && response.estudiantes.length > 0) {
                 response.estudiantes.forEach((estudiante, index) => {
                     const candidato = estudiante.candidato;
+                    const asistenciaStatus = candidato.ASISTENCIA || '';
                     const curso = estudiante.datos_curso;
                     const resitValue = curso.RESIT === '1' || curso.RESIT === 1 || curso.RESIT === 'Yes' ? 'Yes' : 'No';
                     const resitInmediatoValue = curso.RESIT_INMEDIATO === '1' || curso.RESIT_INMEDIATO === 1 || curso.RESIT_INMEDIATO === 'Yes' ? 'Yes' : 'No';
@@ -771,6 +772,8 @@ function loadTableCursoModal() {
                         rowClass = 'row-unpass';
                     } else if (allPass || finalStatus === 'Pass') {
                         rowClass = 'row-pass';
+                    } else if(finalStatus === 'Unpass'){
+                        $(row).addClass('row-unpass');
                     }
 
                     let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE || ''}" data-curso-id="${estudiante.curso_id || ''}" class="course-row ${rowClass}">  `;
@@ -1236,9 +1239,9 @@ function initializeDataTable() {
     
     $('#edit-course-table').DataTable({
         fixedHeader: true,
-        scrollY: '60vh',
+        scrollY: '50vh',
         scrollX: true,
-        scrollCollapse: true,
+        scrollCollapse: false,
         paging: false,
         searching: true,
         ordering: true,

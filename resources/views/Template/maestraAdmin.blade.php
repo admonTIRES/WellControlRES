@@ -787,13 +787,13 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.57"></script>
     @endif
      @if(request()->is('studentsList'))
-        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.11"></script>
+        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.12"></script>
     @endif
     @if(request()->is('projectsInstructor'))
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.34"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.35"></script>
     @endif
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

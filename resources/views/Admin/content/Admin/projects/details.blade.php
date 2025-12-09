@@ -963,85 +963,81 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
                 <div style="padding: 1vw;">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notasModal" style="margin-bottom: 1vw;">
-                    Ver Notas
-                </button>
-                 <p>En esta tabla se muestran los estudiantes marcados con asistencia en la Tabla CANDIDATOS ubicada antes de esta</p>
-                    <div class="table-scroll-container">
-                        <form id="coursesForm">
-                            {!! csrf_field() !!}  
-                            <table class="table table-modern" id="edit-course-table">
-                                <thead>
-                                    <tr>
-                                        <th  colspan="5" class="text-center">Generalidades</th>
-                                        <th  colspan="1" class="text-center">Examen prático</th>
-                                        <th  colspan="2" class="text-center">Examen teórico</th>
-                                        <th  colspan="4" class="text-center" id="encabezadoComplementos">Complementos</th>
-                                        <th  colspan="1" class="text-center" >RESUMEN</th>
-                                        <th  colspan="6" class="text-center" >RE-SIT</th>
-                                        <th  colspan="4" class="text-center" > RE-SIT INMEDIATO</th>
-                                        <th  colspan="6" class="text-center" > RE-SIT PROGRAMADO</th>
-                                        <th  colspan="1" class="text-center" > FINAL</th>
-                                        <th  colspan="5" class="text-center" > Certificación</th>
-                                    </tr>
-                                    <tr>
-                                        <th width="50px" class="text-center">#</th>
-                                        <th class="col-180" width="140px">Estudiante</th>
-                                        <th  class="col-180" width="180px">Nivel</th>
-                                        <th  width="180px">BOP</th>
-                                        <th  width="180px">Idioma</th>
-                                        <th class="col-180" width="180px">Práctico</th>
-                                        <th class="col-180" width="180px">Equipos</th>
-                                        <th class="col-180" width="180px" id="pypTh">P&P</th>
-                                        <th class="col-180" width="180px" id="complementoTh">Complemento</th>
-                                        <th class="col-180" width="180px" id="d1Th">D1</th>
-                                        <th class="col-180" width="180px" id="d2Th">D2</th>
-                                        <th class="col-180" width="180px" id="d3Th">D3</th>
-                                        <th class="col-180" width="180px">Estatus</th>
-                                        <th  width="180px">Resit</th>
-                                        <th  width="180px">No. Intentos permitidos</th>
-                                        <th  width="180px">Periodo</th>
-                                        <th  width="180px">Dias restantes</th>
-                                        <th  width="180px">Fecha límite</th>
-                                        <th class="col-180" width="180px">Resit módulo</th>
-                                        <th  width="180px">Sí</th>
-                                        <th class="col-180" width="180px">Fecha</th>
-                                        <th class="col-180" width="180px">Puntaje</th>
-                                        <th class="col-180" width="180px">Estatus</th>
-                                        <th  width="180px">Sí</th>
-                                        <th  width="180px">Requiere entrenamiento adicional</th>
-                                        <th  width="180px">Folio de proyecto para entrenamiento</th>
-                                        <th class="col-180" width="180px">Fecha</th>
-                                        <th class="col-180" width="180px">Puntaje</th>
-                                        <th class="col-180" width="180px">Estatus</th>
-                                        <th class="col-180" width="180px">Estatus</th>
-                                        <th  width="180px">Sí</th>
-                                        <th class="col-180" width="180px">Expiración</th>
-                                        <th class="col-180" width="180px">Vigencia</th>
-                                        <th class="col-250" width="180px">Correo</th>
-                                        <th width="100px" class="table-row-actions text-center">Documento</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Los datos se cargarán aquí dinámicamente -->
-                                    <tr>
-                                        <td colspan="11" class="text-center loading-state">
-                                            <div class="loading-container">
-                                                <div class="loading-spinner"></div>
-                                                <p class="loading-text">Cargando candidatos...</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                     </div>
+                    <form id="coursesForm">
+                        {!! csrf_field() !!}  
+                        <table class="table table-modern" id="edit-course-table">
+                            <thead>
+                                <tr>
+                                    <th  colspan="5" class="text-center">Generalidades</th>
+                                    <th  colspan="1" class="text-center">Examen prático</th>
+                                    <th  colspan="2" class="text-center">Examen teórico</th>
+                                    <th  colspan="4" class="text-center" id="encabezadoComplementos">Complementos</th>
+                                    <th  colspan="1" class="text-center" >RESUMEN</th>
+                                    <th  colspan="6" class="text-center" >RE-SIT</th>
+                                    <th  colspan="4" class="text-center" > RE-SIT INMEDIATO</th>
+                                    <th  colspan="6" class="text-center" > RE-SIT PROGRAMADO</th>
+                                    <th  colspan="1" class="text-center" > FINAL</th>
+                                    <th  colspan="5" class="text-center" > Certificación</th>
+                                </tr>
+                                <tr>
+                                    <th width="50px" class="text-center">#</th>
+                                    <th class="col-180" width="140px">Estudiante</th>
+                                    <th  class="col-180" width="180px">Nivel</th>
+                                    <th  width="180px">BOP</th>
+                                    <th  width="180px">Idioma</th>
+                                    <th class="col-180" width="180px">Práctico</th>
+                                    <th class="col-180" width="180px">Equipos</th>
+                                    <th class="col-180" width="180px" id="pypTh">P&P</th>
+                                    <th class="col-180" width="180px" id="complementoTh">Complemento</th>
+                                    <th class="col-180" width="180px" id="d1Th">D1</th>
+                                    <th class="col-180" width="180px" id="d2Th">D2</th>
+                                    <th class="col-180" width="180px" id="d3Th">D3</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th  width="180px">Resit</th>
+                                    <th  width="180px">No. Intentos permitidos</th>
+                                    <th  width="180px">Periodo</th>
+                                    <th  width="180px">Dias restantes</th>
+                                    <th  width="180px">Fecha límite</th>
+                                    <th class="col-180" width="180px">Resit módulo</th>
+                                    <th  width="180px">Sí</th>
+                                    <th class="col-180" width="180px">Fecha</th>
+                                    <th class="col-180" width="180px">Puntaje</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th  width="180px">Sí</th>
+                                    <th  width="180px">Requiere entrenamiento adicional</th>
+                                    <th  width="180px">Folio de proyecto para entrenamiento</th>
+                                    <th class="col-180" width="180px">Fecha</th>
+                                    <th class="col-180" width="180px">Puntaje</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th class="col-180" width="180px">Estatus</th>
+                                    <th  width="180px">Sí</th>
+                                    <th class="col-180" width="180px">Expiración</th>
+                                    <th class="col-180" width="180px">Vigencia</th>
+                                    <th class="col-250" width="180px">Correo</th>
+                                    <th width="100px" class="table-row-actions text-center">Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se cargarán aquí dinámicamente -->
+                                <tr>
+                                    <td colspan="11" class="text-center loading-state">
+                                        <div class="loading-container">
+                                            <div class="loading-spinner"></div>
+                                            <p class="loading-text">Cargando candidatos...</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <div class="footer-actions">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notasModal" style="margin-bottom: 1vw;">
+                    Ver Notas
+                    </button>
                     <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
                         <i class="fas fa-save me-2"></i>Guardar Cambios
                     </button>

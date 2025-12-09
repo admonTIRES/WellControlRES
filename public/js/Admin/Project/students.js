@@ -333,7 +333,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     ],
     createdRow: function (row, data, dataIndex) {
         const curso = data.datos_curso;
+        const candidato = data.candidato;
         const practicalStatus = curso.PRACTICAL_PASS || '';
+        const asistenciaStatus = candidato.ASISTENCIA || '';
         const equipamentStatus = curso.EQUIPAMENT_PASS || '';
         const pypStatus = curso.PYP_PASS || '';
         const finalStatus = curso.FINAL_STATUS || '';
@@ -345,6 +347,12 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             $(row).addClass('row-unpass');
         } else if (allPass || finalStatus === 'Pass') {
             $(row).addClass('row-pass');
+        } else if(finalStatus=== 'Unpass'){
+            $(row).addClass('row-unpass');
+        }
+
+        if(asistenciaStatus ==='0'){
+             $(row).addClass('row-desert');
         }
     }
 });

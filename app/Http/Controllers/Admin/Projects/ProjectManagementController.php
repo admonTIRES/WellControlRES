@@ -1394,6 +1394,7 @@ class ProjectManagementController extends Controller
                     'c.FIRST_NAME_PROJECT',
                     'c.MIDDLE_NAME_PROJECT',
                     'c.EMAIL_PROJECT',
+                    'c.ASISTENCIA',
                     'c.ACTIVO',
                     'co.ID_COURSE as curso_id',
                     'co.PRACTICAL',
@@ -1441,7 +1442,8 @@ class ProjectManagementController extends Controller
                         'FIRST_NAME_PROJECT' => $estudiante->FIRST_NAME_PROJECT,
                         'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
                         'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
-                        'ACTIVO' => $estudiante->ACTIVO
+                        'ACTIVO' => $estudiante->ACTIVO,
+                        'ASISTENCIA' => $estudiante->ASISTENCIA
                     ],
                     'datos_curso' => [
                         'PRACTICAL' => $estudiante->PRACTICAL,
@@ -2249,6 +2251,7 @@ class ProjectManagementController extends Controller
                     'c.EMAIL_PROJECT',
                     'c.ACTIVO',
                     'c.ID_PROJECT',
+                    'c.ASISTENCIA',
 
                     'p.ID_PROJECT as proyecto_id',
                     'p.FOLIO_PROJECT',
@@ -2385,7 +2388,8 @@ class ProjectManagementController extends Controller
                         'MIDDLE_NAME_PROJECT' => $e->MIDDLE_NAME_PROJECT,
                         'EMAIL_PROJECT' => $e->EMAIL_PROJECT,
                         'ACTIVO' => $e->ACTIVO,
-                        'ID_PROJECT' => $e->ID_PROJECT
+                        'ID_PROJECT' => $e->ID_PROJECT,
+                        'ASISTENCIA'=> $e->ASISTENCIA
                     ],
                     'proyecto' => [
                         'ID_PROJECT' => $e->proyecto_id,

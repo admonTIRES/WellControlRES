@@ -20,7 +20,7 @@
                                         type="button"
                                         role="tab"
                                         aria-controls="v-pills-nombres"
-                                        aria-selected="false">{{ __('Project names') }}</button>
+                                        aria-selected="false">{{ __('Course names') }}</button>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
                                         id="v-pills-acreditadores-tab"
                                         data-topic="entes-acreditadores"
@@ -30,6 +30,15 @@
                                         role="tab"
                                         aria-controls="v-pills-acreditadores"
                                         aria-selected="true">{{ __('Accrediting entities') }}</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-programas-tab"
+                                        data-topic="programas-acreditacion"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-programas"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-programas"
+                                        aria-selected="true">{{ __('Programs') }}</button>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
                                         id="v-pills-nivel-tab"
                                         data-topic="nivel-acreditacion"
@@ -167,6 +176,20 @@
                                             </div>
                                             <div class="table-container">
                                                 <table id="entes-list-table" class="table  " role="grid" >
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="tab-pane fade show" id="v-pills-programas" role="tabpanel" aria-labelledby="v-pills-progra=mas-tab">
+                                        <div class="w-100 h-100">
+                                            <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
+                                                <h4 class="card-title mb-0"> {{ __('Catalog of programs') }}</h4> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#programasModal">
+                                                    {{ __('New program') }}
+                                                </button>
+                                            </div>
+                                            <div class="table-container">
+                                                <table id="programas-list-table" class="table  " role="grid" >
                                                 </table>
                                             </div>
                                         </div>
@@ -447,6 +470,125 @@
         </div>
     </div>
 
+    <div class="modal fade" id="programasModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="programasModalLabel">Datos del programa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="programasForm" method="post" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                   
+                    
+                    <div class="form-section">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="NOMBRE_PROGRAMA" class="form-label">Nombre del programa</label>
+                                <input type="text" class="form-control" id="NOMBRE_PROGRAMA" name="NOMBRE_PROGRAMA">
+                            </div>
+                           
+                              
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        
+                    </div>
+                     <div class="form-section">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="MIN_PORCENTAJE_APROB" class="form-label">Calificación mínima para aprobar:</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_APROB" name="MIN_PORCENTAJE_APROB">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="MAX_PORCENTAJE_APROB" class="form-label">Calificación máxima para aprobar:</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_APROB" name="MAX_PORCENTAJE_APROB">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="OPCION_RESIT" class="form-label">¿Este programa aplica re-sit/re-test inmediato?</label>
+                                <select class="form-select" id="OPCION_RESIT" name="OPCION_RESIT">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="1">No aplica</option>
+                                    <option value="2">Aplica</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="MIN_PORCENTAJE_REPROB_RE" class="form-label">Calificación mínima para reprobar con derecho a re-sit/re-test inmediato:</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB_RE" name="MIN_PORCENTAJE_REPROB_RE">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="MAX_PORCENTAJE_REPROB_RE" class="form-label">Calificación máxima para reprobar con derecho a re-sit/re-test inmediato:</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB_RE" name="MAX_PORCENTAJE_REPROB_RE">
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-6 mb-3">
+                                <label for="MIN_PORCENTAJE_REPROB" class="form-label">Calificación mínima para reprobar con derecho a re-sit/re-test:</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB" name="MIN_PORCENTAJE_REPROB">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="MAX_PORCENTAJE_REPROB" class="form-label">Calificación máxima para reprobar con derecho a re-sit/re-test:</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB" name="MAX_PORCENTAJE_REPROB">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="OPCION_RESIT" class="form-label">Opción de re-sit o re-test</label>
+                            <select class="form-select" id="OPCION_RESIT" name="OPCION_RESIT">
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                <option value="1">Con opción</option>
+                                <option value="2">Sin opción</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="TIPO_CENTRO" class="form-label">Número de intentos permitidos para este caso</label>
+                            <select class="form-select" id="TIPO_CENTRO" name="TIPO_CENTRO">
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                        <div id="asociadoContainer" class="row mb-3" style="display: none;">
+                            <div class="col-12">
+                                <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
+                                <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
+                                    <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h6 class="section-title">Vigencia</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="VIGENCIA_DESDE_CENTRO" class="form-label">Desde</label>
+                                <input type="date" class="form-control" id="VIGENCIA_DESDE_CENTRO" name="VIGENCIA_DESDE_CENTRO">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="VIGENCIA_HASTA_CENTRO" class="form-label">Hasta</label>
+                                <input type="date" class="form-control" id="VIGENCIA_HASTA_CENTRO" name="VIGENCIA_HASTA_CENTRO">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <p id="CONTADOR_CENTRO" class="form-label">Aquí se indicarán los días restantes vigentes</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="programasbtnModal" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .form-section {
@@ -502,7 +644,7 @@
         color: white;
     }
 </style>
-<!-- Modal para visualizar PDF -->
+
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -555,54 +697,51 @@
     }
 
     /* ESTILOS PARA LAS FILAS SEGÚN VIGENCIA */
-.fila-verde {
-    background-color: #d4edda !important; /* Verde claro */
-    border-left: 4px solid #28a745;
-}
+    .fila-verde {
+        background-color: #d4edda !important; /* Verde claro */
+        border-left: 4px solid #28a745;
+    }
 
-.fila-amarillo {
-    background-color: #fff3cd !important; /* Amarillo claro */
-    border-left: 4px solid #ffc107;
-}
+    .fila-amarillo {
+        background-color: #fff3cd !important; /* Amarillo claro */
+        border-left: 4px solid #ffc107;
+    }
 
-.fila-rojo {
-    background-color: #f8d7da !important; /* Rojo claro */
-    border-left: 4px solid #dc3545;
-}
+    .fila-rojo {
+        background-color: #f8d7da !important; /* Rojo claro */
+        border-left: 4px solid #dc3545;
+    }
 
-.fila-vencido {
-     background-color: #f8d7da !important; /* Rojo claro */
-    border-left: 4px solid #dc3545;
-    font-weight: bold;
-}
+    .fila-vencido {
+        background-color: #f8d7da !important; /* Rojo claro */
+        border-left: 4px solid #dc3545;
+        font-weight: bold;
+    }
 
-.fila-vence-hoy {
-    background-color: #f8d7da !important; /* Rojo claro */
-    border-left: 4px solid #dc3545;
-    font-weight: bold;
-}
+    .fila-vence-hoy {
+        background-color: #f8d7da !important; /* Rojo claro */
+        border-left: 4px solid #dc3545;
+        font-weight: bold;
+    }
 
-/* MEJORAR VISUALIZACIÓN DE LAS CELDAS */
-#centros-list-table td {
-    vertical-align: middle;
-    padding: 8px 12px;
-}
+    #centros-list-table td {
+        vertical-align: middle;
+        padding: 8px 12px;
+    }
 
-/* ESTILOS PARA LOS BOTONES */
-.btn-icon {
-    width: 35px;
-    height: 35px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+    .btn-icon {
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-/* HOVER EFFECTS PARA LAS FILAS */
-#centros-list-table tbody tr:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
-}
+    #centros-list-table tbody tr:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.2s ease;
+    }
 </style>
 <div class="modal fade" id="centroModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -733,8 +872,6 @@
     let queIncluyeCounter = 0;
     
     document.addEventListener('DOMContentLoaded', function() {
-        // Agregar primer contacto y elemento "Qué incluye" al cargar
-        
         document.getElementById('VIGENCIA_DESDE_CENTRO').addEventListener('change', calcularVigencia);
         document.getElementById('VIGENCIA_HASTA_CENTRO').addEventListener('change', calcularVigencia);
     });
@@ -833,7 +970,6 @@
         }
     }
     
-    // Agregar elemento "Qué incluye" con el mismo diseño que Contacto
     document.getElementById('addQueIncluye').addEventListener('click', addQueIncluye);
     
     function addQueIncluye() {
@@ -858,7 +994,6 @@
         document.getElementById('queIncluyeContainer').appendChild(newItem);
     }
     
-    // Función para eliminar elemento "Qué incluye"
     function removeQueIncluye(id) {
         if (queIncluyeCounter > 1) {
             const itemToRemove = document.getElementById(`que-incluye-${id}`);
@@ -896,7 +1031,6 @@
         }
     }
     
-    // Función para calcular la vigencia
     function calcularVigencia() {
         const desde = document.getElementById('VIGENCIA_DESDE_CENTRO').value;
         const hasta = document.getElementById('VIGENCIA_HASTA_CENTRO').value;
@@ -940,7 +1074,6 @@
         contador.textContent = `${diasRestantes} días restantes (${porcentajeTranscurrido.toFixed(1)}% transcurrido)`;
         contador.className = `form-label ${claseColor}`;
     }
-    
 </script>
   <div class="modal fade" id="ubicacionesModal" tabindex="-1" aria-labelledby="ubicacionesModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -954,11 +1087,11 @@
                     {!! csrf_field() !!}
                         <div class="row">
                             <div class="mb-3">
-                                <label class="form-label"> {{ __('Lugar') }}</label>
+                                <label class="form-label"> {{ __('Nombre') }}</label>
                                 <input type="text" class="form-control" name="LUGAR_UBICACION" id="LUGAR_UBICACION" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">{{ __('Ciudad') }}</label>
+                                <label class="form-label">{{ __('Lugar') }}</label>
                                 <input type="text" class="form-control"  name="CIUDAD_UBICACION" id="CIUDAD_UBICACION" required>
                             </div>
                         </div>
@@ -1065,28 +1198,23 @@
 </style>
 
 <script>
-    // Contadores globales
+
     let razonSocialCounter = 0;
     let contactoClienteCounter = 0;
     
-    // Inicializar al cargar el documento
     document.addEventListener('DOMContentLoaded', function() {
-        
-        // Event listeners para botones de agregar
         document.getElementById('addRazonSocial').addEventListener('click', addRazonSocial);
         document.getElementById('addContactoCliente').addEventListener('click', addContactoCliente);
     });
     
     
     
-    // Función para eliminar razón social
     function removeRazonSocial(id) {
         if (razonSocialCounter > 1) {
             const razonToRemove = document.getElementById(`razon-social-${id}`);
             razonToRemove.remove();
             razonSocialCounter--;
             
-            // Renumerar las razones sociales restantes
             const razones = document.querySelectorAll('.razon-social-item');
             razones.forEach((razon, index) => {
                 const newId = index + 1;

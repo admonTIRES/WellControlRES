@@ -1999,7 +1999,6 @@ function mostrarContactos(contactos, ubicacion = null) {
                             <th>Email</th>
                             <th>Celular</th>
                             <th>Teléfono Fijo</th>
-                            <th>Ubicación</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -2029,13 +2028,6 @@ function mostrarContactos(contactos, ubicacion = null) {
                 `<a href="tel:${contacto.fijo}" class="text-decoration-none">
                             <i class="fas fa-phone me-1"></i>${contacto.fijo}
                          </a>` :
-                'N/A'}
-                </td>
-                <td>
-                    ${ubicacion ?
-                `
-                            <i class="fas fa-location me-1"></i>${ubicacion}
-                         ` :
                 'N/A'}
                 </td>
             </tr>
@@ -2590,6 +2582,10 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         'INSTRUCTOR_ID_PROJECT'
     ]);
 
+    if (rowData.LOCATION_PROJECT) {
+                $('#LOCATION_PROJECT').val(rowData.LOCATION_PROJECT);
+                cargarDatosCentro(rowData.LOCATION_PROJECT);
+            }
 
     const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
     if (acreditacionInicial) {

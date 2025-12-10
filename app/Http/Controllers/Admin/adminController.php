@@ -18,6 +18,7 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\CentrosCapacitacion;
 use App\Models\Admin\catalogs\Clientes;
 use App\Models\Admin\catalogs\Instructor;
+use App\Models\Admin\catalogs\Ubicaciones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\Project\Course;
@@ -161,10 +162,11 @@ class adminController extends Controller
         $NombreProyecto = NombreProyecto::all();
         $clientes = Clientes::all();
         $instructores = Instructor::all();
+        $ubicaciones = Ubicaciones::all();
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
-        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes'))->with('user_role', 0);
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes', 'ubicaciones'))->with('user_role', 0);
     }
 
     /**

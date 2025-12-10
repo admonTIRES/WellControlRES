@@ -960,6 +960,10 @@
   }
 
   .row-pass {
+      background-color: #f5d9a5 !important;
+  }
+  
+    .row-pendient-resit {
       background-color: #d4edda !important;
   }
 

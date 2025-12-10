@@ -414,14 +414,14 @@
 
                                                        
                                                             <select class="form-select" id="CERTIFICATION_CENTER_PROJECT" name="CERTIFICATION_CENTER_PROJECT">
-                                                                <option value="" selected disabled>Seleccione el centro de capacitación</option>
+                                                                <option value="" selected disabled>Seleccione el centro de capacitación asociado</option>
                                                             </select>
                                                         <div class="error-message"> {{ __('This field is required.')}}</div>
                                                     </div>
                                                 </div>
                                                  <div class="col-md-6">
                                                     <div class="form-group mb-3 mt-3">
-                                                        <label class="form-label"> <strong>{{ __('Centre number:')}}</strong></label>
+                                                        <label class="form-label"> <strong>{{ __('Número de centro asociado:')}}</strong></label>
                                                         <input type="text" class="form-control" name="CENTER_NUMBER_PROJECT" id="CENTER_NUMBER_PROJECT"
                                                             placeholder="Número de centro" />
                                                         <div class="error-message"> {{ __('This field is required.')}}
@@ -454,11 +454,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 d-none" >
+                                                <div class="col-md-6" >
                                                     <div class="form-group mb-3">
-                                                        <label class="form-label"> <strong>{{ __('Location:')}}</strong></label>
-                                                        <input type="text" class="form-control" name="LOCATION_PROJECT" id="LOCATION_PROJECT"
-                                                            placeholder="Lugar" />
+                                                        <label class="form-label"> <strong>{{ __('Ubicación:')}}</strong></label>
+                                                            <select class="form-select" id="LOCATION_PROJECT" name="LOCATION_PROJECT">
+                                                        @foreach ($ubicaciones as $ubicacion)
+                                                        <option value="{{ $ubicacion->ID_CATALOGO_UBICACION }}">{{
+                                                            $ubicacion->LUGAR_UBICACION }} - {{ $ubicacion->CIUDAD_UBICACION }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
                                                         <div class="error-message"> {{ __('The location is required.')}}
                                                         </div>
                                                     </div>

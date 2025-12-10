@@ -2254,8 +2254,7 @@ class ProjectManagementController extends Controller
             $project = Proyect::find($projectId);
             $project->update($projectData);
             return $project;
-        }
-    }
+        }    }
 
 
 

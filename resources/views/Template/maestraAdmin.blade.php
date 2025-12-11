@@ -769,7 +769,7 @@ use Illuminate\Support\Str;
     {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script> --}}
 
-    <script src="/js/Admin/admin.js?v=1.52"></script>
+    <script src="/js/Admin/admin.js?v=1.53"></script>
     @if(request()->is('catalogs'))
         <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.22"></script>
     @endif

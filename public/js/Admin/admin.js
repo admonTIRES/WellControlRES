@@ -659,8 +659,7 @@ function editarDatoTablaSinAbrirModal(data, form = 'OnlyForm', modalID = 'ModalI
       }
     }
 
-    //Abrimos el modal
-   
+  
   }
 
 }

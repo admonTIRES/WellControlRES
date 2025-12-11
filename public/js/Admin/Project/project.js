@@ -494,6 +494,7 @@ class WizardManager {
                     return tagValue === empresaName;
                 });
                 empresaRealId = tagData?.name || null;
+                console.log(`🔍 ID obtenido de Tagify para ${empresaName}: ${empresaRealId}`);
             }
 
             console.log(`➕ MODO NUEVO - Empresa: ${empresaName}, ID: ${empresaRealId}`);
@@ -506,6 +507,7 @@ class WizardManager {
         section.id = `empresa-${empresaId}`;
         section.dataset.empresa = empresaName;
         section.dataset.empresaId = empresaId;
+        section.dataset.empresaRealId = empresaRealId || '0';
 
         acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
 
@@ -646,7 +648,7 @@ class WizardManager {
                 idCandidate: student.ID_CANDIDATE || null,
                 empresa: empresaName,
                 empresaId: empresaId,
-                companyId: student.COMPANY_ID || empresaRealId,
+                companyId: student.COMPANY_ID_PROJECT || empresaRealId,
                 razonSocial: student.RAZON_SOCIAL_PROJECT || '',
                 cr: student.CR_PROJECT || '',
                 lastName: student.LAST_NAME_PROJECT || '',
@@ -668,76 +670,89 @@ class WizardManager {
         }
     });
 }
-    generateStudentsForEmpresa(empresaId) {
-        const empresaSection = document.getElementById(`empresa-${empresaId}`);
-        const countInput = empresaSection.querySelector('.student-count');
-        const count = parseInt(countInput.value);
-        const empresa = empresaSection.dataset.empresa;
+generateStudentsForEmpresa(empresaId) {
+    const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    const countInput = empresaSection.querySelector('.student-count');
+    const count = parseInt(countInput.value);
+    const empresa = empresaSection.dataset.empresa;
+    const empresaRealId = empresaSection.dataset.empresaRealId || 
+                         empresaSection.querySelector('.empresa-real-id')?.value || '0';
 
-        if (!count || count < 1 || count > 50) {
-            this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
-            return;
-        }
+    console.log(`✅ Generando estudiantes para: ${empresa} (ID: ${empresaRealId})`);
 
-        this.clearError(countInput);
-
-        if (!this.students[empresaId]) {
-            this.students[empresaId] = [];
-        }
-
-        this.students[empresaId] = [];
-
-        for (let i = 0; i < count; i++) {
-            this.students[empresaId].push({
-                id: i + 1,
-                empresa: empresa,
-                empresaId: empresaId,
-                razonSocial: '',
-                cr: '',
-                lastName: '',
-                firstName: '',
-                mdName: '',
-                dob: '',
-                idExp: '',
-                cargo: '',
-                membresia: '',
-                email: '',
-                password: this.generateRandomPassword()
-            });
-        }
-
-        this.renderStudentsTableForEmpresa(empresaId);
-        document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+    if (!count || count < 1 || count > 50) {
+        this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
+        return;
     }
 
+    this.clearError(countInput);
 
-    renderStudentsTableForEmpresa(empresaId) {
-        const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+    if (!this.students[empresaId]) {
+        this.students[empresaId] = [];
+    }
 
-        tbody.innerHTML = 'LOL';
+    this.students[empresaId] = [];
 
-        const empresaSection = document.getElementById(`empresa-${empresaId}`);
-        const empresaName = empresaSection.dataset.empresa;
-        const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
+    for (let i = 0; i < count; i++) {
+        this.students[empresaId].push({
+            id: i + 1,
+            empresa: empresa,
+            empresaId: empresaId,
+            companyId: empresaRealId, // ✅ GUARDAR ID REAL
+            razonSocial: '',
+            cr: '',
+            lastName: '',
+            firstName: '',
+            mdName: '',
+            dob: '',
+            idExp: '',
+            cargo: '',
+            membresia: '',
+            email: '',
+            password: this.generateRandomPassword()
+        });
+    }
 
-        this.students[empresaId].forEach((student, index) => {
-            const row = document.createElement('tr');
-            row.id = `student-${empresaId}-${index}`;
-            row.className = 'student-row';
+    console.log(`✅ ${count} estudiantes generados con COMPANY_ID: ${empresaRealId}`);
 
-            let optionsHTML = '<option value="">Seleccione una razón social</option>';
-            razonesSociales.forEach(rs => {
-                const selected = student.razonSocial === rs.RAZON_SOCIAL ? 'selected' : '';
-                optionsHTML += `<option value="${rs.RAZON_SOCIAL}" ${selected}>${rs.RAZON_SOCIAL}</option>`;
-            });
+    this.renderStudentsTableForEmpresa(empresaId);
+    document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+}
 
-            acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
 
-            if (acreditacionElegida === '1') { // IADC
-                row.innerHTML = `
+  renderStudentsTableForEmpresa(empresaId) {
+    const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+    tbody.innerHTML = '';
+
+    const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    const empresaName = empresaSection.dataset.empresa;
+    const empresaRealId = empresaSection.dataset.empresaRealId || 
+                         empresaSection.querySelector('.empresa-real-id')?.value || '0';
+    
+    const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
+
+    console.log(`🎨 Renderizando tabla para ${empresaName} (ID: ${empresaRealId})`);
+    console.log(`📋 Razones sociales disponibles:`, razonesSociales);
+
+    this.students[empresaId].forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.id = `student-${empresaId}-${index}`;
+        row.className = 'student-row';
+
+        let optionsHTML = '<option value="">Seleccione una razón social</option>';
+        razonesSociales.forEach(rs => {
+            const razonSocialValue = rs.RAZON_SOCIAL || rs;
+            const selected = student.razonSocial === razonSocialValue ? 'selected' : '';
+            optionsHTML += `<option value="${razonSocialValue}" ${selected}>${razonSocialValue}</option>`;
+        });
+
+        const acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
+
+        if (acreditacionElegida === '1') { // IADC
+            row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
-                <input type="hidden" name="companyId" value="${student.companyId || 0}">
+                <input type="hidden" name="companyId" value="${student.companyId || empresaRealId}">
                 <td>
                     <input type="text" class="form-control input-lg2" 
                            name="id" placeholder="id" 
@@ -813,14 +828,12 @@ class WizardManager {
                     </button>
                 </td>
             `;
-            } else {
-                // Similar para IWCF y otras acreditaciones, solo agrega los hidden inputs
-                console.log('ENTRO A IWCF EN RENDER ESTUDENTS');
-                row.innerHTML = `
+        } else { // IWCF
+            row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
-                <input type="hidden" name="companyId" value="${student.companyId || 0}">
-                 <td>
+                <input type="hidden" name="companyId" value="${student.companyId || empresaRealId}">
+                <td>
                     <input type="text" class="form-control input-lg2" 
                            name="id" placeholder="id" 
                            value="${index + 1}" readonly>
@@ -900,14 +913,13 @@ class WizardManager {
                     </button>
                 </td>
             `;
-            }
+        }
 
+        tbody.appendChild(row);
+    });
 
-            tbody.appendChild(row);
-        });
-
-        this.addDateFormatting(empresaId);
-    }
+    this.addDateFormatting(empresaId);
+}
 
     addDateFormatting(empresaId) {
         const dobInputs = document.querySelectorAll(`#studentsTableBody_${empresaId} .dob-input`);
@@ -1925,6 +1937,7 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
             setTimeout(() => {
                 // isEditing = false;
             }, 1000);
+            $('#proyectoModal').modal('show');
             $('#proyectoModal .modal-title').html(`Editar Proyecto ${rowData.FOLIO_PROJECT}`);
         }
 
@@ -1932,7 +1945,10 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
         candidatesData.forEach(candidate => {
             const companyId = candidate.COMPANY_ID_PROJECT;
-            const companyName = candidate.COMPANY_PROJECT;
+            const empresaData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+            const companyName = empresaData ? empresaData.NOMBRE_COMERCIAL_CLIENTE : `Empresa ${companyId}`;
+
+  console.log(`🔍 Candidato: ${candidate.EMAIL_PROJECT} - Empresa ID: ${companyId} - Nombre: ${companyName}`);
 
             if (!companyId || !companyName) {
                 console.warn('⚠️ Candidato sin empresa:', candidate);
@@ -1943,7 +1959,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
                 empresasMap.set(companyId, {
                     id: companyId,
                     name: companyName,
-                    students: []
+                    students: [],
+                    razonesSociales: empresaData?.RAZONES_SOCIALES || '[]'
                 });
             }
 
@@ -1966,25 +1983,40 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         const selectedCompanyIds = [];
         const selectedRazonesSociales = [];
 
+        // empresasMap.forEach((empresa, companyId) => {
+        //     const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+
+        //     if (clienteData) {
+        //         empresasParaTagify.push({
+        //             value: empresa.name,
+        //             name: companyId,
+        //             razonSocial: clienteData.RAZONES_SOCIALES || '[]'
+        //         });
+
+        //         selectedCompanyIds.push(companyId);
+        //         selectedRazonesSociales.push({
+        //             ID: companyId,
+        //             RAZON_SOCIAL: clienteData.RAZONES_SOCIALES || '[]',
+        //             EMPRESA: empresa.name
+        //         });
+        //     } else {
+        //         console.warn(`⚠️ No se encontró cliente con ID ${companyId} en clientesData`);
+        //     }
+        // });
+
         empresasMap.forEach((empresa, companyId) => {
-            const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+            empresasParaTagify.push({
+                value: empresa.name, 
+                name: companyId,    
+                razonSocial: empresa.razonesSociales
+            });
 
-            if (clienteData) {
-                empresasParaTagify.push({
-                    value: empresa.name,
-                    name: companyId,
-                    razonSocial: clienteData.RAZONES_SOCIALES || '[]'
-                });
-
-                selectedCompanyIds.push(companyId);
-                selectedRazonesSociales.push({
-                    ID: companyId,
-                    RAZON_SOCIAL: clienteData.RAZONES_SOCIALES || '[]',
-                    EMPRESA: empresa.name
-                });
-            } else {
-                console.warn(`⚠️ No se encontró cliente con ID ${companyId} en clientesData`);
-            }
+            selectedCompanyIds.push(companyId);
+            selectedRazonesSociales.push({
+                ID: companyId,
+                RAZON_SOCIAL: empresa.razonesSociales,
+                EMPRESA: empresa.name
+            });
         });
 
         console.log('🏢 Empresas para Tagify:', empresasParaTagify);
@@ -2007,14 +2039,15 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         empresasMap.forEach((empresa, companyId) => {
             const empresaObj = {
                 NAME_PROJECT: empresa.name,
+                COMPANY_ID: companyId,
                 EMAIL_PROJECT: '',
                 STUDENT_COUNT_PROJECT: empresa.students.length,
                 STUDENTS_PROJECT: empresa.students.map((student, index) => ({
                     ID_PROJECT: index + 1,
                     ID_CANDIDATE: student.ID_CANDIDATE,
                     COMPANY_PROJECT: student.COMPANY_PROJECT,
-                    COMPANY_ID: student.COMPANY_ID_PROJECT,
-                    RAZON_SOCIAL_PROJECT: student.RAZON_SOCIAL_PROJECT || '',
+                    COMPANY_ID_PROJECT: student.COMPANY_ID_PROJECT,
+                    RAZON_SOCIAL_PROJECT: student.COMPANY_PROJECT || student.RAZON_SOCIAL_PROJECT || '',
                     CR_PROJECT: student.CR_PROJECT || '',
                     LAST_NAME_PROJECT: student.LAST_NAME_PROJECT || '',
                     FIRST_NAME_PROJECT: student.FIRST_NAME_PROJECT || '',
@@ -2035,26 +2068,39 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         window.wizard.empresas = empresasConEstudiantes;
         console.log('✅✅✅ Empresas CON ESTUDIANTES cargadas en wizard:', window.wizard.empresas);
 
-        empresasMap.forEach((empresa, companyId) => {
-            const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
-            if (clienteData && clienteData.RAZONES_SOCIALES) {
-                try {
-                    const razonesSociales = typeof clienteData.RAZONES_SOCIALES === 'string'
-                        ? JSON.parse(clienteData.RAZONES_SOCIALES)
-                        : clienteData.RAZONES_SOCIALES;
+        // empresasMap.forEach((empresa, companyId) => {
+        //     const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+        //     if (clienteData && clienteData.RAZONES_SOCIALES) {
+        //         try {
+        //             const razonesSociales = typeof clienteData.RAZONES_SOCIALES === 'string'
+        //                 ? JSON.parse(clienteData.RAZONES_SOCIALES)
+        //                 : clienteData.RAZONES_SOCIALES;
 
-                    window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
-                    console.log(`✅ Razones sociales cargadas para ${empresa.name}:`, razonesSociales);
-                } catch (e) {
-                    console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
-                    window.wizard.empresasRazonesSociales[empresa.name] = [];
-                }
-            } else {
-                console.warn(`⚠️ No se encontraron razones sociales para ${empresa.name}`);
+        //             window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
+        //             console.log(`✅ Razones sociales cargadas para ${empresa.name}:`, razonesSociales);
+        //         } catch (e) {
+        //             console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
+        //             window.wizard.empresasRazonesSociales[empresa.name] = [];
+        //         }
+        //     } else {
+        //         console.warn(`⚠️ No se encontraron razones sociales para ${empresa.name}`);
+        //         window.wizard.empresasRazonesSociales[empresa.name] = [];
+        //     }
+        // });
+
+        empresasMap.forEach((empresa, companyId) => {
+            try {
+                const razonesSociales = typeof empresa.razonesSociales === 'string'
+                    ? JSON.parse(empresa.razonesSociales)
+                    : empresa.razonesSociales;
+
+                window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
+                console.log(`✅ Razones sociales para ${empresa.name}:`, razonesSociales);
+            } catch (e) {
+                console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
                 window.wizard.empresasRazonesSociales[empresa.name] = [];
             }
         });
-
         console.log('📦 Empresas cargadas en wizard:', window.wizard.empresas);
         console.log('📄 Razones sociales cargadas:', window.wizard.empresasRazonesSociales);
 

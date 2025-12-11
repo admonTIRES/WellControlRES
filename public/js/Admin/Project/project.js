@@ -2068,26 +2068,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         window.wizard.empresas = empresasConEstudiantes;
         console.log('✅✅✅ Empresas CON ESTUDIANTES cargadas en wizard:', window.wizard.empresas);
 
-        // empresasMap.forEach((empresa, companyId) => {
-        //     const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
-        //     if (clienteData && clienteData.RAZONES_SOCIALES) {
-        //         try {
-        //             const razonesSociales = typeof clienteData.RAZONES_SOCIALES === 'string'
-        //                 ? JSON.parse(clienteData.RAZONES_SOCIALES)
-        //                 : clienteData.RAZONES_SOCIALES;
-
-        //             window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
-        //             console.log(`✅ Razones sociales cargadas para ${empresa.name}:`, razonesSociales);
-        //         } catch (e) {
-        //             console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
-        //             window.wizard.empresasRazonesSociales[empresa.name] = [];
-        //         }
-        //     } else {
-        //         console.warn(`⚠️ No se encontraron razones sociales para ${empresa.name}`);
-        //         window.wizard.empresasRazonesSociales[empresa.name] = [];
-        //     }
-        // });
-
         empresasMap.forEach((empresa, companyId) => {
             try {
                 const razonesSociales = typeof empresa.razonesSociales === 'string'

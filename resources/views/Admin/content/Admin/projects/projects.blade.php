@@ -890,9 +890,38 @@
                         </div>
                     </div>
                 </div>
+                <div id="loadingProyectoOverlay" 
+            style="position:absolute; 
+                    top:0; left:0; right:0; bottom:0; 
+                    background:rgba(255,255,255,0.85);
+                    backdrop-filter:blur(2px);
+                    z-index:9999;
+                    display:none;
+                    justify-content:center;
+                    align-items:center;">
+            <div class="card p-4 shadow-lg" style="min-width:300px;">
+                <h5 class="text-center mb-2">Cargando datos del proyecto…</h5>
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
             </div>
         </div>
+            </div>
+        </div>
+        
     </div>
+</div>
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content p-3 text-center">
+      <div class="spinner-border" role="status"></div>
+      <h6 class="mt-3">Cargando datos del proyecto...</h6>
+
+      <button id="cancelLoading" class="btn btn-outline-danger btn-sm mt-3">
+        Cancelar
+      </button>
+    </div>
+  </div>
 </div>
 <style>
     .customLook {

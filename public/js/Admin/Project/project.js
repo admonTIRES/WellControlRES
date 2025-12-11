@@ -22,7 +22,7 @@ $(document).ready(function () {
     });
     var selectizeInstance3 = $select3[0].selectize;
 
-     var $select6 = $('#INSTRUCTOR_ID_PROJECT').selectize({
+    var $select6 = $('#INSTRUCTOR_ID_PROJECT').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.wizard = new WizardManager();
     initializeTagify();
 
-    let isEditing = false;
+    isEditing = false;
 
     $('button[data-bs-target="#proyectoModal"]').on('click', function () {
         isEditing = false;
@@ -93,6 +93,7 @@ class WizardManager {
         this.empresas = [];
         this.empresasRazonesSociales = {};
         this.isEditMode = false;
+        this.empresasLoaded = false;
         this.init();
     }
 
@@ -377,353 +378,139 @@ class WizardManager {
 
         this.updateWizard();
     }
-    // renderEmpresasSections() {
-    //     const container = document.getElementById('empresasContainer');
-    //     container.innerHTML = '';
 
-    //     if (!this.empresas || this.empresas.length === 0) {
-    //         container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
-    //         return;
-    //     }
+   renderEmpresasSections() {
+    const container = document.getElementById('empresasContainer');
+    container.innerHTML = '';
 
-    //     const isEditMode = typeof this.empresas[0] === 'object' && this.empresas[0].NAME_PROJECT !== undefined;
+    if (!this.empresas || this.empresas.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+        return;
+    }
 
-    //     if (window.selectedRazonesSociales && window.selectedCompanyIds) {
-    //         window.selectedCompanyIds.forEach((companyId, index) => {
-    //             const empresaName = this.empresas[index];
-    //             const razonSocialData = window.selectedRazonesSociales[index];
+    console.log('🎨 Renderizando empresas:', this.empresas);
 
-    //             if (razonSocialData && razonSocialData.RAZON_SOCIAL) {
-    //                 try {
-    //                     const razonesSociales = JSON.parse(razonSocialData.RAZON_SOCIAL);
-    //                     this.empresasRazonesSociales[empresaName] = razonesSociales;
-    //                     console.log(`Razones sociales para ${empresaName}:`, razonesSociales);
-    //                 } catch (e) {
-    //                     console.error(`Error al parsear razones sociales para ${empresaName}:`, e);
-    //                     this.empresasRazonesSociales[empresaName] = [];
-    //                 }
-    //             }
-    //         });
-    //     }
+    // ✅ SOLUCIÓN: Determinar modo basado en la estructura de datos
+    const isEditMode = this.empresas.length > 0 && 
+                      typeof this.empresas[0] === 'object' && 
+                      this.empresas[0].hasOwnProperty('STUDENTS_PROJECT') &&
+                      Array.isArray(this.empresas[0].STUDENTS_PROJECT) &&
+                      this.empresas[0].STUDENTS_PROJECT.length > 0;
 
-    //     this.empresas.forEach((empresa, index) => {
-    //         const empresaName = isEditMode ? empresa.NAME_PROJECT : empresa;
-    //         const empresaEmail = isEditMode ? empresa.EMAIL_PROJECT : '';
-    //         const studentCount = isEditMode ? (empresa.STUDENTS_PROJECT ? empresa.STUDENTS_PROJECT.length : 0) : '';
-    //         const students = isEditMode ? (empresa.STUDENTS_PROJECT || []) : [];
+    console.log('📊 Modo detectado:', isEditMode ? 'EDICIÓN CON ESTUDIANTES' : 'NUEVO/EDICIÓN SIN ESTUDIANTES');
 
-    //         const empresaId = window.selectedCompanyIds[index] || empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + index;
-
-    //         const section = document.createElement('div');
-    //         section.className = 'empresa-section mb-4 p-3 border rounded';
-    //         section.id = `empresa-${empresaId}`;
-    //         section.dataset.empresa = empresaName;
-    //         section.dataset.empresaId = empresaId;
-
-    //         acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
-    //         console.log(acreditacionElegida);
-    //         if (acreditacionElegida === '1') {//iadc
-    //             section.innerHTML = `
-    //         <div class="row mb-3">
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Nombre de la empresa: *</label>
-    //                 <input type="text" class="form-control empresa-name" 
-    //                     name="empresa_${empresaId}" value="${empresaName}" readonly />
-    //             </div>
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Cantidad de estudiantes: *</label>
-    //                 <input type="number" class="form-control student-count" 
-    //                     name="studentCount_${empresaId}"
-    //                     placeholder="Número de estudiantes" min="1" max="50" 
-    //                     value="${studentCount || ''}" />
-    //                 <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-    //             </div>
-    //             <div class="col-md-3 mt-3 d-flex align-items-center">
-    //                 <button type="button" class="btn btn-info action-button generate-students"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-user-add-line me-2"></i>Generar Estudiantes
-    //                 </button>
-    //             </div>
-    //         </div>
-    //         <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
-    //             <hr class="mb-4">
-    //             <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
-    //             <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-    //                 <table class="table table-striped table-hover" style="min-width: 900px;">
-    //                     <thead class="table-dark">
-    //                         <tr>
-    //                             <th>#</th>
-    //                             <th>Empresa</th>
-    //                             <th style="min-width: 200px;">Razón Social *</th>
-    //                             <th>Apellidos</th>
-    //                             <th>Nombre</th>
-    //                             <th>Segundo nombre</th>
-    //                             <th>Fecha de nacimiento</th>
-    //                             <th>No. ID</th>
-    //                             <th>Cargo</th>
-    //                             <th>Membresia</th>
-    //                             <th>Correo Electrónico</th>
-    //                             <th>Contraseña Generada</th>
-    //                             <th>Acciones</th>
-    //                         </tr>
-    //                     </thead>
-    //                     <tbody id="studentsTableBody_${empresaId}"></tbody>
-    //                 </table>
-    //             </div>
-    //             <div class="mt-3">
-    //                 <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     `;
-    //         } else if (acreditacionElegida === '2') {//iwcf
-    //             section.innerHTML = `
-    //         <div class="row mb-3">
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Nombre de la empresa: *</label>
-    //                 <input type="text" class="form-control empresa-name" 
-    //                     name="empresa_${empresaId}" value="${empresaName}" readonly />
-    //             </div>
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Cantidad de estudiantes: *</label>
-    //                 <input type="number" class="form-control student-count" 
-    //                     name="studentCount_${empresaId}"
-    //                     placeholder="Número de estudiantes" min="1" max="50" 
-    //                     value="${studentCount || ''}" />
-    //                 <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-    //             </div>
-    //             <div class="col-md-3 mt-3 d-flex align-items-center">
-    //                 <button type="button" class="btn btn-info action-button generate-students"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-user-add-line me-2"></i>Generar Estudiantes
-    //                 </button>
-    //             </div>
-    //         </div>
-    //         <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
-    //             <hr class="mb-4">
-    //             <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
-    //             <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-    //                 <table class="table table-striped table-hover" style="min-width: 900px;">
-    //                     <thead class="table-dark">
-    //                         <tr>
-    //                             <th>#</th>
-    //                             <th>Empresa *</th>
-    //                             <th style="min-width: 200px;">Razón Social *</th>
-    //                             <th>CR *</th>
-    //                             <th>Apellidos *</th>
-    //                             <th>Nombre *</th>
-    //                             <th>Segundo nombre</th>
-    //                             <th>Fecha de nacimiento *</th>
-    //                             <th>No. ID</th>
-    //                             <th>Cargo</th>
-    //                             <th>Membresia</th>
-    //                             <th>Correo Electrónico *</th>
-    //                             <th>Contraseña Generada</th>
-    //                             <th>Acciones</th>
-    //                         </tr>
-    //                     </thead>
-    //                     <tbody id="studentsTableBody_${empresaId}"></tbody>
-    //                 </table>
-    //             </div>
-    //             <div class="mt-3">
-    //                 <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     `;
-    //         } else {
-    //             section.innerHTML = `
-    //         <div class="row mb-3">
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Nombre de la empresa: *</label>
-    //                 <input type="text" class="form-control empresa-name" 
-    //                     name="empresa_${empresaId}" value="${empresaName}" readonly />
-    //             </div>
-    //             <div class="col-md-3">
-    //                 <label class="form-label">Cantidad de estudiantes: *</label>
-    //                 <input type="number" class="form-control student-count" 
-    //                     name="studentCount_${empresaId}"
-    //                     placeholder="Número de estudiantes" min="1" max="50" 
-    //                     value="${studentCount || ''}" />
-    //                 <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-    //             </div>
-    //             <div class="col-md-3 mt-3 d-flex align-items-center">
-    //                 <button type="button" class="btn btn-info action-button generate-students"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-user-add-line me-2"></i>Generar Estudiantes
-    //                 </button>
-    //             </div>
-    //         </div>
-    //         <div class="students-container" id="studentsContainer_${empresaId}" style="display: ${students.length > 0 ? 'block' : 'none'};">
-    //             <hr class="mb-4">
-    //             <h5 class="mb-3">Lista de Estudiantes - ${empresaName}</h5>
-    //             <div class="table-responsive" style="overflow-x: auto; max-width: 100%;">
-    //                 <table class="table table-striped table-hover" style="min-width: 900px;">
-    //                     <thead class="table-dark">
-    //                         <tr>
-    //                             <th>#</th>
-    //                             <th>Empresa *</th>
-    //                             <th style="min-width: 200px;">Razón Social *</th>
-    //                             <th>CR *</th>
-    //                             <th>Apellidos *</th>
-    //                             <th>Nombre *</th>
-    //                             <th>Segundo nombre</th>
-    //                             <th>Fecha de nacimiento *</th>
-    //                             <th>No. ID</th>
-    //                             <th>Cargo</th>
-    //                             <th>Membresia</th>
-    //                             <th>Correo Electrónico *</th>
-    //                             <th>Contraseña Generada</th>
-    //                             <th>Acciones</th>
-    //                         </tr>
-    //                     </thead>
-    //                     <tbody id="studentsTableBody_${empresaId}"></tbody>
-    //                 </table>
-    //             </div>
-    //             <div class="mt-3">
-    //                 <button type="button" class="btn btn-warning btn-sm ms-2 regenerate-passwords"
-    //                         data-empresa="${empresaId}">
-    //                     <i class="ri-refresh-line me-2"></i>Regenerar Todas las Contraseñas
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     `;
-    //         }
-
-    //         container.appendChild(section);
-
-    //         section.querySelector(`.generate-students`).addEventListener('click', () => {
-    //             this.generateStudentsForEmpresa(empresaId);
-    //         });
-    //         section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
-    //             this.regenerateAllPasswordsForEmpresa(empresaId);
-    //         });
-
-    //         if (students.length > 0) {
-    //             if (!this.students[empresaId]) {
-    //                 this.students[empresaId] = [];
-    //             }
-
-    //             this.students[empresaId] = students.map((student, index) => ({
-    //                 id: student.ID_PROJECT,
-    //                 idCandidate: student.ID_CANDIDATE || null,
-    //                 empresa: empresaName,
-    //                 empresaId: empresaId,
-    //                 razonSocial: student.RAZON_SOCIAL_PROJECT || '',
-    //                 cr: student.CR_PROJECT || '',
-    //                 lastName: student.LAST_NAME_PROJECT || '',
-    //                 firstName: student.FIRST_NAME_PROJECT || '',
-    //                 mdName: student.MIDDLE_NAME_PROJECT || '',
-    //                 dob: student.BIRTH_DATE_PROJECT || '',
-    //                 idExp: student.ID_NUMBER_PROJECT || '',
-    //                 cargo: student.POSITION_PROJECT || '',
-    //                 membresia: student.MEMBERSHIP_PROJECT || '',
-    //                 email: student.EMAIL_PROJECT || '',
-    //                 password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-    //                 USER_ID_PROJECT: student.USER_ID_PROJECT || null
-    //             }));
-
-    //             this.renderStudentsTableForEmpresa(empresaId);
-    //         }
-    //     });
-    // }
-
-    renderEmpresasSections() {
-        const container = document.getElementById('empresasContainer');
-        container.innerHTML = '';
-
-        if (!this.empresas || this.empresas.length === 0) {
-            container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
-            return;
-        }
-
-        console.log('🎨 Renderizando empresas:', this.empresas);
-
-        // ✅ VERIFICACIÓN MEJORADA DEL MODO EDICIÓN
-        const isEditMode = this.empresas.length > 0 &&
-            typeof this.empresas[0] === 'object' &&
-            this.empresas[0].hasOwnProperty('STUDENTS_PROJECT') &&
-            this.empresas[0].hasOwnProperty('NAME_PROJECT');
-
-        console.log('📝 Modo edición:', isEditMode);
-        console.log('📊 Primera empresa completa:', JSON.stringify(this.empresas[0], null, 2));
-
-        // ✅ CARGAR RAZONES SOCIALES ANTES DE RENDERIZAR (MODO NUEVO)
-        if (!isEditMode && window.selectedRazonesSociales && window.selectedCompanyIds) {
-            window.selectedCompanyIds.forEach((companyId, index) => {
-                const empresaName = typeof this.empresas[index] === 'string'
-                    ? this.empresas[index]
-                    : this.empresas[index].NAME_PROJECT;
-                const razonSocialData = window.selectedRazonesSociales[index];
-
-                if (razonSocialData && razonSocialData.RAZON_SOCIAL) {
-                    try {
-                        const razonesSociales = typeof razonSocialData.RAZON_SOCIAL === 'string'
-                            ? JSON.parse(razonSocialData.RAZON_SOCIAL)
-                            : razonSocialData.RAZON_SOCIAL;
-                        this.empresasRazonesSociales[empresaName] = razonesSociales;
-                        console.log(`✅ Razones sociales cargadas para ${empresaName}:`, razonesSociales);
-                    } catch (e) {
-                        console.error(`❌ Error al parsear razones sociales para ${empresaName}:`, e);
-                        this.empresasRazonesSociales[empresaName] = [];
-                    }
-                }
-            });
-        }
+    // ✅ CARGAR RAZONES SOCIALES PARA MODO NUEVO O EDICIÓN SIN CANDIDATOS
+    if (!isEditMode) {
+        console.log('📋 Cargando razones sociales...');
+        
+        // Obtener datos actuales de Tagify
+        const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
+        console.log('🏷️ Datos de Tagify:', tagifyData);
 
         this.empresas.forEach((empresa, index) => {
-            let empresaName, studentCount, students, empresaRealId;
-
-            if (isEditMode) {
-                // ✅ MODO EDICIÓN MEJORADO
-                empresaName = empresa.NAME_PROJECT;
-                students = empresa.STUDENTS_PROJECT || [];
-                studentCount = students.length;
-                empresaRealId = students.length > 0 ? students[0].COMPANY_ID : null;
-
-                console.log(`✅ MODO EDICIÓN - Empresa: ${empresaName}, Estudiantes: ${studentCount}, Datos:`, students);
-            } else {
-                // MODO NUEVO
-                if (typeof empresa === 'string') {
-                    empresaName = empresa;
-                } else if (empresa.NAME_PROJECT) {
-                    empresaName = empresa.NAME_PROJECT;
-                } else {
-                    console.error('❌ Estructura de empresa no válida:', empresa);
-                    return;
-                }
-                studentCount = '';
-                students = [];
-                empresaRealId = window.selectedCompanyIds ? window.selectedCompanyIds[index] : null;
-
-                console.log(`➕ MODO NUEVO - Empresa: ${empresaName}`);
-            }
-
-            console.log(`🏢 Procesando empresa:`, {
-                nombre: empresaName,
-                modo: isEditMode ? 'edición' : 'nuevo',
-                estudiantesCount: studentCount,
-                empresaRealId: empresaRealId,
-                razonesSocialesDisponibles: this.empresasRazonesSociales[empresaName] ? this.empresasRazonesSociales[empresaName].length : 0,
-                tieneEstudiantes: students.length > 0
+            const empresaName = typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT;
+            
+            // ✅ Buscar la empresa en Tagify por nombre
+            const tagData = tagifyData.find(tag => {
+                const tagValue = typeof tag === 'string' ? tag : tag.value;
+                return tagValue === empresaName;
             });
 
-            const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + (empresaRealId || index);
+            console.log(`🔍 Buscando razón social para: ${empresaName}`, tagData);
 
-            const section = document.createElement('div');
-            section.className = 'empresa-section mb-4 p-3 border rounded';
-            section.id = `empresa-${empresaId}`;
-            section.dataset.empresa = empresaName;
-            section.dataset.empresaId = empresaId;
+            if (tagData && tagData.razonSocial) {
+                try {
+                    const razonesSociales = typeof tagData.razonSocial === 'string'
+                        ? JSON.parse(tagData.razonSocial)
+                        : tagData.razonSocial;
+                    
+                    this.empresasRazonesSociales[empresaName] = razonesSociales;
+                    console.log(`✅ Razones sociales cargadas para ${empresaName}:`, razonesSociales);
+                } catch (e) {
+                    console.error(`❌ Error al parsear razones sociales para ${empresaName}:`, e);
+                    this.empresasRazonesSociales[empresaName] = [];
+                }
+            } else {
+                // ✅ Buscar en window.selectedRazonesSociales como fallback
+                if (window.selectedRazonesSociales) {
+                    const rsData = window.selectedRazonesSociales.find(rs => 
+                        rs.EMPRESA === empresaName
+                    );
+                    
+                    if (rsData && rsData.RAZON_SOCIAL) {
+                        try {
+                            const razonesSociales = typeof rsData.RAZON_SOCIAL === 'string'
+                                ? JSON.parse(rsData.RAZON_SOCIAL)
+                                : rsData.RAZON_SOCIAL;
+                            
+                            this.empresasRazonesSociales[empresaName] = razonesSociales;
+                            console.log(`✅ Razones sociales cargadas (fallback) para ${empresaName}:`, razonesSociales);
+                        } catch (e) {
+                            console.error(`❌ Error al parsear razones sociales (fallback) para ${empresaName}:`, e);
+                            this.empresasRazonesSociales[empresaName] = [];
+                        }
+                    } else {
+                        console.warn(`⚠️ No se encontraron razones sociales para ${empresaName}`);
+                        this.empresasRazonesSociales[empresaName] = [];
+                    }
+                } else {
+                    console.warn(`⚠️ No hay razones sociales disponibles para ${empresaName}`);
+                    this.empresasRazonesSociales[empresaName] = [];
+                }
+            }
+        });
+    }
 
-            acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
+    this.empresas.forEach((empresa, index) => {
+        let empresaName, studentCount, students, empresaRealId;
 
-            if (acreditacionElegida === '1') { // IADC
-                section.innerHTML = `
+        if (isEditMode) {
+            // MODO EDICIÓN CON ESTUDIANTES EXISTENTES
+            empresaName = empresa.NAME_PROJECT;
+            students = empresa.STUDENTS_PROJECT || [];
+            studentCount = students.length;
+            empresaRealId = empresa.COMPANY_ID || (students.length > 0 ? students[0].COMPANY_ID : null);
+            
+            console.log(`✅ MODO EDICIÓN - Empresa: ${empresaName}, Estudiantes: ${studentCount}`);
+        } else {
+            // MODO NUEVO O EDICIÓN SIN ESTUDIANTES
+            if (typeof empresa === 'string') {
+                empresaName = empresa;
+                empresaRealId = null;
+            } else if (empresa.NAME_PROJECT) {
+                empresaName = empresa.NAME_PROJECT;
+                empresaRealId = empresa.COMPANY_ID || null;
+            } else {
+                console.error('❌ Estructura de empresa no válida:', empresa);
+                return;
+            }
+            studentCount = '';
+            students = [];
+            
+            // ✅ Obtener ID de Tagify si no existe
+            if (!empresaRealId && window.tagifyInstance) {
+                const tagData = window.tagifyInstance.value.find(tag => {
+                    const tagValue = typeof tag === 'string' ? tag : tag.value;
+                    return tagValue === empresaName;
+                });
+                empresaRealId = tagData?.name || null;
+            }
+
+            console.log(`➕ MODO NUEVO - Empresa: ${empresaName}, ID: ${empresaRealId}`);
+        }
+
+        const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + (empresaRealId || index);
+
+        const section = document.createElement('div');
+        section.className = 'empresa-section mb-4 p-3 border rounded';
+        section.id = `empresa-${empresaId}`;
+        section.dataset.empresa = empresaName;
+        section.dataset.empresaId = empresaId;
+
+        acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
+
+        if (acreditacionElegida === '1') { // IADC
+            section.innerHTML = `
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">Nombre de la empresa: *</label>
@@ -778,8 +565,8 @@ class WizardManager {
                 </div>
             </div>
         `;
-            } else { // IWCF y otras
-                section.innerHTML = `
+        } else { // IWCF
+            section.innerHTML = `
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">Nombre de la empresa: *</label>
@@ -835,52 +622,52 @@ class WizardManager {
                 </div>
             </div>
         `;
-            }
+        }
 
-            container.appendChild(section);
+        container.appendChild(section);
 
-            section.querySelector(`.generate-students`).addEventListener('click', () => {
-                this.generateStudentsForEmpresa(empresaId);
-            });
-            section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
-                this.regenerateAllPasswordsForEmpresa(empresaId);
-            });
-
-            // ✅ CARGAR ESTUDIANTES SI EXISTEN (MODO EDICIÓN)
-            if (students.length > 0) {
-                console.log(`🔄 Cargando ${students.length} estudiantes para ${empresaName}`);
-
-                if (!this.students[empresaId]) {
-                    this.students[empresaId] = [];
-                }
-
-                this.students[empresaId] = students.map((student, index) => ({
-                    id: index + 1,
-                    idCandidate: student.ID_CANDIDATE || null,
-                    empresa: empresaName,
-                    empresaId: empresaId,
-                    companyId: student.COMPANY_ID || empresaRealId,
-                    razonSocial: student.RAZON_SOCIAL_PROJECT || '',
-                    cr: student.CR_PROJECT || '',
-                    lastName: student.LAST_NAME_PROJECT || '',
-                    firstName: student.FIRST_NAME_PROJECT || '',
-                    mdName: student.MIDDLE_NAME_PROJECT || '',
-                    dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '', // ✅ IMPORTANTE: También buscar DOB_PROJECT
-                    idExp: student.ID_NUMBER_PROJECT || '',
-                    cargo: student.POSITION_PROJECT || '',
-                    membresia: student.MEMBERSHIP_PROJECT || '',
-                    email: student.EMAIL_PROJECT || '',
-                    password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
-                }));
-
-                console.log(`👥 Estudiantes procesados para ${empresaName}:`, this.students[empresaId]);
-                this.renderStudentsTableForEmpresa(empresaId);
-            } else {
-                console.log(`⚠️ No hay estudiantes para cargar en ${empresaName}`);
-            }
+        section.querySelector(`.generate-students`).addEventListener('click', () => {
+            this.generateStudentsForEmpresa(empresaId);
         });
-    }
+        section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+            this.regenerateAllPasswordsForEmpresa(empresaId);
+        });
+
+        // ✅ CARGAR ESTUDIANTES SI EXISTEN (SOLO EN MODO EDICIÓN CON ESTUDIANTES)
+        if (students.length > 0) {
+            console.log(`🔄 Cargando ${students.length} estudiantes para ${empresaName}`);
+
+            if (!this.students[empresaId]) {
+                this.students[empresaId] = [];
+            }
+
+            this.students[empresaId] = students.map((student, index) => ({
+                id: index + 1,
+                idCandidate: student.ID_CANDIDATE || null,
+                empresa: empresaName,
+                empresaId: empresaId,
+                companyId: student.COMPANY_ID || empresaRealId,
+                razonSocial: student.RAZON_SOCIAL_PROJECT || '',
+                cr: student.CR_PROJECT || '',
+                lastName: student.LAST_NAME_PROJECT || '',
+                firstName: student.FIRST_NAME_PROJECT || '',
+                mdName: student.MIDDLE_NAME_PROJECT || '',
+                dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
+                idExp: student.ID_NUMBER_PROJECT || '',
+                cargo: student.POSITION_PROJECT || '',
+                membresia: student.MEMBERSHIP_PROJECT || '',
+                email: student.EMAIL_PROJECT || '',
+                password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+                USER_ID_PROJECT: student.USER_ID_PROJECT || null
+            }));
+
+            console.log(`👥 Estudiantes procesados para ${empresaName}:`, this.students[empresaId]);
+            this.renderStudentsTableForEmpresa(empresaId);
+        } else {
+            console.log(`⚪ No hay estudiantes para cargar en ${empresaName} (modo nuevo)`);
+        }
+    });
+}
     generateStudentsForEmpresa(empresaId) {
         const empresaSection = document.getElementById(`empresa-${empresaId}`);
         const countInput = empresaSection.querySelector('.student-count');
@@ -923,314 +710,11 @@ class WizardManager {
         document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
     }
 
-    // renderStudentsTableForEmpresa(empresaId) {
-    //     const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
-    //     tbody.innerHTML = '';
 
-    //     const empresaSection = document.getElementById(`empresa-${empresaId}`);
-    //     const empresaName = empresaSection.dataset.empresa;
-    //     const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
-
-    //     this.students[empresaId].forEach((student, index) => {
-    //         const row = document.createElement('tr');
-    //         row.id = `student-${empresaId}-${index}`;
-    //         row.className = 'student-row';
-
-    //         let optionsHTML = '<option value="">Seleccione una razón social</option>';
-    //         razonesSociales.forEach(rs => {
-    //             const selected = student.razonSocial === rs.RAZON_SOCIAL ? 'selected' : '';
-    //             optionsHTML += `<option value="${rs.RAZON_SOCIAL}" ${selected}>${rs.RAZON_SOCIAL}</option>`;
-    //         });
-
-    //         acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
-    //         console.log(acreditacionElegida);
-    //         //los id van con referencia a los catalogos, si estos cambian, debe cambiar aqui pq iadc no lleva cr
-    //         if (acreditacionElegida === '1') {//iadc
-    //             row.innerHTML = `
-    //             <input type="hidden" name="studentCandidateId" value="${student.candidateId}">
-    //             <input type="hidden" name="empresaId" value="${empresaId}">
-    //         <td>
-    //             <input type="text" class="form-control input-lg2" 
-    //                    name="id" placeholder="id" 
-    //                    value="${index + 1}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="empresa" value="${student.empresa}" readonly>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <select class="form-select input-lg" name="razonSocial" required 
-    //                     style="min-width: 200px;">
-    //                 ${optionsHTML}
-    //             </select>
-    //             <div class="error-message">La razón social es requerida</div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="lastName" placeholder="lastName" 
-    //                    value="${student.lastName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="firstName" placeholder="firstName" 
-    //                    value="${student.firstName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="mdName" placeholder="mdName" 
-    //                    value="${student.mdName}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg dob-input" 
-    //                 name="dob" placeholder="dd/mm/aaaa" 
-    //                 value="${student.dob}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="idExp" placeholder="idExp" 
-    //                    value="${student.idExp}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="cargo" placeholder="cargo" 
-    //                    value="${student.cargo}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="membresia" placeholder="Membresia" 
-    //                    value="${student.membresia}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="email" class="form-control input-lg" 
-    //                    name="email" placeholder="correo@ejemplo.com" 
-    //                    value="${student.email}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <div class="d-flex align-items-center">
-    //                 <input type="text" class="form-control form-control-sm generated-password" 
-    //                        name="password" value="${student.password}" readonly>
-    //                 <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
-    //                         onclick="wizard.copyToClipboard('${student.password}', this)" 
-    //                         title="Copiar contraseña">
-    //                     <i class="ri-file-copy-line"></i>
-    //                 </button>
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <button type="button" class="btn btn-outline-warning btn-sm" 
-    //                     onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
-    //                     title="Regenerar contraseña">
-    //                 <i class="ri-refresh-line"></i>
-    //             </button>
-    //         </td>
-    //     `;
-    //         } else if (acreditacionElegida === '2') {//iwcf
-    //             row.innerHTML = `
-    //         <td>
-    //             <input type="text" class="form-control input-lg2" 
-    //                    name="id" placeholder="id" 
-    //                    value="${student.id}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="empresa" value="${student.empresa}" readonly>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <select class="form-select input-lg" name="razonSocial" required 
-    //                     style="min-width: 200px;">
-    //                 ${optionsHTML}
-    //             </select>
-    //             <div class="error-message">La razón social es requerida</div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="cr" placeholder="cr" 
-    //                    value="${student.cr}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="lastName" placeholder="lastName" 
-    //                    value="${student.lastName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="firstName" placeholder="firstName" 
-    //                    value="${student.firstName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="mdName" placeholder="mdName" 
-    //                    value="${student.mdName}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg dob-input" 
-    //                 name="dob" placeholder="dd/mm/aaaa" 
-    //                 value="${student.dob}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="idExp" placeholder="idExp" 
-    //                    value="${student.idExp}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="cargo" placeholder="cargo" 
-    //                    value="${student.cargo}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="membresia" placeholder="Membresia" 
-    //                    value="${student.membresia}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="email" class="form-control input-lg" 
-    //                    name="email" placeholder="correo@ejemplo.com" 
-    //                    value="${student.email}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <div class="d-flex align-items-center">
-    //                 <input type="text" class="form-control form-control-sm generated-password" 
-    //                        name="password" value="${student.password}" readonly>
-    //                 <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
-    //                         onclick="wizard.copyToClipboard('${student.password}', this)" 
-    //                         title="Copiar contraseña">
-    //                     <i class="ri-file-copy-line"></i>
-    //                 </button>
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <button type="button" class="btn btn-outline-warning btn-sm" 
-    //                     onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
-    //                     title="Regenerar contraseña">
-    //                 <i class="ri-refresh-line"></i>
-    //             </button>
-    //         </td>
-    //     `;
-    //         } else {//cualquier nueva acreditacion
-    //             row.innerHTML = `
-    //         <td>
-    //             <input type="text" class="form-control input-lg2" 
-    //                    name="id" placeholder="id" 
-    //                    value="${student.id}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="empresa" value="${student.empresa}" readonly>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <select class="form-select input-lg" name="razonSocial" required 
-    //                     style="min-width: 200px;">
-    //                 ${optionsHTML}
-    //             </select>
-    //             <div class="error-message">La razón social es requerida</div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="cr" placeholder="cr" 
-    //                    value="${student.cr}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="lastName" placeholder="lastName" 
-    //                    value="${student.lastName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="firstName" placeholder="firstName" 
-    //                    value="${student.firstName}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="mdName" placeholder="mdName" 
-    //                    value="${student.mdName}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg dob-input" 
-    //                 name="dob" placeholder="dd/mm/aaaa" 
-    //                 value="${student.dob}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="idExp" placeholder="idExp" 
-    //                    value="${student.idExp}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="cargo" placeholder="cargo" 
-    //                    value="${student.cargo}" >
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="text" class="form-control input-lg" 
-    //                    name="membresia" placeholder="Membresia" 
-    //                    value="${student.membresia}">
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <input type="email" class="form-control input-lg" 
-    //                    name="email" placeholder="correo@ejemplo.com" 
-    //                    value="${student.email}" required>
-    //             <div class="error-message"></div>
-    //         </td>
-    //         <td>
-    //             <div class="d-flex align-items-center">
-    //                 <input type="text" class="form-control form-control-sm generated-password" 
-    //                        name="password" value="${student.password}" readonly>
-    //                 <button type="button" class="btn btn-outline-primary btn-sm ms-2 copy-btn" 
-    //                         onclick="wizard.copyToClipboard('${student.password}', this)" 
-    //                         title="Copiar contraseña">
-    //                     <i class="ri-file-copy-line"></i>
-    //                 </button>
-    //             </div>
-    //         </td>
-    //         <td>
-    //             <button type="button" class="btn btn-outline-warning btn-sm" 
-    //                     onclick="wizard.regeneratePassword('${empresaId}', ${index})" 
-    //                     title="Regenerar contraseña">
-    //                 <i class="ri-refresh-line"></i>
-    //             </button>
-    //         </td>
-    //     `;
-    //         }
-
-
-
-    //         tbody.appendChild(row);
-    //     });
-    //     this.addDateFormatting(empresaId);
-    // }
     renderStudentsTableForEmpresa(empresaId) {
         const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
-        tbody.innerHTML = '';
+
+        tbody.innerHTML = 'LOL';
 
         const empresaSection = document.getElementById(`empresa-${empresaId}`);
         const empresaName = empresaSection.dataset.empresa;
@@ -1253,7 +737,7 @@ class WizardManager {
                 row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
-                <input type="hidden" name="companyId" value="${student.companyId || ''}">
+                <input type="hidden" name="companyId" value="${student.companyId || 0}">
                 <td>
                     <input type="text" class="form-control input-lg2" 
                            name="id" placeholder="id" 
@@ -1331,10 +815,11 @@ class WizardManager {
             `;
             } else {
                 // Similar para IWCF y otras acreditaciones, solo agrega los hidden inputs
+                console.log('ENTRO A IWCF EN RENDER ESTUDENTS');
                 row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
-                <input type="hidden" name="companyId" value="${student.companyId || ''}">
+                <input type="hidden" name="companyId" value="${student.companyId || 0}">
                  <td>
                     <input type="text" class="form-control input-lg2" 
                            name="id" placeholder="id" 
@@ -1586,131 +1071,6 @@ class WizardManager {
         return this.formData;
     }
 
-    // getFormData() {
-    //     this.saveStepData();
-
-    //     const companiesProject = [];
-
-    //     for (const empresaId in this.students) {
-    //         if (this.students.hasOwnProperty(empresaId)) {
-    //             const empresaSection = document.getElementById(`empresa-${empresaId}`);
-    //             if (!empresaSection) continue;
-
-    //             const empresaName = empresaSection.dataset.empresa;
-    //             const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
-    //             const empresaEmail = emailInput ? emailInput.value : '';
-
-    //             const empresaObj = {
-    //                 NAME_PROJECT: empresaName,
-    //                 EMAIL_PROJECT: empresaEmail,
-    //                 STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
-    //                 STUDENTS_PROJECT: []
-    //             };
-
-    //             this.students[empresaId].forEach((student, index) => {
-    //                 const row = document.querySelector(`#student-${empresaId}-${index}`);
-
-    //                 if (row) {
-    //                     empresaObj.STUDENTS_PROJECT.push({
-    //                         ID_PROJECT: ID_PROJECT,
-    //                         COMPANY_PROJECT: student.empresa,
-    //                         CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
-    //                         LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
-    //                         FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
-    //                         MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
-    //                         BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
-    //                         ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
-    //                         POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
-    //                         MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
-    //                         EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
-    //                         PASSWORD_PROJECT: student.password,
-    //                         USER_ID_PROJECT: student.USER_ID_PROJECT
-    //                     });
-    //                 }
-    //             });
-
-    //             companiesProject.push(empresaObj);
-    //         }
-    //     }
-
-    //     this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
-    //     return this.formData;
-    // }
-
-
-    // getFormData() {
-    //     this.saveStepData();
-
-    //     const companiesProject = [];
-    //     const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
-    //     console.log('📋 Datos de Tagify:', tagifyData);
-
-    //     for (const empresaId in this.students) {
-    //         if (this.students.hasOwnProperty(empresaId)) {
-    //             const empresaSection = document.getElementById(`empresa-${empresaId}`);
-    //             if (!empresaSection) continue;
-
-    //             const empresaName = empresaSection.dataset.empresa;
-    //             const emailInput = empresaSection.querySelector(`input[name="email_${empresaId}"]`);
-    //             const empresaEmail = emailInput ? emailInput.value : '';
-
-    //             const empresaTagifyData = tagifyData.find(tag => tag.value === empresaName);
-    //             const empresaRealId = empresaTagifyData ? empresaTagifyData.name : null;
-
-    //             console.log(`🏢 Procesando empresa: ${empresaName} (ID: ${empresaRealId})`);
-
-    //             const empresaObj = {
-    //                 NAME_PROJECT: empresaName,
-    //                 EMAIL_PROJECT: empresaEmail,
-    //                 STUDENT_COUNT_PROJECT: this.students[empresaId].length.toString(),
-    //                 STUDENTS_PROJECT: []
-    //             };
-
-    //             this.students[empresaId].forEach((student, index) => {
-    //                 const row = document.querySelector(`#student-${empresaId}-${index}`);
-
-    //                 if (row) {
-    //                     const razonSocialSelect = row.querySelector('select[name="razonSocial"]');
-    //                     const razonSocialValue = razonSocialSelect ? razonSocialSelect.value : '';
-
-    //                     const studentData = {
-    //                         ID_PROJECT: student.id,
-    //                         ID_CANDIDATE: student.idCandidate || null, // ✅ Null para nuevos proyectos
-    //                         COMPANY_PROJECT: student.empresa,
-    //                         COMPANY_ID: empresaRealId, // ✅ ID de la empresa desde Tagify
-    //                         RAZON_SOCIAL_PROJECT: razonSocialValue, // ✅ Razón social seleccionada
-    //                         CR_PROJECT: row.querySelector('input[name="cr"]')?.value || '',
-    //                         LAST_NAME_PROJECT: row.querySelector('input[name="lastName"]')?.value || '',
-    //                         FIRST_NAME_PROJECT: row.querySelector('input[name="firstName"]')?.value || '',
-    //                         MIDDLE_NAME_PROJECT: row.querySelector('input[name="mdName"]')?.value || '',
-    //                         BIRTH_DATE_PROJECT: row.querySelector('input[name="dob"]')?.value || '',
-    //                         ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
-    //                         POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
-    //                         MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
-    //                         EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
-    //                         PASSWORD_PROJECT: student.password,
-    //                         USER_ID_PROJECT: student.USER_ID_PROJECT
-    //                     };
-
-    //                     console.log(`👤 Estudiante ${index}:`, {
-    //                         empresa: studentData.COMPANY_PROJECT,
-    //                         empresaId: studentData.COMPANY_ID,
-    //                         razonSocial: studentData.RAZON_SOCIAL_PROJECT,
-    //                         idCandidate: studentData.ID_CANDIDATE
-    //                     });
-
-    //                     empresaObj.STUDENTS_PROJECT.push(studentData);
-    //                 }
-    //             });
-
-    //             companiesProject.push(empresaObj);
-    //         }
-    //     }
-
-    //     this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
-    //     console.log('COMPANIES_PROJECT final:', this.formData.COMPANIES_PROJECT);
-    //     return this.formData;
-    // }
 
 }
 
@@ -1813,10 +1173,10 @@ function actualizarComplementos(acreditacionId = null) {
         acreditacionId = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
     }
     if (acreditacionId === '1') { // iadc debe elegir si quiere complemento
-       $('#complementoDiv').removeClass('d-none');
+        $('#complementoDiv').removeClass('d-none');
     } else if (acreditacionId === '2') { // iwcf no lleva complementos
-       $('#complementoDiv').addClass('d-none');
-       
+        $('#complementoDiv').addClass('d-none');
+
     }
 }
 function initializeTagify() {
@@ -2123,7 +1483,6 @@ function limpiarModal() {
 }
 function initializeTagifyWithEditSupport(tagifyInput) {
     let originalCompanies = [];
-    let currentCompanies = [];
     let isEditMode = false;
 
     const tagify = new Tagify(tagifyInput, {
@@ -2144,8 +1503,6 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             [...companiesData] :
             JSON.parse(companiesData);
 
-        currentCompanies = [...originalCompanies];
-
         const tagifyData = originalCompanies.map(empresa =>
             typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT
         );
@@ -2153,49 +1510,98 @@ function initializeTagifyWithEditSupport(tagifyInput) {
         tagify.removeAllTags();
         tagify.addTags(tagifyData);
 
-        console.log('Empresas originales cargadas:', originalCompanies);
-        console.log('Modo edición activado en Tagify');
+        console.log('✅ Empresas originales cargadas:', originalCompanies);
     }
 
-    tagify.on('change', function (e) {
-        console.log('Evento change disparado:', e.detail);
+    function updateWizardCompaniesFromTagify() {
+        if (!window.wizard) return;
+
         const currentTags = tagify.value.map(tag =>
             typeof tag === 'string' ? tag : tag.value
         );
 
-        console.log('Tags actuales:', currentTags);
-        console.log('Modo edición:', isEditMode);
+        console.log('🔄 Actualizando empresas desde Tagify:', currentTags);
 
-        if (isEditMode) {
-            // ❌ NO HACER NADA EN MODO EDICIÓN - No tocar window.wizard.empresas
-            console.log('⚠️ Modo edición activo - NO se actualiza window.wizard.empresas');
-        } else {
-            if (window.wizard) {
-                window.wizard.empresas = currentTags;
-                console.log('Empresas actualizadas en wizard (modo nuevo):', window.wizard.empresas);
+        // ✅ SOLUCIÓN: Mantener estructura existente y agregar nuevas
+        const empresasActualizadas = [];
+
+        currentTags.forEach(tagName => {
+            // Buscar si existe en las empresas actuales del wizard
+            let empresaExistente = null;
+
+            if (Array.isArray(window.wizard.empresas)) {
+                empresaExistente = window.wizard.empresas.find(emp => {
+                    const empName = typeof emp === 'string' ? emp : emp.NAME_PROJECT;
+                    return empName === tagName;
+                });
             }
-        }
-    });
 
-    tagify.on('remove', function (e) {
-        console.log('Evento remove disparado:', e.detail);
-        if (isEditMode) {
-            const removedCompany = e.detail.data.value;
-            console.log('Empresa a eliminar:', removedCompany);
-            showDeleteConfirmation(removedCompany);
+            if (empresaExistente) {
+                // Mantener la estructura existente completa
+                empresasActualizadas.push(empresaExistente);
+            } else {
+                // Nueva empresa: buscar en Tagify data para obtener ID
+                const tagData = tagify.value.find(t =>
+                    (typeof t === 'string' ? t : t.value) === tagName
+                );
+
+                const companyId = tagData?.name || null;
+
+                // Crear nueva estructura
+                empresasActualizadas.push({
+                    NAME_PROJECT: tagName,
+                    STUDENTS_PROJECT: [],
+                    STUDENT_COUNT_PROJECT: 0,
+                    EMAIL_PROJECT: '',
+                    COMPANY_ID: companyId
+                });
+
+                console.log(`➕ Nueva empresa agregada: ${tagName} (ID: ${companyId})`);
+            }
+        });
+
+        window.wizard.empresas = empresasActualizadas;
+        console.log('✅ Empresas actualizadas:', window.wizard.empresas);
+
+        // Forzar renderizado si estamos en el paso 4
+        if (window.wizard.currentStep === 4) {
+            console.log('🔄 Forzando renderizado del paso 4...');
+            window.wizard.renderEmpresasSections();
         }
+    }
+
+    tagify.on('change', function (e) {
+        console.log('📝 Evento change disparado:', e.detail);
+        updateWizardCompaniesFromTagify();
     });
 
     tagify.on('add', function (e) {
-        console.log('Evento add disparado:', e.detail);
-        // ❌ NO HACER NADA EN MODO EDICIÓN
+        console.log('➕ Evento add disparado:', e.detail);
+        updateWizardCompaniesFromTagify();
+    });
+
+    tagify.on('remove', function (e) {
+        console.log('➖ Evento remove disparado:', e.detail);
+
         if (isEditMode) {
-            console.log('⚠️ Modo edición - ignoring add event');
+            const removedCompany = e.detail.data.value;
+            showDeleteConfirmation(removedCompany, function (confirmed) {
+                if (confirmed) {
+                    updateWizardCompaniesFromTagify();
+                } else {
+                    // Restaurar el tag
+                    setTimeout(() => {
+                        tagify.addTags([removedCompany]);
+                    }, 100);
+                }
+            });
+        } else {
+            updateWizardCompaniesFromTagify();
         }
     });
 
-    function showDeleteConfirmation(companyName) {
-        console.log('Mostrando confirmación para eliminar:', companyName);
+    function showDeleteConfirmation(companyName, callback) {
+        console.log('⚠️ Confirmando eliminación:', companyName);
 
         Swal.fire({
             title: '¿Eliminar empresa?',
@@ -2209,25 +1615,13 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log('Confirmado eliminar:', companyName);
-
-                if (window.wizard && window.wizard.empresas) {
-                    // ✅ Eliminar de window.wizard.empresas
-                    window.wizard.empresas = window.wizard.empresas.filter(empresa => {
-                        const empName = typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT;
-                        return empName !== companyName;
-                    });
-
-                    // ✅ Eliminar estudiantes asociados
-                    const empresaIdToDelete = companyName.replace(/\s+/g, '-').toLowerCase();
-                    for (const key in window.wizard.students) {
-                        if (key.includes(empresaIdToDelete)) {
-                            delete window.wizard.students[key];
-                            console.log('Estudiantes eliminados para empresa:', key);
-                        }
+                // Eliminar estudiantes asociados
+                const empresaIdToDelete = companyName.replace(/\s+/g, '-').toLowerCase();
+                for (const key in window.wizard.students) {
+                    if (key.includes(empresaIdToDelete)) {
+                        delete window.wizard.students[key];
+                        console.log('🗑️ Estudiantes eliminados para empresa:', key);
                     }
-
-                    console.log('Empresas después de eliminar:', window.wizard.empresas);
                 }
 
                 Swal.fire(
@@ -2235,36 +1629,29 @@ function initializeTagifyWithEditSupport(tagifyInput) {
                     `La empresa "${companyName}" y sus estudiantes han sido eliminados.`,
                     'success'
                 );
+
+                callback(true);
             } else {
-                console.log('Cancelada eliminación, revertiendo...');
-                setTimeout(() => {
-                    tagify.addTags([companyName]);
-                }, 100);
+                callback(false);
             }
         });
-    }
-
-    function getUpdatedCompanies() {
-        return currentCompanies;
     }
 
     function resetTagify() {
         isEditMode = false;
         originalCompanies = [];
-        currentCompanies = [];
         tagify.removeAllTags();
-        console.log('Tagify reseteado');
+        console.log('🔄 Tagify reseteado');
     }
 
     function setEditMode(mode) {
         isEditMode = mode;
-        console.log('Modo edición establecido:', isEditMode);
+        console.log('🎯 Modo edición establecido:', isEditMode);
     }
 
     return {
         loadCompaniesForEdit,
-        getUpdatedCompanies,
-        resetTagify, 
+        resetTagify,
         setEditMode,
         tagify
     };
@@ -2308,6 +1695,14 @@ function initializeTagifyForNew(tagifyInput) {
 
     tagify.on('change', tagifyChangeHandler);
 }
+function showProyectoLoading() {
+    $('#loadingProyectoOverlay').css('display', 'flex');
+}
+
+function hideProyectoLoading() {
+    $('#loadingProyectoOverlay').hide();
+}
+
 
 
 $("#proyectobtnModal").click(function (e) {
@@ -2456,304 +1851,221 @@ $('#excelProject').on('change', function (e) {
     }
 });
 
-// $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
-//     isEditing = true;
-//     window.wizard = new WizardManager();
-//     window.wizard.destroyWizard();
-
-//     var tr = $(this).closest('tr');
-//     var row = proyectoDatatable.row(tr);
-//     var rowData = row.data();
-//     ID_PROJECT = row.data().ID_PROJECT;
-//     console.log('Datos completos del proyecto:', rowData);
-//     console.log('Datos de candidatos:', rowData.CANDIDATES_DATA);
-//     editarDatoTabla(row.data(), 'proyectoForm', 'proyectoModal', 1);
-
-//     window.wizard.setEditMode(true);
-
-//     if (window.tagifyManager) {
-//         window.tagifyManager.reset();
-//         window.tagifyManager = null;
-//     }
-//     const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
-//     if (acreditacionInicial) {
-//         actualizarCentrosCapacitacion(acreditacionInicial);
-//     }
-
-//     const input = document.querySelector('#COMPANIES');
-//     window.tagifyManager = initializeTagifyWithEditSupport(input);
-
-
-//     window.tagifyManager.setEditMode(true);
-//     const companiesData = row.data().COMPANIES_PROJECT || row.data().COMPANIES;
-//     window.tagifyManager.loadCompaniesForEdit(companiesData);
-
-//     // if (tagifyChangeHandler) {
-//     //     tagify.off('change', tagifyChangeHandler);
-//     //     tagifyChangeHandler = null;
-//     // }
-
-//     function initializeSelectizedFields(row, fieldIds) {
-//         fieldIds.forEach(function (fieldId) {
-//             var values = row.data()[fieldId];
-//             var $select = $('#' + fieldId);
-
-//             if (!$select[0].selectize) {
-//                 $select.selectize({
-//                     plugins: ['remove_button'],
-//                     delimiter: ',',
-//                     persist: false,
-//                     create: false
-//                 });
-//             }
-//             var selectize = $select[0].selectize;
-//             selectize.clear();
-//             selectize.setValue(values);
-//         });
-//     }
-
-//     initializeSelectizedFields(row, [
-//         'ACCREDITATION_LEVELS_PROJECT',
-//         'BOP_TYPES_PROJECT',
-//         'COURSE_NAME_ES_PROJECT'
-//     ]);
-
-//     tagify.removeAllTags();
-//     tagify.addTags(row.data().COMPANIES);
-
-//     if (row.data().COMPANIES_PROJECT) {
-//         const companiesProject = Array.isArray(row.data().COMPANIES_PROJECT) ?
-//             row.data().COMPANIES_PROJECT :
-//             JSON.parse(row.data().COMPANIES_PROJECT);
-
-//         window.wizard.empresas = companiesProject;
-//     } else {
-//         window.wizard.empresas = row.data().COMPANIES || [];
-//     }
-
-//     // console.log('Datos de empresas cargados:', window.wizard.empresas);
-
-//     setTimeout(() => {
-//         isEditing = false;
-//     }, 1000);
-
-//     $('#proyectoModal .modal-title').html(`Editar Proyecto ${row.data().FOLIO_PROJECT}`);
-// });
 $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
-    isEditing = true;
-    window.wizard = new WizardManager();
-    window.wizard.destroyWizard();
 
-    var tr = $(this).closest('tr');
-    var row = proyectoDatatable.row(tr);
-    var rowData = row.data();
-    ID_PROJECT = rowData.ID_PROJECT;
 
-    console.log('Datos completos del proyecto:', rowData);
-    console.log('Datos de candidatos:', rowData.CANDIDATES_DATA);
+    try {
+        isEditing = true;
+        window.wizard = new WizardManager();
+        window.wizard.destroyWizard();
+        window.wizard.setEditMode(true);
 
-    editarDatoTabla(rowData, 'proyectoForm', 'proyectoModal', 1);
+        var tr = $(this).closest('tr');
+        var row = proyectoDatatable.row(tr);
+        var rowData = row.data();
+        ID_PROJECT = rowData.ID_PROJECT;
 
-    window.wizard.setEditMode(true);
+        console.log('Datos completos del proyecto:', rowData);
+        console.log('Datos de candidatos:', rowData.CANDIDATES_DATA);
 
-    function initializeSelectizedFields(row, fieldIds) {
-        fieldIds.forEach(function (fieldId) {
-            var values = row.data()[fieldId];
-            var $select = $('#' + fieldId);
+        editarDatoTablaSinAbrirModal(rowData, 'proyectoForm', 'proyectoModal', 1);
 
-            if (!$select[0].selectize) {
-                $select.selectize({
-                    plugins: ['remove_button'],
-                    delimiter: ',',
-                    persist: false,
-                    create: false
+        function initializeSelectizedFields(row, fieldIds) {
+            fieldIds.forEach(function (fieldId) {
+                var values = row.data()[fieldId];
+                var $select = $('#' + fieldId);
+
+                if (!$select[0].selectize) {
+                    $select.selectize({
+                        plugins: ['remove_button'],
+                        delimiter: ',',
+                        persist: false,
+                        create: false
+                    });
+                }
+                var selectize = $select[0].selectize;
+                selectize.clear();
+                selectize.setValue(values);
+            });
+        }
+
+        initializeSelectizedFields(row, [
+            'ACCREDITATION_LEVELS_PROJECT',
+            'BOP_TYPES_PROJECT',
+            'COURSE_NAME_ES_PROJECT',
+            'INSTRUCTOR_ID_PROJECT'
+        ]);
+
+        if (rowData.LOCATION_PROJECT) {
+            $('#LOCATION_PROJECT').val(rowData.LOCATION_PROJECT);
+            cargarDatosCentro(rowData.LOCATION_PROJECT);
+        }
+
+        const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
+        if (acreditacionInicial) {
+            actualizarCentrosCapacitacion(acreditacionInicial);
+            if (acreditacionInicial === '1') {//iadc
+                $('#complementoDiv').removeClass('d-none');
+            } else {
+                $('#complementoDiv').addClass('d-none');
+            }
+            setTimeout(() => {
+                if (rowData.CERTIFICATION_CENTER_PROJECT) {
+                    $('#CERTIFICATION_CENTER_PROJECT').val(rowData.CERTIFICATION_CENTER_PROJECT);
+                    cargarDatosCentro(rowData.CERTIFICATION_CENTER_PROJECT);
+                }
+            }, 500);
+        }
+
+        const candidatesData = rowData.CANDIDATES_DATA || [];
+
+        if (candidatesData.length === 0) {
+            console.warn('⚠️ No hay candidatos para este proyecto');
+            window.wizard.empresas = [];
+            setTimeout(() => {
+                // isEditing = false;
+            }, 1000);
+            $('#proyectoModal .modal-title').html(`Editar Proyecto ${rowData.FOLIO_PROJECT}`);
+        }
+
+        const empresasMap = new Map();
+
+        candidatesData.forEach(candidate => {
+            const companyId = candidate.COMPANY_ID_PROJECT;
+            const companyName = candidate.COMPANY_PROJECT;
+
+            if (!companyId || !companyName) {
+                console.warn('⚠️ Candidato sin empresa:', candidate);
+                return;
+            }
+
+            if (!empresasMap.has(companyId)) {
+                empresasMap.set(companyId, {
+                    id: companyId,
+                    name: companyName,
+                    students: []
                 });
             }
-            var selectize = $select[0].selectize;
-            selectize.clear();
-            selectize.setValue(values);
+
+            empresasMap.get(companyId).students.push(candidate);
         });
-    }
 
-    initializeSelectizedFields(row, [
-        'ACCREDITATION_LEVELS_PROJECT',
-        'BOP_TYPES_PROJECT',
-        'COURSE_NAME_ES_PROJECT',
-        'INSTRUCTOR_ID_PROJECT'
-    ]);
+        console.log('📊 Empresas únicas encontradas:', empresasMap.size);
+        console.log('📋 Empresas agrupadas:', Array.from(empresasMap.entries()));
 
-    if (rowData.LOCATION_PROJECT) {
-                $('#LOCATION_PROJECT').val(rowData.LOCATION_PROJECT);
-                cargarDatosCentro(rowData.LOCATION_PROJECT);
+        if (window.tagifyManager) {
+            window.tagifyManager.resetTagify();
+            window.tagifyManager = null;
+        }
+
+        const input = document.querySelector('#COMPANIES');
+        window.tagifyManager = initializeTagifyWithEditSupport(input);
+        window.tagifyManager.setEditMode(true);
+
+        const empresasParaTagify = [];
+        const selectedCompanyIds = [];
+        const selectedRazonesSociales = [];
+
+        empresasMap.forEach((empresa, companyId) => {
+            const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+
+            if (clienteData) {
+                empresasParaTagify.push({
+                    value: empresa.name,
+                    name: companyId,
+                    razonSocial: clienteData.RAZONES_SOCIALES || '[]'
+                });
+
+                selectedCompanyIds.push(companyId);
+                selectedRazonesSociales.push({
+                    ID: companyId,
+                    RAZON_SOCIAL: clienteData.RAZONES_SOCIALES || '[]',
+                    EMPRESA: empresa.name
+                });
+            } else {
+                console.warn(`⚠️ No se encontró cliente con ID ${companyId} en clientesData`);
+            }
+        });
+
+        console.log('🏢 Empresas para Tagify:', empresasParaTagify);
+
+        if (empresasParaTagify.length > 0) {
+            if (window.tagifyInstance) {
+                window.tagifyInstance.removeAllTags();
+                window.tagifyInstance.addTags(empresasParaTagify);
             }
 
-    const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
-    if (acreditacionInicial) {
-        actualizarCentrosCapacitacion(acreditacionInicial);
-        if(acreditacionInicial==='1'){//iadc
-            $('#complementoDiv').removeClass('d-none');
-        }else{
-            $('#complementoDiv').addClass('d-none');
-        }
-        setTimeout(() => {
-            if (rowData.CERTIFICATION_CENTER_PROJECT) {
-                $('#CERTIFICATION_CENTER_PROJECT').val(rowData.CERTIFICATION_CENTER_PROJECT);
-                cargarDatosCentro(rowData.CERTIFICATION_CENTER_PROJECT);
-            }
-        }, 500);
-    }
+            window.selectedCompanyIds = selectedCompanyIds;
+            window.selectedRazonesSociales = selectedRazonesSociales;
 
-    const candidatesData = rowData.CANDIDATES_DATA || [];
-
-    if (candidatesData.length === 0) {
-        console.warn('⚠️ No hay candidatos para este proyecto');
-        window.wizard.empresas = [];
-        setTimeout(() => {
-            isEditing = false;
-        }, 1000);
-        $('#proyectoModal .modal-title').html(`Editar Proyecto ${rowData.FOLIO_PROJECT}`);
-        return;
-    }
-
-    const empresasMap = new Map();
-
-    candidatesData.forEach(candidate => {
-        const companyId = candidate.COMPANY_ID_PROJECT;
-        const companyName = candidate.COMPANY_PROJECT;
-
-        if (!companyId || !companyName) {
-            console.warn('⚠️ Candidato sin empresa:', candidate);
-            return;
+            console.log('✅ selectedCompanyIds:', window.selectedCompanyIds);
+            console.log('✅ selectedRazonesSociales:', window.selectedRazonesSociales);
         }
 
-        if (!empresasMap.has(companyId)) {
-            empresasMap.set(companyId, {
-                id: companyId,
-                name: companyName,
-                students: []
-            });
-        }
+        const empresasConEstudiantes = [];
 
-        empresasMap.get(companyId).students.push(candidate);
-    });
+        empresasMap.forEach((empresa, companyId) => {
+            const empresaObj = {
+                NAME_PROJECT: empresa.name,
+                EMAIL_PROJECT: '',
+                STUDENT_COUNT_PROJECT: empresa.students.length,
+                STUDENTS_PROJECT: empresa.students.map((student, index) => ({
+                    ID_PROJECT: index + 1,
+                    ID_CANDIDATE: student.ID_CANDIDATE,
+                    COMPANY_PROJECT: student.COMPANY_PROJECT,
+                    COMPANY_ID: student.COMPANY_ID_PROJECT,
+                    RAZON_SOCIAL_PROJECT: student.RAZON_SOCIAL_PROJECT || '',
+                    CR_PROJECT: student.CR_PROJECT || '',
+                    LAST_NAME_PROJECT: student.LAST_NAME_PROJECT || '',
+                    FIRST_NAME_PROJECT: student.FIRST_NAME_PROJECT || '',
+                    MIDDLE_NAME_PROJECT: student.MIDDLE_NAME_PROJECT || '',
+                    BIRTH_DATE_PROJECT: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
+                    ID_NUMBER_PROJECT: student.ID_NUMBER_PROJECT || '',
+                    POSITION_PROJECT: student.POSITION_PROJECT || '',
+                    MEMBERSHIP_PROJECT: student.MEMBERSHIP_PROJECT || '',
+                    EMAIL_PROJECT: student.EMAIL_PROJECT || '',
+                    PASSWORD_PROJECT: student.PASSWORD_PROJECT || '',
+                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
+                }))
+            };
 
-    console.log('📊 Empresas únicas encontradas:', empresasMap.size);
-    console.log('📋 Empresas agrupadas:', Array.from(empresasMap.entries()));
+            empresasConEstudiantes.push(empresaObj);
+        });
 
-    // ✅ CORREGIR: Usar resetTagify() en lugar de reset()
-    if (window.tagifyManager) {
-        window.tagifyManager.resetTagify();
-        window.tagifyManager = null;
-    }
+        window.wizard.empresas = empresasConEstudiantes;
+        console.log('✅✅✅ Empresas CON ESTUDIANTES cargadas en wizard:', window.wizard.empresas);
 
-    const input = document.querySelector('#COMPANIES');
-    window.tagifyManager = initializeTagifyWithEditSupport(input);
-    window.tagifyManager.setEditMode(true);
+        empresasMap.forEach((empresa, companyId) => {
+            const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
+            if (clienteData && clienteData.RAZONES_SOCIALES) {
+                try {
+                    const razonesSociales = typeof clienteData.RAZONES_SOCIALES === 'string'
+                        ? JSON.parse(clienteData.RAZONES_SOCIALES)
+                        : clienteData.RAZONES_SOCIALES;
 
-    const empresasParaTagify = [];
-    const selectedCompanyIds = [];
-    const selectedRazonesSociales = [];
-
-    empresasMap.forEach((empresa, companyId) => {
-        const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
-
-        if (clienteData) {
-            empresasParaTagify.push({
-                value: empresa.name,
-                name: companyId,
-                razonSocial: clienteData.RAZONES_SOCIALES || '[]'
-            });
-
-            selectedCompanyIds.push(companyId);
-            selectedRazonesSociales.push({
-                ID: companyId,
-                RAZON_SOCIAL: clienteData.RAZONES_SOCIALES || '[]',
-                EMPRESA: empresa.name
-            });
-        } else {
-            console.warn(`⚠️ No se encontró cliente con ID ${companyId} en clientesData`);
-        }
-    });
-
-    console.log('🏢 Empresas para Tagify:', empresasParaTagify);
-
-    if (empresasParaTagify.length > 0) {
-        if (window.tagifyInstance) {
-            window.tagifyInstance.removeAllTags();
-            window.tagifyInstance.addTags(empresasParaTagify);
-        }
-
-        window.selectedCompanyIds = selectedCompanyIds;
-        window.selectedRazonesSociales = selectedRazonesSociales;
-
-        console.log('✅ selectedCompanyIds:', window.selectedCompanyIds);
-        console.log('✅ selectedRazonesSociales:', window.selectedRazonesSociales);
-    }
-
-    // ============================================
-    // ✅ PREPARAR ESTRUCTURA COMPLETA CON ESTUDIANTES
-    // ============================================
-    const empresasConEstudiantes = [];
-
-    empresasMap.forEach((empresa, companyId) => {
-        const empresaObj = {
-            NAME_PROJECT: empresa.name,
-            EMAIL_PROJECT: '',
-            STUDENT_COUNT_PROJECT: empresa.students.length,
-            STUDENTS_PROJECT: empresa.students.map((student, index) => ({
-                ID_PROJECT: index + 1,
-                ID_CANDIDATE: student.ID_CANDIDATE,
-                COMPANY_PROJECT: student.COMPANY_PROJECT,
-                COMPANY_ID: student.COMPANY_ID_PROJECT,
-                RAZON_SOCIAL_PROJECT: student.RAZON_SOCIAL_PROJECT || '',
-                CR_PROJECT: student.CR_PROJECT || '',
-                LAST_NAME_PROJECT: student.LAST_NAME_PROJECT || '',
-                FIRST_NAME_PROJECT: student.FIRST_NAME_PROJECT || '',
-                MIDDLE_NAME_PROJECT: student.MIDDLE_NAME_PROJECT || '',
-                BIRTH_DATE_PROJECT: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
-                ID_NUMBER_PROJECT: student.ID_NUMBER_PROJECT || '',
-                POSITION_PROJECT: student.POSITION_PROJECT || '',
-                MEMBERSHIP_PROJECT: student.MEMBERSHIP_PROJECT || '',
-                EMAIL_PROJECT: student.EMAIL_PROJECT || '',
-                PASSWORD_PROJECT: student.PASSWORD_PROJECT || '',
-                USER_ID_PROJECT: student.USER_ID_PROJECT || null
-            }))
-        };
-
-        empresasConEstudiantes.push(empresaObj);
-    });
-
-    // ✅ IMPORTANTE: Cargar empresas CON ESTUDIANTES
-    window.wizard.empresas = empresasConEstudiantes;
-    console.log('✅✅✅ Empresas CON ESTUDIANTES cargadas en wizard:', window.wizard.empresas);
-
-    // Cargar razones sociales
-    empresasMap.forEach((empresa, companyId) => {
-        const clienteData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
-        if (clienteData && clienteData.RAZONES_SOCIALES) {
-            try {
-                const razonesSociales = typeof clienteData.RAZONES_SOCIALES === 'string'
-                    ? JSON.parse(clienteData.RAZONES_SOCIALES)
-                    : clienteData.RAZONES_SOCIALES;
-
-                window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
-                console.log(`✅ Razones sociales cargadas para ${empresa.name}:`, razonesSociales);
-            } catch (e) {
-                console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
+                    window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
+                    console.log(`✅ Razones sociales cargadas para ${empresa.name}:`, razonesSociales);
+                } catch (e) {
+                    console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
+                    window.wizard.empresasRazonesSociales[empresa.name] = [];
+                }
+            } else {
+                console.warn(`⚠️ No se encontraron razones sociales para ${empresa.name}`);
                 window.wizard.empresasRazonesSociales[empresa.name] = [];
             }
-        } else {
-            console.warn(`⚠️ No se encontraron razones sociales para ${empresa.name}`);
-            window.wizard.empresasRazonesSociales[empresa.name] = [];
-        }
-    });
+        });
 
-    console.log('📦 Empresas cargadas en wizard:', window.wizard.empresas);
-    console.log('📄 Razones sociales cargadas:', window.wizard.empresasRazonesSociales);
+        console.log('📦 Empresas cargadas en wizard:', window.wizard.empresas);
+        console.log('📄 Razones sociales cargadas:', window.wizard.empresasRazonesSociales);
 
-    setTimeout(() => {
-        isEditing = false;
-    }, 1000);
+        setTimeout(() => {
+            // isEditing = false;
+        }, 1000);
+    } catch(e) {
+        console.error('❌ Error al editar:', e);
+    }
 
+    console.log('ya termino el proceso de carga');
+    $('#proyectoModal').modal('show');
     $('#proyectoModal .modal-title').html(`Editar Proyecto ${rowData.FOLIO_PROJECT}`);
 });

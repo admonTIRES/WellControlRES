@@ -599,3 +599,68 @@ function editarDatoTabla(data, form = 'OnlyForm', modalID = 'ModalID', formCompl
   }
 
 }
+
+function editarDatoTablaSinAbrirModal(data, form = 'OnlyForm', modalID = 'ModalID', formComplete = 0) {
+
+  $('#' + form).each(function () {
+    this.reset();
+  });
+
+  if (formComplete == 0) {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (!key.startsWith("btn") && key !== "created_at" && key !== "updated_at") {
+
+          var input = $('#' + form).find(`input[name='${key}']`);
+          if (input.length) {
+            input.val(data[key]);
+          } else {
+            $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+          }
+        }
+      }
+    }
+
+    $('#' + modalID).modal('show');
+
+  }
+  else {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (!key.startsWith("BTN") && key !== "created_at" && key !== "updated_at") {
+          var input = $('#' + form).find(`input[name='${key}'][type='text'], input[name='${key}'][type='number'], input[name='${key}'][type='tel']`);
+          var email = $('#' + form).find(`input[name='${key}'][type='email']`);
+          var date = $('#' + form).find(`input[name='${key}'][type='date']`);
+          var time = $('#' + form).find(`input[name='${key}'][type='time']`);
+          var textarea = $('#' + form).find(`textarea[name='${key}']`).val(data[key]);
+          var select = $('#' + form).find(`select[name='${key}']`).val(data[key]);
+          var hidden = $('#' + form).find(`input[name='${key}'][type='hidden']`);
+
+          if (input.length) {
+            input.val(data[key]);
+          } else if (textarea.length) {
+            textarea.val(data[key]);
+          }
+          else if (email.length) {
+            email.val(data[key]);
+          } else if (select.length) {
+            select.val(data[key])
+          } else if (date.length) {
+            date.val(data[key])
+          } else if (time.length) {
+            time.val(data[key])
+          } else if (hidden.length) {
+            hidden.val(data[key])
+          } else {
+            $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='radio']`).prop('checked', true)
+            $('#' + form).find(`input[name='${key}'][value='${data[key]}'][type='checkbox']`).prop('checked', true)
+          }
+        }
+      }
+    }
+
+    //Abrimos el modal
+   
+  }
+
+}

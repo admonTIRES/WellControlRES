@@ -35,6 +35,7 @@ use App\Mail\Correo;
 use Illuminate\Support\Facades\Mail;
 
 use App\Models\Admin\catalogs\CentrosCapacitacion;
+use App\Models\Admin\catalogs\Programas;
 use App\Models\Admin\catalogs\Ubicaciones;
 
 //---------------------------               ALL              -------------------------------//
@@ -277,6 +278,19 @@ Route::middleware(['auth'])->group(function () {
             'ubicaciones' => $ubicaciones,
             'total' => $ubicaciones->count(),
             'nota' => 'Se traen ubicaciones que esten activas en el catálogo'
+        ]);
+    });
+
+      Route::get('/programas', function (Request $request) {
+
+        $programas = Programas::get();
+
+
+        return response()->json([
+            'success' => true,
+            'programas' => $programas,
+            'total' => $programas->count(),
+            'nota' => 'Se traen programas que esten activas en el catálogo'
         ]);
     });
     Route::get('/obtener-datos-centro', function (Request $request) {

@@ -183,7 +183,7 @@ $(document).ready(function () {
     $('#centroModal .modal-title').text('Nuevo centro de capacitación');
     actualizarCentrosCapacitacion();
     actualizarUbicaciones();
-
+    actualizarProgramas();    
     // LIMPIAR CONTENEDORES DINÁMICOS
     $('#contactosContainer').empty();
     $('#queIncluyeContainer').empty();
@@ -387,7 +387,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
         },
         { data: 'ACREDITACION_NOMBRE' },
         { data: 'NOMBRE_NIVEL' },
-        { data: 'DESCRIPCION_NIVEL' },
+        { data: 'PROGRAMA_NOMBRE' },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
@@ -471,6 +471,7 @@ var programasDatatable = $("#programas-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -2287,6 +2288,7 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = programasDatatable.row(tr);
     ID_CATALOGO_PROGRAMA = row.data().ID_CATALOGO_PROGRAMA;
+
     
     // Llenar formulario con datos
     $('#NOMBRE_PROGRAMA').val(row.data().NOMBRE_PROGRAMA);
@@ -2326,6 +2328,8 @@ $('#nivelacreditacion-list-table tbody').on('click', 'td>button.EDITAR', functio
     var tr = $(this).closest('tr');
     var row = nivelesDatatable.row(tr);
     ID_CATALOGO_NIVELACREDITACION = row.data().ID_CATALOGO_NIVELACREDITACION;
+    actualizarProgramas(row.data().DESCRIPCION_NIVEL);
+
     editarDatoTabla(row.data(), 'nivelForm', 'nivelModal', 1);
     $('#nivelModal .modal-title').html(row.data().NOMBRE_NIVEL);
 });
@@ -2565,6 +2569,42 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
         },
         error: function(xhr, status, error) {
             $select.html('<option value="" selected disabled>Error al cargar centros</option>');
+        }
+    });
+}
+function actualizarProgramas(idSeleccionada = null) {
+    const $select = $('#DESCRIPCION_NIVEL');
+    $select.html('<option value="" selected disabled>Cargando programas...</option>');
+    
+    $.ajax({
+        url: '/programas',
+        type: 'GET',
+        data: { 
+            programa: 0,
+        },
+        success: function(response) {
+            let options = '<option value="" selected disabled>Seleccione un programa</option>';
+            
+            if (response.success && response.programas.length > 0) {
+                response.programas.forEach(function(programa) {
+
+                    const selected = (idSeleccionada == programa.ID_CATALOGO_PROGRAMA)
+                                   ? 'selected'
+                                   : '';
+
+                    options += `
+                        <option value="${programa.ID_CATALOGO_PROGRAMA}" ${selected}>
+                            ${programa.NOMBRE_PROGRAMA}
+                        </option>`;
+                });
+            } else {
+                options = '<option value="" disabled>No hay programas disponibles</option>';
+            }
+            
+            $select.html(options);
+        },
+        error: function(xhr, status, error) {
+            $select.html('<option value="" selected disabled>Error al cargar programas</option>');
         }
     });
 }

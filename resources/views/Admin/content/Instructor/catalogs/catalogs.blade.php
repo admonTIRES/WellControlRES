@@ -412,23 +412,32 @@
                     <form id="nivelForm" method="post"  enctype="multipart/form-data">
                     {!! csrf_field() !!}
                         <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="ACREDITACION_NIVEL" class="form-label">Tipo de Acreditación</label>
-                                    <select class="form-select" id="ACREDITACION_NIVEL" name="ACREDITACION_NIVEL">
-                                        <option value="" selected disabled>Seleccione una opción</option>
-                                        @foreach ($entes as $ente)
-                                            <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                        @endforeach
+                            <div class="col-md-6 mb-3">
+                                <label for="ACREDITACION_NIVEL" class="form-label">Tipo de Acreditación</label>
+                                <select class="form-select" id="ACREDITACION_NIVEL" name="ACREDITACION_NIVEL">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    @foreach ($entes as $ente)
+                                        <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"> {{ __('Accreditation Level') }}</label>
+                                <input type="text" class="form-control" name="NOMBRE_NIVEL" id="NOMBRE_NIVEL" required>
+                            </div>
+                            {{-- <div class="mb-3">
+                                <label class="form-label">{{ __('Programa') }}</label>
+                                <input type="text" class="form-control" name="DESCRIPCION_NIVEL" id="DESCRIPCION_NIVEL" required>
+                            </div> --}}
+                            <div id="programaContainer" class="row mb-3">
+                                <div class="col-12">
+                                    <label for="DESCRIPCION_NIVEL" class="form-label">{{ __('Programa') }}</label>
+                                    <select class="form-select" id="DESCRIPCION_NIVEL" name="DESCRIPCION_NIVEL">
+                                        <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
+                                        
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label"> {{ __('Accreditation Level') }}</label>
-                                    <input type="text" class="form-control" name="NOMBRE_NIVEL" id="NOMBRE_NIVEL" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Programa') }}</label>
-                                    <input type="text" class="form-control" name="DESCRIPCION_NIVEL" id="DESCRIPCION_NIVEL" required>
-                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

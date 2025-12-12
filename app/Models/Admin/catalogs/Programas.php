@@ -20,6 +20,7 @@ class Programas extends Model
         'MIN_PORCENTAJE_REPROB',
         'MAX_PORCENTAJE_REPROB',
         'OPCION_RESIT_PERMITIDAS',
+        'PERIODO_RESIT',
         'ACTIVO_PROGRAMA'
     ];
 }

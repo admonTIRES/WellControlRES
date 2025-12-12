@@ -555,6 +555,10 @@
                                 <label class="form-label">Opciones permitidas de re-sit o re-test</label>
                                 <input type="number" class="form-control" id="OPCION_RESIT_PERMITIDAS" name="OPCION_RESIT_PERMITIDAS" min="0" max="10" placeholder="Ej. 1">
                             </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Periodo disponible para aplicar re-sit / re-test (días)</label>
+                                <input type="number" class="form-control" id="PERIODO_RESIT" name="PERIODO_RESIT" min="1" max="1000" placeholder="Ej. 1">
+                            </div>
                         </div>
                     </form>
                 </div>

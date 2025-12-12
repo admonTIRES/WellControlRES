@@ -2290,14 +2290,7 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_CATALOGO_PROGRAMA = row.data().ID_CATALOGO_PROGRAMA;
 
     
-    // Llenar formulario con datos
-    $('#NOMBRE_PROGRAMA').val(row.data().NOMBRE_PROGRAMA);
-    $('#MIN_PORCENTAJE_APROB').val(row.data().MIN_PORCENTAJE_APROB);
-    $('#MAX_PORCENTAJE_APROB').val(row.data().MAX_PORCENTAJE_APROB);
-    $('#OPCION_RESIT').val(row.data().OPCION_RESIT);
-    $('#MIN_PORCENTAJE_REPROB').val(row.data().MIN_PORCENTAJE_REPROB);
-    $('#MAX_PORCENTAJE_REPROB').val(row.data().MAX_PORCENTAJE_REPROB);
-    $('#OPCION_RESIT_PERMITIDAS').val(row.data().OPCION_RESIT_PERMITIDAS);
+    editarDatoTabla(row.data(), 'programasForm', 'programasModal', 1);
     
     // Actualizar campos de resit inmediato
     if (row.data().OPCION_RESIT == 2) {

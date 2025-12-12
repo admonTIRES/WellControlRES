@@ -311,7 +311,6 @@ class ProjectManagementController extends Controller
                     break;
                 case 4:
                     $id = $request->ID_CANDIDATE;
-
                     $candidate = candidate::find($id);
                     if ($candidate) {
                         $candidate->delete();

@@ -209,6 +209,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ubicacionesSave', [CatalogsController::class, 'store']);
     Route::get('/ubicacionesActive', [CatalogsController::class, 'store']);
 
+    Route::get('/programasDatatable', [CatalogsController::class, 'programasDatatable']);
+    Route::post('/programaSave', [CatalogsController::class, 'store']);
+    Route::get('/programaActive', [CatalogsController::class, 'store']);
+
     Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
         $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
 

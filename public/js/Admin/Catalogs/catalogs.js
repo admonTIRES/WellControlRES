@@ -12,6 +12,7 @@ ID_CATALOGO_NPROYECTOS = 0
 ID_CATALOGO_CENTRO = 0
 ID_CATALOGO_UBICACION = 0
 ID_CATALOGO_CLIENTE = 0
+ID_CATALOGO_PROGRAMA = 0
 
 
 
@@ -137,6 +138,43 @@ $(document).ready(function () {
         $('#ubicacionesForm')[0].reset();
         $('#ubicacionesModal .modal-title').text('Nueva ubicación');
     });
+
+    $('#programasModal').on('hidden.bs.modal', function () {
+        ID_CATALOGO_PROGRAMA = 0;
+        $('#programasForm')[0].reset();
+        $('#programasModal .modal-title').text('Nuevo programa');
+        
+        // Resetear campos de resit inmediato
+        $('#MIN_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
+        $('#MAX_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
+        
+        // Resetear validaciones
+        $('#programasForm').find('.is-invalid').removeClass('is-invalid');
+        $('#programasForm').find('.invalid-feedback').remove();
+    });
+
+    const selectResit = document.getElementById("OPCION_RESIT");
+    const minRe = document.getElementById("MIN_PORCENTAJE_REPROB_RE");
+    const maxRe = document.getElementById("MAX_PORCENTAJE_REPROB_RE");
+
+    function actualizarResit() {
+        if (selectResit.value === "2") { 
+            // Aplica
+            minRe.removeAttribute("readonly");
+            maxRe.removeAttribute("readonly");
+            minRe.value = "";
+            maxRe.value = "";
+        } else {
+            // No aplica
+            minRe.setAttribute("readonly", true);
+            maxRe.setAttribute("readonly", true);
+            minRe.value = 0;
+            maxRe.value = 0;
+        }
+    }
+
+    selectResit.addEventListener("change", actualizarResit);
+    actualizarResit();
 
     actualizarCentrosCapacitacion();
     $('#centroModal').on('hidden.bs.modal', function () {
@@ -418,6 +456,87 @@ var tiposbopDatatable = $("#tiposbop-list-table").DataTable({
     ]
 
 });
+var programasDatatable = $("#programas-list-table").DataTable({
+    language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
+    lengthChange: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'Todos']
+    ],
+    info: false,
+    paging: true,
+    searching: true,
+    filtering: true,
+    scrollX: true,
+    scrollY: '65vh',
+    scrollCollapse: true,
+    responsive: true,
+    ajax: {
+        dataType: 'json',
+        data: {},
+        method: 'GET',
+        cache: false,
+        url: '/programasDatatable',
+        beforeSend: function () {
+        },
+        complete: function () {
+            programasDatatable.columns.adjust().draw();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alertErrorAJAX(jqXHR, textStatus, errorThrown);
+        },
+        dataSrc: 'data'
+    },
+    order: [[0, 'asc']],
+    columns: [
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        { data: 'NOMBRE_PROGRAMA' },
+        { data: 'APROBACION_INFO' },
+        { data: 'RESIT_INFO' },
+        { data: 'BTN_EDITAR' },
+        { data: 'BTN_ACTIVO' }
+    ],
+    columnDefs: [
+        { targets: 0, title: '#', className: 'text-center' },
+        { targets: 1, title: 'Programa', className: 'text-center' },
+        { targets: 2, title: 'Aprobación', className: 'text-center' },
+        { targets: 3, title: 'Resit/Retest', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' },
+        { targets: 5, title: 'Activo', className: 'text-center' }
+    ]
+});
+
+// ===================== REDIBUJAR TABLAS =====================
+$('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
+    const target = $(e.target).attr("data-bs-target");
+    
+    if (target === "#v-pills-programas") {
+        programasDatatable.columns.adjust().draw();
+    }
+    // ... resto de casos existentes ...
+});
+
+document.querySelectorAll('#v-pills-tab .nav-link').forEach(pill => {
+    pill.addEventListener('shown.bs.tab', function () {
+        setTimeout(() => {
+            $('table.dataTable').each(function () {
+                const table = $(this).DataTable();
+                if ($.fn.dataTable.isDataTable(this)) {
+                    table.columns.adjust().draw(false);
+                    if (table.fixedHeader) {
+                        table.fixedHeader.adjust();
+                    }
+                }
+            });
+        }, 200);
+    });
+});
+
 var temasDatatable = $("#temas-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -1389,6 +1508,7 @@ $("#ubicacionesbtnModal").click(function (e) {
     }
 
 });
+
 $("#clientebtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#clienteForm'))
@@ -1921,7 +2041,65 @@ $("#nombresbtnModal").click(function (e) {
     }
 })
 
+$("#programasbtnModal").click(function (e) {
+    e.preventDefault();
+    formularioValido = validarFormulario($('#programasForm'))
+    if (formularioValido) {
+        if (ID_CATALOGO_PROGRAMA == 0) {
+            alertMensajeConfirm({
+                title: "¿Desea guardar la información?",
+                text: "El programa se agregará al catálogo",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('programasbtnModal')
+                await ajaxAwaitFormData({ api: 14, ID_CATALOGO_PROGRAMA: ID_CATALOGO_PROGRAMA }, 'programaSave', 'programasForm', 'programasbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    ID_CATALOGO_PROGRAMA = data.programa.ID_CATALOGO_PROGRAMA
+                    alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500)
+                    $('#programasModal').modal('hide')
+                    document.getElementById('programasForm').reset();
+                    programasDatatable.ajax.reload()
+                })
+            }, 1)
 
+        } else {
+            alertMensajeConfirm({
+                title: "¿Desea editar la información de este formulario?",
+                text: "Al guardarla, se podrá usar",
+                icon: "question",
+            }, async function () {
+                await loaderbtn('programasbtnModal')
+                await ajaxAwaitFormData({ api: 14, ID_CATALOGO_PROGRAMA: ID_CATALOGO_PROGRAMA }, 'programaSave', 'programasForm', 'programasbtnModal', { callbackAfter: true, callbackBefore: true }, () => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Espere un momento',
+                        text: 'Estamos guardando la información',
+                        showConfirmButton: false
+                    })
+                    $('.swal2-popup').addClass('ld ld-breath')
+                }, function (data) {
+                    setTimeout(() => {
+                        ID_CATALOGO_PROGRAMA = data.programa.ID_CATALOGO_PROGRAMA
+                        alertMensaje('success', 'Información editada correctamente', 'Información guardada')
+                        $('#programasModal').modal('hide')
+                        document.getElementById('programasForm').reset();
+                        programasDatatable.ajax.reload()
+                    }, 300);
+                })
+            }, 1)
+        }
+
+    } else {
+        alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000)
+    }
+});
 
 // activar - desactivar 
 $('#entes-list-table tbody').on('change', 'input.ACTIVAR', function () {
@@ -1950,6 +2128,20 @@ $('#ubicaciones-list-table tbody').on('change', 'input.ACTIVAR', function () {
     };
 
     eliminarDatoTabla(data, [ubicacionesDatatable], 'ubicacionesActive');
+});
+
+$('#programas-list-table tbody').on('change', 'input.ACTIVAR', function () {
+    var tr = $(this).closest('tr');
+    var row = programasDatatable.row(tr);
+    var estado = $(this).is(':checked') ? 1 : 0;
+
+    var data = {
+        api: 14,
+        ACTIVAR: estado == 0 ? 1 : 0,
+        ID_CATALOGO_PROGRAMA: row.data().ID_CATALOGO_PROGRAMA
+    };
+
+    eliminarDatoTabla(data, [programasDatatable], 'programaActive');
 });
 
 $('#nivelacreditacion-list-table tbody').on('change', 'input.ACTIVAR', function () {
@@ -2089,6 +2281,36 @@ $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     $('#entesModal .modal-title').html(row.data().NOMBRE_ENTE);
 
+});
+
+$('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
+    var tr = $(this).closest('tr');
+    var row = programasDatatable.row(tr);
+    ID_CATALOGO_PROGRAMA = row.data().ID_CATALOGO_PROGRAMA;
+    
+    // Llenar formulario con datos
+    $('#NOMBRE_PROGRAMA').val(row.data().NOMBRE_PROGRAMA);
+    $('#MIN_PORCENTAJE_APROB').val(row.data().MIN_PORCENTAJE_APROB);
+    $('#MAX_PORCENTAJE_APROB').val(row.data().MAX_PORCENTAJE_APROB);
+    $('#OPCION_RESIT').val(row.data().OPCION_RESIT);
+    $('#MIN_PORCENTAJE_REPROB').val(row.data().MIN_PORCENTAJE_REPROB);
+    $('#MAX_PORCENTAJE_REPROB').val(row.data().MAX_PORCENTAJE_REPROB);
+    $('#OPCION_RESIT_PERMITIDAS').val(row.data().OPCION_RESIT_PERMITIDAS);
+    
+    // Actualizar campos de resit inmediato
+    if (row.data().OPCION_RESIT == 2) {
+        $('#MIN_PORCENTAJE_REPROB_RE').val(row.data().MIN_PORCENTAJE_REPROB_RE);
+        $('#MAX_PORCENTAJE_REPROB_RE').val(row.data().MAX_PORCENTAJE_REPROB_RE);
+        actualizarResit(); // Esto habilitará los campos
+    } else {
+        actualizarResit(); // Esto deshabilitará los campos
+    }
+    
+    // Cambiar título del modal
+    $('#programasModal .modal-title').html('Editando: ' + row.data().NOMBRE_PROGRAMA);
+    
+    // Mostrar modal
+    $('#programasModal').modal('show');
 });
 
 $('#ubicaciones-list-table tbody').on('click', 'td>button.EDITAR', function () {

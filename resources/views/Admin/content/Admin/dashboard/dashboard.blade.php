@@ -220,10 +220,10 @@
 
          <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes por estatus final del curso</h5>
+                            <h5 class="card-title">Estatus de estudiantes al final del curso</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartEstadoCurso" style="height: 300px;"></div>
@@ -231,10 +231,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes Aprobados por tipo de aprobación</h5>
+                            <h5 class="card-title">Estatus de estudiantes aprobados</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartEstudiantesResit" style="height: 300px;"></div>
@@ -242,10 +242,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-4" style="display: none">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Estudiantes No Aprobados por tipo de falla</h5>
+                            <h5 class="card-title">Estatus de estudiantes reprobados</h5>
                         </div>
                         <div class="card-body">
                             <div id="chartTiposResit" style="height: 300px;"></div>

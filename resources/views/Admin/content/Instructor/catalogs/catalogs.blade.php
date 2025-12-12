@@ -155,7 +155,7 @@
                                       <div class="tab-pane fade show active" id="v-pills-nombres" role="tabpanel" aria-labelledby="v-pills-nombres-tab">
                                         <div class="w-100 h-100">
                                             <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                                                <h4 class="card-title mb-0"> {{ __('Catalog of project names') }}</h4> 
+                                                <h4 class="card-title mb-0"> {{ __('Catálogo de nombres de cursos') }}</h4> 
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nombresModal">
                                                     {{ __('New project name') }}
                                                 </button>
@@ -470,125 +470,94 @@
         </div>
     </div>
 
-    <div class="modal fade" id="programasModal" tabindex="-1" aria-labelledby="centroModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="programasModalLabel">Datos del programa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="programasForm" method="post" enctype="multipart/form-data">
-                    {!! csrf_field() !!}
-                   
-                    
-                    <div class="form-section">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="NOMBRE_PROGRAMA" class="form-label">Nombre del programa</label>
-                                <input type="text" class="form-control" id="NOMBRE_PROGRAMA" name="NOMBRE_PROGRAMA">
-                            </div>
-                           
-                              
-                        </div>
-                        <div class="row">
+    <div class="modal fade" id="programasModal" tabindex="-1" aria-labelledby="programasModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Datos del programa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-                        </div>
-                        
-                    </div>
-                     <div class="form-section">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="MIN_PORCENTAJE_APROB" class="form-label">Calificación mínima para aprobar:</label>
-                                <input type="number" class="form-control" id="MIN_PORCENTAJE_APROB" name="MIN_PORCENTAJE_APROB">
+                <div class="modal-body">
+                    <form id="programasForm" method="post" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+
+                        <!-- ===================== INFORMACIÓN GENERAL ===================== -->
+                        <h6 class="fw-bold border-bottom pb-2 mb-3">Información general</h6>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre del programa</label>
+                                <input type="text" class="form-control" id="NOMBRE_PROGRAMA" name="NOMBRE_PROGRAMA" required>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="MAX_PORCENTAJE_APROB" class="form-label">Calificación máxima para aprobar:</label>
-                                <input type="number" class="form-control" id="MAX_PORCENTAJE_APROB" name="MAX_PORCENTAJE_APROB">
+                        </div>
+
+                        <!-- ===================== CALIFICACIONES GENERALES ===================== -->
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Calificaciones de aprobación</h6>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación mínima para aprobar (%)</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_APROB" name="MIN_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 70">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación máxima para aprobar (%)</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_APROB" name="MAX_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 100">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="OPCION_RESIT" class="form-label">¿Este programa aplica re-sit/re-test inmediato?</label>
+
+                        <!-- ===================== RESIT INMEDIATO ===================== -->
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit / Re-test inmediato</h6>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">¿Aplica re-sit inmediato?</label>
                                 <select class="form-select" id="OPCION_RESIT" name="OPCION_RESIT">
-                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="" disabled selected>Seleccione</option>
                                     <option value="1">No aplica</option>
                                     <option value="2">Aplica</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="MIN_PORCENTAJE_REPROB_RE" class="form-label">Calificación mínima para reprobar con derecho a re-sit/re-test inmediato:</label>
-                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB_RE" name="MIN_PORCENTAJE_REPROB_RE">
+
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación mínima para aplicar resit inmediato (%)</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB_RE" name="MIN_PORCENTAJE_REPROB_RE" min="0" max="100" value="0" readonly>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="MAX_PORCENTAJE_REPROB_RE" class="form-label">Calificación máxima para reprobar con derecho a re-sit/re-test inmediato:</label>
-                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB_RE" name="MAX_PORCENTAJE_REPROB_RE">
-                            </div>
-                        </div>
-                        <div class="row">
-                             <div class="col-md-6 mb-3">
-                                <label for="MIN_PORCENTAJE_REPROB" class="form-label">Calificación mínima para reprobar con derecho a re-sit/re-test:</label>
-                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB" name="MIN_PORCENTAJE_REPROB">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="MAX_PORCENTAJE_REPROB" class="form-label">Calificación máxima para reprobar con derecho a re-sit/re-test:</label>
-                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB" name="MAX_PORCENTAJE_REPROB">
+
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación máxima para aplicar resit inmediato (%)</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB_RE" name="MAX_PORCENTAJE_REPROB_RE" min="0" max="100" value="0" readonly>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="OPCION_RESIT" class="form-label">Opción de re-sit o re-test</label>
-                            <select class="form-select" id="OPCION_RESIT" name="OPCION_RESIT">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <option value="1">Con opción</option>
-                                <option value="2">Sin opción</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="TIPO_CENTRO" class="form-label">Número de intentos permitidos para este caso</label>
-                            <select class="form-select" id="TIPO_CENTRO" name="TIPO_CENTRO">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-                        <div id="asociadoContainer" class="row mb-3" style="display: none;">
-                            <div class="col-12">
-                                <label for="ASOCIADO_CENTRO" class="form-label">Asociado a</label>
-                                <select class="form-select" id="ASOCIADO_CENTRO" name="ASOCIADO_CENTRO">
-                                    <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
-                                    
-                                </select>
+
+                        <!-- ===================== RESIT NORMAL ===================== -->
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit / Re-test normal</h6>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación mínima para aplicar re-sit/re-test (%)</label>
+                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB" name="MIN_PORCENTAJE_REPROB" min="0" max="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Calificación máxima para aplicar re-sit/re-test (%)</label>
+                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB" name="MAX_PORCENTAJE_REPROB" min="0" max="100">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Opciones permitidas de re-sit o re-test</label>
+                                <input type="number" class="form-control" id="OPCION_RESIT_PERMITIDAS" name="OPCION_RESIT_PERMITIDAS" min="0" max="10" placeholder="Ej. 1">
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h6 class="section-title">Vigencia</h6>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="VIGENCIA_DESDE_CENTRO" class="form-label">Desde</label>
-                                <input type="date" class="form-control" id="VIGENCIA_DESDE_CENTRO" name="VIGENCIA_DESDE_CENTRO">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="VIGENCIA_HASTA_CENTRO" class="form-label">Hasta</label>
-                                <input type="date" class="form-control" id="VIGENCIA_HASTA_CENTRO" name="VIGENCIA_HASTA_CENTRO">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <p id="CONTADOR_CENTRO" class="form-label">Aquí se indicarán los días restantes vigentes</p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button id="programasbtnModal" type="button" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="programasbtnModal" type="button" class="btn btn-primary">Guardar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 <style>
     .form-section {

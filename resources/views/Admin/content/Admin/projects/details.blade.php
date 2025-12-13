@@ -959,6 +959,18 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                 <div class="sticky-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-3">
+                <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cerrar
+                    </button>
+                         </div>
+                </div>
+                </div>
                 <div style="padding: 1vw;">
                     <form id="coursesForm">
                         {!! csrf_field() !!}  
@@ -1029,34 +1041,9 @@
                     </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="footer-actions">
-                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notasModal" style="margin-bottom: 1vw;">
-                    Ver Notas
-                    </button>
-                    <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
-                        <i class="fas fa-save me-2"></i>Guardar Cambios
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Cerrar
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        @if($errors->has('contenido'))
-            var crearNotaModal = new bootstrap.Modal(document.getElementById('crearNotaModal'));
-            crearNotaModal.show();
-        @endif
-
-        @if(session('success'))
-            alert('{{ session('success') }}');
-        @endif
-    });
-</script>
 
 <script>
     const ID_PROJECT = @json($ID_PROJECT);

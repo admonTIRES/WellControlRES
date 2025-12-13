@@ -1196,7 +1196,7 @@ function generateResitTypesChart(estudiantes) {
             height: 350
         },
         colors: ['#FF585D', '#A4D65E', '#236192'],
-        labels: ['Con Resit', 'Sin Resit (con oportunidad)', 'Sin oportunidad de resit'],
+        labels: ['Resit reprobado', 'Resit no tomado', 'No resit'],
         legend: {
             position: 'bottom',
             horizontalAlign: 'center'

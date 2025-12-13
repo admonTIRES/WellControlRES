@@ -20,6 +20,7 @@ use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\CentrosCapacitacion;
 use App\Models\Admin\catalogs\Operacion;
+use App\Models\Admin\catalogs\Programas;
 
 use App\Models\Admin\Project\candidate;
 use App\Models\Admin\Project\Course;
@@ -638,246 +639,245 @@ class ProjectManagementController extends Controller
     //     ));
     // }
     public function detailsProject($ID_PROJECT)
-{
-    try {
-        // Obtener el proyecto
-        $proyect = Proyect::findOrFail($ID_PROJECT);
+    {
+        try {
+            // Obtener el proyecto
+            $proyect = Proyect::findOrFail($ID_PROJECT);
 
-        // ====================
-        // DATOS BÁSICOS
-        // ====================
-        
-        // Idioma
-        $idiomaProject = null;
-        if ($proyect->LANGUAGE_PROJECT) {
-            $idiomaProject = IdiomasExamenes::find($proyect->LANGUAGE_PROJECT);
-        }
+            // ====================
+            // DATOS BÁSICOS
+            // ====================
 
-        // Nombre del curso
-        $NOMBRE_PROYECTO = __('N/A');
-        if ($proyect->COURSE_NAME_ES_PROJECT) {
-            $nombreCurso = NombreProyecto::find($proyect->COURSE_NAME_ES_PROJECT);
-            $NOMBRE_PROYECTO = $nombreCurso->NOMBRE_PROYECTO ?? __('N/A');
-        }
+            // Idioma
+            $idiomaProject = null;
+            if ($proyect->LANGUAGE_PROJECT) {
+                $idiomaProject = IdiomasExamenes::find($proyect->LANGUAGE_PROJECT);
+            }
 
-        // Instructor
-        $NOMBRE_INSTRUCTOR = __('N/A');
-        // if ($proyect->INSTRUCTOR_ID_PROJECT) {
-        //     $instructor = Instructor::find($proyect->INSTRUCTOR_ID_PROJECT);
-        //     if ($instructor) {
-        //         $NOMBRE_INSTRUCTOR = trim(
-        //             ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' . 
-        //             ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' . 
-        //             ($instructor->LSNAME_INSTRUCTOR ?? '')
-        //         );
-        //     }
-        // }
+            // Nombre del curso
+            $NOMBRE_PROYECTO = __('N/A');
+            if ($proyect->COURSE_NAME_ES_PROJECT) {
+                $nombreCurso = NombreProyecto::find($proyect->COURSE_NAME_ES_PROJECT);
+                $NOMBRE_PROYECTO = $nombreCurso->NOMBRE_PROYECTO ?? __('N/A');
+            }
 
-        $instructores = $proyect->INSTRUCTOR_ID_PROJECT; // ahora es array por el cast
+            // Instructor
+            $NOMBRE_INSTRUCTOR = __('N/A');
+            // if ($proyect->INSTRUCTOR_ID_PROJECT) {
+            //     $instructor = Instructor::find($proyect->INSTRUCTOR_ID_PROJECT);
+            //     if ($instructor) {
+            //         $NOMBRE_INSTRUCTOR = trim(
+            //             ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' . 
+            //             ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' . 
+            //             ($instructor->LSNAME_INSTRUCTOR ?? '')
+            //         );
+            //     }
+            // }
 
-        if (!empty($instructores) && is_array($instructores)) {
-            $nombres = [];
+            $instructores = $proyect->INSTRUCTOR_ID_PROJECT; // ahora es array por el cast
 
-            foreach ($instructores as $idInstructor) {
-                $instructor = Instructor::find($idInstructor);
+            if (!empty($instructores) && is_array($instructores)) {
+                $nombres = [];
 
-                if ($instructor) {
-                    $nombreCompleto = trim(
-                        ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' .
-                        ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' .
-                        ($instructor->LSNAME_INSTRUCTOR ?? '')
-                    );
+                foreach ($instructores as $idInstructor) {
+                    $instructor = Instructor::find($idInstructor);
 
-                    if (!empty($nombreCompleto)) {
-                        $nombres[] = $nombreCompleto;
+                    if ($instructor) {
+                        $nombreCompleto = trim(
+                            ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' .
+                                ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' .
+                                ($instructor->LSNAME_INSTRUCTOR ?? '')
+                        );
+
+                        if (!empty($nombreCompleto)) {
+                            $nombres[] = $nombreCompleto;
+                        }
                     }
                 }
-            }
 
-            if (!empty($nombres)) {
-                $NOMBRE_INSTRUCTOR = implode(', ', $nombres);
-            }
-        }
-
-        // Ente Acreditador
-        $nombreEnte = __('N/A');
-        $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
-        if ($idEnte) {
-            $enteAcreditador = EnteAcreditador::find($idEnte);
-            $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
-        }
-
-        // Centro de Certificación
-        $centroCertificacion = null;
-        if ($proyect->CERTIFICATION_CENTER_PROJECT) {
-            $centroCertificacion = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
-        }
-
-        // Tipo de Operación
-        $tipoOperacion = null;
-        if ($proyect->OPERATION_TYPE_PROJECT) {
-            $tipoOperacion = Operacion::find($proyect->OPERATION_TYPE_PROJECT);
-        }
-
-        // ====================
-        // NIVELES DE ACREDITACIÓN
-        // ====================
-        $nivelesAcreditacion = collect();
-        $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
-        
-        if (!empty($idsNiveles) && is_array($idsNiveles)) {
-            $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
-            
-            $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
-                if ($idEnte == 1) {
-                    return $nivel->NOMBRE_NIVEL ?? 'N/A';
-                } elseif ($idEnte == 2) {
-                    return $nivel->NOMBRE_NIVEL ?? 'N/A';
-                } else {
-                    return $nivel->NOMBRE_NIVEL ?? $nivel->NOMBRE_NIVEL ?? 'N/A';
+                if (!empty($nombres)) {
+                    $NOMBRE_INSTRUCTOR = implode(', ', $nombres);
                 }
-            });
+            }
+
+            // Ente Acreditador
+            $nombreEnte = __('N/A');
+            $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
+            if ($idEnte) {
+                $enteAcreditador = EnteAcreditador::find($idEnte);
+                $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
+            }
+
+            // Centro de Certificación
+            $centroCertificacion = null;
+            if ($proyect->CERTIFICATION_CENTER_PROJECT) {
+                $centroCertificacion = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
+            }
+
+            // Tipo de Operación
+            $tipoOperacion = null;
+            if ($proyect->OPERATION_TYPE_PROJECT) {
+                $tipoOperacion = Operacion::find($proyect->OPERATION_TYPE_PROJECT);
+            }
+
+            // ====================
+            // NIVELES DE ACREDITACIÓN
+            // ====================
+            $nivelesAcreditacion = collect();
+            $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
+
+            if (!empty($idsNiveles) && is_array($idsNiveles)) {
+                $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
+
+                $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
+                    if ($idEnte == 1) {
+                        return $nivel->NOMBRE_NIVEL ?? 'N/A';
+                    } elseif ($idEnte == 2) {
+                        return $nivel->NOMBRE_NIVEL ?? 'N/A';
+                    } else {
+                        return $nivel->NOMBRE_NIVEL ?? $nivel->NOMBRE_NIVEL ?? 'N/A';
+                    }
+                });
+            }
+
+            // ====================
+            // TIPOS BOP
+            // ====================
+            $tiposBop = collect();
+            $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
+
+            if (!empty($idsBops) && is_array($idsBops)) {
+                $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
+                    ->pluck('DESCRIPCION_TIPOBOP');
+            }
+
+            // ====================
+            // ESTADÍSTICAS DE ESTUDIANTES
+            // ====================
+
+            // Obtener todos los cursos relacionados con este proyecto
+            $cursosStats = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->select(
+                    'co.FINAL_STATUS',
+                    'co.STATUS',
+                    'co.HAVE_CERTIFIED',
+                    DB::raw('COUNT(*) as total')
+                )
+                ->groupBy('co.FINAL_STATUS', 'co.STATUS', 'co.HAVE_CERTIFIED')
+                ->get();
+
+            // Calcular totales
+            $totalEstudiantes = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->count();
+
+            $estudiantesAprobados = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.FINAL_STATUS', 'Pass')
+                ->count();
+
+            $estudiantesReprobados = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.FINAL_STATUS', 'Unpass')
+                ->count();
+
+            $estudiantesPendientes = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('c.ASISTENCIA', '=', '0')
+                ->count();
+
+            // ====================
+            // ESTADÍSTICAS DE CERTIFICADOS
+            // ====================
+
+            $certificadosEmitidos = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.HAVE_CERTIFIED', '1')
+                ->count();
+
+            $certificadosPendientes = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.FINAL_STATUS', 'Pass')
+                ->where(function ($query) {
+                    $query->where('co.HAVE_CERTIFIED', '!=', '1')
+                        ->orWhereNull('co.HAVE_CERTIFIED');
+                })
+                ->count();
+
+            // ====================
+            // ESTADÍSTICAS DE EXÁMENES
+            // ====================
+
+            $promediosPorModulo = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->select(
+                    DB::raw('AVG(CAST(co.PRACTICAL as DECIMAL(5,2))) as promedio_practico'),
+                    DB::raw('AVG(CAST(co.EQUIPAMENT as DECIMAL(5,2))) as promedio_equipos'),
+                    DB::raw('AVG(CAST(co.PYP as DECIMAL(5,2))) as promedio_pyp')
+                )
+                ->first();
+
+            // ====================
+            // ESTADÍSTICAS DE RESIT
+            // ====================
+
+            $estudiantesConResit = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.RESIT', '1')
+                ->count();
+
+            $resitInmediatos = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.RESIT_INMEDIATO', '1')
+                ->count();
+
+            $resitProgramados = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->where('c.ID_PROJECT', $ID_PROJECT)
+                ->where('co.RESIT_PROGRAMADO', '1')
+                ->count();
+
+            return view('Admin.content.Admin.projects.details', compact(
+                'proyect',
+                'ID_PROJECT',
+                'idiomaProject',
+                'NOMBRE_PROYECTO',
+                'NOMBRE_INSTRUCTOR',
+                'nombreEnte',
+                'centroCertificacion',
+                'tipoOperacion',
+                'nivelesAcreditacion',
+                'tiposBop',
+                // Estadísticas de estudiantes
+                'totalEstudiantes',
+                'estudiantesAprobados',
+                'estudiantesReprobados',
+                'estudiantesPendientes',
+                // Estadísticas de certificados
+                'certificadosEmitidos',
+                'certificadosPendientes',
+                // Estadísticas de exámenes
+                'promediosPorModulo',
+                // Estadísticas de resit
+                'estudiantesConResit',
+                'resitInmediatos',
+                'resitProgramados'
+            ));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al cargar los detalles del proyecto: ' . $e->getMessage());
         }
-
-        // ====================
-        // TIPOS BOP
-        // ====================
-        $tiposBop = collect();
-        $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
-        
-        if (!empty($idsBops) && is_array($idsBops)) {
-            $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
-                ->pluck('DESCRIPCION_TIPOBOP');
-        }
-
-        // ====================
-        // ESTADÍSTICAS DE ESTUDIANTES
-        // ====================
-        
-        // Obtener todos los cursos relacionados con este proyecto
-        $cursosStats = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->select(
-                'co.FINAL_STATUS',
-                'co.STATUS',
-                'co.HAVE_CERTIFIED',
-                DB::raw('COUNT(*) as total')
-            )
-            ->groupBy('co.FINAL_STATUS', 'co.STATUS', 'co.HAVE_CERTIFIED')
-            ->get();
-
-        // Calcular totales
-        $totalEstudiantes = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->count();
-
-        $estudiantesAprobados = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.FINAL_STATUS', 'Pass')
-            ->count();
-
-        $estudiantesReprobados = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.FINAL_STATUS', 'Unpass')
-            ->count();
-
-        $estudiantesPendientes = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('c.ASISTENCIA', '=', '0')
-            ->count();
-
-        // ====================
-        // ESTADÍSTICAS DE CERTIFICADOS
-        // ====================
-        
-        $certificadosEmitidos = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.HAVE_CERTIFIED', '1')
-            ->count();
-
-        $certificadosPendientes = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.FINAL_STATUS', 'Pass')
-            ->where(function($query) {
-                $query->where('co.HAVE_CERTIFIED', '!=', '1')
-                      ->orWhereNull('co.HAVE_CERTIFIED');
-            })
-            ->count();
-
-        // ====================
-        // ESTADÍSTICAS DE EXÁMENES
-        // ====================
-        
-        $promediosPorModulo = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->select(
-                DB::raw('AVG(CAST(co.PRACTICAL as DECIMAL(5,2))) as promedio_practico'),
-                DB::raw('AVG(CAST(co.EQUIPAMENT as DECIMAL(5,2))) as promedio_equipos'),
-                DB::raw('AVG(CAST(co.PYP as DECIMAL(5,2))) as promedio_pyp')
-            )
-            ->first();
-
-        // ====================
-        // ESTADÍSTICAS DE RESIT
-        // ====================
-        
-        $estudiantesConResit = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.RESIT', '1')
-            ->count();
-
-        $resitInmediatos = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.RESIT_INMEDIATO', '1')
-            ->count();
-
-        $resitProgramados = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->where('c.ID_PROJECT', $ID_PROJECT)
-            ->where('co.RESIT_PROGRAMADO', '1')
-            ->count();
-
-        return view('Admin.content.Admin.projects.details', compact(
-            'proyect',
-            'ID_PROJECT',
-            'idiomaProject',
-            'NOMBRE_PROYECTO',
-            'NOMBRE_INSTRUCTOR',
-            'nombreEnte',
-            'centroCertificacion',
-            'tipoOperacion',
-            'nivelesAcreditacion',
-            'tiposBop',
-            // Estadísticas de estudiantes
-            'totalEstudiantes',
-            'estudiantesAprobados',
-            'estudiantesReprobados',
-            'estudiantesPendientes',
-            // Estadísticas de certificados
-            'certificadosEmitidos',
-            'certificadosPendientes',
-            // Estadísticas de exámenes
-            'promediosPorModulo',
-            // Estadísticas de resit
-            'estudiantesConResit',
-            'resitInmediatos',
-            'resitProgramados'
-        ));
-        
-    } catch (\Exception $e) {
-        return back()->with('error', 'Error al cargar los detalles del proyecto: ' . $e->getMessage());
     }
-}
 
 
     //     public function projectCourseDatatable(Request $request)
@@ -1320,10 +1320,9 @@ class ProjectManagementController extends Controller
                     'co.EXPIRATION'
                 )
                 ->where('c.ID_PROJECT', $ID_PROJECT)
-                ->where('c.ASISTENCIA', '!=', '0')
                 ->orderBy('c.LAST_NAME_PROJECT', 'asc')
                 ->get();
-
+  // ->where('c.ASISTENCIA', '!=', '0')
             $estudiantesFormateados = [];
             $existenCursos = false;
 
@@ -1401,6 +1400,7 @@ class ProjectManagementController extends Controller
                 'ACCREDITATION_LEVELS_PROJECT' => $this->getNivelesAcreditacion($proyecto->ACCREDITATION_LEVELS_PROJECT),
                 'BOP_TYPES_PROJECT' => $this->getTiposBOP($proyecto->BOP_TYPES_PROJECT),
                 'COURSE_END_DATE_90' => $formattedEndDate,
+                'EXAM_DATE_PROJECT' => $proyecto->EXAM_DATE_PROJECT,
                 'DAYS_REST' => $daysRest . ' días',
                 'DAYS_REMAINING' => $remainingDays
             ];
@@ -2125,7 +2125,8 @@ class ProjectManagementController extends Controller
             $project = Proyect::find($projectId);
             $project->update($projectData);
             return $project;
-        }    }
+        }
+    }
 
 
 
@@ -2286,7 +2287,7 @@ class ProjectManagementController extends Controller
                         'EMAIL_PROJECT' => $e->EMAIL_PROJECT,
                         'ACTIVO' => $e->ACTIVO,
                         'ID_PROJECT' => $e->ID_PROJECT,
-                        'ASISTENCIA'=> $e->ASISTENCIA
+                        'ASISTENCIA' => $e->ASISTENCIA
                     ],
                     'proyecto' => [
                         'ID_PROJECT' => $e->proyecto_id,
@@ -2347,29 +2348,131 @@ class ProjectManagementController extends Controller
 
     // Agregar en ProjectManagementController.php
 
-public function getProjectDates($ID_PROJECT)
-{
-    try {
-        $proyecto = Proyect::find($ID_PROJECT);
-        
-        if (!$proyecto) {
+    public function getProjectDates($ID_PROJECT)
+    {
+        try {
+            $proyecto = Proyect::find($ID_PROJECT);
+
+            if (!$proyecto) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Proyecto no encontrado'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'COURSE_START_DATE_PROJECT' => $proyecto->COURSE_START_DATE_PROJECT,
+                'COURSE_END_DATE_PROJECT' => $proyecto->COURSE_END_DATE_PROJECT
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Proyecto no encontrado'
-            ], 404);
+                'message' => 'Error al obtener fechas',
+                'error' => $e->getMessage()
+            ], 500);
         }
-        
+    }
+
+
+    public function getProgramRules($programId)
+    {
+        try {
+            $programa = Programas::find($programId);
+
+            if (!$programa) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Programa no encontrado'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'programa' => [
+                    'ID_CATALOGO_PROGRAMA' => $programa->ID_CATALOGO_PROGRAMA,
+                    'NOMBRE_PROGRAMA' => $programa->NOMBRE_PROGRAMA,
+                    'MIN_PORCENTAJE_APROB' => $programa->MIN_PORCENTAJE_APROB,
+                    'MAX_PORCENTAJE_APROB' => $programa->MAX_PORCENTAJE_APROB,
+                    'OPCION_RESIT' => $programa->OPCION_RESIT,
+                    'MIN_PORCENTAJE_REPROB_RE' => $programa->MIN_PORCENTAJE_REPROB_RE,
+                    'MAX_PORCENTAJE_REPROB_RE' => $programa->MAX_PORCENTAJE_REPROB_RE,
+                    'MIN_PORCENTAJE_REPROB' => $programa->MIN_PORCENTAJE_REPROB,
+                    'MAX_PORCENTAJE_REPROB' => $programa->MAX_PORCENTAJE_REPROB,
+                    'OPCION_RESIT_PERMITIDAS' => $programa->OPCION_RESIT_PERMITIDAS,
+                    'PERIODO_RESIT' => $programa->PERIODO_RESIT
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener reglas del programa',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function uploadCertificate(Request $request)
+    {
+        try {
+            $request->validate([
+                'certificate' => 'required|file|mimes:pdf|max:10240',
+                'ID_COURSE' => 'required|integer'
+            ]);
+
+            $course = Course::find($request->ID_COURSE);
+
+            if (!$course) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Curso no encontrado'
+                ], 404);
+            }
+
+            if ($request->hasFile('certificate')) {
+                $file = $request->file('certificate');
+                $filename = 'certificate_' . $request->ID_COURSE . '_' . time() . '.pdf';
+                $path = $file->storeAs('certificates', $filename, 'public');
+
+                $course->CERTIFIED = $path;
+                $course->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Certificado cargado exitosamente',
+                    'path' => $path
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se recibió el archivo'
+            ], 400);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al cargar certificado',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getNivelData($nivelId) {
+    try {
+        $nivel = NivelAcreditacion::find($nivelId);
+        if (!$nivel) {
+            return response()->json(['success' => false, 'message' => 'Nivel no encontrado'], 404);
+        }
         return response()->json([
             'success' => true,
-            'COURSE_START_DATE_PROJECT' => $proyecto->COURSE_START_DATE_PROJECT,
-            'COURSE_END_DATE_PROJECT' => $proyecto->COURSE_END_DATE_PROJECT
+            'nivel' => [
+                'ID_CATALOGO_NIVELACREDITACION' => $nivel->ID_CATALOGO_NIVELACREDITACION,
+                'NOMBRE_NIVEL' => $nivel->NOMBRE_NIVEL,
+                'DESCRIPCION_NIVEL' => $nivel->DESCRIPCION_NIVEL
+            ]
         ]);
     } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error al obtener fechas',
-            'error' => $e->getMessage()
-        ], 500);
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
 }

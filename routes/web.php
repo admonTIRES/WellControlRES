@@ -101,11 +101,12 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('projectsAdmin/details')->group(function () {
         Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
         Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
-
     });
 
-         Route::get('/getProjectDates/{ID_PROJECT}', [ProjectManagementController::class, 'getProjectDates']);
-
+    Route::get('/getProjectDates/{ID_PROJECT}', [ProjectManagementController::class, 'getProjectDates']);
+    Route::get('/getNivelData/{nivelId}', [ProjectManagementController::class, 'getNivelData']);
+    Route::get('/getProgramRules/{programId}', [ProjectManagementController::class, 'getProgramRules']);
+    Route::post('/uploadCertificate', [ProjectManagementController::class, 'uploadCertificate']);
 
     Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
     Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');
@@ -272,7 +273,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
     });
 
-     Route::get('/ubicaciones', function (Request $request) {
+    Route::get('/ubicaciones', function (Request $request) {
 
         $ubicaciones = Ubicaciones::get();
 
@@ -285,7 +286,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
     });
 
-      Route::get('/programas', function (Request $request) {
+    Route::get('/programas', function (Request $request) {
 
         $programas = Programas::get();
 

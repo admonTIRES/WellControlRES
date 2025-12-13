@@ -28,8 +28,13 @@ class candidate extends Model
         'ACTIVO',
         'ASISTENCIA',
         'MOTIVO',
-        'LEVEL'
+        'LEVEL',
+        'ASISTENCIAS'
     ];
+
+    protected $casts = [
+    'ASISTENCIAS' => 'array', 
+];
 
      public function project()
     {

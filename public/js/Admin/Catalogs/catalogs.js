@@ -2291,8 +2291,7 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
     
     editarDatoTabla(row.data(), 'programasForm', 'programasModal', 1);
-    
-    // Actualizar campos de resit inmediato
+
     if (row.data().OPCION_RESIT == 2) {
         $('#MIN_PORCENTAJE_REPROB_RE').val(row.data().MIN_PORCENTAJE_REPROB_RE);
         $('#MAX_PORCENTAJE_REPROB_RE').val(row.data().MAX_PORCENTAJE_REPROB_RE);

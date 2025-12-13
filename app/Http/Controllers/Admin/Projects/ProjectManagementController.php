@@ -2344,4 +2344,32 @@ class ProjectManagementController extends Controller
             ], 500);
         }
     }
+
+    // Agregar en ProjectManagementController.php
+
+public function getProjectDates($ID_PROJECT)
+{
+    try {
+        $proyecto = Proyect::find($ID_PROJECT);
+        
+        if (!$proyecto) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Proyecto no encontrado'
+            ], 404);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'COURSE_START_DATE_PROJECT' => $proyecto->COURSE_START_DATE_PROJECT,
+            'COURSE_END_DATE_PROJECT' => $proyecto->COURSE_END_DATE_PROJECT
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al obtener fechas',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }

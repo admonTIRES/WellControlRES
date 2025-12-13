@@ -821,7 +821,7 @@
                 <div class="sticky-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-3">
-                            <button class="btn btn-success btn-modern" onclick="addNewRow()">
+                            <button class="btn btn-warning" onclick="addNewRow()">
                                 <i class="fas fa-plus me-2"></i>Nuevo Candidato
                             </button>
                             <div class="search-container">
@@ -837,6 +837,12 @@
                                 <span id="rowCount">0 candidatos</span>
                             </div>
                         </div>
+                         <button class="btn btn-warning btn-save" id="candidatebtnModal">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cerrar
+                    </button>
                     </div>
                 </div>
                 <div class="table-container">
@@ -873,16 +879,6 @@
                             </tbody>
                         </table>
                     </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="footer-actions">
-                    <button class="btn btn-primary btn-modern btn-save" id="candidatebtnModal">
-                        <i class="fas fa-save me-2"></i>Guardar Cambios
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Cerrar
-                    </button>
                 </div>
             </div>
         </div>

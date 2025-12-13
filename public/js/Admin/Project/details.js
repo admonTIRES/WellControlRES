@@ -418,10 +418,10 @@ function enviarCredencialesCorreo(data) {
         }
     });
 }
-function editarCandidatos() {
-    $('#editarCandidatosModal').modal('show');
-    loadTableData();
-}
+// function editarCandidatos() {
+//     $('#editarCandidatosModal').modal('show');
+//     loadTableData();
+// }
 function editarCurso() {
     $('#editarCursoModal').modal('show');
     loadTableCursoModal();
@@ -1744,16 +1744,353 @@ $("#cursobtnModal").click(async function (e) {
     });
 });
 
+// $("#candidatebtnModal").click(async function (e) {
+//     e.preventDefault();
+//     $('.candidate-asistencia-visual').each(function () {
+//         const index = $(this).data('index');
+//         const isChecked = $(this).is(':checked') ? 1 : 0;
+//         $(`#asistencia_hidden_${index}`).val(isChecked);
+//     });
+//     $('#candidateForm').find('.candidate-active').each(function () {
+//         $(this).val($(this).is(':checked') ? 1 : 0);
+//     });
+//     let formularioValido = validarFormulario($('#candidateForm'));
+
+//     if (!formularioValido) {
+//         alertToast('Por favor, complete todos los campos del formulario.', 'error', 2000);
+//         return;
+//     }
+
+//     alertMensajeConfirm({
+//         title: "¿Desea guardar la información?",
+//         text: "Se actualizarán los datos de esta tabla",
+//         icon: "question",
+//     }, async function () {
+
+//         await loaderbtn('candidatebtnModal');
+
+//         const formDataArray = $('#candidateForm').serializeArray();
+//         const dataToSend = { api: 3, ID_PROJECT: ID_PROJECT };
+
+//         formDataArray.forEach(item => {
+//             const match = item.name.match(/^courses\[(\d+)\]\[(\w+)\]$/);
+//             if (match) {
+//                 const candidateId = match[1];
+//                 const key = match[2];
+//                 dataToSend[`courses[${candidateId}][${key}]`] = item.value;
+//             } else {
+//                 dataToSend[item.name] = item.value;
+//             }
+//         });
+
+//         console.log('Datos a enviar:', dataToSend);
+
+//         await ajaxAwaitFormData(
+//             dataToSend,
+//             'candidateSave',
+//             'candidateForm',
+//             'candidatebtnModal',
+//             { callbackAfter: true, callbackBefore: true },
+//             () => {
+//                 Swal.fire({
+//                     icon: 'info',
+//                     title: 'Espere un momento',
+//                     text: 'Estamos guardando la información',
+//                     showConfirmButton: false,
+//                 });
+//                 $('.swal2-popup').addClass('ld ld-breath');
+//             },
+//             (data) => {
+//                 Swal.close();
+//                 alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500);
+//                 document.getElementById('candidateForm').reset();
+//                 loadTableData();
+//                 projectStudentDatatable.ajax.reload();
+//                 projectCourseDatatable.ajax.reload();
+
+
+//             }
+//         );
+//     });
+// });
+
+// ============================================
+// FUNCIÓN PARA GENERAR LISTA DE DÍAS DEL CURSO
+// ============================================
+function generateCourseDays(startDate, endDate) {
+    const days = [];
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    // Generar array con todos los días del curso
+    for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+        days.push({
+            date: new Date(date),
+            formatted: formatDateForDisplay(new Date(date)),
+            dayNumber: days.length + 1
+        });
+    }
+    
+    return days;
+}
+
+// ============================================
+// MODIFICACIÓN DE loadTableData para incluir asistencias
+// ============================================
+function loadTableDataWithAttendance() {
+    $.ajax({
+        url: '/editarTablaCandidato/' + ID_PROJECT,
+        method: 'GET',
+        dataType: 'json',
+        beforeSend: function () {
+            $('#edit-candidate-table tbody').html(`
+                <tr>
+                    <td colspan="20" class="text-center">
+                        <div class="spinner-container">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        },
+        success: function (data) {
+            // Obtener fechas del proyecto
+            $.ajax({
+                url: '/getProjectDates/' + ID_PROJECT,
+                method: 'GET',
+                success: function(projectData) {
+                    const courseDays = generateCourseDays(
+                        projectData.COURSE_START_DATE_PROJECT, 
+                        projectData.COURSE_END_DATE_PROJECT
+                    );
+                    
+                    renderTableWithAttendance(data, courseDays);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error al cargar datos:', error);
+        }
+    });
+}
+
+// ============================================
+// RENDERIZAR TABLA CON ASISTENCIAS
+// ============================================
+function renderTableWithAttendance(candidatos, courseDays) {
+    const tbody = $('#edit-candidate-table tbody');
+    const thead = $('#edit-candidate-table thead');
+    tbody.empty();
+    
+    // Actualizar encabezados dinámicamente
+    let headerRow = `
+        <tr>
+            <th width="50px" class="text-center">#</th>
+            <th width="140px">Empresa</th>
+            <th width="80px">CR</th>
+            <th width="130px">Apellido</th>
+            <th width="130px">Nombre</th>
+            <th width="120px">Segundo Nombre</th>
+            <th width="120px">Fecha Nac.</th>
+            <th width="130px">ID</th>
+            <th width="130px">Membresía</th>
+            <th width="160px">Email</th>
+            <th width="130px">Contraseña</th>
+            <th width="130px">Membresía activa</th>
+    `;
+    
+    // Agregar columnas para cada día del curso
+    courseDays.forEach((day, index) => {
+        headerRow += `<th width="100px" class="text-center attendance-header">
+            Día ${day.dayNumber}<br>
+            <small>${day.formatted}</small>
+        </th>`;
+    });
+    
+    headerRow += `
+            <th width="130px">Motivo Inasistencia</th>
+            <th width="100px" class="table-row-actions text-center">Acciones</th>
+        </tr>
+    `;
+    
+    thead.html(headerRow);
+
+    if (candidatos && candidatos.length > 0) {
+        candidatos.forEach((row, index) => {
+            // Parsear asistencias existentes
+            let asistencias = {};
+            try {
+                asistencias = row.ASISTENCIAS ? JSON.parse(row.ASISTENCIAS) : {};
+            } catch (e) {
+                asistencias = {};
+            }
+            
+            let tr = `<tr data-candidate-id="${row.ID_CANDIDATE || ''}" class="candidate-row">`;
+            
+            tr += `<td class="text-center">${index + 1}</td>`;
+            tr += `<td><textarea class="table-input textarea" placeholder="Nombre de empresa" name="courses[${index}][COMPANY_PROJECT]">${row.COMPANY_PROJECT || ''}</textarea></td>`;
+            tr += `<td><textarea class="table-input textarea" name="courses[${index}][CR_PROJECT]" placeholder="CR">${row.CR_PROJECT || ''}</textarea></td>`;
+            tr += `<td><textarea class="table-input textarea" name="courses[${index}][LAST_NAME_PROJECT]" placeholder="Apellido">${row.LAST_NAME_PROJECT || ''}</textarea></td>`;
+            tr += `<td><textarea class="table-input textarea" name="courses[${index}][FIRST_NAME_PROJECT]" placeholder="Nombre">${row.FIRST_NAME_PROJECT || ''}</textarea></td>`;
+            tr += `<td><textarea class="table-input textarea" name="courses[${index}][MIDDLE_NAME_PROJECT]" placeholder="Segundo nombre">${row.MIDDLE_NAME_PROJECT || ''}</textarea></td>`;
+            tr += `<td><input class="table-input" type="date" value="${formatDateForInput(row.DOB_PROJECT) || ''}" name="courses[${index}][DOB_PROJECT]" /></td>`;
+            tr += `<td><textarea class="table-input textarea" name="courses[${index}][ID_NUMBER_PROJECT]" placeholder="Número de ID">${row.ID_NUMBER_PROJECT || ''}</textarea></td>`;
+            tr += `<td>
+                <select class="table-input membership-select" name="courses[${index}][MEMBERSHIP_PROJECT]">
+                    <option value="">Seleccionar...</option>
+                    <option value="N/A" ${(row.MEMBERSHIP_PROJECT === 'N/A') ? 'selected' : ''}>N/A</option>
+                    <option value="Premium" ${(row.MEMBERSHIP_PROJECT === 'Premium') ? 'selected' : ''}>Premium</option>
+                    <option value="Pro" ${(row.MEMBERSHIP_PROJECT === 'Pro') ? 'selected' : ''}>Pro</option>
+                    <option value="Enterprise" ${(row.MEMBERSHIP_PROJECT === 'Enterprise') ? 'selected' : ''}>Enterprise</option>
+                </select>
+            </td>`;
+            tr += `<td><input class="table-input email" type="email" value="${row.EMAIL_PROJECT || ''}" name="courses[${index}][EMAIL_PROJECT]" placeholder="correo@ejemplo.com" /></td>`;
+            tr += `<td><input class="table-input password" type="password" value="${row.PASSWORD_PROJECT || ''}" name="courses[${index}][PASSWORD_PROJECT]" placeholder="Contraseña" /></td>`;
+            tr += `<td>
+                <div class="status-switch-container">
+                    <label class="status-switch">
+                        <input type="checkbox" name="courses[${index}][ACTIVO]" ${(row.ACTIVO == 1) ? 'checked' : ''} class="candidate-active">
+                        <span class="status-slider"></span>
+                    </label>
+                </div>
+            </td>`;
+            
+            // Agregar switches de asistencia para cada día
+            courseDays.forEach((day, dayIndex) => {
+                const dayKey = day.date.toISOString().split('T')[0]; // YYYY-MM-DD
+                const isPresent = asistencias[dayKey] === true || asistencias[dayKey] === 1;
+                
+                tr += `<td>
+                    <div class="status-switch-container">
+                        <label class="status-switch">
+                            <input type="checkbox" 
+                                name="courses[${index}][ATTENDANCE][${dayKey}]" 
+                                ${isPresent ? 'checked' : ''} 
+                                class="attendance-switch"
+                                data-candidate-index="${index}"
+                                data-day="${dayKey}">
+                            <span class="status-slider"></span>
+                        </label>
+                    </div>
+                </td>`;
+            });
+            
+            // Campo de motivo de inasistencia
+            const totalDays = courseDays.length;
+            const presentDays = Object.values(asistencias).filter(v => v === true || v === 1).length;
+            const showMotivo = presentDays < totalDays;
+            
+            tr += `<td>
+                <textarea class="table-input textarea motivo-field ${showMotivo ? '' : 'd-none'}" 
+                    name="courses[${index}][MOTIVO]" 
+                    id="motivo_${index}"
+                    placeholder="Motivo de inasistencia">${row.MOTIVO || ''}</textarea>
+            </td>`;
+            
+            // Acciones
+            tr += `<td class="table-row-actions">
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-sm btn-danger btn-action" onclick="deleteCandidate(this, ${row.ID_CANDIDATE})"
+                        ${!row.ID_CANDIDATE ? 'disabled' : ''}>
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-info btn-action" onclick="togglePassword(event,this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </td>`;
+            
+            tr += '</tr>';
+            tbody.append(tr);
+        });
+        
+        updateRowCount(candidatos.length);
+        attachAttendanceListeners();
+        
+    } else {
+        tbody.html(`
+            <tr>
+                <td colspan="20" class="text-center text-muted py-5">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <p>No hay candidatos registrados</p>
+                </td>
+            </tr>
+        `);
+        updateRowCount(0);
+    }
+}
+
+// ============================================
+// LISTENERS PARA SWITCHES DE ASISTENCIA
+// ============================================
+function attachAttendanceListeners() {
+    $('.attendance-switch').on('change', function() {
+        const candidateIndex = $(this).data('candidate-index');
+        const row = $(this).closest('tr');
+        
+        // Contar cuántos días está presente
+        const totalSwitches = row.find('.attendance-switch').length;
+        const checkedSwitches = row.find('.attendance-switch:checked').length;
+        
+        // Mostrar/ocultar campo de motivo
+        const motivoField = row.find(`#motivo_${candidateIndex}`);
+        
+        if (checkedSwitches < totalSwitches) {
+            // Hay inasistencias, mostrar campo de motivo
+            motivoField.removeClass('d-none');
+        } else {
+            // Asistió todos los días, ocultar motivo
+            motivoField.addClass('d-none');
+            motivoField.val(''); // Limpiar el motivo
+        }
+        
+        // Actualizar indicador visual de la fila
+        updateRowAttendanceStatus(row, checkedSwitches, totalSwitches);
+    });
+}
+
+// ============================================
+// ACTUALIZAR ESTADO VISUAL DE ASISTENCIA
+// ============================================
+function updateRowAttendanceStatus(row, present, total) {
+    row.removeClass('attendance-complete attendance-partial attendance-absent');
+    
+    if (present === total) {
+        row.addClass('attendance-complete');
+    } else if (present > 0) {
+        row.addClass('attendance-partial');
+    } else {
+        row.addClass('attendance-absent');
+    }
+}
+
+// ============================================
+// GUARDAR DATOS CON ASISTENCIAS
+// ============================================
 $("#candidatebtnModal").click(async function (e) {
     e.preventDefault();
-    $('.candidate-asistencia-visual').each(function () {
-        const index = $(this).data('index');
-        const isChecked = $(this).is(':checked') ? 1 : 0;
-        $(`#asistencia_hidden_${index}`).val(isChecked);
+    
+    // Preparar datos de asistencia
+    $('.candidate-row').each(function(index) {
+        const row = $(this);
+        const attendanceData = {};
+        
+        row.find('.attendance-switch').each(function() {
+            const day = $(this).data('day');
+            attendanceData[day] = $(this).is(':checked') ? 1 : 0;
+        });
+        
+        // Agregar campo oculto con JSON de asistencias
+        if (row.find('input[name="courses[' + index + '][ASISTENCIAS]"]').length === 0) {
+            row.append(`<input type="hidden" name="courses[${index}][ASISTENCIAS]" value='${JSON.stringify(attendanceData)}'>`);
+        } else {
+            row.find('input[name="courses[' + index + '][ASISTENCIAS]"]').val(JSON.stringify(attendanceData));
+        }
     });
-    $('#candidateForm').find('.candidate-active').each(function () {
-        $(this).val($(this).is(':checked') ? 1 : 0);
-    });
+    
+    // Continuar con el guardado normal
     let formularioValido = validarFormulario($('#candidateForm'));
 
     if (!formularioValido) {
@@ -1763,10 +2100,9 @@ $("#candidatebtnModal").click(async function (e) {
 
     alertMensajeConfirm({
         title: "¿Desea guardar la información?",
-        text: "Se actualizarán los datos de esta tabla",
+        text: "Se actualizarán los datos de asistencia",
         icon: "question",
     }, async function () {
-
         await loaderbtn('candidatebtnModal');
 
         const formDataArray = $('#candidateForm').serializeArray();
@@ -1783,8 +2119,6 @@ $("#candidatebtnModal").click(async function (e) {
             }
         });
 
-        console.log('Datos a enviar:', dataToSend);
-
         await ajaxAwaitFormData(
             dataToSend,
             'candidateSave',
@@ -1795,21 +2129,63 @@ $("#candidatebtnModal").click(async function (e) {
                 Swal.fire({
                     icon: 'info',
                     title: 'Espere un momento',
-                    text: 'Estamos guardando la información',
+                    text: 'Guardando asistencias...',
                     showConfirmButton: false,
                 });
-                $('.swal2-popup').addClass('ld ld-breath');
             },
             (data) => {
                 Swal.close();
-                alertMensaje('success', 'Información guardada correctamente', 'Esta información está lista para usarse', null, null, 1500);
-                document.getElementById('candidateForm').reset();
-                loadTableData();
-                projectStudentDatatable.ajax.reload();
-                projectCourseDatatable.ajax.reload();
-
-
+                alertMensaje('success', 'Asistencias guardadas', 'Los datos se guardaron correctamente', null, null, 1500);
+                loadTableDataWithAttendance();
             }
         );
     });
 });
+
+// ============================================
+// CSS ADICIONAL PARA ESTILOS DE ASISTENCIA
+// ============================================
+const attendanceStyles = `
+<style>
+.attendance-header {
+    background-color: #f8f9fa;
+    font-size: 0.85rem;
+}
+
+.attendance-complete {
+    background-color: rgba(198, 239, 206, 0.2) !important;
+}
+
+.attendance-partial {
+    background-color: rgba(255, 235, 156, 0.2) !important;
+}
+
+.attendance-absent {
+    background-color: rgba(255, 199, 206, 0.2) !important;
+}
+
+.motivo-field {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.status-switch-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+`;
+
+// Inyectar estilos
+if ($('#attendance-styles').length === 0) {
+    $('head').append(`<div id="attendance-styles">${attendanceStyles}</div>`);
+}
+
+// ============================================
+// INICIALIZAR AL ABRIR MODAL
+// ============================================
+function editarCandidatos() {
+    $('#editarCandidatosModal').modal('show');
+    loadTableDataWithAttendance();
+}

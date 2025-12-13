@@ -101,7 +101,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('projectsAdmin/details')->group(function () {
         Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
         Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
+
     });
+
+         Route::get('/getProjectDates/{ID_PROJECT}', [ProjectManagementController::class, 'getProjectDates']);
+
 
     Route::get('/proyectoDatatable', [ProjectManagementController::class, 'proyectoDatatable']);
     Route::get('/projectsAdmin/details/{ID_PROJECT}', [ProjectManagementController::class, 'detailsProject'])->name('projectsAdmin.details');

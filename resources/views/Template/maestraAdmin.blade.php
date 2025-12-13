@@ -793,7 +793,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.37"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.38"></script>
     @endif
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

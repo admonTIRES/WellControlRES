@@ -3099,3 +3099,215 @@ function descargarPDF() {
     link.click();
     document.body.removeChild(link);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    let complementoCounter = 0;
+
+    // Función para validar rangos de calificaciones
+    function validarRangosComplemento(complementoId) {
+        const minAprobar = document.querySelector(`[name="complementos[${complementoId}][min_aprobar]"]`);
+        const maxAprobar = document.querySelector(`[name="complementos[${complementoId}][max_aprobar]"]`);
+        const minRetest = document.querySelector(`[name="complementos[${complementoId}][min_retest]"]`);
+        const maxRetest = document.querySelector(`[name="complementos[${complementoId}][max_retest]"]`);
+
+        // Validar que máximo aprobar sea mayor que mínimo aprobar
+        if (minAprobar.value && maxAprobar.value) {
+            if (parseFloat(maxAprobar.value) <= parseFloat(minAprobar.value)) {
+                maxAprobar.setCustomValidity('El máximo debe ser mayor que el mínimo');
+                return false;
+            } else {
+                maxAprobar.setCustomValidity('');
+            }
+        }
+
+        // Validar que el rango de retest no se solape con aprobar
+        if (minAprobar.value && minRetest.value) {
+            if (parseFloat(minRetest.value) >= parseFloat(minAprobar.value)) {
+                minRetest.setCustomValidity(`Debe ser menor que ${minAprobar.value}% (mínimo para aprobar)`);
+                minRetest.classList.add('is-invalid');
+                return false;
+            } else {
+                minRetest.setCustomValidity('');
+                minRetest.classList.remove('is-invalid');
+            }
+        }
+
+        if (minAprobar.value && maxRetest.value) {
+            if (parseFloat(maxRetest.value) >= parseFloat(minAprobar.value)) {
+                maxRetest.setCustomValidity(`Debe ser menor que ${minAprobar.value}% (mínimo para aprobar)`);
+                maxRetest.classList.add('is-invalid');
+                return false;
+            } else {
+                maxRetest.setCustomValidity('');
+                maxRetest.classList.remove('is-invalid');
+            }
+        }
+
+        // Validar que máximo retest sea mayor que mínimo retest
+        if (minRetest.value && maxRetest.value) {
+            if (parseFloat(maxRetest.value) <= parseFloat(minRetest.value)) {
+                maxRetest.setCustomValidity('El máximo debe ser mayor que el mínimo');
+                return false;
+            } else {
+                maxRetest.setCustomValidity('');
+            }
+        }
+
+        return true;
+    }
+
+    // Función para crear un nuevo complemento
+    function crearComplemento() {
+        complementoCounter++;
+        const complementoId = complementoCounter;
+        
+        const complementoHTML = `
+            <div class="card mb-3 complemento-item" id="complemento_${complementoId}" data-complemento-id="${complementoId}">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">Complemento #${complementoId}</span>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="eliminarComplemento('complemento_${complementoId}')">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Nombre del complemento <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="complementos[${complementoId}][nombre]" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">¿Requiere entrenamiento adicional?</label>
+                            <select class="form-select" name="complementos[${complementoId}][requiere_entrenamiento]">
+                                <option value="0">No</option>
+                                <option value="1">Sí</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación mínima para aprobar (%) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control complemento-min-aprobar" 
+                                   name="complementos[${complementoId}][min_aprobar]" 
+                                   min="0" max="100" 
+                                   placeholder="Ej. 70"
+                                   data-complemento-id="${complementoId}"
+                                   required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación máxima para aprobar (%) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control complemento-max-aprobar" 
+                                   name="complementos[${complementoId}][max_aprobar]" 
+                                   min="0" max="100" 
+                                   placeholder="Ej. 100"
+                                   data-complemento-id="${complementoId}"
+                                   required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación mínima para presentar re-test (%)</label>
+                            <input type="number" class="form-control complemento-min-retest" 
+                                   name="complementos[${complementoId}][min_retest]" 
+                                   min="0" max="100" 
+                                   placeholder="Ej. 0"
+                                   data-complemento-id="${complementoId}">
+                            <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación máxima para presentar re-test (%)</label>
+                            <input type="number" class="form-control complemento-max-retest" 
+                                   name="complementos[${complementoId}][max_retest]" 
+                                   min="0" max="100" 
+                                   placeholder="Ej. 69"
+                                   data-complemento-id="${complementoId}">
+                            <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Número de intentos permitidos</label>
+                            <input type="number" class="form-control" 
+                                   name="complementos[${complementoId}][num_intentos]" 
+                                   min="1" max="10" 
+                                   placeholder="Ej. 2"
+                                   value="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('complementosContainer').insertAdjacentHTML('beforeend', complementoHTML);
+        
+        // Agregar event listeners para validación
+        agregarValidacionComplemento(complementoId);
+    }
+
+    // Función para agregar validación a un complemento
+    function agregarValidacionComplemento(complementoId) {
+        const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                validarRangosComplemento(complementoId);
+            });
+            
+            input.addEventListener('blur', function() {
+                validarRangosComplemento(complementoId);
+            });
+        });
+    }
+
+    // Event listener para agregar complemento
+    document.getElementById('btnAgregarComplemento').addEventListener('click', function(e) {
+        e.preventDefault();
+        crearComplemento();
+    });
+
+    // Función global para eliminar complemento
+    window.eliminarComplemento = function(complementoId) {
+        if (confirm('¿Está seguro de eliminar este complemento?')) {
+            document.getElementById(complementoId).remove();
+        }
+    };
+
+    // Habilitar/deshabilitar campos de resit inmediato
+    document.getElementById('OPCION_RESIT').addEventListener('change', function() {
+        const minField = document.getElementById('MIN_PORCENTAJE_REPROB_RE');
+        const maxField = document.getElementById('MAX_PORCENTAJE_REPROB_RE');
+        
+        if (this.value === '2') {
+            minField.readOnly = false;
+            maxField.readOnly = false;
+            minField.value = '';
+            maxField.value = '';
+        } else {
+            minField.readOnly = true;
+            maxField.readOnly = true;
+            minField.value = '0';
+            maxField.value = '0';
+        }
+    });
+
+    // Validación antes de enviar el formulario
+    document.getElementById('programasbtnModal').addEventListener('click', function(e) {
+        const complementos = document.querySelectorAll('.complemento-item');
+        let todosValidos = true;
+        
+        complementos.forEach(complemento => {
+            const complementoId = complemento.dataset.complementoId;
+            if (!validarRangosComplemento(complementoId)) {
+                todosValidos = false;
+            }
+        });
+        
+        if (!todosValidos) {
+            e.preventDefault();
+            alert('Por favor, corrija los errores en los complementos antes de guardar.');
+            return false;
+        }
+        
+        // Aquí continúa con el envío del formulario
+        document.getElementById('programasForm').submit();
+    });
+});

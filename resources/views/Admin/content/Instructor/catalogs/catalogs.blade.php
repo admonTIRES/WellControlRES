@@ -30,15 +30,7 @@
                                         role="tab"
                                         aria-controls="v-pills-acreditadores"
                                         aria-selected="true">{{ __('Accrediting entities') }}</button>
-                                    <button class="nav-link text-start rounded mb-1 pe-5"
-                                        id="v-pills-programas-tab"
-                                        data-topic="programas-acreditacion"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-programas"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="v-pills-programas"
-                                        aria-selected="true">{{ __('Programs') }}</button>
+                                   
                                     <button class="nav-link text-start rounded mb-1 pe-5"
                                         id="v-pills-nivel-tab"
                                         data-topic="nivel-acreditacion"
@@ -66,6 +58,15 @@
                                         role="tab"
                                         aria-controls="v-pills-operacion"
                                         aria-selected="false">{{ __('Operation type') }}</button>
+                                    <button class="nav-link text-start rounded mb-1 pe-5"
+                                        id="v-pills-programas-tab"
+                                        data-topic="programas-acreditacion"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-programas"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="v-pills-programas"
+                                        aria-selected="true">{{ __('Programs') }}</button>
                                     <hr class="hr-horizontal mt-4 mb-2">
                                     <p class="mt-3 mb-2">{{ __('Training center data') }}</p>
                                     <button class="nav-link text-start rounded mb-1 pe-5"
@@ -561,6 +562,17 @@
                             </div>
                         </div>
 
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">
+                        Complementos del programa
+                        <button type="button" class="btn btn-sm btn-success float-end" id="btnAgregarComplemento">
+                            <i class="bi bi-plus-circle"></i> Agregar complemento
+                        </button>
+                    </h6>
+
+                    <div id="complementosContainer">
+                        <!-- Los complementos se agregarán aquí dinámicamente -->
+                    </div>
+
                         <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Generalidades del programa</h6>
                         <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
                             <div class="col-md-2 text-start">
@@ -613,6 +625,33 @@
 
 
 <style>
+    .complemento-item {
+    transition: all 0.3s ease;
+}
+
+.complemento-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: #f8f9fa !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+}
+
+input.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
     .form-section {
         margin-bottom: 2rem;
         padding-bottom: 1.5rem;

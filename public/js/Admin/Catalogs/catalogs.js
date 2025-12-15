@@ -58,18 +58,18 @@ $(document).ready(function () {
     });
     var selectizeInstance3 = $select3[0].selectize; 
 
-    var $select4 = $('#ACCREDITATION_ENTITIES_PROGRAM').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            // Desactiva la escritura del input interno
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    var selectizeInstance4 = $select4[0].selectize; 
+    // var $select4 = $('#ACCREDITATION_ENTITIES_PROGRAM').selectize({
+    //     plugins: ['remove_button'],
+    //     delimiter: ',',
+    //     persist: false,
+    //     maxItems: null,
+    //     create: false,
+    //     onInitialize: function () {
+    //         // Desactiva la escritura del input interno
+    //         this.$control_input.prop('readonly', true);
+    //     }
+    // });
+    // var selectizeInstance4 = $select4[0].selectize; 
 
     var $select5 = $('#LEVELS_PROGRAM').selectize({
         plugins: ['remove_button'],
@@ -3102,6 +3102,59 @@ function descargarPDF() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let complementoCounter = 0;
+    let enteSeleccionado = null;
+
+    // Función para actualizar textos según el ente seleccionado
+    function actualizarTextosPorEnte(enteId) {
+        enteSeleccionado = enteId;
+        const esId1 = (enteId == 1);
+        const esId2 = (enteId == 2);
+        
+        // Mostrar/ocultar sección de resit inmediato (solo para ID 2)
+        const seccionResitInmediato = document.getElementById('seccionResitInmediato');
+        if (esId2) {
+            seccionResitInmediato.style.display = 'block';
+        } else {
+            seccionResitInmediato.style.display = 'none';
+        }
+
+        // Actualizar título de la sección normal
+        const tituloResitNormal = document.getElementById('tituloResitNormal');
+        if (esId1) {
+            tituloResitNormal.textContent = 'Re-test normal';
+        } else if (esId2) {
+            tituloResitNormal.textContent = 'Re-sit normal';
+        }
+
+        // Actualizar labels de la sección normal
+        const labelMinRetest = document.querySelectorAll('.labelMinRetest');
+        const labelMaxRetest = document.querySelectorAll('.labelMaxRetest');
+        const labelOpcionesRetest = document.querySelectorAll('.labelOpcionesRetest');
+        const labelPeriodoRetest = document.querySelectorAll('.labelPeriodoRetest');
+
+        if (esId1) {
+            labelMinRetest.forEach(el => el.textContent = 'Calificación mínima para aplicar re-test (%)');
+            labelMaxRetest.forEach(el => el.textContent = 'Calificación máxima para aplicar re-test (%)');
+            labelOpcionesRetest.forEach(el => el.textContent = 'Opciones permitidas de re-test');
+            labelPeriodoRetest.forEach(el => el.textContent = 'Periodo disponible para aplicar re-test (días)');
+        } else if (esId2) {
+            labelMinRetest.forEach(el => el.textContent = 'Calificación mínima para aplicar re-sit (%)');
+            labelMaxRetest.forEach(el => el.textContent = 'Calificación máxima para aplicar re-sit (%)');
+            labelOpcionesRetest.forEach(el => el.textContent = 'Opciones permitidas de re-sit');
+            labelPeriodoRetest.forEach(el => el.textContent = 'Periodo disponible para aplicar re-sit (días)');
+        }
+    }
+
+    // Event listener para cambio de ente acreditador
+    document.getElementById('ACCREDITATION_ENTITIES_PROGRAM').addEventListener('change', function() {
+        actualizarTextosPorEnte(this.value);
+    });
+
+    // Inicializar con el valor por defecto
+    const selectEnte = document.getElementById('ACCREDITATION_ENTITIES_PROGRAM');
+    if (selectEnte.value) {
+        actualizarTextosPorEnte(selectEnte.value);
+    }
 
     // Función para validar rangos de calificaciones
     function validarRangosComplemento(complementoId) {
@@ -3160,6 +3213,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function crearComplemento() {
         complementoCounter++;
         const complementoId = complementoCounter;
+        const esId1 = (enteSeleccionado == 1);
+        const textoRetest = esId1 ? 're-test' : 're-sit';
         
         const complementoHTML = `
             <div class="card mb-3 complemento-item" id="complemento_${complementoId}" data-complemento-id="${complementoId}">
@@ -3174,13 +3229,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="col-md-8">
                             <label class="form-label">Nombre del complemento <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="complementos[${complementoId}][nombre]" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">¿Requiere entrenamiento adicional?</label>
-                            <select class="form-select" name="complementos[${complementoId}][requiere_entrenamiento]">
-                                <option value="0">No</option>
-                                <option value="1">Sí</option>
-                            </select>
                         </div>
                     </div>
                     
@@ -3204,7 +3252,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                    required>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Calificación mínima para presentar re-test (%)</label>
+                            <label class="form-label labelMinRetest">Calificación mínima para presentar ${textoRetest} (%)</label>
                             <input type="number" class="form-control complemento-min-retest" 
                                    name="complementos[${complementoId}][min_retest]" 
                                    min="0" max="100" 
@@ -3213,7 +3261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Calificación máxima para presentar re-test (%)</label>
+                            <label class="form-label labelMaxRetest">Calificación máxima para presentar ${textoRetest} (%)</label>
                             <input type="number" class="form-control complemento-max-retest" 
                                    name="complementos[${complementoId}][max_retest]" 
                                    min="0" max="100" 
@@ -3224,13 +3272,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Número de intentos permitidos</label>
-                            <input type="number" class="form-control" 
-                                   name="complementos[${complementoId}][num_intentos]" 
-                                   min="1" max="10" 
-                                   placeholder="Ej. 2"
-                                   value="1">
+                        <div class="col-md-4">
+                            <label class="form-label">¿Requiere re-fresh en caso de ${textoRetest}?</label>
+                            <select class="form-select" name="complementos[${complementoId}][requiere_entrenamiento]">
+                                <option value="0">No</option>
+                                <option value="1">Sí</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -3272,22 +3319,25 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Habilitar/deshabilitar campos de resit inmediato
-    document.getElementById('OPCION_RESIT').addEventListener('change', function() {
-        const minField = document.getElementById('MIN_PORCENTAJE_REPROB_RE');
-        const maxField = document.getElementById('MAX_PORCENTAJE_REPROB_RE');
-        
-        if (this.value === '2') {
-            minField.readOnly = false;
-            maxField.readOnly = false;
-            minField.value = '';
-            maxField.value = '';
-        } else {
-            minField.readOnly = true;
-            maxField.readOnly = true;
-            minField.value = '0';
-            maxField.value = '0';
-        }
-    });
+    const opcionResitSelect = document.getElementById('OPCION_RESIT');
+    if (opcionResitSelect) {
+        opcionResitSelect.addEventListener('change', function() {
+            const minField = document.getElementById('MIN_PORCENTAJE_REPROB_RE');
+            const maxField = document.getElementById('MAX_PORCENTAJE_REPROB_RE');
+            
+            if (this.value === '2') {
+                minField.readOnly = false;
+                maxField.readOnly = false;
+                minField.value = '';
+                maxField.value = '';
+            } else {
+                minField.readOnly = true;
+                maxField.readOnly = true;
+                minField.value = '0';
+                maxField.value = '0';
+            }
+        });
+    }
 
     // Validación antes de enviar el formulario
     document.getElementById('programasbtnModal').addEventListener('click', function(e) {

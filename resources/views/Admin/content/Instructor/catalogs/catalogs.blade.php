@@ -480,44 +480,53 @@
         </div>
     </div>
 
-    <div class="modal fade" id="programasModal" tabindex="-1" aria-labelledby="programasModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Datos del programa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+   <div class="modal fade" id="programasModal" tabindex="-1" aria-labelledby="programasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Datos del programa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-                <div class="modal-body">
-                    <form id="programasForm" method="post" enctype="multipart/form-data">
-                        {!! csrf_field() !!}
+            <div class="modal-body">
+                <form id="programasForm" method="post" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
 
-                        <!-- ===================== INFORMACIÓN GENERAL ===================== -->
-                        <h6 class="fw-bold border-bottom pb-2 mb-3">Información general</h6>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Nombre del programa</label>
-                                <input type="text" class="form-control" id="NOMBRE_PROGRAMA" name="NOMBRE_PROGRAMA" required>
-                            </div>
+                    <!-- ===================== INFORMACIÓN GENERAL ===================== -->
+                    <h6 class="fw-bold border-bottom pb-2 mb-3">Información general</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-9">
+                            <label class="form-label">Nombre del programa</label>
+                            <input type="text" class="form-control" id="NOMBRE_PROGRAMA" name="NOMBRE_PROGRAMA" required>
                         </div>
-
-                        <!-- ===================== CALIFICACIONES GENERALES ===================== -->
-                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Calificaciones de aprobación</h6>
-
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label class="form-label">Calificación mínima para aprobar (%)</label>
-                                <input type="number" class="form-control" id="MIN_PORCENTAJE_APROB" name="MIN_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 70">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Calificación máxima para aprobar (%)</label>
-                                <input type="number" class="form-control" id="MAX_PORCENTAJE_APROB" name="MAX_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 100">
-                            </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Ente acreditador</label>
+                            <select class="form-select" id="ACCREDITATION_ENTITIES_PROGRAM" name="ACCREDITATION_ENTITIES_PROGRAM">
+                                @foreach ($entes as $ente)
+                                    <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Seleccione un ente acreditador</small>
                         </div>
+                    </div>
 
-                        <!-- ===================== RESIT INMEDIATO ===================== -->
-                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit / Re-test inmediato</h6>
+                    <!-- ===================== CALIFICACIONES GENERALES ===================== -->
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Calificaciones de aprobación</h6>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación mínima para aprobar (%)</label>
+                            <input type="number" class="form-control" id="MIN_PORCENTAJE_APROB" name="MIN_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 70">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Calificación máxima para aprobar (%)</label>
+                            <input type="number" class="form-control" id="MAX_PORCENTAJE_APROB" name="MAX_PORCENTAJE_APROB" min="0" max="100" placeholder="Ej. 100">
+                        </div>
+                    </div>
+
+                    <!-- ===================== RESIT INMEDIATO (SOLO PARA ID 2) ===================== -->
+                    <div id="seccionResitInmediato" style="display: none;">
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit inmediato</h6>
 
                         <div class="row mb-3">
                             <div class="col-md-3">
@@ -530,39 +539,41 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label">Calificación mínima para aplicar resit inmediato (%)</label>
+                                <label class="form-label">Calificación mínima para aplicar re-sit inmediato (%)</label>
                                 <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB_RE" name="MIN_PORCENTAJE_REPROB_RE" min="0" max="100" value="0" readonly>
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label">Calificación máxima para aplicar resit inmediato (%)</label>
+                                <label class="form-label">Calificación máxima para aplicar re-sit inmediato (%)</label>
                                 <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB_RE" name="MAX_PORCENTAJE_REPROB_RE" min="0" max="100" value="0" readonly>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- ===================== RESIT NORMAL ===================== -->
-                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit / Re-test normal</h6>
+                    <!-- ===================== RESIT/RETEST NORMAL ===================== -->
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4"><span id="tituloResitNormal">Re-test normal</span></h6>
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label class="form-label">Calificación mínima para aplicar re-sit/re-test (%)</label>
-                                <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB" name="MIN_PORCENTAJE_REPROB" min="0" max="100">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Calificación máxima para aplicar re-sit/re-test (%)</label>
-                                <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB" name="MAX_PORCENTAJE_REPROB" min="0" max="100">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Opciones permitidas de re-sit o re-test</label>
-                                <input type="number" class="form-control" id="OPCION_RESIT_PERMITIDAS" name="OPCION_RESIT_PERMITIDAS" min="0" max="10" placeholder="Ej. 1">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Periodo disponible para aplicar re-sit / re-test (días)</label>
-                                <input type="number" class="form-control" id="PERIODO_RESIT" name="PERIODO_RESIT" min="1" max="1000" placeholder="Ej. 1">
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label"><span class="labelMinRetest">Calificación mínima para aplicar re-test (%)</span></label>
+                            <input type="number" class="form-control" id="MIN_PORCENTAJE_REPROB" name="MIN_PORCENTAJE_REPROB" min="0" max="100">
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><span class="labelMaxRetest">Calificación máxima para aplicar re-test (%)</span></label>
+                            <input type="number" class="form-control" id="MAX_PORCENTAJE_REPROB" name="MAX_PORCENTAJE_REPROB" min="0" max="100">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><span class="labelOpcionesRetest">Opciones permitidas de re-test</span></label>
+                            <input type="number" class="form-control" id="OPCION_RESIT_PERMITIDAS" name="OPCION_RESIT_PERMITIDAS" min="0" max="10" placeholder="Ej. 1">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label"><span class="labelPeriodoRetest">Periodo disponible para aplicar re-test (días)</span></label>
+                            <input type="number" class="form-control" id="PERIODO_RESIT" name="PERIODO_RESIT" min="1" max="1000" placeholder="Ej. 1">
+                        </div>
+                    </div>
 
-                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">
+                    <!-- ===================== COMPLEMENTOS DINÁMICOS ===================== -->
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">
                         Complementos del programa
                         <button type="button" class="btn btn-sm btn-success float-end" id="btnAgregarComplemento">
                             <i class="bi bi-plus-circle"></i> Agregar complemento
@@ -573,55 +584,46 @@
                         <!-- Los complementos se agregarán aquí dinámicamente -->
                     </div>
 
-                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Generalidades del programa</h6>
-                        <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
-                            <div class="col-md-2 text-start">
-                                <label> {{ __('Accrediting Entity') }}</label>
-                                <select class="form-select" id="ACCREDITATION_ENTITIES_PROGRAM" name="ACCREDITATION_ENTITIES_PROGRAM[]" multiple >
-                                <option selected disabled></option>
-                                @foreach ($entes as $ente)
-                                        <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3 text-start">
-                                <label> {{ __('Niveles de acreditación') }}</label>
-                                <select class="form-select" id="LEVELS_PROGRAM" name="LEVELS_PROGRAM[]" multiple >
-                                <option selected disabled></option>
-                                @foreach ($niveles as $nivel)
-                                        <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3 text-start">
-                                <label> {{ __('Tipo de BOP') }}</label>
-                                <select class="form-select" id="BOPS_PROGRAM" name="BOPS_PROGRAM[]" multiple >
-                                <option selected disabled></option>
-                                @foreach ($bops as $bop)
-                                <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3 text-start">
-                                <label> {{ __('Tipo de operación') }}</label>
-                                <select class="form-select" id="OPERATIONS_PROGRAM" name="OPERATIONS_PROGRAM[]" multiple >
-                                <option selected disabled></option>
-                                @foreach ($operaciones as $operacion)
-                                <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
-                                @endforeach
-                                </select>
-                            </div>
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Generalidades del programa</h6>
+                    <div class="d-flex justify-content-center gap-1 flex-wrap mb-3">
+                        <div class="col-md-4 text-start">
+                            <label> {{ __('Niveles de acreditación') }}</label>
+                            <select class="form-select" id="LEVELS_PROGRAM" name="LEVELS_PROGRAM[]" multiple >
+                            <option selected disabled></option>
+                            @foreach ($niveles as $nivel)
+                                    <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
+                            @endforeach
+                            </select>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-3 text-start">
+                            <label> {{ __('Tipo de BOP') }}</label>
+                            <select class="form-select" id="BOPS_PROGRAM" name="BOPS_PROGRAM[]" multiple >
+                            <option selected disabled></option>
+                            @foreach ($bops as $bop)
+                            <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 text-start">
+                            <label> {{ __('Tipo de operación') }}</label>
+                            <select class="form-select" id="OPERATIONS_PROGRAM" name="OPERATIONS_PROGRAM[]" multiple >
+                            <option selected disabled></option>
+                            @foreach ($operaciones as $operacion)
+                            <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="programasbtnModal" type="button" class="btn btn-primary">Guardar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="programasbtnModal" type="button" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
+</div>
 
 
 <style>

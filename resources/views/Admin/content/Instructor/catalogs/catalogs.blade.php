@@ -560,6 +560,46 @@
                                 <input type="number" class="form-control" id="PERIODO_RESIT" name="PERIODO_RESIT" min="1" max="1000" placeholder="Ej. 1">
                             </div>
                         </div>
+
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Generalidades del programa</h6>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
+                            <div class="col-md-2 text-start">
+                                <label> {{ __('Accrediting Entity') }}</label>
+                                <select class="form-select" id="ACCREDITATION_ENTITIES_PROGRAM" name="ACCREDITATION_ENTITIES_PROGRAM[]" multiple >
+                                <option selected disabled></option>
+                                @foreach ($entes as $ente)
+                                        <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label> {{ __('Niveles de acreditación') }}</label>
+                                <select class="form-select" id="LEVELS_PROGRAM" name="LEVELS_PROGRAM[]" multiple >
+                                <option selected disabled></option>
+                                @foreach ($niveles as $nivel)
+                                        <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label> {{ __('Tipo de BOP') }}</label>
+                                <select class="form-select" id="BOPS_PROGRAM" name="BOPS_PROGRAM[]" multiple >
+                                <option selected disabled></option>
+                                @foreach ($bops as $bop)
+                                <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 text-start">
+                                <label> {{ __('Tipo de operación') }}</label>
+                                <select class="form-select" id="OPERATIONS_PROGRAM" name="OPERATIONS_PROGRAM[]" multiple >
+                                <option selected disabled></option>
+                                @foreach ($operaciones as $operacion)
+                                <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
 

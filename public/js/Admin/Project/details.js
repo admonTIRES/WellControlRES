@@ -1,6 +1,7 @@
 let programRules = {};
 let projectProgramId = null;
-
+let projectAccreditingEntity = null;
+let projectExamDate = null;
 var projectStudentDatatable = $("#students-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
     lengthChange: true,
@@ -1321,17 +1322,17 @@ function addSwitchListeners() {
         }
     });
 }
-function addValidationListeners() {
-    $('.practical-status, .equipament-status, .pyp-status').on('change', function () {
-        const row = $(this).closest('tr');
-        validateRowStatus(row);
-    });
+// function addValidationListeners() {
+//     $('.practical-status, .equipament-status, .pyp-status').on('change', function () {
+//         const row = $(this).closest('tr');
+//         validateRowStatus(row);
+//     });
 
-    $('.resit-status, .resit-inmediato-status, .resit-programado-status').on('change', function () {
-        const row = $(this).closest('tr');
-        validateRowStatus(row);
-    });
-}
+//     $('.resit-status, .resit-inmediato-status, .resit-programado-status').on('change', function () {
+//         const row = $(this).closest('tr');
+//         validateRowStatus(row);
+//     });
+// }
 function validateRowStatus(row) {
     const practicalStatus = row.find('.practical-status').val();
     const equipamentStatus = row.find('.equipament-status').val();
@@ -2198,24 +2199,24 @@ function editarCandidatos() {
 // ============================================
 // CARGAR REGLAS DEL PROGRAMA
 // ============================================
-async function loadProgramRules(programId) {
-    try {
-        const response = await $.ajax({
-            url: '/getProgramRules/' + programId,
-            method: 'GET',
-            dataType: 'json'
-        });
+// async function loadProgramRules(programId) {
+//     try {
+//         const response = await $.ajax({
+//             url: '/getProgramRules/' + programId,
+//             method: 'GET',
+//             dataType: 'json'
+//         });
         
-        if (response.success) {
-            programRules = response.programa;
-            projectProgramId = programId;
-            return programRules;
-        }
-    } catch (error) {
-        console.error('Error al cargar reglas del programa:', error);
-        return null;
-    }
-}
+//         if (response.success) {
+//             programRules = response.programa;
+//             projectProgramId = programId;
+//             return programRules;
+//         }
+//     } catch (error) {
+//         console.error('Error al cargar reglas del programa:', error);
+//         return null;
+//     }
+// }
 
 // ============================================
 // FUNCIÓN MEJORADA PARA CARGAR TABLA DE CURSO
@@ -2276,202 +2277,202 @@ function loadTableCursoModal() {
 // ============================================
 // RENDERIZAR TABLA DINÁMICA
 // ============================================
-function renderDynamicTable(response, rules) {
-    const thead = $('#edit-course-table thead');
-    const tbody = $('#edit-course-table tbody');
-    const proyecto = response.proyecto;
-    console.log(proyecto);
-    thead.empty();
-    tbody.empty();
+// function renderDynamicTable(response, rules) {
+//     const thead = $('#edit-course-table thead');
+//     const tbody = $('#edit-course-table tbody');
+//     const proyecto = response.proyecto;
+//     console.log(proyecto);
+//     thead.empty();
+//     tbody.empty();
 
-    // Construir encabezados dinámicamente
-    let headerRow1 = `<tr>`;
-    let headerRow2 = `<tr>`;
+//     // Construir encabezados dinámicamente
+//     let headerRow1 = `<tr>`;
+//     let headerRow2 = `<tr>`;
     
-    // Columnas básicas
-    headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
-    headerRow2 += `
-        <th width="50px" class="text-center">#</th>
-        <th class="col-180" width="180px">Estudiante</th>
-        <th class="col-180" width="180px">Nivel</th>
-        <th width="180px">BOP</th>
-        <th width="180px">Idioma</th>
-    `;
+//     // Columnas básicas
+//     headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
+//     headerRow2 += `
+//         <th width="50px" class="text-center">#</th>
+//         <th class="col-180" width="180px">Estudiante</th>
+//         <th class="col-180" width="180px">Nivel</th>
+//         <th width="180px">BOP</th>
+//         <th width="180px">Idioma</th>
+//     `;
 
-    // Examen Práctico
-    headerRow1 += `<th colspan="1" class="text-center">Examen Práctico</th>`;
-    headerRow2 += `<th class="col-180" width="180px">Práctico</th>`;
+//     // Examen Práctico
+//     headerRow1 += `<th colspan="1" class="text-center">Examen Práctico</th>`;
+//     headerRow2 += `<th class="col-180" width="180px">Práctico</th>`;
 
-    // Exámenes Teóricos (dinámico según acreditación)
-    const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2; // IADC: 1, IWCF: 2
-    headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
+//     // Exámenes Teóricos (dinámico según acreditación)
+//     const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2; // IADC: 1, IWCF: 2
+//     headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
     
-    if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-        headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
-    } else {
-        headerRow2 += `
-            <th class="col-180" width="180px">Equipos</th>
-            <th class="col-180" width="180px">P&P</th>
-        `;
-    }
+//     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
+//         headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
+//     } else {
+//         headerRow2 += `
+//             <th class="col-180" width="180px">Equipos</th>
+//             <th class="col-180" width="180px">P&P</th>
+//         `;
+//     }
 
-    // Complementos
-    const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
-    headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
+//     // Complementos
+//     const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
+//     headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
     
-    if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-        headerRow2 += `
-            <th class="col-180" width="180px">Complemento</th>
-            <th class="col-180" width="180px">WorkOver (WO)</th>
-            <th class="col-180" width="180px">SubSea (SS)</th>
-        `;
-    } else {
-        headerRow2 += `
-            <th class="col-180" width="180px">Complemento</th>
-            <th class="col-180" width="180px">D1</th>
-            <th class="col-180" width="180px">D2</th>
-            <th class="col-180" width="180px">D3</th>
-        `;
-    }
+//     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
+//         headerRow2 += `
+//             <th class="col-180" width="180px">Complemento</th>
+//             <th class="col-180" width="180px">WorkOver (WO)</th>
+//             <th class="col-180" width="180px">SubSea (SS)</th>
+//         `;
+//     } else {
+//         headerRow2 += `
+//             <th class="col-180" width="180px">Complemento</th>
+//             <th class="col-180" width="180px">D1</th>
+//             <th class="col-180" width="180px">D2</th>
+//             <th class="col-180" width="180px">D3</th>
+//         `;
+//     }
 
-    // Resumen
-    headerRow1 += `<th colspan="1" class="text-center">Resumen</th>`;
-    headerRow2 += `<th class="col-180" width="180px">Estatus</th>`;
+//     // Resumen
+//     headerRow1 += `<th colspan="1" class="text-center">Resumen</th>`;
+//     headerRow2 += `<th class="col-180" width="180px">Estatus</th>`;
 
-    // Información de Resit
-    headerRow1 += `<th colspan="6" class="text-center">Información RE-SIT</th>`;
-    headerRow2 += `
-        <th width="180px">Resit</th>
-        <th width="180px">Módulo Resit</th>
-        <th width="180px">Intentos Permitidos</th>
-        <th width="180px">Periodo (días)</th>
-        <th width="180px">Días Restantes</th>
-        <th width="180px">Fecha Límite</th>
-    `;
+//     // Información de Resit
+//     headerRow1 += `<th colspan="6" class="text-center">Información RE-SIT</th>`;
+//     headerRow2 += `
+//         <th width="180px">Resit</th>
+//         <th width="180px">Módulo Resit</th>
+//         <th width="180px">Intentos Permitidos</th>
+//         <th width="180px">Periodo (días)</th>
+//         <th width="180px">Días Restantes</th>
+//         <th width="180px">Fecha Límite</th>
+//     `;
 
-    // Resit Inmediato (solo si el programa lo permite)
-    if (rules && rules.OPCION_RESIT === 1) {
-        headerRow1 += `<th colspan="4" class="text-center">RE-SIT INMEDIATO</th>`;
-        headerRow2 += `
-            <th width="180px">Sí</th>
-            <th class="col-180" width="180px">Fecha</th>
-            <th class="col-180" width="180px">Puntaje</th>
-            <th class="col-180" width="180px">Estatus</th>
-        `;
-    }
+//     // Resit Inmediato (solo si el programa lo permite)
+//     if (rules && rules.OPCION_RESIT === 1) {
+//         headerRow1 += `<th colspan="4" class="text-center">RE-SIT INMEDIATO</th>`;
+//         headerRow2 += `
+//             <th width="180px">Sí</th>
+//             <th class="col-180" width="180px">Fecha</th>
+//             <th class="col-180" width="180px">Puntaje</th>
+//             <th class="col-180" width="180px">Estatus</th>
+//         `;
+//     }
 
-    // Resits Programados (dinámico según intentos permitidos)
-    const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
+//     // Resits Programados (dinámico según intentos permitidos)
+//     const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
     
-    for (let i = 1; i <= numIntentosPermitidos; i++) {
-        headerRow1 += `<th colspan="6" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
-        headerRow2 += `
-            <th width="180px">Activar</th>
-            <th width="180px">Entrenamiento</th>
-            <th width="180px">Folio Proyecto</th>
-            <th class="col-180" width="180px">Fecha</th>
-            <th class="col-180" width="180px">Puntaje</th>
-            <th class="col-180" width="180px">Estatus</th>
-        `;
-    }
+//     for (let i = 1; i <= numIntentosPermitidos; i++) {
+//         headerRow1 += `<th colspan="6" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
+//         headerRow2 += `
+//             <th width="180px">Activar</th>
+//             <th width="180px">Entrenamiento</th>
+//             <th width="180px">Folio Proyecto</th>
+//             <th class="col-180" width="180px">Fecha</th>
+//             <th class="col-180" width="180px">Puntaje</th>
+//             <th class="col-180" width="180px">Estatus</th>
+//         `;
+//     }
 
-    // Final y Certificación
-    headerRow1 += `<th colspan="6" class="text-center">Final y Certificación</th>`;
-    headerRow2 += `
-        <th class="col-180" width="180px">Estatus Final</th>
-        <th width="180px">Certificado</th>
-        <th class="col-180" width="180px">Expiración</th>
-        <th class="col-180" width="180px">Vigencia</th>
-        <th class="col-250" width="180px">Correo</th>
-        <th width="150px" class="table-row-actions text-center">Cargar PDF</th>
-    `;
+//     // Final y Certificación
+//     headerRow1 += `<th colspan="6" class="text-center">Final y Certificación</th>`;
+//     headerRow2 += `
+//         <th class="col-180" width="180px">Estatus Final</th>
+//         <th width="180px">Certificado</th>
+//         <th class="col-180" width="180px">Expiración</th>
+//         <th class="col-180" width="180px">Vigencia</th>
+//         <th class="col-250" width="180px">Correo</th>
+//         <th width="150px" class="table-row-actions text-center">Cargar PDF</th>
+//     `;
 
-    headerRow1 += `</tr>`;
-    headerRow2 += `</tr>`;
+//     headerRow1 += `</tr>`;
+//     headerRow2 += `</tr>`;
     
-    thead.append(headerRow1 + headerRow2);
+//     thead.append(headerRow1 + headerRow2);
 
-    // Renderizar filas de estudiantes
-    renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
+//     // Renderizar filas de estudiantes
+//     renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
     
-    initializeDataTable();
-    addSwitchListeners();
-    addValidationListeners();
-    attachCertificateUploadListeners();
-}
+//     initializeDataTable();
+//     addSwitchListeners();
+//     addValidationListeners();
+//     attachCertificateUploadListeners();
+// }
 
 // ============================================
 // RENDERIZAR FILAS DE ESTUDIANTES
 // ============================================
-function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) {
-    const tbody = $('#edit-course-table tbody');
+// function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) {
+//     const tbody = $('#edit-course-table tbody');
     
-    estudiantes.forEach((estudiante, index) => {
-        const candidato = estudiante.candidato;
-        const curso = estudiante.datos_curso;
-        const key = candidato.ID_CANDIDATE;
+//     estudiantes.forEach((estudiante, index) => {
+//         const candidato = estudiante.candidato;
+//         const curso = estudiante.datos_curso;
+//         const key = candidato.ID_CANDIDATE;
         
-        // Calcular fechas límite de resit
-        const examDate = new Date(proyecto.EXAM_DATE_PROJECT || Date.now());
-        const periodoResit = rules ? rules.PERIODO_RESIT : 90;
-        const fechaLimite = new Date(examDate);
-        fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
+//         // Calcular fechas límite de resit
+//         const examDate = new Date(proyecto.EXAM_DATE_PROJECT || Date.now());
+//         const periodoResit = rules ? rules.PERIODO_RESIT : 90;
+//         const fechaLimite = new Date(examDate);
+//         fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
         
-        const diasRestantes = Math.max(0, Math.ceil((fechaLimite - new Date()) / (1000 * 60 * 60 * 24)));
+//         const diasRestantes = Math.max(0, Math.ceil((fechaLimite - new Date()) / (1000 * 60 * 60 * 24)));
         
-        // Determinar si puede tener resit
-        const tieneAlMenosUnAprobado = 
-            curso.PRACTICAL_PASS === 'Pass' || 
-            curso.EQUIPAMENT_PASS === 'Pass' || 
-            curso.PYP_PASS === 'Pass';
+//         // Determinar si puede tener resit
+//         const tieneAlMenosUnAprobado = 
+//             curso.PRACTICAL_PASS === 'Pass' || 
+//             curso.EQUIPAMENT_PASS === 'Pass' || 
+//             curso.PYP_PASS === 'Pass';
         
-        const puedeResit = tieneAlMenosUnAprobado && diasRestantes > 0;
+//         const puedeResit = tieneAlMenosUnAprobado && diasRestantes > 0;
         
-        let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" data-curso-id="${estudiante.curso_id}" class="course-row">`;
+//         let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" data-curso-id="${estudiante.curso_id}" class="course-row">`;
         
-        // Columnas básicas
-        tr += `<td class="text-center">${index + 1}</td>`;
-        tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
+//         // Columnas básicas
+//         tr += `<td class="text-center">${index + 1}</td>`;
+//         tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
         
-        // Nivel
-        tr += renderNivelColumn(candidato, proyecto);
+//         // Nivel
+//         tr += renderNivelColumn(candidato, proyecto);
         
-        // BOP e Idioma
-        tr += renderBOPColumn(proyecto);
-        tr += renderIdiomaColumn(proyecto);
+//         // BOP e Idioma
+//         tr += renderBOPColumn(proyecto);
+//         tr += renderIdiomaColumn(proyecto);
         
-        // Exámenes (Práctico, Teórico)
-        tr += renderExamColumns(curso, key, proyecto, rules);
+//         // Exámenes (Práctico, Teórico)
+//         tr += renderExamColumns(curso, key, proyecto, rules);
         
-        // Complementos
-        tr += renderComplementsColumns(curso, key, proyecto);
+//         // Complementos
+//         tr += renderComplementsColumns(curso, key, proyecto);
         
-        // Estatus General
-        tr += renderStatusColumn(curso, key);
+//         // Estatus General
+//         tr += renderStatusColumn(curso, key);
         
-        // Información Resit
-        tr += renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestantes, fechaLimite);
+//         // Información Resit
+//         tr += renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestantes, fechaLimite);
         
-        // Resit Inmediato (si aplica)
-        if (rules && rules.OPCION_RESIT === 1) {
-            tr += renderResitInmediato(curso, key, puedeResit);
-        }
+//         // Resit Inmediato (si aplica)
+//         if (rules && rules.OPCION_RESIT === 1) {
+//             tr += renderResitInmediato(curso, key, puedeResit);
+//         }
         
-        // Resits Programados
-        for (let i = 1; i <= numIntentosPermitidos; i++) {
-            tr += renderResitProgramado(curso, key, i, puedeResit);
-        }
+//         // Resits Programados
+//         for (let i = 1; i <= numIntentosPermitidos; i++) {
+//             tr += renderResitProgramado(curso, key, i, puedeResit);
+//         }
         
-        // Final y Certificación
-        tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
+//         // Final y Certificación
+//         tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
         
-        tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
-        tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
-        tr += `</tr>`;
+//         tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
+//         tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
+//         tr += `</tr>`;
         
-        tbody.append(tr);
-    });
-}
+//         tbody.append(tr);
+//     });
+// }
 
 // ============================================
 // FUNCIONES DE RENDERIZADO POR SECCIÓN
@@ -2939,24 +2940,24 @@ function validateScoreAgainstRules(score, fieldName, key) {
 // ============================================
 // LISTENERS MEJORADOS
 // ============================================
-function addValidationListeners() {
-    // Validar en tiempo real al cambiar calificaciones
-    $('.practical-score, .equipament-score, .pyp-score').on('input', function() {
-        const score = parseFloat($(this).val());
-        const fieldName = $(this).data('field');
-        const key = $(this).data('key');
+// function addValidationListeners() {
+//     // Validar en tiempo real al cambiar calificaciones
+//     $('.practical-score, .equipament-score, .pyp-score').on('input', function() {
+//         const score = parseFloat($(this).val());
+//         const fieldName = $(this).data('field');
+//         const key = $(this).data('key');
         
-        if (score && !isNaN(score)) {
-            validateScoreAgainstRules(score, fieldName, key);
-        }
-    });
+//         if (score && !isNaN(score)) {
+//             validateScoreAgainstRules(score, fieldName, key);
+//         }
+//     });
     
-    // Validar al cambiar status manualmente
-    $('.practical-status, .equipament-status, .pyp-status').on('change', function() {
-        const row = $(this).closest('tr');
-        validateRowStatus(row);
-    });
-}
+//     // Validar al cambiar status manualmente
+//     $('.practical-status, .equipament-status, .pyp-status').on('change', function() {
+//         const row = $(this).closest('tr');
+//         validateRowStatus(row);
+//     });
+// }
 
 // ============================================
 // FUNCIONES AUXILIARES
@@ -2986,4 +2987,980 @@ function renderErrorTable(error) {
             </td>
         </tr>
     `);
+}
+
+
+// ============================================
+// FUNCIÓN PARA OBTENER TÉRMINO CORRECTO (RE-SIT vs RE-TEST)
+// ============================================
+function getResitTerm(capitalizeAll = false) {
+    const term = projectAccreditingEntity === '1' ? 'Re-test' : 'Re-sit';
+    return capitalizeAll ? term.toUpperCase() : term;
+}
+
+// ============================================
+// CARGAR REGLAS DEL PROGRAMA
+// ============================================
+async function loadProgramRules(programId) {
+    try {
+        const response = await $.ajax({
+            url: '/getProgramRules/' + programId,
+            method: 'GET',
+            dataType: 'json'
+        });
+        
+        if (response.success) {
+            programRules = response.programa;
+            projectProgramId = programId;
+            return programRules;
+        }
+    } catch (error) {
+        console.error('Error al cargar reglas del programa:', error);
+        return null;
+    }
+}
+
+// ============================================
+// DETERMINAR OPCIONES DISPONIBLES PARA ESTUDIANTE
+// ============================================
+// function determineStudentOptions(practical, equipament, pyp = null) {
+//     const options = {
+//         canPass: false,
+//         needsResit: false,
+//         needsImmediateResit: false,
+//         needsScheduledResit: false,
+//         needsTraining: false,
+//         failedCompletely: false,
+//         passedModules: [],
+//         failedModules: [],
+//         resitModules: [],
+//         message: ''
+//     };
+
+//     if (!programRules) return options;
+
+//     // Analizar cada módulo
+//     const modules = [
+//         { name: 'Practical', score: practical },
+//         { name: 'Equipament', score: equipament }
+//     ];
+    
+//     if (pyp !== null && projectAccreditingEntity === '2') {
+//         modules.push({ name: 'P&P', score: pyp });
+//     }
+
+//     modules.forEach(module => {
+//         if (!module.score) return;
+        
+//         const score = parseFloat(module.score);
+        
+//         if (score >= programRules.MIN_PORCENTAJE_APROB) {
+//             options.passedModules.push(module.name);
+//         } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
+//             options.failedModules.push(module.name);
+//             options.resitModules.push(module.name);
+//             options.needsResit = true;
+            
+//             // Determinar tipo de resit
+//             if (programRules.OPCION_RESIT === 1) {
+//                 options.needsImmediateResit = true;
+//             } else {
+//                 options.needsScheduledResit = true;
+//                 options.needsTraining = true;
+//             }
+//         } else if (score < programRules.MIN_PORCENTAJE_REPROB_RE) {
+//             options.failedModules.push(module.name);
+//             options.needsScheduledResit = true;
+//             options.needsTraining = true;
+//         }
+//     });
+
+//     // Determinar resultado final
+//     if (options.passedModules.length === modules.length) {
+//         options.canPass = true;
+//         options.message = 'Aprobó todos los módulos';
+//     } else if (options.failedModules.length === modules.length) {
+//         options.failedCompletely = true;
+//         options.message = 'Reprobó todos los módulos - No aplica para ' + getResitTerm();
+//     } else if (options.needsResit) {
+//         const resitTerm = getResitTerm();
+//         if (options.needsImmediateResit) {
+//             options.message = `Aplica para ${resitTerm} inmediato en: ${options.resitModules.join(', ')}`;
+//         } else if (options.needsScheduledResit && options.needsTraining) {
+//             options.message = `Requiere entrenamiento adicional y ${resitTerm} programado en: ${options.resitModules.join(', ')}`;
+//         }
+//     }
+
+//     return options;
+// }
+
+// ============================================
+// CALCULAR FECHAS DE RESIT
+// ============================================
+function calculateResitDates() {
+    if (!projectExamDate || !programRules) return null;
+    
+    const examDate = new Date(projectExamDate);
+    const periodoResit = programRules.PERIODO_RESIT || 90;
+    
+    // Fecha límite
+    const fechaLimite = new Date(examDate);
+    fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
+    
+    // Días restantes
+    const today = new Date();
+    const diasRestantes = Math.max(0, Math.ceil((fechaLimite - today) / (1000 * 60 * 60 * 24)));
+    
+    // Fecha de resit inmediato (mismo día del examen)
+    const fechaResitInmediato = new Date(examDate);
+    
+    return {
+        fechaLimite,
+        diasRestantes,
+        periodoResit,
+        fechaResitInmediato,
+        formattedFechaLimite: formatDateForDisplay(fechaLimite),
+        formattedFechaResitInmediato: formatDateForDisplay(fechaResitInmediato)
+    };
+}
+
+// ============================================
+// RENDERIZAR INFORMACIÓN DE RESIT
+// ============================================
+function renderResitInfoEnhanced(curso, key, options, resitDates) {
+    const resitTerm = getResitTerm();
+    const intentosPermitidos = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
+    
+    // Determinar estado del switch principal
+    let resitChecked = false;
+    let resitDisabled = true;
+    let warningMessage = '';
+    
+    if (options.needsResit) {
+        resitChecked = true;
+        resitDisabled = false;
+    } else if (options.failedCompletely) {
+        warningMessage = `<small class="text-danger d-block">No aplica - Puntajes muy bajos</small>`;
+        resitDisabled = true;
+    } else if (options.canPass) {
+        warningMessage = `<small class="text-success d-block">Aprobado - No requiere ${resitTerm}</small>`;
+        resitDisabled = true;
+    } else {
+        warningMessage = `<small class="text-muted d-block">Complete calificaciones</small>`;
+        resitDisabled = true;
+    }
+
+    return `
+        <td>
+            <input type="hidden" name="courses[${key}][RESIT]" value="${resitChecked ? 1 : 0}">
+            <label class="switch">
+                <input type="checkbox" class="resit-switch" name="courses[${key}][RESIT]" 
+                    ${resitChecked ? 'checked' : ''} ${resitDisabled ? 'disabled' : ''}>
+                <span class="slider"></span>
+            </label>
+            ${warningMessage}
+        </td>
+        <td>
+            <select class="table-input module-select ${resitDisabled ? 'disabled-field' : ''}" 
+                name="courses[${key}][RESIT_MODULE]" ${resitDisabled ? 'disabled' : ''}>
+                <option value="">Seleccionar...</option>
+                ${options.resitModules.map(module => 
+                    `<option value="${module}" ${curso.RESIT_MODULE === module ? 'selected' : ''}>${module}</option>`
+                ).join('')}
+            </select>
+            ${options.resitModules.length === 0 ? '<small class="text-muted d-block">N/A</small>' : ''}
+        </td>
+        <td>
+            <div class="bops-container" style="justify-content: center;">
+                <span class="bop-badge">${intentosPermitidos}</span>
+            </div>
+        </td>
+        <td>
+            <div class="bops-container" style="justify-content: center;">
+                <span class="bop-badge">${resitDates.periodoResit} días</span>
+            </div>
+        </td>
+        <td>
+            <div class="bops-container ${resitDates.diasRestantes < 7 ? 'text-danger' : ''}" style="justify-content: center;">
+                <span class="bop-badge">${resitDates.diasRestantes} días</span>
+            </div>
+        </td>
+        <td>
+            <div class="bops-container" style="justify-content: center;">
+                <span class="bop-badge">${resitDates.formattedFechaLimite}</span>
+            </div>
+        </td>
+    `;
+}
+
+// ============================================
+// RENDERIZAR RESIT INMEDIATO MEJORADO
+// ============================================
+// function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
+//     const resitTerm = getResitTerm();
+//     let disabled = true;
+//     let checked = false;
+//     let message = '';
+//     let defaultDate = '';
+    
+//     if (options.needsImmediateResit && programRules && programRules.OPCION_RESIT === 1) {
+//         disabled = false;
+//         checked = curso.RESIT_INMEDIATO == 1;
+//         defaultDate = formatDateForInput(resitDates.fechaResitInmediato);
+//         message = `<small class="text-info d-block">Disponible - Mismo día del examen</small>`;
+//     } else if (!options.needsResit) {
+//         message = `<small class="text-muted d-block">N/A - No aplica</small>`;
+//     } else if (options.needsScheduledResit) {
+//         message = `<small class="text-warning d-block">No disponible - Requiere programado</small>`;
+//     }
+
+//     return `
+//         <td>
+//             <input type="hidden" name="courses[${key}][RESIT_INMEDIATO]" value="0">
+//             <label class="switch">
+//                 <input type="checkbox" class="resit-switch-inmediato" 
+//                     name="courses[${key}][RESIT_INMEDIATO]" 
+//                     ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+//                 <span class="slider"></span>
+//             </label>
+//             ${message}
+//         </td>
+//         <td>
+//             <input class="table-input resit-inmediato-date ${disabled ? 'disabled-field' : ''}" 
+//                 type="date" 
+//                 value="${curso.RESIT_INMEDIATO_DATE || defaultDate}" 
+//                 name="courses[${key}][RESIT_INMEDIATO_DATE]" 
+//                 ${disabled ? 'disabled' : ''} />
+//         </td>
+//         <td>
+//             <div class="score-status-container" style="position: relative;">
+//                 <input class="table-input resit-inmediato-score ${disabled ? 'disabled-field' : ''}" 
+//                     type="number" step="1" min="0" max="100"
+//                     value="${curso.RESIT_INMEDIATO_SCORE || ''}" 
+//                     name="courses[${key}][RESIT_INMEDIATO_SCORE]" 
+//                     placeholder="0" style="padding-right: 25px;" ${disabled ? 'disabled' : ''} />
+//                 <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+//             </div>
+//         </td>
+//         <td>
+//             <select class="table-input resit-inmediato-status ${disabled ? 'disabled-field' : ''}" 
+//                 name="courses[${key}][RESIT_INMEDIATO_STATUS]" ${disabled ? 'disabled' : ''}>
+//                 <option value="">Seleccionar...</option>
+//                 <option value="Pass" ${curso.RESIT_INMEDIATO_STATUS === 'Pass' ? 'selected' : ''}>Pass</option>
+//                 <option value="Unpass" ${curso.RESIT_INMEDIATO_STATUS === 'Unpass' ? 'selected' : ''}>Failed</option>
+//             </select>
+//         </td>
+//     `;
+// }
+
+// ============================================
+// RENDERIZAR RESIT PROGRAMADO MEJORADO
+// ============================================
+// function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) {
+//     const resitTerm = getResitTerm();
+//     let disabled = true;
+//     let checked = false;
+//     let requiresTraining = false;
+//     let message = '';
+    
+//     // Determinar si está disponible este slot de resit
+//     const availableSlots = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
+    
+//     if (numero > availableSlots) {
+//         message = `<small class="text-muted d-block">No disponible - Máx ${availableSlots} intentos</small>`;
+//         disabled = true;
+//     } else if (options.needsScheduledResit) {
+//         disabled = false;
+//         requiresTraining = options.needsTraining;
+//         checked = curso[`RESIT_${numero}`] == 1;
+        
+//         if (requiresTraining) {
+//             message = `<small class="text-warning d-block">Requiere entrenamiento</small>`;
+//         } else {
+//             message = `<small class="text-info d-block">Disponible</small>`;
+//         }
+//     } else if (!options.needsResit) {
+//         message = `<small class="text-muted d-block">N/A - No aplica</small>`;
+//     }
+
+//     // Campo de evidencia de entrenamiento
+//     const trainingEvidenceField = requiresTraining ? `
+//         <div class="mt-2">
+//             <input type="file" class="form-control form-control-sm training-evidence" 
+//                 data-curso-id="${curso.ID_COURSE}" 
+//                 data-resit-num="${numero}"
+//                 accept=".pdf" ${disabled ? 'disabled' : ''} />
+//             <small class="text-muted">Subir PDF de evidencia</small>
+//         </div>
+//     ` : '';
+
+//     return `
+//         <td>
+//             <input type="hidden" name="courses[${key}][RESIT_${numero}]" value="0">
+//             <label class="switch">
+//                 <input type="checkbox" class="resit-switch-programado-${numero}" 
+//                     name="courses[${key}][RESIT_${numero}]" 
+//                     ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+//                 <span class="slider"></span>
+//             </label>
+//             ${message}
+//         </td>
+//         <td>
+//             <select class="table-input entrenamiento-adi-${numero} ${disabled ? 'disabled-field' : ''}" 
+//                 name="courses[${key}][RESIT_${numero}_ENTRENAMIENTO]" 
+//                 ${disabled ? 'disabled' : ''}>
+//                 <option value="">Seleccionar...</option>
+//                 <option value="1" ${curso[`RESIT_${numero}_ENTRENAMIENTO`] === 1 ? 'selected' : ''}>Sí</option>
+//                 <option value="0" ${curso[`RESIT_${numero}_ENTRENAMIENTO`] === 0 ? 'selected' : ''}>No</option>
+//             </select>
+//             ${requiresTraining ? '<small class="text-danger d-block">Obligatorio</small>' : ''}
+//         </td>
+//         <td>
+//             <input class="table-input folio-proyecto-${numero} ${disabled ? 'disabled-field' : ''}" 
+//                 type="text"
+//                 value="${curso[`RESIT_${numero}_FOLIO_PROYECTO`] || ''}"
+//                 name="courses[${key}][RESIT_${numero}_FOLIO_PROYECTO]" 
+//                 placeholder="Folio proyecto" ${disabled ? 'disabled' : ''} />
+//             ${trainingEvidenceField}
+//         </td>
+//         <td>
+//             <input class="table-input resit-programado-fecha-${numero} ${disabled ? 'disabled-field' : ''}" 
+//                 type="date" 
+//                 value="${formatDateForInput(curso[`RESIT_${numero}_DATE`]) || ''}" 
+//                 name="courses[${key}][RESIT_${numero}_DATE]" 
+//                 ${disabled ? 'disabled' : ''} />
+//         </td>
+//         <td>
+//             <div class="score-status-container" style="position: relative;">
+//                 <input class="table-input resit-programado-score-${numero} ${disabled ? 'disabled-field' : ''}" 
+//                     type="number" step="1" min="0" max="100"
+//                     value="${curso[`RESIT_${numero}_SCORE`] || ''}" 
+//                     name="courses[${key}][RESIT_${numero}_SCORE]" 
+//                     placeholder="0" style="padding-right: 25px;" ${disabled ? 'disabled' : ''} />
+//                 <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+//             </div>
+//         </td>
+//         <td>
+//             <select class="table-input resit-programado-status-${numero} ${disabled ? 'disabled-field' : ''}" 
+//                 name="courses[${key}][RESIT_${numero}_STATUS]" ${disabled ? 'disabled' : ''}>
+//                 <option value="">Seleccionar...</option>
+//                 <option value="Pass" ${curso[`RESIT_${numero}_STATUS`] === 'Pass' ? 'selected' : ''}>Pass</option>
+//                 <option value="Unpass" ${curso[`RESIT_${numero}_STATUS`] === 'Unpass' ? 'selected' : ''}>Failed</option>
+//             </select>
+//         </td>
+//     `;
+// }
+
+// ============================================
+// RENDERIZAR COLUMNA DE CORREOS
+// ============================================
+function renderEmailColumn(candidato, curso, key) {
+    const emailsSent = curso.EMAILS_SENT || 0;
+    const maxEmails = 3;
+    
+    return `
+        <td>
+            <div class="email-info-container">
+                <span class="email-text">${candidato.EMAIL_PROJECT || 'N/A'}</span>
+                <div class="email-status mt-2">
+                    <small class="text-muted">Envíos: <strong>${emailsSent}/${maxEmails}</strong></small>
+                    <div class="email-checks d-flex gap-1 mt-1">
+                        ${[1, 2, 3].map(num => `
+                            <i class="fas fa-${emailsSent >= num ? 'check-circle text-success' : 'circle text-muted'}"></i>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-primary mt-2 send-email-btn" 
+                        data-candidate-id="${candidato.ID_CANDIDATE}"
+                        ${emailsSent >= maxEmails ? 'disabled' : ''}>
+                        <i class="fas fa-envelope"></i> 
+                        ${emailsSent >= maxEmails ? 'Límite alcanzado' : 'Enviar correo'}
+                    </button>
+                </div>
+            </div>
+            <input type="hidden" name="courses[${key}][EMAILS_SENT]" value="${emailsSent}">
+        </td>
+    `;
+}
+
+// ============================================
+// RENDERIZAR FILAS DE ESTUDIANTES (ACTUALIZADO)
+// ============================================
+
+
+// ============================================
+// LISTENERS PARA VALIDACIÓN EN TIEMPO REAL
+// ============================================
+function addValidationListeners() {
+    // Validar cuando cambien las calificaciones
+    $('.practical-score, .equipament-score, .pyp-score').on('input change', function() {
+        const row = $(this).closest('tr');
+        revalidateRow(row);
+    });
+    
+    // Validar status manual
+    $('.practical-status, .equipament-status, .pyp-status').on('change', function() {
+        const row = $(this).closest('tr');
+        revalidateRow(row);
+    });
+}
+
+// ============================================
+// REVALIDAR FILA COMPLETA
+// ============================================
+function revalidateRow(row) {
+    const practical = parseFloat(row.find('.practical-score').val()) || 0;
+    const equipament = parseFloat(row.find('.equipament-score').val()) || 0;
+    const pyp = projectAccreditingEntity === '2' ? (parseFloat(row.find('.pyp-score').val()) || 0) : null;
+    
+    const options = determineStudentOptions(practical, equipament, pyp);
+    const resitDates = calculateResitDates();
+    
+    // Actualizar switches y campos según nuevas opciones
+    updateRowResitOptions(row, options, resitDates);
+    
+    // Actualizar clases visuales
+    row.removeClass('row-pass row-unpass row-pending');
+    if (options.canPass) {
+        row.addClass('row-pass');
+    } else if (options.failedCompletely) {
+        row.addClass('row-unpass');
+    } else {
+        row.addClass('row-pending');
+    }
+}
+
+// ============================================
+// ACTUALIZAR OPCIONES DE RESIT DE LA FILA
+// ============================================
+function updateRowResitOptions(row, options, resitDates) {
+    // Switch principal de resit
+    const resitSwitch = row.find('.resit-switch');
+    resitSwitch.prop('checked', options.needsResit);
+    resitSwitch.prop('disabled', !options.needsResit);
+    
+    // Resit inmediato
+    const resitInmediatoSwitch = row.find('.resit-switch-inmediato');
+    if (resitInmediatoSwitch.length) {
+        resitInmediatoSwitch.prop('disabled', !options.needsImmediateResit);
+        if (options.needsImmediateResit) {
+            row.find('.resit-inmediato-date').val(formatDateForInput(resitDates.fechaResitInmediato));
+        }
+    }
+    
+    // Resits programados
+    $('.resit-switch-programado-1, .resit-switch-programado-2, .resit-switch-programado-3').each(function() {
+        const switchEl = row.find(this);
+        if (switchEl.length) {
+            switchEl.prop('disabled', !options.needsScheduledResit);
+        }
+    });
+    
+    // Módulo de resit
+    const moduleSelect = row.find('.module-select');
+    moduleSelect.empty().append('<option value="">Seleccionar...</option>');
+    options.resitModules.forEach(module => {
+        moduleSelect.append(`<option value="${module}">${module}</option>`);
+    });
+    moduleSelect.prop('disabled', options.resitModules.length === 0);
+}
+
+
+
+// ============================================
+// RENDERIZAR RESIT PROGRAMADO CORREGIDO (SIN FOLIO)
+// ============================================
+function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) {
+    const resitTerm = getResitTerm();
+    let disabled = true;
+    let checked = false;
+    let requiresTraining = false;
+    let message = '';
+    
+    const availableSlots = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
+    
+    if (numero > availableSlots) {
+        message = `<small class="text-muted d-block">No disponible - Máx ${availableSlots} intentos</small>`;
+        disabled = true;
+    } else if (options.needsScheduledResit) {
+        disabled = false;
+        requiresTraining = options.needsTraining;
+        checked = curso[`RESIT_${numero}`] == 1;
+        
+        if (requiresTraining) {
+            message = `<small class="text-warning d-block">Requiere entrenamiento</small>`;
+        } else {
+            message = `<small class="text-info d-block">Disponible</small>`;
+        }
+    } else if (!options.needsResit) {
+        message = `<small class="text-muted d-block">N/A - No aplica</small>`;
+    }
+
+    // Campo de evidencia de entrenamiento
+    const trainingEvidenceField = requiresTraining ? `
+        <div class="mt-2">
+            <input type="file" class="form-control form-control-sm training-evidence" 
+                data-curso-id="${curso.ID_COURSE}" 
+                data-resit-num="${numero}"
+                accept=".pdf" ${disabled ? 'disabled' : ''} />
+            <small class="text-muted">Subir PDF de evidencia</small>
+        </div>
+    ` : '';
+
+    // ⚠️ ELIMINADO: Columna de FOLIO DE PROYECTO
+    return `
+        <td>
+            <input type="hidden" name="courses[${key}][RESIT_${numero}]" value="0">
+            <label class="switch">
+                <input type="checkbox" class="resit-switch-programado-${numero}" 
+                    name="courses[${key}][RESIT_${numero}]" 
+                    ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+                <span class="slider"></span>
+            </label>
+            ${message}
+        </td>
+        <td>
+            <select class="table-input entrenamiento-adi-${numero} ${disabled ? 'disabled-field' : ''}" 
+                name="courses[${key}][RESIT_${numero}_ENTRENAMIENTO]" 
+                ${disabled ? 'disabled' : ''}>
+                <option value="">Seleccionar...</option>
+                <option value="1" ${curso[`RESIT_${numero}_ENTRENAMIENTO`] === 1 ? 'selected' : ''}>Sí</option>
+                <option value="0" ${curso[`RESIT_${numero}_ENTRENAMIENTO`] === 0 ? 'selected' : ''}>No</option>
+            </select>
+            ${requiresTraining ? '<small class="text-danger d-block">Obligatorio</small>' : ''}
+            ${trainingEvidenceField}
+        </td>
+        <td>
+            <input class="table-input resit-programado-fecha-${numero} ${disabled ? 'disabled-field' : ''}" 
+                type="date" 
+                value="${formatDateForInput(curso[`RESIT_${numero}_DATE`]) || ''}" 
+                name="courses[${key}][RESIT_${numero}_DATE]" 
+                ${disabled ? 'disabled' : ''} />
+        </td>
+        <td>
+            <div class="score-status-container" style="position: relative;">
+                <input class="table-input resit-programado-score-${numero} ${disabled ? 'disabled-field' : ''}" 
+                    type="number" step="1" min="0" max="100"
+                    value="${curso[`RESIT_${numero}_SCORE`] || ''}" 
+                    name="courses[${key}][RESIT_${numero}_SCORE]" 
+                    placeholder="0" style="padding-right: 25px;" ${disabled ? 'disabled' : ''} />
+                <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+            </div>
+        </td>
+        <td>
+            <select class="table-input resit-programado-status-${numero} ${disabled ? 'disabled-field' : ''}" 
+                name="courses[${key}][RESIT_${numero}_STATUS]" ${disabled ? 'disabled' : ''}>
+                <option value="">Seleccionar...</option>
+                <option value="Pass" ${curso[`RESIT_${numero}_STATUS`] === 'Pass' ? 'selected' : ''}>Pass</option>
+                <option value="Unpass" ${curso[`RESIT_${numero}_STATUS`] === 'Unpass' ? 'selected' : ''}>Failed</option>
+            </select>
+        </td>
+    `;
+}
+
+// ============================================
+// RENDERIZAR TABLA DINÁMICA CORREGIDA
+// ============================================
+function renderDynamicTable(response, rules) {
+    const thead = $('#edit-course-table thead');
+    const tbody = $('#edit-course-table tbody');
+    const proyecto = response.proyecto;
+    
+    thead.empty();
+    tbody.empty();
+
+    let headerRow1 = `<tr>`;
+    let headerRow2 = `<tr>`;
+    
+    // Columnas básicas
+    headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
+    headerRow2 += `
+        <th width="50px" class="text-center">#</th>
+        <th class="col-180" width="180px">Estudiante</th>
+        <th class="col-180" width="180px">Nivel</th>
+        <th width="180px">BOP</th>
+        <th width="180px">Idioma</th>
+    `;
+
+    // Examen Práctico
+    headerRow1 += `<th colspan="1" class="text-center">Examen Práctico</th>`;
+    headerRow2 += `<th class="col-180" width="180px">Práctico</th>`;
+
+    // Exámenes Teóricos
+    const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2;
+    headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
+    
+    if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
+        headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
+    } else {
+        headerRow2 += `
+            <th class="col-180" width="180px">Equipos</th>
+            <th class="col-180" width="180px">P&P</th>
+        `;
+    }
+
+    // Complementos
+    const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
+    headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
+    
+    if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
+        headerRow2 += `
+            <th class="col-180" width="180px">Complemento</th>
+            <th class="col-180" width="180px">WorkOver (WO)</th>
+            <th class="col-180" width="180px">SubSea (SS)</th>
+        `;
+    } else {
+        headerRow2 += `
+            <th class="col-180" width="180px">Complemento</th>
+            <th class="col-180" width="180px">D1</th>
+            <th class="col-180" width="180px">D2</th>
+            <th class="col-180" width="180px">D3</th>
+        `;
+    }
+
+    // Resumen
+    headerRow1 += `<th colspan="1" class="text-center">Resumen</th>`;
+    headerRow2 += `<th class="col-180" width="180px">Estatus</th>`;
+
+    // Información de Resit
+    headerRow1 += `<th colspan="6" class="text-center">Información RE-SIT</th>`;
+    headerRow2 += `
+        <th width="180px">Resit</th>
+        <th width="180px">Módulo Resit</th>
+        <th width="180px">Intentos Permitidos</th>
+        <th width="180px">Periodo (días)</th>
+        <th width="180px">Días Restantes</th>
+        <th width="180px">Fecha Límite</th>
+    `;
+
+    // Resit Inmediato (solo si OPCION_RESIT === 2)
+    if (rules && rules.OPCION_RESIT === 2) {
+        headerRow1 += `<th colspan="4" class="text-center">RE-SIT INMEDIATO</th>`;
+        headerRow2 += `
+            <th width="180px">Sí</th>
+            <th class="col-180" width="180px">Fecha</th>
+            <th class="col-180" width="180px">Puntaje</th>
+            <th class="col-180" width="180px">Estatus</th>
+        `;
+    }
+
+    // Resits Programados (SIN columna de folio)
+    const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
+    
+    for (let i = 1; i <= numIntentosPermitidos; i++) {
+        headerRow1 += `<th colspan="5" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
+        headerRow2 += `
+            <th width="180px">Activar</th>
+            <th width="180px">Entrenamiento</th>
+            <th class="col-180" width="180px">Fecha</th>
+            <th class="col-180" width="180px">Puntaje</th>
+            <th class="col-180" width="180px">Estatus</th>
+        `;
+    }
+
+    // Final y Certificación
+    headerRow1 += `<th colspan="5" class="text-center">Final y Certificación</th>`;
+    headerRow2 += `
+        <th class="col-180" width="180px">Estatus Final</th>
+        <th width="180px">Certificado</th>
+        <th class="col-180" width="180px">Expiración</th>
+        <th class="col-180" width="180px">Vigencia</th>
+        <th width="150px" class="table-row-actions text-center">Cargar PDF</th>
+    `;
+
+    // Correo
+    headerRow1 += `<th colspan="1" class="text-center">Contacto</th>`;
+    headerRow2 += `<th class="col-250" width="180px">Correo</th>`;
+
+    headerRow1 += `</tr>`;
+    headerRow2 += `</tr>`;
+    
+    thead.append(headerRow1 + headerRow2);
+
+    // Renderizar filas
+    renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
+    
+    // Inicializar DataTable
+    initializeCourseDataTable();
+    addSwitchListeners();
+    addValidationListeners();
+    attachCertificateUploadListeners();
+}
+
+// ============================================
+// INICIALIZAR DATATABLE MEJORADO
+// ============================================
+function initializeCourseDataTable() {
+    if ($.fn.DataTable.isDataTable('#edit-course-table')) {
+        $('#edit-course-table').DataTable().destroy();
+    }
+    
+    $('#edit-course-table').DataTable({
+        fixedHeader: {
+            header: true,
+            headerOffset: 0
+        },
+        scrollY: '60vh',
+        scrollX: true,
+        scrollCollapse: false,
+        paging: true,
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Todos']],
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        language: {
+            search: "Buscar estudiante:",
+            searchPlaceholder: "Nombre, email...",
+            lengthMenu: "Mostrar _MENU_ estudiantes",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ estudiantes",
+            infoEmpty: "No hay estudiantes",
+            infoFiltered: "(filtrado de _MAX_ total)",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "No hay datos disponibles",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior"
+            }
+        },
+        columnDefs: [
+            { 
+                orderable: false, 
+                targets: [-1] // Última columna (acciones)
+            },
+            { 
+                className: "text-center", 
+                targets: [0, 3, 4] // Número, BOP, Idioma
+            },
+            {
+                targets: '_all',
+                createdCell: function(td, cellData, rowData, row, col) {
+                    // Mantener estilos y clases después de renderizado
+                    $(td).addClass('align-middle');
+                }
+            }
+        ],
+        order: [[1, 'asc']], // Ordenar por nombre de estudiante
+        drawCallback: function(settings) {
+            // Re-adjuntar listeners después de cada renderizado
+            addSwitchListeners();
+            addValidationListeners();
+            attachCertificateUploadListeners();
+            
+            // Mostrar información de filas
+            const api = this.api();
+            const info = api.page.info();
+            console.log(`Mostrando ${info.recordsDisplay} estudiantes de ${info.recordsTotal}`);
+        },
+        initComplete: function(settings, json) {
+            console.log('DataTable inicializado correctamente');
+            updateRowCount($('#edit-course-table tbody tr').length);
+        }
+    });
+}
+
+// ============================================
+// RENDERIZAR RESIT INMEDIATO CORREGIDO
+// ============================================
+function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
+    const resitTerm = getResitTerm();
+    let disabled = true;
+    let checked = false;
+    let message = '';
+    let defaultDate = '';
+    
+    // ✅ CORREGIDO: OPCION_RESIT === 2 significa que SÍ aplica resit inmediato
+    if (options.needsImmediateResit && programRules && programRules.OPCION_RESIT === 2) {
+        disabled = false;
+        checked = curso.RESIT_INMEDIATO == 1;
+        defaultDate = formatDateForInput(resitDates.fechaResitInmediato);
+        message = `<small class="text-info d-block">Disponible - Mismo día del examen</small>`;
+    } else if (!options.needsResit) {
+        message = `<small class="text-muted d-block">N/A - No aplica</small>`;
+    } else if (options.needsScheduledResit) {
+        message = `<small class="text-warning d-block">No disponible - Requiere programado</small>`;
+    }
+
+    return `
+        <td>
+            <input type="hidden" name="courses[${key}][RESIT_INMEDIATO]" value="0">
+            <label class="switch">
+                <input type="checkbox" class="resit-switch-inmediato" 
+                    name="courses[${key}][RESIT_INMEDIATO]" 
+                    ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+                <span class="slider"></span>
+            </label>
+            ${message}
+        </td>
+        <td>
+            <input class="table-input resit-inmediato-date ${disabled ? 'disabled-field' : ''}" 
+                type="date" 
+                value="${curso.RESIT_INMEDIATO_DATE || defaultDate}" 
+                name="courses[${key}][RESIT_INMEDIATO_DATE]" 
+                ${disabled ? 'disabled' : ''} />
+        </td>
+        <td>
+            <div class="score-status-container" style="position: relative;">
+                <input class="table-input resit-inmediato-score ${disabled ? 'disabled-field' : ''}" 
+                    type="number" step="1" min="0" max="100"
+                    value="${curso.RESIT_INMEDIATO_SCORE || ''}" 
+                    name="courses[${key}][RESIT_INMEDIATO_SCORE]" 
+                    placeholder="0" style="padding-right: 25px;" ${disabled ? 'disabled' : ''} />
+                <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); color: #555;">%</span>
+            </div>
+        </td>
+        <td>
+            <select class="table-input resit-inmediato-status ${disabled ? 'disabled-field' : ''}" 
+                name="courses[${key}][RESIT_INMEDIATO_STATUS]" ${disabled ? 'disabled' : ''}>
+                <option value="">Seleccionar...</option>
+                <option value="Pass" ${curso.RESIT_INMEDIATO_STATUS === 'Pass' ? 'selected' : ''}>Pass</option>
+                <option value="Unpass" ${curso.RESIT_INMEDIATO_STATUS === 'Unpass' ? 'selected' : ''}>Failed</option>
+            </select>
+        </td>
+    `;
+}
+
+// ============================================
+// DETERMINAR OPCIONES CORREGIDO
+// ============================================
+function determineStudentOptions(practical, equipament, pyp = null) {
+    const options = {
+        canPass: false,
+        needsResit: false,
+        needsImmediateResit: false,
+        needsScheduledResit: false,
+        needsTraining: false,
+        failedCompletely: false,
+        passedModules: [],
+        failedModules: [],
+        resitModules: [],
+        message: ''
+    };
+
+    if (!programRules) return options;
+
+    const modules = [
+        { name: 'Practical', score: practical },
+        { name: 'Equipament', score: equipament }
+    ];
+    
+    if (pyp !== null && projectAccreditingEntity === '2') {
+        modules.push({ name: 'P&P', score: pyp });
+    }
+
+    modules.forEach(module => {
+        if (!module.score) return;
+        
+        const score = parseFloat(module.score);
+        
+        if (score >= programRules.MIN_PORCENTAJE_APROB) {
+            options.passedModules.push(module.name);
+        } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
+            options.failedModules.push(module.name);
+            options.resitModules.push(module.name);
+            options.needsResit = true;
+            
+            // ✅ CORREGIDO: OPCION_RESIT === 2 significa resit inmediato disponible
+            if (programRules.OPCION_RESIT === 2) {
+                options.needsImmediateResit = true;
+            } else if (programRules.OPCION_RESIT === 1) {
+                options.needsScheduledResit = true;
+                options.needsTraining = true;
+            }
+        } else if (score < programRules.MIN_PORCENTAJE_REPROB_RE) {
+            options.failedModules.push(module.name);
+            options.needsScheduledResit = true;
+            options.needsTraining = true;
+        }
+    });
+
+    // Determinar resultado final
+    if (options.passedModules.length === modules.length) {
+        options.canPass = true;
+        options.message = 'Aprobó todos los módulos';
+    } else if (options.failedModules.length === modules.length) {
+        options.failedCompletely = true;
+        options.message = 'Reprobó todos los módulos - No aplica para ' + getResitTerm();
+    } else if (options.needsResit) {
+        const resitTerm = getResitTerm();
+        if (options.needsImmediateResit) {
+            options.message = `Aplica para ${resitTerm} inmediato en: ${options.resitModules.join(', ')}`;
+        } else if (options.needsScheduledResit && options.needsTraining) {
+            options.message = `Requiere entrenamiento adicional y ${resitTerm} programado en: ${options.resitModules.join(', ')}`;
+        }
+    }
+
+    return options;
+}
+
+// ============================================
+// RENDERIZAR FILAS DE ESTUDIANTES ACTUALIZADO
+// ============================================
+function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) {
+    const tbody = $('#edit-course-table tbody');
+    projectExamDate = proyecto.EXAM_DATE_PROJECT;
+    projectAccreditingEntity = proyecto.ACCREDITING_ENTITY_PROJECT;
+    
+    const resitDates = calculateResitDates();
+    
+    estudiantes.forEach((estudiante, index) => {
+        const candidato = estudiante.candidato;
+        const curso = estudiante.datos_curso;
+        const key = candidato.ID_CANDIDATE;
+        
+        const options = determineStudentOptions(
+            curso.PRACTICAL,
+            curso.EQUIPAMENT,
+            curso.PYP
+        );
+        
+        let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" 
+            data-curso-id="${estudiante.curso_id}" 
+            class="course-row ${options.canPass ? 'row-pass' : (options.failedCompletely ? 'row-unpass' : 'row-pending')}">`;
+        
+        // Columnas básicas
+        tr += `<td class="text-center">${index + 1}</td>`;
+        tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
+        
+        // Nivel, BOP, Idioma
+        tr += renderNivelColumn(candidato, proyecto);
+        tr += renderBOPColumn(proyecto);
+        tr += renderIdiomaColumn(proyecto);
+        
+        // Exámenes
+        tr += renderExamColumns(curso, key, proyecto, rules);
+        
+        // Complementos
+        tr += renderComplementsColumns(curso, key, proyecto);
+        
+        // Estatus
+        tr += renderStatusColumn(curso, key);
+        
+        // Información de Resit
+        tr += renderResitInfoEnhanced(curso, key, options, resitDates);
+        
+        // Resit Inmediato (solo si OPCION_RESIT === 2)
+        if (rules && rules.OPCION_RESIT === 2) {
+            tr += renderResitInmediatoEnhanced(curso, key, options, resitDates);
+        }
+        
+        // Resits Programados (sin columna folio)
+        for (let i = 1; i <= numIntentosPermitidos; i++) {
+            tr += renderResitProgramadoEnhanced(curso, key, i, options, resitDates);
+        }
+        
+        // Final y Certificación
+        tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
+        
+        // Correo
+        tr += `<td><span class="email-text">${candidato.EMAIL_PROJECT || 'N/A'}</span></td>`;
+        
+        tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
+        tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
+        tr += `</tr>`;
+        
+        tbody.append(tr);
+    });
 }

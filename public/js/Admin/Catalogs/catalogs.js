@@ -58,6 +58,59 @@ $(document).ready(function () {
     });
     var selectizeInstance3 = $select3[0].selectize; 
 
+    var $select4 = $('#ACCREDITATION_ENTITIES_PROGRAM').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance4 = $select4[0].selectize; 
+
+    var $select5 = $('#LEVELS_PROGRAM').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance5 = $select5[0].selectize; 
+
+    var $select6 = $('#BOPS_PROGRAM').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance6 = $select6[0].selectize; 
+
+    var $select7 = $('#OPERATIONS_PROGRAM').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance7 = $select7[0].selectize; 
+
+
     // RESET MODALS
     $('#entesModal').on('hidden.bs.modal', function () {
         ID_CATALOGO_ENTE = 0;
@@ -2450,6 +2503,11 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     
     // CALCULAR VIGENCIA
     calcularVigencia();
+
+     const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
+    if (acreditacionInicial) {
+        actualizarCentrosCapacitacion(acreditacionInicial);
+    }   
 });
 
 // Función para cargar "Qué incluye"

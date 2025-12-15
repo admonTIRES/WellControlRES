@@ -372,9 +372,6 @@ class ProjectManagementController extends Controller
                             'COMPANIES_PROJECT' => $projectData['COMPANIES_PROJECT']
                         ]);
 
-                        error_log("=== DATOS COMPLETOS ANTES DE GUARDAR ===");
-                        error_log(json_encode($projectData, JSON_PRETTY_PRINT));
-
                         $response['code'] = 1;
                         $response['project'] = $project;
                         $response['message'] = count($studentsData) . ' estudiantes procesados correctamente de ' . count($companies) . ' empresas.';

@@ -35,6 +35,7 @@ use App\Mail\Correo;
 use Illuminate\Support\Facades\Mail;
 
 use App\Models\Admin\catalogs\CentrosCapacitacion;
+use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\Programas;
 use App\Models\Admin\catalogs\Ubicaciones;
 
@@ -288,7 +289,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/programas', function (Request $request) {
 
-        $programas = Programas::get();
+        $programas = NivelAcreditacion::get();
 
 
         return response()->json([

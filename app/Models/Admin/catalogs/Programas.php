@@ -21,6 +21,11 @@ class Programas extends Model
         'MAX_PORCENTAJE_REPROB',
         'OPCION_RESIT_PERMITIDAS',
         'PERIODO_RESIT',
-        'ACTIVO_PROGRAMA'
+        'ACTIVO_PROGRAMA',
+        'ACCREDITATION_ENTITIES_PROGRAM',
+        'LEVELS_PROGRAM',
+        'BOPS_PROGRAM',
+        'OPERATIONS_PROGRAM',
+        'COMPLEMENTS_PROGRAM'
     ];
 }

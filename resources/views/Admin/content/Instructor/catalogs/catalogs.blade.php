@@ -430,12 +430,22 @@
                                 <label class="form-label">{{ __('Programa') }}</label>
                                 <input type="text" class="form-control" name="DESCRIPCION_NIVEL" id="DESCRIPCION_NIVEL" required>
                             </div> --}}
+
+                            <div class="col-md-6">
+                                <label class="form-label">¿Se puede combinar con otros niveles?</label>
+                                <select class="form-select" id="COMBINATED_LEVELS" name="COMBINATED_LEVELS">
+                                        <option value="1">Sí</option>
+                                        <option value="2">No</option>
+                                </select>
+                            </div>
                             <div id="programaContainer" class="row mb-3">
                                 <div class="col-12">
-                                    <label for="DESCRIPCION_NIVEL" class="form-label">{{ __('Programa') }}</label>
-                                    <select class="form-select" id="DESCRIPCION_NIVEL" name="DESCRIPCION_NIVEL">
-                                        <option value="" selected disabled>Seleccione el centro de capacitación primario</option>
-                                        
+                                    <label for="DESCRIPCION_NIVEL" class="form-label">{{ __('Niveles con los que se puede combinar') }}</label>
+                                    <select class="form-select" id="DESCRIPCION_NIVEL" name="DESCRIPCION_NIVEL" multiple>
+                                        <option value="" selected disabled>Seleccione los niveles con los que se puede combinar</option>
+                                         @foreach ($niveles as $nivel)
+                                            <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
+                                    @endforeach
                                     </select>
                                 </div>
                             </div>

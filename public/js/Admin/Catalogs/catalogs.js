@@ -18,7 +18,7 @@ ID_CATALOGO_PROGRAMA = 0
 
 $(document).ready(function () {
 
-     //SELECTIZED
+    //SELECTIZED
     var $select = $('#CERTIFICACION_TEMA').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -53,20 +53,20 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance3 = $select3[0].selectize; 
+    var selectizeInstance3 = $select3[0].selectize;
 
-    // var $select4 = $('#ACCREDITATION_ENTITIES_PROGRAM').selectize({
-    //     plugins: ['remove_button'],
-    //     delimiter: ',',
-    //     persist: false,
-    //     maxItems: null,
-    //     create: false,
-    //     onInitialize: function () {
-    //         // Desactiva la escritura del input interno
-    //         this.$control_input.prop('readonly', true);
-    //     }
-    // });
-    // var selectizeInstance4 = $select4[0].selectize; 
+    var $select4 = $('#DESCRIPCION_NIVEL').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        maxItems: null,
+        create: false,
+        onInitialize: function () {
+            // Desactiva la escritura del input interno
+            this.$control_input.prop('readonly', true);
+        }
+    });
+    var selectizeInstance4 = $select4[0].selectize; 
 
     var $select5 = $('#LEVELS_PROGRAM').selectize({
         plugins: ['remove_button'],
@@ -78,7 +78,7 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance5 = $select5[0].selectize; 
+    var selectizeInstance5 = $select5[0].selectize;
 
     var $select6 = $('#BOPS_PROGRAM').selectize({
         plugins: ['remove_button'],
@@ -90,7 +90,7 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance6 = $select6[0].selectize; 
+    var selectizeInstance6 = $select6[0].selectize;
 
     var $select7 = $('#OPERATIONS_PROGRAM').selectize({
         plugins: ['remove_button'],
@@ -102,7 +102,7 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance7 = $select7[0].selectize; 
+    var selectizeInstance7 = $select7[0].selectize;
 
 
     // RESET MODALS
@@ -190,10 +190,10 @@ $(document).ready(function () {
         ID_CATALOGO_PROGRAMA = 0;
         $('#programasForm')[0].reset();
         $('#programasModal .modal-title').text('Nuevo programa');
-        
+
         $('#MIN_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
         $('#MAX_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
-        
+
         $('#programasForm').find('.is-invalid').removeClass('is-invalid');
         $('#programasForm').find('.invalid-feedback').remove();
     });
@@ -203,7 +203,7 @@ $(document).ready(function () {
     const maxRe = document.getElementById("MAX_PORCENTAJE_REPROB_RE");
 
     function actualizarResit() {
-        if (selectResit.value === "2") { 
+        if (selectResit.value === "2") {
             // Aplica
             minRe.removeAttribute("readonly");
             maxRe.removeAttribute("readonly");
@@ -223,59 +223,59 @@ $(document).ready(function () {
 
     actualizarCentrosCapacitacion();
     $('#centroModal').on('hidden.bs.modal', function () {
-    ID_CATALOGO_CENTRO = 0;
-    $('#centroForm')[0].reset();
-    $('#centroModal .modal-title').text('Nuevo centro de capacitación');
-    actualizarCentrosCapacitacion();
-    actualizarUbicaciones();
-    actualizarProgramas();    
-    $('#contactosContainer').empty();
-    $('#queIncluyeContainer').empty();
-    
-    $('#documento-info').remove();
-    
-    $('#contactosJSON').remove();
-    $('#queIncluyeJSON').remove();
-    
-    contactCounter = 0;
-    queIncluyeCounter = 0;
+        ID_CATALOGO_CENTRO = 0;
+        $('#centroForm')[0].reset();
+        $('#centroModal .modal-title').text('Nuevo centro de capacitación');
+        actualizarCentrosCapacitacion();
+        actualizarUbicaciones();
+        actualizarProgramas();
+        $('#contactosContainer').empty();
+        $('#queIncluyeContainer').empty();
 
-    
-    $('#asociadoContainer').hide();
-    $('#ASOCIADO_CENTRO').val('').prop('required', false);
-    
-    $('#CONTADOR_CENTRO').text('Aquí se indicarán los días restantes vigentes')
-                         .removeClass('vigencia-verde vigencia-amarillo vigencia-rojo')
-                         .addClass('form-label');
-});
+        $('#documento-info').remove();
 
-   $('#clienteModal').on('hidden.bs.modal', function () {
-    // Resetear ID
-    ID_CATALOGO_CLIENTE = 0;
-    
-    $('#clienteForm')[0].reset();
-    
-    $('#razonesSocialesContainer').empty();
-    $('#contactosContainerCliente').empty();
-    
-    razonSocialCounter = 0;
-    contactoClienteCounter = 0;
-    
-    addRazonSocial();
-    addContactoCliente();
-    
-    $('#clienteModal .modal-title').text('Nuevo cliente');
-    
-    $('#clienteForm').find('.is-invalid').removeClass('is-invalid');
-    $('#clienteForm').find('.invalid-feedback').remove();
-});
+        $('#contactosJSON').remove();
+        $('#queIncluyeJSON').remove();
+
+        contactCounter = 0;
+        queIncluyeCounter = 0;
+
+
+        $('#asociadoContainer').hide();
+        $('#ASOCIADO_CENTRO').val('').prop('required', false);
+
+        $('#CONTADOR_CENTRO').text('Aquí se indicarán los días restantes vigentes')
+            .removeClass('vigencia-verde vigencia-amarillo vigencia-rojo')
+            .addClass('form-label');
+    });
+
+    $('#clienteModal').on('hidden.bs.modal', function () {
+        // Resetear ID
+        ID_CATALOGO_CLIENTE = 0;
+
+        $('#clienteForm')[0].reset();
+
+        $('#razonesSocialesContainer').empty();
+        $('#contactosContainerCliente').empty();
+
+        razonSocialCounter = 0;
+        contactoClienteCounter = 0;
+
+        addRazonSocial();
+        addContactoCliente();
+
+        $('#clienteModal .modal-title').text('Nuevo cliente');
+
+        $('#clienteForm').find('.is-invalid').removeClass('is-invalid');
+        $('#clienteForm').find('.invalid-feedback').remove();
+    });
     // RESET MODALS - END
 
-   
+
 
     var documentInstructor = document.getElementById('DOC_INSTRUCTOR');
     if (documentInstructor) {
-        documentInstructor.addEventListener('change', function() {
+        documentInstructor.addEventListener('change', function () {
             var archivo = this.files[0];
             var errorElement = document.getElementById('err-message');
             var quitarDoc = document.getElementById('quitar-doc');
@@ -292,7 +292,7 @@ $(document).ready(function () {
 
     var quitarDoc = document.getElementById('quitar-doc');
     if (quitarDoc) {
-        quitarDoc.addEventListener('click', function() {
+        quitarDoc.addEventListener('click', function () {
             var documentInstructor = document.getElementById('DOC_INSTRUCTOR');
             var errorElement = document.getElementById('err-message');
             if (documentInstructor) documentInstructor.value = '';
@@ -303,19 +303,19 @@ $(document).ready(function () {
 
     var telInstructor = document.getElementById('TEL_INSTRUCTOR');
     if (telInstructor) {
-        telInstructor.addEventListener('input', function(e) {
+        telInstructor.addEventListener('input', function (e) {
             var value = e.target.value.replace(/\D/g, '');
             if (value.length > 10) {
                 value = value.substring(0, 10);
             }
-            
+
             // Formato: XXX-XXX-XXXX
             if (value.length > 6) {
                 value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
             } else if (value.length > 3) {
                 value = value.substring(0, 3) + '-' + value.substring(3);
             }
-            
+
             e.target.value = value;
         });
     }
@@ -548,7 +548,7 @@ var programasDatatable = $("#programas-list-table").DataTable({
 // ===================== REDIBUJAR TABLAS =====================
 $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
     const target = $(e.target).attr("data-bs-target");
-    
+
     if (target === "#v-pills-programas") {
         programasDatatable.columns.adjust().draw();
     }
@@ -685,7 +685,7 @@ var centrosDatatable = $("#centros-list-table").DataTable({
     ],
     createdRow: function (row, data, dataIndex) {
         $(row).addClass(data.COLOR_FILA);
-        
+
         $(row).attr('title', 'Porcentaje transcurrido: ' + data.PORCENTAJE + '% - Días restantes: ' + data.DIAS_RESTANTES);
         $(row).tooltip();
     }
@@ -973,7 +973,7 @@ var operacionDatatable = $("#operacion-list-table").DataTable({
     paging: true,
     searching: true,
     filtering: true,
-    scrollY: '65vh', 
+    scrollY: '65vh',
     scrollX: true,
     scrollCollapse: true,
     responsive: true,
@@ -1141,13 +1141,13 @@ $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
         membresiasDatatable.columns.adjust().draw();
     } else if (target === "#v-pills-operacion") {
         operacionDatatable.columns.adjust().draw();
-    }else if (target === "#v-pills-instructores") {
+    } else if (target === "#v-pills-instructores") {
         instructoresDatatable.columns.adjust().draw();
-    }else if (target === "#v-pills-centros") {
+    } else if (target === "#v-pills-centros") {
         centrosDatatable.columns.adjust().draw();
-    }else if (target === "#v-pills-ubicaciones") {
+    } else if (target === "#v-pills-ubicaciones") {
         ubicacionesDatatable.columns.adjust().draw();
-    }else if (target === "#v-pills-nombres") {
+    } else if (target === "#v-pills-nombres") {
         nombresDatatable.columns.adjust().draw();
     }
 });
@@ -1163,7 +1163,7 @@ document.querySelectorAll('#v-pills-tab .nav-link').forEach(pill => {
                     }
                 }
             });
-        }, 200); 
+        }, 200);
     });
 });
 
@@ -1359,10 +1359,10 @@ $("#centrobtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#centroForm'))
     if (formularioValido) {
-        
+
         // Procesar contactos a JSON
         const contactosArray = [];
-        $('.contact-person').each(function(index) {
+        $('.contact-person').each(function (index) {
             const contactoId = index + 1;
             contactosArray.push({
                 NOMBRE: $(`#CONTACTO_NOMBRE_${contactoId}`).val(),
@@ -1372,24 +1372,24 @@ $("#centrobtnModal").click(function (e) {
                 FIJO: $(`#CONTACTO_FIJO_${contactoId}`).val()
             });
         });
-        
+
         // Procesar "Qué incluye" a JSON
         const queIncluyeArray = [];
-        $('.que-incluye-item').each(function(index) {
+        $('.que-incluye-item').each(function (index) {
             const elementoId = index + 1;
             queIncluyeArray.push({
                 DESCRIPCION: $(`#QUE_INCLUYE_${elementoId}`).val()
             });
         });
-        
+
         // Crear campos hidden para enviar los JSON
         let contactosJSON = JSON.stringify(contactosArray);
         let queIncluyeJSON = JSON.stringify(queIncluyeArray);
-        
+
         // Remover campos hidden existentes
         $('#contactosJSON').remove();
         $('#queIncluyeJSON').remove();
-        
+
         // Agregar campos hidden al formulario
         $('#centroForm').append(`<input type="hidden" id="contactosJSON" name="contactosJSON" value='${contactosJSON}'>`);
         $('#centroForm').append(`<input type="hidden" id="queIncluyeJSON" name="queIncluyeJSON" value='${queIncluyeJSON}'>`);
@@ -1405,12 +1405,12 @@ $("#centrobtnModal").click(function (e) {
             }, async function () {
                 await loaderbtn('centrobtnModal')
                 // CORRECCIÓN: Enviar FormData en lugar del formulario directamente
-                await ajaxAwaitFormData({ 
-                    api: 11, 
-                    ID_CATALOGO_CENTRO 
-                }, 'centroSave', 'centroForm', 'centrobtnModal', { 
-                    callbackAfter: true, 
-                    callbackBefore: true 
+                await ajaxAwaitFormData({
+                    api: 11,
+                    ID_CATALOGO_CENTRO
+                }, 'centroSave', 'centroForm', 'centrobtnModal', {
+                    callbackAfter: true,
+                    callbackBefore: true
                 }, () => {
                     Swal.fire({
                         icon: 'info',
@@ -1425,7 +1425,7 @@ $("#centrobtnModal").click(function (e) {
                     $('#centroModal').modal('hide')
                     document.getElementById('centroForm').reset()
                     // Recargar datatable si existe
-                    if(typeof centrosDatatable !== 'undefined') {
+                    if (typeof centrosDatatable !== 'undefined') {
                         centrosDatatable.ajax.reload()
                     }
                 })
@@ -1438,12 +1438,12 @@ $("#centrobtnModal").click(function (e) {
             }, async function () {
                 await loaderbtn('centrobtnModal')
                 // CORRECCIÓN: Enviar FormData en lugar del formulario directamente
-                await ajaxAwaitFormData({ 
-                    api: 11, 
-                    ID_CATALOGO_CENTRO 
-                }, 'centroSave', 'centroForm', 'centrobtnModal', { 
-                    callbackAfter: true, 
-                    callbackBefore: true 
+                await ajaxAwaitFormData({
+                    api: 11,
+                    ID_CATALOGO_CENTRO
+                }, 'centroSave', 'centroForm', 'centrobtnModal', {
+                    callbackAfter: true,
+                    callbackBefore: true
                 }, () => {
                     Swal.fire({
                         icon: 'info',
@@ -1459,7 +1459,7 @@ $("#centrobtnModal").click(function (e) {
                         $('#centroModal').modal('hide')
                         document.getElementById('centroForm').reset()
                         // Recargar datatable si existe
-                        if(typeof centrosDatatable !== 'undefined') {
+                        if (typeof centrosDatatable !== 'undefined') {
                             centrosDatatable.ajax.reload()
                         }
                     }, 300)
@@ -1545,10 +1545,10 @@ $("#clientebtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#clienteForm'))
     if (formularioValido) {
-        
+
         // Procesar razones sociales a JSON
         const razonesSocialesArray = [];
-        $('.razon-social-item').each(function(index) {
+        $('.razon-social-item').each(function (index) {
             const razonId = index + 1;
             const razonSocial = $(`#RAZON_SOCIAL_${razonId}`).val().trim();
             if (razonSocial) {
@@ -1557,10 +1557,10 @@ $("#clientebtnModal").click(function (e) {
                 });
             }
         });
-        
+
         // Procesar contactos a JSON
         const contactosArray = [];
-        $('.contacto-cliente-item').each(function(index) {
+        $('.contacto-cliente-item').each(function (index) {
             const contactoId = index + 1;
             contactosArray.push({
                 NOMBRE: $(`#CONTACTO_NOMBRE_${contactoId}`).val().trim(),
@@ -1570,26 +1570,26 @@ $("#clientebtnModal").click(function (e) {
                 FIJO: $(`#CONTACTO_FIJO_${contactoId}`).val().trim()
             });
         });
-        
+
         // Crear campos hidden para enviar los JSON
         let razonesSocialesJSON = JSON.stringify(razonesSocialesArray);
         let contactosJSON = JSON.stringify(contactosArray);
-        
+
         // Remover campos hidden existentes
         $('#razonesSocialesJSON').remove();
         $('#contactosClienteJSON').remove();
         $('#activoClienteField').remove();
         $('#idClienteField').remove(); // Remover campo ID si existe
-        
+
         // Agregar campos hidden al formulario
         $('#clienteForm').append(`<input type="hidden" id="razonesSocialesJSON" name="razonesSocialesJSON" value='${razonesSocialesJSON}'>`);
         $('#clienteForm').append(`<input type="hidden" id="contactosClienteJSON" name="contactosClienteJSON" value='${contactosJSON}'>`);
-        
+
         // AGREGAR ID_CATALOGO_CLIENTE AL FORMULARIO (IMPORTANTE)
         if (ID_CATALOGO_CLIENTE > 0) {
             $('#clienteForm').append(`<input type="hidden" id="idClienteField" name="ID_CATALOGO_CLIENTE" value="${ID_CATALOGO_CLIENTE}">`);
         }
-        
+
         // Agregar ACTIVO_CLIENTE = 1 automáticamente al crear
         if (ID_CATALOGO_CLIENTE == 0) {
             $('#clienteForm').append(`<input type="hidden" id="activoClienteField" name="ACTIVO_CLIENTE" value="1">`);
@@ -1602,12 +1602,12 @@ $("#clientebtnModal").click(function (e) {
                 icon: "question",
             }, async function () {
                 await loaderbtn('clientebtnModal')
-                await ajaxAwaitFormData({ 
-                    api: 12, 
-                    ID_CATALOGO_CLIENTE 
-                }, 'clienteSave', 'clienteForm', 'clientebtnModal', { 
-                    callbackAfter: true, 
-                    callbackBefore: true 
+                await ajaxAwaitFormData({
+                    api: 12,
+                    ID_CATALOGO_CLIENTE
+                }, 'clienteSave', 'clienteForm', 'clientebtnModal', {
+                    callbackAfter: true,
+                    callbackBefore: true
                 }, () => {
                     Swal.fire({
                         icon: 'info',
@@ -1622,7 +1622,7 @@ $("#clientebtnModal").click(function (e) {
                     $('#clienteModal').modal('hide')
                     document.getElementById('clienteForm').reset()
                     // Recargar datatable si existe
-                    if(typeof clientesDatatable !== 'undefined') {
+                    if (typeof clientesDatatable !== 'undefined') {
                         clientesDatatable.ajax.reload()
                     }
                 })
@@ -1634,12 +1634,12 @@ $("#clientebtnModal").click(function (e) {
                 icon: "question",
             }, async function () {
                 await loaderbtn('clientebtnModal')
-                await ajaxAwaitFormData({ 
-                    api: 12, 
-                    ID_CATALOGO_CLIENTE 
-                }, 'clienteSave', 'clienteForm', 'clientebtnModal', { 
-                    callbackAfter: true, 
-                    callbackBefore: true 
+                await ajaxAwaitFormData({
+                    api: 12,
+                    ID_CATALOGO_CLIENTE
+                }, 'clienteSave', 'clienteForm', 'clientebtnModal', {
+                    callbackAfter: true,
+                    callbackBefore: true
                 }, () => {
                     Swal.fire({
                         icon: 'info',
@@ -1655,7 +1655,7 @@ $("#clientebtnModal").click(function (e) {
                         $('#clienteModal').modal('hide')
                         document.getElementById('clienteForm').reset()
                         // Recargar datatable si existe
-                        if(typeof clientesDatatable !== 'undefined') {
+                        if (typeof clientesDatatable !== 'undefined') {
                             clientesDatatable.ajax.reload()
                         }
                     }, 300)
@@ -2320,7 +2320,7 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var row = programasDatatable.row(tr);
     ID_CATALOGO_PROGRAMA = row.data().ID_CATALOGO_PROGRAMA;
 
-    
+
     editarDatoTabla(row.data(), 'programasForm', 'programasModal', 1);
 
     if (row.data().OPCION_RESIT == 2) {
@@ -2330,9 +2330,9 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     } else {
         actualizarResit();
     }
-    
+
     $('#programasModal .modal-title').html('Editando: ' + row.data().NOMBRE_PROGRAMA);
-    
+
     $('#programasModal').modal('show');
 });
 
@@ -2373,40 +2373,40 @@ $('#clientes-list-table tbody').on('click', 'td>button.EDITAR_CLIENTE', function
     var tr = $(this).closest('tr');
     var row = clientesDatatable.row(tr);
     var rowData = row.data();
-    
+
     console.log('Datos de la fila:', rowData);
-    
+
     ID_CATALOGO_CLIENTE = rowData.ID_CATALOGO_CLIENTE;
     console.log('ID_CATALOGO_CLIENTE establecido:', ID_CATALOGO_CLIENTE);
-    
+
     cargarDatosCliente(rowData);
-    
+
     $('#clienteModal .modal-title').html('Editando cliente: ' + rowData.ID_CATALOGO_CLIENTE);
-    
+
     $('#clienteModal').modal('show');
 });
 
 function cargarDatosCliente(clienteData) {
     console.log('Cargando datos del cliente:', clienteData);
-    
+
     ID_CATALOGO_CLIENTE = clienteData.ID_CATALOGO_CLIENTE;
     console.log('ID_CATALOGO_CLIENTE en cargarDatos:', ID_CATALOGO_CLIENTE);
-    
+
     $('#NOMBRE_COMERCIAL_CLIENTE').val(clienteData.NOMBRE_COMERCIAL_CLIENTE);
     $('#razonesSocialesContainer').empty();
     $('#contactosContainerCliente').empty();
-    
+
     razonSocialCounter = 0;
     contactoClienteCounter = 0;
-    
+
     if (clienteData.RAZONES_SOCIALES) {
         try {
-            const razones = typeof clienteData.RAZONES_SOCIALES === 'string' 
-                ? JSON.parse(clienteData.RAZONES_SOCIALES) 
+            const razones = typeof clienteData.RAZONES_SOCIALES === 'string'
+                ? JSON.parse(clienteData.RAZONES_SOCIALES)
                 : clienteData.RAZONES_SOCIALES;
-            
+
             console.log('Razones sociales cargadas:', razones);
-            
+
             if (razones && razones.length > 0) {
                 razones.forEach(razon => {
                     addRazonSocial(razon);
@@ -2421,15 +2421,15 @@ function cargarDatosCliente(clienteData) {
     } else {
         addRazonSocial();
     }
-    
+
     if (clienteData.CONTACTO_CLIENTE) {
         try {
-            const contactos = typeof clienteData.CONTACTO_CLIENTE === 'string' 
-                ? JSON.parse(clienteData.CONTACTO_CLIENTE) 
+            const contactos = typeof clienteData.CONTACTO_CLIENTE === 'string'
+                ? JSON.parse(clienteData.CONTACTO_CLIENTE)
                 : clienteData.CONTACTO_CLIENTE;
-            
+
             console.log('Contactos cargados:', contactos);
-            
+
             if (contactos && contactos.length > 0) {
                 contactos.forEach(contacto => {
                     addContactoCliente(contacto);
@@ -2461,16 +2461,16 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     cargarInformacionPDF(row.data().DOC_CENTRO);
     calcularVigencia();
 
-     const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
+    const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
-    }   
+    }
 });
 
 function cargarQueIncluye(incluyeJSON) {
     $('#queIncluyeContainer').empty();
     queIncluyeCounter = 0;
-    
+
     if (incluyeJSON) {
         try {
             const queIncluye = JSON.parse(incluyeJSON);
@@ -2491,7 +2491,7 @@ function cargarQueIncluye(incluyeJSON) {
 function cargarContactos(contactosJSON) {
     $('#contactosContainer').empty();
     contactCounter = 0;
-    
+
     if (contactosJSON) {
         try {
             const contactos = JSON.parse(contactosJSON);
@@ -2523,15 +2523,15 @@ function cargarContactos(contactosJSON) {
 //         success: function(data) {
 //             let options = `<option value="" selected disabled>Seleccione el centro de capacitación primario vigente (${data.fecha_consulta}) </option>`;
 //             console.log(`${data.fecha_consulta}` );
-            
+
 //             data.centros.forEach(function(centro) {
 //                 options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
 //             });
-            
+
 //             $('#ASOCIADO_CENTRO').html(options);
 //         },
 //         error: function() {
-            
+
 //             $('#ASOCIADO_CENTRO').html('<option value="" selected disabled>Error al cargar centros</option>');
 //         }
 //     });
@@ -2540,32 +2540,32 @@ function cargarContactos(contactosJSON) {
 function actualizarCentrosCapacitacion(acreditacionId = null) {
     const $select = $('#ASOCIADO_CENTRO');
     $select.html('<option value="" selected disabled>Cargando centros...</option>');
-    
+
     if (acreditacionId === null) {
         acreditacionId = $('#ACREDITACION_CENTRO').val() || 0;
     }
-    
+
     $.ajax({
         url: '/centros-capacitacion',
         type: 'GET',
-        data: { 
+        data: {
             tipo: 2,
             acreditacion: acreditacionId
         },
-        success: function(response) {
+        success: function (response) {
             let options = '<option value="" selected disabled>Seleccione el centro de capacitación primario</option>';
-            
+
             if (response.success && response.centros.length > 0) {
-                response.centros.forEach(function(centro) {
+                response.centros.forEach(function (centro) {
                     options += `<option value="${centro.ID_CATALOGO_CENTRO}">${centro.NOMBRE_COMERCIAL_CENTRO}</option>`;
                 });
             } else {
                 options = '<option value="" selected disabled>No hay centros disponibles</option>';
             }
-            
+
             $select.html(options);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             $select.html('<option value="" selected disabled>Error al cargar centros</option>');
         }
     });
@@ -2573,35 +2573,35 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
 function actualizarProgramas(idSeleccionada = null) {
     const $select = $('#DESCRIPCION_NIVEL');
     $select.html('<option value="" selected disabled>Cargando programas...</option>');
-    
+
     $.ajax({
         url: '/programas',
         type: 'GET',
-        data: { 
+        data: {
             programa: 0,
         },
-        success: function(response) {
+        success: function (response) {
             let options = '<option value="" selected disabled>Seleccione un programa</option>';
-            
-            if (response.success && response.programas.length > 0) {
-                response.programas.forEach(function(programa) {
 
-                    const selected = (idSeleccionada == programa.ID_CATALOGO_PROGRAMA)
-                                   ? 'selected'
-                                   : '';
+            if (response.success && response.programas.length > 0) {
+                response.programas.forEach(function (programa) {
+
+                    const selected = (idSeleccionada == programa.ID_CATALOGO_NIVELACREDITACION)
+                        ? 'selected'
+                        : '';
 
                     options += `
-                        <option value="${programa.ID_CATALOGO_PROGRAMA}" ${selected}>
-                            ${programa.NOMBRE_PROGRAMA}
+                        <option value="${programa.ID_CATALOGO_NIVELACREDITACION}" ${selected}>
+                            ${programa.NOMBRE_NIVEL}
                         </option>`;
                 });
             } else {
                 options = '<option value="" disabled>No hay programas disponibles</option>';
             }
-            
+
             $select.html(options);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             $select.html('<option value="" selected disabled>Error al cargar programas</option>');
         }
     });
@@ -2610,22 +2610,22 @@ function actualizarProgramas(idSeleccionada = null) {
 function actualizarUbicaciones(idSeleccionada = null) {
     const $select = $('#UBICACION_CENTRO');
     $select.html('<option value="" selected disabled>Cargando ubicaciones...</option>');
-    
+
     $.ajax({
         url: '/ubicaciones',
         type: 'GET',
-        data: { 
+        data: {
             ubicacion: 0
         },
-        success: function(response) {
+        success: function (response) {
             let options = '<option value="" disabled>Seleccione una opción</option>';
-            
+
             if (response.success && response.ubicaciones.length > 0) {
-                response.ubicaciones.forEach(function(ubicacion) {
+                response.ubicaciones.forEach(function (ubicacion) {
 
                     const selected = (idSeleccionada == ubicacion.ID_CATALOGO_UBICACION)
-                                   ? 'selected'
-                                   : '';
+                        ? 'selected'
+                        : '';
 
                     options += `
                         <option value="${ubicacion.ID_CATALOGO_UBICACION}" ${selected}>
@@ -2635,22 +2635,22 @@ function actualizarUbicaciones(idSeleccionada = null) {
             } else {
                 options = '<option value="" disabled>No hay ubicaciones disponibles</option>';
             }
-            
+
             $select.html(options);
         },
-        error: function() {
+        error: function () {
             $select.html('<option value="" disabled>Error al cargar ubicaciones</option>');
         }
     });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
     }
-    
-    $('#ACREDITACION_CENTRO').on('change', function() {
+
+    $('#ACREDITACION_CENTRO').on('change', function () {
         const acreditacionId = $(this).val() || 0;
         actualizarCentrosCapacitacion(acreditacionId);
     });
@@ -2659,11 +2659,11 @@ $(document).ready(function() {
 function cargarInformacionPDF(docInfo) {
     const docInput = $('#DOCUMENTO_CENTRO');
     const docText = $('#documento-info');
-    
+
     if (docText.length) {
         docText.remove();
     }
-    
+
     if (docInfo) {
         try {
             if (docInfo.startsWith('[') || docInfo.startsWith('{')) {
@@ -2727,7 +2727,7 @@ function cargarInformacionPDF(docInfo) {
 
 function getNombreArchivoLegible(ruta) {
     if (!ruta) return 'Sin documento';
-    
+
     try {
         if (ruta.startsWith('[') || ruta.startsWith('{')) {
             const docData = JSON.parse(ruta);
@@ -2748,7 +2748,7 @@ $('#temas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_CATALOGO_TEMAPREGUNTA = row.data().ID_CATALOGO_TEMAPREGUNTA;
 
     editarDatoTabla(row.data(), 'temasForm', 'temaModal', 1);
-    var certificaciones = row.data().CERTIFICACION_TEMA; 
+    var certificaciones = row.data().CERTIFICACION_TEMA;
     var $select = $('#CERTIFICACION_TEMA');
     if (!$select[0].selectize) {
         $select.selectize({
@@ -2776,7 +2776,7 @@ $('#subtemas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_CATALOGO_SUBTEMA = row.data().ID_CATALOGO_SUBTEMA;
 
     editarDatoTabla(row.data(), 'subtemasForm', 'subtemaModal', 1);
-    var certificaciones = row.data().CERTIFICACION_SUBTEMA; 
+    var certificaciones = row.data().CERTIFICACION_SUBTEMA;
     var $select = $('#CERTIFICACION_SUBTEMA');
     if (!$select[0].selectize) {
         $select.selectize({
@@ -2864,8 +2864,8 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
             }
 
             var selectize = $select[0].selectize;
-            selectize.clear();            
-            selectize.setValue(values);  
+            selectize.clear();
+            selectize.setValue(values);
         });
     }
 
@@ -2873,13 +2873,13 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
         'ACREDITACION_INSTRUCTOR'
     ]);
 
-    $('#documentos-container').html(''); 
+    $('#documentos-container').html('');
 
     let documentos = row.data().DOC_INSTRUCTOR;
 
     if (documentos) {
         try {
-            documentos = JSON.parse(documentos); 
+            documentos = JSON.parse(documentos);
             documentos.forEach((doc, index) => {
                 $('#documentos-container').append(`
                     <div class="d-flex align-items-center mb-2 doc-row">
@@ -2918,17 +2918,17 @@ let pdfIdCentroActual = '';
 
 function construirURLPDF(rutaArchivo, idCentro) {
     if (!rutaArchivo) return '';
-    
+
     let rutaLimpia = rutaArchivo.trim();
     const baseUrl = window.location.origin;
-    
+
     console.log('Construyendo URL para:', { rutaArchivo, rutaLimpia, idCentro });
-    
+
     if (rutaLimpia.includes('admin/catalogs/centros/')) {
         const nombreArchivo = rutaLimpia.split('/').pop();
         return `${baseUrl}/archivos/centros/${idCentro}/${nombreArchivo}`;
     }
-    
+
     return `${baseUrl}/archivos/centros/${idCentro}/${rutaLimpia}`;
 }
 
@@ -2951,37 +2951,37 @@ function cargarPDF(ruta, idCentro) {
     $('#pdfLoading').show();
     $('#pdfViewer').hide();
     $('#pdfError').hide();
-    
+
     let rutaArchivo = extraerRutaArchivo(ruta);
-    
+
     if (!rutaArchivo) {
         $('#pdfLoading').hide();
         $('#pdfError').show();
         $('#errorMessage').text('No se encontró la ruta del documento.');
         return;
     }
-    
+
     const nombreArchivo = rutaArchivo.split('/').pop();
     const urlCompleta = construirURLPDF(nombreArchivo, idCentro);
-    
+
     console.log('URL final del PDF:', urlCompleta);
-    
+
     const pdfFrame = document.getElementById('pdfFrame');
-    
+
     setTimeout(() => {
         pdfFrame.src = urlCompleta;
-        
-        pdfFrame.onload = function() {
+
+        pdfFrame.onload = function () {
             $('#pdfLoading').hide();
             $('#pdfViewer').show();
         };
-        
-        pdfFrame.onerror = function() {
+
+        pdfFrame.onerror = function () {
             $('#pdfLoading').hide();
             $('#pdfError').show();
             $('#errorMessage').html('No se pudo cargar el documento PDF.<br>URL: ' + urlCompleta);
         };
-        
+
     }, 500);
 }
 
@@ -2991,26 +2991,26 @@ function cargarPDF(ruta, idCentro) {
 $('#centros-list-table tbody').on('click', 'button.VER_PDF', function () {
     const idCentro = $(this).data('id');
     const rutaDocumento = $(this).data('ruta');
-    
+
     pdfRutaActual = rutaDocumento;
     pdfIdCentroActual = idCentro;
-    
+
     console.log('Abriendo PDF:', { idCentro, rutaDocumento });
-    
+
     $('#pdfModal').modal('show');
-    
+
     cargarPDF(rutaDocumento, idCentro);
 });
 
 function descargarPDF() {
     console.log('descargando');
     if (!pdfRutaActual || !pdfIdCentroActual) return;
-    
+
     const nombreArchivo = extraerRutaArchivo(pdfRutaActual);
     const urlDescarga = construirURLPDF(nombreArchivo, pdfIdCentroActual);
-    
+
     const urlDescargaForzada = urlDescarga + '?download=1';
-    
+
     const link = document.createElement('a');
     link.href = urlDescargaForzada;
     link.download = 'documento_centro_' + pdfIdCentroActual + '.pdf';
@@ -3019,7 +3019,7 @@ function descargarPDF() {
     document.body.removeChild(link);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let complementoCounter = 0;
     let enteSeleccionado = null;
 
@@ -3027,7 +3027,7 @@ document.addEventListener('DOMContentLoaded', function() {
         enteSeleccionado = enteId;
         const esId1 = (enteId == 1);
         const esId2 = (enteId == 2);
-        
+
         const seccionResitInmediato = document.getElementById('seccionResitInmediato');
         if (esId2) {
             seccionResitInmediato.style.display = 'block';
@@ -3060,7 +3060,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.getElementById('ACCREDITATION_ENTITIES_PROGRAM').addEventListener('change', function() {
+    document.getElementById('ACCREDITATION_ENTITIES_PROGRAM').addEventListener('change', function () {
         actualizarTextosPorEnte(this.value);
     });
 
@@ -3123,7 +3123,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const complementoId = complementoCounter;
         const esId1 = (enteSeleccionado == 1);
         const textoRetest = esId1 ? 're-test' : 're-sit';
-        
+
         const complementoHTML = `
             <div class="card mb-3 complemento-item" id="complemento_${complementoId}" data-complemento-id="${complementoId}">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -3191,32 +3191,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
-        
+
         document.getElementById('complementosContainer').insertAdjacentHTML('beforeend', complementoHTML);
-        
+
         agregarValidacionComplemento(complementoId);
     }
 
     function agregarValidacionComplemento(complementoId) {
         const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
-        
+
         inputs.forEach(input => {
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
                 validarRangosComplemento(complementoId);
             });
-            
-            input.addEventListener('blur', function() {
+
+            input.addEventListener('blur', function () {
                 validarRangosComplemento(complementoId);
             });
         });
     }
 
-    document.getElementById('btnAgregarComplemento').addEventListener('click', function(e) {
+    document.getElementById('btnAgregarComplemento').addEventListener('click', function (e) {
         e.preventDefault();
         crearComplemento();
     });
 
-    window.eliminarComplemento = function(complementoId) {
+    window.eliminarComplemento = function (complementoId) {
         if (confirm('¿Está seguro de eliminar este complemento?')) {
             document.getElementById(complementoId).remove();
         }
@@ -3224,10 +3224,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const opcionResitSelect = document.getElementById('OPCION_RESIT');
     if (opcionResitSelect) {
-        opcionResitSelect.addEventListener('change', function() {
+        opcionResitSelect.addEventListener('change', function () {
             const minField = document.getElementById('MIN_PORCENTAJE_REPROB_RE');
             const maxField = document.getElementById('MAX_PORCENTAJE_REPROB_RE');
-            
+
             if (this.value === '2') {
                 minField.readOnly = false;
                 maxField.readOnly = false;
@@ -3241,24 +3241,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    document.getElementById('programasbtnModal').addEventListener('click', function(e) {
-        const complementos = document.querySelectorAll('.complemento-item');
-        let todosValidos = true;
-        
-        complementos.forEach(complemento => {
-            const complementoId = complemento.dataset.complementoId;
-            if (!validarRangosComplemento(complementoId)) {
-                todosValidos = false;
-            }
-        });
-        
-        if (!todosValidos) {
-            e.preventDefault();
-            alert('Por favor, corrija los errores en los complementos antes de guardar.');
-            return false;
-        }
-        
-        document.getElementById('programasForm').submit();
-    });
 });

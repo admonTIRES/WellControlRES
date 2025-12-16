@@ -380,6 +380,7 @@ class CatalogsController extends Controller
             ]);
         }
     }
+
     public function ubicacionesDatatable()
     {
         try {
@@ -426,13 +427,10 @@ class CatalogsController extends Controller
         }
     }
 
-
-    // FUNCIÓN PARA CALCULAR VIGENCIA (CORREGIDA - POR PORCENTAJE)
     private function calcularVigencia($fechaDesde, $fechaHasta)
     {
         $hoy = new DateTime();
 
-        // Si no hay fechas válidas
         if (!$fechaDesde || !$fechaHasta) {
             return [
                 'texto' => 'SIN FECHAS',
@@ -445,11 +443,9 @@ class CatalogsController extends Controller
         $desde = new DateTime($fechaDesde);
         $hasta = new DateTime($fechaHasta);
 
-        // Formatear fechas para comparación solo por día (sin hora)
         $hoyFormateado = $hoy->format('Y-m-d');
         $hastaFormateado = $hasta->format('Y-m-d');
 
-        // Si la fecha de vencimiento es hoy
         if ($hoyFormateado == $hastaFormateado) {
             return [
                 'texto' => 'VENCE HOY (0 días)',
@@ -459,7 +455,6 @@ class CatalogsController extends Controller
             ];
         }
 
-        // Si la fecha de vencimiento ya pasó (después de hoy)
         if ($hoy > $hasta) {
             $diasVencido = $hoy->diff($hasta)->days;
             $textoVencido = $diasVencido == 1 ? 'VENCIDO (1 día)' : 'VENCIDO (' . $diasVencido . ' días)';
@@ -472,30 +467,23 @@ class CatalogsController extends Controller
             ];
         }
 
-        // Calcular días totales y días transcurridos
         $diasTotales = $hasta->diff($desde)->days;
         $diasTranscurridos = $hoy->diff($desde)->days;
         $diasRestantes = $hasta->diff($hoy)->days;
 
-        // Calcular porcentaje transcurrido
         $porcentajeTranscurrido = $diasTotales > 0 ? ($diasTranscurridos / $diasTotales) * 100 : 0;
 
-        // DETERMINAR COLOR SEGÚN PORCENTAJE TRANSCURRIDO
         if ($porcentajeTranscurrido <= 40) {
-            // 0% - 40%: VERDE
             $color = 'fila-verde';
             $estado = 'VIGENTE';
         } elseif ($porcentajeTranscurrido <= 70) {
-            // 41% - 70%: AMARILLO
             $color = 'fila-amarillo';
             $estado = 'VIGENTE';
         } else {
-            // 71% - 100%: ROJO (pero aún vigente)
             $color = 'fila-rojo';
             $estado = 'VIGENTE';
         }
 
-        // Texto con días en singular o plural
         $textoDias = $diasRestantes == 1 ? '1 día' : $diasRestantes . ' días';
 
         return [

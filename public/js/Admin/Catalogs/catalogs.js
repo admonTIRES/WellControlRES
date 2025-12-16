@@ -26,7 +26,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -39,7 +38,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -52,7 +50,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -78,7 +75,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -91,7 +87,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -104,7 +99,6 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
-            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -197,11 +191,9 @@ $(document).ready(function () {
         $('#programasForm')[0].reset();
         $('#programasModal .modal-title').text('Nuevo programa');
         
-        // Resetear campos de resit inmediato
         $('#MIN_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
         $('#MAX_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
         
-        // Resetear validaciones
         $('#programasForm').find('.is-invalid').removeClass('is-invalid');
         $('#programasForm').find('.invalid-feedback').remove();
     });
@@ -237,27 +229,21 @@ $(document).ready(function () {
     actualizarCentrosCapacitacion();
     actualizarUbicaciones();
     actualizarProgramas();    
-    // LIMPIAR CONTENEDORES DINÁMICOS
     $('#contactosContainer').empty();
     $('#queIncluyeContainer').empty();
     
-    // REMOVER INFORMACIÓN DEL PDF
     $('#documento-info').remove();
     
-    // REMOVER CAMPOS HIDDEN DE JSON SI EXISTEN
     $('#contactosJSON').remove();
     $('#queIncluyeJSON').remove();
     
-    // RESETEAR CONTADORES
     contactCounter = 0;
     queIncluyeCounter = 0;
 
     
-    // RESETEAR EL SELECT DE ASOCIADO
     $('#asociadoContainer').hide();
     $('#ASOCIADO_CENTRO').val('').prop('required', false);
     
-    // RESETEAR EL CONTADOR DE VIGENCIA
     $('#CONTADOR_CENTRO').text('Aquí se indicarán los días restantes vigentes')
                          .removeClass('vigencia-verde vigencia-amarillo vigencia-rojo')
                          .addClass('form-label');
@@ -267,25 +253,19 @@ $(document).ready(function () {
     // Resetear ID
     ID_CATALOGO_CLIENTE = 0;
     
-    // Resetear formulario básico
     $('#clienteForm')[0].reset();
     
-    // Limpiar contenedores dinámicos
     $('#razonesSocialesContainer').empty();
     $('#contactosContainerCliente').empty();
     
-    // Resetear contadores
     razonSocialCounter = 0;
     contactoClienteCounter = 0;
     
-    // Agregar elementos vacíos por defecto
     addRazonSocial();
     addContactoCliente();
     
-    // Resetear título del modal
     $('#clienteModal .modal-title').text('Nuevo cliente');
     
-    // Limpiar validaciones
     $('#clienteForm').find('.is-invalid').removeClass('is-invalid');
     $('#clienteForm').find('.invalid-feedback').remove();
 });
@@ -704,10 +684,8 @@ var centrosDatatable = $("#centros-list-table").DataTable({
         { targets: 6, title: 'Documento', className: 'text-center' }
     ],
     createdRow: function (row, data, dataIndex) {
-        // APLICAR COLOR A TODA LA FILA SEGÚN LA VIGENCIA
         $(row).addClass(data.COLOR_FILA);
         
-        // AGREGAR TOOLTIP CON MÁS INFORMACIÓN
         $(row).attr('title', 'Porcentaje transcurrido: ' + data.PORCENTAJE + '% - Días restantes: ' + data.DIAS_RESTANTES);
         $(row).tooltip();
     }
@@ -1185,12 +1163,12 @@ document.querySelectorAll('#v-pills-tab .nav-link').forEach(pill => {
                     }
                 }
             });
-        }, 200); // Aumenta el delay para asegurar que el contenido se muestra por completo
+        }, 200); 
     });
 });
 
 
-// Guardar catalogos
+
 $("#entesbtnModal").click(function (e) {
     e.preventDefault();
     formularioValido = validarFormulario($('#entesForm'))
@@ -2348,15 +2326,13 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     if (row.data().OPCION_RESIT == 2) {
         $('#MIN_PORCENTAJE_REPROB_RE').val(row.data().MIN_PORCENTAJE_REPROB_RE);
         $('#MAX_PORCENTAJE_REPROB_RE').val(row.data().MAX_PORCENTAJE_REPROB_RE);
-        actualizarResit(); // Esto habilitará los campos
+        actualizarResit();
     } else {
-        actualizarResit(); // Esto deshabilitará los campos
+        actualizarResit();
     }
     
-    // Cambiar título del modal
     $('#programasModal .modal-title').html('Editando: ' + row.data().NOMBRE_PROGRAMA);
     
-    // Mostrar modal
     $('#programasModal').modal('show');
 });
 
@@ -2398,42 +2374,31 @@ $('#clientes-list-table tbody').on('click', 'td>button.EDITAR_CLIENTE', function
     var row = clientesDatatable.row(tr);
     var rowData = row.data();
     
-    // DEBUG: Verificar los datos de la fila
     console.log('Datos de la fila:', rowData);
     
-    // ESTABLECER EL ID CORRECTAMENTE
     ID_CATALOGO_CLIENTE = rowData.ID_CATALOGO_CLIENTE;
     console.log('ID_CATALOGO_CLIENTE establecido:', ID_CATALOGO_CLIENTE);
     
     cargarDatosCliente(rowData);
     
-    // Cambiar el título del modal para mostrar que es edición
     $('#clienteModal .modal-title').html('Editando cliente: ' + rowData.ID_CATALOGO_CLIENTE);
     
-    // Abrir el modal
     $('#clienteModal').modal('show');
 });
 
-// Función para cargar datos del cliente al editar - CORREGIDA
 function cargarDatosCliente(clienteData) {
     console.log('Cargando datos del cliente:', clienteData);
     
-    // ESTABLECER EL ID GLOBAL
     ID_CATALOGO_CLIENTE = clienteData.ID_CATALOGO_CLIENTE;
     console.log('ID_CATALOGO_CLIENTE en cargarDatos:', ID_CATALOGO_CLIENTE);
     
-    // LLENAR CAMPO ÚNICO
     $('#NOMBRE_COMERCIAL_CLIENTE').val(clienteData.NOMBRE_COMERCIAL_CLIENTE);
-    
-    // LIMPIAR CONTENEDORES
     $('#razonesSocialesContainer').empty();
     $('#contactosContainerCliente').empty();
     
-    // RESETEAR CONTADORES
     razonSocialCounter = 0;
     contactoClienteCounter = 0;
     
-    // CARGAR RAZONES SOCIALES
     if (clienteData.RAZONES_SOCIALES) {
         try {
             const razones = typeof clienteData.RAZONES_SOCIALES === 'string' 
@@ -2457,7 +2422,6 @@ function cargarDatosCliente(clienteData) {
         addRazonSocial();
     }
     
-    // CARGAR CONTACTOS
     if (clienteData.CONTACTO_CLIENTE) {
         try {
             const contactos = typeof clienteData.CONTACTO_CLIENTE === 'string' 
@@ -2492,16 +2456,9 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     editarDatoTabla(row.data(), 'centroForm', 'centroModal', 1);
     $('#centroModal .modal-title').html(row.data().NOMBRE_COMERCIAL_CENTRO);
 
-    // CARGAR "QUÉ INCLUYE"
     cargarQueIncluye(row.data().INCLUYE_CENTRO);
-    
-    // CARGAR CONTACTOS
     cargarContactos(row.data().CONTACTOS_CENTRO);
-    
-    // CARGAR INFORMACIÓN DEL PDF
     cargarInformacionPDF(row.data().DOC_CENTRO);
-    
-    // CALCULAR VIGENCIA
     calcularVigencia();
 
      const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
@@ -2510,9 +2467,7 @@ $('#centros-list-table tbody').on('click', 'td>button.EDITAR', function () {
     }   
 });
 
-// Función para cargar "Qué incluye"
 function cargarQueIncluye(incluyeJSON) {
-    // Limpiar contenedor
     $('#queIncluyeContainer').empty();
     queIncluyeCounter = 0;
     
@@ -2526,18 +2481,14 @@ function cargarQueIncluye(incluyeJSON) {
             });
         } catch (e) {
             console.error('Error parsing qué incluye JSON:', e);
-            // Si hay error, agregar un elemento vacío
             addQueIncluye();
         }
     } else {
-        // Si no hay datos, agregar un elemento vacío
         addQueIncluye();
     }
 }
 
-// Función para cargar contactos
 function cargarContactos(contactosJSON) {
-    // Limpiar contenedor
     $('#contactosContainer').empty();
     contactCounter = 0;
     
@@ -2555,11 +2506,9 @@ function cargarContactos(contactosJSON) {
             });
         } catch (e) {
             console.error('Error parsing contactos JSON:', e);
-            // Si hay error, agregar un contacto vacío
             addContacto();
         }
     } else {
-        // Si no hay datos, agregar un contacto vacío
         addContacto();
     }
 }
@@ -2592,7 +2541,6 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
     const $select = $('#ASOCIADO_CENTRO');
     $select.html('<option value="" selected disabled>Cargando centros...</option>');
     
-    // Si no se proporciona acreditacionId, intentar obtenerlo del select
     if (acreditacionId === null) {
         acreditacionId = $('#ACREDITACION_CENTRO').val() || 0;
     }
@@ -2696,38 +2644,31 @@ function actualizarUbicaciones(idSeleccionada = null) {
     });
 }
 
-// Evento cuando cambia la acreditación
 $(document).ready(function() {
-    // Cargar centros al inicio si ya hay una acreditación seleccionada
     const acreditacionInicial = $('#ACREDITACION_CENTRO').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
     }
     
-    // Escuchar cambios en el select de acreditación
     $('#ACREDITACION_CENTRO').on('change', function() {
         const acreditacionId = $(this).val() || 0;
         actualizarCentrosCapacitacion(acreditacionId);
     });
 });
 
-// Función para cargar información del PDF
 function cargarInformacionPDF(docInfo) {
     const docInput = $('#DOCUMENTO_CENTRO');
     const docText = $('#documento-info');
     
-    // Remover información anterior si existe
     if (docText.length) {
         docText.remove();
     }
     
     if (docInfo) {
         try {
-            // Si es un JSON (para compatibilidad con versiones anteriores)
             if (docInfo.startsWith('[') || docInfo.startsWith('{')) {
                 const docData = JSON.parse(docInfo);
                 if (Array.isArray(docData) && docData.length > 0) {
-                    // Mostrar información del primer documento
                     const primerDoc = docData[0];
                     docInput.after(`
                         <div id="documento-info" class="mt-2">
@@ -2745,7 +2686,6 @@ function cargarInformacionPDF(docInfo) {
                     `);
                 }
             } else {
-                // Si es solo una ruta (nueva implementación)
                 const nombreArchivo = docInfo.split('/').pop().replace(/^\d+_/, '');
                 docInput.after(`
                     <div id="documento-info" class="mt-2">
@@ -2763,7 +2703,6 @@ function cargarInformacionPDF(docInfo) {
             }
         } catch (e) {
             console.error('Error parsing documento info:', e);
-            // Si es solo texto (ruta del archivo)
             const nombreArchivo = docInfo.split('/').pop().replace(/^\d+_/, '');
             docInput.after(`
                 <div id="documento-info" class="mt-2">
@@ -2775,7 +2714,6 @@ function cargarInformacionPDF(docInfo) {
             `);
         }
     } else {
-        // Si no hay documento
         docInput.after(`
             <div id="documento-info" class="mt-2">
                 <small class="text-warning">
@@ -2787,24 +2725,19 @@ function cargarInformacionPDF(docInfo) {
     }
 }
 
-// Función para extraer nombre legible del archivo
 function getNombreArchivoLegible(ruta) {
     if (!ruta) return 'Sin documento';
     
     try {
-        // Si es JSON
         if (ruta.startsWith('[') || ruta.startsWith('{')) {
             const docData = JSON.parse(ruta);
             if (Array.isArray(docData) && docData.length > 0) {
                 return docData[0].nombre || docData[0].archivo_original || 'Documento PDF';
             }
         }
-        // Si es ruta directa
         const nombreCompleto = ruta.split('/').pop();
-        // Remover el prefijo único (uniqid_)
         return nombreCompleto.replace(/^[a-f0-9]+_/, '');
     } catch (e) {
-        // Si falla el parsing, devolver la ruta original
         return ruta.split('/').pop() || 'Documento PDF';
     }
 }
@@ -2815,7 +2748,7 @@ $('#temas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_CATALOGO_TEMAPREGUNTA = row.data().ID_CATALOGO_TEMAPREGUNTA;
 
     editarDatoTabla(row.data(), 'temasForm', 'temaModal', 1);
-    var certificaciones = row.data().CERTIFICACION_TEMA; //ARRAY CON LOS IDS
+    var certificaciones = row.data().CERTIFICACION_TEMA; 
     var $select = $('#CERTIFICACION_TEMA');
     if (!$select[0].selectize) {
         $select.selectize({
@@ -2843,7 +2776,7 @@ $('#subtemas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     ID_CATALOGO_SUBTEMA = row.data().ID_CATALOGO_SUBTEMA;
 
     editarDatoTabla(row.data(), 'subtemasForm', 'subtemaModal', 1);
-    var certificaciones = row.data().CERTIFICACION_SUBTEMA; //ARRAY CON LOS IDS
+    var certificaciones = row.data().CERTIFICACION_SUBTEMA; 
     var $select = $('#CERTIFICACION_SUBTEMA');
     if (!$select[0].selectize) {
         $select.selectize({
@@ -2940,13 +2873,13 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
         'ACREDITACION_INSTRUCTOR'
     ]);
 
-    $('#documentos-container').html(''); // Limpia primero el contenedor
+    $('#documentos-container').html(''); 
 
     let documentos = row.data().DOC_INSTRUCTOR;
 
     if (documentos) {
         try {
-            documentos = JSON.parse(documentos); // Convierte el JSON a array
+            documentos = JSON.parse(documentos); 
             documentos.forEach((doc, index) => {
                 $('#documentos-container').append(`
                     <div class="d-flex align-items-center mb-2 doc-row">
@@ -2978,13 +2911,11 @@ $('#instructores-list-table tbody').on('click', 'td>button.EDITAR', function () 
 
 });
 
-// Mueve las variables globales al inicio
 let pdfRutaActual = '';
 let pdfIdCentroActual = '';
 
 
 
-// Función para construir la URL del PDF (corregida)
 function construirURLPDF(rutaArchivo, idCentro) {
     if (!rutaArchivo) return '';
     
@@ -2993,28 +2924,22 @@ function construirURLPDF(rutaArchivo, idCentro) {
     
     console.log('Construyendo URL para:', { rutaArchivo, rutaLimpia, idCentro });
     
-    // Si la ruta ya es completa (contiene admin/catalogs/centros/)
     if (rutaLimpia.includes('admin/catalogs/centros/')) {
-        // Extraer solo el nombre del archivo
         const nombreArchivo = rutaLimpia.split('/').pop();
         return `${baseUrl}/archivos/centros/${idCentro}/${nombreArchivo}`;
     }
     
-    // Si es solo el nombre del archivo
     return `${baseUrl}/archivos/centros/${idCentro}/${rutaLimpia}`;
 }
 
-// Función para extraer la ruta real del archivo (simplificada)
 function extraerRutaArchivo(ruta) {
     try {
-        // Si es un JSON string
         if (typeof ruta === 'string' && (ruta.trim().startsWith('[') || ruta.trim().startsWith('{'))) {
             const docData = JSON.parse(ruta);
             if (Array.isArray(docData) && docData.length > 0) {
                 return docData[0].ruta || '';
             }
         }
-        // Si es solo texto (ruta directa)
         return ruta;
     } catch (e) {
         console.error('Error al extraer ruta:', e);
@@ -3022,7 +2947,6 @@ function extraerRutaArchivo(ruta) {
     }
 }
 
-// Función para cargar el PDF (actualizada)
 function cargarPDF(ruta, idCentro) {
     $('#pdfLoading').show();
     $('#pdfViewer').hide();
@@ -3037,7 +2961,6 @@ function cargarPDF(ruta, idCentro) {
         return;
     }
     
-    // Extraer solo el nombre del archivo para la URL
     const nombreArchivo = rutaArchivo.split('/').pop();
     const urlCompleta = construirURLPDF(nombreArchivo, idCentro);
     
@@ -3065,7 +2988,6 @@ function cargarPDF(ruta, idCentro) {
 
 
 
-// Evento para el botón Ver PDF (corregido)
 $('#centros-list-table tbody').on('click', 'button.VER_PDF', function () {
     const idCentro = $(this).data('id');
     const rutaDocumento = $(this).data('ruta');
@@ -3075,10 +2997,8 @@ $('#centros-list-table tbody').on('click', 'button.VER_PDF', function () {
     
     console.log('Abriendo PDF:', { idCentro, rutaDocumento });
     
-    // Mostrar modal
     $('#pdfModal').modal('show');
     
-    // Cargar el PDF
     cargarPDF(rutaDocumento, idCentro);
 });
 
@@ -3089,7 +3009,6 @@ function descargarPDF() {
     const nombreArchivo = extraerRutaArchivo(pdfRutaActual);
     const urlDescarga = construirURLPDF(nombreArchivo, pdfIdCentroActual);
     
-    // Forzar descarga cambiando la URL
     const urlDescargaForzada = urlDescarga + '?download=1';
     
     const link = document.createElement('a');
@@ -3104,13 +3023,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let complementoCounter = 0;
     let enteSeleccionado = null;
 
-    // Función para actualizar textos según el ente seleccionado
     function actualizarTextosPorEnte(enteId) {
         enteSeleccionado = enteId;
         const esId1 = (enteId == 1);
         const esId2 = (enteId == 2);
         
-        // Mostrar/ocultar sección de resit inmediato (solo para ID 2)
         const seccionResitInmediato = document.getElementById('seccionResitInmediato');
         if (esId2) {
             seccionResitInmediato.style.display = 'block';
@@ -3118,7 +3035,6 @@ document.addEventListener('DOMContentLoaded', function() {
             seccionResitInmediato.style.display = 'none';
         }
 
-        // Actualizar título de la sección normal
         const tituloResitNormal = document.getElementById('tituloResitNormal');
         if (esId1) {
             tituloResitNormal.textContent = 'Re-test normal';
@@ -3126,7 +3042,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tituloResitNormal.textContent = 'Re-sit normal';
         }
 
-        // Actualizar labels de la sección normal
         const labelMinRetest = document.querySelectorAll('.labelMinRetest');
         const labelMaxRetest = document.querySelectorAll('.labelMaxRetest');
         const labelOpcionesRetest = document.querySelectorAll('.labelOpcionesRetest');
@@ -3145,25 +3060,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Event listener para cambio de ente acreditador
     document.getElementById('ACCREDITATION_ENTITIES_PROGRAM').addEventListener('change', function() {
         actualizarTextosPorEnte(this.value);
     });
 
-    // Inicializar con el valor por defecto
     const selectEnte = document.getElementById('ACCREDITATION_ENTITIES_PROGRAM');
     if (selectEnte.value) {
         actualizarTextosPorEnte(selectEnte.value);
     }
 
-    // Función para validar rangos de calificaciones
     function validarRangosComplemento(complementoId) {
         const minAprobar = document.querySelector(`[name="complementos[${complementoId}][min_aprobar]"]`);
         const maxAprobar = document.querySelector(`[name="complementos[${complementoId}][max_aprobar]"]`);
         const minRetest = document.querySelector(`[name="complementos[${complementoId}][min_retest]"]`);
         const maxRetest = document.querySelector(`[name="complementos[${complementoId}][max_retest]"]`);
 
-        // Validar que máximo aprobar sea mayor que mínimo aprobar
         if (minAprobar.value && maxAprobar.value) {
             if (parseFloat(maxAprobar.value) <= parseFloat(minAprobar.value)) {
                 maxAprobar.setCustomValidity('El máximo debe ser mayor que el mínimo');
@@ -3173,7 +3084,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Validar que el rango de retest no se solape con aprobar
         if (minAprobar.value && minRetest.value) {
             if (parseFloat(minRetest.value) >= parseFloat(minAprobar.value)) {
                 minRetest.setCustomValidity(`Debe ser menor que ${minAprobar.value}% (mínimo para aprobar)`);
@@ -3196,7 +3106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Validar que máximo retest sea mayor que mínimo retest
         if (minRetest.value && maxRetest.value) {
             if (parseFloat(maxRetest.value) <= parseFloat(minRetest.value)) {
                 maxRetest.setCustomValidity('El máximo debe ser mayor que el mínimo');
@@ -3209,7 +3118,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // Función para crear un nuevo complemento
     function crearComplemento() {
         complementoCounter++;
         const complementoId = complementoCounter;
@@ -3286,11 +3194,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('complementosContainer').insertAdjacentHTML('beforeend', complementoHTML);
         
-        // Agregar event listeners para validación
         agregarValidacionComplemento(complementoId);
     }
 
-    // Función para agregar validación a un complemento
     function agregarValidacionComplemento(complementoId) {
         const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
         
@@ -3305,20 +3211,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listener para agregar complemento
     document.getElementById('btnAgregarComplemento').addEventListener('click', function(e) {
         e.preventDefault();
         crearComplemento();
     });
 
-    // Función global para eliminar complemento
     window.eliminarComplemento = function(complementoId) {
         if (confirm('¿Está seguro de eliminar este complemento?')) {
             document.getElementById(complementoId).remove();
         }
     };
 
-    // Habilitar/deshabilitar campos de resit inmediato
     const opcionResitSelect = document.getElementById('OPCION_RESIT');
     if (opcionResitSelect) {
         opcionResitSelect.addEventListener('change', function() {
@@ -3339,7 +3242,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Validación antes de enviar el formulario
     document.getElementById('programasbtnModal').addEventListener('click', function(e) {
         const complementos = document.querySelectorAll('.complemento-item');
         let todosValidos = true;
@@ -3357,7 +3259,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Aquí continúa con el envío del formulario
         document.getElementById('programasForm').submit();
     });
 });

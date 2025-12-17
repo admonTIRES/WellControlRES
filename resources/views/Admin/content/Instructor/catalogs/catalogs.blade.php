@@ -535,7 +535,7 @@
                     </div>
 
                     <!-- ===================== RESIT INMEDIATO (SOLO PARA ID 2) ===================== -->
-                    <div id="seccionResitInmediato" style="display: none;">
+                    <div id="seccionResitInmediato">
                         <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Re-sit inmediato</h6>
 
                         <div class="row mb-3">
@@ -598,17 +598,16 @@
                     <div class="d-flex justify-content-center gap-1 flex-wrap mb-3">
                         <div class="col-md-4 text-start">
                             <label> {{ __('Niveles de acreditación') }}</label>
-                            <select class="form-select" id="LEVELS_PROGRAM" name="LEVELS_PROGRAM[]" multiple >
-                            <option selected disabled></option>
+                            <select class="form-select selectize-multiple" id="LEVELS_PROGRAM" name="LEVELS_PROGRAM[]" multiple >
                             @foreach ($niveles as $nivel)
                                     <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>
                             @endforeach
                             </select>
                         </div>
+
                         <div class="col-md-3 text-start">
                             <label> {{ __('Tipo de BOP') }}</label>
-                            <select class="form-select" id="BOPS_PROGRAM" name="BOPS_PROGRAM[]" multiple >
-                            <option selected disabled></option>
+                            <select class="form-select selectize-multiple" id="BOPS_PROGRAM" name="BOPS_PROGRAM[]" multiple >
                             @foreach ($bops as $bop)
                             <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}</option>
                             @endforeach
@@ -616,8 +615,7 @@
                         </div>
                         <div class="col-md-4 text-start">
                             <label> {{ __('Tipo de operación') }}</label>
-                            <select class="form-select" id="OPERATIONS_PROGRAM" name="OPERATIONS_PROGRAM[]" multiple >
-                            <option selected disabled></option>
+                            <select class="form-select selectize-multiple" id="OPERATIONS_PROGRAM" name="OPERATIONS_PROGRAM[]" multiple >
                             @foreach ($operaciones as $operacion)
                             <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{ $operacion->NOMBRE_OPERACION }}</option>
                             @endforeach

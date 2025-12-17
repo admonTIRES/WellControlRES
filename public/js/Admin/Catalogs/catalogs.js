@@ -66,15 +66,16 @@ $(document).ready(function () {
             this.$control_input.prop('readonly', true);
         }
     });
-    var selectizeInstance4 = $select4[0].selectize; 
+    var selectizeInstance4 = $select4[0].selectize;
 
     var $select5 = $('#LEVELS_PROGRAM').selectize({
-        plugins: ['remove_button'],
+       plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
         maxItems: null,
         create: false,
         onInitialize: function () {
+            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -87,6 +88,7 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
+            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -99,6 +101,7 @@ $(document).ready(function () {
         maxItems: null,
         create: false,
         onInitialize: function () {
+            // Desactiva la escritura del input interno
             this.$control_input.prop('readonly', true);
         }
     });
@@ -189,6 +192,48 @@ $(document).ready(function () {
     $('#programasModal').on('hidden.bs.modal', function () {
         ID_CATALOGO_PROGRAMA = 0;
         $('#programasForm')[0].reset();
+
+        ['LEVELS_PROGRAM'].forEach(fieldId => {
+            const $select = $('#' + fieldId);
+            if ($select[0].selectize) {
+                $select[0].selectize.clear();
+            } else {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+        });
+
+        ['BOPS_PROGRAM'].forEach(fieldId => {
+            const $select = $('#' + fieldId);
+            if ($select[0].selectize) {
+                $select[0].selectize.clear();
+            } else {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+        });
+
+        ['OPERATIONS_PROGRAM'].forEach(fieldId => {
+            const $select = $('#' + fieldId);
+            if ($select[0].selectize) {
+                $select[0].selectize.clear();
+            } else {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+        });
         $('#programasModal .modal-title').text('Nuevo programa');
 
         $('#MIN_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
@@ -196,27 +241,14 @@ $(document).ready(function () {
 
         $('#programasForm').find('.is-invalid').removeClass('is-invalid');
         $('#programasForm').find('.invalid-feedback').remove();
+
+
     });
 
     const selectResit = document.getElementById("OPCION_RESIT");
     const minRe = document.getElementById("MIN_PORCENTAJE_REPROB_RE");
     const maxRe = document.getElementById("MAX_PORCENTAJE_REPROB_RE");
 
-    function actualizarResit() {
-        if (selectResit.value === "2") {
-            // Aplica
-            minRe.removeAttribute("readonly");
-            maxRe.removeAttribute("readonly");
-            minRe.value = "";
-            maxRe.value = "";
-        } else {
-            // No aplica
-            minRe.setAttribute("readonly", true);
-            maxRe.setAttribute("readonly", true);
-            minRe.value = 0;
-            maxRe.value = 0;
-        }
-    }
 
     selectResit.addEventListener("change", actualizarResit);
     actualizarResit();
@@ -320,6 +352,26 @@ $(document).ready(function () {
         });
     }
 });
+
+function actualizarResit() {
+    const selectResit = document.getElementById("OPCION_RESIT");
+    const minRe = document.getElementById("MIN_PORCENTAJE_REPROB_RE");
+    const maxRe = document.getElementById("MAX_PORCENTAJE_REPROB_RE");
+
+    if (selectResit.value === "2") {
+        // Aplica
+        minRe.removeAttribute("readonly");
+        maxRe.removeAttribute("readonly");
+        minRe.value = "";
+        maxRe.value = "";
+    } else {
+        // No aplica
+        minRe.setAttribute("readonly", true);
+        maxRe.setAttribute("readonly", true);
+        minRe.value = 0;
+        maxRe.value = 0;
+    }
+}
 
 
 // DATATABLES
@@ -2315,26 +2367,63 @@ $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
 });
 
+
 $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
     var row = programasDatatable.row(tr);
     ID_CATALOGO_PROGRAMA = row.data().ID_CATALOGO_PROGRAMA;
 
+    console.log(row.data().LEVELS_PROGRAM);
+    console.log(row.data().BOPS_PROGRAM);
+    console.log(row.data().OPERATIONS_PROGRAM);
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+    console.log('este es el value de '+fieldId+' '+values);
+
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();
+            selectize.setValue(values);
+        });
+    }
+
+     initializeSelectizedFields(row, [
+        'LEVELS_PROGRAM',
+        'BOPS_PROGRAM',
+        'OPERATIONS_PROGRAM'
+    ]);
+   
+
 
     editarDatoTabla(row.data(), 'programasForm', 'programasModal', 1);
 
     if (row.data().OPCION_RESIT == 2) {
+        actualizarResit();
+        actualizarTextosPorEnte(row.data().ACCREDITATION_ENTITIES_PROGRAM);
         $('#MIN_PORCENTAJE_REPROB_RE').val(row.data().MIN_PORCENTAJE_REPROB_RE);
         $('#MAX_PORCENTAJE_REPROB_RE').val(row.data().MAX_PORCENTAJE_REPROB_RE);
-        actualizarResit();
     } else {
         actualizarResit();
     }
 
+
+
+
     $('#programasModal .modal-title').html('Editando: ' + row.data().NOMBRE_PROGRAMA);
 
-    $('#programasModal').modal('show');
 });
+
 
 $('#ubicaciones-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
@@ -2349,7 +2438,30 @@ $('#nivelacreditacion-list-table tbody').on('click', 'td>button.EDITAR', functio
     var tr = $(this).closest('tr');
     var row = nivelesDatatable.row(tr);
     ID_CATALOGO_NIVELACREDITACION = row.data().ID_CATALOGO_NIVELACREDITACION;
-    actualizarProgramas(row.data().DESCRIPCION_NIVEL);
+    // actualizarProgramas(row.data().DESCRIPCION_NIVEL);
+
+    function initializeSelectizedFields(row, fieldIds) {
+        fieldIds.forEach(function (fieldId) {
+            var values = row.data()[fieldId];
+            var $select = $('#' + fieldId);
+
+            if (!$select[0].selectize) {
+                $select.selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    create: false
+                });
+            }
+
+            var selectize = $select[0].selectize;
+            selectize.clear();
+            selectize.setValue(values);
+        });
+    }
+    initializeSelectizedFields(row, [
+        'DESCRIPCION_NIVEL'
+    ]);
 
     editarDatoTabla(row.data(), 'nivelForm', 'nivelModal', 1);
     $('#nivelModal .modal-title').html(row.data().NOMBRE_NIVEL);
@@ -3030,9 +3142,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const seccionResitInmediato = document.getElementById('seccionResitInmediato');
         if (esId2) {
-            seccionResitInmediato.style.display = 'block';
+            seccionResitInmediato.removeClass = "d-none";
         } else {
-            seccionResitInmediato.style.display = 'none';
+            seccionResitInmediato.addClass = "d-none";
         }
 
         const tituloResitNormal = document.getElementById('tituloResitNormal');
@@ -3242,3 +3354,41 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+function actualizarTextosPorEnte(enteId) {
+    enteSeleccionado = enteId;
+    const esId1 = (enteId == 1);
+    const esId2 = (enteId == 2);
+
+    const seccionResitInmediato = document.getElementById('seccionResitInmediato');
+    if (esId2) {
+        seccionResitInmediato.removeClass = "d-none";
+    } else {
+        seccionResitInmediato.addClass = "d-none";
+    }
+
+    const tituloResitNormal = document.getElementById('tituloResitNormal');
+    if (esId1) {
+        tituloResitNormal.textContent = 'Re-test normal';
+    } else if (esId2) {
+        tituloResitNormal.textContent = 'Re-sit normal';
+    }
+
+    const labelMinRetest = document.querySelectorAll('.labelMinRetest');
+    const labelMaxRetest = document.querySelectorAll('.labelMaxRetest');
+    const labelOpcionesRetest = document.querySelectorAll('.labelOpcionesRetest');
+    const labelPeriodoRetest = document.querySelectorAll('.labelPeriodoRetest');
+
+    if (esId1) {
+        labelMinRetest.forEach(el => el.textContent = 'Calificación mínima para aplicar re-test (%)');
+        labelMaxRetest.forEach(el => el.textContent = 'Calificación máxima para aplicar re-test (%)');
+        labelOpcionesRetest.forEach(el => el.textContent = 'Opciones permitidas de re-test');
+        labelPeriodoRetest.forEach(el => el.textContent = 'Periodo disponible para aplicar re-test (días)');
+    } else if (esId2) {
+        labelMinRetest.forEach(el => el.textContent = 'Calificación mínima para aplicar re-sit (%)');
+        labelMaxRetest.forEach(el => el.textContent = 'Calificación máxima para aplicar re-sit (%)');
+        labelOpcionesRetest.forEach(el => el.textContent = 'Opciones permitidas de re-sit');
+        labelPeriodoRetest.forEach(el => el.textContent = 'Periodo disponible para aplicar re-sit (días)');
+    }
+}
+
+

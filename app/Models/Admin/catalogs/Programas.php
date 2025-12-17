@@ -28,4 +28,9 @@ class Programas extends Model
         'OPERATIONS_PROGRAM',
         'COMPLEMENTS_PROGRAM'
     ];
+     protected $casts = [
+        'LEVELS_PROGRAM' => 'array',
+        'BOPS_PROGRAM' => 'array',
+        'OPERATIONS_PROGRAM' => 'array',
+    ];
 }

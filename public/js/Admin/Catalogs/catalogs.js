@@ -234,6 +234,9 @@ $(document).ready(function () {
                 });
             }
         });
+
+        $('#complementosContainer').empty();
+    complementoCounter = 0;
         $('#programasModal .modal-title').text('Nuevo programa');
 
         $('#MIN_PORCENTAJE_REPROB_RE').val(0).attr('readonly', true);
@@ -2418,11 +2421,58 @@ $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     }
 
 
-
+ cargarComplementos(row.data().COMPLEMENTS_PROGRAM);
 
     $('#programasModal .modal-title').html('Editando: ' + row.data().NOMBRE_PROGRAMA);
 
 });
+
+function cargarComplementos(complementosData) {
+    console.log('Cargando complementos - Datos recibidos:', complementosData);
+    console.log('Tipo de datos:', typeof complementosData);
+    
+    // Limpiar contenedor
+    $('#complementosContainer').empty();
+    complementoCounter = 0;
+    
+    if (!complementosData) {
+        console.log('No hay complementos para cargar');
+        return;
+    }
+    
+    try {
+        let complementos;
+        
+        // Si ya es un array (gracias al cast en el modelo), usarlo directamente
+        if (Array.isArray(complementosData)) {
+            complementos = complementosData;
+            console.log('Complementos como array:', complementos);
+        } 
+        // Si es string JSON, parsearlo
+        else if (typeof complementosData === 'string') {
+            complementos = JSON.parse(complementosData);
+            console.log('Complementos parseados desde string:', complementos);
+        } 
+        // Si es objeto, convertirlo a array
+        else if (typeof complementosData === 'object') {
+            complementos = [complementosData];
+            console.log('Complementos convertidos de objeto a array:', complementos);
+        }
+        
+        if (complementos && complementos.length > 0) {
+            console.log(`Creando ${complementos.length} complemento(s)`);
+            complementos.forEach((complemento, index) => {
+                console.log(`Complemento ${index + 1}:`, complemento);
+                crearComplemento(complemento);
+            });
+        } else {
+            console.log('Array de complementos vacío o inválido');
+        }
+    } catch (e) {
+        console.error('Error al cargar complementos:', e);
+        console.error('Datos que causaron el error:', complementosData);
+    }
+}
 
 
 $('#ubicaciones-list-table tbody').on('click', 'td>button.EDITAR', function () {
@@ -3230,85 +3280,97 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    function crearComplemento() {
-        complementoCounter++;
-        const complementoId = complementoCounter;
-        const esId1 = (enteSeleccionado == 1);
-        const textoRetest = esId1 ? 're-test' : 're-sit';
+  function crearComplemento(datosComplemento = null) {
+    complementoCounter++;
+    const complementoId = complementoCounter;
+    const esId1 = (enteSeleccionado == 1);
+    const textoRetest = esId1 ? 're-test' : 're-sit';
 
-        const complementoHTML = `
-            <div class="card mb-3 complemento-item" id="complemento_${complementoId}" data-complemento-id="${complementoId}">
-                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <span class="fw-bold">Complemento #${complementoId}</span>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="eliminarComplemento('complemento_${complementoId}')">
-                        <i class="bi bi-trash"></i> Eliminar
-                    </button>
+    // Valores por defecto si hay datos
+    const nombre = datosComplemento ? (datosComplemento.nombre || '') : '';
+    const minAprobar = datosComplemento ? (datosComplemento.min_aprobar || '') : '';
+    const maxAprobar = datosComplemento ? (datosComplemento.max_aprobar || '') : '';
+    const minRetest = datosComplemento ? (datosComplemento.min_retest || '') : '';
+    const maxRetest = datosComplemento ? (datosComplemento.max_retest || '') : '';
+    const requiereEntrenamiento = datosComplemento ? (datosComplemento.requiere_entrenamiento || 0) : 0;
+
+    const complementoHTML = `
+        <div class="card mb-3 complemento-item" id="complemento_${complementoId}" data-complemento-id="${complementoId}">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Complemento #${complementoId}</span>
+                <button type="button" class="btn btn-sm btn-danger" onclick="eliminarComplemento('complemento_${complementoId}')">
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label class="form-label">Nombre del complemento <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="complementos[${complementoId}][nombre]" 
+                               value="${nombre}" required>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-8">
-                            <label class="form-label">Nombre del complemento <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="complementos[${complementoId}][nombre]" required>
-                        </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Calificación mínima para aprobar (%) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control complemento-min-aprobar" 
+                               name="complementos[${complementoId}][min_aprobar]" 
+                               min="0" max="100" 
+                               placeholder="Ej. 70"
+                               data-complemento-id="${complementoId}"
+                               value="${minAprobar}"
+                               required>
                     </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Calificación mínima para aprobar (%) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control complemento-min-aprobar" 
-                                   name="complementos[${complementoId}][min_aprobar]" 
-                                   min="0" max="100" 
-                                   placeholder="Ej. 70"
-                                   data-complemento-id="${complementoId}"
-                                   required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Calificación máxima para aprobar (%) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control complemento-max-aprobar" 
-                                   name="complementos[${complementoId}][max_aprobar]" 
-                                   min="0" max="100" 
-                                   placeholder="Ej. 100"
-                                   data-complemento-id="${complementoId}"
-                                   required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label labelMinRetest">Calificación mínima para presentar ${textoRetest} (%)</label>
-                            <input type="number" class="form-control complemento-min-retest" 
-                                   name="complementos[${complementoId}][min_retest]" 
-                                   min="0" max="100" 
-                                   placeholder="Ej. 0"
-                                   data-complemento-id="${complementoId}">
-                            <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label labelMaxRetest">Calificación máxima para presentar ${textoRetest} (%)</label>
-                            <input type="number" class="form-control complemento-max-retest" 
-                                   name="complementos[${complementoId}][max_retest]" 
-                                   min="0" max="100" 
-                                   placeholder="Ej. 69"
-                                   data-complemento-id="${complementoId}">
-                            <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
-                        </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Calificación máxima para aprobar (%) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control complemento-max-aprobar" 
+                               name="complementos[${complementoId}][max_aprobar]" 
+                               min="0" max="100" 
+                               placeholder="Ej. 100"
+                               data-complemento-id="${complementoId}"
+                               value="${maxAprobar}"
+                               required>
                     </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label class="form-label">¿Requiere re-fresh en caso de ${textoRetest}?</label>
-                            <select class="form-select" name="complementos[${complementoId}][requiere_entrenamiento]">
-                                <option value="0">No</option>
-                                <option value="1">Sí</option>
-                            </select>
-                        </div>
+                    <div class="col-md-3">
+                        <label class="form-label labelMinRetest">Calificación mínima para presentar ${textoRetest} (%)</label>
+                        <input type="number" class="form-control complemento-min-retest" 
+                               name="complementos[${complementoId}][min_retest]" 
+                               min="0" max="100" 
+                               placeholder="Ej. 0"
+                               data-complemento-id="${complementoId}"
+                               value="${minRetest}">
+                        <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label labelMaxRetest">Calificación máxima para presentar ${textoRetest} (%)</label>
+                        <input type="number" class="form-control complemento-max-retest" 
+                               name="complementos[${complementoId}][max_retest]" 
+                               min="0" max="100" 
+                               placeholder="Ej. 69"
+                               data-complemento-id="${complementoId}"
+                               value="${maxRetest}">
+                        <div class="invalid-feedback">Debe ser menor que la calificación mínima para aprobar</div>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">¿Requiere re-fresh en caso de ${textoRetest}?</label>
+                        <select class="form-select" name="complementos[${complementoId}][requiere_entrenamiento]">
+                            <option value="0" ${requiereEntrenamiento == 0 ? 'selected' : ''}>No</option>
+                            <option value="1" ${requiereEntrenamiento == 1 ? 'selected' : ''}>Sí</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        `;
+        </div>
+    `;
 
-        document.getElementById('complementosContainer').insertAdjacentHTML('beforeend', complementoHTML);
+    document.getElementById('complementosContainer').insertAdjacentHTML('beforeend', complementoHTML);
 
-        agregarValidacionComplemento(complementoId);
-    }
-
+    agregarValidacionComplemento(complementoId);
+}
     function agregarValidacionComplemento(complementoId) {
         const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
 
@@ -3328,11 +3390,52 @@ document.addEventListener('DOMContentLoaded', function () {
         crearComplemento();
     });
 
-    window.eliminarComplemento = function (complementoId) {
-        if (confirm('¿Está seguro de eliminar este complemento?')) {
-            document.getElementById(complementoId).remove();
+   window.eliminarComplemento = function (complementoId) {
+    if (confirm('¿Está seguro de eliminar este complemento?')) {
+        const elemento = document.getElementById(complementoId);
+        if (elemento) {
+            elemento.remove();
+            
+            // Renumerar complementos restantes
+            const complementos = document.querySelectorAll('.complemento-item');
+            complementoCounter = 0;
+            
+            complementos.forEach((comp, index) => {
+                complementoCounter++;
+                const newId = complementoCounter;
+                
+                // Actualizar ID del contenedor
+                comp.id = `complemento_${newId}`;
+                comp.setAttribute('data-complemento-id', newId);
+                
+                // Actualizar título
+                const titulo = comp.querySelector('.card-header .fw-bold');
+                if (titulo) titulo.textContent = `Complemento #${newId}`;
+                
+                // Actualizar botón eliminar
+                const btnEliminar = comp.querySelector('.btn-danger');
+                if (btnEliminar) {
+                    btnEliminar.setAttribute('onclick', `eliminarComplemento('complemento_${newId}')`);
+                }
+                
+                // Actualizar names de los inputs
+                const inputs = comp.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name) {
+                        const newName = name.replace(/\[\d+\]/, `[${newId}]`);
+                        input.setAttribute('name', newName);
+                    }
+                    
+                    // Actualizar data-complemento-id
+                    if (input.hasAttribute('data-complemento-id')) {
+                        input.setAttribute('data-complemento-id', newId);
+                    }
+                });
+            });
         }
-    };
+    }
+};
 
     const opcionResitSelect = document.getElementById('OPCION_RESIT');
     if (opcionResitSelect) {

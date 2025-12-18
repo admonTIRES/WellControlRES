@@ -133,7 +133,7 @@ class CatalogsController extends Controller
             $tabla = Programas::get();
             foreach ($tabla as $value) {
                 $aprobacionInfo = $value->MIN_PORCENTAJE_APROB . '% - ' . $value->MAX_PORCENTAJE_APROB . '%';
-                
+
                 $resitInfo = '';
                 if ($value->OPCION_RESIT == 2) {
                     $resitInfo .= 'Resit inmediato: ' . $value->MIN_PORCENTAJE_REPROB_RE . '% - ' . $value->MAX_PORCENTAJE_REPROB_RE . '%<br>';
@@ -1457,36 +1457,92 @@ class CatalogsController extends Controller
                     return response()->json($response);
                     break;
                 case 14:
-                    if ($request->ID_CATALOGO_PROGRAMA == 0) {
-                        
-                        $data = $request->all();
-                        $data['ACTIVO_PROGRAMA'] = 1;
-                        
-                        $programa = Programas::create($data);
-                    } else {
-                        if (isset($request->ACTIVAR)) {
-                            if ($request->ACTIVAR == 1) {
-                                $programa = Programas::where('ID_CATALOGO_PROGRAMA', $request['ID_CATALOGO_PROGRAMA'])->update(['ACTIVO_PROGRAMA' => 0]);
-                                $response['code'] = 1;
-                                $response['programa'] = 'Desactivado';
-                            } else {
-                                $programa = Programas::where('ID_CATALOGO_PROGRAMA', $request['ID_CATALOGO_PROGRAMA'])->update(['ACTIVO_PROGRAMA' => 1]);
-                                $response['code'] = 1;
-                                $response['programa'] = 'Activado';
-                            }
-                        } else {
-                            $programa = Programas::find($request->ID_CATALOGO_PROGRAMA);
-                            $programa->update($request->all());
-                            $response['code'] = 1;
-                            $response['programa'] = 'Actualizado';
-                        }
-                        return response()->json($response);
+    if ($request->ID_CATALOGO_PROGRAMA == 0) {
+        // CREAR NUEVO PROGRAMA
+        $data = $request->except(['complementos', 'api', '_token']);
+        $data['ACTIVO_PROGRAMA'] = 1;
+        
+        // Procesar complementos si existen
+        $complementosInput = $request->input('complementos');
+        if ($complementosInput && is_array($complementosInput)) {
+            $complementosArray = [];
+            foreach ($complementosInput as $key => $complemento) {
+                if (is_array($complemento)) {
+                    $complementosArray[] = [
+                        'nombre' => $complemento['nombre'] ?? '',
+                        'min_aprobar' => $complemento['min_aprobar'] ?? 0,
+                        'max_aprobar' => $complemento['max_aprobar'] ?? 0,
+                        'min_retest' => $complemento['min_retest'] ?? 0,
+                        'max_retest' => $complemento['max_retest'] ?? 0,
+                        'requiere_entrenamiento' => $complemento['requiere_entrenamiento'] ?? 0
+                    ];
+                }
+            }
+            
+            if (!empty($complementosArray)) {
+                $data['COMPLEMENTS_PROGRAM'] = json_encode($complementosArray, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        
+        $programa = Programas::create($data);
+        
+        $response['code'] = 1;
+        $response['programa'] = $programa;
+        return response()->json($response);
+        
+    } else {
+        // ACTUALIZAR O ACTIVAR/DESACTIVAR
+        if (isset($request->ACTIVAR)) {
+            if ($request->ACTIVAR == 1) {
+                $programa = Programas::where('ID_CATALOGO_PROGRAMA', $request['ID_CATALOGO_PROGRAMA'])
+                    ->update(['ACTIVO_PROGRAMA' => 0]);
+                $response['code'] = 1;
+                $response['programa'] = 'Desactivado';
+            } else {
+                $programa = Programas::where('ID_CATALOGO_PROGRAMA', $request['ID_CATALOGO_PROGRAMA'])
+                    ->update(['ACTIVO_PROGRAMA' => 1]);
+                $response['code'] = 1;
+                $response['programa'] = 'Activado';
+            }
+        } else {
+            // EDITAR PROGRAMA
+            $programa = Programas::find($request->ID_CATALOGO_PROGRAMA);
+            $data = $request->except(['complementos', 'api', '_token']);
+            
+            // Procesar complementos si existen
+            $complementosInput = $request->input('complementos');
+            if ($complementosInput && is_array($complementosInput)) {
+                $complementosArray = [];
+                foreach ($complementosInput as $key => $complemento) {
+                    if (is_array($complemento)) {
+                        $complementosArray[] = [
+                            'nombre' => $complemento['nombre'] ?? '',
+                            'min_aprobar' => $complemento['min_aprobar'] ?? 0,
+                            'max_aprobar' => $complemento['max_aprobar'] ?? 0,
+                            'min_retest' => $complemento['min_retest'] ?? 0,
+                            'max_retest' => $complemento['max_retest'] ?? 0,
+                            'requiere_entrenamiento' => $complemento['requiere_entrenamiento'] ?? 0
+                        ];
                     }
-                    $response['code']  = 1;
-                    $response['programa']  = $programa;
-                    return response()->json($response);
-                    break;
-                    default:
+                }
+                
+                if (!empty($complementosArray)) {
+                    $data['COMPLEMENTS_PROGRAM'] = json_encode($complementosArray, JSON_UNESCAPED_UNICODE);
+                } else {
+                    $data['COMPLEMENTS_PROGRAM'] = null;
+                }
+            } else {
+                $data['COMPLEMENTS_PROGRAM'] = null;
+            }
+            
+            $programa->update($data);
+            $response['code'] = 1;
+            $response['programa'] = 'Actualizado';
+        }
+        return response()->json($response);
+    }
+    break;
+                default:
                     $response['code'] = 1;
                     $response['msj'] = 'Api no encontrada';
                     return response()->json($response);

@@ -31,6 +31,6 @@ class Programas extends Model
      protected $casts = [
         'LEVELS_PROGRAM' => 'array',
         'BOPS_PROGRAM' => 'array',
-        'OPERATIONS_PROGRAM' => 'array',
+        'OPERATIONS_PROGRAM' => 'array'
     ];
 }

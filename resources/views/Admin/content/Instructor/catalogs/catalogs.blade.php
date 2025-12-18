@@ -434,14 +434,14 @@
                             <div class="col-md-6">
                                 <label class="form-label">¿Se puede combinar con otros niveles?</label>
                                 <select class="form-select" id="COMBINATED_LEVELS" name="COMBINATED_LEVELS">
-                                        <option value="1">Sí</option>
                                         <option value="2">No</option>
+                                        <option value="1">Sí</option>
                                 </select>
                             </div>
                             <div id="programaContainer" class="row mb-3">
                                 <div class="col-12">
-                                    <label for="DESCRIPCION_NIVEL" class="form-label">{{ __('Niveles con los que se puede combinar') }}</label>
-                                    <select class="form-select" id="DESCRIPCION_NIVEL" name="DESCRIPCION_NIVEL" multiple>
+                                    <label for="NIVELES_COMBINADOS" class="form-label">{{ __('Niveles con los que se puede combinar') }}</label>
+                                    <select class="form-select" id="NIVELES_COMBINADOS" name="NIVELES_COMBINADOS[]" multiple>
                                         <option value="" selected disabled>Seleccione los niveles con los que se puede combinar</option>
                                          @foreach ($niveles as $nivel)
                                             <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{ $nivel->NOMBRE_NIVEL }}</option>

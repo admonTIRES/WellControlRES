@@ -82,10 +82,24 @@ class CatalogsController extends Controller
         try {
             $tabla = NivelAcreditacion::get();
             $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
-            $programas = Programas::pluck('NOMBRE_PROGRAMA', 'ID_CATALOGO_PROGRAMA')->toArray();
+            $niveles = NivelAcreditacion::pluck('NOMBRE_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
             foreach ($tabla as $value) {
                 $value->ACREDITACION_NOMBRE = $entes[$value->ACREDITACION_NIVEL] ?? 'No especificado';
-                $value->PROGRAMA_NOMBRE = $programas[$value->DESCRIPCION_NIVEL] ?? 0;
+                $combinacionesIds = $value->NIVELES_COMBINADOS ?? [];
+                $badgesHtml = '';
+                
+                foreach ($combinacionesIds as $idNivel) {
+                    if (isset($niveles[$idNivel])) {
+                        $nombreNivel = $niveles[$idNivel];
+                        $badgesHtml .= '<span class="badge bg-success me-1">' . $nombreNivel . '</span>';
+                    }
+                }
+                
+                if (empty($badgesHtml)) {
+                    $value->COMBINACION = '<span class="badge bg-secondary">No aplica</span>';
+                } else {
+                    $value->COMBINACION = $badgesHtml;
+                }
                 if ($value->ACTIVO_NIVEL == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
                                                                     <input class="form-check-input ACTIVAR" type="checkbox" data-id="' . $value->ID_CATALOGO_NIVEL . '">

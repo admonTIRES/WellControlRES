@@ -16199,7 +16199,7 @@ fieldset:disabled .btn {
 }
 
 .table thead {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .table thead tr {
@@ -16250,7 +16250,7 @@ tbody,
 tfoot,
 tr,
 th {
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .tooltip-inner {

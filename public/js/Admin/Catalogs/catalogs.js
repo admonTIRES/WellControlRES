@@ -55,7 +55,7 @@ $(document).ready(function () {
     });
     var selectizeInstance3 = $select3[0].selectize;
 
-    var $select4 = $('#DESCRIPCION_NIVEL').selectize({
+    var $select4 = $('#NIVELES_COMBINADOS').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -263,7 +263,7 @@ $(document).ready(function () {
         $('#centroModal .modal-title').text('Nuevo centro de capacitación');
         actualizarCentrosCapacitacion();
         actualizarUbicaciones();
-        actualizarProgramas();
+        // actualizarProgramas();
         $('#contactosContainer').empty();
         $('#queIncluyeContainer').empty();
 
@@ -393,6 +393,7 @@ var entesDatatable = $("#entes-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -447,6 +448,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -475,7 +477,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
         },
         { data: 'ACREDITACION_NOMBRE' },
         { data: 'NOMBRE_NIVEL' },
-        { data: 'PROGRAMA_NOMBRE' },
+        { data: 'COMBINACION' },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
@@ -483,7 +485,7 @@ var nivelesDatatable = $("#nivelacreditacion-list-table").DataTable({
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Acreditación', className: 'text-center' },
         { targets: 2, title: 'Nivel', className: 'text-center' },
-        { targets: 3, title: 'Programa', className: 'text-center' },
+        { targets: 3, title: 'Combinación con otros niveles', className: 'text-center' },
         { targets: 4, title: 'Editar', className: 'text-center' },
         { targets: 5, title: 'Activo', className: 'text-center' }
     ]
@@ -504,6 +506,7 @@ var tiposbopDatatable = $("#tiposbop-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -641,6 +644,7 @@ var temasDatatable = $("#temas-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -868,6 +872,7 @@ var subtemasDatatable = $("#subtemas-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -923,6 +928,7 @@ var idiomasDatatable = $("#idiomas-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -978,6 +984,7 @@ var membresiasDatatable = $("#membresias-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -1032,6 +1039,7 @@ var operacionDatatable = $("#operacion-list-table").DataTable({
     scrollX: true,
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -1084,6 +1092,7 @@ var instructoresDatatable = $("#instructores-list-table").DataTable({
     scrollX: true,
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -1140,6 +1149,7 @@ var nombresDatatable = $("#nombres-list-table").DataTable({
     scrollY: '65vh',
     scrollCollapse: true,
     responsive: true,
+    autoWidth: false,
     ajax: {
         dataType: 'json',
         data: {},
@@ -2357,8 +2367,6 @@ $('#instructores-list-table tbody').on('change', 'input.ACTIVAR', function () {
     eliminarDatoTabla(data, [instructoresDatatable], 'instructorActive');
 });
 
-
-
 // editar
 $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
@@ -2369,7 +2377,6 @@ $('#entes-list-table tbody').on('click', 'td>button.EDITAR', function () {
     $('#entesModal .modal-title').html(row.data().NOMBRE_ENTE);
 
 });
-
 
 $('#programas-list-table tbody').on('click', 'td>button.EDITAR', function () {
     var tr = $(this).closest('tr');
@@ -2510,7 +2517,7 @@ $('#nivelacreditacion-list-table tbody').on('click', 'td>button.EDITAR', functio
         });
     }
     initializeSelectizedFields(row, [
-        'DESCRIPCION_NIVEL'
+        'NIVELES_COMBINADOS'
     ]);
 
     editarDatoTabla(row.data(), 'nivelForm', 'nivelModal', 1);
@@ -2732,42 +2739,42 @@ function actualizarCentrosCapacitacion(acreditacionId = null) {
         }
     });
 }
-function actualizarProgramas(idSeleccionada = null) {
-    const $select = $('#DESCRIPCION_NIVEL');
-    $select.html('<option value="" selected disabled>Cargando programas...</option>');
+// function actualizarProgramas(idSeleccionada = null) {
+//     const $select = $('#DESCRIPCION_NIVEL');
+//     $select.html('<option value="" selected disabled>Cargando programas...</option>');
 
-    $.ajax({
-        url: '/programas',
-        type: 'GET',
-        data: {
-            programa: 0,
-        },
-        success: function (response) {
-            let options = '<option value="" selected disabled>Seleccione un programa</option>';
+//     $.ajax({
+//         url: '/programas',
+//         type: 'GET',
+//         data: {
+//             programa: 0,
+//         },
+//         success: function (response) {
+//             let options = '<option value="" selected disabled>Seleccione un programa</option>';
 
-            if (response.success && response.programas.length > 0) {
-                response.programas.forEach(function (programa) {
+//             if (response.success && response.programas.length > 0) {
+//                 response.programas.forEach(function (programa) {
 
-                    const selected = (idSeleccionada == programa.ID_CATALOGO_NIVELACREDITACION)
-                        ? 'selected'
-                        : '';
+//                     const selected = (idSeleccionada == programa.ID_CATALOGO_NIVELACREDITACION)
+//                         ? 'selected'
+//                         : '';
 
-                    options += `
-                        <option value="${programa.ID_CATALOGO_NIVELACREDITACION}" ${selected}>
-                            ${programa.NOMBRE_NIVEL}
-                        </option>`;
-                });
-            } else {
-                options = '<option value="" disabled>No hay programas disponibles</option>';
-            }
+//                     options += `
+//                         <option value="${programa.ID_CATALOGO_NIVELACREDITACION}" ${selected}>
+//                             ${programa.NOMBRE_NIVEL}
+//                         </option>`;
+//                 });
+//             } else {
+//                 options = '<option value="" disabled>No hay programas disponibles</option>';
+//             }
 
-            $select.html(options);
-        },
-        error: function (xhr, status, error) {
-            $select.html('<option value="" selected disabled>Error al cargar programas</option>');
-        }
-    });
-}
+//             $select.html(options);
+//         },
+//         error: function (xhr, status, error) {
+//             $select.html('<option value="" selected disabled>Error al cargar programas</option>');
+//         }
+//     });
+// }
 
 function actualizarUbicaciones(idSeleccionada = null) {
     const $select = $('#UBICACION_CENTRO');

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
     <title>Well Control Learning Experience</title>
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
     <link rel="stylesheet" href="{{ asset('assets/css/libs.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.2">
+    <link rel="stylesheet" href="{{ asset('css/admin/web.css') }}?v=1.21">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     @if(request()->is('exercises'))
@@ -771,7 +771,7 @@ use Illuminate\Support\Str;
 
     <script src="/js/Admin/admin.js?v=1.53"></script>
     @if(request()->is('catalogs'))
-        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.36"></script>
+        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.37"></script>
     @endif
     @if(request()->is('math'))
         <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>

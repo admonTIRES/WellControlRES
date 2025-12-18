@@ -13,6 +13,12 @@ class NivelAcreditacion extends Model
         'ACREDITACION_NIVEL', 
         'NOMBRE_NIVEL', 
         'DESCRIPCION_NIVEL', 
+        'COMBINATED_LEVELS', 
+        'NIVELES_COMBINADOS', 
         'ACTIVO_NIVEL'
+    ];
+
+     protected $casts = [
+        'NIVELES_COMBINADOS' => 'array'
     ];
 }

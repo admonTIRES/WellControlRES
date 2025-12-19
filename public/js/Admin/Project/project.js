@@ -8,6 +8,9 @@ let nombresP = null;
 let selectize = null;
 let razonSocial = null;
 let acreditacionElegida = null;
+let allOperaciones = [...window.allCatalogos.operaciones];
+let allNiveles = [...window.allCatalogos.niveles];
+let allBops = [...window.allCatalogos.bops];
 
 $(document).ready(function () {
     var $select3 = $('#BOP_TYPES_PROJECT').selectize({
@@ -44,6 +47,7 @@ $(document).ready(function () {
         }
     });
     var selectizeInstance4 = $select4[0].selectize;
+
     selectize = $('#COURSE_NAME_ES_PROJECT').selectize({
         options: nombresP,
         valueField: 'value',
@@ -54,21 +58,31 @@ $(document).ready(function () {
         maxItems: 1
     })[0].selectize;
 
+
+    window.selectizeInstances = {
+        niveles: $select4[0].selectize,
+        bops: $select3[0].selectize
+    };
     const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
     if (acreditacionInicial) {
         actualizarCentrosCapacitacion(acreditacionInicial);
-        actualizarComplementos(acreditacionInicial)
+        // actualizarComplementos(acreditacionInicial)
     }
 
     $('#ACCREDITING_ENTITY_PROJECT').on('change', function () {
         const acreditacionId = $(this).val() || 0;
         actualizarCentrosCapacitacion(acreditacionId);
-        actualizarComplementos(acreditacionId);
+        // actualizarComplementos(acreditacionId);
     });
 
     $('#CERTIFICATION_CENTER_PROJECT').on('change', function () {
         const centroId = $(this).val();
         cargarDatosCentro(centroId);
+    });
+
+    $('#PROGRAM_PROJECT').on('change', function () {
+        const programaId = $(this).val();
+        filtrarPorPrograma(programaId);
     });
 });
 
@@ -83,6 +97,194 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     window.wizard = new WizardManager();
 });
+
+
+function filtrarPorPrograma(programaId) {
+    if (!programaId) {
+        resetearSelects();
+        return;
+    }
+
+    const programa = window.allCatalogos.programas.find(p => p.id == programaId);
+    if (!programa) {
+        resetearSelects();
+        return;
+    }
+
+    const operacionesIds = programa.operaciones_ids.map(id => parseInt(id));
+    const nivelesIds = programa.niveles_ids.map(id => parseInt(id));
+    const bopsIds = programa.bops_ids.map(id => parseInt(id));
+
+    filtrarSelectNormal('OPERATION_TYPE_PROJECT', operacionesIds);
+    filtrarSelectizeMultiple('ACCREDITATION_LEVELS_PROJECT', nivelesIds);
+    filtrarSelectizeMultiple('BOP_TYPES_PROJECT', bopsIds);
+}
+
+function filtrarOperaciones(idsPermitidos) {
+    const select = document.getElementById('OPERATION_TYPE_PROJECT');
+    if (!select) return;
+
+    const placeholder = select.options[0];
+
+    for (let i = 1; i < select.options.length; i++) {
+        const option = select.options[i];
+        const optionId = parseInt(option.value);
+        const estaPermitido = idsPermitidos.includes(optionId);
+
+        option.style.display = estaPermitido ? '' : 'none';
+        option.disabled = !estaPermitido;
+    }
+
+    const tieneOpciones = Array.from(select.options).some((opt, idx) =>
+        idx > 0 && opt.style.display !== 'none'
+    );
+
+    if (tieneOpciones) {
+        select.disabled = false;
+        select.selectedIndex = 0;
+    } else {
+        select.disabled = true;
+        select.selectedIndex = 0;
+    }
+}
+
+function filtrarSelectNormal(selectId, idsPermitidos) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    
+    let seleccionActualValida = null;
+    if (select.value) {
+        const currentId = parseInt(select.value);
+        if (idsPermitidos.includes(currentId)) {
+            seleccionActualValida = select.value;
+        }
+    }
+    
+    for (let i = 0; i < select.options.length; i++) {
+        const option = select.options[i];
+        
+        if (i === 0 && option.disabled) {
+            continue;
+        }
+        
+        const optionId = parseInt(option.value);
+        const estaPermitido = idsPermitidos.includes(optionId);
+        
+        if (estaPermitido) {
+            option.style.display = '';
+            option.disabled = false;
+        } else {
+            option.style.display = 'none';
+            option.disabled = true;
+        }
+    }
+    
+    if (seleccionActualValida) {
+        select.value = seleccionActualValida;
+    } else {
+        select.selectedIndex = 0; 
+    }
+}
+
+function filtrarSelectizeMultiple(selectId, idsPermitidos) {
+    const select = document.getElementById(selectId);
+    if (!select || !select.selectize) return;
+    
+    const selectize = select.selectize;
+    
+    const valoresSeleccionados = selectize.getValue() || [];
+    
+    const valoresValidos = valoresSeleccionados.filter(val => 
+        idsPermitidos.includes(parseInt(val))
+    );
+    
+    let todasLasOpciones = [];
+    const catalogoKey = selectId === 'ACCREDITATION_LEVELS_PROJECT' ? 'niveles' : 'bops';
+    
+    if (window.allCatalogos && window.allCatalogos[catalogoKey]) {
+        todasLasOpciones = window.allCatalogos[catalogoKey];
+    }
+    
+    const opcionesFiltradas = todasLasOpciones
+        .filter(item => idsPermitidos.includes(item.id))
+        .map(item => ({
+            value: item.id.toString(),
+            text: item.nombre
+        }));
+    
+    selectize.clearOptions();
+    selectize.addOption(opcionesFiltradas);
+    
+    if (valoresValidos.length > 0) {
+        selectize.setValue(valoresValidos, true);
+    }
+    
+    selectize.refreshOptions(false);
+    
+    if (opcionesFiltradas.length > 0) {
+        selectize.enable();
+        selectize.unlock(); 
+        selectize.$control_input.prop('readonly', false);
+    } else {
+        selectize.disable();
+        selectize.lock();
+    }
+}
+
+
+function restaurarSelectizeCompleto(selectId, catalogoKey) {
+    const select = document.getElementById(selectId);
+    if (!select || !select.selectize) return;
+    
+    const selectize = select.selectize;
+    
+    const valoresSeleccionados = selectize.getValue() || [];
+    
+    let opcionesOriginales = [];
+    
+    if (window.allCatalogos && window.allCatalogos[catalogoKey]) {
+        opcionesOriginales = window.allCatalogos[catalogoKey].map(item => ({
+            value: item.id.toString(),
+            text: item.nombre
+        }));
+    }
+    
+    selectize.clearOptions();
+    selectize.addOption(opcionesOriginales);
+    
+    const valoresValidos = valoresSeleccionados.filter(val => 
+        opcionesOriginales.some(opt => opt.value == val)
+    );
+    
+    if (valoresValidos.length > 0) {
+        selectize.setValue(valoresValidos, true);
+    }
+    
+    selectize.refreshOptions(false);
+    
+    selectize.enable();
+    selectize.unlock();
+    selectize.$control_input.prop('readonly', false);
+}
+function resetearSelects() {
+    const selectNormal = document.getElementById('OPERATION_TYPE_PROJECT');
+    if (selectNormal) {
+        for (let i = 0; i < selectNormal.options.length; i++) {
+            const option = selectNormal.options[i];
+            option.style.display = '';
+            option.disabled = false;
+        }
+        selectNormal.disabled = false;
+        selectNormal.selectedIndex = 0;
+    }
+    
+    restaurarSelectizeCompleto('ACCREDITATION_LEVELS_PROJECT', 'niveles');
+    restaurarSelectizeCompleto('BOP_TYPES_PROJECT', 'bops');
+}
+
+function restaurarTodosLosSelects() {
+    resetearSelects();
+}
 
 class WizardManager {
     constructor() {
@@ -379,140 +581,120 @@ class WizardManager {
         this.updateWizard();
     }
 
-   renderEmpresasSections() {
-    const container = document.getElementById('empresasContainer');
-    container.innerHTML = '';
+    renderEmpresasSections() {
+        const container = document.getElementById('empresasContainer');
+        container.innerHTML = '';
 
-    if (!this.empresas || this.empresas.length === 0) {
-        container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
-        return;
-    }
+        if (!this.empresas || this.empresas.length === 0) {
+            container.innerHTML = '<div class="alert alert-warning">No se han agregado empresas</div>';
+            return;
+        }
 
-    console.log('🎨 Renderizando empresas:', this.empresas);
 
-    // ✅ SOLUCIÓN: Determinar modo basado en la estructura de datos
-    const isEditMode = this.empresas.length > 0 && 
-                      typeof this.empresas[0] === 'object' && 
-                      this.empresas[0].hasOwnProperty('STUDENTS_PROJECT') &&
-                      Array.isArray(this.empresas[0].STUDENTS_PROJECT) &&
-                      this.empresas[0].STUDENTS_PROJECT.length > 0;
+        const isEditMode = this.empresas.length > 0 &&
+            typeof this.empresas[0] === 'object' &&
+            this.empresas[0].hasOwnProperty('STUDENTS_PROJECT') &&
+            Array.isArray(this.empresas[0].STUDENTS_PROJECT) &&
+            this.empresas[0].STUDENTS_PROJECT.length > 0;
 
-    console.log('📊 Modo detectado:', isEditMode ? 'EDICIÓN CON ESTUDIANTES' : 'NUEVO/EDICIÓN SIN ESTUDIANTES');
 
-    // ✅ CARGAR RAZONES SOCIALES PARA MODO NUEVO O EDICIÓN SIN CANDIDATOS
-    if (!isEditMode) {
-        console.log('📋 Cargando razones sociales...');
-        
-        // Obtener datos actuales de Tagify
-        const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
-        console.log('🏷️ Datos de Tagify:', tagifyData);
+        if (!isEditMode) {
 
-        this.empresas.forEach((empresa, index) => {
-            const empresaName = typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT;
-            
-            // ✅ Buscar la empresa en Tagify por nombre
-            const tagData = tagifyData.find(tag => {
-                const tagValue = typeof tag === 'string' ? tag : tag.value;
-                return tagValue === empresaName;
-            });
+            const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
 
-            console.log(`🔍 Buscando razón social para: ${empresaName}`, tagData);
+            this.empresas.forEach((empresa, index) => {
+                const empresaName = typeof empresa === 'string' ? empresa : empresa.NAME_PROJECT;
 
-            if (tagData && tagData.razonSocial) {
-                try {
-                    const razonesSociales = typeof tagData.razonSocial === 'string'
-                        ? JSON.parse(tagData.razonSocial)
-                        : tagData.razonSocial;
-                    
-                    this.empresasRazonesSociales[empresaName] = razonesSociales;
-                    console.log(`✅ Razones sociales cargadas para ${empresaName}:`, razonesSociales);
-                } catch (e) {
-                    console.error(`❌ Error al parsear razones sociales para ${empresaName}:`, e);
-                    this.empresasRazonesSociales[empresaName] = [];
-                }
-            } else {
-                // ✅ Buscar en window.selectedRazonesSociales como fallback
-                if (window.selectedRazonesSociales) {
-                    const rsData = window.selectedRazonesSociales.find(rs => 
-                        rs.EMPRESA === empresaName
-                    );
-                    
-                    if (rsData && rsData.RAZON_SOCIAL) {
-                        try {
-                            const razonesSociales = typeof rsData.RAZON_SOCIAL === 'string'
-                                ? JSON.parse(rsData.RAZON_SOCIAL)
-                                : rsData.RAZON_SOCIAL;
-                            
-                            this.empresasRazonesSociales[empresaName] = razonesSociales;
-                            console.log(`✅ Razones sociales cargadas (fallback) para ${empresaName}:`, razonesSociales);
-                        } catch (e) {
-                            console.error(`❌ Error al parsear razones sociales (fallback) para ${empresaName}:`, e);
-                            this.empresasRazonesSociales[empresaName] = [];
-                        }
-                    } else {
-                        console.warn(`⚠️ No se encontraron razones sociales para ${empresaName}`);
-                        this.empresasRazonesSociales[empresaName] = [];
-                    }
-                } else {
-                    console.warn(`⚠️ No hay razones sociales disponibles para ${empresaName}`);
-                    this.empresasRazonesSociales[empresaName] = [];
-                }
-            }
-        });
-    }
-
-    this.empresas.forEach((empresa, index) => {
-        let empresaName, studentCount, students, empresaRealId;
-
-        if (isEditMode) {
-            // MODO EDICIÓN CON ESTUDIANTES EXISTENTES
-            empresaName = empresa.NAME_PROJECT;
-            students = empresa.STUDENTS_PROJECT || [];
-            studentCount = students.length;
-            empresaRealId = empresa.COMPANY_ID || (students.length > 0 ? students[0].COMPANY_ID : null);
-            
-            console.log(`✅ MODO EDICIÓN - Empresa: ${empresaName}, Estudiantes: ${studentCount}`);
-        } else {
-            // MODO NUEVO O EDICIÓN SIN ESTUDIANTES
-            if (typeof empresa === 'string') {
-                empresaName = empresa;
-                empresaRealId = null;
-            } else if (empresa.NAME_PROJECT) {
-                empresaName = empresa.NAME_PROJECT;
-                empresaRealId = empresa.COMPANY_ID || null;
-            } else {
-                console.error('❌ Estructura de empresa no válida:', empresa);
-                return;
-            }
-            studentCount = '';
-            students = [];
-            
-            // ✅ Obtener ID de Tagify si no existe
-            if (!empresaRealId && window.tagifyInstance) {
-                const tagData = window.tagifyInstance.value.find(tag => {
+                const tagData = tagifyData.find(tag => {
                     const tagValue = typeof tag === 'string' ? tag : tag.value;
                     return tagValue === empresaName;
                 });
-                empresaRealId = tagData?.name || null;
-                console.log(`🔍 ID obtenido de Tagify para ${empresaName}: ${empresaRealId}`);
-            }
 
-            console.log(`➕ MODO NUEVO - Empresa: ${empresaName}, ID: ${empresaRealId}`);
+
+                if (tagData && tagData.razonSocial) {
+                    try {
+                        const razonesSociales = typeof tagData.razonSocial === 'string'
+                            ? JSON.parse(tagData.razonSocial)
+                            : tagData.razonSocial;
+
+                        this.empresasRazonesSociales[empresaName] = razonesSociales;
+                    } catch (e) {
+                        this.empresasRazonesSociales[empresaName] = [];
+                    }
+                } else {
+                    if (window.selectedRazonesSociales) {
+                        const rsData = window.selectedRazonesSociales.find(rs =>
+                            rs.EMPRESA === empresaName
+                        );
+
+                        if (rsData && rsData.RAZON_SOCIAL) {
+                            try {
+                                const razonesSociales = typeof rsData.RAZON_SOCIAL === 'string'
+                                    ? JSON.parse(rsData.RAZON_SOCIAL)
+                                    : rsData.RAZON_SOCIAL;
+
+                                this.empresasRazonesSociales[empresaName] = razonesSociales;
+                            } catch (e) {
+                                console.error(`❌ Error al parsear razones sociales (fallback) para ${empresaName}:`, e);
+                                this.empresasRazonesSociales[empresaName] = [];
+                            }
+                        } else {
+                            console.warn(`⚠️ No se encontraron razones sociales para ${empresaName}`);
+                            this.empresasRazonesSociales[empresaName] = [];
+                        }
+                    } else {
+                        console.warn(`⚠️ No hay razones sociales disponibles para ${empresaName}`);
+                        this.empresasRazonesSociales[empresaName] = [];
+                    }
+                }
+            });
         }
 
-        const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + (empresaRealId || index);
+        this.empresas.forEach((empresa, index) => {
+            let empresaName, studentCount, students, empresaRealId;
 
-        const section = document.createElement('div');
-        section.className = 'empresa-section mb-4 p-3 border rounded';
-        section.id = `empresa-${empresaId}`;
-        section.dataset.empresa = empresaName;
-        section.dataset.empresaId = empresaId;
-        section.dataset.empresaRealId = empresaRealId || '0';
+            if (isEditMode) {
+                empresaName = empresa.NAME_PROJECT;
+                students = empresa.STUDENTS_PROJECT || [];
+                studentCount = students.length;
+                empresaRealId = empresa.COMPANY_ID || (students.length > 0 ? students[0].COMPANY_ID : null);
 
-        acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
+            } else {
+                if (typeof empresa === 'string') {
+                    empresaName = empresa;
+                    empresaRealId = null;
+                } else if (empresa.NAME_PROJECT) {
+                    empresaName = empresa.NAME_PROJECT;
+                    empresaRealId = empresa.COMPANY_ID || null;
+                } else {
+                    return;
+                }
+                studentCount = '';
+                students = [];
 
-        if (acreditacionElegida === '1') { // IADC
-            section.innerHTML = `
+                if (!empresaRealId && window.tagifyInstance) {
+                    const tagData = window.tagifyInstance.value.find(tag => {
+                        const tagValue = typeof tag === 'string' ? tag : tag.value;
+                        return tagValue === empresaName;
+                    });
+                    empresaRealId = tagData?.name || null;
+                }
+
+            }
+
+            const empresaId = empresaName.replace(/\s+/g, '-').toLowerCase() + '-' + (empresaRealId || index);
+
+            const section = document.createElement('div');
+            section.className = 'empresa-section mb-4 p-3 border rounded';
+            section.id = `empresa-${empresaId}`;
+            section.dataset.empresa = empresaName;
+            section.dataset.empresaId = empresaId;
+            section.dataset.empresaRealId = empresaRealId || '0';
+
+            acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
+
+            if (acreditacionElegida === '1') { // IADC
+                section.innerHTML = `
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">Nombre de la empresa: *</label>
@@ -567,8 +749,8 @@ class WizardManager {
                 </div>
             </div>
         `;
-        } else { // IWCF
-            section.innerHTML = `
+            } else { // IWCF
+                section.innerHTML = `
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">Nombre de la empresa: *</label>
@@ -624,132 +806,123 @@ class WizardManager {
                 </div>
             </div>
         `;
-        }
-
-        container.appendChild(section);
-
-        section.querySelector(`.generate-students`).addEventListener('click', () => {
-            this.generateStudentsForEmpresa(empresaId);
-        });
-        section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
-            this.regenerateAllPasswordsForEmpresa(empresaId);
-        });
-
-        // ✅ CARGAR ESTUDIANTES SI EXISTEN (SOLO EN MODO EDICIÓN CON ESTUDIANTES)
-        if (students.length > 0) {
-            console.log(`🔄 Cargando ${students.length} estudiantes para ${empresaName}`);
-
-            if (!this.students[empresaId]) {
-                this.students[empresaId] = [];
             }
 
-            this.students[empresaId] = students.map((student, index) => ({
-                id: index + 1,
-                idCandidate: student.ID_CANDIDATE || null,
-                empresa: empresaName,
-                empresaId: empresaId,
-                companyId: student.COMPANY_ID_PROJECT || empresaRealId,
-                razonSocial: student.RAZON_SOCIAL_PROJECT || '',
-                cr: student.CR_PROJECT || '',
-                lastName: student.LAST_NAME_PROJECT || '',
-                firstName: student.FIRST_NAME_PROJECT || '',
-                mdName: student.MIDDLE_NAME_PROJECT || '',
-                dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
-                idExp: student.ID_NUMBER_PROJECT || '',
-                cargo: student.POSITION_PROJECT || '',
-                membresia: student.MEMBERSHIP_PROJECT || '',
-                email: student.EMAIL_PROJECT || '',
-                password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-                USER_ID_PROJECT: student.USER_ID_PROJECT || null
-            }));
+            container.appendChild(section);
 
-            console.log(`👥 Estudiantes procesados para ${empresaName}:`, this.students[empresaId]);
-            this.renderStudentsTableForEmpresa(empresaId);
-        } else {
-            console.log(`⚪ No hay estudiantes para cargar en ${empresaName} (modo nuevo)`);
+            section.querySelector(`.generate-students`).addEventListener('click', () => {
+                this.generateStudentsForEmpresa(empresaId);
+            });
+            section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
+                this.regenerateAllPasswordsForEmpresa(empresaId);
+            });
+
+            if (students.length > 0) {
+
+                if (!this.students[empresaId]) {
+                    this.students[empresaId] = [];
+                }
+
+                this.students[empresaId] = students.map((student, index) => ({
+                    id: index + 1,
+                    idCandidate: student.ID_CANDIDATE || null,
+                    empresa: empresaName,
+                    empresaId: empresaId,
+                    companyId: student.COMPANY_ID_PROJECT || empresaRealId,
+                    razonSocial: student.RAZON_SOCIAL_PROJECT || '',
+                    cr: student.CR_PROJECT || '',
+                    lastName: student.LAST_NAME_PROJECT || '',
+                    firstName: student.FIRST_NAME_PROJECT || '',
+                    mdName: student.MIDDLE_NAME_PROJECT || '',
+                    dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
+                    idExp: student.ID_NUMBER_PROJECT || '',
+                    cargo: student.POSITION_PROJECT || '',
+                    membresia: student.MEMBERSHIP_PROJECT || '',
+                    email: student.EMAIL_PROJECT || '',
+                    password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
+                }));
+
+                this.renderStudentsTableForEmpresa(empresaId);
+            } else {
+            }
+        });
+    }
+    generateStudentsForEmpresa(empresaId) {
+        const empresaSection = document.getElementById(`empresa-${empresaId}`);
+        const countInput = empresaSection.querySelector('.student-count');
+        const count = parseInt(countInput.value);
+        const empresa = empresaSection.dataset.empresa;
+        const empresaRealId = empresaSection.dataset.empresaRealId ||
+            empresaSection.querySelector('.empresa-real-id')?.value || '0';
+
+
+        if (!count || count < 1 || count > 50) {
+            this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
+            return;
         }
-    });
-}
-generateStudentsForEmpresa(empresaId) {
-    const empresaSection = document.getElementById(`empresa-${empresaId}`);
-    const countInput = empresaSection.querySelector('.student-count');
-    const count = parseInt(countInput.value);
-    const empresa = empresaSection.dataset.empresa;
-    const empresaRealId = empresaSection.dataset.empresaRealId || 
-                         empresaSection.querySelector('.empresa-real-id')?.value || '0';
 
-    console.log(`✅ Generando estudiantes para: ${empresa} (ID: ${empresaRealId})`);
+        this.clearError(countInput);
 
-    if (!count || count < 1 || count > 50) {
-        this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
-        return;
-    }
+        if (!this.students[empresaId]) {
+            this.students[empresaId] = [];
+        }
 
-    this.clearError(countInput);
-
-    if (!this.students[empresaId]) {
         this.students[empresaId] = [];
+
+        for (let i = 0; i < count; i++) {
+            this.students[empresaId].push({
+                id: i + 1,
+                empresa: empresa,
+                empresaId: empresaId,
+                companyId: empresaRealId, 
+                razonSocial: '',
+                cr: '',
+                lastName: '',
+                firstName: '',
+                mdName: '',
+                dob: '',
+                idExp: '',
+                cargo: '',
+                membresia: '',
+                email: '',
+                password: this.generateRandomPassword()
+            });
+        }
+
+
+        this.renderStudentsTableForEmpresa(empresaId);
+        document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
     }
 
-    this.students[empresaId] = [];
 
-    for (let i = 0; i < count; i++) {
-        this.students[empresaId].push({
-            id: i + 1,
-            empresa: empresa,
-            empresaId: empresaId,
-            companyId: empresaRealId, // ✅ GUARDAR ID REAL
-            razonSocial: '',
-            cr: '',
-            lastName: '',
-            firstName: '',
-            mdName: '',
-            dob: '',
-            idExp: '',
-            cargo: '',
-            membresia: '',
-            email: '',
-            password: this.generateRandomPassword()
-        });
-    }
+    renderStudentsTableForEmpresa(empresaId) {
+        const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+        tbody.innerHTML = '';
 
-    console.log(`✅ ${count} estudiantes generados con COMPANY_ID: ${empresaRealId}`);
+        const empresaSection = document.getElementById(`empresa-${empresaId}`);
+        const empresaName = empresaSection.dataset.empresa;
+        const empresaRealId = empresaSection.dataset.empresaRealId ||
+            empresaSection.querySelector('.empresa-real-id')?.value || '0';
 
-    this.renderStudentsTableForEmpresa(empresaId);
-    document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
-}
+        const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
 
+        this.students[empresaId].forEach((student, index) => {
+            const row = document.createElement('tr');
+            row.id = `student-${empresaId}-${index}`;
+            row.className = 'student-row';
 
-  renderStudentsTableForEmpresa(empresaId) {
-    const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
-    tbody.innerHTML = '';
+            let optionsHTML = '<option value="">Seleccione una razón social</option>';
+            razonesSociales.forEach(rs => {
+                const razonSocialValue = rs.RAZON_SOCIAL || rs;
+                const selected = student.razonSocial === razonSocialValue ? 'selected' : '';
+                optionsHTML += `<option value="${razonSocialValue}" ${selected}>${razonSocialValue}</option>`;
+            });
 
-    const empresaSection = document.getElementById(`empresa-${empresaId}`);
-    const empresaName = empresaSection.dataset.empresa;
-    const empresaRealId = empresaSection.dataset.empresaRealId || 
-                         empresaSection.querySelector('.empresa-real-id')?.value || '0';
-    
-    const razonesSociales = this.empresasRazonesSociales[empresaName] || [];
+            const acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
 
-    console.log(`🎨 Renderizando tabla para ${empresaName} (ID: ${empresaRealId})`);
-    console.log(`📋 Razones sociales disponibles:`, razonesSociales);
-
-    this.students[empresaId].forEach((student, index) => {
-        const row = document.createElement('tr');
-        row.id = `student-${empresaId}-${index}`;
-        row.className = 'student-row';
-
-        let optionsHTML = '<option value="">Seleccione una razón social</option>';
-        razonesSociales.forEach(rs => {
-            const razonSocialValue = rs.RAZON_SOCIAL || rs;
-            const selected = student.razonSocial === razonSocialValue ? 'selected' : '';
-            optionsHTML += `<option value="${razonSocialValue}" ${selected}>${razonSocialValue}</option>`;
-        });
-
-        const acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
-
-        if (acreditacionElegida === '1') { // IADC
-            row.innerHTML = `
+            if (acreditacionElegida === '1') { // IADC
+                row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
                 <input type="hidden" name="companyId" value="${student.companyId || empresaRealId}">
@@ -828,8 +1001,8 @@ generateStudentsForEmpresa(empresaId) {
                     </button>
                 </td>
             `;
-        } else { // IWCF
-            row.innerHTML = `
+            } else { // IWCF
+                row.innerHTML = `
                 <input type="hidden" name="studentCandidateId" value="${student.idCandidate || ''}">
                 <input type="hidden" name="empresaId" value="${empresaId}">
                 <input type="hidden" name="companyId" value="${student.companyId || empresaRealId}">
@@ -913,13 +1086,13 @@ generateStudentsForEmpresa(empresaId) {
                     </button>
                 </td>
             `;
-        }
+            }
 
-        tbody.appendChild(row);
-    });
+            tbody.appendChild(row);
+        });
 
-    this.addDateFormatting(empresaId);
-}
+        this.addDateFormatting(empresaId);
+    }
 
     addDateFormatting(empresaId) {
         const dobInputs = document.querySelectorAll(`#studentsTableBody_${empresaId} .dob-input`);
@@ -1023,7 +1196,6 @@ generateStudentsForEmpresa(empresaId) {
 
         const companiesProject = [];
         const tagifyData = window.tagifyInstance ? window.tagifyInstance.value : [];
-        console.log('📋 Datos de Tagify:', tagifyData);
 
         for (const empresaId in this.students) {
             if (this.students.hasOwnProperty(empresaId)) {
@@ -1034,7 +1206,6 @@ generateStudentsForEmpresa(empresaId) {
                 const empresaTagifyData = tagifyData.find(tag => tag.value === empresaName);
                 const empresaRealId = empresaTagifyData ? empresaTagifyData.name : null;
 
-                console.log(`🏢 Procesando empresa: ${empresaName} (ID: ${empresaRealId})`);
 
                 const empresaObj = {
                     NAME_PROJECT: empresaName,
@@ -1079,7 +1250,6 @@ generateStudentsForEmpresa(empresaId) {
         }
 
         this.formData.COMPANIES_PROJECT = JSON.stringify(companiesProject);
-        console.log('COMPANIES_PROJECT final:', this.formData.COMPANIES_PROJECT);
         return this.formData;
     }
 
@@ -1238,9 +1408,6 @@ function initializeTagify() {
             });
         }
 
-        console.log('✅ Empresa añadida:', data.value);
-        console.log('📋 IDs seleccionados:', window.selectedCompanyIds);
-        console.log('🏢 Razones sociales:', window.selectedRazonesSociales);
     });
 
     tagify.on('remove', function (e) {
@@ -1260,9 +1427,6 @@ function initializeTagify() {
             }
         }
 
-        console.log('Empresa eliminada:', data.value);
-        console.log('IDs seleccionados:', window.selectedCompanyIds);
-        console.log('Razones sociales:', window.selectedRazonesSociales);
     });
 
     window.tagifyInstance = tagify;
@@ -1314,7 +1478,6 @@ function validateAndGetCompanies() {
     };
 }
 function cargarDatosCentro(centroId) {
-    // Limpiar campos primero
     limpiarCamposCentro();
     limpiarListaContactos();
 
@@ -1322,7 +1485,6 @@ function cargarDatosCentro(centroId) {
         return;
     }
 
-    // Mostrar loading
     $('#CENTER_NUMBER_PROJECT').val('Cargando...');
     mostrarLoadingContactos();
 
@@ -1335,10 +1497,8 @@ function cargarDatosCentro(centroId) {
         timeout: 10000,
         success: function (response) {
             if (response.success && response.centro) {
-                // Llenar número de centro
                 $('#CENTER_NUMBER_PROJECT').val(response.centro.numero_centro || 'No disponible');
 
-                // Mostrar contactos
                 if (response.centro.contactos && response.centro.contactos.length > 0) {
                     mostrarContactos(response.centro.contactos, response.ubicacion);
                 } else {
@@ -1522,7 +1682,6 @@ function initializeTagifyWithEditSupport(tagifyInput) {
         tagify.removeAllTags();
         tagify.addTags(tagifyData);
 
-        console.log('✅ Empresas originales cargadas:', originalCompanies);
     }
 
     function updateWizardCompaniesFromTagify() {
@@ -1532,13 +1691,10 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             typeof tag === 'string' ? tag : tag.value
         );
 
-        console.log('🔄 Actualizando empresas desde Tagify:', currentTags);
 
-        // ✅ SOLUCIÓN: Mantener estructura existente y agregar nuevas
         const empresasActualizadas = [];
 
         currentTags.forEach(tagName => {
-            // Buscar si existe en las empresas actuales del wizard
             let empresaExistente = null;
 
             if (Array.isArray(window.wizard.empresas)) {
@@ -1549,10 +1705,8 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             }
 
             if (empresaExistente) {
-                // Mantener la estructura existente completa
                 empresasActualizadas.push(empresaExistente);
             } else {
-                // Nueva empresa: buscar en Tagify data para obtener ID
                 const tagData = tagify.value.find(t =>
                     (typeof t === 'string' ? t : t.value) === tagName
                 );
@@ -1568,32 +1722,25 @@ function initializeTagifyWithEditSupport(tagifyInput) {
                     COMPANY_ID: companyId
                 });
 
-                console.log(`➕ Nueva empresa agregada: ${tagName} (ID: ${companyId})`);
             }
         });
 
         window.wizard.empresas = empresasActualizadas;
-        console.log('✅ Empresas actualizadas:', window.wizard.empresas);
 
-        // Forzar renderizado si estamos en el paso 4
         if (window.wizard.currentStep === 4) {
-            console.log('🔄 Forzando renderizado del paso 4...');
             window.wizard.renderEmpresasSections();
         }
     }
 
     tagify.on('change', function (e) {
-        console.log('📝 Evento change disparado:', e.detail);
         updateWizardCompaniesFromTagify();
     });
 
     tagify.on('add', function (e) {
-        console.log('➕ Evento add disparado:', e.detail);
         updateWizardCompaniesFromTagify();
     });
 
     tagify.on('remove', function (e) {
-        console.log('➖ Evento remove disparado:', e.detail);
 
         if (isEditMode) {
             const removedCompany = e.detail.data.value;
@@ -1601,7 +1748,6 @@ function initializeTagifyWithEditSupport(tagifyInput) {
                 if (confirmed) {
                     updateWizardCompaniesFromTagify();
                 } else {
-                    // Restaurar el tag
                     setTimeout(() => {
                         tagify.addTags([removedCompany]);
                     }, 100);
@@ -1613,7 +1759,6 @@ function initializeTagifyWithEditSupport(tagifyInput) {
     });
 
     function showDeleteConfirmation(companyName, callback) {
-        console.log('⚠️ Confirmando eliminación:', companyName);
 
         Swal.fire({
             title: '¿Eliminar empresa?',
@@ -1627,12 +1772,10 @@ function initializeTagifyWithEditSupport(tagifyInput) {
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                // Eliminar estudiantes asociados
                 const empresaIdToDelete = companyName.replace(/\s+/g, '-').toLowerCase();
                 for (const key in window.wizard.students) {
                     if (key.includes(empresaIdToDelete)) {
                         delete window.wizard.students[key];
-                        console.log('🗑️ Estudiantes eliminados para empresa:', key);
                     }
                 }
 
@@ -1653,12 +1796,10 @@ function initializeTagifyWithEditSupport(tagifyInput) {
         isEditMode = false;
         originalCompanies = [];
         tagify.removeAllTags();
-        console.log('🔄 Tagify reseteado');
     }
 
     function setEditMode(mode) {
         isEditMode = mode;
-        console.log('🎯 Modo edición establecido:', isEditMode);
     }
 
     return {
@@ -1701,7 +1842,6 @@ function initializeTagifyForNew(tagifyInput) {
                     typeof item === 'string' ? item : item.value
                 );
             }
-            console.log('Empresas actualizadas:', window.wizard.empresas);
         }
     };
 
@@ -1735,7 +1875,6 @@ $("#proyectobtnModal").click(function (e) {
             dataToSend[item.name] = item.value;
         });
 
-        console.log('Datos a enviar:', JSON.stringify(window.wizard.getFormData(), null, 2));
 
         if (ID_PROJECT == 0) {
             alertMensajeConfirm({
@@ -1877,9 +2016,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         var rowData = row.data();
         ID_PROJECT = rowData.ID_PROJECT;
 
-        console.log('Datos completos del proyecto:', rowData);
-        console.log('Datos de candidatos:', rowData.CANDIDATES_DATA);
-
         editarDatoTablaSinAbrirModal(rowData, 'proyectoForm', 'proyectoModal', 1);
 
         function initializeSelectizedFields(row, fieldIds) {
@@ -1948,7 +2084,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
             const empresaData = window.clientesData?.find(c => c.ID_CATALOGO_CLIENTE == companyId);
             const companyName = empresaData ? empresaData.NOMBRE_COMERCIAL_CLIENTE : `Empresa ${companyId}`;
 
-  console.log(`🔍 Candidato: ${candidate.EMAIL_PROJECT} - Empresa ID: ${companyId} - Nombre: ${companyName}`);
 
             if (!companyId || !companyName) {
                 console.warn('⚠️ Candidato sin empresa:', candidate);
@@ -1966,9 +2101,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
             empresasMap.get(companyId).students.push(candidate);
         });
-
-        console.log('📊 Empresas únicas encontradas:', empresasMap.size);
-        console.log('📋 Empresas agrupadas:', Array.from(empresasMap.entries()));
 
         if (window.tagifyManager) {
             window.tagifyManager.resetTagify();
@@ -2006,8 +2138,8 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
         empresasMap.forEach((empresa, companyId) => {
             empresasParaTagify.push({
-                value: empresa.name, 
-                name: companyId,    
+                value: empresa.name,
+                name: companyId,
                 razonSocial: empresa.razonesSociales
             });
 
@@ -2019,7 +2151,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
             });
         });
 
-        console.log('🏢 Empresas para Tagify:', empresasParaTagify);
 
         if (empresasParaTagify.length > 0) {
             if (window.tagifyInstance) {
@@ -2029,9 +2160,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
 
             window.selectedCompanyIds = selectedCompanyIds;
             window.selectedRazonesSociales = selectedRazonesSociales;
-
-            console.log('✅ selectedCompanyIds:', window.selectedCompanyIds);
-            console.log('✅ selectedRazonesSociales:', window.selectedRazonesSociales);
         }
 
         const empresasConEstudiantes = [];
@@ -2066,7 +2194,6 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         });
 
         window.wizard.empresas = empresasConEstudiantes;
-        console.log('✅✅✅ Empresas CON ESTUDIANTES cargadas en wizard:', window.wizard.empresas);
 
         empresasMap.forEach((empresa, companyId) => {
             try {
@@ -2075,23 +2202,18 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
                     : empresa.razonesSociales;
 
                 window.wizard.empresasRazonesSociales[empresa.name] = razonesSociales;
-                console.log(`✅ Razones sociales para ${empresa.name}:`, razonesSociales);
             } catch (e) {
-                console.error(`❌ Error al parsear razones sociales para ${empresa.name}:`, e);
                 window.wizard.empresasRazonesSociales[empresa.name] = [];
             }
         });
-        console.log('📦 Empresas cargadas en wizard:', window.wizard.empresas);
-        console.log('📄 Razones sociales cargadas:', window.wizard.empresasRazonesSociales);
 
         setTimeout(() => {
             // isEditing = false;
         }, 1000);
-    } catch(e) {
+    } catch (e) {
         console.error('❌ Error al editar:', e);
     }
 
-    console.log('ya termino el proceso de carga');
     $('#proyectoModal').modal('show');
     $('#proyectoModal .modal-title').html(`Editar Proyecto ${rowData.FOLIO_PROJECT}`);
 });

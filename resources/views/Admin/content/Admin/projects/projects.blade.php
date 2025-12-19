@@ -329,6 +329,41 @@
                                                 @php
                                                 $yearSuffix = date('y');
                                                 @endphp
+
+                                               <script>
+                                                // Arreglos globales con todos los datos
+                                                window.allCatalogos = {
+                                                    operaciones: [
+                                                        @foreach($operaciones as $op)
+                                                        {id: {{ $op->ID_CATALOGO_OPERACION }}, nombre: "{{ $op->NOMBRE_OPERACION }}"},
+                                                        @endforeach
+                                                    ],
+                                                    
+                                                    niveles: [
+                                                        @foreach($niveles as $nivel)
+                                                        {id: {{ $nivel->ID_CATALOGO_NIVELACREDITACION }}, nombre: "{{ $nivel->NOMBRE_NIVEL }}"},
+                                                        @endforeach
+                                                    ],
+                                                    
+                                                    bops: [
+                                                        @foreach($bops as $bop)
+                                                        {id: {{ $bop->ID_CATALOGO_TIPOBOP }}, nombre: "{{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}"},
+                                                        @endforeach
+                                                    ],
+                                                    
+                                                    programas: [
+                                                        @foreach($programas as $programa)
+                                                        {
+                                                            id: {{ $programa['ID_CATALOGO_PROGRAMA'] }},
+                                                            nombre: "{{ $programa['NOMBRE_PROGRAMA'] }}",
+                                                            operaciones_ids: @json($programa['operaciones_ids']),
+                                                            niveles_ids: @json($programa['niveles_ids']),
+                                                            bops_ids: @json($programa['bops_ids'])
+                                                        },
+                                                        @endforeach
+                                                    ]
+                                                };
+                                                </script>
                                                 <div class="col-md-2">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Folio:')}}</strong></label>
@@ -362,13 +397,32 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+
+                                                <div class="col-md-2 text-start mt-3">
+                                                    <label> <strong>{{ __('Programa:')}}</strong></label>
+                                                    <select class="form-select" id="PROGRAM_PROJECT" name="PROGRAM_PROJECT">
+                                                        <option selected disabled>{{ __('Select...')}}</option>
+                                                        @foreach ($programas as $programa)
+                                                        <option 
+                                                            value="{{ $programa['ID_CATALOGO_PROGRAMA'] }}" 
+                                                            data-operaciones='@json($programa['operaciones_ids'])'
+                                                            data-niveles='@json($programa['niveles_ids'])'
+                                                            data-bops='@json($programa['bops_ids'])'
+                                                            data-complementos='@json($programa['complementos'])'>
+                                                            {{ $programa['NOMBRE_PROGRAMA'] }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
                                                 <div class="col-md-2 text-start mt-3">
                                                     <label> <strong>{{ __('Operation type:')}} </strong></label>
                                                     <select class="form-select" id="OPERATION_TYPE_PROJECT" name="OPERATION_TYPE_PROJECT">
                                                         <option selected disabled>{{ __('Select...')}}</option>
                                                         @foreach ($operaciones as $operacion)
-                                                        <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">{{
-                                                            $operacion->NOMBRE_OPERACION }}</option>
+                                                       <option value="{{ $operacion->ID_CATALOGO_OPERACION }}">
+                                                            {{ $operacion->NOMBRE_OPERACION }}
+                                                        </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -379,24 +433,30 @@
                                                     <select class="form-select" id="ACCREDITATION_LEVELS_PROJECT" name="ACCREDITATION_LEVELS_PROJECT[]"
                                                         multiple>
                                                         @foreach ($niveles as $nivel)
-                                                        <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">{{
-                                                            $nivel->NOMBRE_NIVEL }} - {{ $nivel->DESCRIPCION_NIVEL }}
+                                                        <option value="{{ $nivel->ID_CATALOGO_NIVELACREDITACION }}">
+                                                            {{ $nivel->NOMBRE_NIVEL }}
                                                         </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-
                                                 <div class="col-md-3 text-start mt-3">
                                                     <label> <strong>{{ __('BOP:')}}</strong></label>
                                                     <select class="form-select" id="BOP_TYPES_PROJECT" name="BOP_TYPES_PROJECT[]"
                                                         multiple>
                                                         @foreach ($bops as $bop)
-                                                        <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">{{
-                                                            $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}
+                                                        <option value="{{ $bop->ID_CATALOGO_TIPOBOP }}">
+                                                            {{ $bop->ABREVIATURA }} - {{ $bop->DESCRIPCION_TIPOBOP }}
                                                         </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                {{-- <input type="hidden" id="COMPLEMENTS_DETAILS" name="COMPLEMENTS_DETAILS">
+                                                <div class="col-md-3 text-start mt-3">
+                                                    <label> <strong>{{ __('Complementos:')}}</strong></label>
+                                                    <select class="form-select" id="COMPLEMENTS_PROJECT" name="COMPLEMENTS_PROJECT[]"
+                                                        multiple>
+                                                    </select>
+                                                </div> --}}
                                                 <div class="col-md-2 mt-3 d-none" id="complementoDiv">
                                                     <label class="form-label"> <strong>{{ __('¿Incluye complementos?')}} </strong></label>
                                                     <select class="form-select" id="COMPLEMENT_PROJECT" name="COMPLEMENT_PROJECT">

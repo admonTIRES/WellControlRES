@@ -3534,6 +3534,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    
+
     const opcionResitSelect = document.getElementById('OPCION_RESIT');
     if (opcionResitSelect) {
         opcionResitSelect.addEventListener('change', function () {
@@ -3554,6 +3556,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+function agregarValidacionComplemento(complementoId) {
+    const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function () {
+            validarRangosComplemento(complementoId);
+        });
+
+        input.addEventListener('blur', function () {
+            validarRangosComplemento(complementoId);
+        });
+    });
+}
 function actualizarTextosPorEnte(enteId) {
     enteSeleccionado = enteId;
     const esId1 = (enteId == 1);

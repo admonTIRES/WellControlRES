@@ -18,6 +18,7 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\CentrosCapacitacion;
 use App\Models\Admin\catalogs\Clientes;
 use App\Models\Admin\catalogs\Instructor;
+use App\Models\Admin\catalogs\Programas;
 use App\Models\Admin\catalogs\Ubicaciones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -163,10 +164,22 @@ class adminController extends Controller
         $clientes = Clientes::all();
         $instructores = Instructor::all();
         $ubicaciones = Ubicaciones::all();
+        // $programas = Programas::all();
+        $programas = Programas::all()->map(function($programa) {
+            return [
+                'ID_CATALOGO_PROGRAMA' => $programa->ID_CATALOGO_PROGRAMA,
+                'NOMBRE_PROGRAMA' => $programa->NOMBRE_PROGRAMA,
+                'operaciones_ids' => $programa->OPERATIONS_PROGRAM ?: [],
+                'niveles_ids' => $programa->LEVELS_PROGRAM ?: [],
+                'bops_ids' => $programa->BOPS_PROGRAM ?: [],
+                'complementos' => $programa->COMPLEMENTS_PROGRAM ?: [],
+            ];
+        });
+
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
-        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes', 'ubicaciones'))->with('user_role', 0);
+        return view('Admin.content.Admin.projects.projects', compact('entes', 'temas', 'subtemas', 'niveles', 'bops', 'idiomas', 'operaciones', 'comenzarChart', 'cursoChart', 'finalizadosChart',  'NombreProyecto', 'instructores', 'clientes', 'ubicaciones', 'programas'))->with('user_role', 0);
     }
 
     /**
@@ -588,7 +601,7 @@ class adminController extends Controller
             $endYear = $request->get('end_year');
             $chartType = $request->get('chart_type', 'column');
 
-            $applyDateFilter = function($query) use ($periodType, $startDate, $endDate, $startYear, $endYear) {
+            $applyDateFilter = function ($query) use ($periodType, $startDate, $endDate, $startYear, $endYear) {
                 if ($periodType === 'year' && $startYear && $endYear) {
                     $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
                         ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
@@ -600,7 +613,7 @@ class adminController extends Controller
 
             $totalProyectosQuery = DB::table('proyect')
                 ->whereNotNull('COURSE_START_DATE_PROJECT');
-            
+
             $totalProyectosQuery = $applyDateFilter($totalProyectosQuery);
             $totalProyectos = $totalProyectosQuery->count();
 
@@ -608,7 +621,7 @@ class adminController extends Controller
                 ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
                 ->where('candidate.ASISTENCIA', '!=', 0)
                 ->whereNotNull('candidate.ID_PROJECT');
-            
+
             $totalEstudiantesQuery = $applyDateFilter($totalEstudiantesQuery);
             $totalEstudiantes = $totalEstudiantesQuery->count();
 
@@ -616,14 +629,14 @@ class adminController extends Controller
                 ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
                 ->where('candidate.ASISTENCIA', '=', 0)
                 ->whereNotNull('candidate.ID_PROJECT');
-            
+
             $totalDesercionQuery = $applyDateFilter($totalDesercionQuery);
             $totalDesercion = $totalDesercionQuery->count();
 
             $estudiantesAprobadosQuery = DB::table('course')
                 ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT')
                 ->where('course.FINAL_STATUS', 'Pass');
-            
+
             $estudiantesAprobadosQuery = $applyDateFilter($estudiantesAprobadosQuery);
             $estudiantesAprobados = $estudiantesAprobadosQuery->count();
 
@@ -638,7 +651,7 @@ class adminController extends Controller
                 ->join('entes_acreditadores', 'proyect.ACCREDITING_ENTITY_PROJECT', '=', 'entes_acreditadores.ID_CATALOGO_ENTE')
                 ->select('entes_acreditadores.NOMBRE_ENTE', DB::raw('COUNT(*) as total'))
                 ->whereNotNull('proyect.COURSE_START_DATE_PROJECT');
-            
+
             $proyectosAcreditacionQuery = $applyDateFilter($proyectosAcreditacionQuery);
             $proyectosAcreditacion = $proyectosAcreditacionQuery
                 ->groupBy('entes_acreditadores.NOMBRE_ENTE')
@@ -648,20 +661,20 @@ class adminController extends Controller
             $proyectosAnioQuery = DB::table('proyect')
                 ->select(DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'), DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_START_DATE_PROJECT');
-            
+
             $proyectosAnioQuery = $applyDateFilter($proyectosAnioQuery);
             $proyectosAnio = $proyectosAnioQuery
                 ->groupBy(DB::raw('YEAR(COURSE_START_DATE_PROJECT)'))
                 ->orderBy('year')
                 ->get();
-            
+
             $proyectosEmpresa = $this->getProyectosPorEmpresa($periodType, $startDate, $endDate, $startYear, $endYear);
 
             $proyectosTipoCursoQuery = DB::table('proyect')
                 ->select('COURSE_TYPE_PROJECT', DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_TYPE_PROJECT')
                 ->where('COURSE_TYPE_PROJECT', '!=', '');
-            
+
             $proyectosTipoCursoQuery = $applyDateFilter($proyectosTipoCursoQuery);
             $proyectosTipoCurso = $proyectosTipoCursoQuery
                 ->groupBy('COURSE_TYPE_PROJECT')
@@ -675,7 +688,7 @@ class adminController extends Controller
                     DB::raw('COUNT(*) as total')
                 )
                 ->whereNotNull('COURSE_START_DATE_PROJECT');
-            
+
             if ($periodType === 'year' && $startYear && $endYear) {
                 $tendenciaMensualQuery->whereYear('COURSE_START_DATE_PROJECT', '>=', $startYear)
                     ->whereYear('COURSE_START_DATE_PROJECT', '<=', $endYear);
@@ -684,7 +697,7 @@ class adminController extends Controller
             } else {
                 $tendenciaMensualQuery->whereYear('COURSE_START_DATE_PROJECT', date('Y'));
             }
-            
+
             $tendenciaMensual = $tendenciaMensualQuery
                 ->groupBy(DB::raw('YEAR(COURSE_START_DATE_PROJECT)'), DB::raw('MONTH(COURSE_START_DATE_PROJECT)'))
                 ->orderBy('year')
@@ -718,10 +731,10 @@ class adminController extends Controller
             // AQUI TERMINA LO DE BARRAS (chardiv)
             //aqui empieza la data de las circulares de estudiantes
             $cursosQuery = Course::with(['candidate' => function ($query) {
-                    $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
-                        ->where('ASISTENCIA', '!=', '0')
-                        ->orWhereNull('ASISTENCIA');
-                }])
+                $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
+                    ->where('ASISTENCIA', '!=', '0')
+                    ->orWhereNull('ASISTENCIA');
+            }])
                 ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT');
 
             // Aplicar filtros de fecha a los cursos
@@ -821,11 +834,11 @@ class adminController extends Controller
                 ],
                 'tendenciaMensual' => $this->formatTendenciaMensual($tendenciaMensual),
                 'dataChartdiv' => $this->formatForAmCharts($processedData, $backendChartType),
-                'totals' => $this->calculateTotals($processedData),//pertenece a chartdiv
-                'chart_type' => $chartType,//pertenece a chartdiv
-                'period_type' => $periodType,//pertenece a chartdiv
-                'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType),//pertenece a chart ultimo
-                'totalsChartdivStacked' => $this->calculateTotals($processedData2)//same del de arriba
+                'totals' => $this->calculateTotals($processedData), //pertenece a chartdiv
+                'chart_type' => $chartType, //pertenece a chartdiv
+                'period_type' => $periodType, //pertenece a chartdiv
+                'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType), //pertenece a chart ultimo
+                'totalsChartdivStacked' => $this->calculateTotals($processedData2) //same del de arriba
             ];
 
             return response()->json([
@@ -861,7 +874,7 @@ class adminController extends Controller
         // Aplicar filtros de fecha según el tipo de periodo
         $hasYearFilter = ($periodType === 'year' && !empty($startYear) && !empty($endYear));
         $hasDateFilter = (!empty($startDate) && !empty($endDate));
-        
+
         if ($hasYearFilter) {
             $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
                 ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
@@ -1025,7 +1038,7 @@ class adminController extends Controller
     {
         try {
             // Obtener todos los cursos con sus candidatos
-            $cursos = Course::with(['candidate' => function($query) {
+            $cursos = Course::with(['candidate' => function ($query) {
                 $query->select(
                     'ID_CANDIDATE',
                     'ID_PROJECT',
@@ -1052,7 +1065,6 @@ class adminController extends Controller
                 'data' => $resultado,
                 'total' => count($resultado)
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -1062,7 +1074,7 @@ class adminController extends Controller
         }
     }
 
-public function getDashboardDataTotals()
+    public function getDashboardDataTotals()
     {
         try {
 

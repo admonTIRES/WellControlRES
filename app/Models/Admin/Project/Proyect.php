@@ -37,7 +37,8 @@ class Proyect extends Model
         'PRACTICAL_EXAM_TIME_PROJECT',
         'INSTRUCTOR_ID_PROJECT',
         'INSTRUCTOR_EMAIL_PROJECT',
-        'COMPLEMENT_PROJECT'
+        'COMPLEMENT_PROJECT',
+        'PROGRAM_PROJECT'
     ];
 
     protected $casts = [

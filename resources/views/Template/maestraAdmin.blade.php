@@ -771,7 +771,7 @@ use Illuminate\Support\Str;
 
     <script src="/js/Admin/admin.js?v=1.53"></script>
     @if(request()->is('catalogs'))
-        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.38"></script>
+        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.39"></script>
     @endif
     @if(request()->is('math'))
         <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.38"></script>
@@ -784,7 +784,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
     @endif
     @if(request()->is('projectsAdmin'))
-        <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.61"></script>
+        <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.62"></script>
     @endif
      @if(request()->is('studentsList'))
         <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.12"></script>

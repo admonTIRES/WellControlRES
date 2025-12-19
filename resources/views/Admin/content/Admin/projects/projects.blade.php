@@ -858,7 +858,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">{{ __('Course instructor: *') }}</label>
-                                                    <select class="form-select" name="INSTRUCTOR_ID_PROJECT" id="INSTRUCTOR_ID_PROJECT" multiple>
+                                                    <select class="form-select" name="INSTRUCTOR_ID_PROJECT[]" id="INSTRUCTOR_ID_PROJECT" multiple>
                                                         <option value="0">{{ __('Select an instructor') }}</option>
                                                         @foreach ($instructores as $instructor) 
                                                             <option value="{{ $instructor->ID_CATALOGO_INSTRUCTOR }}"

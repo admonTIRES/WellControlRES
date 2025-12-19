@@ -1354,12 +1354,12 @@ function actualizarComplementos(acreditacionId = null) {
     if (acreditacionId === null) {
         acreditacionId = $('#ACCREDITING_ENTITY_PROJECT').val() || 0;
     }
-    if (acreditacionId === '1') { // iadc debe elegir si quiere complemento
-        $('#complementoDiv').removeClass('d-none');
-    } else if (acreditacionId === '2') { // iwcf no lleva complementos
-        $('#complementoDiv').addClass('d-none');
+    // if (acreditacionId === '1') { // iadc debe elegir si quiere complemento
+    //     $('#complementoDiv').removeClass('d-none');
+    // } else if (acreditacionId === '2') { // iwcf no lleva complementos
+    //     $('#complementoDiv').addClass('d-none');
 
-    }
+    // }
 }
 function initializeTagify() {
     if (!window.selectedCompanyIds) window.selectedCompanyIds = [];
@@ -2052,11 +2052,11 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
         const acreditacionInicial = $('#ACCREDITING_ENTITY_PROJECT').val();
         if (acreditacionInicial) {
             actualizarCentrosCapacitacion(acreditacionInicial);
-            if (acreditacionInicial === '1') {//iadc
-                $('#complementoDiv').removeClass('d-none');
-            } else {
-                $('#complementoDiv').addClass('d-none');
-            }
+            // if (acreditacionInicial === '1') {//iadc
+            //     $('#complementoDiv').removeClass('d-none');
+            // } else {
+            //     $('#complementoDiv').addClass('d-none');
+            // }
             setTimeout(() => {
                 if (rowData.CERTIFICATION_CENTER_PROJECT) {
                     $('#CERTIFICATION_CENTER_PROJECT').val(rowData.CERTIFICATION_CENTER_PROJECT);

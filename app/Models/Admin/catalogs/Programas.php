@@ -26,7 +26,8 @@ class Programas extends Model
         'LEVELS_PROGRAM',
         'BOPS_PROGRAM',
         'OPERATIONS_PROGRAM',
-        'COMPLEMENTS_PROGRAM'
+        'COMPLEMENTS_PROGRAM',
+        'OPCION_REFRESH'
     ];
      protected $casts = [
         'LEVELS_PROGRAM' => 'array',

@@ -367,7 +367,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             $(row).addClass('row-unpass');
         } else if (allPass || finalStatus === 'Pass') {
             $(row).addClass('row-pass');
-        } else if(finalStatus === 'Unpass'){
+        } else if (finalStatus === 'Unpass') {
             $(row).addClass('row-unpass');
         }
     }
@@ -1006,7 +1006,7 @@ function loadTableData() {
 //                             </label>
 //                         </td>`;
 //                     tr += `<td>
-                                
+
 //                             <select class="table-input ${resitDisabled ? 'disabled-field' : ''} resit-intentos" name="courses[${key}][INTENTOS]" ${resitDisabled}>
 //                                 <option value="">Seleccionar...</option>
 //                                 <option value="1" ${(curso.INTENTOS === 1) ? 'selected' : ''}>1</option>
@@ -1220,7 +1220,7 @@ function initializeDataTable() {
     if ($.fn.DataTable.isDataTable('#edit-course-table')) {
         $('#edit-course-table').DataTable().destroy();
     }
-    
+
     $('#edit-course-table').DataTable({
         fixedHeader: true,
         scrollY: '50vh',
@@ -1241,10 +1241,10 @@ function initializeDataTable() {
             infoFiltered: "(filtrado de _MAX_ total)"
         },
         columnDefs: [
-            { orderable: false, targets: [0, -1] }, 
+            { orderable: false, targets: [0, -1] },
             { className: "text-center", targets: [0, 3, 4] }
         ],
-        drawCallback: function() {
+        drawCallback: function () {
             addSwitchListeners();
             addValidationListeners();
         }
@@ -1824,7 +1824,7 @@ function generateCourseDays(startDate, endDate) {
     const days = [];
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     // Generar array con todos los días del curso
     for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
         days.push({
@@ -1833,7 +1833,7 @@ function generateCourseDays(startDate, endDate) {
             dayNumber: days.length + 1
         });
     }
-    
+
     return days;
 }
 
@@ -1863,12 +1863,12 @@ function loadTableDataWithAttendance() {
             $.ajax({
                 url: '/getProjectDates/' + ID_PROJECT,
                 method: 'GET',
-                success: function(projectData) {
+                success: function (projectData) {
                     const courseDays = generateCourseDays(
-                        projectData.COURSE_START_DATE_PROJECT, 
+                        projectData.COURSE_START_DATE_PROJECT,
                         projectData.COURSE_END_DATE_PROJECT
                     );
-                    
+
                     renderTableWithAttendance(data, courseDays);
                 }
             });
@@ -1886,7 +1886,7 @@ function renderTableWithAttendance(candidatos, courseDays) {
     const tbody = $('#edit-candidate-table tbody');
     const thead = $('#edit-candidate-table thead');
     tbody.empty();
-    
+
     // Actualizar encabezados dinámicamente
     let headerRow = `
         <tr>
@@ -1903,7 +1903,7 @@ function renderTableWithAttendance(candidatos, courseDays) {
             <th width="130px">Contraseña</th>
             <th width="130px">Membresía activa</th>
     `;
-    
+
     // Agregar columnas para cada día del curso
     courseDays.forEach((day, index) => {
         headerRow += `<th width="100px" class="text-center attendance-header">
@@ -1911,13 +1911,13 @@ function renderTableWithAttendance(candidatos, courseDays) {
             <small>${day.formatted}</small>
         </th>`;
     });
-    
+
     headerRow += `
             <th width="130px">Motivo Inasistencia</th>
             <th width="100px" class="table-row-actions text-center">Acciones</th>
         </tr>
     `;
-    
+
     thead.html(headerRow);
 
     if (candidatos && candidatos.length > 0) {
@@ -1929,9 +1929,9 @@ function renderTableWithAttendance(candidatos, courseDays) {
             } catch (e) {
                 asistencias = {};
             }
-            
+
             let tr = `<tr data-candidate-id="${row.ID_CANDIDATE || ''}" class="candidate-row">`;
-            
+
             tr += `<td class="text-center">${index + 1}</td>`;
             tr += `<td><textarea class="table-input textarea" placeholder="Nombre de empresa" name="courses[${index}][COMPANY_PROJECT]">${row.COMPANY_PROJECT || ''}</textarea></td>`;
             tr += `<td><textarea class="table-input textarea" name="courses[${index}][CR_PROJECT]" placeholder="CR">${row.CR_PROJECT || ''}</textarea></td>`;
@@ -1959,12 +1959,12 @@ function renderTableWithAttendance(candidatos, courseDays) {
                     </label>
                 </div>
             </td>`;
-            
+
             // Agregar switches de asistencia para cada día
             courseDays.forEach((day, dayIndex) => {
                 const dayKey = day.date.toISOString().split('T')[0]; // YYYY-MM-DD
                 const isPresent = asistencias[dayKey] === true || asistencias[dayKey] === 1;
-                
+
                 tr += `<td>
                     <div class="status-switch-container">
                         <label class="status-switch">
@@ -1979,19 +1979,19 @@ function renderTableWithAttendance(candidatos, courseDays) {
                     </div>
                 </td>`;
             });
-            
+
             // Campo de motivo de inasistencia
             const totalDays = courseDays.length;
             const presentDays = Object.values(asistencias).filter(v => v === true || v === 1).length;
             const showMotivo = presentDays < totalDays;
-            
+
             tr += `<td>
                 <textarea class="table-input textarea motivo-field ${showMotivo ? '' : 'd-none'}" 
                     name="courses[${index}][MOTIVO]" 
                     id="motivo_${index}"
                     placeholder="Motivo de inasistencia">${row.MOTIVO || ''}</textarea>
             </td>`;
-            
+
             // Acciones
             tr += `<td class="table-row-actions">
                 <div class="action-buttons">
@@ -2004,14 +2004,14 @@ function renderTableWithAttendance(candidatos, courseDays) {
                     </button>
                 </div>
             </td>`;
-            
+
             tr += '</tr>';
             tbody.append(tr);
         });
-        
+
         updateRowCount(candidatos.length);
         attachAttendanceListeners();
-        
+
     } else {
         tbody.html(`
             <tr>
@@ -2029,17 +2029,17 @@ function renderTableWithAttendance(candidatos, courseDays) {
 // LISTENERS PARA SWITCHES DE ASISTENCIA
 // ============================================
 function attachAttendanceListeners() {
-    $('.attendance-switch').on('change', function() {
+    $('.attendance-switch').on('change', function () {
         const candidateIndex = $(this).data('candidate-index');
         const row = $(this).closest('tr');
-        
+
         // Contar cuántos días está presente
         const totalSwitches = row.find('.attendance-switch').length;
         const checkedSwitches = row.find('.attendance-switch:checked').length;
-        
+
         // Mostrar/ocultar campo de motivo
         const motivoField = row.find(`#motivo_${candidateIndex}`);
-        
+
         if (checkedSwitches < totalSwitches) {
             // Hay inasistencias, mostrar campo de motivo
             motivoField.removeClass('d-none');
@@ -2048,7 +2048,7 @@ function attachAttendanceListeners() {
             motivoField.addClass('d-none');
             motivoField.val(''); // Limpiar el motivo
         }
-        
+
         // Actualizar indicador visual de la fila
         updateRowAttendanceStatus(row, checkedSwitches, totalSwitches);
     });
@@ -2059,7 +2059,7 @@ function attachAttendanceListeners() {
 // ============================================
 function updateRowAttendanceStatus(row, present, total) {
     row.removeClass('attendance-complete attendance-partial attendance-absent');
-    
+
     if (present === total) {
         row.addClass('attendance-complete');
     } else if (present > 0) {
@@ -2074,17 +2074,17 @@ function updateRowAttendanceStatus(row, present, total) {
 // ============================================
 $("#candidatebtnModal").click(async function (e) {
     e.preventDefault();
-    
+
     // Preparar datos de asistencia
-    $('.candidate-row').each(function(index) {
+    $('.candidate-row').each(function (index) {
         const row = $(this);
         const attendanceData = {};
-        
-        row.find('.attendance-switch').each(function() {
+
+        row.find('.attendance-switch').each(function () {
             const day = $(this).data('day');
             attendanceData[day] = $(this).is(':checked') ? 1 : 0;
         });
-        
+
         // Agregar campo oculto con JSON de asistencias
         if (row.find('input[name="courses[' + index + '][ASISTENCIAS]"]').length === 0) {
             row.append(`<input type="hidden" name="courses[${index}][ASISTENCIAS]" value='${JSON.stringify(attendanceData)}'>`);
@@ -2092,7 +2092,7 @@ $("#candidatebtnModal").click(async function (e) {
             row.find('input[name="courses[' + index + '][ASISTENCIAS]"]').val(JSON.stringify(attendanceData));
         }
     });
-    
+
     // Continuar con el guardado normal
     let formularioValido = validarFormulario($('#candidateForm'));
 
@@ -2206,7 +2206,7 @@ function editarCandidatos() {
 //             method: 'GET',
 //             dataType: 'json'
 //         });
-        
+
 //         if (response.success) {
 //             programRules = response.programa;
 //             projectProgramId = programId;
@@ -2251,20 +2251,25 @@ function loadTableCursoModal() {
 
             const proyecto = response.proyecto;
             const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
-            
-            // Obtener el ID del programa del primer nivel
-            if (niveles.length > 0) {
-                const primerNivelId = niveles[0].id;
-                const nivelData = await $.ajax({
-                    url: '/getNivelData/' + primerNivelId,
-                    method: 'GET',
-                    dataType: 'json'
-                });
-                
-                if (nivelData.success && nivelData.nivel.DESCRIPCION_NIVEL) {
-                    await loadProgramRules(nivelData.nivel.DESCRIPCION_NIVEL);
-                }
-            }
+            programRules = proyecto.PROGRAMA;
+            projectProgramId = proyecto.PROGRAM_PROJECT;
+
+            // if (niveles.length > 0) {
+            //     const primerNivelId = niveles[0].id;
+            //     const nivelData = await $.ajax({
+            //         url: '/getNivelData/' + primerNivelId,
+            //         method: 'GET',
+            //         dataType: 'json'
+            //     });
+
+            //     // if (nivelData.success && nivelData.nivel.DESCRIPCION_NIVEL) {
+            //     //     await loadProgramRules(nivelData.nivel.DESCRIPCION_NIVEL);
+            //     // }
+
+
+
+
+            // }
 
             renderDynamicTable(response, programRules);
         },
@@ -2288,7 +2293,7 @@ function loadTableCursoModal() {
 //     // Construir encabezados dinámicamente
 //     let headerRow1 = `<tr>`;
 //     let headerRow2 = `<tr>`;
-    
+
 //     // Columnas básicas
 //     headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
 //     headerRow2 += `
@@ -2306,7 +2311,7 @@ function loadTableCursoModal() {
 //     // Exámenes Teóricos (dinámico según acreditación)
 //     const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2; // IADC: 1, IWCF: 2
 //     headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
-    
+
 //     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
 //         headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
 //     } else {
@@ -2319,7 +2324,7 @@ function loadTableCursoModal() {
 //     // Complementos
 //     const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
 //     headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
-    
+
 //     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
 //         headerRow2 += `
 //             <th class="col-180" width="180px">Complemento</th>
@@ -2363,7 +2368,7 @@ function loadTableCursoModal() {
 
 //     // Resits Programados (dinámico según intentos permitidos)
 //     const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
-    
+
 //     for (let i = 1; i <= numIntentosPermitidos; i++) {
 //         headerRow1 += `<th colspan="6" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
 //         headerRow2 += `
@@ -2389,12 +2394,12 @@ function loadTableCursoModal() {
 
 //     headerRow1 += `</tr>`;
 //     headerRow2 += `</tr>`;
-    
+
 //     thead.append(headerRow1 + headerRow2);
 
 //     // Renderizar filas de estudiantes
 //     renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
-    
+
 //     initializeDataTable();
 //     addSwitchListeners();
 //     addValidationListeners();
@@ -2406,70 +2411,70 @@ function loadTableCursoModal() {
 // ============================================
 // function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) {
 //     const tbody = $('#edit-course-table tbody');
-    
+
 //     estudiantes.forEach((estudiante, index) => {
 //         const candidato = estudiante.candidato;
 //         const curso = estudiante.datos_curso;
 //         const key = candidato.ID_CANDIDATE;
-        
+
 //         // Calcular fechas límite de resit
 //         const examDate = new Date(proyecto.EXAM_DATE_PROJECT || Date.now());
 //         const periodoResit = rules ? rules.PERIODO_RESIT : 90;
 //         const fechaLimite = new Date(examDate);
 //         fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
-        
+
 //         const diasRestantes = Math.max(0, Math.ceil((fechaLimite - new Date()) / (1000 * 60 * 60 * 24)));
-        
+
 //         // Determinar si puede tener resit
 //         const tieneAlMenosUnAprobado = 
 //             curso.PRACTICAL_PASS === 'Pass' || 
 //             curso.EQUIPAMENT_PASS === 'Pass' || 
 //             curso.PYP_PASS === 'Pass';
-        
+
 //         const puedeResit = tieneAlMenosUnAprobado && diasRestantes > 0;
-        
+
 //         let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" data-curso-id="${estudiante.curso_id}" class="course-row">`;
-        
+
 //         // Columnas básicas
 //         tr += `<td class="text-center">${index + 1}</td>`;
 //         tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
-        
+
 //         // Nivel
 //         tr += renderNivelColumn(candidato, proyecto);
-        
+
 //         // BOP e Idioma
 //         tr += renderBOPColumn(proyecto);
 //         tr += renderIdiomaColumn(proyecto);
-        
+
 //         // Exámenes (Práctico, Teórico)
 //         tr += renderExamColumns(curso, key, proyecto, rules);
-        
+
 //         // Complementos
 //         tr += renderComplementsColumns(curso, key, proyecto);
-        
+
 //         // Estatus General
 //         tr += renderStatusColumn(curso, key);
-        
+
 //         // Información Resit
 //         tr += renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestantes, fechaLimite);
-        
+
 //         // Resit Inmediato (si aplica)
 //         if (rules && rules.OPCION_RESIT === 1) {
 //             tr += renderResitInmediato(curso, key, puedeResit);
 //         }
-        
+
 //         // Resits Programados
 //         for (let i = 1; i <= numIntentosPermitidos; i++) {
 //             tr += renderResitProgramado(curso, key, i, puedeResit);
 //         }
-        
+
 //         // Final y Certificación
 //         tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
-        
+
 //         tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
 //         tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
 //         tr += `</tr>`;
-        
+
 //         tbody.append(tr);
 //     });
 // }
@@ -2480,7 +2485,7 @@ function loadTableCursoModal() {
 function renderNivelColumn(candidato, proyecto) {
     const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
     let html = `<td><div class="levels-container">`;
-    
+
     if (niveles.length === 0) {
         html += `<span class="text-muted">N/A</span>`;
     } else if (niveles.length === 1) {
@@ -2497,7 +2502,7 @@ function renderNivelColumn(candidato, proyecto) {
         });
         html += `</select>`;
     }
-    
+
     html += `</div></td>`;
     return html;
 }
@@ -2526,24 +2531,24 @@ function renderIdiomaColumn(proyecto) {
 
 function renderExamColumns(curso, key, proyecto, rules) {
     let html = '';
-    
+
     // Práctico
     html += renderExamField(curso.PRACTICAL, curso.PRACTICAL_PASS, 'practical', key, rules);
-    
+
     // Equipos
     html += renderExamField(curso.EQUIPAMENT, curso.EQUIPAMENT_PASS, 'equipament', key, rules);
-    
+
     // P&P (solo IWCF)
     if (proyecto.ACCREDITING_ENTITY_PROJECT === '2') {
         html += renderExamField(curso.PYP, curso.PYP_PASS, 'pyp', key, rules);
     }
-    
+
     return html;
 }
 
 function renderExamField(score, status, fieldName, key, rules) {
     const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
-    
+
     // Validar automáticamente según reglas del programa
     let autoStatus = '';
     if (rules && score) {
@@ -2555,7 +2560,7 @@ function renderExamField(score, status, fieldName, key, rules) {
             autoStatus = 'Unpass'; // Sin opción a resit
         }
     }
-    
+
     return `<td>
         <div class="score-status-container" style="position: relative;">
             <input class="table-input ${fieldName}-score ${statusClass}" 
@@ -2580,8 +2585,7 @@ function renderExamField(score, status, fieldName, key, rules) {
 
 function renderComplementsColumns(curso, key, proyecto) {
     let html = '';
-    
-    // Switch CO (Complemento)
+
     html += `<td>
         <input type="hidden" name="courses[${key}][CO]" value="0">
         <label class="switch">
@@ -2589,8 +2593,7 @@ function renderComplementsColumns(curso, key, proyecto) {
             <span class="slider"></span>
         </label>
     </td>`;
-    
-    // Complementos específicos según acreditación
+
     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') { // IADC
         html += renderComplementField(curso.WORKOVER, curso.WO_STATUS, 'WORKOVER', 'WO_STATUS', key);
         html += renderComplementField(curso.SUBSEA, curso.SUBSEA_STATUS, 'SUBSEA', 'SUBSEA_STATUS', key);
@@ -2599,7 +2602,7 @@ function renderComplementsColumns(curso, key, proyecto) {
         html += renderComplementField(curso.D2, curso.D2_STATUS, 'D2', 'D2_STATUS', key);
         html += renderComplementField(curso.D3, curso.D3_STATUS, 'D3', 'D3_STATUS', key);
     }
-    
+
     return html;
 }
 
@@ -2634,7 +2637,7 @@ function renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestan
     const resitDisabled = !puedeResit ? 'disabled' : '';
     const resitValue = curso.RESIT === '1' || curso.RESIT === 1 ? 'Yes' : 'No';
     const intentosPermitidos = rules ? rules.OPCION_RESIT_PERMITIDAS : 1;
-    
+
     return `
         <td>
             <input type="hidden" name="courses[${key}][RESIT]" value="0">
@@ -2683,7 +2686,7 @@ function renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestan
 function renderResitInmediato(curso, key, puedeResit) {
     const resitInmediatoDisabled = !puedeResit ? 'disabled' : '';
     const resitInmediatoValue = curso.RESIT_INMEDIATO === '1' || curso.RESIT_INMEDIATO === 1 ? 'Yes' : 'No';
-    
+
     return `
         <td>
             <input type="hidden" name="courses[${key}][RESIT_INMEDIATO]" value="0">
@@ -2723,7 +2726,7 @@ function renderResitProgramado(curso, key, numero, puedeResit) {
     const resitDisabled = !puedeResit ? 'disabled' : '';
     const resitData = curso[`RESIT_${numero}`] || {};
     const resitValue = resitData === '1' || resitData === 1 ? 'Yes' : 'No';
-    
+
     return `
         <td>
             <input type="hidden" name="courses[${key}][RESIT_${numero}]" value="0">
@@ -2777,21 +2780,21 @@ function renderResitProgramado(curso, key, numero, puedeResit) {
 function renderFinalAndCertification(curso, candidato, key, cursoId) {
     const certifiedValue = curso.HAVE_CERTIFIED === '1' || curso.HAVE_CERTIFIED === 1 ? 'Yes' : 'No';
     const certifiedDisabled = certifiedValue !== 'Yes' ? 'disabled' : '';
-    
+
     // Calcular vigencia del certificado
     let vigenciaTexto = 'N/A';
     if (curso.EXPIRATION) {
         const expDate = new Date(curso.EXPIRATION);
         const today = new Date();
         const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-        
+
         if (diffDays > 0) {
             vigenciaTexto = `${diffDays} días`;
         } else {
             vigenciaTexto = '<span class="text-danger">Expirado</span>';
         }
     }
-    
+
     return `
         <td>
             <select class="table-input final-status-select" name="courses[${key}][FINAL_STATUS]">
@@ -2845,33 +2848,33 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
 // LISTENERS PARA CARGA DE CERTIFICADOS
 // ============================================
 function attachCertificateUploadListeners() {
-    $('.btn-upload-cert').off('click').on('click', function() {
+    $('.btn-upload-cert').off('click').on('click', function () {
         const cursoId = $(this).data('curso-id');
         const fileInput = $(this).closest('td').find('.certificate-upload');
         fileInput.trigger('click');
     });
-    
-    $('.certificate-upload').off('change').on('change', async function() {
+
+    $('.certificate-upload').off('change').on('change', async function () {
         const file = this.files[0];
         const cursoId = $(this).data('curso-id');
-        
+
         if (!file) return;
-        
+
         if (file.type !== 'application/pdf') {
             alertToast('Solo se permiten archivos PDF', 'error', 2000);
             return;
         }
-        
+
         if (file.size > 10 * 1024 * 1024) {
             alertToast('El archivo no debe superar 10MB', 'error', 2000);
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('certificate', file);
         formData.append('ID_COURSE', cursoId);
         formData.append('_token', $('input[name="_token"]').val());
-        
+
         try {
             Swal.fire({
                 title: 'Subiendo certificado...',
@@ -2879,7 +2882,7 @@ function attachCertificateUploadListeners() {
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
-            
+
             const response = await $.ajax({
                 url: '/uploadCertificate',
                 method: 'POST',
@@ -2887,9 +2890,9 @@ function attachCertificateUploadListeners() {
                 processData: false,
                 contentType: false
             });
-            
+
             Swal.close();
-            
+
             if (response.success) {
                 alertMensaje('success', '¡Éxito!', 'Certificado cargado correctamente');
                 loadTableCursoModal(); // Recargar tabla
@@ -2909,13 +2912,13 @@ function attachCertificateUploadListeners() {
 // ============================================
 function validateScoreAgainstRules(score, fieldName, key) {
     if (!programRules || !score) return;
-    
+
     const scoreInput = $(`.${fieldName}-score[data-key="${key}"]`);
     const statusSelect = $(`.${fieldName}-status[data-key="${key}"]`);
-    
+
     let autoStatus = '';
     let statusClass = '';
-    
+
     if (score >= programRules.MIN_PORCENTAJE_APROB) {
         autoStatus = 'Pass';
         statusClass = 'pass-status';
@@ -2931,7 +2934,7 @@ function validateScoreAgainstRules(score, fieldName, key) {
         autoStatus = 'Unpass';
         statusClass = 'unpass-status';
     }
-    
+
     statusSelect.val(autoStatus);
     scoreInput.removeClass('pass-status unpass-status').addClass(statusClass);
     statusSelect.removeClass('pass-status unpass-status').addClass(statusClass);
@@ -2946,12 +2949,12 @@ function validateScoreAgainstRules(score, fieldName, key) {
 //         const score = parseFloat($(this).val());
 //         const fieldName = $(this).data('field');
 //         const key = $(this).data('key');
-        
+
 //         if (score && !isNaN(score)) {
 //             validateScoreAgainstRules(score, fieldName, key);
 //         }
 //     });
-    
+
 //     // Validar al cambiar status manualmente
 //     $('.practical-status, .equipament-status, .pyp-status').on('change', function() {
 //         const row = $(this).closest('tr');
@@ -3008,7 +3011,7 @@ async function loadProgramRules(programId) {
             method: 'GET',
             dataType: 'json'
         });
-        
+
         if (response.success) {
             programRules = response.programa;
             projectProgramId = programId;
@@ -3044,23 +3047,23 @@ async function loadProgramRules(programId) {
 //         { name: 'Practical', score: practical },
 //         { name: 'Equipament', score: equipament }
 //     ];
-    
+
 //     if (pyp !== null && projectAccreditingEntity === '2') {
 //         modules.push({ name: 'P&P', score: pyp });
 //     }
 
 //     modules.forEach(module => {
 //         if (!module.score) return;
-        
+
 //         const score = parseFloat(module.score);
-        
+
 //         if (score >= programRules.MIN_PORCENTAJE_APROB) {
 //             options.passedModules.push(module.name);
 //         } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
 //             options.failedModules.push(module.name);
 //             options.resitModules.push(module.name);
 //             options.needsResit = true;
-            
+
 //             // Determinar tipo de resit
 //             if (programRules.OPCION_RESIT === 1) {
 //                 options.needsImmediateResit = true;
@@ -3099,21 +3102,21 @@ async function loadProgramRules(programId) {
 // ============================================
 function calculateResitDates() {
     if (!projectExamDate || !programRules) return null;
-    
+
     const examDate = new Date(projectExamDate);
     const periodoResit = programRules.PERIODO_RESIT || 90;
-    
+
     // Fecha límite
     const fechaLimite = new Date(examDate);
     fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
-    
+
     // Días restantes
     const today = new Date();
     const diasRestantes = Math.max(0, Math.ceil((fechaLimite - today) / (1000 * 60 * 60 * 24)));
-    
+
     // Fecha de resit inmediato (mismo día del examen)
     const fechaResitInmediato = new Date(examDate);
-    
+
     return {
         fechaLimite,
         diasRestantes,
@@ -3130,12 +3133,12 @@ function calculateResitDates() {
 function renderResitInfoEnhanced(curso, key, options, resitDates) {
     const resitTerm = getResitTerm();
     const intentosPermitidos = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
-    
+
     // Determinar estado del switch principal
     let resitChecked = false;
     let resitDisabled = true;
     let warningMessage = '';
-    
+
     if (options.needsResit) {
         resitChecked = true;
         resitDisabled = false;
@@ -3164,9 +3167,9 @@ function renderResitInfoEnhanced(curso, key, options, resitDates) {
             <select class="table-input module-select ${resitDisabled ? 'disabled-field' : ''}" 
                 name="courses[${key}][RESIT_MODULE]" ${resitDisabled ? 'disabled' : ''}>
                 <option value="">Seleccionar...</option>
-                ${options.resitModules.map(module => 
-                    `<option value="${module}" ${curso.RESIT_MODULE === module ? 'selected' : ''}>${module}</option>`
-                ).join('')}
+                ${options.resitModules.map(module =>
+        `<option value="${module}" ${curso.RESIT_MODULE === module ? 'selected' : ''}>${module}</option>`
+    ).join('')}
             </select>
             ${options.resitModules.length === 0 ? '<small class="text-muted d-block">N/A</small>' : ''}
         </td>
@@ -3202,7 +3205,7 @@ function renderResitInfoEnhanced(curso, key, options, resitDates) {
 //     let checked = false;
 //     let message = '';
 //     let defaultDate = '';
-    
+
 //     if (options.needsImmediateResit && programRules && programRules.OPCION_RESIT === 1) {
 //         disabled = false;
 //         checked = curso.RESIT_INMEDIATO == 1;
@@ -3262,10 +3265,10 @@ function renderResitInfoEnhanced(curso, key, options, resitDates) {
 //     let checked = false;
 //     let requiresTraining = false;
 //     let message = '';
-    
+
 //     // Determinar si está disponible este slot de resit
 //     const availableSlots = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
-    
+
 //     if (numero > availableSlots) {
 //         message = `<small class="text-muted d-block">No disponible - Máx ${availableSlots} intentos</small>`;
 //         disabled = true;
@@ -3273,7 +3276,7 @@ function renderResitInfoEnhanced(curso, key, options, resitDates) {
 //         disabled = false;
 //         requiresTraining = options.needsTraining;
 //         checked = curso[`RESIT_${numero}`] == 1;
-        
+
 //         if (requiresTraining) {
 //             message = `<small class="text-warning d-block">Requiere entrenamiento</small>`;
 //         } else {
@@ -3357,7 +3360,7 @@ function renderResitInfoEnhanced(curso, key, options, resitDates) {
 function renderEmailColumn(candidato, curso, key) {
     const emailsSent = curso.EMAILS_SENT || 0;
     const maxEmails = 3;
-    
+
     return `
         <td>
             <div class="email-info-container">
@@ -3392,13 +3395,13 @@ function renderEmailColumn(candidato, curso, key) {
 // ============================================
 function addValidationListeners() {
     // Validar cuando cambien las calificaciones
-    $('.practical-score, .equipament-score, .pyp-score').on('input change', function() {
+    $('.practical-score, .equipament-score, .pyp-score').on('input change', function () {
         const row = $(this).closest('tr');
         revalidateRow(row);
     });
-    
+
     // Validar status manual
-    $('.practical-status, .equipament-status, .pyp-status').on('change', function() {
+    $('.practical-status, .equipament-status, .pyp-status').on('change', function () {
         const row = $(this).closest('tr');
         revalidateRow(row);
     });
@@ -3411,13 +3414,13 @@ function revalidateRow(row) {
     const practical = parseFloat(row.find('.practical-score').val()) || 0;
     const equipament = parseFloat(row.find('.equipament-score').val()) || 0;
     const pyp = projectAccreditingEntity === '2' ? (parseFloat(row.find('.pyp-score').val()) || 0) : null;
-    
+
     const options = determineStudentOptions(practical, equipament, pyp);
     const resitDates = calculateResitDates();
-    
+
     // Actualizar switches y campos según nuevas opciones
     updateRowResitOptions(row, options, resitDates);
-    
+
     // Actualizar clases visuales
     row.removeClass('row-pass row-unpass row-pending');
     if (options.canPass) {
@@ -3437,7 +3440,7 @@ function updateRowResitOptions(row, options, resitDates) {
     const resitSwitch = row.find('.resit-switch');
     resitSwitch.prop('checked', options.needsResit);
     resitSwitch.prop('disabled', !options.needsResit);
-    
+
     // Resit inmediato
     const resitInmediatoSwitch = row.find('.resit-switch-inmediato');
     if (resitInmediatoSwitch.length) {
@@ -3446,15 +3449,15 @@ function updateRowResitOptions(row, options, resitDates) {
             row.find('.resit-inmediato-date').val(formatDateForInput(resitDates.fechaResitInmediato));
         }
     }
-    
+
     // Resits programados
-    $('.resit-switch-programado-1, .resit-switch-programado-2, .resit-switch-programado-3').each(function() {
+    $('.resit-switch-programado-1, .resit-switch-programado-2, .resit-switch-programado-3').each(function () {
         const switchEl = row.find(this);
         if (switchEl.length) {
             switchEl.prop('disabled', !options.needsScheduledResit);
         }
     });
-    
+
     // Módulo de resit
     const moduleSelect = row.find('.module-select');
     moduleSelect.empty().append('<option value="">Seleccionar...</option>');
@@ -3475,9 +3478,9 @@ function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) 
     let checked = false;
     let requiresTraining = false;
     let message = '';
-    
+
     const availableSlots = programRules ? programRules.OPCION_RESIT_PERMITIDAS : 1;
-    
+
     if (numero > availableSlots) {
         message = `<small class="text-muted d-block">No disponible - Máx ${availableSlots} intentos</small>`;
         disabled = true;
@@ -3485,7 +3488,7 @@ function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) 
         disabled = false;
         requiresTraining = options.needsTraining;
         checked = curso[`RESIT_${numero}`] == 1;
-        
+
         if (requiresTraining) {
             message = `<small class="text-warning d-block">Requiere entrenamiento</small>`;
         } else {
@@ -3564,101 +3567,113 @@ function renderDynamicTable(response, rules) {
     const thead = $('#edit-course-table thead');
     const tbody = $('#edit-course-table tbody');
     const proyecto = response.proyecto;
-    
+
     thead.empty();
     tbody.empty();
 
     let headerRow1 = `<tr>`;
     let headerRow2 = `<tr>`;
-    
-    // Columnas básicas
-    headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
+    let resitNombre = '';
+
+    //variables q ocupo siosi
+    let ente = null;
+    let llevaComplementos = null;
+    let aplicaResitInmediato = false;
+    let aplicaRefresh = false;
+
+    headerRow1 += `<th colspan="5" class="text-center">Estudiante</th>`;
     headerRow2 += `
         <th width="50px" class="text-center">#</th>
-        <th class="col-180" width="180px">Estudiante</th>
+        <th class="col-180" width="180px">Nombre completo</th>
         <th class="col-180" width="180px">Nivel</th>
         <th width="180px">BOP</th>
         <th width="180px">Idioma</th>
     `;
 
-    // Examen Práctico
-    headerRow1 += `<th colspan="1" class="text-center">Examen Práctico</th>`;
-    headerRow2 += `<th class="col-180" width="180px">Práctico</th>`;
-
-    // Exámenes Teóricos
     const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2;
-    headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
-    
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #236192 !important;">Práctico</th>`;
+
     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-        headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
+        ente = 1;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #236192 !important;">Equipos</th>`;
+        resitNombre = 'RE-TEST';
     } else {
+        ente = 2;
+        resitNombre = 'RE-SIT';
         headerRow2 += `
-            <th class="col-180" width="180px">Equipos</th>
-            <th class="col-180" width="180px">P&P</th>
+            <th class="col-180" width="180px" style="background-color: #236192 !important;">Equipos</th>
+            <th class="col-180" width="180px" style="background-color: #236192 !important;">P&P</th>
         `;
     }
+    if (proyecto.COMPLEMENTOS) {
+        try {
+            const complementos = typeof proyecto.COMPLEMENTOS === 'string'
+                ? JSON.parse(proyecto.COMPLEMENTOS)
+                : proyecto.COMPLEMENTOS;
 
-    // Complementos
-    const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
-    headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
-    
-    if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-        headerRow2 += `
-            <th class="col-180" width="180px">Complemento</th>
-            <th class="col-180" width="180px">WorkOver (WO)</th>
-            <th class="col-180" width="180px">SubSea (SS)</th>
-        `;
-    } else {
-        headerRow2 += `
-            <th class="col-180" width="180px">Complemento</th>
-            <th class="col-180" width="180px">D1</th>
-            <th class="col-180" width="180px">D2</th>
-            <th class="col-180" width="180px">D3</th>
-        `;
+            if (Array.isArray(complementos) && complementos.length > 0) {
+                llevaComplementos = complementos;
+                const colspanTotal = complementos.length + 1;
+                headerRow1 += `<th colspan="${colspanTotal + numExamenesT + 2}" class="text-center" style="background-color: #236192 !important;">Evaluacion inicial</th>`;
+                headerRow2 += `<th class="col-180" width="180px" style="background-color: #236192 !important;">¿Incluye complementos?</th>`;
+                complementos.forEach((comp, index) => {
+                    headerRow2 += `<th class="col-180" style="background-color: #236192 !important;"> Complemento: ${comp.nombre || (index + 1)}</th>`;
+                });
+            }
+        } catch (e) {
+            console.error('Error al parsear complementos:', e);
+        }
     }
 
-    // Resumen
-    headerRow1 += `<th colspan="1" class="text-center">Resumen</th>`;
-    headerRow2 += `<th class="col-180" width="180px">Estatus</th>`;
-
-    // Información de Resit
-    headerRow1 += `<th colspan="6" class="text-center">Información RE-SIT</th>`;
-    headerRow2 += `
-        <th width="180px">Resit</th>
-        <th width="180px">Módulo Resit</th>
-        <th width="180px">Intentos Permitidos</th>
-        <th width="180px">Periodo (días)</th>
-        <th width="180px">Días Restantes</th>
-        <th width="180px">Fecha Límite</th>
-    `;
-
-    // Resit Inmediato (solo si OPCION_RESIT === 2)
-    if (rules && rules.OPCION_RESIT === 2) {
-        headerRow1 += `<th colspan="4" class="text-center">RE-SIT INMEDIATO</th>`;
-        headerRow2 += `
-            <th width="180px">Sí</th>
-            <th class="col-180" width="180px">Fecha</th>
-            <th class="col-180" width="180px">Puntaje</th>
-            <th class="col-180" width="180px">Estatus</th>
-        `;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #236192 !important;">Estatus</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">¿Tiene opción?</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">No. Opciones disponibles</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Periodo (días)</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Fecha límite</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Días restantes</th>`;
+    headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Módulo</th>`;
+    let incrementoResit = 0;
+    if (proyecto.RESIT_INMEDIATO) {
+        aplicaResitInmediato = true;
+        incrementoResit = 3;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Resit inmediato</th>`;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Fecha</th>`;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Puntaje</th>`;
     }
 
-    // Resits Programados (SIN columna de folio)
-    const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
-    
-    for (let i = 1; i <= numIntentosPermitidos; i++) {
-        headerRow1 += `<th colspan="5" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
-        headerRow2 += `
-            <th width="180px">Activar</th>
-            <th width="180px">Entrenamiento</th>
-            <th class="col-180" width="180px">Fecha</th>
-            <th class="col-180" width="180px">Puntaje</th>
-            <th class="col-180" width="180px">Estatus</th>
-        `;
+    if (proyecto.REFRESH === 2) {
+        aplicaRefresh = true;
+        incrementoResit += 3;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Re-fresh</th>`;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Fecha Re-fresh</th>`;
+        headerRow2 += `<th class="col-180" width="180px" style="background-color: #007DBA !important;">Evidencia Re-fresh</th>`;
     }
 
-    // Final y Certificación
-    headerRow1 += `<th colspan="5" class="text-center">Final y Certificación</th>`;
+    let celdasGeneradas = 0;
+    let numIntentosPermitidos = 0;
+    if (proyecto.RESIT_PERMITIDAS) {
+        const numResits = parseInt(proyecto.RESIT_PERMITIDAS) || 0;
+        const resitsPermitidos = parseInt(proyecto.RESIT_PERMITIDAS) || numResits;
+        const totalResits = Math.min(numResits, resitsPermitidos);
+
+        if (totalResits > 0) {
+        numIntentosPermitidos=totalResits;
+
+            for (let i = 1; i <= totalResits; i++) {
+                headerRow2 += `
+                <th width="180px">¿Presenta ${resitNombre} #${i}?</th>
+                <th class="col-180" width="180px">${resitNombre} #${i} (Fecha)</th>
+                <th class="col-180" width="180px">${resitNombre} #${i} (Puntaje)</th>
+            `;
+                celdasGeneradas += 3;
+            }
+
+        }
+    }
+
+    headerRow1 += `<th colspan="${incrementoResit + 6 + celdasGeneradas}" class="text-center" style="background-color: #007DBA !important;">${resitNombre}</th>`;
+
+    headerRow1 += `<th colspan="8" class="text-center">Certificación</th>`;
     headerRow2 += `
         <th class="col-180" width="180px">Estatus Final</th>
         <th width="180px">Certificado</th>
@@ -3667,18 +3682,16 @@ function renderDynamicTable(response, rules) {
         <th width="150px" class="table-row-actions text-center">Cargar PDF</th>
     `;
 
-    // Correo
-    headerRow1 += `<th colspan="1" class="text-center">Contacto</th>`;
-    headerRow2 += `<th class="col-250" width="180px">Correo</th>`;
-
+    headerRow2 += `<th colspan="1" class="text-center">Notificación por correo</th>`;
+    headerRow2 += `<th class="col-250" width="180px">Fechas de envío de correos</th>`;
+    headerRow2 += `<th class="col-250" width="180px">Correos enviados</th>`;
     headerRow1 += `</tr>`;
     headerRow2 += `</tr>`;
-    
+
     thead.append(headerRow1 + headerRow2);
 
-    // Renderizar filas
-    renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
-    
+    renderStudentRows(response.estudiantes, proyecto,ente,llevaComplementos,aplicaResitInmediato, aplicaRefresh, numIntentosPermitidos);
+
     // Inicializar DataTable
     initializeCourseDataTable();
     addSwitchListeners();
@@ -3693,22 +3706,19 @@ function initializeCourseDataTable() {
     if ($.fn.DataTable.isDataTable('#edit-course-table')) {
         $('#edit-course-table').DataTable().destroy();
     }
-    
+
     $('#edit-course-table').DataTable({
-        fixedHeader: {
-            header: true,
-            headerOffset: 0
-        },
-        scrollY: '60vh',
+        scrollY: '10vh',
         scrollX: true,
-        scrollCollapse: false,
+        scrollCollapse: true,
         paging: true,
-        pageLength: 25,
+        pageLength: 1,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Todos']],
         searching: true,
         ordering: true,
-        info: true,
+        info: false,
         autoWidth: false,
+        responsive: true,
         language: {
             search: "Buscar estudiante:",
             searchPlaceholder: "Nombre, email...",
@@ -3726,35 +3736,35 @@ function initializeCourseDataTable() {
             }
         },
         columnDefs: [
-            { 
-                orderable: false, 
+            {
+                orderable: false,
                 targets: [-1] // Última columna (acciones)
             },
-            { 
-                className: "text-center", 
+            {
+                className: "text-center",
                 targets: [0, 3, 4] // Número, BOP, Idioma
             },
             {
                 targets: '_all',
-                createdCell: function(td, cellData, rowData, row, col) {
+                createdCell: function (td, cellData, rowData, row, col) {
                     // Mantener estilos y clases después de renderizado
                     $(td).addClass('align-middle');
                 }
             }
         ],
         order: [[1, 'asc']], // Ordenar por nombre de estudiante
-        drawCallback: function(settings) {
+        drawCallback: function (settings) {
             // Re-adjuntar listeners después de cada renderizado
             addSwitchListeners();
             addValidationListeners();
             attachCertificateUploadListeners();
-            
+
             // Mostrar información de filas
             const api = this.api();
             const info = api.page.info();
             console.log(`Mostrando ${info.recordsDisplay} estudiantes de ${info.recordsTotal}`);
         },
-        initComplete: function(settings, json) {
+        initComplete: function (settings, json) {
             console.log('DataTable inicializado correctamente');
             updateRowCount($('#edit-course-table tbody tr').length);
         }
@@ -3770,7 +3780,7 @@ function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
     let checked = false;
     let message = '';
     let defaultDate = '';
-    
+
     // ✅ CORREGIDO: OPCION_RESIT === 2 significa que SÍ aplica resit inmediato
     if (options.needsImmediateResit && programRules && programRules.OPCION_RESIT === 2) {
         disabled = false;
@@ -3845,23 +3855,23 @@ function determineStudentOptions(practical, equipament, pyp = null) {
         { name: 'Practical', score: practical },
         { name: 'Equipament', score: equipament }
     ];
-    
+
     if (pyp !== null && projectAccreditingEntity === '2') {
         modules.push({ name: 'P&P', score: pyp });
     }
 
     modules.forEach(module => {
         if (!module.score) return;
-        
+
         const score = parseFloat(module.score);
-        
+
         if (score >= programRules.MIN_PORCENTAJE_APROB) {
             options.passedModules.push(module.name);
         } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
             options.failedModules.push(module.name);
             options.resitModules.push(module.name);
             options.needsResit = true;
-            
+
             // ✅ CORREGIDO: OPCION_RESIT === 2 significa resit inmediato disponible
             if (programRules.OPCION_RESIT === 2) {
                 options.needsImmediateResit = true;
@@ -3902,65 +3912,65 @@ function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) 
     const tbody = $('#edit-course-table tbody');
     projectExamDate = proyecto.EXAM_DATE_PROJECT;
     projectAccreditingEntity = proyecto.ACCREDITING_ENTITY_PROJECT;
-    
+
     const resitDates = calculateResitDates();
-    
+
     estudiantes.forEach((estudiante, index) => {
         const candidato = estudiante.candidato;
         const curso = estudiante.datos_curso;
         const key = candidato.ID_CANDIDATE;
-        
+
         const options = determineStudentOptions(
             curso.PRACTICAL,
             curso.EQUIPAMENT,
             curso.PYP
         );
-        
+
         let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" 
             data-curso-id="${estudiante.curso_id}" 
             class="course-row ${options.canPass ? 'row-pass' : (options.failedCompletely ? 'row-unpass' : 'row-pending')}">`;
-        
+
         // Columnas básicas
         tr += `<td class="text-center">${index + 1}</td>`;
         tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
-        
+
         // Nivel, BOP, Idioma
         tr += renderNivelColumn(candidato, proyecto);
         tr += renderBOPColumn(proyecto);
         tr += renderIdiomaColumn(proyecto);
-        
+
         // Exámenes
         tr += renderExamColumns(curso, key, proyecto, rules);
-        
+
         // Complementos
         tr += renderComplementsColumns(curso, key, proyecto);
-        
+
         // Estatus
         tr += renderStatusColumn(curso, key);
-        
+
         // Información de Resit
         tr += renderResitInfoEnhanced(curso, key, options, resitDates);
-        
+
         // Resit Inmediato (solo si OPCION_RESIT === 2)
         if (rules && rules.OPCION_RESIT === 2) {
             tr += renderResitInmediatoEnhanced(curso, key, options, resitDates);
         }
-        
+
         // Resits Programados (sin columna folio)
         for (let i = 1; i <= numIntentosPermitidos; i++) {
             tr += renderResitProgramadoEnhanced(curso, key, i, options, resitDates);
         }
-        
+
         // Final y Certificación
         tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
-        
+
         // Correo
         tr += `<td><span class="email-text">${candidato.EMAIL_PROJECT || 'N/A'}</span></td>`;
-        
+
         tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
         tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
         tr += `</tr>`;
-        
+
         tbody.append(tr);
     });
 }

@@ -959,34 +959,18 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                 <div class="sticky-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex gap-3">
-                <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
-                        <i class="fas fa-save me-2"></i>Guardar Cambios
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Cerrar
-                    </button>
-                         </div>
-                </div>
-                </div>
+                {{-- <div class="sticky-header">
+                </div> --}}
                 <div style="padding: 1vw;">
                     <form id="coursesForm">
                         {!! csrf_field() !!}  
                         <table class="table table-modern" id="edit-course-table">
                             <thead>
                                 <tr>
-                                    <th  colspan="5" class="text-center">Generalidades</th>
-                                    <th  colspan="1" class="text-center">Examen prático</th>
-                                    <th  colspan="2" class="text-center">Examen teórico</th>
-                                    <th  colspan="4" class="text-center" id="encabezadoComplementos">Complementos</th>
-                                    <th  colspan="1" class="text-center" >RESUMEN</th>
-                                    <th  colspan="6" class="text-center" >RE-SIT</th>
-                                    <th  colspan="4" class="text-center" > RE-SIT INMEDIATO</th>
-                                    <th  colspan="6" class="text-center" > RE-SIT PROGRAMADO</th>
-                                    <th  colspan="1" class="text-center" > FINAL</th>
-                                    <th  colspan="5" class="text-center" > Certificación</th>
+                                    <th  colspan="5" class="text-center">Estudiante</th>
+                                    <th  colspan="1" class="text-center">Evaluación inicial</th>
+                                    <th  colspan="2" class="text-center">Re-sits / re-test</th>
+                                    <th  colspan="4" class="text-center" >Certificados</th>
                                 </tr>
                                 <tr>
                                     <th width="50px" class="text-center">#</th>
@@ -1039,6 +1023,16 @@
                             </tbody>
                         </table>
                     </form>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
+                                <i class="fas fa-save me-2"></i>Guardar Cambios
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i>Cerrar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

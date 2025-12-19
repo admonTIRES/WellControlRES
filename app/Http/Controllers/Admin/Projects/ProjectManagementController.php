@@ -1390,6 +1390,22 @@ class ProjectManagementController extends Controller
             }
 
             $formattedEndDate = $endDate->locale('es')->isoFormat('DD MMM YYYY');
+            $ID_CATALOGO_PROGRAMA = $proyecto->PROGRAM_PROJECT || 0;
+
+            $programa = null;
+            $complementos = null;
+            $resitInmediato = null;
+            $resitPermitidas = null;
+            $refreshVal = null;
+            $periodoResit = null;
+            if($ID_CATALOGO_PROGRAMA != 0){
+            $programa = Programas::find($ID_CATALOGO_PROGRAMA);
+            $complementos = $programa->COMPLEMENTS_PROGRAM;
+            $resitInmediato = $programa->OPCION_RESIT;
+            $resitPermitidas = $programa->OPCION_RESIT_PERMITIDAS;
+            $refreshVal = $programa->OPCION_REFRESH;
+            $periodoResit = $programa->PERIODO_RESIT;
+            }
 
             $proyectoData = [
                 'LANGUAGE_PROJECT' => $this->getLanguajes($proyecto->LANGUAGE_PROJECT),
@@ -1399,6 +1415,13 @@ class ProjectManagementController extends Controller
                 'COURSE_END_DATE_90' => $formattedEndDate,
                 'EXAM_DATE_PROJECT' => $proyecto->EXAM_DATE_PROJECT,
                 'DAYS_REST' => $daysRest . ' días',
+                'PROGRAMA' => $programa,
+                'RESIT_INMEDIATO' => $resitInmediato,
+                'RESIT_PERMITIDAS' => $resitPermitidas,
+                'REFRESH' => $refreshVal,
+                'PERIODO_RESIT' => $periodoResit,
+                'COMPLEMENTOS' => $complementos,
+                'PROGRAM_PROJECT' => $proyecto->PROGRAM_PROJECT,
                 'DAYS_REMAINING' => $remainingDays
             ];
 

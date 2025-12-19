@@ -581,6 +581,14 @@
                             <input type="number" class="form-control" id="PERIODO_RESIT" name="PERIODO_RESIT" min="1" max="1000" placeholder="Ej. 1">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <label class="form-label">¿Requiere re-fresh?</label>
+                        <select class="form-select" id="OPCION_REFRESH" name="OPCION_REFRESH">
+                            <option value="" disabled selected>Seleccione</option>
+                            <option value="1">No requiere</option>
+                            <option value="2">Requiere</option>
+                        </select>
+                    </div>
 
                     <!-- ===================== COMPLEMENTOS DINÁMICOS ===================== -->
                     <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">

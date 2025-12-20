@@ -2773,11 +2773,10 @@ function updateRowResitOptions(row, options, resitDates) {
 function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) {
     const resitEnabled = curso[`RESIT_${numero}`] == 1; 
     const isDisabled = !resitEnabled; 
-    const canProgramado = options.needsScheduledResit;
+    // const canProgramado = options.needsScheduledResit; // Ya no validamos esto para el 'disabled'
 
-    // Celda 1: Switch
-    // Celda 2: Fecha
-    // Celda 3: Puntaje + Estatus (Combinados)
+    // NOTA: He quitado ${!canProgramado ? 'disabled' : ''} del input checkbox
+
     let html = `
         <td class="text-center">
             <input type="hidden" name="courses[${key}][RESIT_${numero}]" value="0">
@@ -2785,7 +2784,7 @@ function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) 
                 <input type="checkbox" class="resit-switch-programado" 
                     name="courses[${key}][RESIT_${numero}]" value="1"
                     data-resit-num="${numero}"
-                    ${resitEnabled ? 'checked' : ''} ${!canProgramado ? 'disabled' : ''}>
+                    ${resitEnabled ? 'checked' : ''}>
                 <span class="slider"></span>
             </label>
         </td>
@@ -2797,7 +2796,6 @@ function renderResitProgramadoEnhanced(curso, key, numero, options, resitDates) 
         </td>
     `;
 
-    // Celda combinada Score + Status sin switch interno
     html += renderScoreStatusCell(
         key, 
         `RESIT_${numero}_SCORE`, 
@@ -3029,23 +3027,22 @@ function initializeCourseDataTable() {
 // RENDERIZAR RESIT INMEDIATO CORREGIDO
 // ============================================
 function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
-    const canInmediato = options.needsImmediateResit;
+    // Ya no usamos 'canInmediato' para deshabilitar el switch
     const isChecked = curso.RESIT_INMEDIATO == 1;
+    // isDisabled controla los inputs de fecha/score, no el switch en sí
     const isDisabled = !isChecked; 
-    const switchDisabled = !canInmediato; 
     
     const defaultDate = formatDateForInput(resitDates.fechaResitInmediato);
 
-    // Celda 1: Switch
-    // Celda 2: Fecha
-    // Celda 3: Puntaje + Estatus (Combinados)
+    // NOTA: He quitado ${switchDisabled ? 'disabled' : ''} del input checkbox
+
     let html = `
         <td class="text-center">
             <input type="hidden" name="courses[${key}][RESIT_INMEDIATO]" value="0">
             <label class="switch">
                 <input type="checkbox" class="resit-switch-inmediato" 
                     name="courses[${key}][RESIT_INMEDIATO]" value="1" 
-                    ${isChecked ? 'checked' : ''} ${switchDisabled ? 'disabled' : ''}>
+                    ${isChecked ? 'checked' : ''}>
                 <span class="slider"></span>
             </label>
         </td>
@@ -3057,8 +3054,6 @@ function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
         </td>
     `;
     
-    // Llamamos a la función genérica para crear la celda combinada
-    // includeSwitch = false (porque el switch ya está en la col 1)
     html += renderScoreStatusCell(
         key, 
         'RESIT_INMEDIATO_SCORE', 

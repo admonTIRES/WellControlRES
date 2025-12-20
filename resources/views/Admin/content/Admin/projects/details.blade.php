@@ -1038,7 +1038,36 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="pdfCandidateModal" tabindex="-1" role="dialog" aria-labelledby="pdfCandidateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
+        <div class="modal-content" style="height: 90vh;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfCandidateModalLabel">
+                    <i class="fas fa-file-pdf text-danger me-2"></i> Visualizador de Documento
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#pdfCandidateModal').modal('hide')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0 position-relative">
+                <div id="pdfCandidateLoading" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-light" style="z-index: 10;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Cargando PDF...</span>
+                    </div>
+                </div>
+                
+                <iframe id="pdfCandidateFrame" src="" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                
+                <div id="pdfCandidateError" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-white text-danger" style="z-index: 20; display: none;">
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <p id="candidateErrorMessage">No se pudo cargar el documento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     const ID_PROJECT = @json($ID_PROJECT);
     const ID_COURSE = 0;

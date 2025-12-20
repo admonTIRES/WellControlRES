@@ -220,6 +220,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/programaSave', [CatalogsController::class, 'store']);
     Route::get('/programaActive', [CatalogsController::class, 'store']);
 
+    
+
     Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
         $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
 
@@ -233,6 +235,21 @@ Route::middleware(['auth'])->group(function () {
         ]);
     })->name('archivos.centros');
 
+    Route::get('/archivos/proyectos/{id_proyecto}/candidatos/{id_candidato}/{filename}', function ($id_proyecto, $id_candidato, $filename) {
+    
+        // Construimos la ruta física basada en tu estructura de carpetas
+        $path = storage_path('app/admin/projects/' . $id_proyecto . '/candidates/' . $id_candidato . '/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404, 'Archivo no encontrado: ' . $path);
+        }
+
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        ]);
+    })->name('archivos.candidatos');
+    
     Route::get('/centros-capacitacion', function (Request $request) {
         $acreditacion = $request->get('acreditacion', 0);
 

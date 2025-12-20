@@ -3280,8 +3280,6 @@ function descargarPDF() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-
-
     function actualizarTextosPorEnte(enteId) {
         enteSeleccionado = enteId;
         const esId1 = (enteId == 1);
@@ -3468,6 +3466,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         agregarValidacionComplemento(complementoId);
     }
+
     function agregarValidacionComplemento(complementoId) {
         const inputs = document.querySelectorAll(`[data-complemento-id="${complementoId}"]`);
 
@@ -3533,8 +3532,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     };
-
-    
 
     const opcionResitSelect = document.getElementById('OPCION_RESIT');
     if (opcionResitSelect) {

@@ -293,19 +293,20 @@ class ProjectManagementController extends Controller
                 //     $response['code'] = 1;
                 //     return response()->json($response);
                 //     break;
-                
-   case 2:
+
+                // En ProjectManagementController.php -> store()
+
+case 2:
     DB::beginTransaction();
     try {
-        // Laravel parsea automáticamente los nombres 'courses[id][campo]' a arrays
-        $coursesInput = $request->input('courses'); 
+        $coursesInput = $request->input('courses');
         $idProject = $request->input('ID_PROJECT');
 
         if (!$coursesInput) {
-             return response()->json(['code' => 0, 'msj' => 'No se recibieron datos para guardar.']);
+            return response()->json(['code' => 0, 'msj' => 'No se recibieron datos para guardar.']);
         }
 
-        // 1. Obtener la definición de complementos del PROGRAMA (Para saber qué guardar en el JSON)
+        // 1. Obtener la definición de complementos
         $project = Proyect::find($idProject);
         $programDef = [];
         if ($project && $project->PROGRAM_PROJECT) {
@@ -322,34 +323,26 @@ class ProjectManagementController extends Controller
                 'ID_PROJECT' => $idProject
             ]);
 
-            // ---------------------------------------------------------
-            // A. COMPLEMENTOS (JSON DINÁMICO)
-            // ---------------------------------------------------------
+            // --- A. COMPLEMENTOS (Igual que antes) ---
             $complementsToSave = [];
             $masterSwitch = isset($data['CO']) ? (int)$data['CO'] : 0;
             $course->CO = $masterSwitch;
 
-            // Iteramos según la definición del programa (índices 0, 1, 2...)
             foreach ($programDef as $index => $def) {
-                // Buscamos en el request: COMPLEMENTO_0, COMPLEMENTO_0_STATUS, etc.
                 $complementsToSave[] = [
                     'nombre' => $def['nombre'], 
                     'score' => $data["COMPLEMENTO_{$index}"] ?? null,
                     'status' => $data["COMPLEMENTO_{$index}_STATUS"] ?? null,
-                    // Si el switch está apagado en JS, enviamos 0
                     'enabled' => isset($data["COMP_{$index}_ENABLED"]) ? (int)$data["COMP_{$index}_ENABLED"] : 0
                 ];
             }
             
-            // Guardamos el JSON
             $course->COMPLEMENTS_JSON = json_encode([
                 'has_complements' => $masterSwitch,
                 'items' => $complementsToSave
             ]);
 
-            // ---------------------------------------------------------
-            // B. CAMPOS ESTÁNDAR
-            // ---------------------------------------------------------
+            // --- B. CAMPOS ESTÁNDAR (Igual que antes) ---
             $fields = [
                 'PRACTICAL', 'PRACTICAL_PASS', 'EQUIPAMENT', 'EQUIPAMENT_PASS',
                 'PYP', 'PYP_PASS', 'STATUS', 'RESIT', 'INTENTOS', 'RESIT_MODULE',
@@ -362,7 +355,6 @@ class ProjectManagementController extends Controller
                 $course->$field = $data[$field] ?? null;
             }
 
-            // Resits Programados (1, 2, 3)
             for ($i = 1; $i <= 3; $i++) {
                 $course->{"RESIT_$i"} = isset($data["RESIT_$i"]) ? (int)$data["RESIT_$i"] : 0;
                 $course->{"RESIT_{$i}_DATE"} = $data["RESIT_{$i}_DATE"] ?? null;
@@ -373,29 +365,72 @@ class ProjectManagementController extends Controller
             }
 
             // ---------------------------------------------------------
-            // C. ARCHIVOS (Con Reemplazo Físico)
+            // C. ARCHIVOS (ESTRUCTURA PERSONALIZADA)
             // ---------------------------------------------------------
             
-            // 1. Certificado
-            if ($request->hasFile("courses.$candidateId.CERTIFICATE_PDF")) {
-                // Borrar anterior si existe
-                if ($course->CERTIFIED && Storage::disk('public')->exists($course->CERTIFIED)) {
-                    Storage::disk('public')->delete($course->CERTIFIED);
-                }
-                // Guardar nuevo
-                $path = $request->file("courses.$candidateId.CERTIFICATE_PDF")
-                                ->storeAs('certificados', 'cert_'.$candidateId.'_'.time().'.pdf', 'public');
-                $course->CERTIFIED = $path;
+            // Definir directorio base: app/admin/projects/{ID_PROYECTO}/candidates/{ID_CANDIDATO}
+            // Puedes ajustar esta ruta según tu preferencia
+            $baseDir = 'app/admin/projects/' . $idProject . '/candidates/' . $candidateId;
+            $fullPath = storage_path($baseDir);
+
+            // Crear directorio si no existe
+            if (!file_exists($fullPath)) {
+                mkdir($fullPath, 0755, true);
             }
 
-            // 2. Evidencia Refresh
-            if ($request->hasFile("courses.$candidateId.REFRESH_EVIDENCE")) {
-                if ($course->REFRESH_EVIDENCE && Storage::disk('public')->exists($course->REFRESH_EVIDENCE)) {
-                    Storage::disk('public')->delete($course->REFRESH_EVIDENCE);
+            // 1. CERTIFICADO
+            if ($request->hasFile("courses.$candidateId.CERTIFICATE_PDF")) {
+                $file = $request->file("courses.$candidateId.CERTIFICATE_PDF");
+
+                // Validaciones solicitadas
+                if ($file->getClientOriginalExtension() !== 'pdf') {
+                    DB::rollBack();
+                    return response()->json(['code' => 0, 'msj' => "El certificado del candidato ID $candidateId debe ser PDF"]);
                 }
-                $path = $request->file("courses.$candidateId.REFRESH_EVIDENCE")
-                                ->storeAs('evidencias_refresh', 'ref_'.$candidateId.'_'.time().'.pdf', 'public');
-                $course->REFRESH_EVIDENCE = $path;
+                if ($file->getSize() > 10485760) { // 10MB
+                    DB::rollBack();
+                    return response()->json(['code' => 0, 'msj' => "El certificado del candidato ID $candidateId excede 10MB"]);
+                }
+
+                // Borrar archivo anterior si existe
+                if ($course->CERTIFIED && file_exists(storage_path($course->CERTIFIED))) {
+                    @unlink(storage_path($course->CERTIFIED));
+                }
+
+                // Generar nombre y mover
+                $fileName = uniqid() . '_cert_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                $file->move($fullPath, $fileName);
+
+                // Guardar ruta relativa en BD
+                $course->CERTIFIED = $baseDir . '/' . $fileName;
+                $course->HAVE_CERTIFIED = 1;
+            }
+
+            // 2. EVIDENCIA REFRESH
+            if ($request->hasFile("courses.$candidateId.REFRESH_EVIDENCE")) {
+                $fileRefresh = $request->file("courses.$candidateId.REFRESH_EVIDENCE");
+
+                // Validaciones
+                if ($fileRefresh->getClientOriginalExtension() !== 'pdf') {
+                    DB::rollBack();
+                    return response()->json(['code' => 0, 'msj' => "La evidencia refresh del candidato ID $candidateId debe ser PDF"]);
+                }
+                if ($fileRefresh->getSize() > 10485760) {
+                    DB::rollBack();
+                    return response()->json(['code' => 0, 'msj' => "La evidencia refresh del candidato ID $candidateId excede 10MB"]);
+                }
+
+                // Borrar anterior
+                if ($course->REFRESH_EVIDENCE && file_exists(storage_path($course->REFRESH_EVIDENCE))) {
+                    @unlink(storage_path($course->REFRESH_EVIDENCE));
+                }
+
+                // Generar nombre y mover
+                $fileNameRefresh = uniqid() . '_ref_' . preg_replace('/\s+/', '_', $fileRefresh->getClientOriginalName());
+                $fileRefresh->move($fullPath, $fileNameRefresh);
+
+                // Guardar ruta
+                $course->REFRESH_EVIDENCE = $baseDir . '/' . $fileNameRefresh;
             }
 
             $course->save();
@@ -403,7 +438,7 @@ class ProjectManagementController extends Controller
 
         DB::commit();
         $response['code'] = 1;
-        $response['msj'] = 'Datos actualizados correctamente';
+        $response['msj'] = 'Datos y documentos actualizados correctamente';
         return response()->json($response);
 
     } catch (\Exception $e) {
@@ -1396,98 +1431,304 @@ class ProjectManagementController extends Controller
                 ], 404);
             }
 
+            // $estudiantes = DB::table('candidate as c')
+            //     ->leftJoin('course as co', function ($join) use ($ID_PROJECT) {
+            //         $join->on('c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
+            //             ->where('co.ID_PROJECT', '=', $ID_PROJECT);
+            //     })
+            //     ->select(
+            //         'c.ID_CANDIDATE',
+            //         'c.ID_PROJECT',
+            //         'c.LAST_NAME_PROJECT',
+            //         'c.FIRST_NAME_PROJECT',
+            //         'c.MIDDLE_NAME_PROJECT',
+            //         'c.EMAIL_PROJECT',
+            //         'c.ASISTENCIA',
+            //         'c.ACTIVO',
+            //         'co.ID_COURSE as curso_id',
+            //         'co.PRACTICAL',
+            //         'co.PRACTICAL_PASS',
+            //         'co.EQUIPAMENT',
+            //         'co.EQUIPAMENT_PASS',
+            //         'co.PYP',
+            //         'co.PYP_PASS',
+            //         'co.STATUS',
+            //         'co.RESIT',
+            //         'co.INTENTOS',
+            //         'co.RESIT_MODULE',
+            //         'co.RESIT_INMEDIATO',
+            //         'co.RESIT_INMEDIATO_DATE',
+            //         'co.RESIT_INMEDIATO_SCORE',
+            //         'co.RESIT_INMEDIATO_STATUS',
+            //         'co.RESIT_PROGRAMADO',
+            //         'co.RESIT_ENTRENAMIENTO',
+            //         'co.RESIT_FOLIO_PROYECTO',
+            //         'co.RESIT_PROGRAMADO_DATE',
+            //         'co.RESIT_PROGRAMADO_SCORE',
+            //         'co.RESIT_PROGRAMADO_STATUS',
+            //         'co.FINAL_STATUS',
+            //         'co.HAVE_CERTIFIED',
+            //         'co.CERTIFIED',
+            //         'co.EXPIRATION'
+            //     )
+            //     ->where('c.ID_PROJECT', $ID_PROJECT)
+            //     ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+            //     ->get();
+            // // ->where('c.ASISTENCIA', '!=', '0')
+            // $estudiantesFormateados = [];
+            // $existenCursos = false;
+
+            // foreach ($estudiantes as $estudiante) {
+            //     if ($estudiante->curso_id !== null) {
+            //         $existenCursos = true;
+            //     }
+
+            //     $estudiantesFormateados[] = [
+            //         'curso_id' => $estudiante->curso_id,
+            //         'candidato' => [
+            //             'ID_CANDIDATE' => $estudiante->ID_CANDIDATE,
+            //             'LAST_NAME_PROJECT' => $estudiante->LAST_NAME_PROJECT,
+            //             'FIRST_NAME_PROJECT' => $estudiante->FIRST_NAME_PROJECT,
+            //             'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
+            //             'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
+            //             'ACTIVO' => $estudiante->ACTIVO,
+            //             'ASISTENCIA' => $estudiante->ASISTENCIA
+            //         ],
+            //         'datos_curso' => [
+            //             'PRACTICAL' => $estudiante->PRACTICAL,
+            //             'PRACTICAL_PASS' => $estudiante->PRACTICAL_PASS,
+            //             'EQUIPAMENT' => $estudiante->EQUIPAMENT,
+            //             'EQUIPAMENT_PASS' => $estudiante->EQUIPAMENT_PASS,
+            //             'PYP' => $estudiante->PYP,
+            //             'PYP_PASS' => $estudiante->PYP_PASS,
+            //             'STATUS' => $estudiante->STATUS,
+            //             'RESIT' => $estudiante->RESIT,
+            //             'INTENTOS' => $estudiante->INTENTOS,
+            //             'RESIT_MODULE' => $estudiante->RESIT_MODULE,
+            //             'RESIT_INMEDIATO' => $estudiante->RESIT_INMEDIATO,
+            //             'RESIT_INMEDIATO_DATE' => $estudiante->RESIT_INMEDIATO_DATE,
+            //             'RESIT_INMEDIATO_SCORE' => $estudiante->RESIT_INMEDIATO_SCORE,
+            //             'RESIT_INMEDIATO_STATUS' => $estudiante->RESIT_INMEDIATO_STATUS,
+            //             'RESIT_PROGRAMADO' => $estudiante->RESIT_PROGRAMADO,
+            //             'RESIT_ENTRENAMIENTO' => $estudiante->RESIT_ENTRENAMIENTO,
+            //             'RESIT_FOLIO_PROYECTO' => $estudiante->RESIT_FOLIO_PROYECTO,
+            //             'RESIT_PROGRAMADO_DATE' => $estudiante->RESIT_PROGRAMADO_DATE,
+            //             'RESIT_PROGRAMADO_SCORE' => $estudiante->RESIT_PROGRAMADO_SCORE,
+            //             'RESIT_PROGRAMADO_STATUS' => $estudiante->RESIT_PROGRAMADO_STATUS,
+            //             'FINAL_STATUS' => $estudiante->FINAL_STATUS,
+            //             'HAVE_CERTIFIED' => $estudiante->HAVE_CERTIFIED,
+            //             'CERTIFIED' => $estudiante->CERTIFIED,
+            //             'EXPIRATION' => $estudiante->EXPIRATION
+            //         ]
+            //     ];
+            // }
+
+
             $estudiantes = DB::table('candidate as c')
-                ->leftJoin('course as co', function ($join) use ($ID_PROJECT) {
-                    $join->on('c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
-                        ->where('co.ID_PROJECT', '=', $ID_PROJECT);
-                })
-                ->select(
-                    'c.ID_CANDIDATE',
-                    'c.ID_PROJECT',
-                    'c.LAST_NAME_PROJECT',
-                    'c.FIRST_NAME_PROJECT',
-                    'c.MIDDLE_NAME_PROJECT',
-                    'c.EMAIL_PROJECT',
-                    'c.ASISTENCIA',
-                    'c.ACTIVO',
-                    'co.ID_COURSE as curso_id',
-                    'co.PRACTICAL',
-                    'co.PRACTICAL_PASS',
-                    'co.EQUIPAMENT',
-                    'co.EQUIPAMENT_PASS',
-                    'co.PYP',
-                    'co.PYP_PASS',
-                    'co.STATUS',
-                    'co.RESIT',
-                    'co.INTENTOS',
-                    'co.RESIT_MODULE',
-                    'co.RESIT_INMEDIATO',
-                    'co.RESIT_INMEDIATO_DATE',
-                    'co.RESIT_INMEDIATO_SCORE',
-                    'co.RESIT_INMEDIATO_STATUS',
-                    'co.RESIT_PROGRAMADO',
-                    'co.RESIT_ENTRENAMIENTO',
-                    'co.RESIT_FOLIO_PROYECTO',
-                    'co.RESIT_PROGRAMADO_DATE',
-                    'co.RESIT_PROGRAMADO_SCORE',
-                    'co.RESIT_PROGRAMADO_STATUS',
-                    'co.FINAL_STATUS',
-                    'co.HAVE_CERTIFIED',
-                    'co.CERTIFIED',
-                    'co.EXPIRATION'
-                )
-                ->where('c.ID_PROJECT', $ID_PROJECT)
-                ->orderBy('c.LAST_NAME_PROJECT', 'asc')
-                ->get();
-            // ->where('c.ASISTENCIA', '!=', '0')
-            $estudiantesFormateados = [];
-            $existenCursos = false;
+    ->leftJoin('course as co', function ($join) use ($ID_PROJECT) {
+        $join->on('c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
+            ->where('co.ID_PROJECT', '=', $ID_PROJECT);
+    })
+    ->select(
+        // --- CANDIDATO ---
+        'c.ID_CANDIDATE',
+        'c.ID_PROJECT',
+        'c.LAST_NAME_PROJECT',
+        'c.FIRST_NAME_PROJECT',
+        'c.MIDDLE_NAME_PROJECT',
+        'c.EMAIL_PROJECT',
+        'c.ASISTENCIA', // Global
+        'c.ACTIVO',
 
-            foreach ($estudiantes as $estudiante) {
-                if ($estudiante->curso_id !== null) {
-                    $existenCursos = true;
-                }
+        // --- CURSO GENERAL ---
+        'co.ID_COURSE as curso_id',
+        'co.PRACTICAL',
+        'co.PRACTICAL_PASS',
+        'co.EQUIPAMENT',
+        'co.EQUIPAMENT_PASS',
+        'co.PYP',
+        'co.PYP_PASS',
+        'co.STATUS',
 
-                $estudiantesFormateados[] = [
-                    'curso_id' => $estudiante->curso_id,
-                    'candidato' => [
-                        'ID_CANDIDATE' => $estudiante->ID_CANDIDATE,
-                        'LAST_NAME_PROJECT' => $estudiante->LAST_NAME_PROJECT,
-                        'FIRST_NAME_PROJECT' => $estudiante->FIRST_NAME_PROJECT,
-                        'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
-                        'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
-                        'ACTIVO' => $estudiante->ACTIVO,
-                        'ASISTENCIA' => $estudiante->ASISTENCIA
-                    ],
-                    'datos_curso' => [
-                        'PRACTICAL' => $estudiante->PRACTICAL,
-                        'PRACTICAL_PASS' => $estudiante->PRACTICAL_PASS,
-                        'EQUIPAMENT' => $estudiante->EQUIPAMENT,
-                        'EQUIPAMENT_PASS' => $estudiante->EQUIPAMENT_PASS,
-                        'PYP' => $estudiante->PYP,
-                        'PYP_PASS' => $estudiante->PYP_PASS,
-                        'STATUS' => $estudiante->STATUS,
-                        'RESIT' => $estudiante->RESIT,
-                        'INTENTOS' => $estudiante->INTENTOS,
-                        'RESIT_MODULE' => $estudiante->RESIT_MODULE,
-                        'RESIT_INMEDIATO' => $estudiante->RESIT_INMEDIATO,
-                        'RESIT_INMEDIATO_DATE' => $estudiante->RESIT_INMEDIATO_DATE,
-                        'RESIT_INMEDIATO_SCORE' => $estudiante->RESIT_INMEDIATO_SCORE,
-                        'RESIT_INMEDIATO_STATUS' => $estudiante->RESIT_INMEDIATO_STATUS,
-                        'RESIT_PROGRAMADO' => $estudiante->RESIT_PROGRAMADO,
-                        'RESIT_ENTRENAMIENTO' => $estudiante->RESIT_ENTRENAMIENTO,
-                        'RESIT_FOLIO_PROYECTO' => $estudiante->RESIT_FOLIO_PROYECTO,
-                        'RESIT_PROGRAMADO_DATE' => $estudiante->RESIT_PROGRAMADO_DATE,
-                        'RESIT_PROGRAMADO_SCORE' => $estudiante->RESIT_PROGRAMADO_SCORE,
-                        'RESIT_PROGRAMADO_STATUS' => $estudiante->RESIT_PROGRAMADO_STATUS,
-                        'FINAL_STATUS' => $estudiante->FINAL_STATUS,
-                        'HAVE_CERTIFIED' => $estudiante->HAVE_CERTIFIED,
-                        'CERTIFIED' => $estudiante->CERTIFIED,
-                        'EXPIRATION' => $estudiante->EXPIRATION
-                    ]
-                ];
-            }
+        // --- COMPLEMENTOS (Nuevos) ---
+        'co.CO',
+        'co.WORKOVER',
+        'co.WO_STATUS',
+        'co.SUBSEA',
+        'co.SUBSEA_STATUS',
+        'co.D1',
+        'co.D1_STATUS',
+        'co.D2',
+        'co.D2_STATUS',
+        'co.D3',
+        'co.D3_STATUS',
 
+        // --- RESIT GENERAL ---
+        'co.RESIT',
+        'co.INTENTOS',
+        'co.RESIT_MODULE',
+
+        // --- RESIT INMEDIATO ---
+        'co.RESIT_INMEDIATO',
+        'co.RESIT_INMEDIATO_DATE',
+        'co.RESIT_INMEDIATO_SCORE',
+        'co.RESIT_INMEDIATO_STATUS',
+
+        // --- RESIT PROGRAMADO (Original/Singular) ---
+        'co.RESIT_PROGRAMADO',
+        'co.RESIT_ENTRENAMIENTO',
+        'co.RESIT_FOLIO_PROYECTO',
+        'co.RESIT_PROGRAMADO_DATE',
+        'co.RESIT_PROGRAMADO_SCORE',
+        'co.RESIT_PROGRAMADO_STATUS',
+
+        // --- RESIT 1 (Nuevos) ---
+        'co.RESIT_1',
+        'co.RESIT_1_ENTRENAMIENTO',
+        'co.RESIT_1_FOLIO_PROYECTO',
+        'co.RESIT_1_DATE',
+        'co.RESIT_1_SCORE',
+        'co.RESIT_1_STATUS',
+
+        // --- RESIT 2 (Nuevos) ---
+        'co.RESIT_2',
+        'co.RESIT_2_ENTRENAMIENTO',
+        'co.RESIT_2_FOLIO_PROYECTO',
+        'co.RESIT_2_DATE',
+        'co.RESIT_2_SCORE',
+        'co.RESIT_2_STATUS',
+
+        // --- RESIT 3 (Nuevos) ---
+        'co.RESIT_3',
+        'co.RESIT_3_ENTRENAMIENTO',
+        'co.RESIT_3_FOLIO_PROYECTO',
+        'co.RESIT_3_DATE',
+        'co.RESIT_3_SCORE',
+        'co.RESIT_3_STATUS',
+
+        // --- REFRESH (Nuevos) ---
+        'co.REFRESH',
+        'co.REFRESH_DATE',
+        'co.REFRESH_EVIDENCE',
+
+        // --- CERTIFICACIÓN ---
+        'co.FINAL_STATUS',
+        'co.HAVE_CERTIFIED',
+        'co.CERTIFIED',
+        'co.CERTIFICATE_NUMBER', // Nuevo
+        'co.EXPIRATION',
+
+        // --- EXTRAS ---
+        'co.ENABLE_NOTIFICATIONS', // Nuevo
+        'co.EMAILS_SENT',         // Nuevo
+    )
+    ->where('c.ID_PROJECT', $ID_PROJECT)
+    ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+    ->get();
+
+$estudiantesFormateados = [];
+$existenCursos = false;
+
+foreach ($estudiantes as $estudiante) {
+    if ($estudiante->curso_id !== null) {
+        $existenCursos = true;
+    }
+
+    $estudiantesFormateados[] = [
+        'curso_id' => $estudiante->curso_id,
+        'candidato' => [
+            'ID_CANDIDATE' => $estudiante->ID_CANDIDATE,
+            'LAST_NAME_PROJECT' => $estudiante->LAST_NAME_PROJECT,
+            'FIRST_NAME_PROJECT' => $estudiante->FIRST_NAME_PROJECT,
+            'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
+            'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
+            'ACTIVO' => $estudiante->ACTIVO,
+            'ASISTENCIA' => $estudiante->ASISTENCIA // Global del candidato
+        ],
+        'datos_curso' => [
+            // --- CALIFICACIONES PRINCIPALES ---
+            'PRACTICAL' => $estudiante->PRACTICAL,
+            'PRACTICAL_PASS' => $estudiante->PRACTICAL_PASS,
+            'EQUIPAMENT' => $estudiante->EQUIPAMENT,
+            'EQUIPAMENT_PASS' => $estudiante->EQUIPAMENT_PASS,
+            'PYP' => $estudiante->PYP,
+            'PYP_PASS' => $estudiante->PYP_PASS,
+            'STATUS' => $estudiante->STATUS,
+
+            // --- COMPLEMENTOS ---
+            'CO' => $estudiante->CO,
+            'WORKOVER' => $estudiante->WORKOVER,
+            'WO_STATUS' => $estudiante->WO_STATUS,
+            'SUBSEA' => $estudiante->SUBSEA,
+            'SUBSEA_STATUS' => $estudiante->SUBSEA_STATUS,
+            'D1' => $estudiante->D1,
+            'D1_STATUS' => $estudiante->D1_STATUS,
+            'D2' => $estudiante->D2,
+            'D2_STATUS' => $estudiante->D2_STATUS,
+            'D3' => $estudiante->D3,
+            'D3_STATUS' => $estudiante->D3_STATUS,
+
+            // --- RESIT GENERAL ---
+            'RESIT' => $estudiante->RESIT,
+            'INTENTOS' => $estudiante->INTENTOS,
+            'RESIT_MODULE' => $estudiante->RESIT_MODULE,
+
+            // --- RESIT INMEDIATO ---
+            'RESIT_INMEDIATO' => $estudiante->RESIT_INMEDIATO,
+            'RESIT_INMEDIATO_DATE' => $estudiante->RESIT_INMEDIATO_DATE,
+            'RESIT_INMEDIATO_SCORE' => $estudiante->RESIT_INMEDIATO_SCORE,
+            'RESIT_INMEDIATO_STATUS' => $estudiante->RESIT_INMEDIATO_STATUS,
+
+            // --- RESIT PROGRAMADO (Original) ---
+            'RESIT_PROGRAMADO' => $estudiante->RESIT_PROGRAMADO,
+            'RESIT_ENTRENAMIENTO' => $estudiante->RESIT_ENTRENAMIENTO,
+            'RESIT_FOLIO_PROYECTO' => $estudiante->RESIT_FOLIO_PROYECTO,
+            'RESIT_PROGRAMADO_DATE' => $estudiante->RESIT_PROGRAMADO_DATE,
+            'RESIT_PROGRAMADO_SCORE' => $estudiante->RESIT_PROGRAMADO_SCORE,
+            'RESIT_PROGRAMADO_STATUS' => $estudiante->RESIT_PROGRAMADO_STATUS,
+
+            // --- RESIT 1 ---
+            'RESIT_1' => $estudiante->RESIT_1,
+            'RESIT_1_ENTRENAMIENTO' => $estudiante->RESIT_1_ENTRENAMIENTO,
+            'RESIT_1_FOLIO_PROYECTO' => $estudiante->RESIT_1_FOLIO_PROYECTO,
+            'RESIT_1_DATE' => $estudiante->RESIT_1_DATE,
+            'RESIT_1_SCORE' => $estudiante->RESIT_1_SCORE,
+            'RESIT_1_STATUS' => $estudiante->RESIT_1_STATUS,
+
+            // --- RESIT 2 ---
+            'RESIT_2' => $estudiante->RESIT_2,
+            'RESIT_2_ENTRENAMIENTO' => $estudiante->RESIT_2_ENTRENAMIENTO,
+            'RESIT_2_FOLIO_PROYECTO' => $estudiante->RESIT_2_FOLIO_PROYECTO,
+            'RESIT_2_DATE' => $estudiante->RESIT_2_DATE,
+            'RESIT_2_SCORE' => $estudiante->RESIT_2_SCORE,
+            'RESIT_2_STATUS' => $estudiante->RESIT_2_STATUS,
+
+            // --- RESIT 3 ---
+            'RESIT_3' => $estudiante->RESIT_3,
+            'RESIT_3_ENTRENAMIENTO' => $estudiante->RESIT_3_ENTRENAMIENTO,
+            'RESIT_3_FOLIO_PROYECTO' => $estudiante->RESIT_3_FOLIO_PROYECTO,
+            'RESIT_3_DATE' => $estudiante->RESIT_3_DATE,
+            'RESIT_3_SCORE' => $estudiante->RESIT_3_SCORE,
+            'RESIT_3_STATUS' => $estudiante->RESIT_3_STATUS,
+
+            // --- FINAL Y CERTIFICACIÓN ---
+            'FINAL_STATUS' => $estudiante->FINAL_STATUS,
+            'HAVE_CERTIFIED' => $estudiante->HAVE_CERTIFIED,
+            'CERTIFIED' => $estudiante->CERTIFIED,
+            'CERTIFICATE_NUMBER' => $estudiante->CERTIFICATE_NUMBER,
+            'EXPIRATION' => $estudiante->EXPIRATION,
+
+            // --- REFRESH ---
+            'REFRESH' => $estudiante->REFRESH,
+            'REFRESH_DATE' => $estudiante->REFRESH_DATE,
+            'REFRESH_EVIDENCE' => $estudiante->REFRESH_EVIDENCE,
+
+            // --- EXTRAS ---
+            'ENABLE_NOTIFICATIONS' => $estudiante->ENABLE_NOTIFICATIONS,
+            'EMAILS_SENT' => $estudiante->EMAILS_SENT,
+        ]
+    ];
+}
             $startDate = Carbon::parse($proyecto->COURSE_END_DATE_PROJECT);
 
             $daysRest = 0;

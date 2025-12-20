@@ -2387,10 +2387,10 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
         <td class="text-center align-middle">
             <span class="${vigenciaClass}" style="font-size: 0.85rem;">${vigenciaTexto}</span>
         </td>
-        <td>
-        ${curso.CERTIFIED ? `
-                <button type="button" class="btn btn-sm btn-info" 
-                    onclick="verDocumento('${curso.CERTIFIED}')" 
+       <td>
+            ${curso.CERTIFIED ? `
+                <button type="button" class="btn btn-sm btn-info btn-ver-pdf-candidato" 
+                    data-ruta="${curso.CERTIFIED}" 
                     title="Ver Certificado">
                     <i class="fas fa-eye"></i>
                 </button>
@@ -2402,10 +2402,15 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
                 </button>
             `}
             <div class="d-flex gap-2 align-items-center justify-content-center">
-                <input type="file" class="d-none certificate-upload" id="file-${key}" accept=".pdf">
+                <input type="file" class="d-none certificate-upload" 
+                       id="file-${key}" 
+                       name="courses[${key}][CERTIFICATE_PDF]" 
+                       accept=".pdf">
+                       
                 <button type="button" class="btn btn-sm btn-outline-primary btn-upload-cert" onclick="$('#file-${key}').click()">
                     <i class="fas fa-upload"></i>
                 </button>
+                
                 ${curso.CERTIFIED && curso.CERTIFIED.includes('.pdf') ? `
                     <a href="/storage/${curso.CERTIFIED}" target="_blank" class="btn btn-sm btn-outline-info" title="Ver Certificado">
                         <i class="fas fa-eye"></i>
@@ -2420,61 +2425,41 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
 // LISTENERS PARA CARGA DE CERTIFICADOS
 // ============================================
 function attachCertificateUploadListeners() {
+    // Listener para el botón que abre el selector de archivos
     $('.btn-upload-cert').off('click').on('click', function () {
-        const cursoId = $(this).data('curso-id');
         const fileInput = $(this).closest('td').find('.certificate-upload');
         fileInput.trigger('click');
     });
 
-    $('.certificate-upload').off('change').on('change', async function () {
+    // Listener para cuando se selecciona un archivo (SOLO VISUAL)
+    $('.certificate-upload, .refresh-upload').off('change').on('change', function () {
         const file = this.files[0];
-        const cursoId = $(this).data('curso-id');
+        // Buscamos el botón hermano para cambiarle el estilo
+        const btn = $(this).next('button'); 
 
-        if (!file) return;
-
-        if (file.type !== 'application/pdf') {
-            alertToast('Solo se permiten archivos PDF', 'error', 2000);
-            return;
-        }
-
-        if (file.size > 10 * 1024 * 1024) {
-            alertToast('El archivo no debe superar 10MB', 'error', 2000);
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('certificate', file);
-        formData.append('ID_COURSE', cursoId);
-        formData.append('_token', $('input[name="_token"]').val());
-
-        try {
-            Swal.fire({
-                title: 'Subiendo certificado...',
-                text: 'Por favor espere',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            });
-
-            const response = await $.ajax({
-                url: '/uploadCertificate',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false
-            });
-
-            Swal.close();
-
-            if (response.success) {
-                alertMensaje('success', '¡Éxito!', 'Certificado cargado correctamente');
-                loadTableCursoModal(); // Recargar tabla
-            } else {
-                alertMensaje('error', 'Error', response.message);
+        if (file) {
+            // Validaciones básicas de frontend (opcional, pero recomendado)
+            if (file.type !== 'application/pdf') {
+                alertToast('Solo se permiten archivos PDF', 'error', 2000);
+                $(this).val(''); // Limpiar input
+                return;
             }
-        } catch (error) {
-            Swal.close();
-            alertMensaje('error', 'Error', 'No se pudo cargar el certificado');
-            console.error('Error:', error);
+            if (file.size > 10 * 1024 * 1024) { // 10MB
+                alertToast('El archivo no debe superar 10MB', 'error', 2000);
+                $(this).val(''); // Limpiar input
+                return;
+            }
+
+            // ÉXITO: Cambiar botón a verde para indicar que hay archivo pendiente
+            btn.removeClass('btn-outline-primary btn-secondary').addClass('btn-success');
+            btn.html('<i class="fas fa-check-circle"></i>');
+            btn.attr('title', 'Archivo listo para guardar: ' + file.name);
+            alertToast('Archivo seleccionado. Presione "Guardar" para subirlo.', 'success', 2000);
+        } else {
+            // Si cancela la selección
+            btn.removeClass('btn-success').addClass('btn-outline-primary');
+            btn.html('<i class="fas fa-upload"></i>');
+            btn.attr('title', 'Cargar PDF');
         }
     });
 }
@@ -3277,6 +3262,165 @@ function renderStudentRows(estudiantes, proyecto, ente, llevaComplementos, aplic
     triggerInitialValidation();
 }
 
+// // --- VARIABLES GLOBALES PARA CANDIDATOS ---
+// let pdfRutaCandidato = '';
+// let pdfIdCandidatoActual = '';
+
+// // --- 1. CONSTRUIR URL (ADAPTADO A CANDIDATOS) ---
+// function construirURLPDFCandidato(rutaArchivo, idCandidato) {
+//     if (!rutaArchivo) return '';
+
+//     let rutaLimpia = rutaArchivo.trim();
+//     const baseUrl = window.location.origin;
+
+//     // Aquí usamos la variable global ID_PROJECT que ya tienes en tu vista
+//     const idProyecto = (typeof ID_PROJECT !== 'undefined') ? ID_PROJECT : 0;
+
+//     console.log('Construyendo URL Candidato:', { rutaArchivo, rutaLimpia, idCandidato, idProyecto });
+
+//     // Extraemos solo el nombre del archivo (quitamos las carpetas previas)
+//     const nombreArchivo = rutaLimpia.split('/').pop();
+
+//     // Retornamos la ruta que definimos en Laravel: 
+//     // /archivos/proyectos/{PROYECTO}/candidatos/{CANDIDATO}/{ARCHIVO}
+//     return `${baseUrl}/archivos/proyectos/${idProyecto}/candidatos/${idCandidato}/${nombreArchivo}`;
+// }
+
+// // --- 2. EXTRAER RUTA (IGUAL QUE LA TUYA, ES UTILIDAD) ---
+// function extraerRutaArchivo(ruta) {
+//     try {
+//         if (typeof ruta === 'string' && (ruta.trim().startsWith('[') || ruta.trim().startsWith('{'))) {
+//             const docData = JSON.parse(ruta);
+//             if (Array.isArray(docData) && docData.length > 0) {
+//                 return docData[0].ruta || '';
+//             }
+//         }
+//         return ruta;
+//     } catch (e) {
+//         console.error('Error al extraer ruta:', e);
+//         return ruta;
+//     }
+// }
+
+// // --- 3. CARGAR PDF (CON LA CORRECCIÓN DEL LOADING) ---
+// function cargarPDFCandidato(ruta, idCandidato) {
+//     // Usamos los selectores del Modal de Candidatos (puedes reutilizar el de centros si cambias los IDs)
+//     $('#pdfCandidateLoading').show();
+//     $('#pdfCandidateFrame').hide();
+//     $('#pdfCandidateError').hide();
+
+//     let rutaArchivo = extraerRutaArchivo(ruta);
+
+//     if (!rutaArchivo) {
+//         $('#pdfCandidateLoading').hide();
+//         $('#pdfCandidateError').show();
+//         $('#candidateErrorMessage').text('No se encontró la ruta del documento.'); // ID específico para msj candidato
+//         return;
+//     }
+
+//     const urlCompleta = construirURLPDFCandidato(rutaArchivo, idCandidato);
+
+//     console.log('URL final del PDF Candidato:', urlCompleta);
+
+//     const pdfFrame = document.getElementById('pdfCandidateFrame');
+    
+//     // Limpiamos el src previo
+//     pdfFrame.src = '';
+
+//     setTimeout(() => {
+//         pdfFrame.src = urlCompleta;
+
+//         // --- TRUCO IMPORTANTE ---
+//         // Los PDFs a veces no disparan onload. Forzamos mostrar el iframe tras 1.5s
+//         setTimeout(() => {
+//             $('#pdfCandidateLoading').fadeOut(); 
+//             $('#pdfCandidateFrame').show();
+//         }, 1500);
+
+//         pdfFrame.onload = function () {
+//             $('#pdfCandidateLoading').hide();
+//             $('#pdfCandidateFrame').show();
+//         };
+
+//         pdfFrame.onerror = function () {
+//             $('#pdfCandidateLoading').hide();
+//             $('#pdfCandidateError').show();
+//             $('#candidateErrorMessage').html('No se pudo cargar el documento.<br>URL: ' + urlCompleta);
+//         };
+
+//     }, 500);
+// }
+
+// // --- 4. LISTENER DEL BOTÓN (ADAPTADO A TU TABLA DE CURSOS) ---
+// // Usamos 'document' porque la tabla se redibuja dinámicamente
+// $(document).on('click', '.btn-ver-pdf-candidato', function (e) {
+//     e.preventDefault();
+    
+//     // Obtenemos los datos del botón o de la fila
+//     const rutaDocumento = $(this).data('ruta');
+//     const idCandidato = $(this).closest('tr').data('candidate-id'); // Asumiendo que el TR tiene el ID
+
+//     pdfRutaCandidato = rutaDocumento;
+//     pdfIdCandidatoActual = idCandidato;
+
+//     console.log('Click Ver PDF Candidato:', { idCandidato, rutaDocumento });
+
+//     // Mostramos el modal
+//     $('#pdfCandidateModal').modal('show');
+
+//     cargarPDFCandidato(rutaDocumento, idCandidato);
+// });
+
+
+$(document).on('click', '.btn-ver-pdf-candidato', function (e) {
+    e.preventDefault();
+
+    // 1. Obtener datos del botón
+    const rutaSucia = $(this).data('ruta'); // Ej: "admin/projects/3/candidates/12/archivo.pdf"
+    const idCandidato = $(this).closest('tr').data('candidate-id');
+    
+    // Asegúrate de que ID_PROJECT esté disponible (variable global de tu vista)
+    const idProyecto = (typeof ID_PROJECT !== 'undefined') ? ID_PROJECT : 0;
+
+    if (!rutaSucia) {
+        // Si tienes tu función de alerta, úsala, si no un alert normal
+        if(typeof alertToast === 'function') alertToast('No hay documento adjunto.', 'error');
+        else alert('No hay documento adjunto.');
+        return;
+    }
+
+    // 2. Limpiar la ruta para obtener solo el nombre del archivo
+    // Si la ruta viene como JSON o string sucio, extraemos solo el nombre final
+    let nombreArchivo = '';
+    
+    try {
+        // Intento de limpieza si viene como JSON string (tu función extraerRutaArchivo)
+        let rutaString = rutaSucia;
+        if (rutaSucia.trim().startsWith('[') || rutaSucia.trim().startsWith('{')) {
+             const docData = JSON.parse(rutaSucia);
+             if (Array.isArray(docData) && docData.length > 0) {
+                 rutaString = docData[0].ruta;
+             }
+        }
+        // Obtener solo el nombre del archivo (después del último /)
+        nombreArchivo = rutaString.split('/').pop();
+    } catch (error) {
+        console.error('Error al procesar ruta:', error);
+        nombreArchivo = rutaSucia.split('/').pop();
+    }
+
+    // 3. Construir la URL hacia tu ruta de Laravel
+    const baseUrl = window.location.origin;
+    const urlFinal = `${baseUrl}/archivos/proyectos/${idProyecto}/candidatos/${idCandidato}/${nombreArchivo}`;
+
+    console.log('Abriendo en nueva pestaña:', urlFinal);
+
+    // 4. ABRIR EN PESTAÑA NUEVA
+    window.open(urlFinal, '_blank');
+});
+
+
+
 function renderRefreshColumn(curso, key) {
     const refreshValue = curso.REFRESH === '1' || curso.REFRESH === 1;
     const hasEvidence = curso.REFRESH_EVIDENCE && curso.REFRESH_EVIDENCE !== '';
@@ -3304,8 +3448,8 @@ function renderRefreshColumn(curso, key) {
                 </button>
 
                ${hasEvidence ? `
-                    <button type="button" class="btn btn-sm btn-info" 
-                        onclick="verDocumento('${curso.REFRESH_EVIDENCE}')" 
+                    <button type="button" class="btn btn-sm btn-info btn-ver-pdf-candidato" 
+                        data-ruta="${curso.REFRESH_EVIDENCE}" 
                         title="Ver Evidencia">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -3411,12 +3555,11 @@ function renderScoreStatusCell(key, fieldName, score, status, includeSwitch = fa
 
     if (includeSwitch) {
         html += `
-            <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom">
+            <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom d-none">
                 <small class="fw-bold" style="font-size: 0.7rem;">HABILITAR</small>
                 <label class="switch switch-sm">
                     <input type="checkbox" class="individual-comp-switch" 
-                        name="courses[${key}][${fieldName}_ENABLED]" value="1" 
-                        ${isEnabled ? 'checked' : ''}>
+                        name="courses[${key}][${fieldName}_ENABLED]" value="1">
                     <span class="slider small"></span>
                 </label>
             </div>`;
@@ -3427,12 +3570,12 @@ function renderScoreStatusCell(key, fieldName, score, status, includeSwitch = fa
             <input type="number" class="form-control score-input ${fieldName.toLowerCase()}-score ${statusClass}" 
                 name="courses[${key}][${fieldName}]" 
                 value="${score || ''}" min="0" max="100" 
-                data-key="${key}" ${readonlyAttr} ${inputStyle}>
+                data-key="${key}">
             <span class="input-group-text">%</span>
         </div>
         
         <select class="form-control form-control-sm status-select ${fieldName.toLowerCase()}-status ${statusClass}" 
-            name="courses[${key}][${statusFieldName}]" ${pointerEvents}>
+            name="courses[${key}][${statusFieldName}]">
             <option value="">Status...</option>
             <option value="Pass" ${status === 'Pass' ? 'selected' : ''}>Pass</option>
             <option value="Unpass" ${status === 'Unpass' ? 'selected' : ''}>Failed</option>

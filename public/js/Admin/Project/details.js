@@ -2381,7 +2381,7 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
         </td>
         <td>
             <input type="date" class="form-control form-control-sm expiration-date" 
-                name="courses[${key}][EXPIRY_DATE]" 
+                name="courses[${key}][EXPIRATION]" 
                 value="${formatDateForInput(curso.EXPIRATION) || ''}">
         </td>
         <td class="text-center align-middle">

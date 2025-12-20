@@ -1025,7 +1025,7 @@
                     </form>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-3">
-                            <button class="btn btn-primary btn-modern btn-save" id="cursobtnModal">
+                            <button class="btn btn-warning btn-modern btn-save" id="cursobtnModal">
                                 <i class="fas fa-save me-2"></i>Guardar Cambios
                             </button>
                             <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">

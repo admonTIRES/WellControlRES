@@ -2387,35 +2387,31 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
         <td class="text-center align-middle">
             <span class="${vigenciaClass}" style="font-size: 0.85rem;">${vigenciaTexto}</span>
         </td>
-       <td>
-            ${curso.CERTIFIED ? `
-                <button type="button" class="btn btn-sm btn-info btn-ver-pdf-candidato" 
-                    data-ruta="${curso.CERTIFIED}" 
-                    title="Ver Certificado">
-                    <i class="fas fa-eye"></i>
-                </button>
-            ` : `
-                <button type="button" class="btn btn-sm btn-secondary" 
-                    onclick="alertToast('No hay certificado disponible', 'warning')" 
-                    title="Sin archivo">
-                    <i class="fas fa-eye-slash"></i>
-                </button>
-            `}
+        <td>
             <div class="d-flex gap-2 align-items-center justify-content-center">
                 <input type="file" class="d-none certificate-upload" 
-                       id="file-${key}" 
-                       name="courses[${key}][CERTIFICATE_PDF]" 
-                       accept=".pdf">
-                       
-                <button type="button" class="btn btn-sm btn-outline-primary btn-upload-cert" onclick="$('#file-${key}').click()">
+                    id="file-${key}" 
+                    name="courses[${key}][CERTIFICATE_PDF]" 
+                    accept=".pdf">
+
+                ${curso.CERTIFIED ? `
+                    <button type="button" class="btn btn-sm btn-info btn-ver-pdf-candidato" 
+                        data-ruta="${curso.CERTIFIED}" 
+                        title="Ver Certificado Actual">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                ` : `
+                    <button type="button" class="btn btn-sm btn-secondary" disabled 
+                        title="No hay certificado cargado">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                `}
+
+                <button type="button" class="btn btn-sm btn-outline-primary btn-upload-cert" 
+                    onclick="$('#file-${key}').click()" 
+                    title="Cargar o Reemplazar PDF">
                     <i class="fas fa-upload"></i>
                 </button>
-                
-                ${curso.CERTIFIED && curso.CERTIFIED.includes('.pdf') ? `
-                    <a href="/storage/${curso.CERTIFIED}" target="_blank" class="btn btn-sm btn-outline-info" title="Ver Certificado">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                ` : ''}
             </div>
         </td>
     `;

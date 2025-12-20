@@ -31,6 +31,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ProjectManagementController extends Controller
@@ -278,19 +280,137 @@ class ProjectManagementController extends Controller
                     ];
                     return response()->json($response);
                     break;
-                case 2:
-                    $data = $request->all();
-                    foreach ($data['courses'] as $candidateId => $courseData) {
-                        $course = Course::where('ID_CANDIDATE', $candidateId)->first();
-                        if ($course) {
-                            $course->update($courseData);
-                        } else {
-                            Course::create($courseData);
-                        }
-                    }
-                    $response['code'] = 1;
-                    return response()->json($response);
-                    break;
+                // case 2:
+                //     $data = $request->all();
+                //     foreach ($data['courses'] as $candidateId => $courseData) {
+                //         $course = Course::where('ID_CANDIDATE', $candidateId)->first();
+                //         if ($course) {
+                //             $course->update($courseData);
+                //         } else {
+                //             Course::create($courseData);
+                //         }
+                //     }
+                //     $response['code'] = 1;
+                //     return response()->json($response);
+                //     break;
+                
+   case 2:
+    DB::beginTransaction();
+    try {
+        // Laravel parsea automáticamente los nombres 'courses[id][campo]' a arrays
+        $coursesInput = $request->input('courses'); 
+        $idProject = $request->input('ID_PROJECT');
+
+        if (!$coursesInput) {
+             return response()->json(['code' => 0, 'msj' => 'No se recibieron datos para guardar.']);
+        }
+
+        // 1. Obtener la definición de complementos del PROGRAMA (Para saber qué guardar en el JSON)
+        $project = Proyect::find($idProject);
+        $programDef = [];
+        if ($project && $project->PROGRAM_PROJECT) {
+            $programa = Programas::find($project->PROGRAM_PROJECT);
+            if ($programa && !empty($programa->COMPLEMENTS_PROGRAM)) {
+                $programDef = json_decode($programa->COMPLEMENTS_PROGRAM, true) ?? [];
+            }
+        }
+
+        foreach ($coursesInput as $candidateId => $data) {
+            
+            $course = Course::firstOrNew([
+                'ID_CANDIDATE' => $candidateId,
+                'ID_PROJECT' => $idProject
+            ]);
+
+            // ---------------------------------------------------------
+            // A. COMPLEMENTOS (JSON DINÁMICO)
+            // ---------------------------------------------------------
+            $complementsToSave = [];
+            $masterSwitch = isset($data['CO']) ? (int)$data['CO'] : 0;
+            $course->CO = $masterSwitch;
+
+            // Iteramos según la definición del programa (índices 0, 1, 2...)
+            foreach ($programDef as $index => $def) {
+                // Buscamos en el request: COMPLEMENTO_0, COMPLEMENTO_0_STATUS, etc.
+                $complementsToSave[] = [
+                    'nombre' => $def['nombre'], 
+                    'score' => $data["COMPLEMENTO_{$index}"] ?? null,
+                    'status' => $data["COMPLEMENTO_{$index}_STATUS"] ?? null,
+                    // Si el switch está apagado en JS, enviamos 0
+                    'enabled' => isset($data["COMP_{$index}_ENABLED"]) ? (int)$data["COMP_{$index}_ENABLED"] : 0
+                ];
+            }
+            
+            // Guardamos el JSON
+            $course->COMPLEMENTS_JSON = json_encode([
+                'has_complements' => $masterSwitch,
+                'items' => $complementsToSave
+            ]);
+
+            // ---------------------------------------------------------
+            // B. CAMPOS ESTÁNDAR
+            // ---------------------------------------------------------
+            $fields = [
+                'PRACTICAL', 'PRACTICAL_PASS', 'EQUIPAMENT', 'EQUIPAMENT_PASS',
+                'PYP', 'PYP_PASS', 'STATUS', 'RESIT', 'INTENTOS', 'RESIT_MODULE',
+                'RESIT_INMEDIATO', 'RESIT_INMEDIATO_DATE', 'RESIT_INMEDIATO_SCORE', 'RESIT_INMEDIATO_STATUS',
+                'REFRESH', 'REFRESH_DATE', 'FINAL_STATUS', 'HAVE_CERTIFIED', 
+                'CERTIFICATE_NUMBER', 'EXPIRATION', 'ENABLE_NOTIFICATIONS', 'EMAILS_SENT'
+            ];
+
+            foreach ($fields as $field) {
+                $course->$field = $data[$field] ?? null;
+            }
+
+            // Resits Programados (1, 2, 3)
+            for ($i = 1; $i <= 3; $i++) {
+                $course->{"RESIT_$i"} = isset($data["RESIT_$i"]) ? (int)$data["RESIT_$i"] : 0;
+                $course->{"RESIT_{$i}_DATE"} = $data["RESIT_{$i}_DATE"] ?? null;
+                $course->{"RESIT_{$i}_SCORE"} = $data["RESIT_{$i}_SCORE"] ?? null;
+                $course->{"RESIT_{$i}_STATUS"} = $data["RESIT_{$i}_STATUS"] ?? null;
+                $course->{"RESIT_{$i}_ENTRENAMIENTO"} = $data["RESIT_{$i}_ENTRENAMIENTO"] ?? null;
+                $course->{"RESIT_{$i}_FOLIO_PROYECTO"} = $data["RESIT_{$i}_FOLIO_PROYECTO"] ?? null;
+            }
+
+            // ---------------------------------------------------------
+            // C. ARCHIVOS (Con Reemplazo Físico)
+            // ---------------------------------------------------------
+            
+            // 1. Certificado
+            if ($request->hasFile("courses.$candidateId.CERTIFICATE_PDF")) {
+                // Borrar anterior si existe
+                if ($course->CERTIFIED && Storage::disk('public')->exists($course->CERTIFIED)) {
+                    Storage::disk('public')->delete($course->CERTIFIED);
+                }
+                // Guardar nuevo
+                $path = $request->file("courses.$candidateId.CERTIFICATE_PDF")
+                                ->storeAs('certificados', 'cert_'.$candidateId.'_'.time().'.pdf', 'public');
+                $course->CERTIFIED = $path;
+            }
+
+            // 2. Evidencia Refresh
+            if ($request->hasFile("courses.$candidateId.REFRESH_EVIDENCE")) {
+                if ($course->REFRESH_EVIDENCE && Storage::disk('public')->exists($course->REFRESH_EVIDENCE)) {
+                    Storage::disk('public')->delete($course->REFRESH_EVIDENCE);
+                }
+                $path = $request->file("courses.$candidateId.REFRESH_EVIDENCE")
+                                ->storeAs('evidencias_refresh', 'ref_'.$candidateId.'_'.time().'.pdf', 'public');
+                $course->REFRESH_EVIDENCE = $path;
+            }
+
+            $course->save();
+        }
+
+        DB::commit();
+        $response['code'] = 1;
+        $response['msj'] = 'Datos actualizados correctamente';
+        return response()->json($response);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['code' => 0, 'msj' => 'Error: ' . $e->getMessage()]);
+    }
+    break;
                 case 3:
                     $data = $request->all();
                     foreach ($data['courses'] as $candidateId => $courseData) {
@@ -1319,7 +1439,7 @@ class ProjectManagementController extends Controller
                 ->where('c.ID_PROJECT', $ID_PROJECT)
                 ->orderBy('c.LAST_NAME_PROJECT', 'asc')
                 ->get();
-  // ->where('c.ASISTENCIA', '!=', '0')
+            // ->where('c.ASISTENCIA', '!=', '0')
             $estudiantesFormateados = [];
             $existenCursos = false;
 
@@ -1390,7 +1510,7 @@ class ProjectManagementController extends Controller
             }
 
             $formattedEndDate = $endDate->locale('es')->isoFormat('DD MMM YYYY');
-            $ID_CATALOGO_PROGRAMA = $proyecto->PROGRAM_PROJECT || 0;
+            $ID_CATALOGO_PROGRAMA = $proyecto->PROGRAM_PROJECT ?? 0;
 
             $programa = null;
             $complementos = null;
@@ -1398,13 +1518,13 @@ class ProjectManagementController extends Controller
             $resitPermitidas = null;
             $refreshVal = null;
             $periodoResit = null;
-            if($ID_CATALOGO_PROGRAMA != 0){
-            $programa = Programas::find($ID_CATALOGO_PROGRAMA);
-            $complementos = $programa->COMPLEMENTS_PROGRAM;
-            $resitInmediato = $programa->OPCION_RESIT;
-            $resitPermitidas = $programa->OPCION_RESIT_PERMITIDAS;
-            $refreshVal = $programa->OPCION_REFRESH;
-            $periodoResit = $programa->PERIODO_RESIT;
+            if ($ID_CATALOGO_PROGRAMA != 0) {
+                $programa = Programas::find($ID_CATALOGO_PROGRAMA);
+                $complementos = $programa->COMPLEMENTS_PROGRAM;
+                $resitInmediato = $programa->OPCION_RESIT;
+                $resitPermitidas = $programa->OPCION_RESIT_PERMITIDAS;
+                $refreshVal = $programa->OPCION_REFRESH;
+                $periodoResit = $programa->PERIODO_RESIT;
             }
 
             $proyectoData = [
@@ -2477,22 +2597,23 @@ class ProjectManagementController extends Controller
         }
     }
 
-    public function getNivelData($nivelId) {
-    try {
-        $nivel = NivelAcreditacion::find($nivelId);
-        if (!$nivel) {
-            return response()->json(['success' => false, 'message' => 'Nivel no encontrado'], 404);
+    public function getNivelData($nivelId)
+    {
+        try {
+            $nivel = NivelAcreditacion::find($nivelId);
+            if (!$nivel) {
+                return response()->json(['success' => false, 'message' => 'Nivel no encontrado'], 404);
+            }
+            return response()->json([
+                'success' => true,
+                'nivel' => [
+                    'ID_CATALOGO_NIVELACREDITACION' => $nivel->ID_CATALOGO_NIVELACREDITACION,
+                    'NOMBRE_NIVEL' => $nivel->NOMBRE_NIVEL,
+                    'DESCRIPCION_NIVEL' => $nivel->DESCRIPCION_NIVEL
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-        return response()->json([
-            'success' => true,
-            'nivel' => [
-                'ID_CATALOGO_NIVELACREDITACION' => $nivel->ID_CATALOGO_NIVELACREDITACION,
-                'NOMBRE_NIVEL' => $nivel->NOMBRE_NIVEL,
-                'DESCRIPCION_NIVEL' => $nivel->DESCRIPCION_NIVEL
-            ]
-        ]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
-}
 }

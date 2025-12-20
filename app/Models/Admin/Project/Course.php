@@ -59,7 +59,14 @@ class Course extends Model
         'FINAL_STATUS',
         'HAVE_CERTIFIED',
         'CERTIFIED',
-        'EXPIRATION'
+        'CERTIFICATE_NUMBER',
+        'REFRESH',
+        'REFRESH_DATE',
+        'REFRESH_EVIDENCE',
+        'EXPIRATION',
+        'ENABLE_NOTIFICATIONS',
+        'EMAILS_SENT',
+        'COMPLEMENTS_JSON'
     ];
 
     public function candidate()

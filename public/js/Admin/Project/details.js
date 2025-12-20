@@ -2408,7 +2408,7 @@ function renderFinalAndCertification(curso, candidato, key, cursoId) {
                 `}
 
                 <button type="button" class="btn btn-sm btn-outline-primary btn-upload-cert" 
-                    onclick="$('#file-${key}').click()" 
+                   
                     title="Cargar o Reemplazar PDF">
                     <i class="fas fa-upload"></i>
                 </button>

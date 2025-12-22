@@ -1122,7 +1122,6 @@ function generateResitChart(estudiantes) {
 }
 
 function generateResitTypesChart(estudiantes) {
-  // Primero filtramos solo estudiantes que NO aprobaron
     const estudiantesReprobados = estudiantes.filter(est => 
         est.datos_curso.FINAL_STATUS === '0' ||
         est.datos_curso.FINAL_STATUS === 0 ||
@@ -1140,9 +1139,7 @@ function generateResitTypesChart(estudiantes) {
         return tuvoResit;
     }).length;
 
-    // 2. Sin oportunidad de resit: Reprobaron equipament Y (reprobaron pyp O pyp es null) Y no tuvieron resit
     const withoutResitChance = estudiantesReprobados.filter(est => {
-        // Verificar que NO tuvo resit
         const noTuvoResit = !(est.datos_curso.RESIT === '1' ||
                              est.datos_curso.RESIT === 1 ||
                              est.datos_curso.RESIT_INMEDIATO === '1' ||
@@ -1150,16 +1147,14 @@ function generateResitTypesChart(estudiantes) {
                              est.datos_curso.RESIT_PROGRAMADO === '1' ||
                              est.datos_curso.RESIT_PROGRAMADO === 1);
         
-        if (!noTuvoResit) return false; // Si tuvo resit, no cuenta aquí
+        if (!noTuvoResit) return false; 
         
-        // Reprobaron equipament
         const reproboEquipament = est.datos_curso.EQUIPAMENT_PASS === '0' ||
                                   est.datos_curso.EQUIPAMENT_PASS === 0 ||
                                   est.datos_curso.EQUIPAMENT_PASS === 'Unpass';
         
-        if (!reproboEquipament) return false; // Si no reprobó equipament, no es "sin oportunidad"
+        if (!reproboEquipament) return false; 
         
-        // Reprobaron pyp O pyp es null
         const reproboPypONull = est.datos_curso.PYP_PASS === '0' ||
                                 est.datos_curso.PYP_PASS === 0 ||
                                 est.datos_curso.PYP_PASS === 'Unpass' ||
@@ -1168,10 +1163,7 @@ function generateResitTypesChart(estudiantes) {
         return reproboPypONull;
     }).length;
 
-    // 3. Sin resit (pero SÍ tuvieron oportunidad): No tuvieron resit PERO podrían haberlo tenido
-    // (reprobaron solo 1 módulo O pasaron equipament pero reprobaron pyp, etc.)
     const withoutResitButChance = estudiantesReprobados.filter(est => {
-        // Verificar que NO tuvo resit
         const noTuvoResit = !(est.datos_curso.RESIT === '1' ||
                              est.datos_curso.RESIT === 1 ||
                              est.datos_curso.RESIT_INMEDIATO === '1' ||
@@ -1179,10 +1171,8 @@ function generateResitTypesChart(estudiantes) {
                              est.datos_curso.RESIT_PROGRAMADO === '1' ||
                              est.datos_curso.RESIT_PROGRAMADO === 1);
         
-        if (!noTuvoResit) return false; // Si tuvo resit, no cuenta aquí
+        if (!noTuvoResit) return false;
         
-        // Ya contamos los "sin oportunidad", así que excluirlos
-        // Verificar si es de los que SÍ tuvieron oportunidad:
         const reproboEquipament = est.datos_curso.EQUIPAMENT_PASS === '0' ||
                                   est.datos_curso.EQUIPAMENT_PASS === 0 ||
                                   est.datos_curso.EQUIPAMENT_PASS === 'Unpass';
@@ -1192,7 +1182,6 @@ function generateResitTypesChart(estudiantes) {
                                 est.datos_curso.PYP_PASS === 'Unpass' ||
                                 est.datos_curso.PYP_PASS === null;
         
-        // Si reprobó equipament Y (reprobó pyp O pyp es null) → ya está en "sin oportunidad"
         if (reproboEquipament && reproboPypONull) return false;
         return true;
     }).length;
@@ -1203,7 +1192,6 @@ function generateResitTypesChart(estudiantes) {
     console.log('3. Sin oportunidad de resit:', withoutResitChance);
     console.log('Total (debe ser 24):', withResit + withoutResitButChance + withoutResitChance);
 
-    // Verificar que la suma sea correcta
     const totalCalculado = withResit + withoutResitButChance + withoutResitChance;
     if (totalCalculado !== estudiantesReprobados.length) {
         console.error('ERROR: La suma no coincide. Estudiantes sin clasificar:', 
@@ -1433,8 +1421,6 @@ function updateStudentCharts() {
 
 $(document).ready(function () {
     loadAllStudentCharts();
-
-
 });
 
 
@@ -1854,27 +1840,25 @@ function processEstudiantesAprobData(data) {
         const equipPass = candidate.equipo_pass?.toUpperCase() || '';
         const pypPass = candidate.py_pass?.toUpperCase() || '';
         const resitInmediato = candidate.resit_inmediato?.toUpperCase() || '';
-        const resitProgramado = candidate.resit_programado?.toString() || ''; // Cambiado a string
+        const resitProgramado = candidate.resit_programado?.toString() || ''; 
         const finalStatus = candidate.final_status?.toUpperCase() || '';
         
-        // Solo considerar candidatos con PASS en FINAL_STATUS
         if (finalStatus === 'PASS') {
-            // Verificar si aprobó en primera oportunidad
+            
             if (equipPass === 'PASS' && pypPass === 'PASS') {
                 categoriasAprobados['Aprobados en primera oportunidad']++;
             }
-            // Verificar si aprobó con resit inmediato
+            
             else if (resitInmediato === 'PASS') {
                 categoriasAprobados['Aprobados con resit inmediato']++;
             }
-            // Verificar si aprobó con resit programado
-            // Puede ser 'PASS', '1', o true
+            
             else if (resitProgramado === 'PASS' || 
                     resitProgramado === '1' || 
                     resitProgramado === 'true') {
                 categoriasAprobados['Aprobados con resit programado']++;
             }
-            // Si no cumple ninguna de las anteriores pero tiene PASS en FINAL_STATUS
+            
             else {
                 categoriasAprobados['Aprobados en primera oportunidad']++;
             }
@@ -1911,7 +1895,6 @@ function updateEstudiantesAprobChart(processedData) {
         return;
     }
 
-    // Destruir gráfica anterior si existe
     if (currentEstudiantesChart) {
         currentEstudiantesChart.dispose();
     }
@@ -2100,8 +2083,7 @@ function updateEstudiantesAprobChart(processedData) {
 }
 function updateTotalesEstudiantes(totals) {
     console.log('Actualizando totales de estudiantes aprobados:', totals);
-    
-    // Actualizar elementos HTML con los totales
+
     // if (totals.total_aprobados !== undefined) {
     //     const elementoTotal = document.getElementById('totalEstudiantesAprobados');
     //     if (elementoTotal) {
@@ -2115,8 +2097,7 @@ function updateTotalesEstudiantes(totals) {
     //         elementoPrimera.textContent = totals.aprobados_primera.toLocaleString();
     //     }
     // }
-    
-    // Puedes añadir más elementos según necesites
+
 }
 async function loadEstudiantesAprobData() {
     console.log('Cargando datos para gráfica de Estudiantes Aprobados...');
@@ -2133,16 +2114,14 @@ async function loadEstudiantesAprobData() {
 
     try {
         const response = await fetch('/api/estadisticas-general');
-        const result = await response.json(); // Cambiado de 'data' a 'result'
+        const result = await response.json();
 
         console.log('Resultado completo recibido:', result);
         
-        // Verificar si la respuesta fue exitosa
         if (!result.success) {
             throw new Error(result.message || 'Error en la respuesta del servidor');
         }
         
-        // Los datos están en result.data, no directamente en result
         const processedData = processEstudiantesAprobData(result.data || []);
         
         chartDiv.innerHTML = '';

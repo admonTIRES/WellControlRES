@@ -2438,158 +2438,264 @@ class ProjectManagementController extends Controller
 
 
 
-  public function tablaEstudiantesGeneral()
-{
-    try {
-        $estudiantes = DB::table('course as co')
-            ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-            ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
-            // --- NUEVA RELACIÓN CON CLIENTES ---
-            ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
-            // ------------------------------------
-            ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
-            ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
-            ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
-            ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
-            ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
-            ->select(
-                'c.ID_CANDIDATE',
-                'c.LAST_NAME_PROJECT',
-                'c.FIRST_NAME_PROJECT',
-                'c.MIDDLE_NAME_PROJECT',
-                'c.EMAIL_PROJECT',
-                'c.ACTIVO',
-                'c.ID_PROJECT',
-                'c.ASISTENCIA',
-                'c.COMPANY_PROJECT',
-                'c.COMPANY_ID_PROJECT', // ID original por si lo necesitas
-                'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT', // ALIAS SOLICITADO
+    public function tablaEstudiantesGeneral()
+    {
+        try {
+            $estudiantes = DB::table('course as co')
+                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+                ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+                // --- NUEVA RELACIÓN CON CLIENTES ---
+                ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+                // ------------------------------------
+                ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+                ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+                ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+                ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+                ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
+                ->select(
+                    'c.ID_CANDIDATE',
+                    'c.LAST_NAME_PROJECT',
+                    'c.FIRST_NAME_PROJECT',
+                    'c.MIDDLE_NAME_PROJECT',
+                    'c.EMAIL_PROJECT',
+                    'c.ACTIVO',
+                    'c.ID_PROJECT',
+                    'c.ASISTENCIA',
+                    'c.COMPANY_PROJECT',
+                    'c.COMPANY_ID_PROJECT', // ID original por si lo necesitas
+                    'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT', // ALIAS SOLICITADO
 
-                'p.ID_PROJECT as proyecto_id',
-                'p.FOLIO_PROJECT',
-                'p.ACCREDITATION_LEVELS_PROJECT',
-                'p.BOP_TYPES_PROJECT',
-                'p.CONTACT_NAME_PROJEC',
-                'p.CONTACT_PHONE_PROJECT',
-                'p.LOCATION_PROJECT',
-                'p.CITY_PROJECT',
+                    'p.ID_PROJECT as proyecto_id',
+                    'p.FOLIO_PROJECT',
+                    'p.ACCREDITATION_LEVELS_PROJECT',
+                    'p.BOP_TYPES_PROJECT',
+                    'p.CONTACT_NAME_PROJEC',
+                    'p.CONTACT_PHONE_PROJECT',
+                    'p.LOCATION_PROJECT',
+                    'p.CITY_PROJECT',
 
-                'np.NOMBRE_PROYECTO as nombre_curso',
-                'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
-                'ea.NOMBRE_ENTE as ente_acreditador',
-                'to.NOMBRE_OPERACION as tipo_operacion',
-                'ie.NOMBRE_IDIOMA as idioma',
-                'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
+                    'np.NOMBRE_PROYECTO as nombre_curso',
+                    'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
+                    'ea.NOMBRE_ENTE as ente_acreditador',
+                    'to.NOMBRE_OPERACION as tipo_operacion',
+                    'ie.NOMBRE_IDIOMA as idioma',
+                    'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
 
-                'co.ID_COURSE as curso_id',
-                'co.PRACTICAL',
-                'co.PRACTICAL_PASS',
-                'co.EQUIPAMENT',
-                'co.EQUIPAMENT_PASS',
-                'co.PYP',
-                'co.PYP_PASS',
-                'co.STATUS',
-                'co.RESIT',
-                'co.INTENTOS',
-                'co.RESIT_MODULE',
-                'co.RESIT_INMEDIATO',
-                'co.RESIT_INMEDIATO_DATE',
-                'co.RESIT_INMEDIATO_SCORE',
-                'co.RESIT_INMEDIATO_STATUS',
-                'co.RESIT_PROGRAMADO',
-                'co.RESIT_ENTRENAMIENTO',
-                'co.RESIT_FOLIO_PROYECTO',
-                'co.RESIT_PROGRAMADO_DATE',
-                'co.RESIT_PROGRAMADO_SCORE',
-                'co.RESIT_PROGRAMADO_STATUS',
-                'co.FINAL_STATUS',
-                'co.HAVE_CERTIFIED',
-                'co.CERTIFIED',
-                'co.EXPIRATION'
-            )
-            ->orderBy('c.LAST_NAME_PROJECT', 'asc')
-            ->get();
+                    'co.ID_COURSE as curso_id',
+                    'co.PRACTICAL',
+                    'co.PRACTICAL_PASS',
+                    'co.EQUIPAMENT',
+                    'co.EQUIPAMENT_PASS',
+                    'co.PYP',
+                    'co.LEVEL',
+                    'co.PYP_PASS',
+                    'co.STATUS',
+                    'co.RESIT',
+                    'co.INTENTOS',
+                    'co.RESIT_MODULE',
+                    'co.RESIT_INMEDIATO',
+                    'co.RESIT_INMEDIATO_DATE',
+                    'co.RESIT_INMEDIATO_SCORE',
+                    'co.RESIT_INMEDIATO_STATUS',
+                    'co.RESIT_PROGRAMADO',
+                    'co.RESIT_ENTRENAMIENTO',
+                    'co.RESIT_FOLIO_PROYECTO',
+                    'co.RESIT_PROGRAMADO_DATE',
+                    'co.RESIT_PROGRAMADO_SCORE',
+                    'co.RESIT_PROGRAMADO_STATUS',
+                    'co.FINAL_STATUS',
+                    'co.HAVE_CERTIFIED',
+                    'co.CERTIFIED',
+                    'co.EXPIRATION'
+                )
+                ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+                ->get();
 
-        // ... (Tu lógica de procesamiento de niveles y bops se mantiene igual) ...
+            $allNivelIds = [];
+            $allBopIds = [];
+            $projectToNiveles = [];
+            $projectToBops = [];
 
-        $estudiantesFormateados = [];
+            foreach ($estudiantes as $e) {
 
-        foreach ($estudiantes as $e) {
-            $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
-            $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
+                if (!empty($e->LEVEL)) {
+                    $allNivelIds[] = $e->LEVEL;
+                }
+                if (!empty($e->ACCREDITATION_LEVELS_PROJECT)) {
+                    $niveles = is_string($e->ACCREDITATION_LEVELS_PROJECT)
+                        ? json_decode($e->ACCREDITATION_LEVELS_PROJECT, true)
+                        : $e->ACCREDITATION_LEVELS_PROJECT;
 
-            $estudiantesFormateados[] = [
-                'curso_id' => $e->curso_id,
-                'candidato' => [
-                    'ID_CANDIDATE' => $e->ID_CANDIDATE,
-                    'LAST_NAME_PROJECT' => $e->LAST_NAME_PROJECT,
-                    'FIRST_NAME_PROJECT' => $e->FIRST_NAME_PROJECT,
-                    'MIDDLE_NAME_PROJECT' => $e->MIDDLE_NAME_PROJECT,
-                    'EMAIL_PROJECT' => $e->EMAIL_PROJECT,
-                    'ACTIVO' => $e->ACTIVO,
-                    'ID_PROJECT' => $e->ID_PROJECT,
-                    'ASISTENCIA' => $e->ASISTENCIA,
-                    'COMPANY_PROJECT' => $e->COMPANY_PROJECT,
-                    'COMPANY_NAME_PROJECT' => $e->COMPANY_NAME_PROJECT ?? 'N/A' 
-                ],
-                'proyecto' => [
-                    'ID_PROJECT' => $e->proyecto_id,
-                    'FOLIO_PROJECT' => $e->FOLIO_PROJECT,
-                    'NOMBRE_CURSO' => $e->nombre_curso,
-                    'CENTRO_CAPACITACION' => $e->centro_capacitacion,
-                    'ENTE_ACREDITADOR' => $e->ente_acreditador,
-                    'TIPO_OPERACION' => $e->tipo_operacion,
-                    'IDIOMA' => $e->idioma,
-                    'NIVELES_ACREDITACION' => $nivelesAcreditacion,
-                    'TIPOS_BOP' => $tiposBOP,
-                    'CONTACT_NAME_PROJEC' => $e->CONTACT_NAME_PROJEC,
-                    'CONTACT_PHONE_PROJECT' => $e->CONTACT_PHONE_PROJECT,
-                    'LOCATION_PROJECT' => $e->LOCATION_PROJECT,
-                    'CITY_PROJECT' => $e->CITY_PROJECT
-                ],
-                'datos_curso' => [
-                    // ... (Tus datos de curso se mantienen igual) ...
-                    'PRACTICAL' => $e->PRACTICAL,
-                    'PRACTICAL_PASS' => $e->PRACTICAL_PASS,
-                    'EQUIPAMENT' => $e->EQUIPAMENT,
-                    'EQUIPAMENT_PASS' => $e->EQUIPAMENT_PASS,
-                    'PYP' => $e->PYP,
-                    'PYP_PASS' => $e->PYP_PASS,
-                    'STATUS' => $e->STATUS,
-                    'RESIT' => $e->RESIT,
-                    'INTENTOS' => $e->INTENTOS,
-                    'RESIT_MODULE' => $e->RESIT_MODULE,
-                    'RESIT_INMEDIATO' => $e->RESIT_INMEDIATO,
-                    'RESIT_INMEDIATO_DATE' => $e->RESIT_INMEDIATO_DATE,
-                    'RESIT_INMEDIATO_SCORE' => $e->RESIT_INMEDIATO_SCORE,
-                    'RESIT_INMEDIATO_STATUS' => $e->RESIT_INMEDIATO_STATUS,
-                    'RESIT_PROGRAMADO' => $e->RESIT_PROGRAMADO,
-                    'RESIT_ENTRENAMIENTO' => $e->RESIT_ENTRENAMIENTO,
-                    'RESIT_FOLIO_PROYECTO' => $e->RESIT_FOLIO_PROYECTO,
-                    'RESIT_PROGRAMADO_DATE' => $e->RESIT_PROGRAMADO_DATE,
-                    'RESIT_PROGRAMADO_SCORE' => $e->RESIT_PROGRAMADO_SCORE,
-                    'RESIT_PROGRAMADO_STATUS' => $e->RESIT_PROGRAMADO_STATUS,
-                    'FINAL_STATUS' => $e->FINAL_STATUS,
-                    'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
-                    'CERTIFIED' => $e->CERTIFIED,
-                    'EXPIRATION' => $e->EXPIRATION
-                ]
-            ];
+                    if (is_array($niveles) && !empty($niveles)) {
+                        $projectToNiveles[$e->proyecto_id] = $niveles;
+                        $allNivelIds = array_merge($allNivelIds, $niveles);
+                    }
+                }
+
+                if (!empty($e->BOP_TYPES_PROJECT)) {
+                    $bops = is_string($e->BOP_TYPES_PROJECT)
+                        ? json_decode($e->BOP_TYPES_PROJECT, true)
+                        : $e->BOP_TYPES_PROJECT;
+
+                    if (is_array($bops) && !empty($bops)) {
+                        $projectToBops[$e->proyecto_id] = $bops;
+                        $allBopIds = array_merge($allBopIds, $bops);
+                    }
+                }
+            }
+
+            $allNivelIds = array_unique($allNivelIds);
+            $nivelesData = DB::table('nivel_acreditacion')
+                ->whereIn('ID_CATALOGO_NIVELACREDITACION', array_unique($allNivelIds))
+                ->get()->keyBy('ID_CATALOGO_NIVELACREDITACION');
+            $allBopIds = array_unique($allBopIds);
+
+            $nivelesData = [];
+            if (!empty($allNivelIds)) {
+                $nivelesData = DB::table('nivel_acreditacion')
+                    ->whereIn('ID_CATALOGO_NIVELACREDITACION', $allNivelIds)
+                    ->get()
+                    ->keyBy('ID_CATALOGO_NIVELACREDITACION');
+            }
+
+            $bopsData = [];
+            if (!empty($allBopIds)) {
+                $bopsData = DB::table('tipo_bop')
+                    ->whereIn('ID_CATALOGO_TIPOBOP', $allBopIds)
+                    ->get()
+                    ->keyBy('ID_CATALOGO_TIPOBOP');
+            }
+
+            $nivelesMap = [];
+            foreach ($projectToNiveles as $projectId => $nivelIds) {
+                $nivelesMap[$projectId] = [];
+                foreach ($nivelIds as $nivelId) {
+                    if (isset($nivelesData[$nivelId])) {
+                        $nivelesMap[$projectId][] = [
+                            'id' => $nivelesData[$nivelId]->ID_CATALOGO_NIVELACREDITACION,
+                            'nombre' => $nivelesData[$nivelId]->NOMBRE_NIVEL
+                        ];
+                    }
+                }
+            }
+
+            $bopMap = [];
+            foreach ($projectToBops as $projectId => $bopIds) {
+                $bopMap[$projectId] = [];
+                foreach ($bopIds as $bopId) {
+                    if (isset($bopsData[$bopId])) {
+                        $bopMap[$projectId][] = [
+                            'id' => $bopsData[$bopId]->ID_CATALOGO_TIPOBOP,
+                            'abreviatura' => $bopsData[$bopId]->ABREVIATURA,
+                            'nombre' => $bopsData[$bopId]->DESCRIPCION_TIPOBOP ?? ''
+                        ];
+                    }
+                }
+            }
+
+            $estudiantesFormateados = [];
+
+            foreach ($estudiantes as $e) {
+                $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
+                $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
+
+                $misNiveles = [];
+
+                // --- LÓGICA DE PRIORIDAD PARA NIVELES ---
+                if (!empty($e->LEVEL) && isset($nivelesData[$e->LEVEL])) {
+                    // Si co.LEVEL tiene dato, usamos ese exclusivamente
+                    $misNiveles[] = [
+                        'id' => $nivelesData[$e->LEVEL]->ID_CATALOGO_NIVELACREDITACION,
+                        'nombre' => $nivelesData[$e->LEVEL]->NOMBRE_NIVEL
+                    ];
+                } else {
+                    // Si no, buscamos en el array del proyecto (Lógica original)
+                    $projNivelesIds = is_string($e->ACCREDITATION_LEVELS_PROJECT)
+                        ? json_decode($e->ACCREDITATION_LEVELS_PROJECT, true)
+                        : $e->ACCREDITATION_LEVELS_PROJECT;
+
+                    if (is_array($projNivelesIds)) {
+                        foreach ($projNivelesIds as $idN) {
+                            if (isset($nivelesData[$idN])) {
+                                $misNiveles[] = [
+                                    'id' => $nivelesData[$idN]->ID_CATALOGO_NIVELACREDITACION,
+                                    'nombre' => $nivelesData[$idN]->NOMBRE_NIVEL
+                                ];
+                            }
+                        }
+                    }
+                }
+
+                $estudiantesFormateados[] = [
+                    'curso_id' => $e->curso_id,
+                    'candidato' => [
+                        'ID_CANDIDATE' => $e->ID_CANDIDATE,
+                        'LAST_NAME_PROJECT' => $e->LAST_NAME_PROJECT,
+                        'FIRST_NAME_PROJECT' => $e->FIRST_NAME_PROJECT,
+                        'MIDDLE_NAME_PROJECT' => $e->MIDDLE_NAME_PROJECT,
+                        'EMAIL_PROJECT' => $e->EMAIL_PROJECT,
+                        'ACTIVO' => $e->ACTIVO,
+                        'ID_PROJECT' => $e->ID_PROJECT,
+                        'ASISTENCIA' => $e->ASISTENCIA,
+                        'COMPANY_PROJECT' => $e->COMPANY_PROJECT,
+                        'COMPANY_NAME_PROJECT' => $e->COMPANY_NAME_PROJECT ?? 'N/A'
+                    ],
+                    'proyecto' => [
+                        'ID_PROJECT' => $e->proyecto_id,
+                        'FOLIO_PROJECT' => $e->FOLIO_PROJECT,
+                        'NOMBRE_CURSO' => $e->nombre_curso,
+                        'CENTRO_CAPACITACION' => $e->centro_capacitacion,
+                        'ENTE_ACREDITADOR' => $e->ente_acreditador,
+                        'TIPO_OPERACION' => $e->tipo_operacion,
+                        'IDIOMA' => $e->idioma,
+                        'NIVELES_ACREDITACION' => $misNiveles,
+                        'TIPOS_BOP' => $tiposBOP,
+                        'CONTACT_NAME_PROJEC' => $e->CONTACT_NAME_PROJEC,
+                        'CONTACT_PHONE_PROJECT' => $e->CONTACT_PHONE_PROJECT,
+                        'LOCATION_PROJECT' => $e->LOCATION_PROJECT,
+                        'CITY_PROJECT' => $e->CITY_PROJECT
+                    ],
+                    'datos_curso' => [
+                        'PRACTICAL' => $e->PRACTICAL,
+                        'PRACTICAL_PASS' => $e->PRACTICAL_PASS,
+                        'EQUIPAMENT' => $e->EQUIPAMENT,
+                        'EQUIPAMENT_PASS' => $e->EQUIPAMENT_PASS,
+                        'PYP' => $e->PYP,
+                        'PYP_PASS' => $e->PYP_PASS,
+                        'STATUS' => $e->STATUS,
+                        'RESIT' => $e->RESIT,
+                        'INTENTOS' => $e->INTENTOS,
+                        'RESIT_MODULE' => $e->RESIT_MODULE,
+                        'RESIT_INMEDIATO' => $e->RESIT_INMEDIATO,
+                        'RESIT_INMEDIATO_DATE' => $e->RESIT_INMEDIATO_DATE,
+                        'RESIT_INMEDIATO_SCORE' => $e->RESIT_INMEDIATO_SCORE,
+                        'RESIT_INMEDIATO_STATUS' => $e->RESIT_INMEDIATO_STATUS,
+                        'RESIT_PROGRAMADO' => $e->RESIT_PROGRAMADO,
+                        'RESIT_ENTRENAMIENTO' => $e->RESIT_ENTRENAMIENTO,
+                        'RESIT_FOLIO_PROYECTO' => $e->RESIT_FOLIO_PROYECTO,
+                        'RESIT_PROGRAMADO_DATE' => $e->RESIT_PROGRAMADO_DATE,
+                        'RESIT_PROGRAMADO_SCORE' => $e->RESIT_PROGRAMADO_SCORE,
+                        'RESIT_PROGRAMADO_STATUS' => $e->RESIT_PROGRAMADO_STATUS,
+                        'FINAL_STATUS' => $e->FINAL_STATUS,
+                        'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
+                        'CERTIFIED' => $e->CERTIFIED,
+                        'EXPIRATION' => $e->EXPIRATION
+                    ]
+                ];
+            }
+
+            return response()->json([
+                'success' => true,
+                'estudiantes' => $estudiantesFormateados
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los datos',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'success' => true,
-            'estudiantes' => $estudiantesFormateados
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error al obtener los datos',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 
     // Agregar en ProjectManagementController.php
 

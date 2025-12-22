@@ -30,23 +30,42 @@ const actualizarBtn = document.createElement('button');
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // showLoading();
 
-    // fetch('/api/dashboard/data')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.success) {
-    //             updateMetricas(data.data.metricas);
-    //             renderCharts(data.data);
-    //         } else {
-    //             throw new Error(data.message);
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Error cargando datos:', error);
-    //         showError('Error al cargar los datos: ' + error.message);
-    //     });
-    
+    const configEs = {
+        locale: "es",
+        disableMobile: "true" 
+    };
+
+    flatpickr("#startDate", {
+        ...configEs,
+        dateFormat: "Y-m-d", 
+        altInput: true,      
+        altFormat: "d-m-Y",  
+        allowInput: true
+    });
+
+    flatpickr("#endDate", {
+        ...configEs,
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "d-m-Y",
+        allowInput: true
+    });
+
+    const monthConfig = {
+        ...configEs,
+        plugins: [
+            new monthSelectPlugin({
+                shorthand: true, 
+                dateFormat: "Y-m", 
+                altFormat: "F Y",  
+                theme: "light"
+            })
+        ]
+    };
+
+    flatpickr("#startMonth", monthConfig);
+    flatpickr("#endMonth", monthConfig);
 
     const periodType = document.getElementById('periodType');
     if (periodType) {
@@ -59,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // loadChartData();
         // loadStackedChartData();
     }, 500);
+
 
     toggleDateFilters();
 

@@ -33,54 +33,68 @@
     </div>
     <div class="row">
         <div class="row mb-4">
+            <style>
+                .flatpickr-input-custom, .form-select-custom {
+                    background-color: #fff !important;
+                    border: 1px solid #ced4da;
+                    border-radius: 8px; 
+                    padding: 0.375rem 0.75rem;
+                    height: 38px; 
+                    width: 100%;
+                    cursor: pointer;
+                    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                }
+                
+                .flatpickr-input-custom:focus, .form-select-custom:focus {
+                    border-color: #86b7fe;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+                }
+            </style>
+
             <div class="col-md-3">
                 <label for="periodType" class="form-label">Tipo de Período:</label>
-                <select id="periodType" class="form-select" onchange="toggleDateFilters()">
+                <select id="periodType" class="form-select form-select-custom" onchange="toggleDateFilters()">
                     <option value="year">Año</option>
                     <option value="month" selected>Mes</option>
                     <option value="day">Curso</option>
                 </select>
             </div>
 
-            <!-- Filtro para Año: De año a año -->
             <div class="col-md-4" id="yearRangeFilter" style="display:none;">
                 <label class="form-label">Rango de Años:</label>
                 <div class="row">
                     <div class="col-6">
-                        <select id="startYear" class="form-select">
-                            <!-- Se llenará dinámicamente -->
-                        </select>
+                        <select id="startYear" class="form-select form-select-custom">
+                            </select>
                     </div>
                     <div class="col-6">
-                        <select id="endYear" class="form-select">
-                            <!-- Se llenará dinámicamente -->
-                        </select>
+                        <select id="endYear" class="form-select form-select-custom">
+                            </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Filtro para Mes: De mes-año a mes-año -->
             <div class="col-md-4" id="monthRangeFilter" style="display:none;">
                 <label class="form-label">Rango de Meses:</label>
                 <div class="row">
                     <div class="col-6">
-                        <input type="month" id="startMonth" class="form-control">
+                        <input type="text" id="startMonth" class="form-control flatpickr-input-custom" placeholder="Mes Inicio">
                     </div>
                     <div class="col-6">
-                        <input type="month" id="endMonth" class="form-control">
+                        <input type="text" id="endMonth" class="form-control flatpickr-input-custom" placeholder="Mes Fin">
                     </div>
                 </div>
             </div>
 
-            <!-- Filtro para Curso: De día-mes-año a día-mes-año -->
             <div class="col-md-4" id="dayRangeFilter" style="display:none;">
                 <label class="form-label">Rango de Fechas:</label>
                 <div class="row">
                     <div class="col-6">
-                        <input type="date" id="startDate" class="form-control">
+                        <input type="text" id="startDate" class="form-control flatpickr-input-custom" placeholder="Fecha Inicio">
                     </div>
                     <div class="col-6">
-                        <input type="date" id="endDate" class="form-control">
+                        <input type="text" id="endDate" class="form-control flatpickr-input-custom" placeholder="Fecha Fin">
                     </div>
                 </div>
             </div>
@@ -289,7 +303,7 @@
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.47"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.48"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

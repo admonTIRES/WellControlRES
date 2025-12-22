@@ -34,7 +34,63 @@
                         <div class="w-100 h-100">
                             <h5 class="card-title mb-0">{{ __('Candidatos') }}</h4>
                             <div>
-                                <table id="course-list-table" class="table" role="grid">
+                                <table class="table table-modern" id="course-list-table">
+                                    <thead>
+                                        <tr>
+                                            <th  colspan="5" class="text-center">Estudiante</th>
+                                            <th  colspan="1" class="text-center">Evaluación inicial</th>
+                                            <th  colspan="2" class="text-center">Re-sits / re-test</th>
+                                            <th  colspan="4" class="text-center" >Certificados</th>
+                                        </tr>
+                                        <tr>
+                                            <th width="50px" class="text-center">#</th>
+                                            <th class="col-180" width="140px">Estudiante</th>
+                                            <th  class="col-180" width="180px">Nivel</th>
+                                            <th  width="180px">BOP</th>
+                                            <th  width="180px">Idioma</th>
+                                            <th class="col-180" width="180px">Práctico</th>
+                                            <th class="col-180" width="180px">Equipos</th>
+                                            <th class="col-180" width="180px" id="pypTh">P&P</th>
+                                            <th class="col-180" width="180px" id="complementoTh">Complemento</th>
+                                            <th class="col-180" width="180px" id="d1Th">D1</th>
+                                            <th class="col-180" width="180px" id="d2Th">D2</th>
+                                            <th class="col-180" width="180px" id="d3Th">D3</th>
+                                            <th class="col-180" width="180px">Estatus</th>
+                                            <th  width="180px">Resit</th>
+                                            <th  width="180px">No. Intentos permitidos</th>
+                                            <th  width="180px">Periodo</th>
+                                            <th  width="180px">Dias restantes</th>
+                                            <th  width="180px">Fecha límite</th>
+                                            <th class="col-180" width="180px">Resit módulo</th>
+                                            <th  width="180px">Sí</th>
+                                            <th class="col-180" width="180px">Fecha</th>
+                                            <th class="col-180" width="180px">Puntaje</th>
+                                            <th class="col-180" width="180px">Estatus</th>
+                                            <th  width="180px">Sí</th>
+                                            <th  width="180px">Requiere entrenamiento adicional</th>
+                                            <th  width="180px">Folio de proyecto para entrenamiento</th>
+                                            <th class="col-180" width="180px">Fecha</th>
+                                            <th class="col-180" width="180px">Puntaje</th>
+                                            <th class="col-180" width="180px">Estatus</th>
+                                            <th class="col-180" width="180px">Estatus</th>
+                                            <th  width="180px">Sí</th>
+                                            <th class="col-180" width="180px">Expiración</th>
+                                            <th class="col-180" width="180px">Vigencia</th>
+                                            <th class="col-250" width="180px">Correo</th>
+                                            <th width="100px" class="table-row-actions text-center">Documento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Los datos se cargarán aquí dinámicamente -->
+                                        <tr>
+                                            <td colspan="11" class="text-center loading-state">
+                                                <div class="loading-container">
+                                                    <div class="loading-spinner"></div>
+                                                    <p class="loading-text">Cargando candidatos...</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

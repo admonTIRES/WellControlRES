@@ -1817,209 +1817,6 @@ function loadTableCursoModal() {
     });
 }
 
-// ============================================
-// RENDERIZAR TABLA DINÁMICA
-// ============================================
-// function renderDynamicTable(response, rules) {
-//     const thead = $('#edit-course-table thead');
-//     const tbody = $('#edit-course-table tbody');
-//     const proyecto = response.proyecto;
-//     console.log(proyecto);
-//     thead.empty();
-//     tbody.empty();
-
-//     // Construir encabezados dinámicamente
-//     let headerRow1 = `<tr>`;
-//     let headerRow2 = `<tr>`;
-
-//     // Columnas básicas
-//     headerRow1 += `<th colspan="5" class="text-center">Generalidades</th>`;
-//     headerRow2 += `
-//         <th width="50px" class="text-center">#</th>
-//         <th class="col-180" width="180px">Estudiante</th>
-//         <th class="col-180" width="180px">Nivel</th>
-//         <th width="180px">BOP</th>
-//         <th width="180px">Idioma</th>
-//     `;
-
-//     // Examen Práctico
-//     headerRow1 += `<th colspan="1" class="text-center">Examen Práctico</th>`;
-//     headerRow2 += `<th class="col-180" width="180px">Práctico</th>`;
-
-//     // Exámenes Teóricos (dinámico según acreditación)
-//     const numExamenesT = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 1 : 2; // IADC: 1, IWCF: 2
-//     headerRow1 += `<th colspan="${numExamenesT}" class="text-center">Examen Teórico</th>`;
-
-//     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-//         headerRow2 += `<th class="col-180" width="180px">Equipos</th>`;
-//     } else {
-//         headerRow2 += `
-//             <th class="col-180" width="180px">Equipos</th>
-//             <th class="col-180" width="180px">P&P</th>
-//         `;
-//     }
-
-//     // Complementos
-//     const numComplementos = proyecto.ACCREDITING_ENTITY_PROJECT === '1' ? 3 : 4;
-//     headerRow1 += `<th colspan="${numComplementos}" class="text-center">Complementos</th>`;
-
-//     if (proyecto.ACCREDITING_ENTITY_PROJECT === '1') {
-//         headerRow2 += `
-//             <th class="col-180" width="180px">Complemento</th>
-//             <th class="col-180" width="180px">WorkOver (WO)</th>
-//             <th class="col-180" width="180px">SubSea (SS)</th>
-//         `;
-//     } else {
-//         headerRow2 += `
-//             <th class="col-180" width="180px">Complemento</th>
-//             <th class="col-180" width="180px">D1</th>
-//             <th class="col-180" width="180px">D2</th>
-//             <th class="col-180" width="180px">D3</th>
-//         `;
-//     }
-
-//     // Resumen
-//     headerRow1 += `<th colspan="1" class="text-center">Resumen</th>`;
-//     headerRow2 += `<th class="col-180" width="180px">Estatus</th>`;
-
-//     // Información de Resit
-//     headerRow1 += `<th colspan="6" class="text-center">Información RE-SIT</th>`;
-//     headerRow2 += `
-//         <th width="180px">Resit</th>
-//         <th width="180px">Módulo Resit</th>
-//         <th width="180px">Intentos Permitidos</th>
-//         <th width="180px">Periodo (días)</th>
-//         <th width="180px">Días Restantes</th>
-//         <th width="180px">Fecha Límite</th>
-//     `;
-
-//     // Resit Inmediato (solo si el programa lo permite)
-//     if (rules && rules.OPCION_RESIT === 1) {
-//         headerRow1 += `<th colspan="4" class="text-center">RE-SIT INMEDIATO</th>`;
-//         headerRow2 += `
-//             <th width="180px">Sí</th>
-//             <th class="col-180" width="180px">Fecha</th>
-//             <th class="col-180" width="180px">Puntaje</th>
-//             <th class="col-180" width="180px">Estatus</th>
-//         `;
-//     }
-
-//     // Resits Programados (dinámico según intentos permitidos)
-//     const numIntentosPermitidos = rules ? (rules.OPCION_RESIT_PERMITIDAS || 1) : 1;
-
-//     for (let i = 1; i <= numIntentosPermitidos; i++) {
-//         headerRow1 += `<th colspan="6" class="text-center">RE-SIT PROGRAMADO ${i}</th>`;
-//         headerRow2 += `
-//             <th width="180px">Activar</th>
-//             <th width="180px">Entrenamiento</th>
-//             <th width="180px">Folio Proyecto</th>
-//             <th class="col-180" width="180px">Fecha</th>
-//             <th class="col-180" width="180px">Puntaje</th>
-//             <th class="col-180" width="180px">Estatus</th>
-//         `;
-//     }
-
-//     // Final y Certificación
-//     headerRow1 += `<th colspan="6" class="text-center">Final y Certificación</th>`;
-//     headerRow2 += `
-//         <th class="col-180" width="180px">Estatus Final</th>
-//         <th width="180px">Certificado</th>
-//         <th class="col-180" width="180px">Expiración</th>
-//         <th class="col-180" width="180px">Vigencia</th>
-//         <th class="col-250" width="180px">Correo</th>
-//         <th width="150px" class="table-row-actions text-center">Cargar PDF</th>
-//     `;
-
-//     headerRow1 += `</tr>`;
-//     headerRow2 += `</tr>`;
-
-//     thead.append(headerRow1 + headerRow2);
-
-//     // Renderizar filas de estudiantes
-//     renderStudentRows(response.estudiantes, proyecto, rules, numIntentosPermitidos);
-
-//     initializeDataTable();
-//     addSwitchListeners();
-//     addValidationListeners();
-//     attachCertificateUploadListeners();
-// }
-
-// ============================================
-// RENDERIZAR FILAS DE ESTUDIANTES
-// ============================================
-// function renderStudentRows(estudiantes, proyecto, rules, numIntentosPermitidos) {
-//     const tbody = $('#edit-course-table tbody');
-
-//     estudiantes.forEach((estudiante, index) => {
-//         const candidato = estudiante.candidato;
-//         const curso = estudiante.datos_curso;
-//         const key = candidato.ID_CANDIDATE;
-
-//         // Calcular fechas límite de resit
-//         const examDate = new Date(proyecto.EXAM_DATE_PROJECT || Date.now());
-//         const periodoResit = rules ? rules.PERIODO_RESIT : 90;
-//         const fechaLimite = new Date(examDate);
-//         fechaLimite.setDate(fechaLimite.getDate() + periodoResit);
-
-//         const diasRestantes = Math.max(0, Math.ceil((fechaLimite - new Date()) / (1000 * 60 * 60 * 24)));
-
-//         // Determinar si puede tener resit
-//         const tieneAlMenosUnAprobado = 
-//             curso.PRACTICAL_PASS === 'Pass' || 
-//             curso.EQUIPAMENT_PASS === 'Pass' || 
-//             curso.PYP_PASS === 'Pass';
-
-//         const puedeResit = tieneAlMenosUnAprobado && diasRestantes > 0;
-
-//         let tr = `<tr data-candidate-id="${candidato.ID_CANDIDATE}" data-curso-id="${estudiante.curso_id}" class="course-row">`;
-
-//         // Columnas básicas
-//         tr += `<td class="text-center">${index + 1}</td>`;
-//         tr += `<td><span class="student-name">${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</span></td>`;
-
-//         // Nivel
-//         tr += renderNivelColumn(candidato, proyecto);
-
-//         // BOP e Idioma
-//         tr += renderBOPColumn(proyecto);
-//         tr += renderIdiomaColumn(proyecto);
-
-//         // Exámenes (Práctico, Teórico)
-//         tr += renderExamColumns(curso, key, proyecto, rules);
-
-//         // Complementos
-//         tr += renderComplementsColumns(curso, key, proyecto);
-
-//         // Estatus General
-//         tr += renderStatusColumn(curso, key);
-
-//         // Información Resit
-//         tr += renderResitInfo(curso, key, puedeResit, rules, periodoResit, diasRestantes, fechaLimite);
-
-//         // Resit Inmediato (si aplica)
-//         if (rules && rules.OPCION_RESIT === 1) {
-//             tr += renderResitInmediato(curso, key, puedeResit);
-//         }
-
-//         // Resits Programados
-//         for (let i = 1; i <= numIntentosPermitidos; i++) {
-//             tr += renderResitProgramado(curso, key, i, puedeResit);
-//         }
-
-//         // Final y Certificación
-//         tr += renderFinalAndCertification(curso, candidato, key, estudiante.curso_id);
-
-//         tr += `<input type="hidden" name="courses[${key}][ID_CANDIDATE]" value="${candidato.ID_CANDIDATE}">`;
-//         tr += `<input type="hidden" name="courses[${key}][ID_PROJECT]" value="${ID_PROJECT}">`;
-//         tr += `</tr>`;
-
-//         tbody.append(tr);
-//     });
-// }
-
-// ============================================
-// FUNCIONES DE RENDERIZADO POR SECCIÓN
-// ============================================
 function renderNivelColumn(candidato, proyecto, key) {
     const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
     const nivelGuardado = candidato.LEVEL || null;
@@ -3060,6 +2857,85 @@ function renderResitInmediatoEnhanced(curso, key, options, resitDates) {
 // ============================================
 // DETERMINAR OPCIONES CORREGIDO
 // ============================================
+// function determineStudentOptions(practical, equipament, pyp = null) {
+//     const options = {
+//         canPass: false,
+//         needsResit: false,
+//         needsImmediateResit: false,
+//         needsScheduledResit: false,
+//         needsTraining: false,
+//         failedCompletely: false,
+//         passedModules: [],
+//         failedModules: [],
+//         resitModules: [],
+//         message: ''
+//     };
+
+//     if (!programRules) return options;
+
+//     const modules = [
+//         { name: 'Practical', score: practical },
+//         { name: 'Equipament', score: equipament }
+//     ];
+
+//     if (pyp !== null && projectAccreditingEntity === '2') {
+//         modules.push({ name: 'P&P', score: pyp });
+//     }
+
+//     modules.forEach(module => {
+//         if (!module.score) return;
+
+//         const score = parseFloat(module.score);
+
+//         if (score >= programRules.MIN_PORCENTAJE_APROB) {
+//             options.passedModules.push(module.name);
+//         } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
+//             options.failedModules.push(module.name);
+//             options.resitModules.push(module.name);
+//             options.needsResit = true;
+
+//             // ✅ CORREGIDO: OPCION_RESIT === 2 significa resit inmediato disponible
+//             if (programRules.OPCION_RESIT === 2) {
+//                 options.needsImmediateResit = true;
+//             } else if (programRules.OPCION_RESIT === 1) {
+//                 options.needsScheduledResit = true;
+//                 options.needsTraining = true;
+//             }
+//         } else if (score < programRules.MIN_PORCENTAJE_REPROB_RE) {
+//             options.failedModules.push(module.name);
+//             options.needsScheduledResit = true;
+//             options.needsTraining = true;
+//         }
+//     });
+
+//     // Determinar resultado final
+//     if (options.passedModules.length === modules.length) {
+//         options.canPass = true;
+//         options.message = 'Aprobó todos los módulos';
+//     } else if (options.failedModules.length === modules.length) {
+//         options.failedCompletely = true;
+//         options.message = 'Reprobó todos los módulos - No aplica para ' + getResitTerm();
+//     } else if (options.needsResit) {
+//         const resitTerm = getResitTerm();
+//         if (options.needsImmediateResit) {
+//             options.message = `Aplica para ${resitTerm} inmediato`;
+//         } else if (options.needsScheduledResit && options.needsTraining) {
+//             options.message = `Requiere entrenamiento adicional y ${resitTerm} programado en: ${options.resitModules.join(', ')}`;
+//         }
+//     }
+
+//     return options;
+// }
+
+function wrapText(text, wordsPerLine = 3) {
+    const words = text.split(' ');
+    let lines = [];
+    for (let i = 0; i < words.length; i += wordsPerLine) {
+        lines.push(words.slice(i, i + wordsPerLine).join(' '));
+    }
+    return lines.join('<br>');
+}
+
 function determineStudentOptions(practical, equipament, pyp = null) {
     const options = {
         canPass: false,
@@ -3068,6 +2944,7 @@ function determineStudentOptions(practical, equipament, pyp = null) {
         needsScheduledResit: false,
         needsTraining: false,
         failedCompletely: false,
+        requiresRefresh: false, 
         passedModules: [],
         failedModules: [],
         resitModules: [],
@@ -3076,60 +2953,82 @@ function determineStudentOptions(practical, equipament, pyp = null) {
 
     if (!programRules) return options;
 
+    // 1. Definir módulos a evaluar
     const modules = [
-        { name: 'Practical', score: practical },
-        { name: 'Equipament', score: equipament }
+        { name: 'Practical', score: parseFloat(practical) || 0 },
+        { name: 'Equipament', score: parseFloat(equipament) || 0 }
     ];
 
     if (pyp !== null && projectAccreditingEntity === '2') {
-        modules.push({ name: 'P&P', score: pyp });
+        modules.push({ name: 'P&P', score: parseFloat(pyp) || 0 });
     }
 
-    modules.forEach(module => {
-        if (!module.score) return;
+    const totalModules = modules.length;
 
-        const score = parseFloat(module.score);
-
-        if (score >= programRules.MIN_PORCENTAJE_APROB) {
-            options.passedModules.push(module.name);
-        } else if (score >= programRules.MIN_PORCENTAJE_REPROB_RE && score <= programRules.MAX_PORCENTAJE_REPROB_RE) {
-            options.failedModules.push(module.name);
-            options.resitModules.push(module.name);
-            options.needsResit = true;
-
-            // ✅ CORREGIDO: OPCION_RESIT === 2 significa resit inmediato disponible
-            if (programRules.OPCION_RESIT === 2) {
-                options.needsImmediateResit = true;
-            } else if (programRules.OPCION_RESIT === 1) {
-                options.needsScheduledResit = true;
-                options.needsTraining = true;
+    // 2. Clasificar cada módulo
+    modules.forEach(m => {
+        // REGLA: Aprobación
+        if (m.score >= programRules.MIN_PORCENTAJE_APROB) {
+            options.passedModules.push(m.name);
+        } else {
+            options.failedModules.push(m.name);
+            
+            // REGLA: ¿Es apto para algún tipo de Resit?
+            // Primero verificamos el mínimo absoluto para Resit (MIN_PORCENTAJE_REPROB)
+            if (m.score >= programRules.MIN_PORCENTAJE_REPROB) {
+                options.resitModules.push(m.name);
             }
-        } else if (score < programRules.MIN_PORCENTAJE_REPROB_RE) {
-            options.failedModules.push(module.name);
-            options.needsScheduledResit = true;
-            options.needsTraining = true;
         }
     });
 
-    // Determinar resultado final
-    if (options.passedModules.length === modules.length) {
+    const passedCount = options.passedModules.length;
+    const failedCount = options.failedModules.length;
+
+    // 3. Lógica de Decisión Jerárquica
+    if (passedCount === totalModules) {
         options.canPass = true;
-        options.message = 'Aprobó todos los módulos';
-    } else if (options.failedModules.length === modules.length) {
-        options.failedCompletely = true;
-        options.message = 'Reprobó todos los módulos - No aplica para ' + getResitTerm();
-    } else if (options.needsResit) {
-        const resitTerm = getResitTerm();
-        if (options.needsImmediateResit) {
-            options.message = `Aplica para ${resitTerm} inmediato`;
-        } else if (options.needsScheduledResit && options.needsTraining) {
-            options.message = `Requiere entrenamiento adicional y ${resitTerm} programado en: ${options.resitModules.join(', ')}`;
+        options.message = wrapText('Aprobó todos los módulos');
+    }
+    // Para aplicar a RESIT: debe haber fallado exactamente 1 módulo y estar en rango
+    else if (failedCount === 1 && options.resitModules.length === 1) {
+        options.needsResit = true;
+        const targetModule = options.resitModules[0];
+        const targetScore = modules.find(m => m.name === targetModule).score;
+
+        // VALIDACIÓN: RESIT INMEDIATO (OPCION_RESIT == 2)
+        if (programRules.OPCION_RESIT == 2 && targetScore >= programRules.MIN_PORCENTAJE_REPROB_RE) {
+            options.needsImmediateResit = true;
+           msg = `Apto para RE-SIT Inmediato: ${targetModule}`;
+        } 
+        else {
+            // RESIT ESTÁNDAR (Programado)
+            options.needsScheduledResit = true;
+            options.needsTraining = true;
+            msg = `Apto para RE-SIT Programado: ${targetModule}`;
         }
+
+        // VALIDACIÓN: REFRESH (OPCION_REFRESH == 2)
+        if (programRules.OPCION_REFRESH == 2) {
+            options.requiresRefresh = true;
+            msg += ` Requiere RE-FRESH`;
+        }
+        options.message = wrapText(msg, 3);
+    } 
+    else {
+        // CASO: Falló más de uno o el puntaje es menor al mínimo de Resit
+        let failText = ``;
+        options.failedCompletely = true;
+        if (failedCount > 1) {
+            failText = `Reprobado: ${failedCount} módulos fallidos`;
+        } else {
+            failText = `Reprobado: Puntaje inferior al mínimo (${programRules.MIN_PORCENTAJE_REPROB}%)`;
+        }
+
+        options.message = wrapText(failText, 3);
     }
 
     return options;
 }
-
 function renderStudentRows(estudiantes, proyecto, ente, llevaComplementos, aplicaResitInmediato, aplicaRefresh, numIntentosPermitidos, rules) {
     const tbody = $('#edit-course-table tbody');
     const resitDates = calculateResitDates();

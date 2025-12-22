@@ -66,7 +66,8 @@ class Course extends Model
         'EXPIRATION',
         'ENABLE_NOTIFICATIONS',
         'EMAILS_SENT',
-        'COMPLEMENTS_JSON'
+        'COMPLEMENTS_JSON',
+        'LEVEL'
     ];
 
     public function candidate()

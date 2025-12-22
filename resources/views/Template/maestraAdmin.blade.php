@@ -771,8 +771,8 @@ use Illuminate\Support\Str;
 
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
 
     {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script> --}}
@@ -801,7 +801,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.43"></script>
+        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.44"></script>
     @endif
     @if(request()->is('roles'))
      <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

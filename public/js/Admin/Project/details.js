@@ -2020,19 +2020,28 @@ function loadTableCursoModal() {
 // ============================================
 // FUNCIONES DE RENDERIZADO POR SECCIÓN
 // ============================================
-function renderNivelColumn(candidato, proyecto) {
+function renderNivelColumn(candidato, proyecto, key) {
     const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
+    const nivelGuardado = candidato.LEVEL || null;
     let html = `<td><div class="levels-container">`;
 
     if (niveles.length === 0) {
         html += `<span class="text-muted">N/A</span>`;
-    } else if (niveles.length === 1) {
+    } else if(nivelGuardado){
+        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
+        if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
+        niveles.forEach(nivel => {
+            const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
+            html += `<option value="${nivel.id}" ${selected}>${nivel.nombre}</option>`;
+        });
+        html += `</select>`;
+    }else if (niveles.length === 1) {
         const unico = niveles[0];
-        html += `<select class="form-select form-select-sm level-select">
+        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">
             <option value="${unico.id}" selected>${unico.nombre}</option>
         </select>`;
     } else {
-        html += `<select class="form-select form-select-sm level-select">`;
+        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
         if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
         niveles.forEach(nivel => {
             const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
@@ -3140,7 +3149,7 @@ function renderStudentRows(estudiantes, proyecto, ente, llevaComplementos, aplic
         // --- Columnas Identidad ---
         tr += `<td class="text-center">${index + 1}</td>`;
         tr += `<td><strong>${candidato.LAST_NAME_PROJECT || ''} ${candidato.FIRST_NAME_PROJECT || ''}</strong></td>`;
-        tr += renderNivelColumn(candidato, proyecto);
+        tr += renderNivelColumn(candidato, proyecto, key);
         tr += renderBOPColumn(proyecto);
         tr += renderIdiomaColumn(proyecto);
 

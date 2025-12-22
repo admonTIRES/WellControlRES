@@ -348,7 +348,7 @@ case 2:
                 'PYP', 'PYP_PASS', 'STATUS', 'RESIT', 'INTENTOS', 'RESIT_MODULE',
                 'RESIT_INMEDIATO', 'RESIT_INMEDIATO_DATE', 'RESIT_INMEDIATO_SCORE', 'RESIT_INMEDIATO_STATUS',
                 'REFRESH', 'REFRESH_DATE', 'FINAL_STATUS', 'HAVE_CERTIFIED', 
-                'CERTIFICATE_NUMBER', 'EXPIRATION', 'ENABLE_NOTIFICATIONS', 'EMAILS_SENT'
+                'CERTIFICATE_NUMBER', 'EXPIRATION', 'ENABLE_NOTIFICATIONS', 'EMAILS_SENT', 'LEVEL'
             ];
 
             foreach ($fields as $field) {
@@ -1617,6 +1617,7 @@ case 2:
         'co.CERTIFIED',
         'co.CERTIFICATE_NUMBER', // Nuevo
         'co.EXPIRATION',
+        'co.LEVEL',
 
         // --- EXTRAS ---
         'co.ENABLE_NOTIFICATIONS', // Nuevo
@@ -1643,6 +1644,7 @@ foreach ($estudiantes as $estudiante) {
             'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
             'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
             'ACTIVO' => $estudiante->ACTIVO,
+            'LEVEL' => $estudiante->LEVEL,
             'ASISTENCIA' => $estudiante->ASISTENCIA // Global del candidato
         ],
         'datos_curso' => [

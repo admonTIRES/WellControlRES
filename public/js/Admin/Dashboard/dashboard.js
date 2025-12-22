@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM cargado, inicializando gráfica...');  
+    // console.log('DOM cargado, inicializando gráfica...');  
 
 });
 function showLoading() {
@@ -244,10 +244,10 @@ function renderCharts(datos) {
         document.getElementById('chartProyectosEmpresa').innerHTML = '<div class="alert alert-warning text-center">No hay datos por empresa</div>';
     }
 
-    console.log('Todas las gráficas de pastel renderizadas correctamente');
+    // console.log('Todas las gráficas de pastel renderizadas correctamente');
 }
 function actualizarDatos() {
-    console.log('Actualizando datos del dashboard...');
+    // console.log('Actualizando datos del dashboard...');
     showLoading();
     const periodType = document.getElementById('periodType').value;
     const chartType = document.getElementById('chartType').value;
@@ -322,7 +322,7 @@ function actualizarDatos() {
                 }
             });
 
-            console.log('Datos recibidos:', data);
+            // console.log('Datos recibidos:', data);
 
             chartDiv.innerHTML = '';
 
@@ -442,12 +442,12 @@ function setDefaultDateRange() {
     document.getElementById('endDate').value = today.toISOString().split('T')[0];
 }
 function updateTotals(totals) {
-    console.log('Totales recibidos:', totals);
+    // console.log('Totales recibidos:', totals);
     const totalGeneral = totals.total_general || 0;
     document.getElementById('totalProyectos').textContent = totalGeneral.toLocaleString();
 }
 function updateChart(data, chartType) {
-    console.log('Datos originales recibidos:', data);
+    // console.log('Datos originales recibidos:', data);
 
     const filteredData = data.filter(item => {
         return Object.keys(item).some(key => {
@@ -465,7 +465,7 @@ function updateChart(data, chartType) {
         return newItem;
     });
 
-    console.log('Datos filtrados:', filteredData);
+    // console.log('Datos filtrados:', filteredData);
 
     if (filteredData.length === 0) {
         document.getElementById('chartdiv').innerHTML = `
@@ -535,7 +535,7 @@ function updateChart(data, chartType) {
 
         try {
             xAxis.data.setAll(filteredData);
-            console.log('Datos asignados al eje X correctamente');
+            // console.log('Datos asignados al eje X correctamente');
         } catch (error) {
             console.error('Error al asignar datos al eje X:', error);
             throw error;
@@ -674,7 +674,7 @@ function updateChart(data, chartType) {
     });
 }
 async function loadChartData() {
-    console.log('Cargando datos del gráfico...');
+    // console.log('Cargando datos del gráfico...');
 
     const periodType = document.getElementById('periodType').value;
     const chartType = document.getElementById('chartType').value;
@@ -723,7 +723,7 @@ async function loadChartData() {
         const data = await response.json();
 
         if (data.success) {
-            console.log('Datos recibidos:', data);
+            // console.log('Datos recibidos:', data);
 
             chartDiv.innerHTML = '';
 
@@ -786,7 +786,7 @@ function getColors(count) {
     return [...palette, ...additionalColors];
 }
 function createXYChart(chartData, chartType) {
-    console.log('Creando gráfica XY:', chartType);
+    // console.log('Creando gráfica XY:', chartType);
 
     chart = am5.Root.new("chartdiv");
 
@@ -891,7 +891,7 @@ function createXYChart(chartData, chartType) {
     xyChart.appear(1000, 100);
 }
 function createPieChart(chartData) {
-    console.log('Creando gráfica circular');
+    // console.log('Creando gráfica circular');
 
     chart = am5.Root.new("chartdiv");
 
@@ -1128,7 +1128,7 @@ function generateResitTypesChart(estudiantes) {
         est.datos_curso.FINAL_STATUS === 'Unpass'
     );
 
-    console.log('Total estudiantes reprobados:', estudiantesReprobados.length);
+    // console.log('Total estudiantes reprobados:', estudiantesReprobados.length);
 
     const withResit = estudiantesReprobados.filter(est => {
         const tuvoResit = est.datos_curso.RESIT_INMEDIATO === '1' ||
@@ -1186,11 +1186,11 @@ function generateResitTypesChart(estudiantes) {
         return true;
     }).length;
 
-    console.log('Resultados (categorías mutuamente excluyentes):');
-    console.log('1. Con resit:', withResit);
-    console.log('2. Sin resit pero SÍ tuvieron oportunidad:', withoutResitButChance);
-    console.log('3. Sin oportunidad de resit:', withoutResitChance);
-    console.log('Total (debe ser 24):', withResit + withoutResitButChance + withoutResitChance);
+    // console.log('Resultados (categorías mutuamente excluyentes):');
+    // console.log('1. Con resit:', withResit);
+    // console.log('2. Sin resit pero SÍ tuvieron oportunidad:', withoutResitButChance);
+    // console.log('3. Sin oportunidad de resit:', withoutResitChance);
+    // console.log('Total):', withResit + withoutResitButChance + withoutResitChance);
 
     const totalCalculado = withResit + withoutResitButChance + withoutResitChance;
     if (totalCalculado !== estudiantesReprobados.length) {
@@ -1482,13 +1482,13 @@ function setDefaultDateRangeStacked() {
 }
 
 function updateTotalsStacked(totals) {
-    console.log('Totales recibidos (apilada):', totals);
+    // console.log('Totales recibidos (apilada):', totals);
     const totalGeneral = totals.total_general || 0;
     document.getElementById('totalGeneralStacked').textContent = totalGeneral.toLocaleString();
 }
 
 function updateStackedChart(data) {
-    console.log('Datos originales recibidos (apilada):', data);
+    // console.log('Datos originales recibidos (apilada):', data);
     
     const allAcreditadores = new Set();
     data.forEach(item => {
@@ -1507,7 +1507,7 @@ function updateStackedChart(data) {
         return newItem;
     });
 
-    console.log('Datos procesados (apilada):', processedData);
+    // console.log('Datos procesados (apilada):', processedData);
 
     if (processedData.length === 0) {
         document.getElementById('chartdivStacked').innerHTML = `
@@ -1564,7 +1564,7 @@ function updateStackedChart(data) {
 
         try {
             xAxis.data.setAll(processedData);
-            console.log('Datos asignados al eje X correctamente (apilada)');
+            // console.log('Datos asignados al eje X correctamente (apilada)');
         } catch (error) {
             console.error('Error al asignar datos al eje X (apilada):', error);
             throw error;
@@ -1669,7 +1669,7 @@ function updateStackedChart(data) {
 }
 
 async function loadStackedChartData() {
-    console.log('Cargando datos del gráfico apilado...');
+    // console.log('Cargando datos del gráfico apilado...');
     
     const periodType = document.getElementById('periodType').value;
 
@@ -1717,7 +1717,7 @@ async function loadStackedChartData() {
         const data = await response.json();
 
         if (data.success) {
-            console.log('Datos recibidos (apilada):', data);
+            // console.log('Datos recibidos (apilada):', data);
             
             chartDiv.innerHTML = '';
             
@@ -1750,21 +1750,16 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentEstudiantesChart = null;
 const estudiantesColors = {};
 function processCandidateData(data) {
-    console.log('Procesando datos de candidatos:', data);
+    // console.log('Procesando datos de candidatos:', data);
     
-    // Inicializar contadores para cada categoría
     const categories = {
-        // Candidatos con FAILED en FINAL_STATUS
         'No tuvieron oportunidad de re-sit': 0,
         'No presentaron re-sit': 0,
         'Fallaron el re-sit': 0,
-        
-        // Candidatos con PASS en FINAL_STATUS
         'Aprobados sin fallas': 0,
         'Aprobados con resit': 0
     };
     
-    // Procesar cada candidato
     data.forEach(candidate => {
         const equipPass = candidate.equipo_pass?.toUpperCase() || '';
         const pypPass = candidate.py_pass?.toUpperCase() || '';
@@ -1773,52 +1768,44 @@ function processCandidateData(data) {
         const finalStatus = candidate.final_status?.toUpperCase() || '';
         
         if (finalStatus === 'FAILED') {
-            // Verificar si es "No tuvieron oportunidad de re-sit"
             if (equipPass === 'FAILED' && pypPass === 'FAILED') {
                 categories['No tuvieron oportunidad de re-sit']++;
             }
-            // Verificar si es "No presentaron re-sit"
             else if (
                 (equipPass === 'FAILED' || pypPass === 'FAILED') &&
                 !resitInmediato && !resitProgramado
             ) {
                 categories['No presentaron re-sit']++;
             }
-            // Verificar si es "Fallaron el re-sit"
             else if (resitInmediato === 'FAILED' || resitProgramado === 'FAILED') {
                 categories['Fallaron el re-sit']++;
             }
-            // Cualquier otro FAILED
             else {
                 categories['No presentaron re-sit']++;
             }
         }
         else if (finalStatus === 'PASS') {
-            // Verificar si es "Aprobados sin fallas"
             if (equipPass === 'PASS' && pypPass === 'PASS') {
                 categories['Aprobados sin fallas']++;
             }
-            // Verificar si es "Aprobados con resit"
             else if (
                 (equipPass === 'FAILED' || pypPass === 'FAILED') ||
                 (resitInmediato === 'PASS' || resitProgramado === 'PASS')
             ) {
                 categories['Aprobados con resit']++;
             }
-            // Cualquier otro PASS
             else {
                 categories['Aprobados sin fallas']++;
             }
         }
     });
     
-    // Crear estructura de datos para el gráfico
     const processedData = [{
         period: 'Candidatos',
         ...categories
     }];
     
-    console.log('Datos procesados:', processedData);
+    // console.log('Datos procesados:', processedData);
     
     return {
         data: processedData,
@@ -1828,7 +1815,7 @@ function processCandidateData(data) {
     };
 }
 function processEstudiantesAprobData(data) {
-    console.log('Procesando datos para gráfica de Estudiantes Aprobados:', data);
+    // console.log('Procesando datos para gráfica de Estudiantes Aprobados:', data);
     
     const categoriasAprobados = {
         'Aprobados en primera oportunidad': 0,
@@ -1870,7 +1857,7 @@ function processEstudiantesAprobData(data) {
         ...categoriasAprobados
     }];
     
-    console.log('Datos procesados para Estudiantes Aprobados:', processedData);
+    // console.log('Datos procesados para Estudiantes Aprobados:', processedData);
     
     return {
         data: processedData,

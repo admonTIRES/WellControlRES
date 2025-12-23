@@ -316,79 +316,63 @@ Route::middleware(['auth'])->group(function () {
             'nota' => 'Se traen programas que esten activas en el catálogo'
         ]);
     });
-    Route::get('/obtener-datos-centro', function (Request $request) {
-        $centroId = $request->get('centro_id');
+   Route::get('/obtener-datos-centro', function (Request $request) {
+    $centroId = $request->get('centro_id');
 
-        if (!$centroId) {
-            return response()->json([
-                'success' => false,
-                'message' => 'ID de centro no proporcionado'
-            ]);
-        }
+    if (!$centroId) {
+        return response()->json(['success' => false, 'message' => 'ID no proporcionado']);
+    }
 
-        $centro = CentrosCapacitacion::find($centroId);
+    $centro = CentrosCapacitacion::find($centroId);
+    if (!$centro) {
+        return response()->json(['success' => false, 'message' => 'Centro no encontrado']);
+    }
 
-        if (!$centro) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Centro no encontrado'
-            ]);
-        }
-
-        // Procesar contactos del campo JSON
+    // Función auxiliar para procesar los contactos JSON
+    $getContactos = function($centroModel) {
         $contactos = [];
-        if (!empty($centro->CONTACTOS_CENTRO)) {
-            \Log::info('CONTACTOS_CENTRO raw: ' . $centro->CONTACTOS_CENTRO);
-            try {
-                // Si es un string JSON, decodificarlo
-                if (is_string($centro->CONTACTOS_CENTRO)) {
-                    $contactosData = json_decode($centro->CONTACTOS_CENTRO, true);
-                    \Log::info('CONTACTOS_CENTRO decoded: ', $contactosData);
-                } else {
-                    $contactosData = $centro->CONTACTOS_CENTRO;
-                }
+        $data = is_string($centroModel->CONTACTOS_CENTRO) 
+                ? json_decode($centroModel->CONTACTOS_CENTRO, true) 
+                : $centroModel->CONTACTOS_CENTRO;
 
-                // Si es un array de contactos
-                if (is_array($contactosData)) {
-                    foreach ($contactosData as $contacto) {
-                        if (is_array($contacto)) {
-                            $contactos[] = [
-                                'nombre' => $contacto['NOMBRE'] ?? '',
-                                'cargo' => $contacto['CARGO'] ?? '',
-                                'email' => $contacto['EMAIL'] ?? '',
-                                'celular' => $contacto['CELULAR'] ?? '',
-                                'fijo' => $contacto['FIJO'] ?? ''
-                            ];
-                        }
-                    }
-                }
-            } catch (\Exception $e) {
-                \Log::error('Error al procesar contactos_centro: ' . $e->getMessage());
+        if (is_array($data)) {
+            foreach ($data as $c) {
+                $contactos[] = [
+                    'nombre' => $c['NOMBRE'] ?? '',
+                    'cargo'  => $c['CARGO'] ?? '',
+                    'email'  => $c['EMAIL'] ?? '',
+                    'celular'=> $c['CELULAR'] ?? '',
+                    'fijo'   => $c['FIJO'] ?? ''
+                ];
             }
         }
+        return $contactos;
+    };
 
-        $ubicacionId = $centro->UBICACION_CENTRO;
-        $ubicacionModel = Ubicaciones::find($ubicacionId);
-        if ($ubicacionModel) {
-            $ubicacion = $ubicacionModel->LUGAR_UBICACION . ' - ' . $ubicacionModel->CIUDAD_UBICACION;
-        } else {
-            $ubicacion = 'Ubicación no encontrada';
+    $respuesta = [
+        'success' => true,
+        'tipo' => ($centro->TIPO_CENTRO == 1) ? 'asociado' : 'primario',
+        'centro_solicitado' => [
+            'nombre' => $centro->NOMBRE_COMERCIAL_CENTRO,
+            'numero' => $centro->NUMERO_CENTRO,
+            'contactos' => $getContactos($centro)
+        ]
+    ];
+
+    // Si es ASOCIADO (Tipo 1), buscamos el primario
+    if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
+        $primario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
+        if ($primario) {
+            $respuesta['centro_primario'] = [
+                'nombre' => $primario->NOMBRE_COMERCIAL_CENTRO,
+                'numero' => $primario->NUMERO_CENTRO,
+                'contactos' => $getContactos($primario)
+            ];
         }
+    }
 
-
-        \Log::info('Contactos final: ', $contactos);
-
-        return response()->json([
-            'success' => true,
-            'centro' => [
-                'id' => $centro->ID_CATALOGO_CENTRO,
-                'nombre_comercial' => $centro->NOMBRE_COMERCIAL_CENTRO,
-                'numero_centro' => $centro->NUMERO_CENTRO, // Ajusta según tu BD
-                'contactos' => $contactos
-            ],
-            'ubicacion' => $ubicacion
-        ]);
-    });
+    return response()->json($respuesta);
+});
 });
 
 

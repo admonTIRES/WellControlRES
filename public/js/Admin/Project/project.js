@@ -1481,47 +1481,113 @@ function cargarDatosCentro(centroId) {
     limpiarCamposCentro();
     limpiarListaContactos();
 
-    if (!centroId || centroId === '') {
-        return;
-    }
+    if (!centroId) return;
 
     $('#CENTER_NUMBER_PROJECT').val('Cargando...');
-    mostrarLoadingContactos();
 
     $.ajax({
         url: '/obtener-datos-centro',
         type: 'GET',
-        data: {
-            centro_id: centroId
-        },
-        timeout: 10000,
+        data: { centro_id: centroId },
         success: function (response) {
-            if (response.success && response.centro) {
-                $('#CENTER_NUMBER_PROJECT').val(response.centro.numero_centro || 'No disponible');
+            if (response.success) {
+                const solicitado = response.centro_solicitado;
+                $('#CENTER_NUMBER_PROJECT').val(solicitado.numero || 'No disponible');
 
-                if (response.centro.contactos && response.centro.contactos.length > 0) {
-                    mostrarContactos(response.centro.contactos, response.ubicacion);
-                } else {
-                    mostrarSinContactos();
+                let htmlFinal = '';
+
+                // 1. Si es asociado, mostrar datos del Primario primero
+                if (response.tipo === 'asociado' && response.centro_primario) {
+                    htmlFinal += `
+                        <div class="alert alert-info py-2 mb-3">
+                            <i class="fas fa-link me-2"></i> 
+                            <b>Centro Asociado:</b> Este centro está asociado a <u>${response.centro_primario.nombre}</u>
+                        </div>`;
+                    
+                    htmlFinal += generarTablaHTML(
+                        response.centro_primario.contactos, 
+                        `Centro primario: ${response.centro_primario.nombre}`, 
+                        'badge-primary'
+                    );
                 }
+
+                // 2. Mostrar datos del centro seleccionado (el que el usuario eligió)
+                const tituloSolicitado = (response.tipo === 'asociado') 
+                    ? `Centro asociado: ${solicitado.nombre}` 
+                    : `Centro primario: ${solicitado.nombre}`;
+
+                htmlFinal += generarTablaHTML(
+                    solicitado.contactos, 
+                    tituloSolicitado, 
+                    'badge-secondary'
+                );
+
+                $('#contactos-container').html(htmlFinal);
             } else {
-                $('#CENTER_NUMBER_PROJECT').val('Error al cargar datos');
+                $('#CENTER_NUMBER_PROJECT').val('Error');
                 mostrarErrorContactos();
             }
-        },
-        error: function (xhr, status, error) {
-            $('#CENTER_NUMBER_PROJECT').val('Error de conexión');
-            mostrarErrorContactos();
-            console.error('Error al cargar datos del centro:', error);
         }
     });
+}
+
+function generarTablaHTML(contactos, titulo, badgeClass) {
+    let tablaHtml = '';
+    
+    // Encabezado con el Nombre del Centro
+    tablaHtml += `
+        <div class="mt-4 mb-2">
+            <h6 class="d-flex align-items-center border-bottom pb-2">
+                <span class="badge ${badgeClass} me-2 font-weight-bold">Centro</span>
+                <span class="text-uppercase" style="letter-spacing: 0.5px;">${titulo}</span>
+            </h6>
+        </div>`;
+
+    if (!contactos || contactos.length === 0) {
+        tablaHtml += `
+            <div class="alert alert-light border small text-muted">
+                <i class="fas fa-info-circle me-1"></i> No hay contactos registrados para este centro.
+            </div>`;
+    } else {
+        let rows = contactos.map(c => `
+            <tr>
+                <td class="fw-bold text-dark">${c.nombre || 'N/A'}</td>
+                <td><span class="badge bg-light text-dark border">${c.cargo || 'N/A'}</span></td>
+                <td>
+                    ${c.email ? `<a href="mailto:${c.email}" class="text-decoration-none"><i class="fas fa-envelope me-1"></i>${c.email}</a>` : 'N/A'}
+                </td>
+                <td>
+                    ${c.celular ? `<a href="tel:${c.celular}" class="text-decoration-none"><i class="fas fa-mobile-alt me-1"></i>${c.celular}</a>` : 'N/A'}
+                </td>
+                <td>${c.fijo || 'N/A'}</td>
+            </tr>
+        `).join('');
+
+        tablaHtml += `
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-bordered shadow-sm">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                            <th>Fijo</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>`;
+    }
+
+    return tablaHtml;
 }
 function mostrarContactos(contactos, ubicacion = null) {
     const $contactosContainer = $('#contactos-container');
 
     let html = `
         <div class="mt-3">
-            <h6 class="text-primary"><i class="fas fa-users me-2"></i>Contactos del Centro:</h6>
+            <h6><i class="fas fa-users me-2"></i>Contactos del Centro:</h6>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered table-hover">
                     <thead class="table-light">

@@ -271,7 +271,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             data: 'datos_curso',
             render: function (data) {
                 const finalStatus = data.FINAL_STATUS || '';
-                const statusText = finalStatus === 'Unpass' || finalStatus === 'FAIL' ? 'No Aprobado' : 
+                const statusText = finalStatus === 'Unpass' || finalStatus === 'FAIL' ? 'Reprobado' : 
                                   (finalStatus === 'Pass' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
                 const badgeClass = (finalStatus === 'Pass' || finalStatus === 'PASS') ? 'badge-success' : 
                                   ((finalStatus === 'Unpass' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
@@ -436,7 +436,7 @@ function renderStatusBadge(status) {
             break;
         case 'Failed':
             badgeClass = 'badge-danger';
-            statusText = 'Fallido';
+            statusText = 'Reprobado';
             break;
         default:
             badgeClass = 'badge-secondary';

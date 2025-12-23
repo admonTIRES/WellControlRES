@@ -33,8 +33,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use Illuminate\Support\Facades\Storage;
 
-
-
 class ProjectManagementController extends Controller
 {
 
@@ -2441,12 +2439,12 @@ class ProjectManagementController extends Controller
     public function tablaEstudiantesGeneral()
     {
         try {
+            $hoy = Carbon::now()->startOfDay();
             $estudiantes = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
                 ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
-                // --- NUEVA RELACIÓN CON CLIENTES ---
                 ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
-                // ------------------------------------
+                ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
                 ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
                 ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
                 ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
@@ -2468,6 +2466,7 @@ class ProjectManagementController extends Controller
                     'p.ID_PROJECT as proyecto_id',
                     'p.FOLIO_PROJECT',
                     'p.ACCREDITATION_LEVELS_PROJECT',
+                    'p.EXAM_DATE_PROJECT',
                     'p.BOP_TYPES_PROJECT',
                     'p.CONTACT_NAME_PROJEC',
                     'p.CONTACT_PHONE_PROJECT',
@@ -2480,6 +2479,8 @@ class ProjectManagementController extends Controller
                     'to.NOMBRE_OPERACION as tipo_operacion',
                     'ie.NOMBRE_IDIOMA as idioma',
                     'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
+
+                    'prog.PERIODO_RESIT',
 
                     'co.ID_COURSE as curso_id',
                     'co.PRACTICAL',
@@ -2599,6 +2600,34 @@ class ProjectManagementController extends Controller
                 $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
                 $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
 
+               $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
+            
+            // 2. Prioridad Media: Si pasó algún RESIT
+            $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
+
+            // 3. Verificación de Vencimiento de Resit
+            $resitVencido = false;
+            if (!empty($e->EXAM_DATE_PROJECT) && !is_null($e->PERIODO_RESIT)) {
+                $fechaVencimiento = Carbon::parse($e->EXAM_DATE_PROJECT)->addDays((int)$e->PERIODO_RESIT);
+                if ($hoy->greaterThan($fechaVencimiento)) {
+                    $resitVencido = true;
+                }
+            }
+
+            // 4. DETERMINACIÓN DEL ESTATUS FINAL
+            $currentStatus = $e->STATUS;
+            $currentFinalStatus = $e->FINAL_STATUS;
+
+            if ($yaAprobadoPorCertificado || $pasoResit) {
+                // Si ya tiene certificado o pasó el resit, es APROBADO sin importar la fecha
+                $currentStatus = 'Completed';
+                $currentFinalStatus = 'Completed';
+            } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
+                // Si no ha pasado resit, no tiene certificado Y el tiempo expiró
+                $currentStatus = 'Failed';
+                $currentFinalStatus = 'Failed';
+            }
+
                 $misNiveles = [];
 
                 // --- LÓGICA DE PRIORIDAD PARA NIVELES ---
@@ -2662,7 +2691,7 @@ class ProjectManagementController extends Controller
                         'EQUIPAMENT_PASS' => $e->EQUIPAMENT_PASS,
                         'PYP' => $e->PYP,
                         'PYP_PASS' => $e->PYP_PASS,
-                        'STATUS' => $e->STATUS,
+                        'STATUS' => $currentStatus,
                         'RESIT' => $e->RESIT,
                         'INTENTOS' => $e->INTENTOS,
                         'RESIT_MODULE' => $e->RESIT_MODULE,
@@ -2676,7 +2705,7 @@ class ProjectManagementController extends Controller
                         'RESIT_PROGRAMADO_DATE' => $e->RESIT_PROGRAMADO_DATE,
                         'RESIT_PROGRAMADO_SCORE' => $e->RESIT_PROGRAMADO_SCORE,
                         'RESIT_PROGRAMADO_STATUS' => $e->RESIT_PROGRAMADO_STATUS,
-                        'FINAL_STATUS' => $e->FINAL_STATUS,
+                        'FINAL_STATUS' => $currentFinalStatus,
                         'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
                         'CERTIFIED' => $e->CERTIFIED,
                         'EXPIRATION' => $e->EXPIRATION

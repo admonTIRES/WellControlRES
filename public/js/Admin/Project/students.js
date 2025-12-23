@@ -124,24 +124,35 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             width: "150px"
         },
         {
-            data: 'candidato',
-            render: function (data) {
-                const asistio = data.ASISTENCIA !== '0' && data.ASISTENCIA !== 0;
-                const badgeClass = asistio ? 'badge-success' : 'badge-danger';
-                const text = asistio ? 'Asistió' : 'No asistió';
+    data: 'candidato',
+    render: function (data) {
+        // El texto ya viene procesado desde PHP: "Asistió", "Desertó" o "No Asistió"
+        const estadoAsistencia = data.ASISTENCIA || 'No DATA'; 
+        const detalleAsistencias = data.ASISTENCIAS_DETALLE || '0/0';
+        
+        let badgeClass = '';
+        let iconClass = '';
 
-                let motivo = '';
-                if (!asistio && data.MOTIVO) {
-                    motivo = `<small class="text-danger d-block mt-1">${data.MOTIVO}</small>`;
-                }
+        if (estadoAsistencia === 'Asistió') {
+            badgeClass = 'badge-success';
+            iconClass = 'fas fa-check-circle';
+        } else if (estadoAsistencia === 'Desertó') {
+            badgeClass = 'badge-warning';
+            iconClass = 'fas fa-exclamation-triangle';
+        } else { // No Asistió
+            badgeClass = 'badge-danger';
+            iconClass = 'fas fa-times-circle';
+        }
 
-                return `<div class="attendance-cell">
-                    <span class="badge ${badgeClass}">${text}</span>
-                    ${motivo}
-                </div>`;
-            },
-            width: "150px"
-        },
+        return `<div class="attendance-cell">
+            <span class="badge ${badgeClass}">
+                <i class="${iconClass}"></i> ${estadoAsistencia}
+            </span>
+            <small class="text-muted d-block mt-1">${detalleAsistencias}</small>
+        </div>`;
+    },
+    width: "150px"
+},
 
         // CALIFICACIONES PRINCIPALES
         {

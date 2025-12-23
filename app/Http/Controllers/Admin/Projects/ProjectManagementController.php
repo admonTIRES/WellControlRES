@@ -2458,7 +2458,7 @@ class ProjectManagementController extends Controller
                     'c.EMAIL_PROJECT',
                     'c.ACTIVO',
                     'c.ID_PROJECT',
-                    'c.ASISTENCIA',
+                    'c.ASISTENCIAS',
                     'c.COMPANY_PROJECT',
                     'c.COMPANY_ID_PROJECT', // ID original por si lo necesitas
                     'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT', // ALIAS SOLICITADO
@@ -2609,12 +2609,46 @@ class ProjectManagementController extends Controller
                 }
             }
 
+
             $estudiantesFormateados = [];
 
             foreach ($estudiantes as $e) {
                 $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
                 $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
 
+               $asistenciasJson = $e->ASISTENCIAS;
+$totalDias = 0;
+$diasAsistidos = 0;
+$textoAsistencia = 'No Asistió'; // Valor por defecto
+
+if (!empty($asistenciasJson)) {
+    // Intentar decodificar
+    $decodedAsistencias = json_decode($asistenciasJson, true);
+
+    // Si el resultado sigue siendo un string, decodificar de nuevo (limpieza de doble serialización)
+    if (is_string($decodedAsistencias)) {
+        $decodedAsistencias = json_decode($decodedAsistencias, true);
+    }
+
+    if (is_array($decodedAsistencias) && count($decodedAsistencias) > 0) {
+        $totalDias = count($decodedAsistencias);
+        foreach ($decodedAsistencias as $fecha => $asistio) {
+            // Validamos contra 1 o true
+            if ($asistio == 1 || $asistio === true || $asistio === '1') {
+                $diasAsistidos++;
+            }
+        }
+
+        // Aplicar reglas de negocio corregidas
+        if ($diasAsistidos === $totalDias) {
+            $textoAsistencia = 'Asistió';
+        } elseif ($diasAsistidos > 0) {
+            $textoAsistencia = 'Desertó';
+        } else {
+            $textoAsistencia = 'No Asistió';
+        }
+    }
+}
                 $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
 
                 $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
@@ -2734,6 +2768,14 @@ class ProjectManagementController extends Controller
                     }
                 }
 
+                if ($textoAsistencia === 'Desertó') {
+                    $currentStatus = 'Desertó';
+                    $currentFinalStatus = 'Desertó';
+                } elseif ($textoAsistencia === 'No Asistió') {
+                    $currentStatus = 'No Asistió';
+                    $currentFinalStatus = 'No Asistió';
+                }
+
 
                 $estudiantesFormateados[] = [
                     'curso_id' => $e->curso_id,
@@ -2745,7 +2787,9 @@ class ProjectManagementController extends Controller
                         'EMAIL_PROJECT' => $e->EMAIL_PROJECT,
                         'ACTIVO' => $e->ACTIVO,
                         'ID_PROJECT' => $e->ID_PROJECT,
-                        'ASISTENCIA' => $e->ASISTENCIA,
+                        'ASISTENCIAS' => $e->ASISTENCIAS,
+                        'ASISTENCIA' => $textoAsistencia, // ← "Asistió", "Desertó" o "No Asistió"
+                        'ASISTENCIAS_DETALLE' => $diasAsistidos . '/' . $totalDias,
                         'COMPANY_PROJECT' => $e->COMPANY_PROJECT,
                         'COMPANY_NAME_PROJECT' => $e->COMPANY_NAME_PROJECT ?? 'N/A'
                     ],

@@ -2621,10 +2621,19 @@ class ProjectManagementController extends Controller
                 $califPractico = $e->PRACTICAL;
                 $califEQ = $e->EQUIPAMENT;
                 $califPYP    = $e->PYP;
+                $califResitInmediato  = $e->RESIT_INMEDIATO_SCORE;
                 $ente = $e->ACCREDITING_ENTITY_PROJECT;
                 $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
 
+                $practicoAprob = $califPractico>=$califMinAprob ? 'Pass' : 'Unpass';
+                $eqAprob = $califEQ>=$califMinAprob ? 'Pass' : 'Unpass';
+                $pypAprob = $califPYP>=$califMinAprob ? 'Pass' : 'Unpass';
+                $resitAprob = $califResitInmediato>=$califMinAprob ? 'Pass' : 'Unpass';
+
+
                 $currentStatus = 'Pendiente';
+                $currentFinalStatus = 'Pendiente';
+
                 switch ($ente) {
                     case 1://iadc
                         if ($califPractico>=$califMinAprob && $califEQ>=$califMinAprob) {
@@ -2634,6 +2643,8 @@ class ProjectManagementController extends Controller
                             $currentStatus = 'Failed';
                             if($yaAprobadoPorCertificado || $pasoResit){
                                 $currentFinalStatus = 'Completed';
+                            }else{
+                                $currentFinalStatus = 'Failed';
                             }
                         }
                         break;
@@ -2643,20 +2654,24 @@ class ProjectManagementController extends Controller
                             $currentFinalStatus = 'Completed';
                         }else{
                             $currentStatus = 'Failed';
+                            if($yaAprobadoPorCertificado || $pasoResit){
+                                $currentFinalStatus = 'Completed';
+                            }else{
+                                $currentFinalStatus = 'Failed';
+                            }
                         }
                         break;
                     default:
                         break;
                 }
 
-                    $currentFinalStatus = 'Pendiente';
 
-                if ($yaAprobadoPorCertificado || $pasoResit) {
-                    $currentFinalStatus = 'Completed';
-                } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
-                    $currentStatus = 'Failed';
-                    $currentFinalStatus = 'Failed';
-                }
+                // if ($yaAprobadoPorCertificado || $pasoResit) {
+                //     $currentFinalStatus = 'Completed';
+                // } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
+                //     $currentStatus = 'Failed';
+                //     $currentFinalStatus = 'Failed';
+                // }
 
                 $misNiveles = [];
 
@@ -2713,11 +2728,11 @@ class ProjectManagementController extends Controller
                     ],
                     'datos_curso' => [
                         'PRACTICAL' => $e->PRACTICAL,
-                        'PRACTICAL_PASS' => $e->PRACTICAL_PASS,
+                        'PRACTICAL_PASS' => $practicoAprob,
                         'EQUIPAMENT' => $e->EQUIPAMENT,
-                        'EQUIPAMENT_PASS' => $e->EQUIPAMENT_PASS,
+                        'EQUIPAMENT_PASS' => $eqAprob,
                         'PYP' => $e->PYP,
-                        'PYP_PASS' => $e->PYP_PASS,
+                        'PYP_PASS' => $pypAprob,
                         'STATUS' => $currentStatus,
                         'RESIT' => $e->RESIT,
                         'INTENTOS' => $e->INTENTOS,
@@ -2725,7 +2740,7 @@ class ProjectManagementController extends Controller
                         'RESIT_INMEDIATO' => $e->RESIT_INMEDIATO,
                         'RESIT_INMEDIATO_DATE' => $e->RESIT_INMEDIATO_DATE,
                         'RESIT_INMEDIATO_SCORE' => $e->RESIT_INMEDIATO_SCORE,
-                        'RESIT_INMEDIATO_STATUS' => $e->RESIT_INMEDIATO_STATUS,
+                        'RESIT_INMEDIATO_STATUS' => $resitAprob,
                         'RESIT_PROGRAMADO' => $e->RESIT_PROGRAMADO,
                         'RESIT_ENTRENAMIENTO' => $e->RESIT_ENTRENAMIENTO,
                         'RESIT_FOLIO_PROYECTO' => $e->RESIT_FOLIO_PROYECTO,

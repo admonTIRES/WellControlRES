@@ -2501,6 +2501,18 @@ class ProjectManagementController extends Controller
                     'co.RESIT_INMEDIATO_SCORE',
                     'co.RESIT_INMEDIATO_STATUS',
                     'co.RESIT_PROGRAMADO',
+                    'co.RESIT_1',
+                    'co.RESIT_1_DATE',
+                    'co.RESIT_1_SCORE',
+                    'co.RESIT_1_STATUS',
+                    'co.RESIT_2',
+                    'co.RESIT_2_DATE',
+                    'co.RESIT_2_STATUS',
+                    'co.RESIT_2_SCORE',
+                    'co.RESIT_3',
+                    'co.RESIT_3_DATE',
+                    'co.RESIT_3_STATUS',
+                    'co.RESIT_3_SCORE',
                     'co.RESIT_ENTRENAMIENTO',
                     'co.RESIT_FOLIO_PROYECTO',
                     'co.RESIT_PROGRAMADO_DATE',
@@ -2625,38 +2637,38 @@ class ProjectManagementController extends Controller
                 $ente = $e->ACCREDITING_ENTITY_PROJECT;
                 $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
 
-                $practicoAprob = $califPractico>=$califMinAprob ? 'Pass' : 'Unpass';
-                $eqAprob = $califEQ>=$califMinAprob ? 'Pass' : 'Unpass';
-                $pypAprob = $califPYP>=$califMinAprob ? 'Pass' : 'Unpass';
-                $resitAprob = $califResitInmediato>=$califMinAprob ? 'Pass' : 'Unpass';
+                $practicoAprob = $califPractico >= $califMinAprob ? 'Pass' : 'Unpass';
+                $eqAprob = $califEQ >= $califMinAprob ? 'Pass' : 'Unpass';
+                $pypAprob = $califPYP >= $califMinAprob ? 'Pass' : 'Unpass';
+                $resitAprob = $califResitInmediato >= $califMinAprob ? 'Pass' : 'Unpass';
 
 
                 $currentStatus = 'Pendiente';
                 $currentFinalStatus = 'Pendiente';
 
                 switch ($ente) {
-                    case 1://iadc
-                        if ($califPractico>=$califMinAprob && $califEQ>=$califMinAprob) {
+                    case 1: //iadc
+                        if ($califPractico >= $califMinAprob && $califEQ >= $califMinAprob) {
                             $currentStatus = 'Completed';
                             $currentFinalStatus = 'Completed';
-                        }else{
+                        } else {
                             $currentStatus = 'Failed';
-                            if($yaAprobadoPorCertificado || $pasoResit){
+                            if ($yaAprobadoPorCertificado || $pasoResit) {
                                 $currentFinalStatus = 'Completed';
-                            }else{
+                            } else {
                                 $currentFinalStatus = 'Failed';
                             }
                         }
                         break;
-                    case 2://iwcf
-                        if ($califPractico>=$califMinAprob && $califEQ>=$califMinAprob && $califPYP>=$califMinAprob) {
+                    case 2: //iwcf
+                        if ($califPractico >= $califMinAprob && $califEQ >= $califMinAprob && $califPYP >= $califMinAprob) {
                             $currentStatus = 'Completed';
                             $currentFinalStatus = 'Completed';
-                        }else{
+                        } else {
                             $currentStatus = 'Failed';
-                            if($yaAprobadoPorCertificado || $pasoResit){
+                            if ($yaAprobadoPorCertificado || $pasoResit) {
                                 $currentFinalStatus = 'Completed';
-                            }else{
+                            } else {
                                 $currentFinalStatus = 'Failed';
                             }
                         }
@@ -2696,6 +2708,32 @@ class ProjectManagementController extends Controller
                         }
                     }
                 }
+                $resitProgramados = [];
+                $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
+
+                if (!empty($e->RESIT_PROGRAMADO_SCORE) || $e->RESIT_PROGRAMADO_SCORE === "0" || $e->RESIT_PROGRAMADO_SCORE === 0) {
+                    $scoreP = (float)$e->RESIT_PROGRAMADO_SCORE;
+                    $resitProgramados[] = [
+                        'score'  => $scoreP,
+                        'status' => $scoreP >= $califMinAprob ? 'Aprobado' : 'Reprobado',
+                        'date'   => !empty($e->RESIT_PROGRAMADO_DATE) ? \Carbon\Carbon::parse($e->RESIT_PROGRAMADO_DATE)->format('d/m/Y') : null
+                    ];
+                }
+
+                for ($i = 1; $i <= 3; $i++) {
+                    $campoScore = "RESIT_{$i}_SCORE";
+                    $campoDate  = "RESIT_{$i}_DATE";
+
+                    if (!empty($e->$campoScore) || $e->$campoScore === "0" || $e->$campoScore === 0) {
+                        $scoreR = (float)$e->$campoScore;
+                        $resitProgramados[] = [
+                            'score'  => $scoreR,
+                            'status' => $scoreR >= $califMinAprob ? 'Aprobado' : 'Reprobado',
+                            'date'   => !empty($e->$campoDate) ? \Carbon\Carbon::parse($e->$campoDate)->format('d/m/Y') : null
+                        ];
+                    }
+                }
+
 
                 $estudiantesFormateados[] = [
                     'curso_id' => $e->curso_id,
@@ -2751,7 +2789,8 @@ class ProjectManagementController extends Controller
                         'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
                         'CERTIFIED' => $e->CERTIFIED,
                         'CERTIFICATE_NUMBER' => $e->CERTIFICATE_NUMBER,
-                        'EXPIRATION' => $e->EXPIRATION
+                        'EXPIRATION' => $e->EXPIRATION,
+                        'HISTORIAL_PROGRAMADOS' => $resitProgramados
                     ]
                 ];
             }

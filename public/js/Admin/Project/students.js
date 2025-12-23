@@ -22,7 +22,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
     autoWidth: false,
     fixedHeader: false,
     ajax: {
-        dataType: 'json', 
+        dataType: 'json',
         method: 'GET',
         cache: false,
         url: '/tablaEstudiantesGeneral',
@@ -31,9 +31,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         },
         complete: function () {
             projectCourseDatatable.columns.adjust().draw();
-            
+
             // Forzar alineación después de cargar
-            setTimeout(function() {
+            setTimeout(function () {
                 projectCourseDatatable.columns.adjust();
             }, 100);
             // ocultarCarga();
@@ -64,7 +64,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "200px"
         },
-        
+
         // INFORMACIÓN DEL PROYECTO
         {
             data: 'proyecto',
@@ -75,7 +75,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "180px"
         },
-         {
+        {
             data: 'candidato',
             render: function (data) {
                 return `<div class="project-info-cell">
@@ -129,12 +129,12 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
                 const asistio = data.ASISTENCIA !== '0' && data.ASISTENCIA !== 0;
                 const badgeClass = asistio ? 'badge-success' : 'badge-danger';
                 const text = asistio ? 'Asistió' : 'No asistió';
-                
+
                 let motivo = '';
                 if (!asistio && data.MOTIVO) {
                     motivo = `<small class="text-danger d-block mt-1">${data.MOTIVO}</small>`;
                 }
-                
+
                 return `<div class="attendance-cell">
                     <span class="badge ${badgeClass}">${text}</span>
                     ${motivo}
@@ -142,7 +142,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "150px"
         },
-        
+
         // CALIFICACIONES PRINCIPALES
         {
             data: 'datos_curso',
@@ -169,7 +169,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "120px"
         },
-        
+
         // ESTADO Y RESIT
         {
             data: 'datos_curso',
@@ -178,21 +178,21 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "130px"
         },
-        
+
         // RESIT INMEDIATO
         {
             data: 'datos_curso',
             render: function (data) {
                 const hasInmediato = data.RESIT_INMEDIATO === '1' || data.RESIT_INMEDIATO === 1 || data.RESIT_INMEDIATO === 'Yes';
-                
+
                 if (!hasInmediato) {
                     return '<span class="text-muted">N/A</span>';
                 }
-                
+
                 const date = data.RESIT_INMEDIATO_DATE ? formatDateForDisplay(data.RESIT_INMEDIATO_DATE) : 'Sin fecha';
                 const score = data.RESIT_INMEDIATO_SCORE || 'N/A';
                 const status = data.RESIT_INMEDIATO_STATUS || '';
-                
+
                 return `<div class="resit-info-cell">
                     <small class="text-muted d-block">${date}</small>
                     ${renderScoreStatusDisplay(score, status)}
@@ -200,25 +200,61 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "150px"
         },
-        
+
         // RESIT PROGRAMADO 1
         {
-            data: 'datos_curso',
-            render: function (data) {
-                return renderResitProgramado(data, 1);
-            },
-            width: "150px"
+            data: 'datos_curso.HISTORIAL_PROGRAMADOS',
+            render: function (historial) {
+                if (!historial || historial.length === 0) {
+                    return '<span class="text-muted small" style="font-size: 0.75rem;">N/A</span>';
+                }
+
+                let html = '<div class="d-flex flex-column">';
+
+                historial.forEach((item, index) => {
+                    let bgColor, textColor;
+
+                    if (item.status === 'Aprobado') {
+                        bgColor = '#d4edda';
+                        textColor = '#155724';
+                    } else {
+                        bgColor = '#f8d7da';
+                        textColor = '#721c24';
+                    }
+
+                    let fechaTexto = item.date ? ` | ${item.date}` : '';
+
+                    html += `
+                <div class="mb-1">
+                    <span class="badge w-100 text-left" 
+                          style="background-color: ${bgColor} !important; 
+                                 color: ${textColor} !important; 
+                                 border: 1px solid rgba(0,0,0,0.05); 
+                                 padding: 6px 10px; 
+                                 font-size: 0.8rem; 
+                                 font-weight: 800; 
+                                 border-radius: 4px;
+                                 display: block;
+                                 box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        ${item.score}% - ${item.status}${fechaTexto}
+                    </span>
+                </div>`;
+                });
+
+                html += '</div>';
+                return html;
+            }
         },
         // CERTIFICACIÓN
         {
             data: 'datos_curso',
             render: function (data) {
                 const finalStatus = data.FINAL_STATUS || '';
-                const statusText = finalStatus === 'Failed' || finalStatus === 'FAIL' ? 'Reprobado' : 
-                                  (finalStatus === 'Completed' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
-                const badgeClass = (finalStatus === 'Completed' || finalStatus === 'PASS') ? 'badge-success' : 
-                                  ((finalStatus === 'Failed' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
-                
+                const statusText = finalStatus === 'Failed' || finalStatus === 'FAIL' ? 'Reprobado' :
+                    (finalStatus === 'Completed' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
+                const badgeClass = (finalStatus === 'Completed' || finalStatus === 'PASS') ? 'badge-success' :
+                    ((finalStatus === 'Failed' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
+
                 return `<span class="badge ${badgeClass}">${statusText}</span>`;
             },
             width: "130px"
@@ -227,7 +263,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             data: 'datos_curso',
             render: function (data) {
                 const certNumber = data.CERTIFICATE_NUMBER;
-                
+
                 return certNumber ? `<span class="cert-number">${certNumber}</span>` : '<span class="text-muted">N/A</span>';
             },
             width: "150px"
@@ -245,13 +281,13 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
                 const hasPDF = data.CERTIFIED && data.CERTIFIED !== '';
                 const candidateId = row.candidato.ID_CANDIDATE;
                 const projectId = row.proyecto.ID_PROJECT || 0;
-                
+
                 if (!hasPDF) {
                     return `<button type="button" class="btn btn-sm btn-secondary" disabled title="Sin certificado">
                         <i class="fas fa-eye-slash"></i>
                     </button>`;
                 }
-                
+
                 return `<button type="button" class="btn btn-sm btn-info btn-ver-certificado" 
                     data-ruta="${data.CERTIFIED}"
                     data-candidate-id="${candidateId}"
@@ -262,9 +298,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "120px"
         }
-        
+
         // ASISTENCIA
-        
+
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center align-middle', width: '40px' },
@@ -304,19 +340,19 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             $(row).addClass('row-unpass');
         } else if (allPass || finalStatus === 'Pass') {
             $(row).addClass('row-pass');
-        } else if(finalStatus === 'Unpass'){
+        } else if (finalStatus === 'Unpass') {
             $(row).addClass('row-unpass');
         }
 
-        if(asistenciaStatus === '0'){
-             $(row).addClass('row-desert');
+        if (asistenciaStatus === '0') {
+            $(row).addClass('row-desert');
         }
     },
-    initComplete: function(settings, json) {
+    initComplete: function (settings, json) {
         // Ajustar columnas después de que la tabla esté completamente inicializada
         this.api().columns.adjust();
     },
-    drawCallback: function(settings) {
+    drawCallback: function (settings) {
         // Ajustar columnas después de cada redibujado
         this.api().columns.adjust();
     }
@@ -326,7 +362,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
 function renderScoreStatusDisplay(score, status) {
     const statusText = status === 'Unpass' ? 'No Aprobado' : (status === 'Pass' ? 'Aprobado' : '');
     const statusClass = status === 'Unpass' ? 'unpass-status' : (status === 'Pass' ? 'pass-status' : '');
-    
+
     return `
         <div class="score-status-display">
             <span class="score-text ${statusClass}">${score || '0'}%</span>
@@ -377,7 +413,7 @@ function renderExpirationDate(expiration) {
 
     let vigenciaHTML = '';
     let vigenciaClass = '';
-    
+
     if (diffDays < 0) {
         vigenciaHTML = `<small class="text-danger d-block">Vencido hace ${Math.abs(diffDays)} días</small>`;
         vigenciaClass = 'expired';
@@ -400,23 +436,23 @@ function renderExpirationDate(expiration) {
 // Función para renderizar resits programados (unificada para 1, 2, 3)
 function renderResitProgramado(data, numero) {
     const hasResit = data[`RESIT_${numero}`] === '1' || data[`RESIT_${numero}`] === 1;
-    
+
     if (!hasResit) {
         return '<span class="text-muted">N/A</span>';
     }
-    
+
     const date = data[`RESIT_${numero}_DATE`] ? formatDateForDisplay(data[`RESIT_${numero}_DATE`]) : 'Sin fecha';
     const score = data[`RESIT_${numero}_SCORE`] || 'N/A';
     const status = data[`RESIT_${numero}_STATUS`] || '';
     const training = data[`RESIT_${numero}_ENTRENAMIENTO`];
-    
+
     let trainingBadge = '';
     if (training === '1' || training === 1) {
         trainingBadge = '<span class="badge badge-info badge-sm">Con entrenamiento</span>';
     } else if (training === '0' || training === 0) {
         trainingBadge = '<span class="badge badge-secondary badge-sm">Sin entrenamiento</span>';
     }
-    
+
     return `<div class="resit-programado-cell">
         <small class="text-muted d-block mb-1">${date}</small>
         ${renderScoreStatusDisplay(score, status)}
@@ -425,13 +461,13 @@ function renderResitProgramado(data, numero) {
 }
 
 // Event listener para ver certificados
-$(document).on('click', '.btn-ver-certificado', function(e) {
+$(document).on('click', '.btn-ver-certificado', function (e) {
     e.preventDefault();
-    
+
     const rutaSucia = $(this).data('ruta');
     const candidateId = $(this).data('candidate-id');
     const projectId = $(this).data('project-id');
-    
+
     if (!rutaSucia) {
         if (typeof alertToast === 'function') {
             alertToast('No hay documento adjunto.', 'error');
@@ -440,9 +476,9 @@ $(document).on('click', '.btn-ver-certificado', function(e) {
         }
         return;
     }
-    
+
     let nombreArchivo = '';
-    
+
     try {
         let rutaString = rutaSucia;
         if (rutaSucia.trim().startsWith('[') || rutaSucia.trim().startsWith('{')) {
@@ -456,10 +492,10 @@ $(document).on('click', '.btn-ver-certificado', function(e) {
         console.error('Error al procesar ruta:', error);
         nombreArchivo = rutaSucia.split('/').pop();
     }
-    
+
     const baseUrl = window.location.origin;
     const urlFinal = `${baseUrl}/archivos/proyectos/${projectId}/candidatos/${candidateId}/${nombreArchivo}`;
-    
+
     console.log('Abriendo certificado:', urlFinal);
     window.open(urlFinal, '_blank');
 });

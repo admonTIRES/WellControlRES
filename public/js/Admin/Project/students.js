@@ -260,13 +260,15 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         {
             data: 'datos_curso',
             render: function (data) {
-                const finalStatus = data.FINAL_STATUS || '';
-                const statusText = finalStatus === 'Failed' || finalStatus === 'FAIL' ? 'Reprobado' :
-                    (finalStatus === 'Completed' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
-                const badgeClass = (finalStatus === 'Completed' || finalStatus === 'PASS') ? 'badge-success' :
-                    ((finalStatus === 'Failed' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
+                // const finalStatus = data.FINAL_STATUS || '';
+                // const statusText = finalStatus === 'Failed' || finalStatus === 'FAIL' ? 'Reprobado' :
+                //     (finalStatus === 'Completed' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
+                // const badgeClass = (finalStatus === 'Completed' || finalStatus === 'PASS') ? 'badge-success' :
+                //     ((finalStatus === 'Failed' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
 
-                return `<span class="badge ${badgeClass}">${statusText}</span>`;
+                // return `<span class="badge ${badgeClass}">${statusText}</span>`;
+
+                return renderStatusBadge(data.FINAL_STATUS);
             },
             width: "130px"
         },
@@ -342,22 +344,24 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         const equipamentStatus = curso.EQUIPAMENT_PASS || '';
         const pypStatus = curso.PYP_PASS || '';
         const finalStatus = curso.FINAL_STATUS || '';
+        const textoAsistencia = curso.ASISTENCIA || '';
+        console.log(textoAsistencia);
 
         const allUnpass = practicalStatus === 'Unpass' && equipamentStatus === 'Unpass' && pypStatus === 'Unpass';
         const allPass = practicalStatus === 'Pass' && equipamentStatus === 'Pass' && pypStatus === 'Pass';
 
         // Aplicar clases de fila
-        if (allUnpass) {
-            $(row).addClass('row-unpass');
-        } else if (allPass || finalStatus === 'Pass') {
+        if (finalStatus==='Completed') {
             $(row).addClass('row-pass');
-        } else if (finalStatus === 'Unpass') {
+        } else if (finalStatus==='Failed') {
             $(row).addClass('row-unpass');
+        } else if (finalStatus === 'Desertó') {
+            $(row).addClass('row-desert');
+        } else{
+            $(row).addClass('row-pendient');
+
         }
 
-        if (asistenciaStatus === '0') {
-            $(row).addClass('row-desert');
-        }
     },
     initComplete: function (settings, json) {
         // Ajustar columnas después de que la tabla esté completamente inicializada
@@ -398,7 +402,7 @@ function renderStatusBadge(status) {
             break;
         case 'Completed':
             badgeClass = 'badge-success';
-            statusText = 'Completado';
+            statusText = 'Aprobado';
             break;
         case 'Failed':
             badgeClass = 'badge-danger';
@@ -587,11 +591,14 @@ const additionalStyles = `
 }
 
 .row-desert {
-    background-color: rgba(255, 235, 156, 0.25) !important;
+    background-color: rgba(137, 137, 137, 0.25) !important;
+}
+    .row-pendient {
+    background-color: rgba(255, 224, 140, 0.25) !important;
 }
 
 .row-desert:hover {
-    background-color: rgba(255, 235, 156, 0.4) !important;
+    background-color: rgba(129, 129, 129, 0.4) !important;
 }
 
 .row-pending {

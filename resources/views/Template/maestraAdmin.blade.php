@@ -51,7 +51,7 @@ use Illuminate\Support\Str;
             @break
             @case('detailsProject')
                 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.2" media="(min-width: 1024px)">
+                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.21" media="(min-width: 1024px)">
             @break
         @endswitch
     @endif
@@ -795,7 +795,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.63"></script>
     @endif
      @if(request()->is('studentsList'))
-        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.18"></script>
+        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.19"></script>
     @endif
     @if(request()->is('projectsInstructor'))
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>

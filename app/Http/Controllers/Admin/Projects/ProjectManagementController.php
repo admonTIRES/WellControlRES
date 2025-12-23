@@ -2644,6 +2644,7 @@ if (!empty($asistenciasJson)) {
             $textoAsistencia = 'Asistió';
         } elseif ($diasAsistidos > 0) {
             $textoAsistencia = 'Desertó';
+            
         } else {
             $textoAsistencia = 'No Asistió';
         }

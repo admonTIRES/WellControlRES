@@ -795,7 +795,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.63"></script>
     @endif
      @if(request()->is('studentsList'))
-        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.15"></script>
+        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.16"></script>
     @endif
     @if(request()->is('projectsInstructor'))
         <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>

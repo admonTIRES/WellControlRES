@@ -2466,6 +2466,7 @@ class ProjectManagementController extends Controller
                     'p.ID_PROJECT as proyecto_id',
                     'p.FOLIO_PROJECT',
                     'p.ACCREDITATION_LEVELS_PROJECT',
+                    'p.ACCREDITING_ENTITY_PROJECT',
                     'p.EXAM_DATE_PROJECT',
                     'p.BOP_TYPES_PROJECT',
                     'p.CONTACT_NAME_PROJEC',
@@ -2481,6 +2482,7 @@ class ProjectManagementController extends Controller
                     'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
 
                     'prog.PERIODO_RESIT',
+                    'prog.MIN_PORCENTAJE_APROB',
 
                     'co.ID_COURSE as curso_id',
                     'co.PRACTICAL',
@@ -2506,6 +2508,7 @@ class ProjectManagementController extends Controller
                     'co.RESIT_PROGRAMADO_STATUS',
                     'co.FINAL_STATUS',
                     'co.HAVE_CERTIFIED',
+                    'co.CERTIFICATE_NUMBER',
                     'co.CERTIFIED',
                     'co.EXPIRATION'
                 )
@@ -2600,45 +2603,69 @@ class ProjectManagementController extends Controller
                 $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
                 $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
 
-               $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
-            
-            // 2. Prioridad Media: Si pasó algún RESIT
-            $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
+                $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
 
-            // 3. Verificación de Vencimiento de Resit
-            $resitVencido = false;
-            if (!empty($e->EXAM_DATE_PROJECT) && !is_null($e->PERIODO_RESIT)) {
-                $fechaVencimiento = Carbon::parse($e->EXAM_DATE_PROJECT)->addDays((int)$e->PERIODO_RESIT);
-                if ($hoy->greaterThan($fechaVencimiento)) {
-                    $resitVencido = true;
+                $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
+
+                $resitVencido = false;
+                if (!empty($e->EXAM_DATE_PROJECT) && !is_null($e->PERIODO_RESIT)) {
+                    $fechaVencimiento = Carbon::parse($e->EXAM_DATE_PROJECT)->addDays((int)$e->PERIODO_RESIT);
+                    if ($hoy->greaterThan($fechaVencimiento)) {
+                        $resitVencido = true;
+                    }
                 }
-            }
 
-            // 4. DETERMINACIÓN DEL ESTATUS FINAL
-            $currentStatus = $e->STATUS;
-            $currentFinalStatus = $e->FINAL_STATUS;
+                $currentStatus = $e->STATUS;
+                $currentFinalStatus = $e->FINAL_STATUS;
 
-            if ($yaAprobadoPorCertificado || $pasoResit) {
-                // Si ya tiene certificado o pasó el resit, es APROBADO sin importar la fecha
-                $currentStatus = 'Completed';
-                $currentFinalStatus = 'Completed';
-            } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
-                // Si no ha pasado resit, no tiene certificado Y el tiempo expiró
-                $currentStatus = 'Failed';
-                $currentFinalStatus = 'Failed';
-            }
+                $califPractico = $e->PRACTICAL;
+                $califEQ = $e->EQUIPAMENT;
+                $califPYP    = $e->PYP;
+                $ente = $e->ACCREDITING_ENTITY_PROJECT;
+                $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
+
+                $currentStatus = 'Pendiente';
+                switch ($ente) {
+                    case 1://iadc
+                        if ($califPractico>=$califMinAprob && $califEQ>=$califMinAprob) {
+                            $currentStatus = 'Completed';
+                            $currentFinalStatus = 'Completed';
+                        }else{
+                            $currentStatus = 'Failed';
+                            if($yaAprobadoPorCertificado || $pasoResit){
+                                $currentFinalStatus = 'Completed';
+                            }
+                        }
+                        break;
+                    case 2://iwcf
+                        if ($califPractico>=$califMinAprob && $califEQ>=$califMinAprob && $califPYP>=$califMinAprob) {
+                            $currentStatus = 'Completed';
+                            $currentFinalStatus = 'Completed';
+                        }else{
+                            $currentStatus = 'Failed';
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                    $currentFinalStatus = 'Pendiente';
+
+                if ($yaAprobadoPorCertificado || $pasoResit) {
+                    $currentFinalStatus = 'Completed';
+                } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
+                    $currentStatus = 'Failed';
+                    $currentFinalStatus = 'Failed';
+                }
 
                 $misNiveles = [];
 
-                // --- LÓGICA DE PRIORIDAD PARA NIVELES ---
                 if (!empty($e->LEVEL) && isset($nivelesData[$e->LEVEL])) {
-                    // Si co.LEVEL tiene dato, usamos ese exclusivamente
                     $misNiveles[] = [
                         'id' => $nivelesData[$e->LEVEL]->ID_CATALOGO_NIVELACREDITACION,
                         'nombre' => $nivelesData[$e->LEVEL]->NOMBRE_NIVEL
                     ];
                 } else {
-                    // Si no, buscamos en el array del proyecto (Lógica original)
                     $projNivelesIds = is_string($e->ACCREDITATION_LEVELS_PROJECT)
                         ? json_decode($e->ACCREDITATION_LEVELS_PROJECT, true)
                         : $e->ACCREDITATION_LEVELS_PROJECT;
@@ -2708,6 +2735,7 @@ class ProjectManagementController extends Controller
                         'FINAL_STATUS' => $currentFinalStatus,
                         'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
                         'CERTIFIED' => $e->CERTIFIED,
+                        'CERTIFICATE_NUMBER' => $e->CERTIFICATE_NUMBER,
                         'EXPIRATION' => $e->EXPIRATION
                     ]
                 ];

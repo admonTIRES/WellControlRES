@@ -123,6 +123,25 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "150px"
         },
+        {
+            data: 'candidato',
+            render: function (data) {
+                const asistio = data.ASISTENCIA !== '0' && data.ASISTENCIA !== 0;
+                const badgeClass = asistio ? 'badge-success' : 'badge-danger';
+                const text = asistio ? 'Asistió' : 'No asistió';
+                
+                let motivo = '';
+                if (!asistio && data.MOTIVO) {
+                    motivo = `<small class="text-danger d-block mt-1">${data.MOTIVO}</small>`;
+                }
+                
+                return `<div class="attendance-cell">
+                    <span class="badge ${badgeClass}">${text}</span>
+                    ${motivo}
+                </div>`;
+            },
+            width: "150px"
+        },
         
         // CALIFICACIONES PRINCIPALES
         {
@@ -159,41 +178,6 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "130px"
         },
-        {
-            data: 'datos_curso',
-            render: function (data, type, row) {
-                const resitValue = data.RESIT === '1' || data.RESIT === 1 || data.RESIT === 'Yes';
-                const badgeClass = resitValue ? 'badge-warning' : 'badge-secondary';
-                const resitText = resitValue ? 'Sí' : 'No';
-                
-                // Mostrar módulo si aplica
-                let moduleInfo = '';
-                if (resitValue && data.RESIT_MODULE) {
-                    let moduleText = data.RESIT_MODULE;
-                    switch (data.RESIT_MODULE) {
-                        case 'Equipament': moduleText = 'Equipos'; break;
-                        case 'P&P': moduleText = 'P&P'; break;
-                        case 'WORKOVER': moduleText = 'WorkOver'; break;
-                        case 'SUBSEA': moduleText = 'SubSea'; break;
-                    }
-                    moduleInfo = `<small class="d-block text-primary mt-1">${moduleText}</small>`;
-                }
-                
-                return `<div class="text-center">
-                    <span class="badge ${badgeClass}">${resitText}</span>
-                    ${moduleInfo}
-                </div>`;
-            },
-            width: "130px"
-        },
-        {
-            data: 'datos_curso',
-            render: function (data) {
-                const intentos = data.INTENTOS || 0;
-                return intentos > 0 ? `<span class="badge badge-info">${intentos}</span>` : '<span class="text-muted">0</span>';
-            },
-            width: "100px"
-        },
         
         // RESIT INMEDIATO
         {
@@ -225,56 +209,15 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
             },
             width: "150px"
         },
-        
-        // RESIT PROGRAMADO 2
-        {
-            data: 'datos_curso',
-            render: function (data) {
-                return renderResitProgramado(data, 2);
-            },
-            width: "150px"
-        },
-        
-        // RESIT PROGRAMADO 3
-        {
-            data: 'datos_curso',
-            render: function (data) {
-                return renderResitProgramado(data, 3);
-            },
-            width: "150px"
-        },
-        
-        // REFRESH
-        {
-            data: 'datos_curso',
-            render: function (data) {
-                const hasRefresh = data.REFRESH === '1' || data.REFRESH === 1;
-                
-                if (!hasRefresh) {
-                    return '<span class="text-muted">N/A</span>';
-                }
-                
-                const date = data.REFRESH_DATE ? formatDateForDisplay(data.REFRESH_DATE) : 'Sin fecha';
-                const hasEvidence = data.REFRESH_EVIDENCE && data.REFRESH_EVIDENCE !== '';
-                
-                return `<div class="refresh-info-cell">
-                    <span class="badge badge-info mb-1">Re-fresh</span>
-                    <small class="text-muted d-block">${date}</small>
-                    ${hasEvidence ? '<i class="fas fa-file-pdf text-success mt-1"></i>' : ''}
-                </div>`;
-            },
-            width: "150px"
-        },
-        
         // CERTIFICACIÓN
         {
             data: 'datos_curso',
             render: function (data) {
                 const finalStatus = data.FINAL_STATUS || '';
-                const statusText = finalStatus === 'Unpass' || finalStatus === 'FAIL' ? 'Reprobado' : 
-                                  (finalStatus === 'Pass' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
-                const badgeClass = (finalStatus === 'Pass' || finalStatus === 'PASS') ? 'badge-success' : 
-                                  ((finalStatus === 'Unpass' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
+                const statusText = finalStatus === 'Failed' || finalStatus === 'FAIL' ? 'Reprobado' : 
+                                  (finalStatus === 'Completed' || finalStatus === 'PASS' ? 'Aprobado' : 'Pendiente');
+                const badgeClass = (finalStatus === 'Completed' || finalStatus === 'PASS') ? 'badge-success' : 
+                                  ((finalStatus === 'Failed' || finalStatus === 'FAIL') ? 'badge-danger' : 'badge-warning');
                 
                 return `<span class="badge ${badgeClass}">${statusText}</span>`;
             },
@@ -283,8 +226,7 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         {
             data: 'datos_curso',
             render: function (data) {
-                const certNumber = data.CERTIFICATE_NUMBER || 
-                                  (data.CERTIFIED && typeof data.CERTIFIED === 'string' && !data.CERTIFIED.includes('.pdf') ? data.CERTIFIED : '');
+                const certNumber = data.CERTIFICATE_NUMBER;
                 
                 return certNumber ? `<span class="cert-number">${certNumber}</span>` : '<span class="text-muted">N/A</span>';
             },
@@ -319,28 +261,10 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
                 </button>`;
             },
             width: "120px"
-        },
+        }
         
         // ASISTENCIA
-        {
-            data: 'candidato',
-            render: function (data) {
-                const asistio = data.ASISTENCIA !== '0' && data.ASISTENCIA !== 0;
-                const badgeClass = asistio ? 'badge-success' : 'badge-danger';
-                const text = asistio ? 'Asistió' : 'No asistió';
-                
-                let motivo = '';
-                if (!asistio && data.MOTIVO) {
-                    motivo = `<small class="text-danger d-block mt-1">${data.MOTIVO}</small>`;
-                }
-                
-                return `<div class="attendance-cell">
-                    <span class="badge ${badgeClass}">${text}</span>
-                    ${motivo}
-                </div>`;
-            },
-            width: "150px"
-        }
+        
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center align-middle', width: '40px' },
@@ -351,22 +275,17 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         { targets: 5, title: 'ENTE', className: 'text-center align-middle', width: '120px' },
         { targets: 6, title: 'NIVEL', className: 'text-center align-middle', width: '150px' },
         { targets: 7, title: 'BOP', className: 'text-center align-middle', width: '150px' },
-        { targets: 8, title: 'PRÁCTICO', className: 'text-center align-middle', name: 'practical', width: '120px' },
-        { targets: 9, title: 'EQUIPOS', className: 'text-center align-middle', name: 'equipament', width: '120px' },
-        { targets: 10, title: 'P&P', className: 'text-center align-middle', name: 'pyp', width: '120px' },
-        { targets: 11, title: 'ESTADO CURSO', className: 'text-center align-middle', width: '130px' },
-        { targets: 12, title: 'RESIT INFO', className: 'text-center align-middle', width: '130px' },
-        { targets: 13, title: 'INTENTOS', className: 'text-center align-middle', width: '100px' },
-        { targets: 14, title: 'RESIT INMEDIATO', className: 'text-center align-middle', width: '150px' },
-        { targets: 15, title: 'RESIT #1', className: 'text-center align-middle', width: '150px' },
-        { targets: 16, title: 'RESIT #2', className: 'text-center align-middle', width: '150px' },
-        { targets: 17, title: 'RESIT #3', className: 'text-center align-middle', width: '150px' },
-        { targets: 18, title: 'RE-FRESH', className: 'text-center align-middle', width: '150px' },
-        { targets: 19, title: 'ESTADO FINAL', className: 'text-center align-middle', width: '130px' },
-        { targets: 20, title: 'N° CERTIFICADO', className: 'text-center align-middle', width: '150px' },
-        { targets: 21, title: 'EXPIRACIÓN / VIGENCIA', className: 'text-center align-middle', width: '180px' },
-        { targets: 22, title: 'CERTIFICADO PDF', className: 'text-center align-middle', width: '120px' },
-        { targets: 23, title: 'ASISTENCIA', className: 'text-center align-middle', width: '150px' }
+        { targets: 8, title: 'ASISTENCIA', className: 'text-center align-middle', width: '150px' },
+        { targets: 9, title: 'PRÁCTICO', className: 'text-center align-middle', name: 'practical', width: '120px' },
+        { targets: 10, title: 'EQUIPOS', className: 'text-center align-middle', name: 'equipament', width: '120px' },
+        { targets: 11, title: 'P&P', className: 'text-center align-middle', name: 'pyp', width: '120px' },
+        { targets: 12, title: 'ESTADO CURSO', className: 'text-center align-middle', width: '130px' },
+        { targets: 13, title: 'RE-SIT INMEDIATO', className: 'text-center align-middle', width: '150px' },
+        { targets: 14, title: 'INFORMACIÓN RE-SIT/RE-TEST', className: 'text-center align-middle', width: '150px' },
+        { targets: 15, title: 'ESTADO FINAL', className: 'text-center align-middle', width: '130px' },
+        { targets: 16, title: 'N° CERTIFICADO', className: 'text-center align-middle', width: '150px' },
+        { targets: 17, title: 'EXPIRACIÓN / VIGENCIA', className: 'text-center align-middle', width: '180px' },
+        { targets: 18, title: 'CERTIFICADO PDF', className: 'text-center align-middle', width: '120px' }
     ],
     createdRow: function (row, data, dataIndex) {
         const curso = data.datos_curso;
@@ -656,13 +575,7 @@ const additionalStyles = `
 }
 
 .cert-number {
-    font-family: 'Courier New', monospace;
-    font-weight: 600;
-    color: #0056b3;
-    background-color: #e7f3ff;
     padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid #b3d9ff;
 }
 
 /* Expiración */

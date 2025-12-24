@@ -283,28 +283,69 @@
                                     </div>
                                 </div>
                             </div>
+                         <div class="modern-card gradient-indigo card-wide">
+    <div class="card-icon-wrapper">
+        <i class="fas fa-certificate" style="color:white"></i>
+    </div>
 
-                            <!-- Course Name Card - Wide -->
-                           
+    <div class="card-content">
+        <span class="card-label">{{ __('Centro de certificación') }}</span>
 
-                            <!-- Language Card -->
-                           
+        <div class="exam-dates-grid {{ !$centroCertificacion ? 'single-item' : '' }}">
 
-                            <!-- Certification Center Card - Wide -->
-                            <div class="modern-card gradient-indigo">
-                                <div class="card-icon-wrapper">
-                                    <i class="fas fa-certificate" style="color:white"></i>
-                                </div>
-                                <div class="card-content">
-                                    <span class="card-label">{{ __('Centro certificador') }}</span>
-                                    <h5 class="card-value">{{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO ?? __('N/A') }}</h5>
-                                    @if($proyect->CENTER_NUMBER_PROJECT)
-                                        <span class="card-meta">
-                                            <i class="fas fa-id-card"></i> Center #{{ $proyect->CENTER_NUMBER_PROJECT }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+
+            {{-- Centro primario --}}
+            @if($centroPrimario)
+                <div class="exam-item">
+                    <div class="exam-icon">
+                        <i class="fas fa-building" style="color:white"></i>
+                    </div>
+                    <div>
+                        <span class="exam-type">
+                            {{ __('Centro primario') }}
+                        </span>
+
+                        <div class="date-value">
+                            {{ $centroPrimario->NOMBRE_COMERCIAL_CENTRO }}
+                        </div>
+
+                        <span class="exam-time">
+                            <i class="fas fa-id-card"></i>
+                            {{ __('Centro #') }} {{ $centroPrimario->NUMERO_CENTRO }}
+                        </span>
+                    </div>
+                </div>
+            @endif
+
+            {{-- Centro asociado --}}
+            @if($centroCertificacion && $centroCertificacion->TIPO_CENTRO == 1)
+                <div class="exam-item">
+                    <div class="exam-icon">
+                        <i class="fas fa-link" style="color:white"></i>
+                    </div>
+                    <div>
+                        <span class="exam-type">
+                            {{ __('Centro asociado') }}
+                        </span>
+
+                        <div class="date-value">
+                            {{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO }}
+                        </div>
+
+                        @if($proyect->CENTER_NUMBER_PROJECT)
+                            <span class="exam-time">
+                                <i class="fas fa-id-card"></i>
+                                {{ __('Centro #') }} {{ $proyect->CENTER_NUMBER_PROJECT }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</div>
+
                             <div class="modern-card gradient-primary">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-user-circle" style="color:white"></i>

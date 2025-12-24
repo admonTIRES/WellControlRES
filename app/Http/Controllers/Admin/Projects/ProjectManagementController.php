@@ -1015,6 +1015,34 @@ class ProjectManagementController extends Controller
                 ->where('co.RESIT_PROGRAMADO', '1')
                 ->count();
 
+            
+       $centroCertificacion = null;
+$centroPrimario = null;
+
+if ($proyect->CERTIFICATION_CENTER_PROJECT) {
+
+    $centro = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
+
+    if ($centro) {
+
+        // CASO 1: Centro ASOCIADO
+        if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
+
+            $centroCertificacion = $centro;
+            $centroPrimario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
+
+        }
+        // CASO 2: Centro PRIMARIO (sin asociados)
+        else {
+
+            $centroPrimario = $centro;
+            $centroCertificacion = null;
+
+        }
+    }
+}
+
+
             return view('Admin.content.Admin.projects.details', compact(
                 'proyect',
                 'ID_PROJECT',
@@ -1022,7 +1050,8 @@ class ProjectManagementController extends Controller
                 'NOMBRE_PROYECTO',
                 'NOMBRE_INSTRUCTOR',
                 'nombreEnte',
-                'centroCertificacion',
+                'centroCertificacion', // Centro actual (puede ser asociado)
+            'centroPrimario',
                 'tipoOperacion',
                 'nivelesAcreditacion',
                 'tiposBop',

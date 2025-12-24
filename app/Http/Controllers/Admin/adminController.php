@@ -176,6 +176,7 @@ class adminController extends Controller
             ];
         });
 
+      
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;

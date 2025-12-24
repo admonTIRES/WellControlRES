@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="modern-grid">
-                             <div class="modern-card gradient-success">
+                            <div class="modern-card gradient-success">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-hashtag" style="color:white"></i>
                                 </div>
@@ -72,7 +72,7 @@
                                     <h5 class="card-value">{{ $proyect->FOLIO_PROJECT ?? __('N/A') }}</h5>
                                 </div>
                             </div>
-                             <div class="modern-card gradient-danger">
+                            <div class="modern-card gradient-danger">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-book-open" style="color:white"></i>
                                 </div>
@@ -81,7 +81,7 @@
                                     <h5 class="card-value">{{ $NOMBRE_PROYECTO ?? __('N/A') }}</h5>
                                 </div>
                             </div>
-                             <div class="modern-card gradient-teal">
+                            <div class="modern-card gradient-teal">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-award" style="color:white"></i>
                                 </div>
@@ -137,7 +137,7 @@
                                     <h5 class="card-value">{{ $tipoOperacion->NOMBRE_OPERACION ?? __('N/A') }}</h5>
                                 </div>
                             </div>
-                             <div class="modern-card gradient-info">
+                            <div class="modern-card gradient-info">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-graduation-cap" style="color:white"></i>
                                 </div>
@@ -153,8 +153,7 @@
                                         @endif
                                     </h5>
                                 </div>
-                            </div>
-                            
+                            </div>     
                             <div class="modern-card gradient-primary card-wide">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-calendar-alt" style="color:white"></i>
@@ -191,9 +190,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <!-- Folio Card -->
-                           
-                             <div class="modern-card gradient-info card-wide-2">
+                            <div class="modern-card gradient-info card-wide-2">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-clipboard-check" style="color:white"></i>
                                 </div>
@@ -228,8 +225,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Course Type Card -->
                             <div class="modern-card gradient-pink">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-language" style="color:white"></i>
@@ -239,8 +234,7 @@
                                     <h5 class="card-value">{{ $idiomaProject->NOMBRE_IDIOMA ?? __('N/A') }}</h5>
                                 </div>
                             </div>
-
-                             <div class="modern-card gradient-warning card-wide">
+                            <div class="modern-card gradient-warning card-wide">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-chalkboard-teacher" style="color:white"></i>
                                 </div>
@@ -254,12 +248,7 @@
                                     @endif
                                 </div>
                             </div>
-
-
-                            <!-- Location Card -->
-                           
-
-                             <div class="modern-card gradient-teal card-wide">
+                            <div class="modern-card gradient-teal card-wide">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-id-card" style="color:white"></i>
                                 </div>
@@ -283,69 +272,68 @@
                                     </div>
                                 </div>
                             </div>
-                         <div class="modern-card gradient-indigo card-wide">
-    <div class="card-icon-wrapper">
-        <i class="fas fa-certificate" style="color:white"></i>
-    </div>
+                            <div class="modern-card gradient-indigo card-wide">
+                                <div class="card-icon-wrapper">
+                                    <i class="fas fa-certificate" style="color:white"></i>
+                                </div>
 
-    <div class="card-content">
-        <span class="card-label">{{ __('Centro de certificación') }}</span>
+                                <div class="card-content">
+                                    <span class="card-label">{{ __('Centro de certificación') }}</span>
 
-        <div class="exam-dates-grid {{ !$centroCertificacion ? 'single-item' : '' }}">
+                                    <div class="exam-dates-grid {{ !$centroCertificacion ? 'single-item' : '' }}">
 
 
-            {{-- Centro primario --}}
-            @if($centroPrimario)
-                <div class="exam-item">
-                    <div class="exam-icon">
-                        <i class="fas fa-building" style="color:white"></i>
-                    </div>
-                    <div>
-                        <span class="exam-type">
-                            {{ __('Centro primario') }}
-                        </span>
+                                        {{-- Centro primario --}}
+                                        @if($centroPrimario)
+                                            <div class="exam-item">
+                                                <div class="exam-icon">
+                                                    <i class="fas fa-building" style="color:white"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="exam-type">
+                                                        {{ __('Centro primario') }}
+                                                    </span>
 
-                        <div class="date-value">
-                            {{ $centroPrimario->NOMBRE_COMERCIAL_CENTRO }}
-                        </div>
+                                                    <div class="date-value">
+                                                        {{ $centroPrimario->NOMBRE_COMERCIAL_CENTRO }}
+                                                    </div>
 
-                        <span class="exam-time">
-                            <i class="fas fa-id-card"></i>
-                            {{ __('Centro #') }} {{ $centroPrimario->NUMERO_CENTRO }}
-                        </span>
-                    </div>
-                </div>
-            @endif
+                                                    <span class="exam-time">
+                                                        <i class="fas fa-id-card"></i>
+                                                        {{ __('Centro #') }} {{ $centroPrimario->NUMERO_CENTRO }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endif
 
-            {{-- Centro asociado --}}
-            @if($centroCertificacion && $centroCertificacion->TIPO_CENTRO == 1)
-                <div class="exam-item">
-                    <div class="exam-icon">
-                        <i class="fas fa-link" style="color:white"></i>
-                    </div>
-                    <div>
-                        <span class="exam-type">
-                            {{ __('Centro asociado') }}
-                        </span>
+                                        {{-- Centro asociado --}}
+                                        @if($centroCertificacion && $centroCertificacion->TIPO_CENTRO == 1)
+                                            <div class="exam-item">
+                                                <div class="exam-icon">
+                                                    <i class="fas fa-link" style="color:white"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="exam-type">
+                                                        {{ __('Centro asociado') }}
+                                                    </span>
 
-                        <div class="date-value">
-                            {{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO }}
-                        </div>
+                                                    <div class="date-value">
+                                                        {{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO }}
+                                                    </div>
 
-                        @if($proyect->CENTER_NUMBER_PROJECT)
-                            <span class="exam-time">
-                                <i class="fas fa-id-card"></i>
-                                {{ __('Centro #') }} {{ $proyect->CENTER_NUMBER_PROJECT }}
-                            </span>
-                        @endif
-                    </div>
-                </div>
-            @endif
+                                                    @if($proyect->CENTER_NUMBER_PROJECT)
+                                                        <span class="exam-time">
+                                                            <i class="fas fa-id-card"></i>
+                                                            {{ __('Centro #') }} {{ $proyect->CENTER_NUMBER_PROJECT }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
 
-        </div>
-    </div>
-</div>
-
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modern-card gradient-primary">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-user-circle" style="color:white"></i>
@@ -360,19 +348,6 @@
                                     @endif
                                 </div>
                             </div>
-
-                            <!-- Operation Type Card -->
-                            
-
-                            <!-- Accrediting Entity Card -->
-                           
-                            <!-- Accreditation Levels Card -->
-                            
-
-                            <!-- BOP Types Card -->
-                            
-
-                            <!-- Students Statistics Card - Wide 2 -->
                             <div class="modern-card gradient-success card-wide-2">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-users" style="color:white"></i>
@@ -399,21 +374,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Course Dates Card - Wide -->
-                           
-
-                            <!-- Membership Dates Card - Wide -->
-                           
-                            <!-- Exam Dates Card - Wide 2 -->
-
                         </div>
                     </div>
                 </div>
             </div>
 
 <style>
-/* Banner Moderno */
 .banner-modern {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;

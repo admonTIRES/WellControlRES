@@ -268,8 +268,8 @@ class ProjectManagementController extends Controller
                         'data' => $candidatesData->map(function ($candidate) {
                             return [
                                 'ID_CANDIDATE' => $candidate->ID_CANDIDATE,
-                                'COMPANY_PROJECT' => $candidate->COMPANY_PROJECT, // Razón social
-                                'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT, // ID empresa
+                                'COMPANY_PROJECT' => $candidate->COMPANY_PROJECT, 
+                                'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT, 
                                 'EMAIL_PROJECT' => $candidate->EMAIL_PROJECT,
                                 'FIRST_NAME_PROJECT' => $candidate->FIRST_NAME_PROJECT,
                                 'LAST_NAME_PROJECT' => $candidate->LAST_NAME_PROJECT
@@ -278,22 +278,6 @@ class ProjectManagementController extends Controller
                     ];
                     return response()->json($response);
                     break;
-                // case 2:
-                //     $data = $request->all();
-                //     foreach ($data['courses'] as $candidateId => $courseData) {
-                //         $course = Course::where('ID_CANDIDATE', $candidateId)->first();
-                //         if ($course) {
-                //             $course->update($courseData);
-                //         } else {
-                //             Course::create($courseData);
-                //         }
-                //     }
-                //     $response['code'] = 1;
-                //     return response()->json($response);
-                //     break;
-
-                // En ProjectManagementController.php -> store()
-
                 case 2:
                     DB::beginTransaction();
                     try {
@@ -304,7 +288,6 @@ class ProjectManagementController extends Controller
                             return response()->json(['code' => 0, 'msj' => 'No se recibieron datos para guardar.']);
                         }
 
-                        // 1. Obtener la definición de complementos
                         $project = Proyect::find($idProject);
                         $programDef = [];
                         if ($project && $project->PROGRAM_PROJECT) {
@@ -321,7 +304,6 @@ class ProjectManagementController extends Controller
                                 'ID_PROJECT' => $idProject
                             ]);
 
-                            // --- A. COMPLEMENTOS (Igual que antes) ---
                             $complementsToSave = [];
                             $masterSwitch = isset($data['CO']) ? (int)$data['CO'] : 0;
                             $course->CO = $masterSwitch;
@@ -340,7 +322,6 @@ class ProjectManagementController extends Controller
                                 'items' => $complementsToSave
                             ]);
 
-                            // --- B. CAMPOS ESTÁNDAR (Igual que antes) ---
                             $fields = [
                                 'PRACTICAL',
                                 'PRACTICAL_PASS',
@@ -380,25 +361,16 @@ class ProjectManagementController extends Controller
                                 $course->{"RESIT_{$i}_FOLIO_PROYECTO"} = $data["RESIT_{$i}_FOLIO_PROYECTO"] ?? null;
                             }
 
-                            // ---------------------------------------------------------
-                            // C. ARCHIVOS (ESTRUCTURA PERSONALIZADA)
-                            // ---------------------------------------------------------
-
-                            // Definir directorio base: app/admin/projects/{ID_PROYECTO}/candidates/{ID_CANDIDATO}
-                            // Puedes ajustar esta ruta según tu preferencia
                             $baseDir = 'app/admin/projects/' . $idProject . '/candidates/' . $candidateId;
                             $fullPath = storage_path($baseDir);
 
-                            // Crear directorio si no existe
                             if (!file_exists($fullPath)) {
                                 mkdir($fullPath, 0755, true);
                             }
 
-                            // 1. CERTIFICADO
                             if ($request->hasFile("courses.$candidateId.CERTIFICATE_PDF")) {
                                 $file = $request->file("courses.$candidateId.CERTIFICATE_PDF");
 
-                                // Validaciones solicitadas
                                 if ($file->getClientOriginalExtension() !== 'pdf') {
                                     DB::rollBack();
                                     return response()->json(['code' => 0, 'msj' => "El certificado del candidato ID $candidateId debe ser PDF"]);
@@ -408,25 +380,20 @@ class ProjectManagementController extends Controller
                                     return response()->json(['code' => 0, 'msj' => "El certificado del candidato ID $candidateId excede 10MB"]);
                                 }
 
-                                // Borrar archivo anterior si existe
                                 if ($course->CERTIFIED && file_exists(storage_path($course->CERTIFIED))) {
                                     @unlink(storage_path($course->CERTIFIED));
                                 }
 
-                                // Generar nombre y mover
                                 $fileName = uniqid() . '_cert_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
                                 $file->move($fullPath, $fileName);
 
-                                // Guardar ruta relativa en BD
                                 $course->CERTIFIED = $baseDir . '/' . $fileName;
                                 $course->HAVE_CERTIFIED = 1;
                             }
 
-                            // 2. EVIDENCIA REFRESH
                             if ($request->hasFile("courses.$candidateId.REFRESH_EVIDENCE")) {
                                 $fileRefresh = $request->file("courses.$candidateId.REFRESH_EVIDENCE");
 
-                                // Validaciones
                                 if ($fileRefresh->getClientOriginalExtension() !== 'pdf') {
                                     DB::rollBack();
                                     return response()->json(['code' => 0, 'msj' => "La evidencia refresh del candidato ID $candidateId debe ser PDF"]);
@@ -436,16 +403,13 @@ class ProjectManagementController extends Controller
                                     return response()->json(['code' => 0, 'msj' => "La evidencia refresh del candidato ID $candidateId excede 10MB"]);
                                 }
 
-                                // Borrar anterior
                                 if ($course->REFRESH_EVIDENCE && file_exists(storage_path($course->REFRESH_EVIDENCE))) {
                                     @unlink(storage_path($course->REFRESH_EVIDENCE));
                                 }
 
-                                // Generar nombre y mover
                                 $fileNameRefresh = uniqid() . '_ref_' . preg_replace('/\s+/', '_', $fileRefresh->getClientOriginalName());
                                 $fileRefresh->move($fullPath, $fileNameRefresh);
 
-                                // Guardar ruta
                                 $course->REFRESH_EVIDENCE = $baseDir . '/' . $fileNameRefresh;
                             }
 
@@ -726,122 +690,27 @@ class ProjectManagementController extends Controller
         return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
     }
 
-    // DETAILS
     /**
      * @return \Illuminate\View\View
      */
-    // public function detailsProject($ID_PROJECT)
-    // {
-    //     $proyect = Proyect::findOrFail($ID_PROJECT);
-
-    //     $idIdioma = $proyect->LANGUAGE_PROJECT;
-    //     $idiomaProject = IdiomasExamenes::findOrFail($idIdioma);
-
-    //     $idNombre = $proyect->COURSE_NAME_ES_PROJECT;
-    //     $nombres = NombreProyecto::find($idNombre);
-    //     $NOMBRE_PROYECTO = $nombres->NOMBRE_PROYECTO ?? __('N/A');
-
-    //     $idInstructor = $proyect->INSTRUCTOR_ID_PROJECT;
-    //     $instructores = Instructor::find($idInstructor);
-    //     $NOMBRE_INSTRUCTOR = $instructores ? trim(($instructores->FNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->MDNAME_INSTRUCTOR ?? '') . ' ' . ($instructores->LSNAME_INSTRUCTOR ?? '')) : __('N/A');
-    //     $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
-    //     $enteAcreditador = EnteAcreditador::find($idEnte);
-    //     $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
-    //     $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
-    //     $nivelesAcreditacion = collect();
-
-    //     if (!empty($idsNiveles)) {
-    //         $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $idsNiveles)->get();
-
-    //         $nivelesAcreditacion = $niveles->map(function ($nivel) use ($idEnte) {
-    //             if ($idEnte == 1) {
-    //                 return $nivel->DESCRIPCION_NIVEL ?? 'N/A';
-    //             } elseif ($idEnte == 2) {
-    //                 return $nivel->NOMBRE_NIVEL ?? 'N/A';
-    //             } else {
-    //                 return 'N/A';
-    //             }
-    //         });
-    //     }
-
-    //     $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
-    //     $tiposBop = collect();
-
-    //     if (!empty($idsBops)) {
-    //         $tiposBop = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $idsBops)
-    //             ->pluck('DESCRIPCION_TIPOBOP');
-    //     }
-
-
-    //     $visitas = 2;
-    //     $membresiasActivas = 5;
-    //     $membresiasEmpresas = 5;
-    //     $membresiasIndividuales = 5;
-    //     $historialMembresias = [58, 80, 85, 80, 70, 75, 85, 80, 79, 90, 89, 75];
-    //     $proyectosActivos = 5;
-    //     $proyectosProximos = 5;
-    //     $proyectosFinalizados = 5;
-    //     $accesos = 5;
-    //     $historialEmpresas = [0, 0, 0, 0, 73, 76, 0, 0, 0, 0, 0, 60];
-
-    //     return view('Admin.content.Admin.projects.details', compact(
-    //         'proyect',
-    //         'ID_PROJECT',
-    //         'visitas',
-    //         'membresiasActivas',
-    //         'membresiasEmpresas',
-    //         'membresiasIndividuales',
-    //         'historialMembresias',
-    //         'proyectosActivos',
-    //         'proyectosProximos',
-    //         'proyectosFinalizados',
-    //         'accesos',
-    //         'idiomaProject',
-    //         'historialEmpresas',
-    //         'nombreEnte',
-    //         'nivelesAcreditacion',
-    //         'tiposBop',
-    //         'NOMBRE_PROYECTO',
-    //         'NOMBRE_INSTRUCTOR'
-    //     ));
-    // }
     public function detailsProject($ID_PROJECT)
     {
         try {
-            // Obtener el proyecto
             $proyect = Proyect::findOrFail($ID_PROJECT);
 
-            // ====================
-            // DATOS BÁSICOS
-            // ====================
-
-            // Idioma
             $idiomaProject = null;
             if ($proyect->LANGUAGE_PROJECT) {
                 $idiomaProject = IdiomasExamenes::find($proyect->LANGUAGE_PROJECT);
             }
 
-            // Nombre del curso
             $NOMBRE_PROYECTO = __('N/A');
             if ($proyect->COURSE_NAME_ES_PROJECT) {
                 $nombreCurso = NombreProyecto::find($proyect->COURSE_NAME_ES_PROJECT);
                 $NOMBRE_PROYECTO = $nombreCurso->NOMBRE_PROYECTO ?? __('N/A');
             }
 
-            // Instructor
             $NOMBRE_INSTRUCTOR = __('N/A');
-            // if ($proyect->INSTRUCTOR_ID_PROJECT) {
-            //     $instructor = Instructor::find($proyect->INSTRUCTOR_ID_PROJECT);
-            //     if ($instructor) {
-            //         $NOMBRE_INSTRUCTOR = trim(
-            //             ($instructor->FNAME_INSTRUCTOR ?? '') . ' ' . 
-            //             ($instructor->MDNAME_INSTRUCTOR ?? '') . ' ' . 
-            //             ($instructor->LSNAME_INSTRUCTOR ?? '')
-            //         );
-            //     }
-            // }
-
-            $instructores = $proyect->INSTRUCTOR_ID_PROJECT; // ahora es array por el cast
+            $instructores = $proyect->INSTRUCTOR_ID_PROJECT; 
 
             if (!empty($instructores) && is_array($instructores)) {
                 $nombres = [];
@@ -867,7 +736,6 @@ class ProjectManagementController extends Controller
                 }
             }
 
-            // Ente Acreditador
             $nombreEnte = __('N/A');
             $idEnte = $proyect->ACCREDITING_ENTITY_PROJECT;
             if ($idEnte) {
@@ -875,21 +743,16 @@ class ProjectManagementController extends Controller
                 $nombreEnte = $enteAcreditador->NOMBRE_ENTE ?? __('N/A');
             }
 
-            // Centro de Certificación
             $centroCertificacion = null;
             if ($proyect->CERTIFICATION_CENTER_PROJECT) {
                 $centroCertificacion = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
             }
 
-            // Tipo de Operación
             $tipoOperacion = null;
             if ($proyect->OPERATION_TYPE_PROJECT) {
                 $tipoOperacion = Operacion::find($proyect->OPERATION_TYPE_PROJECT);
             }
 
-            // ====================
-            // NIVELES DE ACREDITACIÓN
-            // ====================
             $nivelesAcreditacion = collect();
             $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
 
@@ -907,9 +770,6 @@ class ProjectManagementController extends Controller
                 });
             }
 
-            // ====================
-            // TIPOS BOP
-            // ====================
             $tiposBop = collect();
             $idsBops = $proyect->BOP_TYPES_PROJECT ?? [];
 
@@ -918,11 +778,6 @@ class ProjectManagementController extends Controller
                     ->pluck('DESCRIPCION_TIPOBOP');
             }
 
-            // ====================
-            // ESTADÍSTICAS DE ESTUDIANTES
-            // ====================
-
-            // Obtener todos los cursos relacionados con este proyecto
             $cursosStats = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
                 ->where('c.ID_PROJECT', $ID_PROJECT)
@@ -935,7 +790,6 @@ class ProjectManagementController extends Controller
                 ->groupBy('co.FINAL_STATUS', 'co.STATUS', 'co.HAVE_CERTIFIED')
                 ->get();
 
-            // Calcular totales
             $totalEstudiantes = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
                 ->where('c.ID_PROJECT', $ID_PROJECT)
@@ -959,10 +813,6 @@ class ProjectManagementController extends Controller
                 ->where('c.ASISTENCIA', '=', '0')
                 ->count();
 
-            // ====================
-            // ESTADÍSTICAS DE CERTIFICADOS
-            // ====================
-
             $certificadosEmitidos = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
                 ->where('c.ID_PROJECT', $ID_PROJECT)
@@ -979,10 +829,6 @@ class ProjectManagementController extends Controller
                 })
                 ->count();
 
-            // ====================
-            // ESTADÍSTICAS DE EXÁMENES
-            // ====================
-
             $promediosPorModulo = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
                 ->where('c.ID_PROJECT', $ID_PROJECT)
@@ -992,10 +838,6 @@ class ProjectManagementController extends Controller
                     DB::raw('AVG(CAST(co.PYP as DECIMAL(5,2))) as promedio_pyp')
                 )
                 ->first();
-
-            // ====================
-            // ESTADÍSTICAS DE RESIT
-            // ====================
 
             $estudiantesConResit = DB::table('course as co')
                 ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
@@ -1015,32 +857,25 @@ class ProjectManagementController extends Controller
                 ->where('co.RESIT_PROGRAMADO', '1')
                 ->count();
 
-            
-       $centroCertificacion = null;
-$centroPrimario = null;
 
-if ($proyect->CERTIFICATION_CENTER_PROJECT) {
-
-    $centro = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
-
-    if ($centro) {
-
-        // CASO 1: Centro ASOCIADO
-        if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
-
-            $centroCertificacion = $centro;
-            $centroPrimario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
-
-        }
-        // CASO 2: Centro PRIMARIO (sin asociados)
-        else {
-
-            $centroPrimario = $centro;
             $centroCertificacion = null;
+            $centroPrimario = null;
 
-        }
-    }
-}
+            if ($proyect->CERTIFICATION_CENTER_PROJECT) {
+
+                $centro = CentrosCapacitacion::find($proyect->CERTIFICATION_CENTER_PROJECT);
+
+                if ($centro) {
+                    if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
+                        $centroCertificacion = $centro;
+                        $centroPrimario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
+                    } else {
+
+                        $centroPrimario = $centro;
+                        $centroCertificacion = null;
+                    }
+                }
+            }
 
 
             return view('Admin.content.Admin.projects.details', compact(
@@ -1050,22 +885,18 @@ if ($proyect->CERTIFICATION_CENTER_PROJECT) {
                 'NOMBRE_PROYECTO',
                 'NOMBRE_INSTRUCTOR',
                 'nombreEnte',
-                'centroCertificacion', // Centro actual (puede ser asociado)
-            'centroPrimario',
+                'centroCertificacion',
+                'centroPrimario',
                 'tipoOperacion',
                 'nivelesAcreditacion',
                 'tiposBop',
-                // Estadísticas de estudiantes
                 'totalEstudiantes',
                 'estudiantesAprobados',
                 'estudiantesReprobados',
                 'estudiantesPendientes',
-                // Estadísticas de certificados
                 'certificadosEmitidos',
                 'certificadosPendientes',
-                // Estadísticas de exámenes
                 'promediosPorModulo',
-                // Estadísticas de resit
                 'estudiantesConResit',
                 'resitInmediatos',
                 'resitProgramados'
@@ -1074,96 +905,6 @@ if ($proyect->CERTIFICATION_CENTER_PROJECT) {
             return back()->with('error', 'Error al cargar los detalles del proyecto: ' . $e->getMessage());
         }
     }
-
-
-    //     public function projectCourseDatatable(Request $request)
-    // {
-    //     $id = $request->input('ID_PROJECT');
-
-    //     try {
-    //         $proyecto = Proyect::where('ID_PROJECT', $id)->first();
-
-    //         if (!$proyecto) {
-    //             return response()->json([
-    //                 'msj' => 'Proyecto no encontrado',
-    //                 'data' => []
-    //             ]);
-    //         }
-
-    //         $candidatos = candidate::where('ID_PROJECT', $id)->get();
-
-    //         $nivelesIDs = $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [];
-    //         $bopsIDs    = $proyecto->BOP_TYPES_PROJECT ?? [];
-    //         $langID     = $proyecto->LANGUAGE_PROJECT;
-
-    //         $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $nivelesIDs)
-    //             ->pluck('DESCRIPCION_NIVEL')
-    //             ->toArray();
-
-    //         $bops = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $bopsIDs)
-    //             ->pluck('ABREVIATURA')
-    //             ->toArray();
-
-    //         $lang = IdiomasExamenes::where('ID_CATALOGO_IDIOMAEXAMEN', $langID)
-    //             ->value('NOMBRE_IDIOMA');
-
-    //         $estudiantes = [];
-
-    //         foreach ($candidatos as $candidato) {
-    //             $estudiantes[] = [
-    //                 'NOMBRE_COMPLETO' => $candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT,
-    //                 'NIVEL' => $niveles,
-    //                 'BOP'   => $bops,
-    //                 'UNITS' => '',
-    //                 'LANG'  => $lang,
-    //                 'PRACTICAL' => '',
-    //                 'EQUIPAMENT' => '',
-    //                 'P&P' => '',
-    //                 'STATUS' => '',
-    //                 'RESIT' => '',
-    //                 'EQ' => '',
-    //                 'FECHA' => '',
-    //                 'SCORE' => '',
-    //                 'FINALTEST' => '',
-    //                 'VENCIMIENTO' => '',
-    //                 'CORREO' => $candidato->EMAIL_PROJECT,
-    //                 'BTN_ENVIAR' => '<button type="button"
-    //                                     class="btn btn-sm btn-icon btn-action1 SENDCORREO"
-    //                                     title="Enviar correo"
-    //                                     onclick="enviarCredencialesCorreo(' . htmlspecialchars(json_encode([
-    //                         'nombre' => $candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT,
-    //                         'email' => $candidato->EMAIL_PROJECT,
-    //                         'password' => $candidato->PASSWORD_PROJECT,
-    //                         'fechaInicio' => $proyecto->MEMBERSHIP_START_PROJECT,
-    //                         'fechaFin' => $proyecto->MEMBERSHIP_END_PROJECT,
-    //                     ]), ENT_QUOTES, 'UTF-8') . ')">
-    //                                     <i class="ri-mail-send-line" style="font-size: 1.2rem;"></i> Enviar acceso
-    //                                 </button>',
-    //                 'BTN_EDITAR' => '<button type="button"
-    //                                     class="btn btn-sm btn-icon btn-action1 SENDCORREO"
-    //                                     title="Editar"
-    //                                     onclick="editarEstudiante(' . htmlspecialchars(json_encode([
-    //                         'id' => $candidato->ID_CANDIDATE,
-    //                         'nombre' => $candidato->FIRST_NAME_PROJECT . ' ' . $candidato->MIDDLE_NAME_PROJECT . ' ' . $candidato->LAST_NAME_PROJECT,
-    //                         'email' => $candidato->EMAIL_PROJECT,
-    //                         'empresa' => $candidato->COMPANY_PROJECT,
-    //                     ]), ENT_QUOTES, 'UTF-8') . ')">
-    //                                     Editar
-    //                                 </button>'
-    //             ];
-    //         }
-
-    //         return response()->json([
-    //             'data' => $estudiantes,
-    //             'msj' => 'Curso cargado correctamente'
-    //         ]);
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'msj' => 'Error: ' . $e->getMessage(),
-    //             'data' => []
-    //         ]);
-    //     }
-    // }
 
     public function projectCourseDatatable(Request $request)
     {
@@ -2489,8 +2230,8 @@ if ($proyect->CERTIFICATION_CENTER_PROJECT) {
                     'c.ID_PROJECT',
                     'c.ASISTENCIAS',
                     'c.COMPANY_PROJECT',
-                    'c.COMPANY_ID_PROJECT', // ID original por si lo necesitas
-                    'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT', // ALIAS SOLICITADO
+                    'c.COMPANY_ID_PROJECT',
+                    'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
 
                     'p.ID_PROJECT as proyecto_id',
                     'p.FOLIO_PROJECT',
@@ -2645,40 +2386,32 @@ if ($proyect->CERTIFICATION_CENTER_PROJECT) {
                 $nivelesAcreditacion = $nivelesMap[$e->proyecto_id] ?? [];
                 $tiposBOP = $bopMap[$e->proyecto_id] ?? [];
 
-               $asistenciasJson = $e->ASISTENCIAS;
-$totalDias = 0;
-$diasAsistidos = 0;
-$textoAsistencia = 'No Asistió'; // Valor por defecto
+                $asistenciasJson = $e->ASISTENCIAS;
+                $totalDias = 0;
+                $diasAsistidos = 0;
+                $textoAsistencia = 'No Asistió';
 
-if (!empty($asistenciasJson)) {
-    // Intentar decodificar
-    $decodedAsistencias = json_decode($asistenciasJson, true);
-
-    // Si el resultado sigue siendo un string, decodificar de nuevo (limpieza de doble serialización)
-    if (is_string($decodedAsistencias)) {
-        $decodedAsistencias = json_decode($decodedAsistencias, true);
-    }
-
-    if (is_array($decodedAsistencias) && count($decodedAsistencias) > 0) {
-        $totalDias = count($decodedAsistencias);
-        foreach ($decodedAsistencias as $fecha => $asistio) {
-            // Validamos contra 1 o true
-            if ($asistio == 1 || $asistio === true || $asistio === '1') {
-                $diasAsistidos++;
-            }
-        }
-
-        // Aplicar reglas de negocio corregidas
-        if ($diasAsistidos === $totalDias) {
-            $textoAsistencia = 'Asistió';
-        } elseif ($diasAsistidos > 0) {
-            $textoAsistencia = 'Desertó';
-            
-        } else {
-            $textoAsistencia = 'No Asistió';
-        }
-    }
-}
+                if (!empty($asistenciasJson)) {
+                    $decodedAsistencias = json_decode($asistenciasJson, true);
+                    if (is_string($decodedAsistencias)) {
+                        $decodedAsistencias = json_decode($decodedAsistencias, true);
+                    }
+                    if (is_array($decodedAsistencias) && count($decodedAsistencias) > 0) {
+                        $totalDias = count($decodedAsistencias);
+                        foreach ($decodedAsistencias as $fecha => $asistio) {
+                            if ($asistio == 1 || $asistio === true || $asistio === '1') {
+                                $diasAsistidos++;
+                            }
+                        }
+                        if ($diasAsistidos === $totalDias) {
+                            $textoAsistencia = 'Asistió';
+                        } elseif ($diasAsistidos > 0) {
+                            $textoAsistencia = 'Desertó';
+                        } else {
+                            $textoAsistencia = 'No Asistió';
+                        }
+                    }
+                }
                 $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
 
                 $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
@@ -2693,20 +2426,16 @@ if (!empty($asistenciasJson)) {
 
                 $currentStatus = $e->STATUS;
                 $currentFinalStatus = $e->FINAL_STATUS;
-
                 $califPractico = $e->PRACTICAL;
                 $califEQ = $e->EQUIPAMENT;
                 $califPYP    = $e->PYP;
                 $califResitInmediato  = $e->RESIT_INMEDIATO_SCORE;
                 $ente = $e->ACCREDITING_ENTITY_PROJECT;
                 $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
-
                 $practicoAprob = $califPractico >= $califMinAprob ? 'Pass' : 'Unpass';
                 $eqAprob = $califEQ >= $califMinAprob ? 'Pass' : 'Unpass';
                 $pypAprob = $califPYP >= $califMinAprob ? 'Pass' : 'Unpass';
                 $resitAprob = $califResitInmediato >= $califMinAprob ? 'Pass' : 'Unpass';
-
-
                 $currentStatus = 'Pendiente';
                 $currentFinalStatus = 'Pendiente';
 
@@ -2740,14 +2469,6 @@ if (!empty($asistenciasJson)) {
                     default:
                         break;
                 }
-
-
-                // if ($yaAprobadoPorCertificado || $pasoResit) {
-                //     $currentFinalStatus = 'Completed';
-                // } elseif ($resitVencido && ($e->STATUS === 'Failed' || empty($e->STATUS))) {
-                //     $currentStatus = 'Failed';
-                //     $currentFinalStatus = 'Failed';
-                // }
 
                 $misNiveles = [];
 
@@ -2818,7 +2539,7 @@ if (!empty($asistenciasJson)) {
                         'ACTIVO' => $e->ACTIVO,
                         'ID_PROJECT' => $e->ID_PROJECT,
                         'ASISTENCIAS' => $e->ASISTENCIAS,
-                        'ASISTENCIA' => $textoAsistencia, // ← "Asistió", "Desertó" o "No Asistió"
+                        'ASISTENCIA' => $textoAsistencia,
                         'ASISTENCIAS_DETALLE' => $diasAsistidos . '/' . $totalDias,
                         'COMPANY_PROJECT' => $e->COMPANY_PROJECT,
                         'COMPANY_NAME_PROJECT' => $e->COMPANY_NAME_PROJECT ?? 'N/A'
@@ -2881,9 +2602,6 @@ if (!empty($asistenciasJson)) {
             ], 500);
         }
     }
-
-    // Agregar en ProjectManagementController.php
-
     public function getProjectDates($ID_PROJECT)
     {
         try {

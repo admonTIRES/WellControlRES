@@ -1201,9 +1201,6 @@ class ProjectManagementController extends Controller
         });
         return response()->json($candidatos);
     }
-
-
-
     public function editarTablaCurso($ID_PROJECT)
     {
         try {

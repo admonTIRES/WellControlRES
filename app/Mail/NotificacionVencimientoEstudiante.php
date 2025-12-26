@@ -24,7 +24,7 @@ class NotificacionVencimientoEstudiante extends Mailable
      */
     public function build()
     {
-        return $this->subject('⚠️ Certificación de Control de Pozos - Aviso de Vencimiento')
+        return $this->subject('Certificación de Control de Pozos - Aviso de Vencimiento')
                     ->view('emails.notificacionVencimiento')
                     ->with([
                     'nombre'               => $this->data['nombre'] ?? 'N/A',

@@ -344,7 +344,6 @@ class ProjectManagementController extends Controller
                                 'CERTIFICATE_NUMBER',
                                 'EXPIRATION',
                                 'ENABLE_NOTIFICATIONS',
-                                'EMAILS_SENT',
                                 'LEVEL'
                             ];
 

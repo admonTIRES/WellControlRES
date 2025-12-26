@@ -171,7 +171,7 @@
             <a href="https://results-in-performance.com/" class="cta-button" target="_blank">Ver Calendario de Cursos</a>
             
             <div style="font-size: 14px; color: #6c757d; text-align: center;">
-                Si desea información personalizada sobre precios para grupos, consultas técnicas o agendar su lugar en un próximo curso, por favor contáctenos respondiendo a este correo.
+                Si desea información personalizada sobre precios para grupos, consultas técnicas o agendar su lugar en un próximo curso, por favor contáctenos presionando el botón siguiente.
             </div>
         </div>
         
@@ -188,7 +188,7 @@
             <div style="font-size: 11px; color: #95a5a6; border-top: 1px solid #444; padding-top: 20px;">
                 © {{ date('Y') }} Results In Performance. Todos los derechos reservados.<br>
                 Centro asociado de Smith Mason & Co.<br>
-                <p>Este es un recordatorio automático de su historial académico.</p>
+                <p>Este es un recordatorio automático si desea dejar de recibir este recordatorio contáctenos.</p>
             </div>
         </div>
     </div>

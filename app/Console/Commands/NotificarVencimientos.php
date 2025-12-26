@@ -58,6 +58,8 @@ class NotificarVencimientos extends Command
                 ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
                 ->leftJoin('nivel_acreditacion as na', 'co.LEVEL', '=', 'na.ID_CATALOGO_NIVELACREDITACION')
                 ->select(
+                    'co.ID_COURSE',
+                    'co.ENABLE_NOTIFICATIONS',
                     'c.FIRST_NAME_PROJECT', 'c.LAST_NAME_PROJECT', 'c.MIDDLE_NAME_PROJECT', 'c.EMAIL_PROJECT',
                     'cust.NOMBRE_COMERCIAL_CLIENTE', 'cust.CONTACTO_CLIENTE',
                     'np.NOMBRE_PROYECTO as nombre_curso',
@@ -76,17 +78,26 @@ class NotificarVencimientos extends Command
             }
 
             foreach ($vencimientos as $reg) {
+                $nombreCompleto = trim("{$reg->FIRST_NAME_PROJECT} {$reg->MIDDLE_NAME_PROJECT} {$reg->LAST_NAME_PROJECT}");
+                if ($reg->ENABLE_NOTIFICATIONS != 1) {
+                    $this->warn("⚠ Saltando a: {$nombreCompleto} (Notificaciones desactivadas)");
+                    continue; 
+                }
                 $emailSupervisor = $this->extraerPrimerEmailCliente($reg->CONTACTO_CLIENTE);
                 $emailPrueba = "lperez@results-in-performance.com";
+
+                $contacto = $this->extraerDatosContacto($reg->CONTACTO_CLIENTE);
+                
+                $nombreSupervisor = $contacto['nombre'] ?? $reg->NOMBRE_COMERCIAL_CLIENTE; 
 
                 $nombreCompleto = trim("{$reg->FIRST_NAME_PROJECT} {$reg->MIDDLE_NAME_PROJECT} {$reg->LAST_NAME_PROJECT}");
 
                 $data = [
-                    'nombre'            => $nombreCompleto,
-                    'email'             => $reg->EMAIL_PROJECT,
-                    'email_supervisor'  => $emailSupervisor,
-                    'nombre_supervisor' => $reg->NOMBRE_COMERCIAL_CLIENTE, // O el nombre del primer contacto si prefieres
-                    'nombre_curso'      => $reg->nombre_curso,
+                    'nombre'            => $nombreCompleto ?? 'N/A',
+                    'email'             => $reg->EMAIL_PROJECT ?? 'N/A',
+                    'email_supervisor'  => $emailSupervisor ?? 'N/A',
+                    'nombre_supervisor' => $nombreSupervisor ?? 'N/A', 
+                    'nombre_curso'      => $reg->nombre_curso ?? 'N/A',
                     'nivel'             => $reg->nivel_nombre ?? 'N/A',
                     'num_certificacion' => $reg->CERTIFICATE_NUMBER,
                     'empresa'           => $reg->NOMBRE_COMERCIAL_CLIENTE,
@@ -96,13 +107,31 @@ class NotificarVencimientos extends Command
                 ];
 
                 try {
+                    $envioExitoso = false;
                     if (!empty($data['email'])) {
                         //Mail::to($data['email'])->send(new NotificacionVencimientoEstudiante($data));
                         Mail::to($emailPrueba)->send(new NotificacionVencimientoEstudiante($data));
+                        $envioExitoso = true;
                     }
 
                     if (!empty($emailSupervisor)) {
                         Mail::to($emailPrueba)->send(new NotificacionVencimientoCliente($data));
+                        $envioExitoso = true;
+                    }
+
+                    if ($envioExitoso) {
+                        // 1. Guardamos el resultado del incremento en una variable
+                        $filasAfectadas = DB::table('course')
+                            ->where('ID_COURSE', $reg->ID_COURSE)
+                            ->increment('EMAILS_SENT');
+
+                        // 2. Verificamos si realmente se cambió algo
+                        if ($filasAfectadas > 0) {
+                            $this->info("✔ DB ACTUALIZADA: Se incrementó el registro ID: {$reg->ID_COURSE}");
+                        } else {
+                            $this->error("❌ ERROR: No se encontró el ID {$reg->ID_COURSE} en la tabla 'course'.");
+                            DB::table('course')->where('ID_COURSE', $reg->ID_COURSE)->update(['EMAILS_SENT' => 1]);
+                        }
                     }
 
                     $this->info("Notificación de {$dias} días enviada a: {$nombreCompleto}");
@@ -128,5 +157,25 @@ class NotificarVencimientos extends Command
         }
 
         return null;
+    }
+
+    private function extraerDatosContacto($jsonContactos)
+    {
+        $datos = ['nombre' => null, 'email' => null];
+
+        if (empty($jsonContactos)) return $datos;
+
+        $contactos = json_decode($jsonContactos, true);
+
+        if (is_string($contactos)) {
+            $contactos = json_decode($contactos, true);
+        }
+
+        if (is_array($contactos) && isset($contactos[0])) {
+            $datos['nombre'] = $contactos[0]['NOMBRE'] ?? null;
+            $datos['email']  = $contactos[0]['EMAIL'] ?? null;
+        }
+
+        return $datos;
     }
 }

@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('notificar:vencimientos')->dailyAt('17:15');
+        $schedule->command('notificar:vencimientos')->dailyAt('17:15');//se configura desde hotinguer, alla se envia la ejecucion del comando, usando la hora UTC Londres
     }
 
     /**

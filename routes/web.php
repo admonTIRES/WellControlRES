@@ -147,38 +147,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/temas', [ExamController::class, 'getTemas']);
 
 
-    Route::get('/test-emails', function () {
-    // 1. Definimos tu correo para recibir las pruebas
-    $tuEmail = 'lperez@results-in-performance.com'; 
-
-    // 2. Simulamos los datos que vendrían de la base de datos
-    $data = [
-        'nombre'            => 'JUAN PÉREZ GARCÍA',
-        'nombre_supervisor' => 'ROXANA MORALES',
-        'empresa'           => 'FONTIS ENERGY',
-        'razon_social'      => 'FONTIS ENERGY S.A. DE C.V.',
-        'dias_restantes'    => 30,
-        'nombre_curso'      => 'CONTROL DE POZOS (DRILLING)',
-        'nivel'             => 'DRUELLER - LEVEL 3',
-        'num_certificacion' => 'RIP-2024-8892',
-        'fecha_curso'       => '15/10/2024',
-        'fecha_vencimiento' => '25/01/2026',
-        'puesto'            => 'PERFORADOR A'
-    ];
-
-    try {
-        // Enviar prueba de Estudiante
-        Mail::to($tuEmail)->send(new NotificacionVencimientoEstudiante($data));
-
-        // Enviar prueba de Cliente
-        Mail::to($tuEmail)->send(new NotificacionVencimientoCliente($data));
-
-        return "✅ ¡Correos de prueba enviados! Revisa tu bandeja de entrada (y la carpeta de SPAM).";
-    } catch (\Exception $e) {
-        return "❌ Error al enviar: " . $e->getMessage();
-    }
-});
-
 
 Route::get('/hora', function() {
     return "Hora de Laravel: " . now()->toDateTimeString();
@@ -367,7 +335,6 @@ Route::middleware(['auth'])->group(function () {
         return response()->json(['success' => false, 'message' => 'Centro no encontrado']);
     }
 
-    // Función auxiliar para procesar los contactos JSON
     $getContactos = function($centroModel) {
         $contactos = [];
         $data = is_string($centroModel->CONTACTOS_CENTRO) 

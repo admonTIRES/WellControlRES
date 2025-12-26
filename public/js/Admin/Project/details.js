@@ -2764,20 +2764,33 @@ function renderEmailDatesColumn(expirationDate) {
     }
 
     const exp = new Date(expirationDate);
-    const d1 = new Date(exp); d1.setMonth(d1.getMonth() - 3);
-    const d2 = new Date(exp); d2.setMonth(d2.getMonth() - 2);
-    const d3 = new Date(exp); d3.setMonth(d3.getMonth() - 1);
+
+    const d90 = new Date(exp);
+    d90.setDate(d90.getDate() - 89);
+
+    const d60 = new Date(exp);
+    d60.setDate(d60.getDate() - 59);
+
+    const d30 = new Date(exp);
+    d30.setDate(d30.getDate() - 29);
 
     return `
         <td>
             <div style="font-size: 0.75rem; line-height: 1.2;">
-                <div class="text-muted">1: <span class="text-dark">${d1.toLocaleDateString('es-ES')}</span></div>
-                <div class="text-muted">2: <span class="text-dark">${d2.toLocaleDateString('es-ES')}</span></div>
-                <div class="text-muted">3: <span class="text-dark">${d3.toLocaleDateString('es-ES')}</span></div>
+                <div class="text-muted">90 días antes:
+                    <span class="text-dark">${d90.toLocaleDateString('es-ES')}</span>
+                </div>
+                <div class="text-muted">60 días antes:
+                    <span class="text-dark">${d60.toLocaleDateString('es-ES')}</span>
+                </div>
+                <div class="text-muted">30 días antes:
+                    <span class="text-dark">${d30.toLocaleDateString('es-ES')}</span>
+                </div>
             </div>
         </td>
     `;
 }
+
 
 function renderEmailSentColumn(emailsSent) {
     const sent = parseInt(emailsSent) || 0;

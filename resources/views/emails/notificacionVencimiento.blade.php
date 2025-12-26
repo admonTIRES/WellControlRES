@@ -120,7 +120,7 @@
                 <img src="https://wclearningexperience.results-in-performance.com/assets/images/Colorlargo.png" alt="Results in Performance">
             </div>
             <h1>Certificación de Control de Pozos</h1>
-            <p style="margin-top: 5px; opacity: 0.8;">Aviso Importante de Vencimiento</p>
+            <p style="margin-top: 5px; opacity: 0.8;">Aviso de Vencimiento de Certificación</p>
         </div>
         
         <div class="content">

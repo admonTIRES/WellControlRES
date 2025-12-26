@@ -106,7 +106,7 @@
         <div class="logo">
             <img src="https://wclearningexperience.results-in-performance.com/assets/images/Colorlargo.png" alt="Results In Performance">
         </div>
-        <h1>Aviso de Vencimiento de Certificación</h1>
+        <h1>Aviso de Vencimiento de Certificación de Control de Pozos</h1>
         <p style="opacity: 0.8;">Personal Operativo – Control de Pozos</p>
     </div>
 

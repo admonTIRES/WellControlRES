@@ -411,17 +411,14 @@
                 <td>
                     <div class="cert-container">
                         <strong>{{ $e['certificado'] }}</strong>
-                        @if(!empty($certUrl))
+                        @if(!empty($e['cert_short_url']))
                             <br>
-                            <a href="{{ $certUrl }}" class="cert-link">📄 Descargar PDF</a>
-                            @if(!empty($e['qr_code']))
-                                <br>
-                                <img src="{{ $e['qr_code'] }}" alt="QR" class="qr-code">
-                            @endif
+                            <a href="{{ $e['cert_short_url'] }}" class="cert-link">
+                                📄 Ver Certificado
+                            </a>
                         @endif
                     </div>
                 </td>
-                
                 <!-- VIGENCIA -->
                 <td>
                     <strong>{{ $e['expiracion'] }}</strong>

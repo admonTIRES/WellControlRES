@@ -34,6 +34,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CertificateController;
 
 class ProjectManagementController extends Controller
 {
@@ -1885,6 +1886,7 @@ public function exportProjectPdf($id)
             ->keyBy('ID_CATALOGO_TIPOBOP');
     }
 
+    $certController = new CertificateController();
     // Procesar estudiantes con la misma lógica del DataTable
     $estudiantesProcesados = [];
     
@@ -2028,38 +2030,42 @@ public function exportProjectPdf($id)
             }
         }
 
-        // Procesar ruta del certificado
-        $certPath = '';
-        $certFilename = '';
-        $qrCode = '';
+        $certShortUrl = '';
+$certFilename = '';
 
-        if (!empty($e->CERTIFIED)) {
-            try {
-                $certData = json_decode($e->CERTIFIED, true);
-                if (is_array($certData) && !empty($certData)) {
-                    if (isset($certData[0]['ruta'])) {
-                        $certPath = $certData[0]['ruta'];
-                        $certFilename = basename($certPath);
-                    }
-                } else {
-                    // Si no es JSON, es una ruta directa
-                    $certPath = $e->CERTIFIED;
-                    $certFilename = basename($certPath);
-                }
-
-                // Generar código QR (opcional)
-                if (!empty($certFilename)) {
-                    $baseUrl = request()->getSchemeAndHttpHost();
-                    $certUrl = $baseUrl . '/archivos/proyectos/' . $e->ID_PROJECT . '/candidatos/' . $e->ID_CANDIDATE . '/' . $certFilename;
-                    
-                    // Puedes usar una librería de QR como SimpleSoftwareIO/simple-qrcode
-                    // $qrCode = base64_encode(QrCode::format('png')->size(100)->generate($certUrl));
-                }
-            } catch (\Exception $ex) {
-                // Si hay error, usar ruta directa
-                $certFilename = basename($e->CERTIFIED);
+if (!empty($e->CERTIFIED)) {
+    try {
+        // Extraer nombre de archivo del JSON o string
+        $certData = json_decode($e->CERTIFIED, true);
+        if (is_array($certData) && !empty($certData)) {
+            if (isset($certData[0]['ruta'])) {
+                $certFilename = basename($certData[0]['ruta']);
             }
+        } else {
+            $certFilename = basename($e->CERTIFIED);
         }
+
+        // Generar URL corta ofuscada
+        if (!empty($certFilename)) {
+            $certShortUrl = $certController->generateShortUrl(
+                $e->ID_PROJECT,
+                $e->ID_CANDIDATE,
+                $certFilename
+            );
+        }
+    } catch (\Exception $ex) {
+        // Si hay error, intentar con ruta directa
+        $certFilename = basename($e->CERTIFIED);
+        if (!empty($certFilename)) {
+            $certShortUrl = $certController->generateShortUrl(
+                $e->ID_PROJECT,
+                $e->ID_CANDIDATE,
+                $certFilename
+            );
+        }
+    }
+}
+
 
         $estudiantesProcesados[] = [
             'candidate_id' => $e->ID_CANDIDATE,
@@ -2091,9 +2097,8 @@ public function exportProjectPdf($id)
             'certificado' => $e->CERTIFICATE_NUMBER ?? 'N/A',
             'expiracion' => !empty($e->EXPIRATION) ? Carbon::parse($e->EXPIRATION)->format('d/m/Y') : 'N/A',
             'vigencia' => $vigenciaTexto,
-            'cert_path' => $certPath,
-            'cert_filename' => $certFilename,
-            'qr_code' => $qrCode
+            'cert_short_url' => $certShortUrl,
+            'cert_filename' => $certFilename
         ];
     }
 

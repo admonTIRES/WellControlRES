@@ -39,6 +39,8 @@ use App\Models\Admin\catalogs\NivelAcreditacion;
 use App\Models\Admin\catalogs\Programas;
 use App\Models\Admin\catalogs\Ubicaciones;
 
+use App\Http\Controllers\CertificateController;
+
 
 use App\Mail\NotificacionVencimientoEstudiante;
 use App\Mail\NotificacionVencimientoCliente;
@@ -132,6 +134,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/studentsList', [adminController::class, 'studentsList'])->name('studentsList');
     Route::get('/tablaEstudiantesGeneral', [ProjectManagementController::class, 'tablaEstudiantesGeneral']);
 });
+
+Route::get('/c/{shortCode}', [CertificateController::class, 'download'])
+    ->name('certificate.view');
+
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //
 Route::middleware(['auth'])->group(function () {

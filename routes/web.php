@@ -135,8 +135,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tablaEstudiantesGeneral', [ProjectManagementController::class, 'tablaEstudiantesGeneral']);
 });
 
-Route::get('/c/{shortCode}', [CertificateController::class, 'download'])
-    ->name('certificate.view');
+Route::get('/c/{shortCode}', [App\Http\Controllers\CertificateController::class, 'download'])
+    ->name('certificate.view')
+    ->where('shortCode', '[A-Za-z0-9_-]+');
 
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //

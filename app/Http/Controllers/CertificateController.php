@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class CertificateController extends Controller
 {
-   public function generateShortUrl($projectId, $candidateId, $filename)
+    
+ /**
+     * 
+     * @param int $projectId
+     * @param int $candidateId
+     * @param string $filename
+     * @return string
+     */
+    public function generateShortUrl($projectId, $candidateId, $filename)
     {
-        // Crear datos concatenados
         $data = "{$projectId}|{$candidateId}|{$filename}";
         
-        // Encriptar con la clave de Laravel
         $encrypted = Crypt::encryptString($data);
         
-        // Convertir a base64url (seguro para URLs, sin caracteres especiales)
-        $shortCode = rtrim(strtr(base64_encode($encrypted), '+/', '-_'), '=');
+        $shortCode = str_replace(['+', '/', '='], ['-', '_', ''], $encrypted);
         
-        // Retornar URL completa
         return url("/c/{$shortCode}");
     }
 
     /**
-     * Descargar certificado usando código corto
      * 
      * @param string $shortCode
      * @return \Illuminate\Http\Response
@@ -31,39 +35,65 @@ class CertificateController extends Controller
     public function download($shortCode)
     {
         try {
-            // Decodificar de base64url a base64 normal
-            $encrypted = base64_decode(strtr($shortCode, '-_', '+/'));
+            $base64 = str_replace(['-', '_'], ['+', '/'], $shortCode);
             
-            // Desencriptar los datos
-            $data = Crypt::decryptString($encrypted);
+            $remainder = strlen($base64) % 4;
+            if ($remainder) {
+                $base64 .= str_repeat('=', 4 - $remainder);
+            }
             
-            // Separar los componentes
-            list($projectId, $candidateId, $filename) = explode('|', $data);
+            Log::info("ShortCode recibido: {$shortCode}");
+            Log::info("Base64 restaurado: {$base64}");
             
-            // Construir ruta completa del archivo
-            $path = public_path("archivos/proyectos/{$projectId}/candidatos/{$candidateId}/{$filename}");
+            $data = Crypt::decryptString($base64);
             
-            // Verificar que el archivo existe
-            if (!file_exists($path)) {
+            Log::info("Datos desencriptados: {$data}");
+            
+            $parts = explode('|', $data);
+            
+            if (count($parts) !== 3) {
+                Log::error("Formato inválido. Partes encontradas: " . count($parts));
+                abort(403, 'Formato de enlace inválido');
+            }
+            
+            list($projectId, $candidateId, $filename) = $parts;
+            
+            $filename = basename($filename);
+            
+            $storagePath = storage_path("app/admin/projects/{$projectId}/candidates/{$candidateId}/{$filename}");
+            
+            Log::info("Buscando archivo en: {$storagePath}");
+            
+            if (!file_exists($storagePath)) {
+                Log::error("Archivo no encontrado: {$storagePath}");
                 abort(404, 'Certificado no encontrado');
             }
             
-            // Retornar el archivo para visualización en navegador
-            return response()->file($path, [
+            if (!is_file($storagePath)) {
+                Log::error("La ruta no es un archivo válido: {$storagePath}");
+                abort(403, 'Ruta inválida');
+            }
+            
+            Log::info("Archivo encontrado. Tamaño: " . filesize($storagePath) . " bytes");
+            
+            return response()->file($storagePath, [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="' . basename($filename) . '"',
+                'Content-Disposition' => 'inline; filename="' . $filename . '"',
                 'Cache-Control' => 'public, max-age=3600'
             ]);
             
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            Log::error("Error de desencriptación: " . $e->getMessage());
+            Log::error("Stack trace: " . $e->getTraceAsString());
             abort(403, 'Enlace inválido o corrupto');
         } catch (\Exception $e) {
-            abort(500, 'Error al procesar el certificado');
+            Log::error("Error general: " . $e->getMessage());
+            Log::error("Stack trace: " . $e->getTraceAsString());
+            abort(500, 'Error al procesar el certificado: ' . $e->getMessage());
         }
     }
 
     /**
-     * Forzar descarga del certificado (alternativa)
      * 
      * @param string $shortCode
      * @return \Illuminate\Http\Response
@@ -71,23 +101,49 @@ class CertificateController extends Controller
     public function forceDownload($shortCode)
     {
         try {
-            $encrypted = base64_decode(strtr($shortCode, '-_', '+/'));
-            $data = Crypt::decryptString($encrypted);
-            list($projectId, $candidateId, $filename) = explode('|', $data);
+            $base64 = str_replace(['-', '_'], ['+', '/'], $shortCode);
             
-            $path = public_path("archivos/proyectos/{$projectId}/candidatos/{$candidateId}/{$filename}");
+            $remainder = strlen($base64) % 4;
+            if ($remainder) {
+                $base64 .= str_repeat('=', 4 - $remainder);
+            }
             
-            if (!file_exists($path)) {
+            $data = Crypt::decryptString($base64);
+            
+            $parts = explode('|', $data);
+            if (count($parts) !== 3) {
+                abort(403, 'Formato de enlace inválido');
+            }
+            
+            list($projectId, $candidateId, $filename) = $parts;
+            $filename = basename($filename);
+            
+            $storagePath = storage_path("app/admin/projects/{$projectId}/candidates/{$candidateId}/{$filename}");
+            
+            if (!file_exists($storagePath)) {
                 abort(404, 'Certificado no encontrado');
             }
             
-            // Forzar descarga en lugar de visualizar
-            return response()->download($path, basename($filename), [
+            return response()->download($storagePath, $filename, [
                 'Content-Type' => 'application/pdf'
             ]);
             
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            Log::error("Error de desencriptación en descarga: " . $e->getMessage());
             abort(403, 'Enlace inválido');
+        } catch (\Exception $e) {
+            Log::error("Error en descarga: " . $e->getMessage());
+            abort(500, 'Error al procesar la descarga');
         }
+    }
+    
+    public function test()
+    {
+        $url = $this->generateShortUrl(1, 1, 'test.pdf');
+        
+        return response()->json([
+            'url_generada' => $url,
+            'instrucciones' => 'Copia esta URL y pégala en tu navegador'
+        ]);
     }
 }

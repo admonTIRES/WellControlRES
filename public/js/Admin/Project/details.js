@@ -2880,3 +2880,72 @@ function renderScoreStatusCell(key, fieldName, score, status, includeSwitch = fa
 
     return html;
 }
+
+function descargarRoster(idProyecto) {
+    Swal.fire({
+        title: 'Generando Excel',
+        text: 'Tu descarga comenzará en breve...',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
+    window.location.href = '/exportProjectExcel/' + idProyecto;
+}
+
+// function descargarRosterPdf(id) {
+//     Swal.fire({
+//         title: 'Generando PDF',
+//         text: 'Por favor espere...',
+//         allowOutsideClick: false,
+//         didOpen: () => { Swal.showLoading(); }
+//     });
+//     window.location.href = '/exportProjectPdf/' + id;
+// }
+
+async function descargarRosterPdf(id) {
+    Swal.fire({
+        title: 'Generando PDF',
+        text: 'Por favor espere...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+    });
+
+    try {
+        const response = await fetch('/exportProjectPdf/' + id);
+        
+        if (!response.ok) {
+            throw new Error('Error al generar el PDF');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `ROSTER_${id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        // Cerrar el loading y mostrar éxito
+        Swal.fire({
+            icon: 'success',
+            title: '¡PDF Descargado!',
+            text: 'El archivo se ha descargado correctamente',
+            timer: 2000,
+            showConfirmButton: false
+        });
+
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo generar el PDF. Intente nuevamente.'
+        });
+        console.error('Error:', error);
+    }
+}

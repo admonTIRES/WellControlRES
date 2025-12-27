@@ -32,7 +32,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectManagementController extends Controller
@@ -270,8 +270,8 @@ class ProjectManagementController extends Controller
                         'data' => $candidatesData->map(function ($candidate) {
                             return [
                                 'ID_CANDIDATE' => $candidate->ID_CANDIDATE,
-                                'COMPANY_PROJECT' => $candidate->COMPANY_PROJECT, 
-                                'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT, 
+                                'COMPANY_PROJECT' => $candidate->COMPANY_PROJECT,
+                                'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT,
                                 'EMAIL_PROJECT' => $candidate->EMAIL_PROJECT,
                                 'FIRST_NAME_PROJECT' => $candidate->FIRST_NAME_PROJECT,
                                 'LAST_NAME_PROJECT' => $candidate->LAST_NAME_PROJECT
@@ -711,7 +711,7 @@ class ProjectManagementController extends Controller
             }
 
             $NOMBRE_INSTRUCTOR = __('N/A');
-            $instructores = $proyect->INSTRUCTOR_ID_PROJECT; 
+            $instructores = $proyect->INSTRUCTOR_ID_PROJECT;
 
             if (!empty($instructores) && is_array($instructores)) {
                 $nombres = [];
@@ -754,11 +754,11 @@ class ProjectManagementController extends Controller
                 $tipoOperacion = Operacion::find($proyect->OPERATION_TYPE_PROJECT);
             }
 
-             $ubicacion = null;
-             $ubicacionNombre = null;
+            $ubicacion = null;
+            $ubicacionNombre = null;
             if ($proyect->LOCATION_PROJECT) {
                 $ubicacion = Ubicaciones::find($proyect->LOCATION_PROJECT);
-                $ubicacionNombre = $ubicacion->LUGAR_UBICACION .' - '. $ubicacion->CIUDAD_UBICACION;
+                $ubicacionNombre = $ubicacion->LUGAR_UBICACION . ' - ' . $ubicacion->CIUDAD_UBICACION;
             }
 
             $nivelesAcreditacion = collect();
@@ -1814,6 +1814,299 @@ class ProjectManagementController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+public function exportProjectPdf($id)
+{
+    $hoy = Carbon::now()->startOfDay();
+
+    // Consulta principal con todos los JOINS
+    $estudiantesRaw = DB::table('course as co')
+        ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+        ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+        ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+        ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+        ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+        ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+        ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+        ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+        ->select(
+            'c.*', 'p.*', 'co.*', 
+            'prog.MIN_PORCENTAJE_APROB', 'prog.PERIODO_RESIT',
+            'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME',
+            'np.NOMBRE_PROYECTO as CURSO_NOMBRE',
+            'cc.NOMBRE_COMERCIAL_CENTRO as CENTRO_NOMBRE',
+            'ea.NOMBRE_ENTE as ENTE_NOMBRE',
+            'to.NOMBRE_OPERACION as TIPO_OPERACION'
+        )
+        ->where('c.ID_PROJECT', $id)
+        ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+        ->get();
+
+    if ($estudiantesRaw->isEmpty()) {
+        return redirect()->back()->with('error', 'No hay estudiantes inscritos en este proyecto.');
+    }
+
+    // Obtener datos de niveles y BOPs
+    $allNivelIds = [];
+    $allBopIds = [];
+    
+    foreach ($estudiantesRaw as $e) {
+        if (!empty($e->LEVEL)) {
+            $allNivelIds[] = $e->LEVEL;
+        }
+        if (!empty($e->ACCREDITATION_LEVELS_PROJECT)) {
+            $niveles = json_decode($e->ACCREDITATION_LEVELS_PROJECT, true);
+            if (is_array($niveles)) {
+                $allNivelIds = array_merge($allNivelIds, $niveles);
+            }
+        }
+        if (!empty($e->BOP_TYPES_PROJECT)) {
+            $bops = json_decode($e->BOP_TYPES_PROJECT, true);
+            if (is_array($bops)) {
+                $allBopIds = array_merge($allBopIds, $bops);
+            }
+        }
+    }
+
+    $nivelesData = [];
+    $bopsData = [];
+    
+    if (!empty($allNivelIds)) {
+        $nivelesData = DB::table('nivel_acreditacion')
+            ->whereIn('ID_CATALOGO_NIVELACREDITACION', array_unique($allNivelIds))
+            ->get()
+            ->keyBy('ID_CATALOGO_NIVELACREDITACION');
+    }
+    
+    if (!empty($allBopIds)) {
+        $bopsData = DB::table('tipo_bop')
+            ->whereIn('ID_CATALOGO_TIPOBOP', array_unique($allBopIds))
+            ->get()
+            ->keyBy('ID_CATALOGO_TIPOBOP');
+    }
+
+    // Procesar estudiantes con la misma lógica del DataTable
+    $estudiantesProcesados = [];
+    
+    foreach ($estudiantesRaw as $e) {
+        // Asistencia
+        $asistenciasJson = $e->ASISTENCIAS;
+        $totalDias = 0;
+        $diasAsistidos = 0;
+        $textoAsistencia = 'No Asistió';
+
+        if (!empty($asistenciasJson)) {
+            $decoded = json_decode($asistenciasJson, true);
+            if (is_string($decoded)) {
+                $decoded = json_decode($decoded, true);
+            }
+            if (is_array($decoded) && count($decoded) > 0) {
+                $totalDias = count($decoded);
+                foreach ($decoded as $fecha => $asistio) {
+                    if ($asistio == 1 || $asistio === true || $asistio === '1') {
+                        $diasAsistidos++;
+                    }
+                }
+                if ($diasAsistidos === $totalDias) {
+                    $textoAsistencia = 'Asistió';
+                } elseif ($diasAsistidos > 0) {
+                    $textoAsistencia = 'Desertó';
+                }
+            }
+        }
+
+        // Calificaciones y estados
+        $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 70;
+        $practicoAprob = $e->PRACTICAL >= $califMinAprob ? 'Pass' : 'Unpass';
+        $eqAprob = $e->EQUIPAMENT >= $califMinAprob ? 'Pass' : 'Unpass';
+        $pypAprob = $e->PYP >= $califMinAprob ? 'Pass' : 'Unpass';
+        $resitAprob = ($e->RESIT_INMEDIATO_SCORE ?? 0) >= $califMinAprob ? 'Pass' : 'Unpass';
+
+        // Estado del curso y final
+        $ente = $e->ACCREDITING_ENTITY_PROJECT;
+        $currentStatus = 'Pendiente';
+        $currentFinalStatus = 'Pendiente';
+
+        $yaAprobado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
+        $pasoResit = ($e->RESIT_PROGRAMADO_STATUS === 'Pass' || $e->RESIT_INMEDIATO_STATUS === 'Pass');
+
+        switch ($ente) {
+            case 1: // IADC
+                if ($e->PRACTICAL >= $califMinAprob && $e->EQUIPAMENT >= $califMinAprob) {
+                    $currentStatus = 'Completed';
+                    $currentFinalStatus = 'Completed';
+                } else {
+                    $currentStatus = 'Failed';
+                    $currentFinalStatus = ($yaAprobado || $pasoResit) ? 'Completed' : 'Failed';
+                }
+                break;
+            case 2: // IWCF
+                if ($e->PRACTICAL >= $califMinAprob && $e->EQUIPAMENT >= $califMinAprob && $e->PYP >= $califMinAprob) {
+                    $currentStatus = 'Completed';
+                    $currentFinalStatus = 'Completed';
+                } else {
+                    $currentStatus = 'Failed';
+                    $currentFinalStatus = ($yaAprobado || $pasoResit) ? 'Completed' : 'Failed';
+                }
+                break;
+        }
+
+        // Sobrescribir si desertó o no asistió
+        if ($textoAsistencia === 'Desertó') {
+            $currentStatus = 'Desertó';
+            $currentFinalStatus = 'Desertó';
+        } elseif ($textoAsistencia === 'No Asistió') {
+            $currentStatus = 'No Asistió';
+            $currentFinalStatus = 'No Asistió';
+        }
+
+        // Obtener nivel
+        $nivelTexto = 'N/A';
+        if (!empty($e->LEVEL) && isset($nivelesData[$e->LEVEL])) {
+            $nivelTexto = $nivelesData[$e->LEVEL]->NOMBRE_NIVEL;
+        } else {
+            $projNiveles = json_decode($e->ACCREDITATION_LEVELS_PROJECT, true);
+            if (is_array($projNiveles) && !empty($projNiveles)) {
+                $nombres = [];
+                foreach ($projNiveles as $idN) {
+                    if (isset($nivelesData[$idN])) {
+                        $nombres[] = $nivelesData[$idN]->NOMBRE_NIVEL;
+                    }
+                }
+                $nivelTexto = implode(', ', $nombres);
+            }
+        }
+
+        // Obtener BOPs
+        $bopTexto = 'N/A';
+        $projBops = json_decode($e->BOP_TYPES_PROJECT, true);
+        if (is_array($projBops) && !empty($projBops)) {
+            $abrevs = [];
+            foreach ($projBops as $idB) {
+                if (isset($bopsData[$idB])) {
+                    $abrevs[] = $bopsData[$idB]->ABREVIATURA;
+                }
+            }
+            $bopTexto = implode(', ', $abrevs);
+        }
+
+        // Historial de resits programados
+        $resitProgramados = [];
+        if (!empty($e->RESIT_PROGRAMADO_SCORE) || $e->RESIT_PROGRAMADO_SCORE === "0" || $e->RESIT_PROGRAMADO_SCORE === 0) {
+            $score = (float)$e->RESIT_PROGRAMADO_SCORE;
+            $resitProgramados[] = [
+                'score' => $score,
+                'status' => $score >= $califMinAprob ? 'Aprobado' : 'Reprobado',
+                'date' => !empty($e->RESIT_PROGRAMADO_DATE) ? Carbon::parse($e->RESIT_PROGRAMADO_DATE)->format('d/m/Y') : null
+            ];
+        }
+
+        for ($i = 1; $i <= 3; $i++) {
+            $campoScore = "RESIT_{$i}_SCORE";
+            $campoDate = "RESIT_{$i}_DATE";
+            if (!empty($e->$campoScore) || $e->$campoScore === "0" || $e->$campoScore === 0) {
+                $score = (float)$e->$campoScore;
+                $resitProgramados[] = [
+                    'score' => $score,
+                    'status' => $score >= $califMinAprob ? 'Aprobado' : 'Reprobado',
+                    'date' => !empty($e->$campoDate) ? Carbon::parse($e->$campoDate)->format('d/m/Y') : null
+                ];
+            }
+        }
+
+        // Vigencia del certificado
+        $vigenciaTexto = 'N/A';
+        if (!empty($e->EXPIRATION)) {
+            $expDate = Carbon::parse($e->EXPIRATION);
+            $diffDays = $hoy->diffInDays($expDate, false);
+            if ($diffDays < 0) {
+                $vigenciaTexto = "Vencido hace " . abs($diffDays) . " días";
+            } elseif ($diffDays <= 30) {
+                $vigenciaTexto = "Vence en {$diffDays} días";
+            } else {
+                $vigenciaTexto = "{$diffDays} días restantes";
+            }
+        }
+
+        // Procesar ruta del certificado
+        $certPath = '';
+        $certFilename = '';
+        $qrCode = '';
+
+        if (!empty($e->CERTIFIED)) {
+            try {
+                $certData = json_decode($e->CERTIFIED, true);
+                if (is_array($certData) && !empty($certData)) {
+                    if (isset($certData[0]['ruta'])) {
+                        $certPath = $certData[0]['ruta'];
+                        $certFilename = basename($certPath);
+                    }
+                } else {
+                    // Si no es JSON, es una ruta directa
+                    $certPath = $e->CERTIFIED;
+                    $certFilename = basename($certPath);
+                }
+
+                // Generar código QR (opcional)
+                if (!empty($certFilename)) {
+                    $baseUrl = request()->getSchemeAndHttpHost();
+                    $certUrl = $baseUrl . '/archivos/proyectos/' . $e->ID_PROJECT . '/candidatos/' . $e->ID_CANDIDATE . '/' . $certFilename;
+                    
+                    // Puedes usar una librería de QR como SimpleSoftwareIO/simple-qrcode
+                    // $qrCode = base64_encode(QrCode::format('png')->size(100)->generate($certUrl));
+                }
+            } catch (\Exception $ex) {
+                // Si hay error, usar ruta directa
+                $certFilename = basename($e->CERTIFIED);
+            }
+        }
+
+        $estudiantesProcesados[] = [
+            'candidate_id' => $e->ID_CANDIDATE,
+            'nombre' => trim("{$e->LAST_NAME_PROJECT} {$e->FIRST_NAME_PROJECT} {$e->MIDDLE_NAME_PROJECT}"),
+            'email' => $e->EMAIL_PROJECT,
+            'empresa' => $e->COMPANY_PROJECT ?? 'N/A',
+            'razon_social' => $e->COMPANY_NAME ?? 'N/A',
+            'asistencia' => $textoAsistencia,
+            'asistencia_detalle' => "{$diasAsistidos}/{$totalDias}",
+            'nivel' => $nivelTexto,
+            'bop' => $bopTexto,
+            'scores' => [
+                'practical' => $e->PRACTICAL ?? 0,
+                'practical_status' => $practicoAprob,
+                'equipament' => $e->EQUIPAMENT ?? 0,
+                'equipament_status' => $eqAprob,
+                'pyp' => $e->PYP ?? 0,
+                'pyp_status' => $pypAprob,
+            ],
+            'estado_curso' => $currentStatus,
+            'resit_inmediato' => [
+                'activo' => ($e->RESIT_INMEDIATO == 1),
+                'score' => $e->RESIT_INMEDIATO_SCORE ?? 'N/A',
+                'status' => $resitAprob,
+                'date' => !empty($e->RESIT_INMEDIATO_DATE) ? Carbon::parse($e->RESIT_INMEDIATO_DATE)->format('d/m/Y') : null
+            ],
+            'resits_programados' => $resitProgramados,
+            'estado_final' => $currentFinalStatus,
+            'certificado' => $e->CERTIFICATE_NUMBER ?? 'N/A',
+            'expiracion' => !empty($e->EXPIRATION) ? Carbon::parse($e->EXPIRATION)->format('d/m/Y') : 'N/A',
+            'vigencia' => $vigenciaTexto,
+            'cert_path' => $certPath,
+            'cert_filename' => $certFilename,
+            'qr_code' => $qrCode
+        ];
+    }
+
+    $proyecto = $estudiantesRaw->first();
+
+    $pdf = PDF::loadView('pdf.roster_real', [
+        'proyecto' => $proyecto,
+        'estudiantes' => $estudiantesProcesados,
+        'fecha_generacion' => Carbon::now()->format('d/m/Y H:i')
+    ])->setPaper('a3', 'landscape');
+
+    return $pdf->download("ROSTER_{$proyecto->FOLIO_PROJECT}.pdf");
+}
     private function getNivelesAcreditacion($nivelesIds)
     {
         if (!is_array($nivelesIds)) {

@@ -120,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/editarTablaCandidato/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCandidato']);
     Route::get('/editarTablaCurso/{ID_PROJECT}', [ProjectManagementController::class, 'editarTablaCurso']);
     Route::get('/exportProjectExcel/{id}', [ProjectManagementController::class, 'exportProjectExcel'])->name('exportProjectExcel');
+    Route::get('/exportProjectPdf/{id}', [ProjectManagementController::class, 'exportProjectPdf'])->name('exportProjectPdf');
 
     Route::get('/project/template/download', [ProjectManagementController::class, 'downloadTemplate'])->name('project.download.template');
     Route::post('/projectExcelImport', [ProjectManagementController::class, 'store']);

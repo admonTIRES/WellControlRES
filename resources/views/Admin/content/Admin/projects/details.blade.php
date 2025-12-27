@@ -184,9 +184,9 @@
                                 </div>
                                 <div class="card-content">
                                     <span class="card-label">{{ __('Location') }}</span>
-                                    <h5 class="card-value">{{ $proyect->CITY_PROJECT ?? __('N/A') }}</h5>
-                                    @if($proyect->LOCATION_PROJECT)
-                                        <span class="card-meta">{{ $proyect->LOCATION_PROJECT }}</span>
+                                    <h5 class="card-value">{{ $ubicacion->LUGAR_UBICACION ?? __('N/A') }}</h5>
+                                    @if($ubicacion->CIUDAD_UBICACION)
+                                        <span class="card-meta">{{ $ubicacion->CIUDAD_UBICACION }}</span>
                                     @endif
                                 </div>
                             </div>

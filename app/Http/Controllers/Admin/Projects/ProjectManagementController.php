@@ -21,6 +21,8 @@ use App\Models\Admin\catalogs\NombreProyecto;
 use App\Models\Admin\catalogs\CentrosCapacitacion;
 use App\Models\Admin\catalogs\Operacion;
 use App\Models\Admin\catalogs\Programas;
+use App\Models\Admin\catalogs\Ubicaciones;
+
 
 use App\Models\Admin\Project\candidate;
 use App\Models\Admin\Project\Course;
@@ -752,6 +754,13 @@ class ProjectManagementController extends Controller
                 $tipoOperacion = Operacion::find($proyect->OPERATION_TYPE_PROJECT);
             }
 
+             $ubicacion = null;
+             $ubicacionNombre = null;
+            if ($proyect->LOCATION_PROJECT) {
+                $ubicacion = Ubicaciones::find($proyect->LOCATION_PROJECT);
+                $ubicacionNombre = $ubicacion->LUGAR_UBICACION .' - '. $ubicacion->CIUDAD_UBICACION;
+            }
+
             $nivelesAcreditacion = collect();
             $idsNiveles = $proyect->ACCREDITATION_LEVELS_PROJECT ?? [];
 
@@ -898,6 +907,7 @@ class ProjectManagementController extends Controller
                 'promediosPorModulo',
                 'estudiantesConResit',
                 'resitInmediatos',
+                'ubicacion',
                 'resitProgramados'
             ));
         } catch (\Exception $e) {

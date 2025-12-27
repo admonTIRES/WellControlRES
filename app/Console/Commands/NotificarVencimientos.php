@@ -109,23 +109,21 @@ class NotificarVencimientos extends Command
                 try {
                     $envioExitoso = false;
                     if (!empty($data['email'])) {
-                        //Mail::to($data['email'])->send(new NotificacionVencimientoEstudiante($data));
-                        Mail::to($emailPrueba)->send(new NotificacionVencimientoEstudiante($data));
+                        Mail::to($data['email'])->send(new NotificacionVencimientoEstudiante($data));
+                        // Mail::to($emailPrueba)->send(new NotificacionVencimientoEstudiante($data));
                         $envioExitoso = true;
                     }
 
                     if (!empty($emailSupervisor)) {
-                        Mail::to($emailPrueba)->send(new NotificacionVencimientoCliente($data));
+                        Mail::to($emailSupervisor)->send(new NotificacionVencimientoCliente($data));
                         $envioExitoso = true;
                     }
 
                     if ($envioExitoso) {
-                        // 1. Guardamos el resultado del incremento en una variable
                         $filasAfectadas = DB::table('course')
                             ->where('ID_COURSE', $reg->ID_COURSE)
                             ->increment('EMAILS_SENT');
 
-                        // 2. Verificamos si realmente se cambió algo
                         if ($filasAfectadas > 0) {
                             $this->info("✔ DB ACTUALIZADA: Se incrementó el registro ID: {$reg->ID_COURSE}");
                         } else {

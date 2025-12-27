@@ -1496,7 +1496,6 @@ function cargarDatosCentro(centroId) {
 
                 let htmlFinal = '';
 
-                // 1. Si es asociado, mostrar datos del Primario primero
                 if (response.tipo === 'asociado' && response.centro_primario) {
                     htmlFinal += `
                         <div class="alert alert-info py-2 mb-3">
@@ -1511,7 +1510,6 @@ function cargarDatosCentro(centroId) {
                     );
                 }
 
-                // 2. Mostrar datos del centro seleccionado (el que el usuario eligió)
                 const tituloSolicitado = (response.tipo === 'asociado') 
                     ? `Centro asociado: ${solicitado.nombre}` 
                     : `Centro primario: ${solicitado.nombre}`;
@@ -1534,7 +1532,6 @@ function cargarDatosCentro(centroId) {
 function generarTablaHTML(contactos, titulo, badgeClass) {
     let tablaHtml = '';
     
-    // Encabezado con el Nombre del Centro
     tablaHtml += `
         <div class="mt-4 mb-2">
             <h6 class="d-flex align-items-center border-bottom pb-2">
@@ -1779,7 +1776,6 @@ function initializeTagifyWithEditSupport(tagifyInput) {
 
                 const companyId = tagData?.name || null;
 
-                // Crear nueva estructura
                 empresasActualizadas.push({
                     NAME_PROJECT: tagName,
                     STUDENTS_PROJECT: [],

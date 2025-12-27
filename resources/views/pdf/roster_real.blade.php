@@ -413,8 +413,14 @@
                         <strong>{{ $e['certificado'] }}</strong>
                         @if(!empty($e['cert_short_url']))
                             <br>
-                            <a href="{{ $e['cert_short_url'] }}" class="cert-link">
-                                📄 Ver Certificado
+                            <a href="{{ $e['cert_short_url'] }}" 
+                            class="cert-link" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                                 Ver Certificado
+                            </a>
+                            <a href="{{ $e['cert_short_url'] }}/download">
+                                Descargar Certificado
                             </a>
                         @endif
                     </div>

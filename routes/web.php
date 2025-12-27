@@ -139,6 +139,10 @@ Route::get('/c/{shortCode}', [App\Http\Controllers\CertificateController::class,
     ->name('certificate.view')
     ->where('shortCode', '[A-Za-z0-9_-]+');
 
+Route::get(
+    '/c/{code}/download',
+    [CertificateController::class, 'forceDownload']
+)->name('cert.download');
 // --------------------------EXERCISES-------------------------------------- //
 // --------------------------QUESTIONS-------------------------------------- //
 Route::middleware(['auth'])->group(function () {
@@ -156,9 +160,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/hora', function() {
-    return "Hora de Laravel: " . now()->toDateTimeString();
-});
+    Route::get('/hora', function () {
+        return "Hora de Laravel: " . now()->toDateTimeString();
+    });
 
     // --------------------------MATH-------------------------------------- //
     Route::get('/math', [adminController::class, 'math'])->name('math');
@@ -235,7 +239,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/programaSave', [CatalogsController::class, 'store']);
     Route::get('/programaActive', [CatalogsController::class, 'store']);
 
-    
+
 
     Route::get('/archivos/centros/{id}/{filename}', function ($id, $filename) {
         $path = storage_path('app/admin/catalogs/centros/' . $id . '/' . $filename);
@@ -251,7 +255,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('archivos.centros');
 
     Route::get('/archivos/proyectos/{id_proyecto}/candidatos/{id_candidato}/{filename}', function ($id_proyecto, $id_candidato, $filename) {
-    
+
         // Construimos la ruta física basada en tu estructura de carpetas
         $path = storage_path('app/admin/projects/' . $id_proyecto . '/candidates/' . $id_candidato . '/' . $filename);
 
@@ -264,7 +268,7 @@ Route::middleware(['auth'])->group(function () {
             'Content-Disposition' => 'inline; filename="' . $filename . '"'
         ]);
     })->name('archivos.candidatos');
-    
+
     Route::get('/centros-capacitacion', function (Request $request) {
         $acreditacion = $request->get('acreditacion', 0);
 
@@ -331,62 +335,62 @@ Route::middleware(['auth'])->group(function () {
             'nota' => 'Se traen programas que esten activas en el catálogo'
         ]);
     });
-   Route::get('/obtener-datos-centro', function (Request $request) {
-    $centroId = $request->get('centro_id');
+    Route::get('/obtener-datos-centro', function (Request $request) {
+        $centroId = $request->get('centro_id');
 
-    if (!$centroId) {
-        return response()->json(['success' => false, 'message' => 'ID no proporcionado']);
-    }
+        if (!$centroId) {
+            return response()->json(['success' => false, 'message' => 'ID no proporcionado']);
+        }
 
-    $centro = CentrosCapacitacion::find($centroId);
-    if (!$centro) {
-        return response()->json(['success' => false, 'message' => 'Centro no encontrado']);
-    }
+        $centro = CentrosCapacitacion::find($centroId);
+        if (!$centro) {
+            return response()->json(['success' => false, 'message' => 'Centro no encontrado']);
+        }
 
-    $getContactos = function($centroModel) {
-        $contactos = [];
-        $data = is_string($centroModel->CONTACTOS_CENTRO) 
-                ? json_decode($centroModel->CONTACTOS_CENTRO, true) 
+        $getContactos = function ($centroModel) {
+            $contactos = [];
+            $data = is_string($centroModel->CONTACTOS_CENTRO)
+                ? json_decode($centroModel->CONTACTOS_CENTRO, true)
                 : $centroModel->CONTACTOS_CENTRO;
 
-        if (is_array($data)) {
-            foreach ($data as $c) {
-                $contactos[] = [
-                    'nombre' => $c['NOMBRE'] ?? '',
-                    'cargo'  => $c['CARGO'] ?? '',
-                    'email'  => $c['EMAIL'] ?? '',
-                    'celular'=> $c['CELULAR'] ?? '',
-                    'fijo'   => $c['FIJO'] ?? ''
+            if (is_array($data)) {
+                foreach ($data as $c) {
+                    $contactos[] = [
+                        'nombre' => $c['NOMBRE'] ?? '',
+                        'cargo'  => $c['CARGO'] ?? '',
+                        'email'  => $c['EMAIL'] ?? '',
+                        'celular' => $c['CELULAR'] ?? '',
+                        'fijo'   => $c['FIJO'] ?? ''
+                    ];
+                }
+            }
+            return $contactos;
+        };
+
+        $respuesta = [
+            'success' => true,
+            'tipo' => ($centro->TIPO_CENTRO == 1) ? 'asociado' : 'primario',
+            'centro_solicitado' => [
+                'nombre' => $centro->NOMBRE_COMERCIAL_CENTRO,
+                'numero' => $centro->NUMERO_CENTRO,
+                'contactos' => $getContactos($centro)
+            ]
+        ];
+
+        // Si es ASOCIADO (Tipo 1), buscamos el primario
+        if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
+            $primario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
+            if ($primario) {
+                $respuesta['centro_primario'] = [
+                    'nombre' => $primario->NOMBRE_COMERCIAL_CENTRO,
+                    'numero' => $primario->NUMERO_CENTRO,
+                    'contactos' => $getContactos($primario)
                 ];
             }
         }
-        return $contactos;
-    };
 
-    $respuesta = [
-        'success' => true,
-        'tipo' => ($centro->TIPO_CENTRO == 1) ? 'asociado' : 'primario',
-        'centro_solicitado' => [
-            'nombre' => $centro->NOMBRE_COMERCIAL_CENTRO,
-            'numero' => $centro->NUMERO_CENTRO,
-            'contactos' => $getContactos($centro)
-        ]
-    ];
-
-    // Si es ASOCIADO (Tipo 1), buscamos el primario
-    if ($centro->TIPO_CENTRO == 1 && $centro->ASOCIADO_CENTRO) {
-        $primario = CentrosCapacitacion::find($centro->ASOCIADO_CENTRO);
-        if ($primario) {
-            $respuesta['centro_primario'] = [
-                'nombre' => $primario->NOMBRE_COMERCIAL_CENTRO,
-                'numero' => $primario->NUMERO_CENTRO,
-                'contactos' => $getContactos($primario)
-            ];
-        }
-    }
-
-    return response()->json($respuesta);
-});
+        return response()->json($respuesta);
+    });
 });
 
 

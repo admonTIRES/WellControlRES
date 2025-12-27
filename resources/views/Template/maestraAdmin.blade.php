@@ -51,7 +51,7 @@ use Illuminate\Support\Str;
             @break
             @case('detailsProject')
                 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.21" media="(min-width: 1024px)">
+                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.22" media="(min-width: 1024px)">
             @break
         @endswitch
     @endif

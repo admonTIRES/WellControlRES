@@ -419,6 +419,7 @@
                             rel="noopener noreferrer">
                                  Ver Certificado
                             </a>
+                            <br>
                             <a href="{{ $e['cert_short_url'] }}/download">
                                 Descargar Certificado
                             </a>

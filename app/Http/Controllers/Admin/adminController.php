@@ -23,6 +23,7 @@ use App\Models\Admin\catalogs\Ubicaciones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\Project\Course;
+use Illuminate\Support\Carbon;
 
 
 use App\Models\User;
@@ -165,7 +166,7 @@ class adminController extends Controller
         $instructores = Instructor::all();
         $ubicaciones = Ubicaciones::all();
         // $programas = Programas::all();
-        $programas = Programas::all()->map(function($programa) {
+        $programas = Programas::all()->map(function ($programa) {
             return [
                 'ID_CATALOGO_PROGRAMA' => $programa->ID_CATALOGO_PROGRAMA,
                 'NOMBRE_PROGRAMA' => $programa->NOMBRE_PROGRAMA,
@@ -176,7 +177,7 @@ class adminController extends Controller
             ];
         });
 
-      
+
         $comenzarChart = 0;
         $cursoChart = 0;
         $finalizadosChart = 1;
@@ -601,6 +602,7 @@ class adminController extends Controller
             $startYear = $request->get('start_year');
             $endYear = $request->get('end_year');
             $chartType = $request->get('chart_type', 'column');
+            $hoy = Carbon::now()->startOfDay();
 
             $applyDateFilter = function ($query) use ($periodType, $startDate, $endDate, $startYear, $endYear) {
                 if ($periodType === 'year' && $startYear && $endYear) {
@@ -614,73 +616,364 @@ class adminController extends Controller
 
             $totalProyectosQuery = DB::table('proyect')
                 ->whereNotNull('COURSE_START_DATE_PROJECT');
-
             $totalProyectosQuery = $applyDateFilter($totalProyectosQuery);
             $totalProyectos = $totalProyectosQuery->count();
+            $estudiantesQuery = DB::table('candidate as c')
+                ->leftJoin('course as co', 'c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
+                ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+                ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+                ->select(
+                    'c.ID_CANDIDATE',
+                    'c.ASISTENCIAS',
+                    'c.ID_PROJECT',
+                    'p.COURSE_START_DATE_PROJECT',
+                    'p.EXAM_DATE_PROJECT',
+                    'p.ACCREDITING_ENTITY_PROJECT',
+                    'prog.PERIODO_RESIT',
+                    'prog.MIN_PORCENTAJE_APROB',
+                    DB::raw('COALESCE(co.ID_COURSE, 0) as curso_id'),
+                    DB::raw('COALESCE(co.PRACTICAL, 0) as PRACTICAL'),
+                    DB::raw('COALESCE(co.EQUIPAMENT, 0) as EQUIPAMENT'),
+                    DB::raw('COALESCE(co.PYP, 0) as PYP'),
+                    DB::raw('COALESCE(co.STATUS, "Pendiente") as STATUS'),
+                    DB::raw('COALESCE(co.RESIT, "0") as RESIT'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO, "0") as RESIT_INMEDIATO'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO_SCORE, 0) as RESIT_INMEDIATO_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO_STATUS, "Pendiente") as RESIT_INMEDIATO_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO, "0") as RESIT_PROGRAMADO'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO_SCORE, 0) as RESIT_PROGRAMADO_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO_STATUS, "Pendiente") as RESIT_PROGRAMADO_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_1, "0") as RESIT_1'),
+                    DB::raw('COALESCE(co.RESIT_1_SCORE, 0) as RESIT_1_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_1_STATUS, "Pendiente") as RESIT_1_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_2, "0") as RESIT_2'),
+                    DB::raw('COALESCE(co.RESIT_2_SCORE, 0) as RESIT_2_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_2_STATUS, "Pendiente") as RESIT_2_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_3, "0") as RESIT_3'),
+                    DB::raw('COALESCE(co.RESIT_3_SCORE, 0) as RESIT_3_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_3_STATUS, "Pendiente") as RESIT_3_STATUS'),
+                    DB::raw('COALESCE(co.FINAL_STATUS, "FAIL") as FINAL_STATUS'),
+                    DB::raw('COALESCE(co.HAVE_CERTIFIED, 0) as HAVE_CERTIFIED'),
+                    DB::raw('COALESCE(co.CERTIFIED, NULL) as CERTIFIED'),
+                    DB::raw('COALESCE(co.EXPIRATION, NULL) as EXPIRATION')
+                )
+                ->whereNotNull('c.ID_PROJECT');
 
-            $totalEstudiantesQuery = DB::table('candidate')
-                ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
-                ->whereNotNull('candidate.ID_PROJECT');
+            $applyDateFilter2 = function ($query) use ($periodType, $startDate, $endDate, $startYear, $endYear) {
+                if ($periodType === 'year' && $startYear && $endYear) {
+                    $query->whereYear('p.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                        ->whereYear('p.COURSE_START_DATE_PROJECT', '<=', $endYear);
+                } elseif ($startDate && $endDate) {
+                    $query->whereBetween('p.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+                }
+                return $query;
+            };
 
-            $totalEstudiantesQuery = $applyDateFilter($totalEstudiantesQuery);
-            $totalEstudiantes = $totalEstudiantesQuery->count();
+            $estudiantesQuery = $applyDateFilter2($estudiantesQuery);
+            $estudiantes = $estudiantesQuery->get();
 
-            $totalDesercionQuery = DB::table('candidate')
-                ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
-                ->where('candidate.ASISTENCIA', '=', 0)
-                ->whereNotNull('candidate.ID_PROJECT');
 
-            $totalDesercionQuery = $applyDateFilter($totalDesercionQuery);
-            $totalDesercion = $totalDesercionQuery->count();
+             $estudiantesFormateados = [];
+         foreach ($estudiantes as $e) {
+            $estudiantesFormateados[] = [
+                'ID_CANDIDATE' => $e->ID_CANDIDATE,
+                'ASISTENCIAS' => $e->ASISTENCIAS,
+                'ID_PROJECT' => $e->ID_PROJECT,
+                'EXAM_DATE_PROJECT' => $e->EXAM_DATE_PROJECT,
+                'ACCREDITING_ENTITY_PROJECT' => $e->ACCREDITING_ENTITY_PROJECT,
+                'PERIODO_RESIT' => $e->PERIODO_RESIT,
+                'MIN_PORCENTAJE_APROB' => $e->MIN_PORCENTAJE_APROB,
+                'curso_id' => $e->curso_id,
+                'datos_curso' => [
+                    'PRACTICAL' => $e->PRACTICAL,
+                    'EQUIPAMENT' => $e->EQUIPAMENT,
+                    'PYP' => $e->PYP,
+                    'STATUS' => $e->STATUS,
+                    'RESIT' => $e->RESIT,
+                    'RESIT_INMEDIATO' => $e->RESIT_INMEDIATO,
+                    'RESIT_INMEDIATO_SCORE' => $e->RESIT_INMEDIATO_SCORE,
+                    'RESIT_INMEDIATO_STATUS' => $e->RESIT_INMEDIATO_STATUS,
+                    'RESIT_PROGRAMADO' => $e->RESIT_PROGRAMADO,
+                    'RESIT_PROGRAMADO_SCORE' => $e->RESIT_PROGRAMADO_SCORE,
+                    'RESIT_PROGRAMADO_STATUS' => $e->RESIT_PROGRAMADO_STATUS,
+                    'RESIT_1' => $e->RESIT_1,
+                    'RESIT_1_SCORE' => $e->RESIT_1_SCORE,
+                    'RESIT_1_STATUS' => $e->RESIT_1_STATUS,
+                    'RESIT_2' => $e->RESIT_2,
+                    'RESIT_2_SCORE' => $e->RESIT_2_SCORE,
+                    'RESIT_2_STATUS' => $e->RESIT_2_STATUS,
+                    'RESIT_3' => $e->RESIT_3,
+                    'RESIT_3_SCORE' => $e->RESIT_3_SCORE,
+                    'RESIT_3_STATUS' => $e->RESIT_3_STATUS,
+                    'FINAL_STATUS' => $e->FINAL_STATUS,
+                    'HAVE_CERTIFIED' => $e->HAVE_CERTIFIED,
+                    'CERTIFIED' => $e->CERTIFIED,
+                    'EXPIRATION' => $e->EXPIRATION
+                ]
+            ];
+        }
 
-            $estudiantesAprobadosQuery = DB::table('course')
-                ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT')
-                ->where('course.FINAL_STATUS', 'Pass');
+            $totalEstudiantes = 0;
+            $estudiantesDesercion = 0;
+            $estudiantesNoAsistieron = 0;
+            $estudiantesAprobados = 0;
+            $estudiantesReprobados = 0;
+            $aprobadosPrimerIntento = 0;
+            $aprobadosConResit = 0;
+            $reprobadosSinOportunidad = 0;
+            $reprobadosConOportunidadNoTomada = 0;
+            $reprobadosPresentaronResit = 0;
+            $reprobadosVencimiento = 0;
 
-            $estudiantesAprobadosQuery = $applyDateFilter($estudiantesAprobadosQuery);
-            $estudiantesAprobados = $estudiantesAprobadosQuery->count();
+            foreach ($estudiantes as $e) {
+                // Procesar asistencias
+                $asistenciasJson = $e->ASISTENCIAS;
+                $totalDias = 0;
+                $diasAsistidos = 0;
+                $textoAsistencia = 'No Asistió';
+
+                if (!empty($asistenciasJson)) {
+                    $decodedAsistencias = json_decode($asistenciasJson, true);
+                    if (is_string($decodedAsistencias)) {
+                        $decodedAsistencias = json_decode($decodedAsistencias, true);
+                    }
+                    if (is_array($decodedAsistencias) && count($decodedAsistencias) > 0) {
+                        $totalDias = count($decodedAsistencias);
+                        foreach ($decodedAsistencias as $fecha => $asistio) {
+                            if ($asistio == 1 || $asistio === true || $asistio === '1') {
+                                $diasAsistidos++;
+                            }
+                        }
+                        if ($diasAsistidos === $totalDias) {
+                            $textoAsistencia = 'Asistió';
+                        } elseif ($diasAsistidos > 0) {
+                            $textoAsistencia = 'Desertó';
+                        } else {
+                            $textoAsistencia = 'No Asistió';
+                        }
+                    }
+                }
+
+                // Contar deserción y no asistencia
+                if ($textoAsistencia === 'Desertó') {
+                    $estudiantesDesercion++;
+                    // continue; // No procesar más este estudiante
+                } elseif ($textoAsistencia === 'No Asistió') {
+                    $estudiantesNoAsistieron++;
+                    // continue; // No procesar más este estudiante
+                }
+
+                // Solo contar estudiantes que asistieron
+                $totalEstudiantes++;
+
+                // Variables para análisis
+                $ente = $e->ACCREDITING_ENTITY_PROJECT;
+                $califMinAprob = $e->MIN_PORCENTAJE_APROB ?? 100;
+                $califPractico = $e->PRACTICAL;
+                $califEQ = $e->EQUIPAMENT;
+                $califPYP = $e->PYP;
+
+                $yaAprobadoPorCertificado = (!empty($e->EXPIRATION) || !empty($e->CERTIFIED) || $e->HAVE_CERTIFIED == 1);
+
+                // Verificar si pasó algún resit
+                $pasoResitInmediato = ($e->RESIT_INMEDIATO_SCORE >= $califMinAprob);
+                $pasoResitProgramado = ($e->RESIT_PROGRAMADO_SCORE >= $califMinAprob);
+                $pasoResit1 = ($e->RESIT_1_SCORE >= $califMinAprob);
+                $pasoResit2 = ($e->RESIT_2_SCORE >= $califMinAprob);
+                $pasoResit3 = ($e->RESIT_3_SCORE >= $califMinAprob);
+
+                $pasoAlgunResit = ($pasoResitInmediato || $pasoResitProgramado || $pasoResit1 || $pasoResit2 || $pasoResit3);
+
+                // Verificar si presentó algún resit
+                $presentoResitInmediato = ($e->RESIT_INMEDIATO == "1");
+                $presentoResitProgramado = ($e->RESIT_PROGRAMADO == "1");
+                $presentoResit1 = ($e->RESIT_1 == "1");
+                $presentoResit2 = ($e->RESIT_2 == "1");
+                $presentoResit3 = ($e->RESIT_3 == "1");
+
+                $presentoAlgunResit = ($presentoResitInmediato || $presentoResitProgramado ||
+                    $presentoResit1 || $presentoResit2 || $presentoResit3);
+
+                // Verificar vencimiento del periodo de resit
+                $resitVencido = false;
+                if (!empty($e->EXAM_DATE_PROJECT) && !is_null($e->PERIODO_RESIT)) {
+                    $fechaVencimiento = Carbon::parse($e->EXAM_DATE_PROJECT)->addDays((int)$e->PERIODO_RESIT);
+                    if ($hoy->greaterThan($fechaVencimiento)) {
+                        $resitVencido = true;
+                    }
+                }
+
+                // Determinar estado según ente acreditador
+                $aproboExamenInicial = false;
+                $califMinParaResit = 0;
+                $tuvoOportunidadResit = false;
+
+                switch ($ente) {
+                    case 1: // IADC
+                        $aproboExamenInicial = ($califPractico >= $califMinAprob && $califEQ >= $califMinAprob);
+                        // Para IADC, necesita mínimo en ambos módulos para tener oportunidad de resit
+                        // Verificar si tiene al menos una calificación que permita resit
+                        $califMinParaResit = $califMinAprob * 0.5; // Asumiendo 50% mínimo para resit
+                        $tuvoOportunidadResit = (
+                            ($califPractico >= $califMinParaResit && $califPractico < $califMinAprob) ||
+                            ($califEQ >= $califMinParaResit && $califEQ < $califMinAprob)
+                        );
+                        break;
+
+                    case 2: // IWCF
+                        $aproboExamenInicial = ($califPractico >= $califMinAprob &&
+                            $califEQ >= $califMinAprob &&
+                            $califPYP >= $califMinAprob);
+                        // Para IWCF, similar lógica
+                        $califMinParaResit = $califMinAprob * 0.5;
+                        $tuvoOportunidadResit = (
+                            ($califPractico >= $califMinParaResit && $califPractico < $califMinAprob) ||
+                            ($califEQ >= $califMinParaResit && $califEQ < $califMinAprob) ||
+                            ($califPYP >= $califMinParaResit && $califPYP < $califMinAprob)
+                        );
+                        break;
+
+                    default:
+                        $aproboExamenInicial = false;
+                        $tuvoOportunidadResit = false;
+                        break;
+                }
+
+                // Clasificar estudiantes
+                if ($aproboExamenInicial) {
+                    // Aprobó en el primer intento
+                    $estudiantesAprobados++;
+                    $aprobadosPrimerIntento++;
+                } elseif ($yaAprobadoPorCertificado || $pasoAlgunResit) {
+                    // Aprobó con resit
+                    $estudiantesAprobados++;
+                    $aprobadosConResit++;
+                } else {
+                    // Reprobó
+                    $estudiantesReprobados++;
+
+                    // Clasificar tipo de reprobación
+                    if (!$tuvoOportunidadResit) {
+                        // No alcanzó el mínimo para tener oportunidad de resit
+                        $reprobadosSinOportunidad++;
+                    } elseif ($resitVencido && !$presentoAlgunResit) {
+                        // Se venció el periodo y no presentó
+                        $reprobadosVencimiento++;
+                        $reprobadosConOportunidadNoTomada++;
+                    } elseif ($tuvoOportunidadResit && !$presentoAlgunResit && !$resitVencido) {
+                        // Tiene oportunidad pero no la ha tomado (aún no vence)
+                        $reprobadosConOportunidadNoTomada++;
+                    } elseif ($presentoAlgunResit && !$pasoAlgunResit) {
+                        // Presentó resit pero reprobó
+                        $reprobadosPresentaronResit++;
+                    }
+                }
+            }
+
+            $totalAsistieron = $totalEstudiantes;
+            $totalInscriptos = $totalAsistieron + $estudiantesDesercion + $estudiantesNoAsistieron;
+
+            $porcentajeAprobacion = $totalAsistieron > 0 ? round(($estudiantesAprobados / $totalAsistieron) * 100, 2) : 0;
+            $porcentajeReprobacion = $totalAsistieron > 0 ? round(($estudiantesReprobados / $totalAsistieron) * 100, 2) : 0;
+            $porcentajeDesercion = $totalInscriptos > 0 ? round(($estudiantesDesercion / $totalInscriptos) * 100, 2) : 0;
 
             $metricas = [
                 'totalProyectos' => $totalProyectos,
-                'totalEstudiantes' => $totalEstudiantes,
+                'totalInscriptos' => $totalInscriptos,
+                'totalEstudiantes' => $totalAsistieron,
+                'estudiantesDesercion' => $estudiantesDesercion,
+                'estudiantesNoAsistieron' => $estudiantesNoAsistieron,
                 'estudiantesAprobados' => $estudiantesAprobados,
-                'totalDesercion' => $totalDesercion
+                'estudiantesReprobados' => $estudiantesReprobados,
+                'porcentajeAprobacion' => $porcentajeAprobacion,
+                'porcentajeReprobacion' => $porcentajeReprobacion,
+                'porcentajeDesercion' => $porcentajeDesercion
             ];
+
+            $tiposAprobacion = [
+                'aprobadosPrimerIntento' => $aprobadosPrimerIntento,
+                'aprobadosConResit' => $aprobadosConResit,
+                'labels' => ['Primer Intento', 'Con Resit'],
+                'series' => [$aprobadosPrimerIntento, $aprobadosConResit]
+            ];
+
+            // Tipos de reprobación
+            $tiposReprobacion = [
+                'reprobadosSinOportunidad' => $reprobadosSinOportunidad,
+                'reprobadosConOportunidadNoTomada' => $reprobadosConOportunidadNoTomada,
+                'reprobadosPresentaronResit' => $reprobadosPresentaronResit,
+                'reprobadosVencimiento' => $reprobadosVencimiento,
+                'labels' => [
+                    'Sin Oportunidad (No alcanzó mínimo)',
+                    'Con Oportunidad No Tomada',
+                    'Presentó Resit y Reprobó',
+                    'Periodo Vencido'
+                ],
+                'series' => [
+                    $reprobadosSinOportunidad,
+                    $reprobadosConOportunidadNoTomada,
+                    $reprobadosPresentaronResit,
+                    $reprobadosVencimiento
+                ]
+            ];
+
+
+            // $totalEstudiantesQuery = DB::table('candidate')
+            //     ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+            //     ->whereNotNull('candidate.ID_PROJECT');
+
+            // $totalEstudiantesQuery = $applyDateFilter($totalEstudiantesQuery);
+            // $totalEstudiantes = $totalEstudiantesQuery->count();
+
+            // $totalDesercionQuery = DB::table('candidate')
+            //     ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+            //     ->where('candidate.ASISTENCIA', '=', 0)
+            //     ->whereNotNull('candidate.ID_PROJECT');
+
+            // $totalDesercionQuery = $applyDateFilter($totalDesercionQuery);
+            // $totalDesercion = $totalDesercionQuery->count();
+
+            // $estudiantesAprobadosQuery = DB::table('course')
+            //     ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT')
+            //     ->where('course.FINAL_STATUS', 'Pass');
+
+            // $estudiantesAprobadosQuery = $applyDateFilter($estudiantesAprobadosQuery);
+            // $estudiantesAprobados = $estudiantesAprobadosQuery->count();
+
+            // $metricas = [
+            //     'totalProyectos' => $totalProyectos,
+            //     'totalEstudiantes' => $totalEstudiantes,
+            //     'estudiantesAprobados' => $estudiantesAprobados,
+            //     'totalDesercion' => $totalDesercion
+            // ];
 
             $proyectosAcreditacionQuery = DB::table('proyect')
                 ->join('entes_acreditadores', 'proyect.ACCREDITING_ENTITY_PROJECT', '=', 'entes_acreditadores.ID_CATALOGO_ENTE')
                 ->select('entes_acreditadores.NOMBRE_ENTE', DB::raw('COUNT(*) as total'))
                 ->whereNotNull('proyect.COURSE_START_DATE_PROJECT');
-
             $proyectosAcreditacionQuery = $applyDateFilter($proyectosAcreditacionQuery);
             $proyectosAcreditacion = $proyectosAcreditacionQuery
                 ->groupBy('entes_acreditadores.NOMBRE_ENTE')
                 ->orderByDesc('total')
                 ->get();
-
             $proyectosAnioQuery = DB::table('proyect')
                 ->select(DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'), DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_START_DATE_PROJECT');
-
             $proyectosAnioQuery = $applyDateFilter($proyectosAnioQuery);
             $proyectosAnio = $proyectosAnioQuery
                 ->groupBy(DB::raw('YEAR(COURSE_START_DATE_PROJECT)'))
                 ->orderBy('year')
                 ->get();
-
             $proyectosEmpresa = $this->getProyectosPorEmpresa($periodType, $startDate, $endDate, $startYear, $endYear);
-
             $proyectosTipoCursoQuery = DB::table('proyect')
                 ->select('COURSE_TYPE_PROJECT', DB::raw('COUNT(*) as total'))
                 ->whereNotNull('COURSE_TYPE_PROJECT')
                 ->where('COURSE_TYPE_PROJECT', '!=', '');
-
             $proyectosTipoCursoQuery = $applyDateFilter($proyectosTipoCursoQuery);
             $proyectosTipoCurso = $proyectosTipoCursoQuery
                 ->groupBy('COURSE_TYPE_PROJECT')
                 ->orderByDesc('total')
                 ->get();
-
             $tendenciaMensualQuery = DB::table('proyect')
                 ->select(
                     DB::raw('YEAR(COURSE_START_DATE_PROJECT) as year'),
@@ -730,69 +1023,94 @@ class adminController extends Controller
             $processedData = $this->processDataByPeriod($baseData, $periodType);
             // AQUI TERMINA LO DE BARRAS (chardiv)
             //aqui empieza la data de las circulares de estudiantes
-            $cursosQuery = Course::with(['candidate' => function ($query) {
-                $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
-                    ->where('ASISTENCIA', '!=', '0')
-                    ->orWhereNull('ASISTENCIA');
-            }])
-                ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT');
+            // $cursosQuery = Course::with(['candidate' => function ($query) {
+            //     $query->select('ID_CANDIDATE', 'ID_PROJECT', 'LAST_NAME_PROJECT', 'FIRST_NAME_PROJECT', 'MIDDLE_NAME_PROJECT', 'EMAIL_PROJECT', 'ACTIVO', 'ASISTENCIA')
+            //         ->where('ASISTENCIA', '!=', '0')
+            //         ->orWhereNull('ASISTENCIA');
+            // }])
+            //     ->join('proyect', 'course.ID_PROJECT', '=', 'proyect.ID_PROJECT');
 
-            // Aplicar filtros de fecha a los cursos
-            if ($periodType === 'year' && $startYear && $endYear) {
-                $cursosQuery->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
-                    ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
-            } elseif ($startDate && $endDate) {
-                $cursosQuery->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
-            }
+            // // Aplicar filtros de fecha a los cursos
+            // if ($periodType === 'year' && $startYear && $endYear) {
+            //     $cursosQuery->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+            //         ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+            // } elseif ($startDate && $endDate) {
+            //     $cursosQuery->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            // }
 
-            $cursos = $cursosQuery->get();
+            // $cursos = $cursosQuery->get();
 
-            $estudiantes = [];
+            // $estudiantes = [];
 
-            foreach ($cursos as $curso) {
-                if ($curso->candidate) {
-                    $estudiantes[] = [
-                        'curso_id' => $curso->ID_COURSE,
-                        'candidato' => [
-                            'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
-                            'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
-                            'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
-                            'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
-                            'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
-                            'ACTIVO' => $curso->candidate->ACTIVO
-                        ],
-                        'datos_curso' => [
-                            'PRACTICAL' => $curso->PRACTICAL,
-                            'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
-                            'EQUIPAMENT' => $curso->EQUIPAMENT,
-                            'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
-                            'PYP' => $curso->PYP,
-                            'PYP_PASS' => $curso->PYP_PASS,
-                            'STATUS' => $curso->STATUS,
-                            'RESIT' => $curso->RESIT,
-                            'INTENTOS' => $curso->INTENTOS,
-                            'RESIT_MODULE' => $curso->RESIT_MODULE,
-                            'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
-                            'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
-                            'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
-                            'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
-                            'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
-                            'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
-                            'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
-                            'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
-                            'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
-                            'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
-                            'FINAL_STATUS' => $curso->FINAL_STATUS,
-                            'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
-                            'CERTIFIED' => $curso->CERTIFIED,
-                            'EXPIRATION' => $curso->EXPIRATION
-                        ]
-                    ];
-                }
-            }
-            //aqui terminan la data de ciruclares
-            //aqui empieaza la ultima de estudiantes opor acreditacion
-            $query = DB::table('proyect')
+            // foreach ($cursos as $curso) {
+            //     if ($curso->candidate) {
+            //         $estudiantes[] = [
+            //             'curso_id' => $curso->ID_COURSE,
+            //             'candidato' => [
+            //                 'ID_CANDIDATE' => $curso->candidate->ID_CANDIDATE,
+            //                 'LAST_NAME_PROJECT' => $curso->candidate->LAST_NAME_PROJECT,
+            //                 'FIRST_NAME_PROJECT' => $curso->candidate->FIRST_NAME_PROJECT,
+            //                 'MIDDLE_NAME_PROJECT' => $curso->candidate->MIDDLE_NAME_PROJECT,
+            //                 'EMAIL_PROJECT' => $curso->candidate->EMAIL_PROJECT,
+            //                 'ACTIVO' => $curso->candidate->ACTIVO
+            //             ],
+            //             'datos_curso' => [
+            //                 'PRACTICAL' => $curso->PRACTICAL,
+            //                 'PRACTICAL_PASS' => $curso->PRACTICAL_PASS,
+            //                 'EQUIPAMENT' => $curso->EQUIPAMENT,
+            //                 'EQUIPAMENT_PASS' => $curso->EQUIPAMENT_PASS,
+            //                 'PYP' => $curso->PYP,
+            //                 'PYP_PASS' => $curso->PYP_PASS,
+            //                 'STATUS' => $curso->STATUS,
+            //                 'RESIT' => $curso->RESIT,
+            //                 'INTENTOS' => $curso->INTENTOS,
+            //                 'RESIT_MODULE' => $curso->RESIT_MODULE,
+            //                 'RESIT_INMEDIATO' => $curso->RESIT_INMEDIATO,
+            //                 'RESIT_INMEDIATO_DATE' => $curso->RESIT_INMEDIATO_DATE,
+            //                 'RESIT_INMEDIATO_SCORE' => $curso->RESIT_INMEDIATO_SCORE,
+            //                 'RESIT_INMEDIATO_STATUS' => $curso->RESIT_INMEDIATO_STATUS,
+            //                 'RESIT_PROGRAMADO' => $curso->RESIT_PROGRAMADO,
+            //                 'RESIT_ENTRENAMIENTO' => $curso->RESIT_ENTRENAMIENTO,
+            //                 'RESIT_FOLIO_PROYECTO' => $curso->RESIT_FOLIO_PROYECTO,
+            //                 'RESIT_PROGRAMADO_DATE' => $curso->RESIT_PROGRAMADO_DATE,
+            //                 'RESIT_PROGRAMADO_SCORE' => $curso->RESIT_PROGRAMADO_SCORE,
+            //                 'RESIT_PROGRAMADO_STATUS' => $curso->RESIT_PROGRAMADO_STATUS,
+            //                 'FINAL_STATUS' => $curso->FINAL_STATUS,
+            //                 'HAVE_CERTIFIED' => $curso->HAVE_CERTIFIED,
+            //                 'CERTIFIED' => $curso->CERTIFIED,
+            //                 'EXPIRATION' => $curso->EXPIRATION
+            //             ]
+            //         ];
+            //     }
+            // }
+            // //aqui terminan la data de ciruclares
+            // //aqui empieaza la ultima de estudiantes opor acreditacion
+            // $query = DB::table('proyect')
+            //     ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
+            //     ->join('entes_acreditadores', function ($join) {
+            //         $join->on(DB::raw('CAST(proyect.ACCREDITING_ENTITY_PROJECT AS UNSIGNED)'), '=', 'entes_acreditadores.ID_CATALOGO_ENTE');
+            //     })
+            //     ->select(
+            //         'entes_acreditadores.NOMBRE_ENTE as ente_acreditador',
+            //         'proyect.COURSE_START_DATE_PROJECT',
+            //         'candidate.ID_CANDIDATE'
+            //     )
+            //     ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
+            //     ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '')
+            //     ->where('candidate.ASISTENCIA', '!=', '0')
+            //     ->orWhereNull('candidate.ASISTENCIA');
+
+            // if ($periodType === 'year' && $startYear && $endYear) {
+            //     $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+            //         ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
+            // } elseif ($startDate && $endDate) {
+            //     $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+            // }
+
+            // $baseData2 = $query->get();
+            // $processedData2 = $this->processDataByPeriod($baseData2, $periodType);
+
+            $query2 = DB::table('proyect')
                 ->join('candidate', 'proyect.ID_PROJECT', '=', 'candidate.ID_PROJECT')
                 ->join('entes_acreditadores', function ($join) {
                     $join->on(DB::raw('CAST(proyect.ACCREDITING_ENTITY_PROJECT AS UNSIGNED)'), '=', 'entes_acreditadores.ID_CATALOGO_ENTE');
@@ -803,22 +1121,44 @@ class adminController extends Controller
                     'candidate.ID_CANDIDATE'
                 )
                 ->whereNotNull('proyect.COURSE_START_DATE_PROJECT')
-                ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '')
-                ->where('candidate.ASISTENCIA', '!=', '0')
-                ->orWhereNull('candidate.ASISTENCIA');
-
+                ->where('proyect.ACCREDITING_ENTITY_PROJECT', '!=', '');
             if ($periodType === 'year' && $startYear && $endYear) {
-                $query->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
+                $query2->whereYear('proyect.COURSE_START_DATE_PROJECT', '>=', $startYear)
                     ->whereYear('proyect.COURSE_START_DATE_PROJECT', '<=', $endYear);
             } elseif ($startDate && $endDate) {
-                $query->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
+                $query2->whereBetween('proyect.COURSE_START_DATE_PROJECT', [$startDate, $endDate]);
             }
-
-            $baseData2 = $query->get();
+            $baseData2 = $query2->get();
             $processedData2 = $this->processDataByPeriod($baseData2, $periodType);
             //aqui termina estudiantes por acreditacion
+            // $datosFormateados = [
+            //     'metricas' => $metricas,
+            //     'acreditacion' => [
+            //         'labels' => $proyectosAcreditacion->pluck('NOMBRE_ENTE')->toArray(),
+            //         'series' => $proyectosAcreditacion->pluck('total')->toArray()
+            //     ],
+            //     'proyectosAnio' => [
+            //         'labels' => $proyectosAnio->pluck('year')->toArray(),
+            //         'series' => $proyectosAnio->pluck('total')->toArray()
+            //     ],
+            //     'proyectosEmpresa' => $proyectosEmpresa,
+            //     'tipoCurso' => [
+            //         'labels' => $proyectosTipoCurso->pluck('COURSE_TYPE_PROJECT')->toArray(),
+            //         'series' => $proyectosTipoCurso->pluck('total')->toArray()
+            //     ],
+            //     'tendenciaMensual' => $this->formatTendenciaMensual($tendenciaMensual),
+            //     'dataChartdiv' => $this->formatForAmCharts($processedData, $backendChartType),
+            //     'totals' => $this->calculateTotals($processedData), //pertenece a chartdiv
+            //     'chart_type' => $chartType, //pertenece a chartdiv
+            //     'period_type' => $periodType, //pertenece a chartdiv
+            //     'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType), //pertenece a chart ultimo
+            //     'totalsChartdivStacked' => $this->calculateTotals($processedData2) //same del de arriba
+            // ];
+
             $datosFormateados = [
                 'metricas' => $metricas,
+                'tiposAprobacion' => $tiposAprobacion,
+                'tiposReprobacion' => $tiposReprobacion,
                 'acreditacion' => [
                     'labels' => $proyectosAcreditacion->pluck('NOMBRE_ENTE')->toArray(),
                     'series' => $proyectosAcreditacion->pluck('total')->toArray()
@@ -834,17 +1174,17 @@ class adminController extends Controller
                 ],
                 'tendenciaMensual' => $this->formatTendenciaMensual($tendenciaMensual),
                 'dataChartdiv' => $this->formatForAmCharts($processedData, $backendChartType),
-                'totals' => $this->calculateTotals($processedData), //pertenece a chartdiv
-                'chart_type' => $chartType, //pertenece a chartdiv
-                'period_type' => $periodType, //pertenece a chartdiv
-                'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType), //pertenece a chart ultimo
-                'totalsChartdivStacked' => $this->calculateTotals($processedData2) //same del de arriba
+                'totals' => $this->calculateTotals($processedData),
+                'chart_type' => $chartType,
+                'period_type' => $periodType,
+                'dataChartdivStacked' => $this->formatForAmCharts($processedData2, $backendChartType),
+                'totalsChartdivStacked' => $this->calculateTotals($processedData2)
             ];
 
             return response()->json([
                 'success' => true,
-                'estudiantes' => $estudiantes,
-                'total' => count($estudiantes),
+                'estudiantes' => $estudiantesFormateados,
+                'total' => count($estudiantesFormateados),
                 'data' => $datosFormateados
             ]);
         } catch (\Exception $e) {
@@ -854,7 +1194,7 @@ class adminController extends Controller
             ], 500);
         }
     }
-
+ 
     private function getProyectosPorEmpresa($periodType = null, $startDate = null, $endDate = null, $startYear = null, $endYear = null)
     {
         $query = DB::table('candidate')

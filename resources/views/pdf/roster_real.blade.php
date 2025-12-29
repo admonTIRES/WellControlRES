@@ -211,19 +211,12 @@
                 <div class="header-info">
                 <div class="company-title"> <strong>{{ __('Project ID:') }}</strong> {{ $proyecto->FOLIO_PROJECT ?? 'N/A' }}</div><br>
                 <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
-                <div class="company-title"> <strong>{{ __('Accrediting entity:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
-                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
-                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
-                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
-                    <strong>FOLIO:</strong> {{ $proyecto->FOLIO_PROJECT ?? 'N/A' }}<br>
-                    <strong>TIPO OPERACIÓN:</strong> {{ $proyecto->TIPO_OPERACION ?? 'N/A' }}
                 </div>
             </div>
             <div class="header-col right">
                 <div class="header-info">
                     <strong>CENTRO:</strong> {{ $proyecto->CENTRO_NOMBRE ?? 'N/A' }}<br>
                     <strong>FECHA EXAMEN:</strong> {{ $proyecto->EXAM_DATE_PROJECT ? \Carbon\Carbon::parse($proyecto->EXAM_DATE_PROJECT)->format('d/m/Y') : 'N/A' }}<br>
-                    <strong>UBICACIÓN:</strong> {{ $proyecto->LOCATION_PROJECT ?? 'N/A' }}
                 </div>
             </div>
         </div>

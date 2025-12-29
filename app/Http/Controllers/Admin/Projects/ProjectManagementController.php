@@ -2517,93 +2517,181 @@ class ProjectManagementController extends Controller
     {
         try {
             $hoy = Carbon::now()->startOfDay();
-            $estudiantes = DB::table('course as co')
-                ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
-                ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
-                ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
-                ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
-                ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
-                ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
-                ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
-                ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
-                ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
-                ->select(
-                    'c.ID_CANDIDATE',
-                    'c.LAST_NAME_PROJECT',
-                    'c.FIRST_NAME_PROJECT',
-                    'c.MIDDLE_NAME_PROJECT',
-                    'c.EMAIL_PROJECT',
-                    'c.ACTIVO',
-                    'c.ID_PROJECT',
-                    'c.ASISTENCIAS',
-                    'c.COMPANY_PROJECT',
-                    'c.COMPANY_ID_PROJECT',
-                    'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
+            // $estudiantes = DB::table('course as co')
+            //     ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+            //     ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+            //     ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+            //     ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+            //     ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+            //     ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+            //     ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+            //     ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+            //     ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
+            //     ->select(
+            //         'c.ID_CANDIDATE',
+            //         'c.LAST_NAME_PROJECT',
+            //         'c.FIRST_NAME_PROJECT',
+            //         'c.MIDDLE_NAME_PROJECT',
+            //         'c.EMAIL_PROJECT',
+            //         'c.ACTIVO',
+            //         'c.ID_PROJECT',
+            //         'c.ASISTENCIAS',
+            //         'c.COMPANY_PROJECT',
+            //         'c.COMPANY_ID_PROJECT',
+            //         'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
 
-                    'p.ID_PROJECT as proyecto_id',
-                    'p.FOLIO_PROJECT',
-                    'p.ACCREDITATION_LEVELS_PROJECT',
-                    'p.ACCREDITING_ENTITY_PROJECT',
-                    'p.EXAM_DATE_PROJECT',
-                    'p.BOP_TYPES_PROJECT',
-                    'p.CONTACT_NAME_PROJEC',
-                    'p.CONTACT_PHONE_PROJECT',
-                    'p.LOCATION_PROJECT',
-                    'p.CITY_PROJECT',
+            //         'p.ID_PROJECT as proyecto_id',
+            //         'p.FOLIO_PROJECT',
+            //         'p.ACCREDITATION_LEVELS_PROJECT',
+            //         'p.ACCREDITING_ENTITY_PROJECT',
+            //         'p.EXAM_DATE_PROJECT',
+            //         'p.BOP_TYPES_PROJECT',
+            //         'p.CONTACT_NAME_PROJEC',
+            //         'p.CONTACT_PHONE_PROJECT',
+            //         'p.LOCATION_PROJECT',
+            //         'p.CITY_PROJECT',
 
-                    'np.NOMBRE_PROYECTO as nombre_curso',
-                    'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
-                    'ea.NOMBRE_ENTE as ente_acreditador',
-                    'to.NOMBRE_OPERACION as tipo_operacion',
-                    'ie.NOMBRE_IDIOMA as idioma',
-                    'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
+            //         'np.NOMBRE_PROYECTO as nombre_curso',
+            //         'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
+            //         'ea.NOMBRE_ENTE as ente_acreditador',
+            //         'to.NOMBRE_OPERACION as tipo_operacion',
+            //         'ie.NOMBRE_IDIOMA as idioma',
+            //         'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
 
-                    'prog.PERIODO_RESIT',
-                    'prog.MIN_PORCENTAJE_APROB',
+            //         'prog.PERIODO_RESIT',
+            //         'prog.MIN_PORCENTAJE_APROB',
 
-                    'co.ID_COURSE as curso_id',
-                    'co.PRACTICAL',
-                    'co.PRACTICAL_PASS',
-                    'co.EQUIPAMENT',
-                    'co.EQUIPAMENT_PASS',
-                    'co.PYP',
-                    'co.LEVEL',
-                    'co.PYP_PASS',
-                    'co.STATUS',
-                    'co.RESIT',
-                    'co.INTENTOS',
-                    'co.RESIT_MODULE',
-                    'co.RESIT_INMEDIATO',
-                    'co.RESIT_INMEDIATO_DATE',
-                    'co.RESIT_INMEDIATO_SCORE',
-                    'co.RESIT_INMEDIATO_STATUS',
-                    'co.RESIT_PROGRAMADO',
-                    'co.RESIT_1',
-                    'co.RESIT_1_DATE',
-                    'co.RESIT_1_SCORE',
-                    'co.RESIT_1_STATUS',
-                    'co.RESIT_2',
-                    'co.RESIT_2_DATE',
-                    'co.RESIT_2_STATUS',
-                    'co.RESIT_2_SCORE',
-                    'co.RESIT_3',
-                    'co.RESIT_3_DATE',
-                    'co.RESIT_3_STATUS',
-                    'co.RESIT_3_SCORE',
-                    'co.RESIT_ENTRENAMIENTO',
-                    'co.RESIT_FOLIO_PROYECTO',
-                    'co.RESIT_PROGRAMADO_DATE',
-                    'co.RESIT_PROGRAMADO_SCORE',
-                    'co.RESIT_PROGRAMADO_STATUS',
-                    'co.FINAL_STATUS',
-                    'co.HAVE_CERTIFIED',
-                    'co.CERTIFICATE_NUMBER',
-                    'co.CERTIFIED',
-                    'co.EXPIRATION'
-                )
-                ->orderBy('c.LAST_NAME_PROJECT', 'asc')
-                ->get();
+            //         'co.ID_COURSE as curso_id',
+            //         'co.PRACTICAL',
+            //         'co.PRACTICAL_PASS',
+            //         'co.EQUIPAMENT',
+            //         'co.EQUIPAMENT_PASS',
+            //         'co.PYP',
+            //         'co.LEVEL',
+            //         'co.PYP_PASS',
+            //         'co.STATUS',
+            //         'co.RESIT',
+            //         'co.INTENTOS',
+            //         'co.RESIT_MODULE',
+            //         'co.RESIT_INMEDIATO',
+            //         'co.RESIT_INMEDIATO_DATE',
+            //         'co.RESIT_INMEDIATO_SCORE',
+            //         'co.RESIT_INMEDIATO_STATUS',
+            //         'co.RESIT_PROGRAMADO',
+            //         'co.RESIT_1',
+            //         'co.RESIT_1_DATE',
+            //         'co.RESIT_1_SCORE',
+            //         'co.RESIT_1_STATUS',
+            //         'co.RESIT_2',
+            //         'co.RESIT_2_DATE',
+            //         'co.RESIT_2_STATUS',
+            //         'co.RESIT_2_SCORE',
+            //         'co.RESIT_3',
+            //         'co.RESIT_3_DATE',
+            //         'co.RESIT_3_STATUS',
+            //         'co.RESIT_3_SCORE',
+            //         'co.RESIT_ENTRENAMIENTO',
+            //         'co.RESIT_FOLIO_PROYECTO',
+            //         'co.RESIT_PROGRAMADO_DATE',
+            //         'co.RESIT_PROGRAMADO_SCORE',
+            //         'co.RESIT_PROGRAMADO_STATUS',
+            //         'co.FINAL_STATUS',
+            //         'co.HAVE_CERTIFIED',
+            //         'co.CERTIFICATE_NUMBER',
+            //         'co.CERTIFIED',
+            //         'co.EXPIRATION'
+            //     )
+            //     ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+            //     ->get();
 
+            $estudiantes = DB::table('candidate as c')
+            ->leftJoin('course as co', 'c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
+            ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+            ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+            ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+            ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+            ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+            ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+            ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+            ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
+            ->select(
+                'c.ID_CANDIDATE',
+                'c.LAST_NAME_PROJECT',
+                'c.FIRST_NAME_PROJECT',
+                'c.MIDDLE_NAME_PROJECT',
+                'c.EMAIL_PROJECT',
+                'c.ACTIVO',
+                'c.ID_PROJECT',
+                'c.ASISTENCIAS',
+                'c.COMPANY_PROJECT',
+                'c.COMPANY_ID_PROJECT',
+                'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
+
+                'p.ID_PROJECT as proyecto_id',
+                'p.FOLIO_PROJECT',
+                'p.ACCREDITATION_LEVELS_PROJECT',
+                'p.ACCREDITING_ENTITY_PROJECT',
+                'p.EXAM_DATE_PROJECT',
+                'p.BOP_TYPES_PROJECT',
+                'p.CONTACT_NAME_PROJEC',
+                'p.CONTACT_PHONE_PROJECT',
+                'p.LOCATION_PROJECT',
+                'p.CITY_PROJECT',
+
+                'np.NOMBRE_PROYECTO as nombre_curso',
+                'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
+                'ea.NOMBRE_ENTE as ente_acreditador',
+                'to.NOMBRE_OPERACION as tipo_operacion',
+                'ie.NOMBRE_IDIOMA as idioma',
+                'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
+
+                'prog.PERIODO_RESIT',
+                'prog.MIN_PORCENTAJE_APROB',
+
+                // Campos de course con COALESCE o valores por defecto para null
+                DB::raw('COALESCE(co.ID_COURSE, 0) as curso_id'),
+                DB::raw('COALESCE(co.PRACTICAL, 0) as PRACTICAL'),
+                DB::raw('COALESCE(co.PRACTICAL_PASS, "Pendiente") as PRACTICAL_PASS'),
+                DB::raw('COALESCE(co.EQUIPAMENT, 0) as EQUIPAMENT'),
+                DB::raw('COALESCE(co.EQUIPAMENT_PASS, "Pendiente") as EQUIPAMENT_PASS'),
+                DB::raw('COALESCE(co.PYP, 0) as PYP'),
+                DB::raw('COALESCE(co.LEVEL, NULL) as LEVEL'),
+                DB::raw('COALESCE(co.PYP_PASS, "Pendiente") as PYP_PASS'),
+                DB::raw('COALESCE(co.STATUS, "Pendiente") as STATUS'),
+                DB::raw('COALESCE(co.RESIT, "0") as RESIT'),
+                DB::raw('COALESCE(co.INTENTOS, 0) as INTENTOS'),
+                DB::raw('COALESCE(co.RESIT_MODULE, NULL) as RESIT_MODULE'),
+                DB::raw('COALESCE(co.RESIT_INMEDIATO, "0") as RESIT_INMEDIATO'),
+                DB::raw('COALESCE(co.RESIT_INMEDIATO_DATE, NULL) as RESIT_INMEDIATO_DATE'),
+                DB::raw('COALESCE(co.RESIT_INMEDIATO_SCORE, 0) as RESIT_INMEDIATO_SCORE'),
+                DB::raw('COALESCE(co.RESIT_INMEDIATO_STATUS, "Pendiente") as RESIT_INMEDIATO_STATUS'),
+                DB::raw('COALESCE(co.RESIT_PROGRAMADO, "0") as RESIT_PROGRAMADO'),
+                DB::raw('COALESCE(co.RESIT_1, "0") as RESIT_1'),
+                DB::raw('COALESCE(co.RESIT_1_DATE, NULL) as RESIT_1_DATE'),
+                DB::raw('COALESCE(co.RESIT_1_SCORE, 0) as RESIT_1_SCORE'),
+                DB::raw('COALESCE(co.RESIT_1_STATUS, "Pendiente") as RESIT_1_STATUS'),
+                DB::raw('COALESCE(co.RESIT_2, "0") as RESIT_2'),
+                DB::raw('COALESCE(co.RESIT_2_DATE, NULL) as RESIT_2_DATE'),
+                DB::raw('COALESCE(co.RESIT_2_STATUS, "Pendiente") as RESIT_2_STATUS'),
+                DB::raw('COALESCE(co.RESIT_2_SCORE, 0) as RESIT_2_SCORE'),
+                DB::raw('COALESCE(co.RESIT_3, "0") as RESIT_3'),
+                DB::raw('COALESCE(co.RESIT_3_DATE, NULL) as RESIT_3_DATE'),
+                DB::raw('COALESCE(co.RESIT_3_STATUS, "Pendiente") as RESIT_3_STATUS'),
+                DB::raw('COALESCE(co.RESIT_3_SCORE, 0) as RESIT_3_SCORE'),
+                DB::raw('COALESCE(co.RESIT_ENTRENAMIENTO, NULL) as RESIT_ENTRENAMIENTO'),
+                DB::raw('COALESCE(co.RESIT_FOLIO_PROYECTO, NULL) as RESIT_FOLIO_PROYECTO'),
+                DB::raw('COALESCE(co.RESIT_PROGRAMADO_DATE, NULL) as RESIT_PROGRAMADO_DATE'),
+                DB::raw('COALESCE(co.RESIT_PROGRAMADO_SCORE, 0) as RESIT_PROGRAMADO_SCORE'),
+                DB::raw('COALESCE(co.RESIT_PROGRAMADO_STATUS, "Pendiente") as RESIT_PROGRAMADO_STATUS'),
+                DB::raw('COALESCE(co.FINAL_STATUS, "Pendiente") as FINAL_STATUS'),
+                DB::raw('COALESCE(co.HAVE_CERTIFIED, 0) as HAVE_CERTIFIED'),
+                DB::raw('COALESCE(co.CERTIFICATE_NUMBER, NULL) as CERTIFICATE_NUMBER'),
+                DB::raw('COALESCE(co.CERTIFIED, NULL) as CERTIFIED'),
+                DB::raw('COALESCE(co.EXPIRATION, NULL) as EXPIRATION')
+            )
+            ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+            ->get();
+            
             $allNivelIds = [];
             $allBopIds = [];
             $projectToNiveles = [];

@@ -620,7 +620,6 @@ class adminController extends Controller
 
             $totalEstudiantesQuery = DB::table('candidate')
                 ->join('proyect', 'candidate.ID_PROJECT', '=', 'proyect.ID_PROJECT')
-                ->where('candidate.ASISTENCIA', '!=', 0)
                 ->whereNotNull('candidate.ID_PROJECT');
 
             $totalEstudiantesQuery = $applyDateFilter($totalEstudiantesQuery);

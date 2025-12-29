@@ -45,14 +45,10 @@
         
         .company-title { 
             font-size: 12px; 
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 5px;
         }
         
         .header-info {
             font-size: 8px;
-            line-height: 1.4;
         }
         
         .header-info strong {
@@ -211,10 +207,14 @@
     <!-- HEADER -->
     <div class="header-section">
         <div class="header-row">
-            <div class="header-col left">
-                <div class="company-title">SMITH MASON & CO / {{ $proyecto->ENTE_NOMBRE }}</div>
+            <div class="header-col left"> <img src="{{ public_path('/assets/images/H COLOR.png') }}" style="max-width:12%" alt="img8">
                 <div class="header-info">
-                    <strong>CURSO:</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}<br>
+                <div class="company-title"> <strong>{{ __('Project ID:') }}</strong> {{ $proyecto->FOLIO_PROJECT ?? 'N/A' }}</div><br>
+                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
+                <div class="company-title"> <strong>{{ __('Accrediting entity:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
+                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
+                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
+                <div class="company-title"> <strong>{{ __('Course name:') }}</strong> {{ $proyecto->CURSO_NOMBRE ?? 'N/A' }}</div><br>
                     <strong>FOLIO:</strong> {{ $proyecto->FOLIO_PROJECT ?? 'N/A' }}<br>
                     <strong>TIPO OPERACIÓN:</strong> {{ $proyecto->TIPO_OPERACION ?? 'N/A' }}
                 </div>

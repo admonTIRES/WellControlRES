@@ -961,17 +961,11 @@ function generateStatusChart(estudiantes, metricasData) {
         return generateStatusChartOriginal(estudiantes);
     }
 
-    console.log('Datos de métricas del servidor:', metricasData);
     
     const estudiantesAprobados = metricasData.estudiantesAprobados || 0;
     const estudiantesReprobados = metricasData.estudiantesReprobados || 0;
     const estudiantesDesercion = metricasData.estudiantesDesercion || 0;
     const estudiantesNoAsistieron = metricasData.estudiantesNoAsistieron || 0;
-
-    console.log('Aprobados:', estudiantesAprobados);
-    console.log('Reprobados:', estudiantesReprobados);
-    console.log('Deserción:', estudiantesDesercion);
-    console.log('No Asistieron:', estudiantesNoAsistieron);
 
     // Preparar series para la gráfica
     const series = [];
@@ -988,7 +982,7 @@ function generateStatusChart(estudiantes, metricasData) {
     // Añadir reprobados si hay
     if (estudiantesReprobados > 0) {
         series.push(estudiantesReprobados);
-        labels.push('Fallidos');
+        labels.push('Reprobados');
         colors.push('#FF585D');
     }
 

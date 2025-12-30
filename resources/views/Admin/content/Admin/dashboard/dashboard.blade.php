@@ -303,7 +303,7 @@
 
 @endsection
 @section('scripts')
- <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.50"></script>
+ <script src="{{ asset('js/Admin/Dashboard/dashboard.js') }}?v=1.51"></script>
 
 <!-- AMCharts -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

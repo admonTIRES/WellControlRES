@@ -406,8 +406,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/simulate/student', [AdminController::class, 'simulateStudentPanel'])->name('test.student');
 
     Route::get('/simulate/leave', [AdminController::class, 'leaveSimulatedPanel'])->name('test.leave');
-});
 
+    
 Route::get('/users', [adminController::class, 'users'])->name('users');
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');
 Route::get('/individual', [adminController::class, 'individual'])->name('individual');
@@ -425,6 +425,8 @@ Route::get('/profile', [adminController::class, 'profile'])->name('profile');
 Route::get('/configuration', [adminController::class, 'configuration'])->name('configuration');
 Route::get('/notifications', [adminController::class, 'notifications'])->name('notifications');
 Route::get('/messages', [adminController::class, 'messages'])->name('messages');
+});
+
 
 Route::get('/enviar-correo', function () {
     $mensaje = "Este es un correo enviado usando SMTP de Gmail en Laravel 8.";

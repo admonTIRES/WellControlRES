@@ -35,6 +35,10 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\CertificateController;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ProjectManagementController extends Controller
 {
@@ -1502,319 +1506,156 @@ class ProjectManagementController extends Controller
             ], 500);
         }
     }
+
     public function exportProjectExcel($id)
-    {
-        $proyecto = Proyect::where('ID_PROJECT', $id)->first();
+{
+    $hoy = Carbon::now()->startOfDay();
+    $certController = new CertificateController();
 
-        if (!$proyecto) {
-            return redirect()->back()->with('error', 'Proyecto no encontrado');
-        }
+    // 1. Consulta (Se mantiene igual, está correcta la lógica de datos)
+    $estudiantesRaw = DB::table('course as co')
+        ->join('candidate as c', 'co.ID_CANDIDATE', '=', 'c.ID_CANDIDATE')
+        ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+        ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+        ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+        ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+        ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+        ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+        ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+        ->select(
+            'c.*', 'p.*', 'co.*',
+            'prog.MIN_PORCENTAJE_APROB',
+            'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME',
+            'np.NOMBRE_PROYECTO as CURSO_NOMBRE',
+            'cc.NOMBRE_COMERCIAL_CENTRO as CENTRO_NOMBRE',
+            'ea.NOMBRE_ENTE as ENTE_NOMBRE',
+            'to.NOMBRE_OPERACION as TIPO_OPERACION'
+        )
+        ->where('c.ID_PROJECT', $id)
+        ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+        ->get();
 
-        $empresas = $proyecto->COMPANIES_PROJECT;
-        $niveles = NivelAcreditacion::whereIn('ID_CATALOGO_NIVELACREDITACION', $proyecto->ACCREDITATION_LEVELS_PROJECT ?? [])
-            ->pluck('DESCRIPCION_NIVEL')->toArray();
-        $bops = TipoBOP::whereIn('ID_CATALOGO_TIPOBOP', $proyecto->BOP_TYPES_PROJECT ?? [])
-            ->pluck('ABREVIATURA')->toArray();
-        $lang = IdiomasExamenes::where('ID_CATALOGO_IDIOMAEXAMEN', $proyecto->LANGUAGE_PROJECT)
-            ->value('NOMBRE_IDIOMA');
-
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setTitle('Curso');
-
-        $sheet->setCellValue('A1', 'COURSE/CURSO TITLE');
-        $sheet->mergeCells('A1:R1');
-        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
-        $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A1')->getFill()
-            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-            ->getStartColor()->setARGB('FFD9D9D9');
-        $sheet->setCellValue('A2', 'Registered Certification Centre Name:');
-        $sheet->setCellValue('B2', 'smith mason and co');
-        $sheet->mergeCells('B2:F2');
-        $sheet->setCellValue('G2', 'Center Number:');
-        $sheet->setCellValue('H2', '2321312');
-        $sheet->setCellValue('I2', 'Tipo curso:');
-        $sheet->setCellValue('J2', 'abierto');
-        $sheet->setCellValue('K2', 'Folio:');
-        $sheet->setCellValue('L2', 'STE-TR-013');
-        $sheet->setCellValue('A3', 'Test venue address:');
-        $sheet->setCellValue('B3', 'Calle Carmen Cadena de Buendia No. 128 Col. Nueva Villahermosa, CP 86070, Villahermosa');
-        $sheet->mergeCells('B3:R3');
-        $sheet->setCellValue('A5', 'Test date:');
-        $sheet->setCellValue('B5', '22/01/2025');
-        $sheet->mergeCells('B5:C5');
-        $sheet->setCellValue('D5', 'Test time:');
-        $sheet->setCellValue('E5', '3hours');
-        $sheet->setCellValue('F5', 'Practical date(s)');
-        $sheet->setCellValue('G5', '21/03/2025');
-        $sheet->mergeCells('G5:I5');
-        $sheet->setCellValue('J5', 'Practical time(s):');
-        $sheet->setCellValue('K5', '3hours');
-        $sheet->setCellValue('A6', 'Contact:');
-        $sheet->setCellValue('B6', 'Leonardo Cuellar Chala');
-        $sheet->mergeCells('B6:F6');
-        $sheet->setCellValue('G6', 'Tel:');
-        $sheet->setCellValue('H6', '+52 99299292');
-        $sheet->mergeCells('H6:R6');
-
-        $headers = [
-            'A8' => 'Number',
-            'B8' => 'Family o last name',
-            'C8' => 'First name',
-            'D8' => 'md name',
-            'E8' => 'Level/Nivel',
-            'F8' => 'BOP',
-            'G8' => 'Units',
-            'H8' => 'Language',
-            'I8' => 'Module',
-            'J8' => 'Score',
-            'K8' => 'Status',
-            'L8' => 'Resit',
-            'M8' => 'Module',
-            'N8' => 'Fecha',
-            'O8' => 'Score',
-            'P8' => 'Final Test',
-            'Q8' => 'Vencimiento certificacion',
-            'R8' => 'Correo'
-        ];
-
-        foreach ($headers as $cell => $value) {
-            $sheet->setCellValue($cell, $value);
-        }
-
-        $sheet->mergeCells('B8:B9');  // Family o last name
-        $sheet->mergeCells('C8:C9');  // First name
-        $sheet->mergeCells('D8:D9');  // md name
-        $sheet->mergeCells('E8:E9');  // Level/Nivel
-        $sheet->mergeCells('F8:F9');  // BOP
-        $sheet->mergeCells('G8:G9');  // Units
-        $sheet->mergeCells('H8:H9');  // Language
-        $sheet->mergeCells('R8:R9');  // Correo
-
-        $sheet->setCellValue('A9', 'Candidate/Candidato');
-
-
-        $headerStyle = [
-            'font' => [
-                'bold' => true,
-                'color' => ['argb' => 'FF000000']
-            ],
-            'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['argb' => 'FFD9D9D9']
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => 'FF000000']
-                ]
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ]
-        ];
-
-        $sheet->getStyle('A8:R9')->applyFromArray($headerStyle);
-
-        $estudiantes = [
-            [
-                'numero' => 1,
-                'apellido' => 'perez',
-                'nombre' => 'juan',
-                'segundo_nombre' => 'manuel',
-                'nivel' => 'Level 4',
-                'bop' => 'Surface Only',
-                'unidades' => 4,
-                'idioma' => 'Español',
-                'modulo_practico' => 'Practical',
-                'score_practico' => 78,
-                'status_practico' => 'Pass',
-                'modulo_equipo' => 'Equipment',
-                'score_equipo' => 80,
-                'status_equipo' => 'Pass',
-                'modulo_p2p' => 'P&P',
-                'score_p2p' => 81,
-                'status_p2p' => 'Unpass',
-                'resit' => 'yes',
-                'modulo_resit' => 'EQ',
-                'fecha_resit' => '22/08/2025',
-                'score_resit' => 90,
-                'final_test' => 80,
-                'vencimiento' => '10/10/2026',
-                'correo' => 'correo@gmail.com'
-            ],
-            [
-                'numero' => 2,
-                'apellido' => 'martinez',
-                'nombre' => 'jose',
-                'segundo_nombre' => '',
-                'nivel' => 'Level 4',
-                'bop' => 'Surface Only',
-                'unidades' => 4,
-                'idioma' => 'Español',
-                'modulo_practico' => 'Practical',
-                'score_practico' => 78,
-                'status_practico' => 'Pass',
-                'modulo_equipo' => 'Equipment',
-                'score_equipo' => 80,
-                'status_equipo' => 'Pass',
-                'modulo_p2p' => 'P&P',
-                'score_p2p' => 90,
-                'status_p2p' => 'Pass',
-                'resit' => 'No',
-                'modulo_resit' => 'EQ',
-                'fecha_resit' => '',
-                'score_resit' => '',
-                'final_test' => 90,
-                'vencimiento' => '10/10/2026',
-                'correo' => 'correo@gmail.com'
-            ],
-            [
-                'numero' => 3,
-                'apellido' => 'martinez',
-                'nombre' => 'jose',
-                'segundo_nombre' => '',
-                'nivel' => 'Level 4',
-                'bop' => 'Surface Only',
-                'unidades' => 4,
-                'idioma' => 'Español',
-                'modulo_practico' => 'Practical',
-                'score_practico' => 78,
-                'status_practico' => 'Unpass',
-                'modulo_equipo' => 'Equipment',
-                'score_equipo' => 80,
-                'status_equipo' => 'Unpass',
-                'modulo_p2p' => 'P&P',
-                'score_p2p' => 90,
-                'status_p2p' => 'Unpass',
-                'resit' => 'yes',
-                'modulo_resit' => 'EQ',
-                'fecha_resit' => '22/08/2025',
-                'score_resit' => 60,
-                'final_test' => 60,
-                'vencimiento' => '',
-                'correo' => 'correo@gmail.com'
-            ]
-        ];
-
-        $rowNumber = 10;
-        foreach ($estudiantes as $estudiante) {
-            $sheet->setCellValue('A' . $rowNumber, $estudiante['numero']);
-            $sheet->setCellValue('B' . $rowNumber, $estudiante['apellido']);
-            $sheet->setCellValue('C' . $rowNumber, $estudiante['nombre']);
-            $sheet->setCellValue('D' . $rowNumber, $estudiante['segundo_nombre']);
-            $sheet->setCellValue('E' . $rowNumber, $estudiante['nivel']);
-            $sheet->setCellValue('F' . $rowNumber, $estudiante['bop']);
-            $sheet->setCellValue('G' . $rowNumber, $estudiante['unidades']);
-            $sheet->setCellValue('H' . $rowNumber, $estudiante['idioma']);
-            $sheet->setCellValue('I' . $rowNumber, $estudiante['modulo_practico']);
-            $sheet->setCellValue('J' . $rowNumber, $estudiante['score_practico'] . '%');
-            $sheet->setCellValue('K' . $rowNumber, $estudiante['status_practico']);
-            $sheet->setCellValue('L' . $rowNumber, $estudiante['resit']);
-            $sheet->setCellValue('M' . $rowNumber, $estudiante['modulo_resit']);
-            $sheet->setCellValue('N' . $rowNumber, $estudiante['fecha_resit']);
-            $sheet->setCellValue('O' . $rowNumber, $estudiante['score_resit'] ? $estudiante['score_resit'] . '%' : '');
-            $sheet->setCellValue('P' . $rowNumber, $estudiante['final_test'] ? $estudiante['final_test'] . '%' : '');
-            $sheet->setCellValue('Q' . $rowNumber, $estudiante['vencimiento']);
-            $sheet->setCellValue('R' . $rowNumber, $estudiante['correo']);
-
-            $rowNumber++;
-            $sheet->setCellValue('I' . $rowNumber, $estudiante['modulo_equipo']);
-            $sheet->setCellValue('J' . $rowNumber, $estudiante['score_equipo'] . '%');
-            $sheet->setCellValue('K' . $rowNumber, $estudiante['status_equipo']);
-            $sheet->setCellValue('M' . $rowNumber, 'P&P');
-
-            $rowNumber++;
-            $sheet->setCellValue('I' . $rowNumber, $estudiante['modulo_p2p']);
-            $sheet->setCellValue('J' . $rowNumber, $estudiante['score_p2p'] . '%');
-            $sheet->setCellValue('K' . $rowNumber, $estudiante['status_p2p']);
-
-            $startRow = $rowNumber - 2;
-            $endRow = $rowNumber;
-
-            $sheet->mergeCells('A' . $startRow . ':A' . $endRow);
-            $sheet->mergeCells('B' . $startRow . ':B' . $endRow);
-            $sheet->mergeCells('C' . $startRow . ':C' . $endRow);
-            $sheet->mergeCells('D' . $startRow . ':D' . $endRow);
-            $sheet->mergeCells('E' . $startRow . ':E' . $endRow);
-            $sheet->mergeCells('F' . $startRow . ':F' . $endRow);
-            $sheet->mergeCells('G' . $startRow . ':G' . $endRow);
-            $sheet->mergeCells('H' . $startRow . ':H' . $endRow);
-            $sheet->mergeCells('L' . $startRow . ':L' . $endRow);
-            $sheet->mergeCells('N' . $startRow . ':N' . $endRow);
-            $sheet->mergeCells('O' . $startRow . ':O' . $endRow);
-            $sheet->mergeCells('P' . $startRow . ':P' . $endRow);
-            $sheet->mergeCells('Q' . $startRow . ':Q' . $endRow);
-            $sheet->mergeCells('R' . $startRow . ':R' . $endRow);
-
-            $colorFondo = 'FFFFFFFF';
-
-            $allPassed = ($estudiante['status_practico'] === 'Pass' &&
-                $estudiante['status_equipo'] === 'Pass' &&
-                $estudiante['status_p2p'] === 'Pass');
-            $anyUnpass = ($estudiante['status_practico'] === 'Unpass' ||
-                $estudiante['status_equipo'] === 'Unpass' ||
-                $estudiante['status_p2p'] === 'Unpass');
-
-            if ($allPassed) {
-                $colorFondo = 'FFC6EFCE';
-            } elseif ($anyUnpass) {
-                $colorFondo = 'FFFFC7CE';
-            }
-
-            $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB($colorFondo);
-
-            $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getBorders()
-                ->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-
-            $sheet->getStyle('A' . $startRow . ':R' . $endRow)->getAlignment()
-                ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-                ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-            $rowNumber++;
-        }
-
-        $sheet->getStyle('A2:R6')->getBorders()
-            ->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-
-        $labelCells = ['A2', 'G2', 'I2', 'K2', 'A3', 'A5', 'D5', 'F5', 'J5', 'A6', 'G6'];
-        foreach ($labelCells as $cell) {
-            $sheet->getStyle($cell)->getFont()->setBold(true);
-        }
-
-        $sheet->getColumnDimension('A')->setWidth(8);
-        $sheet->getColumnDimension('B')->setWidth(12);
-        $sheet->getColumnDimension('C')->setWidth(12);
-        $sheet->getColumnDimension('D')->setWidth(10);
-        $sheet->getColumnDimension('E')->setWidth(10);
-        $sheet->getColumnDimension('F')->setWidth(12);
-        $sheet->getColumnDimension('G')->setWidth(8);
-        $sheet->getColumnDimension('H')->setWidth(10);
-        $sheet->getColumnDimension('I')->setWidth(12);
-        $sheet->getColumnDimension('J')->setWidth(8);
-        $sheet->getColumnDimension('K')->setWidth(10);
-        $sheet->getColumnDimension('L')->setWidth(8);
-        $sheet->getColumnDimension('M')->setWidth(10);
-        $sheet->getColumnDimension('N')->setWidth(12);
-        $sheet->getColumnDimension('O')->setWidth(8);
-        $sheet->getColumnDimension('P')->setWidth(10);
-        $sheet->getColumnDimension('Q')->setWidth(15);
-        $sheet->getColumnDimension('R')->setWidth(20);
-
-        $filename = 'Curso_' . $id . '.xlsx';
-        $writer = new Xlsx($spreadsheet);
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        header('Cache-Control: max-age=0');
-
-        $writer->save('php://output');
-        exit;
+    if ($estudiantesRaw->isEmpty()) {
+        return redirect()->back()->with('error', 'No hay datos para exportar.');
     }
+
+    // 2. Procesamiento de catálogos
+    $allNivelIds = [];
+    $allBopIds = [];
+    foreach ($estudiantesRaw as $e) {
+        if (!empty($e->LEVEL)) $allNivelIds[] = $e->LEVEL;
+        if (!empty($e->ACCREDITATION_LEVELS_PROJECT)) $allNivelIds = array_merge($allNivelIds, json_decode($e->ACCREDITATION_LEVELS_PROJECT, true) ?? []);
+        if (!empty($e->BOP_TYPES_PROJECT)) $allBopIds = array_merge($allBopIds, json_decode($e->BOP_TYPES_PROJECT, true) ?? []);
+    }
+    $nivelesData = DB::table('nivel_acreditacion')->whereIn('ID_CATALOGO_NIVELACREDITACION', array_unique($allNivelIds))->get()->keyBy('ID_CATALOGO_NIVELACREDITACION');
+    $bopsData = DB::table('tipo_bop')->whereIn('ID_CATALOGO_TIPOBOP', array_unique($allBopIds))->get()->keyBy('ID_CATALOGO_TIPOBOP');
+
+    $proyecto = $estudiantesRaw->first();
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setTitle('Roster Detallado');
+
+    // --- DISEÑO DE ENCABEZADO SUPERIOR ---
+    $sheet->setCellValue('A1', 'ROSTER DE PROYECTO: ' . $proyecto->CURSO_NOMBRE);
+    $sheet->mergeCells('A1:L1');
+    $sheet->getStyle('A1')->applyFromArray([
+        'font' => ['bold' => true, 'size' => 16, 'color' => ['argb' => 'FFFFFFFF']],
+        'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+        'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['argb' => 'FF2E75B5']]
+    ]);
+
+    // --- ENCABEZADOS DE TABLA ---
+    $headers = [
+        'A3' => '#', 'B3' => 'Estudiante', 'C3' => 'Email', 'D3' => 'Empresa / Razón Social',
+        'E3' => 'Ente', 'F3' => 'Nivel', 'G3' => 'BOP', 'H3' => 'Estado Final',
+        'I3' => 'Certificado #', 'J3' => 'Expiración', 'K3' => 'VISOR', 'L3' => 'DESCARGA'
+    ];
+
+    foreach ($headers as $cell => $value) {
+        $sheet->setCellValue($cell, $value);
+        $sheet->getStyle($cell)->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['argb' => 'FFFFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['argb' => 'FF4A4A4A']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]
+        ]);
+    }
+
+    $rowNumber = 4;
+    foreach ($estudiantesRaw as $index => $e) {
+        // Lógica de procesamiento de datos (Niveles, BOPs, Status)
+        $califMin = $e->MIN_PORCENTAJE_APROB ?? 70;
+        
+        // Niveles Texto
+        $nivelTxt = 'N/A';
+        if (!empty($e->LEVEL) && isset($nivelesData[$e->LEVEL])) {
+            $nivelTxt = $nivelesData[$e->LEVEL]->NOMBRE_NIVEL;
+        } else {
+            $projNiveles = json_decode($e->ACCREDITATION_LEVELS_PROJECT, true);
+            if (is_array($projNiveles)) {
+                $nombres = [];
+                foreach ($projNiveles as $idN) if (isset($nivelesData[$idN])) $nombres[] = $nivelesData[$idN]->NOMBRE_NIVEL;
+                $nivelTxt = !empty($nombres) ? implode(', ', $nombres) : 'N/A';
+            }
+        }
+
+        $bopArray = json_decode($e->BOP_TYPES_PROJECT, true);
+        $bopTxt = is_array($bopArray) ? implode(', ', array_map(fn($id) => $bopsData[$id]->ABREVIATURA ?? '', $bopArray)) : 'N/A';
+
+        // Determinar Estado
+        $isIADC = ($e->ACCREDITING_ENTITY_PROJECT == 1);
+        $aprobado = $isIADC ? ($e->PRACTICAL >= $califMin && $e->EQUIPAMENT >= $califMin) 
+                            : ($e->PRACTICAL >= $califMin && $e->EQUIPAMENT >= $califMin && $e->PYP >= $califMin);
+        $finalStatus = $aprobado ? 'Completed' : 'Failed';
+
+        // Llenado de celdas
+        $sheet->setCellValue('A' . $rowNumber, $index + 1);
+        $sheet->setCellValue('B' . $rowNumber, "{$e->LAST_NAME_PROJECT}, {$e->FIRST_NAME_PROJECT}");
+        $sheet->setCellValue('C' . $rowNumber, $e->EMAIL_PROJECT);
+        $sheet->setCellValue('D' . $rowNumber, ($e->COMPANY_PROJECT ?? 'N/A') . "\n" . ($e->COMPANY_NAME ?? ''));
+        $sheet->setCellValue('E' . $rowNumber, $e->ENTE_NOMBRE);
+        $sheet->setCellValue('F' . $rowNumber, $nivelTxt);
+        $sheet->setCellValue('G' . $rowNumber, $bopTxt);
+        $sheet->setCellValue('H' . $rowNumber, $finalStatus);
+        $sheet->setCellValue('I' . $rowNumber, $e->CERTIFICATE_NUMBER ?? 'N/A');
+        $sheet->setCellValue('J' . $rowNumber, $e->EXPIRATION ? Carbon::parse($e->EXPIRATION)->format('d/m/Y') : 'N/A');
+
+        // Enlaces
+        if (!empty($e->CERTIFIED)) {
+            $certFilename = basename(json_decode($e->CERTIFIED, true)[0]['ruta'] ?? $e->CERTIFIED);
+            $certShortUrl = $certController->generateShortUrl($e->ID_PROJECT, $e->ID_CANDIDATE, $certFilename);
+
+            $sheet->setCellValue('K' . $rowNumber, '👁 VER');
+            $sheet->getCell('K' . $rowNumber)->getHyperlink()->setUrl($certShortUrl);
+            
+            $sheet->setCellValue('L' . $rowNumber, '💾 DESCARGAR');
+            $sheet->getCell('L' . $rowNumber)->getHyperlink()->setUrl($certShortUrl . '/download');
+            
+            $sheet->getStyle('K'.$rowNumber.':L'.$rowNumber)->getFont()->setColor(new Color(Color::COLOR_BLUE))->setUnderline(true);
+        }
+
+        // Estilo de la fila según estado
+        $rowColor = ($finalStatus === 'Completed') ? 'FFE2EFDA' : 'FFFCE4D6'; // Verdes y rojos pasteles (más legibles)
+        $sheet->getStyle('A' . $rowNumber . ':L' . $rowNumber)->applyFromArray([
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['argb' => $rowColor]],
+            'alignment' => ['vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]]
+        ]);
+
+        $rowNumber++;
+    }
+
+    // Autoajustar columnas
+    foreach (range('A', 'L') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = 'Roster_' . $proyecto->FOLIO_PROJECT . '.xlsx';
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+}
 
     public function exportProjectPdf($id)
     {
@@ -2605,93 +2446,93 @@ class ProjectManagementController extends Controller
             //     ->get();
 
             $estudiantes = DB::table('candidate as c')
-            ->leftJoin('course as co', 'c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
-            ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
-            ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
-            ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
-            ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
-            ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
-            ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
-            ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
-            ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
-            ->select(
-                'c.ID_CANDIDATE',
-                'c.LAST_NAME_PROJECT',
-                'c.FIRST_NAME_PROJECT',
-                'c.MIDDLE_NAME_PROJECT',
-                'c.EMAIL_PROJECT',
-                'c.ACTIVO',
-                'c.ID_PROJECT',
-                'c.ASISTENCIAS',
-                'c.COMPANY_PROJECT',
-                'c.COMPANY_ID_PROJECT',
-                'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
+                ->leftJoin('course as co', 'c.ID_CANDIDATE', '=', 'co.ID_CANDIDATE')
+                ->leftJoin('proyect as p', 'c.ID_PROJECT', '=', 'p.ID_PROJECT')
+                ->leftJoin('costumers as cust', 'c.COMPANY_ID_PROJECT', '=', 'cust.ID_CATALOGO_CLIENTE')
+                ->leftJoin('programs as prog', 'p.PROGRAM_PROJECT', '=', 'prog.ID_CATALOGO_PROGRAMA')
+                ->leftJoin('name_project as np', 'p.COURSE_NAME_ES_PROJECT', '=', 'np.ID_CATALOGO_NPROYECTOS')
+                ->leftJoin('centro_capacitacion as cc', 'p.CERTIFICATION_CENTER_PROJECT', '=', 'cc.ID_CATALOGO_CENTRO')
+                ->leftJoin('entes_acreditadores as ea', 'p.ACCREDITING_ENTITY_PROJECT', '=', 'ea.ID_CATALOGO_ENTE')
+                ->leftJoin('tipo_operacion as to', 'p.OPERATION_TYPE_PROJECT', '=', 'to.ID_CATALOGO_OPERACION')
+                ->leftJoin('idioma_examen as ie', 'p.LANGUAGE_PROJECT', '=', 'ie.ID_CATALOGO_IDIOMAEXAMEN')
+                ->select(
+                    'c.ID_CANDIDATE',
+                    'c.LAST_NAME_PROJECT',
+                    'c.FIRST_NAME_PROJECT',
+                    'c.MIDDLE_NAME_PROJECT',
+                    'c.EMAIL_PROJECT',
+                    'c.ACTIVO',
+                    'c.ID_PROJECT',
+                    'c.ASISTENCIAS',
+                    'c.COMPANY_PROJECT',
+                    'c.COMPANY_ID_PROJECT',
+                    'cust.NOMBRE_COMERCIAL_CLIENTE as COMPANY_NAME_PROJECT',
 
-                'p.ID_PROJECT as proyecto_id',
-                'p.FOLIO_PROJECT',
-                'p.ACCREDITATION_LEVELS_PROJECT',
-                'p.ACCREDITING_ENTITY_PROJECT',
-                'p.EXAM_DATE_PROJECT',
-                'p.BOP_TYPES_PROJECT',
-                'p.CONTACT_NAME_PROJEC',
-                'p.CONTACT_PHONE_PROJECT',
-                'p.LOCATION_PROJECT',
-                'p.CITY_PROJECT',
+                    'p.ID_PROJECT as proyecto_id',
+                    'p.FOLIO_PROJECT',
+                    'p.ACCREDITATION_LEVELS_PROJECT',
+                    'p.ACCREDITING_ENTITY_PROJECT',
+                    'p.EXAM_DATE_PROJECT',
+                    'p.BOP_TYPES_PROJECT',
+                    'p.CONTACT_NAME_PROJEC',
+                    'p.CONTACT_PHONE_PROJECT',
+                    'p.LOCATION_PROJECT',
+                    'p.CITY_PROJECT',
 
-                'np.NOMBRE_PROYECTO as nombre_curso',
-                'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
-                'ea.NOMBRE_ENTE as ente_acreditador',
-                'to.NOMBRE_OPERACION as tipo_operacion',
-                'ie.NOMBRE_IDIOMA as idioma',
-                'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
+                    'np.NOMBRE_PROYECTO as nombre_curso',
+                    'cc.NOMBRE_COMERCIAL_CENTRO as centro_capacitacion',
+                    'ea.NOMBRE_ENTE as ente_acreditador',
+                    'to.NOMBRE_OPERACION as tipo_operacion',
+                    'ie.NOMBRE_IDIOMA as idioma',
+                    'ie.ID_CATALOGO_IDIOMAEXAMEN as idioma_id',
 
-                'prog.PERIODO_RESIT',
-                'prog.MIN_PORCENTAJE_APROB',
+                    'prog.PERIODO_RESIT',
+                    'prog.MIN_PORCENTAJE_APROB',
 
-                // Campos de course con COALESCE o valores por defecto para null
-                DB::raw('COALESCE(co.ID_COURSE, 0) as curso_id'),
-                DB::raw('COALESCE(co.PRACTICAL, 0) as PRACTICAL'),
-                DB::raw('COALESCE(co.PRACTICAL_PASS, "Pendiente") as PRACTICAL_PASS'),
-                DB::raw('COALESCE(co.EQUIPAMENT, 0) as EQUIPAMENT'),
-                DB::raw('COALESCE(co.EQUIPAMENT_PASS, "Pendiente") as EQUIPAMENT_PASS'),
-                DB::raw('COALESCE(co.PYP, 0) as PYP'),
-                DB::raw('COALESCE(co.LEVEL, NULL) as LEVEL'),
-                DB::raw('COALESCE(co.PYP_PASS, "Pendiente") as PYP_PASS'),
-                DB::raw('COALESCE(co.STATUS, "Pendiente") as STATUS'),
-                DB::raw('COALESCE(co.RESIT, "0") as RESIT'),
-                DB::raw('COALESCE(co.INTENTOS, 0) as INTENTOS'),
-                DB::raw('COALESCE(co.RESIT_MODULE, NULL) as RESIT_MODULE'),
-                DB::raw('COALESCE(co.RESIT_INMEDIATO, "0") as RESIT_INMEDIATO'),
-                DB::raw('COALESCE(co.RESIT_INMEDIATO_DATE, NULL) as RESIT_INMEDIATO_DATE'),
-                DB::raw('COALESCE(co.RESIT_INMEDIATO_SCORE, 0) as RESIT_INMEDIATO_SCORE'),
-                DB::raw('COALESCE(co.RESIT_INMEDIATO_STATUS, "Pendiente") as RESIT_INMEDIATO_STATUS'),
-                DB::raw('COALESCE(co.RESIT_PROGRAMADO, "0") as RESIT_PROGRAMADO'),
-                DB::raw('COALESCE(co.RESIT_1, "0") as RESIT_1'),
-                DB::raw('COALESCE(co.RESIT_1_DATE, NULL) as RESIT_1_DATE'),
-                DB::raw('COALESCE(co.RESIT_1_SCORE, 0) as RESIT_1_SCORE'),
-                DB::raw('COALESCE(co.RESIT_1_STATUS, "Pendiente") as RESIT_1_STATUS'),
-                DB::raw('COALESCE(co.RESIT_2, "0") as RESIT_2'),
-                DB::raw('COALESCE(co.RESIT_2_DATE, NULL) as RESIT_2_DATE'),
-                DB::raw('COALESCE(co.RESIT_2_STATUS, "Pendiente") as RESIT_2_STATUS'),
-                DB::raw('COALESCE(co.RESIT_2_SCORE, 0) as RESIT_2_SCORE'),
-                DB::raw('COALESCE(co.RESIT_3, "0") as RESIT_3'),
-                DB::raw('COALESCE(co.RESIT_3_DATE, NULL) as RESIT_3_DATE'),
-                DB::raw('COALESCE(co.RESIT_3_STATUS, "Pendiente") as RESIT_3_STATUS'),
-                DB::raw('COALESCE(co.RESIT_3_SCORE, 0) as RESIT_3_SCORE'),
-                DB::raw('COALESCE(co.RESIT_ENTRENAMIENTO, NULL) as RESIT_ENTRENAMIENTO'),
-                DB::raw('COALESCE(co.RESIT_FOLIO_PROYECTO, NULL) as RESIT_FOLIO_PROYECTO'),
-                DB::raw('COALESCE(co.RESIT_PROGRAMADO_DATE, NULL) as RESIT_PROGRAMADO_DATE'),
-                DB::raw('COALESCE(co.RESIT_PROGRAMADO_SCORE, 0) as RESIT_PROGRAMADO_SCORE'),
-                DB::raw('COALESCE(co.RESIT_PROGRAMADO_STATUS, "Pendiente") as RESIT_PROGRAMADO_STATUS'),
-                DB::raw('COALESCE(co.FINAL_STATUS, "Pendiente") as FINAL_STATUS'),
-                DB::raw('COALESCE(co.HAVE_CERTIFIED, 0) as HAVE_CERTIFIED'),
-                DB::raw('COALESCE(co.CERTIFICATE_NUMBER, NULL) as CERTIFICATE_NUMBER'),
-                DB::raw('COALESCE(co.CERTIFIED, NULL) as CERTIFIED'),
-                DB::raw('COALESCE(co.EXPIRATION, NULL) as EXPIRATION')
-            )
-            ->orderBy('c.LAST_NAME_PROJECT', 'asc')
-            ->get();
-            
+                    // Campos de course con COALESCE o valores por defecto para null
+                    DB::raw('COALESCE(co.ID_COURSE, 0) as curso_id'),
+                    DB::raw('COALESCE(co.PRACTICAL, 0) as PRACTICAL'),
+                    DB::raw('COALESCE(co.PRACTICAL_PASS, "Pendiente") as PRACTICAL_PASS'),
+                    DB::raw('COALESCE(co.EQUIPAMENT, 0) as EQUIPAMENT'),
+                    DB::raw('COALESCE(co.EQUIPAMENT_PASS, "Pendiente") as EQUIPAMENT_PASS'),
+                    DB::raw('COALESCE(co.PYP, 0) as PYP'),
+                    DB::raw('COALESCE(co.LEVEL, NULL) as LEVEL'),
+                    DB::raw('COALESCE(co.PYP_PASS, "Pendiente") as PYP_PASS'),
+                    DB::raw('COALESCE(co.STATUS, "Pendiente") as STATUS'),
+                    DB::raw('COALESCE(co.RESIT, "0") as RESIT'),
+                    DB::raw('COALESCE(co.INTENTOS, 0) as INTENTOS'),
+                    DB::raw('COALESCE(co.RESIT_MODULE, NULL) as RESIT_MODULE'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO, "0") as RESIT_INMEDIATO'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO_DATE, NULL) as RESIT_INMEDIATO_DATE'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO_SCORE, 0) as RESIT_INMEDIATO_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_INMEDIATO_STATUS, "Pendiente") as RESIT_INMEDIATO_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO, "0") as RESIT_PROGRAMADO'),
+                    DB::raw('COALESCE(co.RESIT_1, "0") as RESIT_1'),
+                    DB::raw('COALESCE(co.RESIT_1_DATE, NULL) as RESIT_1_DATE'),
+                    DB::raw('COALESCE(co.RESIT_1_SCORE, 0) as RESIT_1_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_1_STATUS, "Pendiente") as RESIT_1_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_2, "0") as RESIT_2'),
+                    DB::raw('COALESCE(co.RESIT_2_DATE, NULL) as RESIT_2_DATE'),
+                    DB::raw('COALESCE(co.RESIT_2_STATUS, "Pendiente") as RESIT_2_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_2_SCORE, 0) as RESIT_2_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_3, "0") as RESIT_3'),
+                    DB::raw('COALESCE(co.RESIT_3_DATE, NULL) as RESIT_3_DATE'),
+                    DB::raw('COALESCE(co.RESIT_3_STATUS, "Pendiente") as RESIT_3_STATUS'),
+                    DB::raw('COALESCE(co.RESIT_3_SCORE, 0) as RESIT_3_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_ENTRENAMIENTO, NULL) as RESIT_ENTRENAMIENTO'),
+                    DB::raw('COALESCE(co.RESIT_FOLIO_PROYECTO, NULL) as RESIT_FOLIO_PROYECTO'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO_DATE, NULL) as RESIT_PROGRAMADO_DATE'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO_SCORE, 0) as RESIT_PROGRAMADO_SCORE'),
+                    DB::raw('COALESCE(co.RESIT_PROGRAMADO_STATUS, "Pendiente") as RESIT_PROGRAMADO_STATUS'),
+                    DB::raw('COALESCE(co.FINAL_STATUS, "Pendiente") as FINAL_STATUS'),
+                    DB::raw('COALESCE(co.HAVE_CERTIFIED, 0) as HAVE_CERTIFIED'),
+                    DB::raw('COALESCE(co.CERTIFICATE_NUMBER, NULL) as CERTIFICATE_NUMBER'),
+                    DB::raw('COALESCE(co.CERTIFIED, NULL) as CERTIFIED'),
+                    DB::raw('COALESCE(co.EXPIRATION, NULL) as EXPIRATION')
+                )
+                ->orderBy('c.LAST_NAME_PROJECT', 'asc')
+                ->get();
+
             $allNivelIds = [];
             $allBopIds = [];
             $projectToNiveles = [];

@@ -124,7 +124,7 @@ function showLoading() {
 function updateMetricas(metricas) {
     document.getElementById('totalProyectos').textContent = metricas.totalProyectos;
     document.getElementById('totalEstudiantes').textContent = metricas.totalEstudiantes;
-    document.getElementById('totalDesercion').textContent = metricas.totalDesercion;
+    document.getElementById('totalDesercion').textContent = metricas.estudiantesDesercion;
     document.getElementById('estudiantesAprobados').textContent = metricas.estudiantesAprobados;
 }
 function showError(message) {

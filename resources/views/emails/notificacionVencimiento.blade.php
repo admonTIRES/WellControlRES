@@ -167,12 +167,12 @@
                     <strong>Results In Performance</strong>, como centro asociado de <strong>Smith Mason & Co</strong>, pone a su disposición nuestra programación de cursos para la renovación de su certificado.
                 </p>
             </div>
-
-            <a href="https://results-in-performance.com/" class="cta-button" target="_blank">Ver Calendario de Cursos</a>
-            
-            <div style="font-size: 14px; color: #6c757d; text-align: center;">
+ <div style="font-size: 14px; color: #6c757d; text-align: center;">
                 Si desea información personalizada sobre precios para grupos, consultas técnicas o agendar su lugar en un próximo curso, por favor contáctenos presionando el botón siguiente.
             </div>
+            <a href="https://results-in-performance.com/" class="cta-button" target="_blank">Ver Calendario de Cursos</a>
+            
+           
         </div>
         
         <div class="footer">

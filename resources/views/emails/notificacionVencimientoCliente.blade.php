@@ -166,16 +166,16 @@
                 <strong>Smith Mason & Co</strong>, pone a disposición de su empresa
                 nuestra programación de cursos para la renovación o recertificación del personal.
             </p>
+             <p style="font-size:14px;color:#6c757d;text-align:center;">
+            Si desea información personalizada sobre precios para grupos, consultas técnicas o agendar su lugar en un próximo curso, por favor contáctenos presionando el botón siguiente.
+        </p>
         </div>
 
         <a href="https://results-in-performance.com/" class="cta-button" target="_blank">
             Consultar calendario de cursos
         </a>
 
-        <p style="font-size:14px;color:#6c757d;text-align:center;">
-            Para cotizaciones empresariales, fechas especiales o grupos cerrados,
-            quedamos atentos a su confirmación respondiendo a este correo.
-        </p>
+       
     </div>
 
     <div class="footer">
@@ -188,7 +188,7 @@
 
         <p style="font-size:11px;color:#95a5a6;border-top:1px solid #444;padding-top:15px;">
             © {{ date('Y') }} Results In Performance · Centro asociado Smith Mason & Co.<br>
-            Este mensaje forma parte de un aviso preventivo de vencimiento de certificación.
+            Este es un recordatorio automático si desea dejar de recibir este recordatorio contáctenos.
         </p>
     </div>
 

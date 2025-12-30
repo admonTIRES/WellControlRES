@@ -255,14 +255,15 @@
                     </div>
                 </div> -->
                 <div class="math-drilling-video">
-                {{-- <iframe 
+                <iframe 
                     src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                    {{-- Los iframe de jumpshare son cuando la app crezca mucho y decidan pagar el servicio, por el momento se hace mediante drive, alojado en la cuenta de admonti@results-in-performance.com --}}
+                {{-- <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
                 <!-- <div id="secure-video-container" class="video-container">
@@ -500,26 +501,17 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <!-- <div  class="math-drilling-video">
+
+
+                 <div class="math-drilling-video">
                 <iframe 
-                    src="https://drive.google.com/file/d/1du0CTCxMcc5MEyBBNpbGsLe2mEo0GiFw/preview" 
+                    src="https://drive.google.com/file/d/1_pX_zIn3wWDViPsTRtj6ZF90KLSxZti4/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
                     </iframe>
-                </div> -->
-               
-
-                 <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
-                    width="100%" 
-                    height="700px"
-                    frameborder="0" 
-                    allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
             </div>
@@ -575,31 +567,15 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
-                <!-- <div  class="math-drilling-video">
-                <iframe 
-                    src="https://drive.google.com/file/d/1h62gKVHFIsasA9Kwc0gOYlxBJR55NUOy/preview" 
-                width="100%" 
-                    height="700px"
-                    frameborder="0" 
-                    allowfullscreen>
-                    </iframe>
-                </div> -->
-                {{-- <div class="responsive-video">
-                    <iframe
-                        src="https://drive.google.com/file/d/16pzyARzbNT6kTn7AKJqoAZPdbTNPRVf4/preview" 
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div> --}}
                  <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                <iframe 
+                    src="https://drive.google.com/file/d/16pzyARzbNT6kTn7AKJqoAZPdbTNPRVf4/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
             </div>
@@ -623,31 +599,15 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <!-- <div  class="math-drilling-video">
-                <iframe 
-                    src="https://drive.google.com/file/d/1YsHtXHcAcgi2PF0jtSF70cEv_g39IDsz/preview" 
-                width="100%" 
-                    height="700px"
-                    frameborder="0" 
-                    allowfullscreen>
-                    </iframe>
-                </div> -->
-                {{-- <div class="responsive-video">
-                    <iframe
-                       src="https://drive.google.com/file/d/15HG64dFbimzNOwaA0usD0DL6SLRLikqJ/preview" 
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div> --}}
                  <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                <iframe 
+                    src="https://drive.google.com/file/d/15HG64dFbimzNOwaA0usD0DL6SLRLikqJ/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
             </div>
@@ -687,31 +647,16 @@
                     </p>
                     <ul class="math-drilling-list">
                         <li><strong>{{ __('Hydrostatic pressure') }}</strong>: {{ __('Isolate depth (h) in the formula P = ρ * g * h.') }}</li>
-                        <!-- <div  class="math-drilling-video">
-                            <iframe 
-                                src="https://drive.google.com/file/d/1G2OuIxnxAtjvkz_BllddiTnmsBxXNIrO/preview" 
-                                width="1030px" 
-                                height="600px"
-                                frameborder="0" 
-                                allowfullscreen>
-                            </iframe>
-                        </div> -->
-                        {{-- <div class="responsive-video">
-                            <iframe
-                                src="https://drive.google.com/file/d/10QiPiCGmhYKqil35ojhgrSLKxUJzPf3W/preview" 
-                                frameborder="0"
-                                allowfullscreen>
-                            </iframe>
-                        </div> --}}
+
                          <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                <iframe 
+                    src="https://drive.google.com/file/d/10QiPiCGmhYKqil35ojhgrSLKxUJzPf3W/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
                         <li><strong>{{ __('Fluid volume') }}</strong>: {{ __('Isolate radius (r) in the formula V = π * r² * h.') }}</li>
@@ -729,31 +674,15 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation, watch the following video:') }}
                 </p>
-                <!-- <div  class="math-drilling-video">
-                    <iframe 
-                        src="https://drive.google.com/file/d/1iikIoc9Gh5ISW7S4_plJ0bmxXvefV6On/preview" 
-                        width="100%" 
-                        height="700px"
-                        frameborder="0" 
-                        allowfullscreen>
-                    </iframe>
-                </div> -->
-                {{-- <div class="responsive-video">
-                    <iframe
-                       src="https://drive.google.com/file/d/1Owe9uXOW9UPTnU0ysnBEjMw84mJUJh5T/preview" 
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div> --}}
                  <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                <iframe 
+                    src="https://drive.google.com/file/d/1Owe9uXOW9UPTnU0ysnBEjMw84mJUJh5T/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
             </div>
@@ -817,31 +746,15 @@
                 <p class="math-drilling-text">
                     {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
                 </p>
-                <!-- <div  class="math-drilling-video">
-                    <iframe 
-                        src="https://drive.google.com/file/d/1Kgtk2bvyf-bbiQ0dnmdHZxs0VrLTdwOi/preview" 
-                        width="100%" 
-                        height="700px"
-                        frameborder="0" 
-                        allowfullscreen>
-                    </iframe>
-                </div> -->
-                {{-- <div class="responsive-video">
-                    <iframe
-                        src="https://drive.google.com/file/d/142huz725I8d3QUbbZQ8GCfHjm_7ips9w/preview" 
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div> --}}
                  <div class="math-drilling-video">
-                {{-- <iframe 
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview" 
+                <iframe 
+                    src="https://drive.google.com/file/d/142huz725I8d3QUbbZQ8GCfHjm_7ips9w/preview" 
                     width="100%" 
                     height="700px"
                     frameborder="0" 
                     allowfullscreen>
-                    </iframe> --}}
-                <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe>
+                    </iframe>
+                {{-- <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
 
                 </div>
                 

@@ -8,7 +8,7 @@ use Artisan;
 use Exception;
 use DB;
 //MODELS
-use App\Models\Admin\Exercise\killsheets;
+use App\Models\Admin\Exercise\Killsheets;
 use App\Models\Admin\catalogs\EnteAcreditador;
 use App\Models\Admin\catalogs\TipoBOP;
 use App\Models\Admin\catalogs\Operacion;

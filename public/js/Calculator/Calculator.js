@@ -1391,7 +1391,7 @@ function showExampleGlobal(type, qNum, calculatorId) {
         if (calculator) {
             const screen = calculator.querySelector('.screen');
             if (screen) {
-                screen.textContent = 'Sin operación cargada';
+                screen.textContent = 'Sin respuesta';
             }
         }
         return;
@@ -1460,12 +1460,11 @@ function showExampleGlobal(type, qNum, calculatorId) {
         calculator.__isPlayingExample = false;
     };
 
-    calculator.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    calculator.scrollIntoView({ block: 'center' });
 
-    setTimeout(() => {
-        clickSequence(exercise.CALCULADORA_MATH.sequence);
-    }, 400);
+    clickSequence(exercise.CALCULADORA_MATH.sequence);
 }
+
 
 
 

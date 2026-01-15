@@ -1,191 +1,191 @@
 @extends('Template/maestraAdmin')
 @section('contenido')
 
-    <div class="conatiner-fluid content-inner mt-5 py-0">
-        <div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card banner">
-                        <div class="card-body ">
-                            <div class="row justify-content-center align-items-center banner-container">
-                                <div class="col-lg-6 banner-item">
-                                    <div class="banner-text">
-                                        <h1 class="fw-bold mb-4">
+<div class="conatiner-fluid content-inner mt-5 py-0">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card banner">
+                    <div class="card-body ">
+                        <div class="row justify-content-center align-items-center banner-container">
+                            <div class="col-lg-6 banner-item">
+                                <div class="banner-text">
+                                    <h1 class="fw-bold mb-4">
                                         <span class="text-secondary">{{ __('Drilling Math ') }}</span> {{ __(' Panel ') }}
-                                        </h1>
-                                    </div>
-                                    <p class="mb-4">{{ __('You can create exercises, questions and exam.') }}</p>
+                                    </h1>
                                 </div>
-                                <div class="col-lg-6 banner-img">
-                                    <div class="img">
-                                        <img src="../assets/images/principal/math2.png" class="img-fluid w-55" alt="img8">
-                                    </div>
-                                </div> 
+                                <p class="mb-4">{{ __('You can create exercises, questions and exam.') }}</p>
+                            </div>
+                            <div class="col-lg-6 banner-img">
+                                <div class="img">
+                                    <img src="../assets/images/principal/math2.png" class="img-fluid w-55" alt="img8">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
                         <div class="header-title d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h4 class="card-title mb-0">{{ __('Drilling Math list') }}</h4> 
+                            <h4 class="card-title mb-0">{{ __('Drilling Math list') }}</h4>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mathModal">
-                             {{ __('New') }}
+                                {{ __('New') }}
                             </button>
                         </div>
-                        </div>
-                        <div class="card-body px-0">
-                            <div class="table-responsive">
-                                <table id="math-list-table" class="table table-striped" role="grid" >
-                                </table>
-                            </div>
+                    </div>
+                    <div class="card-body px-0">
+                        <div class="table-responsive">
+                            <table id="math-list-table" class="table table-striped" role="grid">
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal Fullscreen -->
-    <div class="modal fade" id="mathModal" tabindex="-1" aria-labelledby="mathModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mathModalLabel">{{ __('Math Drilling Exercise') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="mathForm">
-                        {!! csrf_field() !!}
-                        <div class="row">
-                            <!-- Columna Izquierda -->
-                            <div class="col-md-4">
-                                <!-- Tipo de Ejercicio -->
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Exercise type') }}</label>
-                                    <select class="form-select" id="TIPO_MATH" name="TIPO_MATH">
-                                        <option value="">Seleccionar...</option>
-                                        <option value="1">Despejes</option>
-                                        <option value="2">Jerarquía</option>
-                                        <option value="3">Fracciones</option>
-                                        <option value="4">Elevación</option>
-                                        <option value="5">Redondeos</option>
-                                    </select>
-                                </div>
-                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Language') }}</label>
-                                    <select class="form-select" id="LANGUAGE_MATH" name="LANGUAGE_MATH">
-                                        <option value="">Seleccionar...</option>
-                                         @foreach ($idiomas as $idioma)
-                                                <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
-                                            @endforeach
-                                    </select>
-                                </div>
-                                
-
+</div>
+<!-- Modal Fullscreen -->
+<div class="modal fade" id="mathModal" tabindex="-1" aria-labelledby="mathModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mathModalLabel">{{ __('Math Drilling Exercise') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="mathForm">
+                    {!! csrf_field() !!}
+                    <div class="row">
+                        <!-- Columna Izquierda -->
+                        <div class="col-md-4">
+                            <!-- Tipo de Ejercicio -->
+                            <div class="mb-3">
+                                <label class="form-label">{{ __('Exercise type') }}</label>
+                                <select class="form-select" id="TIPO_MATH" name="TIPO_MATH">
+                                    <option value="" >Seleccionar...</option>
+                                    <option value="1">Despejes</option>
+                                    <option value="2">Jerarquía</option>
+                                    <option value="3">Fracciones</option>
+                                    <option value="4">Elevación</option>
+                                    <option value="5">Redondeos</option>
+                                </select>
                             </div>
-                            <!-- Columna Derecha si es fracciones-->
-                            <div class="col-md-4 ejercicio-fraccion d-none">
-                                <!-- Pregunta Principal -->
-                                <div class="mb-3">
-                                    <label class="form-label">Fracción</label>
-                                    <textarea class="form-control" id="FRACCION_MATH" name="FRACCION_MATH" rows="1"></textarea>
-                                </div>
-
-                                <!-- Respuesta -->
-                                <div class="mb-3">
-                                    <label class="form-label">Respuesta</label>
-                                    <textarea class="form-control" id="DECIMAL_MATH" name="DECIMAL_MATH" rows="1"></textarea>
-                                </div>
-
-                            </div>
-                            
-                            <!-- Para los otros tipos -->
-                            <div class="col-md-4 ejercicio-general d-none">
-                                <!-- Pregunta Principal -->
-                                <div class="mb-3">
-                                    <label class="form-label">Pregunta</label>
-                                    <textarea class="form-control" id="PREGUNTA_MATH" name="PREGUNTA_MATH" rows="3"></textarea>
-                                </div>
-
-                                <!-- Fórmula -->
-                                <div class="mb-3">
-                                    <label class="form-label">Fórmula</label>
-                                    <textarea class="form-control" id="FORMULA_MATH" name="FORMULA_MATH" rows="3"></textarea>
-                                </div>
-
-                                <!-- Opciones -->
-                                <div class="mb-3">
-                                    <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
-                                    <div id="OPCIONES_MATH">
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="1">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción A">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="2">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción B">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="3">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción C">
-                                            </div>
-                                        </div>
-                                        <div class="opcion-item mb-2">
-                                            <div class="input-group">
-                                                <div class="input-group-text">
-                                                    <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="4">
-                                                </div>
-                                                <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción D">
-                                            </div>
-                                        </div>
-                                    </div>
-               
-                                </div>
-
-                              
-
-                                <!-- Imagen -->
-
-                                <div class="mb-3">
-                                    <label for="imagenEjercicio" class="form-label">Imagen con solución</label>
-                                    <input type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" class="dropify" data-allowed-file-extensions="jpg png jpeg gif" data-height="300" />
-
-                                </div>
-
-                                
-                            </div>
-
-                            <div class="col-md-4">
-                              <input type="hidden" id="CALCULADORA_MATH" name="CALCULADORA_MATH">
-                                <div class="calculator-container d-none">
-                                        @include('Calculator.itemCalculator', ['id' => 'calculatorMath'])
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">{{ __('Language') }}</label>
+                                <select class="form-select" id="LANGUAGE_MATH" name="LANGUAGE_MATH">
+                                    <option value="">Seleccionar...</option>
+                                    @foreach ($idiomas as $idioma)
+                                    <option value="{{ $idioma->ID_CATALOGO_IDIOMAEXAMEN }}">{{ $idioma->NOMBRE_IDIOMA }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
 
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="mathbtnModal" name="mathbtnModal">Guardar Ejercicio</button>
-                </div>
+                        <!-- Columna Derecha si es fracciones-->
+                        <div class="col-md-4 ejercicio-fraccion d-none">
+                            <!-- Pregunta Principal -->
+                            <div class="mb-3">
+                                <label class="form-label">Fracción</label>
+                                <textarea class="form-control" id="FRACCION_MATH" name="FRACCION_MATH" rows="1"></textarea>
+                            </div>
+
+                            <!-- Respuesta -->
+                            <div class="mb-3">
+                                <label class="form-label">Respuesta</label>
+                                <textarea class="form-control" id="DECIMAL_MATH" name="DECIMAL_MATH" rows="1"></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- Para los otros tipos -->
+                        <div class="col-md-4 ejercicio-general d-none">
+                            <!-- Pregunta Principal -->
+                            <div class="mb-3">
+                                <label class="form-label">Pregunta</label>
+                                <textarea class="form-control" id="PREGUNTA_MATH" name="PREGUNTA_MATH" rows="3"></textarea>
+                            </div>
+
+                            <!-- Fórmula -->
+                            <div class="mb-3">
+                                <label class="form-label">Fórmula</label>
+                                <textarea class="form-control" id="FORMULA_MATH" name="FORMULA_MATH" rows="3"></textarea>
+                            </div>
+
+                            <!-- Opciones -->
+                            <div class="mb-3">
+                                <label class="form-label">Rellenar las opciones y seleccionar la correcta</label>
+                                <div id="OPCIONES_MATH">
+                                    <div class="opcion-item mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="1">
+                                            </div>
+                                            <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción A">
+                                        </div>
+                                    </div>
+                                    <div class="opcion-item mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="2">
+                                            </div>
+                                            <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción B">
+                                        </div>
+                                    </div>
+                                    <div class="opcion-item mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="3">
+                                            </div>
+                                            <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción C">
+                                        </div>
+                                    </div>
+                                    <div class="opcion-item mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" name="respuesta_check[]" value="4">
+                                            </div>
+                                            <input type="text" class="form-control opcion-texto" name="respuesta_text[]" placeholder="Opción D">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Imagen -->
+
+                            <div class="mb-3">
+                                <label for="imagenEjercicio" class="form-label">Imagen con solución</label>
+                                <input type="file" id="SOLUCIONIMG_MATH" name="SOLUCIONIMG_MATH" class="dropify" data-allowed-file-extensions="jpg png jpeg gif" data-height="300" />
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="hidden" id="CALCULADORA_MATH" name="CALCULADORA_MATH">
+                            <div class="calculator-container d-none">
+                                @include('Admin.content.Instructor.exercises.itemCalculatorAdmin', ['id' => 'calculatorMath'])
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="mathbtnModal" name="mathbtnModal">Guardar Ejercicio</button>
             </div>
         </div>
     </div>
+</div>
 @endsection
 @php
-    $css_identifier = 'math';
+$css_identifier = 'math';
 @endphp

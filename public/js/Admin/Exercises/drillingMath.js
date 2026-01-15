@@ -98,16 +98,6 @@ $(document).ready(function () {
                 }
             }
             else if (btn.id === "equals") {
-                // try {
-                //     const safeExp = currentInput.replace(/[×÷−]/g, m => operators[m]);
-                //     const result = Function('"use strict";return (' + safeExp + ')')();
-                //     currentInput = result.toString();
-                //     pressedKeys.push("=");
-                //     updateScreen(currentInput);
-                // } catch (err) {
-                //     updateScreen("Error");
-                //     console.error("Invalid expression:", err);
-                // }
                 try {
 
                     let finalExpression = currentInput.replace(/[×÷−]/g, m => operators[m]);
@@ -131,19 +121,6 @@ $(document).ready(function () {
                     console.error("Invalid expression:", err);
                 }
             }
-            // else {
-            //     if (value === ')') {
-            //         currentInput += value;
-            //     }
-            //     else if (operators[value]) {
-            //         currentInput += operators[value];
-            //     }
-            //     else {
-            //         currentInput += value;
-            //     }
-            //     pressedKeys.push(value);
-            //     updateScreen(currentInput);
-            // }
             else {
                 const cleanedValue = value.replace(/\s(.*?)\s/g, '').trim();
 
@@ -232,6 +209,25 @@ var mathDatatable = $("#math-list-table").DataTable({
         },
         { data: 'TIPO' },
         { data: 'IDIOMA_NOMBRE' },
+        {
+            data: null,
+            render: function (data, type, row) {
+
+                const tipo = row.TIPO_MATH;
+
+                // Tipos: 1,2,4,5 → PREGUNTA_MATH
+                if ([1, 2, 4, 5].includes(parseInt(tipo))) {
+                    return row.PREGUNTA_MATH ?? '';
+                }
+
+                // Tipo: 3 → FRACCION_MATH
+                if (parseInt(tipo) === 3) {
+                    return row.FRACCION_MATH ?? '';
+                }
+
+                return '';
+            }
+        },
         { data: 'BTN_EDITAR' },
         { data: 'BTN_ACTIVO' }
     ],
@@ -239,8 +235,9 @@ var mathDatatable = $("#math-list-table").DataTable({
         { targets: 0, title: '#', className: 'text-center' },
         { targets: 1, title: 'Tipo', className: 'text-center' },
         { targets: 2, title: 'Idioma', className: 'text-center' },
-        { targets: 3, title: 'Editar', className: 'text-center' },
-        { targets: 4, title: 'Activo', className: 'text-center' }
+        { targets: 3, title: 'Ejercicio', className: 'text-center' },
+        { targets: 4, title: 'Editar', className: 'text-center' },
+        { targets: 5, title: 'Activo', className: 'text-center' }
     ]
 
 });

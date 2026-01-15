@@ -367,8 +367,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group mb-3 mt-3">
                                                         <label class="form-label"> <strong>{{ __('Folio:')}}</strong></label>
-                                                        <input type="text" class="form-control" name="FOLIO_PROJECT" id="FOLIO_PROJECT"
-                                                            placeholder="STE-TR{{ $yearSuffix }}-000" />
+                                                        <input type="text" class="form-control" name="FOLIO_PROJECT" id="FOLIO_PROJECT" readonly>
                                                         <div class="error-message">{{ __('The folio is required.')}}
                                                         </div>
                                                     </div>

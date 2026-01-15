@@ -1715,7 +1715,43 @@ function limpiarModal() {
     window.wizard.destroyWizard();
 
     selectize.clear();
+
+    generarFolioProject();
 }
+
+
+function generarFolioProject() {
+    $.ajax({
+        url: '/generarFolioProject',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+
+            if (response.success && response.folio) {
+                $('#FOLIO_PROJECT').val(response.folio);
+            } else {
+                $('#FOLIO_PROJECT').val('');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.msj || 'No se pudo generar el folio del proyecto.'
+                });
+            }
+
+        },
+        error: function () {
+            $('#FOLIO_PROJECT').val('');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de comunicación con el servidor.'
+            });
+        }
+    });
+}
+
+
+
 function initializeTagifyWithEditSupport(tagifyInput) {
     let originalCompanies = [];
     let isEditMode = false;

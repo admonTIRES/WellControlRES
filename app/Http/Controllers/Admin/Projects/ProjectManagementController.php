@@ -104,6 +104,37 @@ class ProjectManagementController extends Controller
             ]);
         }
     }
+
+    //// GENERAR FOLIO PROYECTO 
+
+
+    public function generarFolioProject()
+    {
+        $anio = Carbon::now()->format('y'); 
+
+        $ultimo = Proyect::where('FOLIO_PROJECT', 'like', "STE-TR{$anio}-%")
+            ->orderBy('FOLIO_PROJECT', 'desc')
+            ->first();
+
+        if ($ultimo) {
+            $ultimoNumero = intval(substr($ultimo->FOLIO_PROJECT, -3));
+            $nuevoNumero = $ultimoNumero + 1;
+        } else {
+            $nuevoNumero = 1;
+        }
+
+        $consecutivo = str_pad($nuevoNumero, 3, '0', STR_PAD_LEFT);
+
+        $folio = "STE-TR{$anio}-{$consecutivo}";
+
+        return response()->json([
+            'success' => true,
+            'folio' => $folio
+        ]);
+    }
+
+
+
     // STORE - CATALOGOS
     public function store(Request $request)
     {

@@ -105,6 +105,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/projectsAdmin', [adminController::class, 'projectsAdmin'])->name('projectsAdmin');
     Route::post('/proyectoSave', [ProjectManagementController::class, 'store']);
 
+    Route::get('/generarFolioProject', [ProjectManagementController::class, 'generarFolioProject']);
+
+
+    
+
     Route::prefix('projectsAdmin/details')->group(function () {
         Route::post('/cursoSave', [ProjectManagementController::class, 'store']);
         Route::post('/candidateSave', [ProjectManagementController::class, 'store']);
@@ -335,6 +340,7 @@ Route::middleware(['auth'])->group(function () {
             'nota' => 'Se traen programas que esten activas en el catálogo'
         ]);
     });
+
     Route::get('/obtener-datos-centro', function (Request $request) {
         $centroId = $request->get('centro_id');
 
@@ -428,9 +434,3 @@ Route::get('/messages', [adminController::class, 'messages'])->name('messages');
 });
 
 
-Route::get('/enviar-correo', function () {
-    $mensaje = "Este es un correo enviado usando SMTP de Gmail en Laravel 8.";
-    Mail::to('lperez@results-in-performance.com')->send(new Correo($mensaje));
-
-    return 'Correo enviado correctamente.';
-});

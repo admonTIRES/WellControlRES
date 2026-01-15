@@ -782,7 +782,7 @@ use Illuminate\Support\Str;
         <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.41"></script>
     @endif
     @if(request()->is('math'))
-        <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.39"></script>
+        <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.40"></script>
     @endif
     @if(request()->is('exercises'))
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

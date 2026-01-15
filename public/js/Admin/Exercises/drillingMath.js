@@ -4,139 +4,317 @@ $(document).ready(function () {
     $('#SOLUCIONIMG_MATH').dropify();
     // RESET MODALS
     $('#mathModal').on('hidden.bs.modal', function () {
-        ID_MATH_EXERCISE = 0;
-        $('#mathForm')[0].reset();
 
-        // ['ENTE_MATH', 'NIVELES_MATH', 'BOP_MATH', 'OPERATION_MATH'].forEach(function (id) {
-        //     var $select = $('#' + id);
-        //     if ($select[0].selectize) {
-        //         $select[0].selectize.clear();
-        //     }
-        // });
+            ID_MATH_EXERCISE = 0;
+            $('#mathForm')[0].reset();
 
+            inicializarOpcionesPorDefecto();
 
-        inicializarOpcionesPorDefecto();
-
-        var $inputImg = $('#SOLUCIONIMG_MATH');
-        if ($inputImg.data('dropify')) {
-            $inputImg.dropify().data('dropify').resetPreview();
-            $inputImg.dropify().data('dropify').clearElement();
-            $inputImg.attr('required', false).removeClass('campo-requerido');
-        }
-        $('.ejercicio-fraccion, .ejercicio-general, .calculator-container').addClass('d-none');
-
-
-        $('#mathModal .modal-title').text('Nuevo ejercicio de matemáticas');
-    });
-    // RESET MODALS - END
-    //   CALCULADORA
-    const screen = document.getElementById("screen");
-    const buttons = document.querySelectorAll(".calculator .btn");
-
-    let fieldJson = document.getElementById("CALCULADORA_MATH");
-    if (!fieldJson) {
-        fieldJson = document.createElement("input");
-        fieldJson.type = "hidden";
-        fieldJson.name = "CALCULADORA_MATH";
-        fieldJson.id = "CALCULADORA_MATH";
-        document.querySelector(".calculator-container").appendChild(fieldJson);
-    }
-
-    let currentInput = "";
-    let pressedKeys = [];
-
-    const operators = {
-        "×": "*",
-        "÷": "/",
-        "−": "-",
-        "+": "+",
-        "^": "^", 
-        "log": "log(",
-        "ln": "log(",
-        "sin": "sin(",
-        "cos": "cos(",
-        "tan": "tan(",
-        "√": "sqrt(",
-        "x²": "^2",
-        "x³": "^3",
-        "x⁻¹": "^(-1)",
-        "EXP": "e",
-    };
-    const constants = {
-        "π": "pi"
-    };
-
-    function updateScreen(value) {
-        screen.textContent = value || "0";
-    }
-
-    function updateJson() {
-        const jsonValue = {
-            sequence: pressedKeys,
-            final: currentInput
-        };
-        fieldJson.value = JSON.stringify(jsonValue);
-        console.log("JSON calculadora:", jsonValue);
-    }
-
-    buttons.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            // const value = btn.textContent.trim();
-            const value = btn.getAttribute('data-value') || btn.textContent.trim();
-            if (btn.id === "all-clear") {
-                currentInput = "";
-                // pressedKeys.push("C");
-                pressedKeys = [];
-                updateScreen(currentInput);
+            var $inputImg = $('#SOLUCIONIMG_MATH');
+            if ($inputImg.data('dropify')) {
+                $inputImg.dropify().data('dropify').resetPreview();
+                $inputImg.dropify().data('dropify').clearElement();
+                $inputImg.attr('required', false).removeClass('campo-requerido');
             }
-            else if (btn.id === "delete") {
-                if (currentInput.length > 0) {
-                    currentInput = currentInput.slice(0, -1);
-                    pressedKeys.push("DEL");
-                    updateScreen(currentInput);
-                }
+
+            $('.ejercicio-fraccion, .ejercicio-general, .calculator-container')
+                .addClass('d-none');
+
+            window.displayInput = "";
+            window.evalInput = "";
+            window.pressedKeys = [];
+
+            const screen = document.getElementById('screen');
+            if (screen) {
+                screen.textContent = "Enter";
             }
-            else if (btn.id === "equals") {
-                try {
 
-                    let finalExpression = currentInput.replace(/[×÷−]/g, m => operators[m]);
-
-                    finalExpression = finalExpression
-                        .replace(/log/g, 'log10(')
-                        .replace(/ln/g, 'log(')
-                        .replace(/sin/g, 'sin(')
-                        .replace(/cos/g, 'cos(')
-                        .replace(/tan/g, 'tan(')
-                        .replace(/√/g, 'sqrt(')
-                        .replace(/\^/g, '^')
-
-                    const result = math.evaluate(finalExpression);
-
-                    currentInput = result.toString();
-                    pressedKeys.push("=");
-                    updateScreen(currentInput);
-                } catch (err) {
-                    updateScreen("Error");
-                    console.error("Invalid expression:", err);
-                }
+            const fieldJson = document.getElementById('CALCULADORA_MATH');
+            if (fieldJson) {
+                fieldJson.value = "";
             }
-            else {
-                const cleanedValue = value.replace(/\s(.*?)\s/g, '').trim();
 
-                if (operators[cleanedValue]) {
-                    currentInput += operators[cleanedValue];
-                } else {
-                    currentInput += cleanedValue;
-                }
-
-                pressedKeys.push(value);
-                updateScreen(currentInput);
-            }
-            updateJson();
+            $('#mathModal .modal-title').text('Nuevo ejercicio de matemáticas');
         });
-    });
+
+
+
+    // RESET MODALS - END
+    /////////   CALCULADORA  /////////
+    // const screen = document.getElementById("screen");
+    // const buttons = document.querySelectorAll(".calculator .btn");
+
+    // let fieldJson = document.getElementById("CALCULADORA_MATH");
+    // if (!fieldJson) {
+    //     fieldJson = document.createElement("input");
+    //     fieldJson.type = "hidden";
+    //     fieldJson.name = "CALCULADORA_MATH";
+    //     fieldJson.id = "CALCULADORA_MATH";
+    //     document.querySelector(".calculator-container").appendChild(fieldJson);
+    // }
+
+    // let currentInput = "";
+    // let pressedKeys = [];
+
+    // const operators = {
+    //     "×": "*",
+    //     "÷": "÷",
+    //     "−": "-",
+    //     "+": "+",
+    //     "^": "^", 
+    //     "log": "log(",
+    //     "ln": "log(",
+    //     "sin": "sin(",
+    //     "cos": "cos(",
+    //     "tan": "tan(",
+    //     "√": "sqrt(",
+    //     "x²": "^2",
+    //     "x³": "^3",
+    //     "x⁻¹": "^(-1)",
+    //     "EXP": "e",
+    // };
+    // const constants = {
+    //     "π": "pi"
+    // };
+
+    // function updateScreen(value) {
+    //     screen.textContent = value || "0";
+    // }
+
+    // function updateJson() {
+    //     const jsonValue = {
+    //         sequence: pressedKeys,
+    //         final: currentInput
+    //     };
+    //     fieldJson.value = JSON.stringify(jsonValue);
+    //     console.log("JSON calculadora:", jsonValue);
+    // }
+
+    // buttons.forEach(btn => {
+    //     btn.addEventListener("click", (e) => {
+    //         e.preventDefault();
+    //         // const value = btn.textContent.trim();
+    //         const value = btn.getAttribute('data-value') || btn.textContent.trim();
+    //         if (btn.id === "all-clear") {
+    //             currentInput = "";
+    //             // pressedKeys.push("C");
+    //             pressedKeys = [];
+    //             updateScreen(currentInput);
+    //         }
+    //         else if (btn.id === "delete") {
+    //             if (currentInput.length > 0) {
+    //                 currentInput = currentInput.slice(0, -1);
+    //                 pressedKeys.push("DEL");
+    //                 updateScreen(currentInput);
+    //             }
+    //         }
+    //         else if (btn.id === "equals") {
+    //             try {
+
+    //                 let finalExpression = currentInput.replace(/[×÷−]/g, m => operators[m]);
+
+    //                 finalExpression = finalExpression
+    //                     .replace(/log/g, 'log10(')
+    //                     .replace(/ln/g, 'log(')
+    //                     .replace(/sin/g, 'sin(')
+    //                     .replace(/cos/g, 'cos(')
+    //                     .replace(/tan/g, 'tan(')
+    //                     .replace(/√/g, 'sqrt(')
+    //                     .replace(/\^/g, '^')
+    //                     .replace(/÷/g, '/')
+
+    //                 const result = math.evaluate(finalExpression);
+
+    //                 currentInput = result.toString();
+    //                 pressedKeys.push("=");
+    //                 updateScreen(currentInput);
+    //             } catch (err) {
+    //                 updateScreen("Error");
+    //                 console.error("Invalid expression:", err);
+    //             }
+    //         }
+    //         else {
+    //             const cleanedValue = value.replace(/\s(.*?)\s/g, '').trim();
+
+    //             if (operators[cleanedValue]) {
+    //                 currentInput += operators[cleanedValue];
+    //             } else {
+    //                 currentInput += cleanedValue;
+    //             }
+
+    //             pressedKeys.push(value);
+    //             updateScreen(currentInput);
+    //         }
+    //         updateJson();
+    //     });
+    // });
+    
+  
+            
+            
+        // ================= CALCULADORA =================
+
+        const screen = document.getElementById("screen");
+        const buttons = document.querySelectorAll(".calculator .btn");
+
+        let fieldJson = document.getElementById("CALCULADORA_MATH");
+        if (!fieldJson) {
+            fieldJson = document.createElement("input");
+            fieldJson.type = "hidden";
+            fieldJson.name = "CALCULADORA_MATH";
+            fieldJson.id = "CALCULADORA_MATH";
+            document.querySelector(".calculator-container").appendChild(fieldJson);
+        }
+
+        // 🔹 Lo que VE el usuario
+        window.displayInput = "";
+
+
+        // 🔹 Lo que se EVALÚA
+        window.evalInput = "";
+
+            window.pressedKeys = [];
+            
+        // Operadores para evaluación
+        const operators = {
+            "×": "*",
+            "÷": "/",
+            "−": "-",
+            "+": "+",
+            "^": "^",
+            "log": "log(",
+            "ln": "log(",
+            "sin": "sin(",
+            "cos": "cos(",
+            "tan": "tan(",
+            "√": "sqrt(",
+            "^2": "^2",
+            "^3": "^3",
+            "^(-1)": "^(-1)",
+            "EXP": "e"
+        };
+
+        // Lo que se muestra en pantalla
+        const displayOverrides = {
+            "^2": "²",
+            "^3": "³",
+            "^(-1)": "⁻¹"
+        };
+
+        const constants = {
+            "π": "pi"
+        };
+
+        // ---------------- FUNCIONES ----------------
+
+        function updateScreen(value) {
+            screen.textContent = value || "0";
+        }
+
+        // 🔥 TRUNCADO REAL (SIN REDONDEO)
+        function formatResult(value) {
+            if (!Number.isFinite(value)) return value;
+
+            const str = value.toString();
+
+            if (!str.includes('.')) return value;
+
+            const [entero, decimales] = str.split('.');
+
+            if (decimales.length > 4) {
+                return Number(`${entero}.${decimales.slice(0, 4)}`);
+            }
+
+            return value;
+        }
+
+        function updateJson() {
+            const jsonValue = {
+                sequence: pressedKeys,
+                display: displayInput,
+                evaluated: evalInput
+            };
+            fieldJson.value = JSON.stringify(jsonValue);
+            console.log("JSON calculadora:", jsonValue);
+        }
+
+        // ---------------- EVENTOS ----------------
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                const value = btn.getAttribute("data-value") || btn.textContent.trim();
+                const cleanedValue = value.replace(/\s+/g, "").trim();
+
+                // -------- AC --------
+                if (btn.id === "all-clear") {
+                    displayInput = "";
+                    evalInput = "";
+                    pressedKeys = [];
+                    updateScreen(displayInput);
+                }
+
+                // -------- DEL --------
+                else if (btn.id === "delete") {
+                    displayInput = displayInput.slice(0, -1);
+                    evalInput = evalInput.slice(0, -1);
+                    pressedKeys.push("DEL");
+                    updateScreen(displayInput);
+                }
+
+                // -------- = --------
+                else if (btn.id === "equals") {
+                    try {
+                        let result = math.evaluate(evalInput);
+                        result = formatResult(result);
+
+                        displayInput = result.toString();
+                        evalInput = displayInput;
+
+                        pressedKeys.push("=");
+                        updateScreen(displayInput);
+                    } catch (err) {
+                        updateScreen("Error");
+                        console.error("Invalid expression:", err);
+                    }
+                }
+
+                // -------- OTROS BOTONES --------
+                else {
+                    // DISPLAY
+                    if (displayOverrides[cleanedValue]) {
+                        displayInput += displayOverrides[cleanedValue];
+                    } else {
+                        displayInput += cleanedValue;
+                    }
+
+                    // EVALUACIÓN
+                    if (operators[cleanedValue]) {
+                        evalInput += operators[cleanedValue];
+                    } else if (constants[cleanedValue]) {
+                        evalInput += constants[cleanedValue];
+                    } else {
+                        evalInput += cleanedValue;
+                    }
+
+                    pressedKeys.push(value);
+                    updateScreen(displayInput);
+                }
+
+                updateJson();
+            });
+        });
+
+        // ================= FIN CALCULADORA =================
+
+            
+            
+    
+    
+    
     // CALCULADORA END
+    
     $('#TIPO_MATH').on('change', function () {
         var valor = $(this).val();
 
@@ -169,18 +347,21 @@ $(document).ready(function () {
 // DATATABLES
 var mathDatatable = $("#math-list-table").DataTable({
     language: { url: "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" },
-    lengthChange: true,
-    lengthMenu: [
-        [10, 25, 50, -1],
-        [10, 25, 50, 'Todos']
-    ],
-    info: false,
+      scrollX: true,
+    autoWidth: false,
+    responsive: false,
     paging: true,
     searching: true,
     filtering: true,
-    scrollY: '65vh',
-    scrollCollapse: true,
-    responsive: true,
+    lengthChange: true,
+    info: true,   
+    scrollY: false,
+    scrollCollapse: false,
+    fixedHeader: false,    
+    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Todos']],
+
+
+
     ajax: {
         dataType: 'json',
         data: {},
@@ -238,7 +419,10 @@ var mathDatatable = $("#math-list-table").DataTable({
         { targets: 3, title: 'Ejercicio', className: 'text-center' },
         { targets: 4, title: 'Editar', className: 'text-center' },
         { targets: 5, title: 'Activo', className: 'text-center' }
-    ]
+    ],
+    infoCallback: function (settings, start, end, max, total, pre) {
+        return `Total de ${total} registros`;
+    },
 
 });
 
@@ -306,44 +490,115 @@ $("#mathbtnModal").click(function (e) {
 
 });
 
+// $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
+//     var tr = $(this).closest('tr');
+//     var row = mathDatatable.row(tr);
+//     var data = row.data();
+//     ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
+//     editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
+
+    
+//     $('#SOLUCIONIMG_MATH').val('');
+//     $('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
+//     $('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
+//     const screen = document.getElementById("screen");
+//     screen.textContent = "0";
+
+    
+//     var $opcionesContainer = $('#OPCIONES_MATH');
+//     $opcionesContainer.empty();
+
+//     if (data.OPCIONES_MATH && Array.isArray(data.OPCIONES_MATH)) {
+//         data.OPCIONES_MATH.forEach(function (opcion, index) {
+//             var numero = index + 1;
+//             var texto = opcion.texto || '';
+//             var correcta = opcion.correcta ? 'checked' : '';
+//             var placeholder = `Escriba la opción ${String.fromCharCode(64 + numero)}`;
+
+//             var opcionHtml = `
+//             <div class="opcion-item mb-2">
+//                 <div class="input-group">
+//                     <div class="input-group-text">
+//                         <input class="form-check-input mt-0" type="checkbox"
+//                                name="respuesta_check[]" value="${numero}" ${correcta}>
+//                     </div>
+//                     <input type="text" class="form-control opcion-texto"
+//                            name="respuesta_text[]" value="${texto}" placeholder="${placeholder}">
+//                 </div>
+//             </div>
+//         `;
+//             $opcionesContainer.append(opcionHtml);
+//         });
+//     }
+
+//     var tipo = row.data().TIPO_MATH;
+//     $('.ejercicio-fraccion').addClass('d-none');
+//     $('.ejercicio-general').addClass('d-none');
+//     $('.calculator-container').addClass('d-none');
+//     if (tipo != null) {
+//         if (tipo === 3) {
+//             $('.ejercicio-fraccion').removeClass('d-none');
+//             $('.calculator-container').removeClass('d-none');
+//         } else {
+//             $('.ejercicio-general').removeClass('d-none');
+//             $('.calculator-container').removeClass('d-none');
+//         }
+//     }
+
+//     function manejarImagen(inputId, rutaImagen) {
+//         var $input = $('#' + inputId);
+
+//         if (rutaImagen) {
+//             var rutaLimpia = rutaImagen.replace(/\\/g, '/');
+//             var archivo = row.data().SOLUCIONIMG_MATH;
+//             var extension = archivo.substring(archivo.lastIndexOf("."));
+
+//             console.log('Ruta:', rutaLimpia);
+
+//             var imagenUrl = '/showImage/' + rutaLimpia;
+
+//             $input.dropify().data('dropify').destroy();
+//             $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
+//             $input.dropify().data('dropify').init();
+
+//             $input.attr('required', false);
+//             $input.removeClass('campo-requerido');
+
+
+//         } else {
+//             $input.val('');
+//             $input.dropify().data('dropify').resetPreview();
+//             $input.dropify().data('dropify').clearElement();
+//             $input.attr('required', false);
+//             $input.removeClass('campo-requerido');
+//         }
+//     }
+
+//     // Esperar a que los campos estén visibles antes de inicializar Dropify
+//     setTimeout(function () {
+//         manejarImagen('SOLUCIONIMG_MATH', data.SOLUCIONIMG_MATH);
+//     }, 200);
+//     $('#mathModal .modal-title').html(`Editar ejercicio ${row.data().ID_MATH_EXERCISE}`);
+// });
+
+
 $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
+
     var tr = $(this).closest('tr');
     var row = mathDatatable.row(tr);
     var data = row.data();
-    ID_MATH_EXERCISE = row.data().ID_MATH_EXERCISE;
-    editarDatoTabla(row.data(), 'mathForm', 'mathModal', 1);
+    ID_MATH_EXERCISE = data.ID_MATH_EXERCISE;
+
+    editarDatoTabla(data, 'mathForm', 'mathModal', 1);
+
+    // ===================== TU CÓDIGO ORIGINAL =====================
+
     $('#SOLUCIONIMG_MATH').val('');
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').resetPreview();
     $('#SOLUCIONIMG_MATH').dropify().data('dropify').clearElement();
+
     const screen = document.getElementById("screen");
     screen.textContent = "0";
-    // Inicializar campos selectize
-    function initializeSelectizedFields(row, fieldIds) {
-        fieldIds.forEach(function (fieldId) {
-            var values = row.data()[fieldId];
-            var $select = $('#' + fieldId);
-
-            if (!$select[0].selectize) {
-                $select.selectize({
-                    plugins: ['remove_button'],
-                    delimiter: ',',
-                    persist: false,
-                    create: false
-                });
-            }
-
-            var selectize = $select[0].selectize;
-            selectize.clear();
-            selectize.setValue(values);
-        });
-    }
-
-    // initializeSelectizedFields(row, [
-    //     'ENTE_MATH',
-    //     'NIVELES_MATH',
-    //     'BOP_MATH',
-    //     'OPERATION_MATH'
-    // ]);
 
     var $opcionesContainer = $('#OPCIONES_MATH');
     $opcionesContainer.empty();
@@ -356,25 +611,26 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
             var placeholder = `Escriba la opción ${String.fromCharCode(64 + numero)}`;
 
             var opcionHtml = `
-            <div class="opcion-item mb-2">
-                <div class="input-group">
-                    <div class="input-group-text">
-                        <input class="form-check-input mt-0" type="checkbox" 
-                               name="respuesta_check[]" value="${numero}" ${correcta}>
+                <div class="opcion-item mb-2">
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox"
+                                   name="respuesta_check[]" value="${numero}" ${correcta}>
+                        </div>
+                        <input type="text" class="form-control opcion-texto"
+                               name="respuesta_text[]" value="${texto}" placeholder="${placeholder}">
                     </div>
-                    <input type="text" class="form-control opcion-texto" 
-                           name="respuesta_text[]" value="${texto}" placeholder="${placeholder}">
                 </div>
-            </div>
-        `;
+            `;
             $opcionesContainer.append(opcionHtml);
         });
     }
 
-    var tipo = row.data().TIPO_MATH;
+    var tipo = data.TIPO_MATH;
     $('.ejercicio-fraccion').addClass('d-none');
     $('.ejercicio-general').addClass('d-none');
     $('.calculator-container').addClass('d-none');
+
     if (tipo != null) {
         if (tipo === 3) {
             $('.ejercicio-fraccion').removeClass('d-none');
@@ -385,41 +641,82 @@ $('#math-list-table tbody').on('click', 'td>button.EDITAR', function () {
         }
     }
 
+
+    var calculadoraData = data.CALCULADORA_MATH || null;
+
+    if (typeof calculadoraData === 'string') {
+        try {
+            calculadoraData = JSON.parse(calculadoraData);
+        } catch (e) {
+            calculadoraData = null;
+        }
+    }
+
+    if (calculadoraData && calculadoraData.final !== undefined) {
+        calculadoraData = {
+            sequence: calculadoraData.sequence || [],
+            display: calculadoraData.final,
+            evaluated: calculadoraData.final
+        };
+    }
+
+    if (calculadoraData && calculadoraData.display !== undefined) {
+        calculadoraData = {
+            sequence: calculadoraData.sequence || [],
+            display: calculadoraData.display,
+            evaluated: calculadoraData.evaluated ?? calculadoraData.display
+        };
+    }
+
+
+    if (calculadoraData) {
+
+        window.displayInput = calculadoraData.display || "";
+        window.evalInput = calculadoraData.evaluated || "";
+        window.pressedKeys = Array.isArray(calculadoraData.sequence)
+            ? calculadoraData.sequence
+            : [];
+
+        const screenCalc = document.getElementById("screen");
+        if (screenCalc) {
+            screenCalc.textContent = window.displayInput || "Enter";
+        }
+
+        $('#CALCULADORA_MATH').val(JSON.stringify(calculadoraData));
+    }
+
+
     function manejarImagen(inputId, rutaImagen) {
         var $input = $('#' + inputId);
 
         if (rutaImagen) {
             var rutaLimpia = rutaImagen.replace(/\\/g, '/');
-            var archivo = row.data().SOLUCIONIMG_MATH;
-            var extension = archivo.substring(archivo.lastIndexOf("."));
-
-            console.log('Ruta:', rutaLimpia);
-
             var imagenUrl = '/showImage/' + rutaLimpia;
 
             $input.dropify().data('dropify').destroy();
             $input.dropify().data('dropify').settings.defaultFile = imagenUrl;
             $input.dropify().data('dropify').init();
 
-            $input.attr('required', false);
-            $input.removeClass('campo-requerido');
-
-
+            $input.attr('required', false).removeClass('campo-requerido');
         } else {
             $input.val('');
             $input.dropify().data('dropify').resetPreview();
             $input.dropify().data('dropify').clearElement();
-            $input.attr('required', false);
-            $input.removeClass('campo-requerido');
+            $input.attr('required', false).removeClass('campo-requerido');
         }
     }
 
-    // Esperar a que los campos estén visibles antes de inicializar Dropify
     setTimeout(function () {
         manejarImagen('SOLUCIONIMG_MATH', data.SOLUCIONIMG_MATH);
     }, 200);
-    $('#mathModal .modal-title').html(`Editar ejercicio ${row.data().ID_MATH_EXERCISE}`);
+
+    $('#mathModal .modal-title')
+        .html(`Editar ejercicio ${data.ID_MATH_EXERCISE}`);
+
 });
+
+
+
 
 $('#math-list-table tbody').on('change', 'input.ACTIVAR', function () {
     var tr = $(this).closest('tr');

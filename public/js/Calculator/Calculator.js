@@ -357,6 +357,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ================= CALCULADORA =================
+
     const calculator_3 = document.getElementById('calculator3');
     const calculator4 = document.getElementById('calculator4');
     const calculator5 = document.getElementById('calculator5');
@@ -376,189 +378,488 @@ document.addEventListener("DOMContentLoaded", function () {
         initializeCalculator(calculator6);
     }
 
-    function initializeCalculator(calculator3) {
-        let currentInput = '';
-        let shouldResetScreen = false;
-        let modeState = 0;
-        let fixedDecimals = null;
+    // function initializeCalculator(calculator3) {
+    //     let currentInput = '';
+    //     let shouldResetScreen = false;
+    //     let modeState = 0;
+    //     let fixedDecimals = null;
 
-        const screen = calculator3.querySelector('#screen');
-        const screenDisplay = calculator3.querySelector('#screen-display');
+    //     const screen = calculator3.querySelector('#screen');
+    //     const screenDisplay = calculator3.querySelector('#screen-display');
 
-        const updateScreen = (value, overrideMessage = null) => {
-            if (overrideMessage) {
-                screen.textContent = overrideMessage;
-            } else {
-                screen.textContent = value || '0';
-            }
-        };
+    //     const updateScreen = (value, overrideMessage = null) => {
+    //         if (overrideMessage) {
+    //             screen.textContent = overrideMessage;
+    //         } else {
+    //             screen.textContent = value || '0';
+    //         }
+    //     };
 
-        const clearCalculator = () => {
-            currentInput = '';
-            updateScreen('0');
-        };
+    //     const clearCalculator = () => {
+    //         currentInput = '';
+    //         updateScreen('0');
+    //     };
 
-        const formatResult = (result) => {
-            if (result === 'Error') return 'Error';
+    //     const formatResult = (result) => {
+    //         if (result === 'Error') return 'Error';
 
-            if (fixedDecimals !== null) {
-                const num = parseFloat(result);
-                if (isNaN(num)) return result;
+    //         if (fixedDecimals !== null) {
+    //             const num = parseFloat(result);
+    //             if (isNaN(num)) return result;
 
-                return num.toFixed(fixedDecimals);
-            }
+    //             return num.toFixed(fixedDecimals);
+    //         }
 
-            const num = parseFloat(result);
-            return Number.isInteger(num) ? result : parseFloat(num.toFixed(8)).toString();
-        };
+    //         const num = parseFloat(result);
+    //         return Number.isInteger(num) ? result : parseFloat(num.toFixed(8)).toString();
+    //     };
 
-        const evaluateExpression = (expression) => {
-            try {
-                expression = expression
-                    .replace(/×/g, '*')
-                    .replace(/÷/g, '/')
-                    .replace(/−/g, '-')
-                    .replace(/\^/g, '**')
-                    .replace(/²/g, '**2');
+    //     const evaluateExpression = (expression) => {
+    //         try {
+    //             expression = expression
+    //                 .replace(/×/g, '*')
+    //                 .replace(/÷/g, '/')
+    //                 .replace(/−/g, '-')
+    //                 .replace(/\^/g, '**')
+    //                 .replace(/²/g, '**2');
 
-                const result = Function('"use strict";return (' + expression + ')')();
+    //             const result = Function('"use strict";return (' + expression + ')')();
 
-                return result.toString();
-            } catch (error) {
-                return 'Error';
-            }
-        };
+    //             return result.toString();
+    //         } catch (error) {
+    //             return 'Error';
+    //         }
+    //     };
 
-        const handleModePress = () => {
-            modeState++;
+    //     const handleModePress = () => {
+    //         modeState++;
 
-            switch (modeState) {
-                case 1:
-                    updateScreen(null, "COMP 1  :  SD 2  :  REG 3");
-                    break;
-                case 2:
-                    updateScreen(null, "Deg 1  :  Rad 2  :  Gra 3");
-                    break;
-                case 3:
-                    updateScreen(null, "Fix 1  :  Sci 2  :  Norm 3");
-                    break;
-                default:
-                    modeState = 1;
-                    updateScreen(null, "COMP 1   SD 2   REG 3");
-                    break;
-            }
-        };
-        calculator3.querySelectorAll(".btn").forEach((button) => {
-            button.addEventListener("click", () => {
-                const value = button.getAttribute('data-value') || button.textContent.split('\n')[0].trim();
+    //         switch (modeState) {
+    //             case 1:
+    //                 updateScreen(null, "COMP 1  :  SD 2  :  REG 3");
+    //                 break;
+    //             case 2:
+    //                 updateScreen(null, "Deg 1  :  Rad 2  :  Gra 3");
+    //                 break;
+    //             case 3:
+    //                 updateScreen(null, "Fix 1  :  Sci 2  :  Norm 3");
+    //                 break;
+    //             default:
+    //                 modeState = 1;
+    //                 updateScreen(null, "COMP 1   SD 2   REG 3");
+    //                 break;
+    //         }
+    //     };
+    //     calculator3.querySelectorAll(".btn").forEach((button) => {
+    //         button.addEventListener("click", () => {
+    //             const value = button.getAttribute('data-value') || button.textContent.split('\n')[0].trim();
 
-                if (button.id === 'mode-clear') {
-                    handleModePress();
-                    return;
-                }
+    //             if (button.id === 'mode-clear') {
+    //                 handleModePress();
+    //                 return;
+    //             }
 
-                if (modeState === 3 && value === '1') {
-                    modeState = 4;
-                    updateScreen(null, "FIX 0~9?");
-                    return;
-                }
+    //             if (modeState === 3 && value === '1') {
+    //                 modeState = 4;
+    //                 updateScreen(null, "FIX 0~9?");
+    //                 return;
+    //             }
 
-                if (modeState === 4 && button.classList.contains('number')) {
-                    const numDecimals = parseInt(value);
-                    if (numDecimals >= 0 && numDecimals <= 9) {
-                        fixedDecimals = numDecimals;
-                        modeState = 0;
-                        const displayValue = shouldResetScreen ? formatResult(currentInput) : currentInput || '0';
-                        updateScreen(displayValue);
-                        return;
-                    }
-                }
+    //             if (modeState === 4 && button.classList.contains('number')) {
+    //                 const numDecimals = parseInt(value);
+    //                 if (numDecimals >= 0 && numDecimals <= 9) {
+    //                     fixedDecimals = numDecimals;
+    //                     modeState = 0;
+    //                     const displayValue = shouldResetScreen ? formatResult(currentInput) : currentInput || '0';
+    //                     updateScreen(displayValue);
+    //                     return;
+    //                 }
+    //             }
 
-                if (modeState >= 3) {
-                    modeState = 0;
-                    updateScreen(currentInput || '0');
-                }
+    //             if (modeState >= 3) {
+    //                 modeState = 0;
+    //                 updateScreen(currentInput || '0');
+    //             }
 
 
-                switch (button.id) {
-                    case 'all-clear':
-                        clearCalculator();
-                        modeState = 0;
-                        break;
+    //             switch (button.id) {
+    //                 case 'all-clear':
+    //                     clearCalculator();
+    //                     modeState = 0;
+    //                     break;
 
-                    case 'equals':
-                        if (currentInput) {
-                            const rawResult = evaluateExpression(currentInput);
-                            const finalResult = formatResult(rawResult);
-                            currentInput = rawResult;
-                            updateScreen(finalResult);
-                            shouldResetScreen = true;
-                        }
-                        break;
+    //                 case 'equals':
+    //                     if (currentInput) {
+    //                         const rawResult = evaluateExpression(currentInput);
+    //                         const finalResult = formatResult(rawResult);
+    //                         currentInput = rawResult;
+    //                         updateScreen(finalResult);
+    //                         shouldResetScreen = true;
+    //                     }
+    //                     break;
 
-                    case 'delete':
-                        currentInput = currentInput.slice(0, -1);
-                        updateScreen(currentInput);
-                        shouldResetScreen = false;
-                        break;
+    //                 case 'delete':
+    //                     currentInput = currentInput.slice(0, -1);
+    //                     updateScreen(currentInput);
+    //                     shouldResetScreen = false;
+    //                     break;
 
-                    default:
-                        const isOperator = button.classList.contains('operator');
-                        const isNumber = button.classList.contains('number') || button.id === 'decimal';
+    //                 default:
+    //                     const isOperator = button.classList.contains('operator');
+    //                     const isNumber = button.classList.contains('number') || button.id === 'decimal';
 
-                        if (isNumber || isOperator || button.classList.contains('parentesis')) {
-                            if (shouldResetScreen && isNumber) {
-                                currentInput = '';
-                                shouldResetScreen = false;
-                            }
+    //                     if (isNumber || isOperator || button.classList.contains('parentesis')) {
+    //                         if (shouldResetScreen && isNumber) {
+    //                             currentInput = '';
+    //                             shouldResetScreen = false;
+    //                         }
 
-                            currentInput += value;
-                            updateScreen(currentInput);
-                        }
-                }
-            });
-        });
-        document.addEventListener('keydown', (event) => {
-            const key = event.key;
+    //                         currentInput += value;
+    //                         updateScreen(currentInput);
+    //                     }
+    //             }
+    //         });
+    //     });
+    //     document.addEventListener('keydown', (event) => {
+    //         const key = event.key;
 
-            const isInputFocused = document.activeElement.tagName === 'INPUT';
+    //         const isInputFocused = document.activeElement.tagName === 'INPUT';
 
-            if (isInputFocused) {
+    //         if (isInputFocused) {
+    //             return;
+    //         }
+    //         const keyMapping = {
+    //             'Enter': 'equals',
+    //             'Escape': 'all-clear',
+    //             '+': 'add',
+    //             '-': 'subtract',
+    //             '*': 'multiply',
+    //             '/': 'divide',
+    //             '(': 'open-parenthesis',
+    //             ')': 'close-parenthesis',
+    //             '^': 'power',
+    //             '.': 'decimal',
+    //             '0': 'zero',
+    //             '1': 'one',
+    //             '2': 'two',
+    //             '3': 'three',
+    //             '4': 'four',
+    //             '5': 'five',
+    //             '6': 'six',
+    //             '7': 'seven',
+    //             '8': 'eight',
+    //             '9': 'nine'
+    //         };
+
+    //         if (/^[0-9.]$/.test(key) || key in keyMapping) {
+    //             event.preventDefault();
+    //             const buttonId = keyMapping[key] || key;
+    //             const button = calculator3.querySelector(`#${buttonId}`) ||
+    //                 calculator3.querySelector(`.btn.number:not([id]):contains('${key}')`);
+    //             if (button) button.click();
+    //         }
+    //     });
+
+    // }
+
+    function initializeCalculator(calculator) {
+
+    // ===================== ESTADO =====================
+    let displayInput = '';
+    let evalInput = '';
+    let currentInput = ''; // se conserva
+    let shouldResetScreen = false;
+    let modeState = 0;
+    let fixedDecimals = null;
+
+    const screen = calculator.querySelector('#screen');
+
+    // ===================== UTILIDADES =====================
+    const updateScreen = (value, overrideMessage = null) => {
+        if (overrideMessage) {
+            screen.textContent = overrideMessage;
+        } else {
+            screen.textContent = value || '0';
+        }
+    };
+
+    const clearCalculator = () => {
+        displayInput = '';
+        evalInput = '';
+        currentInput = '';
+        shouldResetScreen = false;
+        updateScreen('0');
+    };
+
+    const truncateDecimals = (value, max = 4) => {
+        if (!value.includes('.')) return value;
+        const [i, d] = value.split('.');
+        return `${i}.${d.slice(0, max)}`;
+    };
+
+    const formatResult = (value) => {
+        if (value === 'Error') return 'Error';
+        return truncateDecimals(value.toString(), 4);
+    };
+
+    const evaluateExpression = () => {
+        try {
+            return Function('"use strict";return (' + evalInput + ')')().toString();
+        } catch {
+            return 'Error';
+        }
+    };
+
+    // ===================== BOTONES =====================
+    calculator.querySelectorAll('.btn').forEach((button) => {
+        button.addEventListener('click', () => {
+
+            const value = button.getAttribute('data-value')
+                || button.textContent.split('\n')[0].trim();
+
+            if (button.id === 'all-clear') {
+                clearCalculator();
                 return;
             }
-            const keyMapping = {
-                'Enter': 'equals',
-                'Escape': 'all-clear',
-                '+': 'add',
-                '-': 'subtract',
-                '*': 'multiply',
-                '/': 'divide',
-                '(': 'open-parenthesis',
-                ')': 'close-parenthesis',
-                '^': 'power',
-                '.': 'decimal',
-                '0': 'zero',
-                '1': 'one',
-                '2': 'two',
-                '3': 'three',
-                '4': 'four',
-                '5': 'five',
-                '6': 'six',
-                '7': 'seven',
-                '8': 'eight',
-                '9': 'nine'
-            };
 
-            if (/^[0-9.]$/.test(key) || key in keyMapping) {
-                event.preventDefault();
-                const buttonId = keyMapping[key] || key;
-                const button = calculator3.querySelector(`#${buttonId}`) ||
-                    calculator3.querySelector(`.btn.number:not([id]):contains('${key}')`);
-                if (button) button.click();
+            if (button.id === 'delete') {
+                displayInput = displayInput.slice(0, -1);
+                evalInput = evalInput.slice(0, -1);
+                updateScreen(displayInput);
+                return;
+            }
+
+            if (button.id === 'equals') {
+                if (evalInput) {
+                    const raw = evaluateExpression();
+                    const final = formatResult(raw);
+                    displayInput = final;
+                    evalInput = final;
+                    updateScreen(final);
+                    shouldResetScreen = true;
+                }
+                return;
+            }
+
+            const isNumber = button.classList.contains('number') || button.id === 'decimal';
+            const isOperator = button.classList.contains('operator');
+            const isParen = button.classList.contains('parentesis');
+
+            if (shouldResetScreen && isNumber) {
+                displayInput = '';
+                evalInput = '';
+                shouldResetScreen = false;
+            }
+
+          
+            if (value === '^2' || value === '²') {
+                displayInput += '²';
+                evalInput += '**2';
+            }
+            else if (value === '×') {
+                displayInput += '×';
+                evalInput += '*';
+            }
+            else if (value === '÷') {
+                displayInput += '÷';
+                evalInput += '/';
+            }
+            else if (value === '−') {
+                displayInput += '−';
+                evalInput += '-';
+            }
+            else if (value === '^') {
+                displayInput += '^';
+                evalInput += '**';
+            }
+            else if (isNumber || isOperator || isParen) {
+                displayInput += value;
+                evalInput += value;
+            }
+
+            updateScreen(displayInput);
+        });
+    });
+
+    // =====================  RESET POR SECCIÓN =====================
+    const section = calculator.closest('.content-section');
+    if (!section) return;
+
+    let wasVisible = false;
+    calculator.__isPlayingExample = false; 
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+
+            if (calculator.__isPlayingExample) return;
+
+            if (entry.isIntersecting && !wasVisible) {
+                clearCalculator();
+                wasVisible = true;
+            }
+
+            if (!entry.isIntersecting) {
+                wasVisible = false;
             }
         });
+    }, {
+        threshold: 0.3
+    });
 
-    }
+    observer.observe(section);
+}
+
+
+//   function initializeCalculator(calculator) {
+
+//     // ===================== ESTADO =====================
+//     let displayInput = '';
+//     let evalInput = '';
+//     let currentInput = '';
+//     let shouldResetScreen = false;
+//     let modeState = 0;
+//     let fixedDecimals = null;
+
+//     const screen = calculator.querySelector('#screen');
+
+//     // ===================== UTILIDADES =====================
+//     const updateScreen = (value, overrideMessage = null) => {
+//         if (overrideMessage) {
+//             screen.textContent = overrideMessage;
+//         } else {
+//             screen.textContent = value || '0';
+//         }
+//     };
+
+//     const clearCalculator = () => {
+//         displayInput = '';
+//         evalInput = '';
+//         currentInput = '';
+//         shouldResetScreen = false;
+//         updateScreen('0');
+//     };
+
+//     const truncateDecimals = (value, max = 4) => {
+//         if (!value.includes('.')) return value;
+//         const [i, d] = value.split('.');
+//         return `${i}.${d.slice(0, max)}`;
+//     };
+
+//     const formatResult = (value) => {
+//         if (value === 'Error') return 'Error';
+//         return truncateDecimals(value.toString(), 4);
+//     };
+
+//     const evaluateExpression = () => {
+//         try {
+//             return Function('"use strict";return (' + evalInput + ')')().toString();
+//         } catch {
+//             return 'Error';
+//         }
+//     };
+
+//     // ===================== BOTONES =====================
+//     calculator.querySelectorAll('.btn').forEach((button) => {
+//         button.addEventListener('click', () => {
+
+//             const value = button.getAttribute('data-value')
+//                 || button.textContent.split('\n')[0].trim();
+
+//             if (button.id === 'all-clear') {
+//                 clearCalculator();
+//                 return;
+//             }
+
+//             if (button.id === 'delete') {
+//                 displayInput = displayInput.slice(0, -1);
+//                 evalInput = evalInput.slice(0, -1);
+//                 updateScreen(displayInput);
+//                 return;
+//             }
+
+//             if (button.id === 'equals') {
+//                 if (evalInput) {
+//                     const raw = evaluateExpression();
+//                     const final = formatResult(raw);
+//                     displayInput = final;
+//                     evalInput = final;
+//                     updateScreen(final);
+//                     shouldResetScreen = true;
+//                 }
+//                 return;
+//             }
+
+//             const isNumber = button.classList.contains('number') || button.id === 'decimal';
+//             const isOperator = button.classList.contains('operator');
+//             const isParen = button.classList.contains('parentesis');
+
+//             if (shouldResetScreen && isNumber) {
+//                 displayInput = '';
+//                 evalInput = '';
+//                 shouldResetScreen = false;
+//             }
+
+//             if (value === '^2' || value === '²') {
+//                 displayInput += '²';
+//                 evalInput += '**2';
+//             }
+//             else if (value === '×') {
+//                 displayInput += '×';
+//                 evalInput += '*';
+//             }
+//             else if (value === '÷') {
+//                 displayInput += '÷';
+//                 evalInput += '/';
+//             }
+//             else if (value === '−') {
+//                 displayInput += '−';
+//                 evalInput += '-';
+//             }
+//             else if (value === '^') {
+//                 displayInput += '^';
+//                 evalInput += '**';
+//             }
+//             else if (isNumber || isOperator || isParen) {
+//                 displayInput += value;
+//                 evalInput += value;
+//             }
+
+//             updateScreen(displayInput);
+//         });
+//     });
+
+
+//     // Buscar la sección padre (.content-section)
+//     const section = calculator.closest('.content-section');
+//     if (!section) return;
+
+//     let wasVisible = false;
+
+//     const observer = new IntersectionObserver((entries) => {
+//         entries.forEach(entry => {
+
+//             // Cuando la sección ENTRA en pantalla
+//             if (entry.isIntersecting && !wasVisible) {
+//                 clearCalculator();
+//                 wasVisible = true;
+//             }
+
+//             // Cuando SALE de pantalla
+//             if (!entry.isIntersecting) {
+//                 wasVisible = false;
+//             }
+//         });
+//     }, {
+//         threshold: 0.3 // suficiente para detectar cambio real
+//     });
+
+//     observer.observe(section);
+// }
+
+    
+
+    // ================= FIN CALCULADORA =================
+
 
 });
 
@@ -823,6 +1124,9 @@ document.getElementById('reset_btn').addEventListener('click', function () {
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', function () {
         const section = this.getAttribute('data-section');
+
+        if (!exerciseSections.includes(section)) return;
+
         resetExercises(section, section + '-container');
     });
 });
@@ -868,9 +1172,27 @@ console.log(exercisesData);
 
 const currentExercises = {};
 
+
+
+const exerciseSections = [
+    'cuadrado',
+    'jerarquias',
+    'despejes',
+    'redondeos'
+];
+
+
+
 function loadExercises(type, containerId) {
     const container = document.getElementById(containerId);
-    container.innerHTML = ''; // Limpiar contenedor
+
+    if (!container) {
+        console.warn(`Contenedor no existe: ${containerId}`);
+        return;
+    }
+
+    container.innerHTML = '';
+
 
     const allExercises = exercisesData[type];
     if (!allExercises || !Array.isArray(allExercises) || allExercises.length === 0) {
@@ -885,20 +1207,21 @@ function loadExercises(type, containerId) {
     const shuffled = allExercises.sort(() => 0.5 - Math.random());
     currentExercises[type] = shuffled.slice(0, Math.min(5, allExercises.length));
 
-    const calculatorIdMap = {
-        'cuadrado': 4,
-        'jerarquias': 5,
-        'despejes': 6,
-        'redondeos': 7
-    };
-    const calculatorButtonHTML = (type !== 'redondeos') ?
+   const calculatorIdMap = {
+    'cuadrado': 'calculator4',
+    'jerarquias': 'calculator5',
+    'despejes': 'calculator6'
+};
+
+    const calculatorButtonHTML = (type !== 'redondeos')
+        ? (qNum) => `
+            <button class="answer-button"
+                onclick="showExampleGlobal('${type}', ${qNum}, '${calculatorIdMap[type]}')">
+                Ver en calculadora
+            </button>
         `
-        <button class="answer-button" 
-            onclick="showExampleGlobal('${type}', \${qNum}, 'calculator\${calculatorIdMap[type]}')">
-            Ver en calculadora
-        </button>
-        `
-        : '';
+        : () => '';
+
 
     currentExercises[type].forEach((ex, index) => {
         const qNum = index + 1;
@@ -919,7 +1242,7 @@ function loadExercises(type, containerId) {
                 <span class="feedback" id="feedback-${type}-q${qNum}"></span>
                 <div class="math-answer-exercise ${type}" id="answer-${type}-${qNum}" style="display:none">
                     <p class="math-drilling-text">La respuesta correcta es <strong>${ex.OPCIONES_MATH.find(op => op.correcta).texto}</strong></p>
-                    ${calculatorButtonHTML.replace(/\${qNum}/g, qNum)}
+                    ${calculatorButtonHTML(qNum)}
                     <button class="solution-button" onclick="showSolution('${type}', ${qNum})">Ver solución</button>
                 </div>
                 <div id="solution-${type}-${qNum}" class="math-drilling-solution" style="display:none">
@@ -975,12 +1298,109 @@ function showSolution(type, id) {
     container.style.display = 'flex';
 }
 
+
+// function showExampleGlobal(type, qNum, calculatorId) {
+
+//     const exercise = currentExercises[type][qNum - 1];
+//     if (!exercise || !exercise.CALCULADORA_MATH) {
+//         console.warn('Ejercicio sin datos de calculadora');
+//         return;
+//     }
+
+//     const calculator = document.getElementById(calculatorId);
+//     if (!calculator) {
+//         console.warn('Calculadora no encontrada:', calculatorId);
+//         return;
+//     }
+
+//     calculator.__isPlayingExample = true;
+
+//     const screen = calculator.querySelector('.screen');
+//     if (screen) screen.textContent = '0';
+
+//     const clearBtn = calculator.querySelector('#all-clear');
+//     if (clearBtn) clearBtn.click();
+
+//     const keyMap = {
+//         '×': 'multiply',
+//         '*': 'multiply',
+//         '÷': 'divide',
+//         '/': 'divide',
+//         '+': 'add',
+//         '-': 'subtract',
+//         '−': 'subtract',
+//         '^': 'power',
+//         '^2': 'square',
+//         '²': 'square',
+//         '(' : 'open-parenthesis',
+//         ')' : 'close-parenthesis',
+//         '0': 'zero',
+//         '1': 'one',
+//         '2': 'two',
+//         '3': 'three',
+//         '4': 'four',
+//         '5': 'five',
+//         '6': 'six',
+//         '7': 'seven',
+//         '8': 'eight',
+//         '9': 'nine',
+//         '.': 'decimal',
+//         ',': 'decimal',
+//         '=': 'equals',
+//         'DEL': 'delete',
+//         'AC': 'all-clear'
+//     };
+
+//     const clickSequence = async (sequence) => {
+//         for (const key of sequence) {
+//             await new Promise(resolve => setTimeout(resolve, 300));
+
+//             const btnId = keyMap[key];
+//             if (!btnId) {
+//                 console.warn('Tecla sin mapeo:', key);
+//                 continue;
+//             }
+
+//             const btn = calculator.querySelector(`#${btnId}`);
+//             if (btn) {
+//                 btn.click();
+//             } else {
+//                 console.warn('Botón no encontrado:', btnId);
+//             }
+//         }
+
+//         calculator.__isPlayingExample = false;
+//     };
+
+//     calculator.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+//     setTimeout(() => {
+//         clickSequence(exercise.CALCULADORA_MATH.sequence);
+//     }, 400);
+// }
+
+
 function showExampleGlobal(type, qNum, calculatorId) {
+
     const exercise = currentExercises[type][qNum - 1];
-    if (!exercise) return;
+
+    if (!exercise || !exercise.CALCULADORA_MATH || !Array.isArray(exercise.CALCULADORA_MATH.sequence)) {
+        console.warn('Ejercicio sin datos de calculadora');
+
+        const calculator = document.getElementById(calculatorId);
+        if (calculator) {
+            const screen = calculator.querySelector('.screen');
+            if (screen) {
+                screen.textContent = 'Sin operación cargada';
+            }
+        }
+        return;
+    }
 
     const calculator = document.getElementById(calculatorId);
     if (!calculator) return;
+
+    calculator.__isPlayingExample = true;
 
     const screen = calculator.querySelector('.screen');
     if (screen) screen.textContent = '0';
@@ -989,7 +1409,6 @@ function showExampleGlobal(type, qNum, calculatorId) {
     if (clearBtn) clearBtn.click();
 
     const keyMap = {
-        'X': 'multiply',
         '×': 'multiply',
         '*': 'multiply',
         '÷': 'divide',
@@ -998,8 +1417,10 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '-': 'subtract',
         '−': 'subtract',
         '^': 'power',
-        '(': 'open-parenthesis',
-        ')': 'close-parenthesis',
+        '^2': 'square',
+        '²': 'square',
+        '(' : 'open-parenthesis',
+        ')' : 'close-parenthesis',
         '0': 'zero',
         '1': 'one',
         '2': 'two',
@@ -1011,32 +1432,42 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '8': 'eight',
         '9': 'nine',
         '.': 'decimal',
-        ',': 'decimal',
-        'DEL': 'delete',
-        '=': 'equals',
-        'AC': 'all-clear'
+        ',': 'decimal'
     };
 
     const clickSequence = async (sequence) => {
+
         for (const key of sequence) {
-            await new Promise(resolve => setTimeout(resolve, 300));
 
-            const btnId = keyMap[key] || key;
+            if (key === '=') break;
+
+            await new Promise(resolve => setTimeout(resolve, 700));
+
+            const btnId = keyMap[key];
+            if (!btnId) continue;
+
             const btn = calculator.querySelector(`#${btnId}`);
+            if (!btn) continue;
 
-            if (btn) {
-                btn.click();
-                console.log(`Clicked: ${key} -> ${btnId}`);
-            } else {
-                console.warn(`Button not found for key: ${key} (mapped to: ${btnId})`);
-            }
+            btn.classList.add('btn-pressed');
+            btn.click();
+
+            setTimeout(() => {
+                btn.classList.remove('btn-pressed');
+            }, 400);
         }
+
+        calculator.__isPlayingExample = false;
     };
 
-    clickSequence(exercise.CALCULADORA_MATH.sequence);
-
     calculator.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    setTimeout(() => {
+        clickSequence(exercise.CALCULADORA_MATH.sequence);
+    }, 400);
 }
+
+
 
 
 function resetExercises(type, containerId) {

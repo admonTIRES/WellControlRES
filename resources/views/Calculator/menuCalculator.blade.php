@@ -28,6 +28,16 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
 @extends('Template/maestraUser')
 @section('contenido')
 
+<style>
+    .calculator .btn.btn-pressed {
+        box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.9),
+            0 0 8px rgba(0, 255, 255, 0.8);
+        background: linear-gradient(145deg, #00e5ff, #0097a7) !important;
+        color: #000 !important;
+    }
+    
+</style>
+
 <div class="main-container">
     <div class="sidebar-container">
         <div class="nav-list-container">

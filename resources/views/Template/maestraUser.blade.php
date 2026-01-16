@@ -153,7 +153,7 @@ use Illuminate\Support\Str;
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/index.js') }}?v=1.2"></script>
 @if(request()->is('Calculator'))
-    <script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.22"></script>
+    <script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.24"></script>
 @endif
 <script src="{{ asset('js/Principal/Principal.js') }}?v=1.9"></script>  
 <!-- /SCRIPTS -->

@@ -27,35 +27,12 @@ class MathController extends Controller
         try {
 
             $tabla = Math::get();
-            // $entes = EnteAcreditador::pluck('NOMBRE_ENTE', 'ID_CATALOGO_ENTE')->toArray();
-            // $niveles = NivelAcreditacion::pluck('DESCRIPCION_NIVEL', 'ID_CATALOGO_NIVELACREDITACION')->toArray();
-            // $bops = TipoBOP::pluck('DESCRIPCION_TIPOBOP', 'ID_CATALOGO_TIPOBOP')->toArray();
-            // $operaciones = Operacion::pluck('NOMBRE_OPERACION', 'ID_CATALOGO_OPERACION')->toArray();
-             $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
-            // function mapIdsToNames($ids, $catalogo)
-            // {
-            //     if (empty($ids)) {
-            //         return '';
-            //     }
-
-            //     if (!is_array($ids)) {
-            //         $ids = json_decode($ids, true);
-            //         if (!is_array($ids)) {
-            //             $ids = [];
-            //         }
-            //     }
-
-            //     return implode(', ', array_map(function ($id) use ($catalogo) {
-            //         return $catalogo[$id] ?? '';
-            //     }, $ids));
-            // }
+           
+            $idiomas = IdiomasExamenes::pluck('NOMBRE_IDIOMA', 'ID_CATALOGO_IDIOMAEXAMEN')->toArray();
+          
             foreach ($tabla as $value) {
 
-                // $value->CERTIFICACIONES_NOMBRES = mapIdsToNames($value->ENTE_MATH ?? [], $entes);
-                // $value->NIVELES_NOMBRES = mapIdsToNames($value->NIVELES_MATH ?? [], $niveles);
-                // $value->BOPS_NOMBRES = mapIdsToNames($value->BOP_MATH ?? [], $bops);
-                // $value->OPERACIONES_NOMBRES = mapIdsToNames($value->OPERATION_MATH ?? [], $operaciones);
-
+            
                 $idiomaId = $value->LANGUAGE_MATH ?? null;
                 if($idiomaId != null){
                     $value->IDIOMA_NOMBRE = $idiomas[$idiomaId] ?? null;
@@ -85,17 +62,6 @@ class MathController extends Controller
 
                 $value->TIPO = $tipoNombre;
 
-
-                 
-                // $OPCIONES_MATH = $value->OPCIONES_MATH ?? null;
-                // $value->OPCION_A = $OPCIONES_MATH['OPCION_A'] ?? null;
-                // $value->OPCION_A_CORRECT = $OPCIONES_MATH['OPCION_A_CORRECT'] ?? false;
-                // $value->OPCION_B = $OPCIONES_MATH['OPCION_B'] ?? null;
-                // $value->OPCION_B_CORRECT = $OPCIONES_MATH['OPCION_B_CORRECT'] ?? false;
-                // $value->OPCION_C = $OPCIONES_MATH['OPCION_C'] ?? null;
-                // $value->OPCION_C_CORRECT = $OPCIONES_MATH['OPCION_C_CORRECT'] ?? false;
-                // $value->OPCION_D = $OPCIONES_MATH['OPCION_D'] ?? null;
-                // $value->OPCION_D_CORRECT = $OPCIONES_MATH['OPCION_D_CORRECT'] ?? false;
 
                 if ($value->ACTIVO_MATH == 0) {
                     $value->BTN_ACTIVO = '<div class="form-check form-switch">
@@ -137,6 +103,8 @@ class MathController extends Controller
             ]);
         }
     }
+
+    
     // STORE
     public function store(Request $request)
     {

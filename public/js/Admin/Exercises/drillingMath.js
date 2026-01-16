@@ -360,8 +360,6 @@ var mathDatatable = $("#math-list-table").DataTable({
     fixedHeader: false,    
     lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Todos']],
 
-
-
     ajax: {
         dataType: 'json',
         data: {},
@@ -424,6 +422,26 @@ var mathDatatable = $("#math-list-table").DataTable({
         return `Total de ${total} registros`;
     },
 
+    rowCallback: function (row, data) {
+
+    const tipo = parseInt(data.TIPO_MATH);
+
+    // Tipos válidos
+    const tiposConCalculadora = [1, 2, 3, 4];
+
+    // Validar si NO tiene calculadora
+    const sinCalculadora =
+        !data.CALCULADORA_MATH ||
+        !data.CALCULADORA_MATH.sequence ||
+        !Array.isArray(data.CALCULADORA_MATH.sequence) ||
+        data.CALCULADORA_MATH.sequence.length === 0;
+
+    if (tiposConCalculadora.includes(tipo) && sinCalculadora) {
+        $(row).css('background-color', '#f8d7da');
+    }
+}
+
+    
 });
 
 // Guardar catalogos

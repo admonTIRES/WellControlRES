@@ -645,13 +645,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const isOperator = button.classList.contains('operator');
             const isParen = button.classList.contains('parentesis');
 
+            // if (shouldResetScreen && isNumber) {
+            //     displayInput = '';
+            //     evalInput = '';
+            //     shouldResetScreen = false;
+            // }
+
+          
             if (shouldResetScreen && isNumber) {
-                displayInput = '';
-                evalInput = '';
+                if (!window.__reproduciendoEjemplo) {
+                    displayInput = '';
+                    evalInput = '';                }
                 shouldResetScreen = false;
             }
 
-          
+            
             if (value === '^2' || value === '²') {
                 displayInput += '²';
                 evalInput += '**2';
@@ -1383,24 +1391,12 @@ function showSolution(type, id) {
 function showExampleGlobal(type, qNum, calculatorId) {
 
     const exercise = currentExercises[type][qNum - 1];
-
-    if (!exercise || !exercise.CALCULADORA_MATH || !Array.isArray(exercise.CALCULADORA_MATH.sequence)) {
-        console.warn('Ejercicio sin datos de calculadora');
-
-        const calculator = document.getElementById(calculatorId);
-        if (calculator) {
-            const screen = calculator.querySelector('.screen');
-            if (screen) {
-                screen.textContent = 'Sin respuesta';
-            }
-        }
-        return;
-    }
+    if (!exercise || !exercise.CALCULADORA_MATH) return;
 
     const calculator = document.getElementById(calculatorId);
     if (!calculator) return;
 
-    calculator.__isPlayingExample = true;
+    window.__reproduciendoEjemplo = true;
 
     const screen = calculator.querySelector('.screen');
     if (screen) screen.textContent = '0';
@@ -1432,16 +1428,14 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '8': 'eight',
         '9': 'nine',
         '.': 'decimal',
-        ',': 'decimal'
+        ',': 'decimal',
+        '=': 'equals'
     };
 
     const clickSequence = async (sequence) => {
-
         for (const key of sequence) {
 
-            if (key === '=') break;
-
-            await new Promise(resolve => setTimeout(resolve, 700));
+            await new Promise(r => setTimeout(r, 700));
 
             const btnId = keyMap[key];
             if (!btnId) continue;
@@ -1452,18 +1446,15 @@ function showExampleGlobal(type, qNum, calculatorId) {
             btn.classList.add('btn-pressed');
             btn.click();
 
-            setTimeout(() => {
-                btn.classList.remove('btn-pressed');
-            }, 400);
+            setTimeout(() => btn.classList.remove('btn-pressed'), 400);
         }
 
-        calculator.__isPlayingExample = false;
+        window.__reproduciendoEjemplo = false;
     };
-
-    calculator.scrollIntoView({ block: 'center' });
 
     clickSequence(exercise.CALCULADORA_MATH.sequence);
 }
+
 
 
 

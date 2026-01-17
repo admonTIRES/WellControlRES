@@ -1387,7 +1387,6 @@ function showSolution(type, id) {
 //     }, 400);
 // }
 
-
 function showExampleGlobal(type, qNum, calculatorId) {
 
     const exercise = currentExercises[type][qNum - 1];
@@ -1397,9 +1396,6 @@ function showExampleGlobal(type, qNum, calculatorId) {
     if (!calculator) return;
 
     window.__reproduciendoEjemplo = true;
-
-    const screen = calculator.querySelector('.screen');
-    if (screen) screen.textContent = '0';
 
     const clearBtn = calculator.querySelector('#all-clear');
     if (clearBtn) clearBtn.click();
@@ -1434,7 +1430,6 @@ function showExampleGlobal(type, qNum, calculatorId) {
 
     const clickSequence = async (sequence) => {
         for (const key of sequence) {
-
             await new Promise(r => setTimeout(r, 700));
 
             const btnId = keyMap[key];
@@ -1452,10 +1447,108 @@ function showExampleGlobal(type, qNum, calculatorId) {
         window.__reproduciendoEjemplo = false;
     };
 
-    clickSequence(exercise.CALCULADORA_MATH.sequence);
+    const normalizedSequence = normalizeSequenceForStudentCalculator(
+        exercise.CALCULADORA_MATH.sequence
+    );
+
+    clickSequence(normalizedSequence);
 }
 
+// function showExampleGlobal(type, qNum, calculatorId) {
 
+//     const exercise = currentExercises[type][qNum - 1];
+//     if (!exercise || !exercise.CALCULADORA_MATH) return;
+
+//     const calculator = document.getElementById(calculatorId);
+//     if (!calculator) return;
+
+//     window.__reproduciendoEjemplo = true;
+
+//     const screen = calculator.querySelector('.screen');
+//     if (screen) screen.textContent = '0';
+
+//     const clearBtn = calculator.querySelector('#all-clear');
+//     if (clearBtn) clearBtn.click();
+
+//     const keyMap = {
+//         '×': 'multiply',
+//         '*': 'multiply',
+//         '÷': 'divide',
+//         '/': 'divide',
+//         '+': 'add',
+//         '-': 'subtract',
+//         '−': 'subtract',
+//         '^': 'power',
+//         '^2': 'square',
+//         '²': 'square',
+//         '(' : 'open-parenthesis',
+//         ')' : 'close-parenthesis',
+//         '0': 'zero',
+//         '1': 'one',
+//         '2': 'two',
+//         '3': 'three',
+//         '4': 'four',
+//         '5': 'five',
+//         '6': 'six',
+//         '7': 'seven',
+//         '8': 'eight',
+//         '9': 'nine',
+//         '.': 'decimal',
+//         ',': 'decimal',
+//         '=': 'equals'
+//     };
+
+//     const clickSequence = async (sequence) => {
+//         for (const key of sequence) {
+
+//             await new Promise(r => setTimeout(r, 700));
+
+//             const btnId = keyMap[key];
+//             if (!btnId) continue;
+
+//             const btn = calculator.querySelector(`#${btnId}`);
+//             if (!btn) continue;
+
+//             btn.classList.add('btn-pressed');
+//             btn.click();
+
+//             setTimeout(() => btn.classList.remove('btn-pressed'), 400);
+//         }
+
+//         window.__reproduciendoEjemplo = false;
+//     };
+
+//     clickSequence(exercise.CALCULADORA_MATH.sequence);
+// }
+
+
+function normalizeSequenceForStudentCalculator(sequence) {
+    const result = [];
+
+    for (let i = 0; i < sequence.length; i++) {
+        const current = sequence[i];
+        const prev = result[result.length - 1];
+
+        // )(
+        if (prev === ')' && current === '(') {
+            result.push('×');
+        }
+
+        // ) número
+        if (prev === ')' && /^[0-9]/.test(current)) {
+            result.push('×');
+        }
+
+        // número (
+        if (/^[0-9]$/.test(prev) && current === '(') {
+            result.push('×');
+        }
+
+        result.push(current);
+    }
+
+    return result;
+}
 
 
 

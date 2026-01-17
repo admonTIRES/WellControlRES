@@ -378,189 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
         initializeCalculator(calculator6);
     }
 
-    // function initializeCalculator(calculator3) {
-    //     let currentInput = '';
-    //     let shouldResetScreen = false;
-    //     let modeState = 0;
-    //     let fixedDecimals = null;
 
-    //     const screen = calculator3.querySelector('#screen');
-    //     const screenDisplay = calculator3.querySelector('#screen-display');
-
-    //     const updateScreen = (value, overrideMessage = null) => {
-    //         if (overrideMessage) {
-    //             screen.textContent = overrideMessage;
-    //         } else {
-    //             screen.textContent = value || '0';
-    //         }
-    //     };
-
-    //     const clearCalculator = () => {
-    //         currentInput = '';
-    //         updateScreen('0');
-    //     };
-
-    //     const formatResult = (result) => {
-    //         if (result === 'Error') return 'Error';
-
-    //         if (fixedDecimals !== null) {
-    //             const num = parseFloat(result);
-    //             if (isNaN(num)) return result;
-
-    //             return num.toFixed(fixedDecimals);
-    //         }
-
-    //         const num = parseFloat(result);
-    //         return Number.isInteger(num) ? result : parseFloat(num.toFixed(8)).toString();
-    //     };
-
-    //     const evaluateExpression = (expression) => {
-    //         try {
-    //             expression = expression
-    //                 .replace(/×/g, '*')
-    //                 .replace(/÷/g, '/')
-    //                 .replace(/−/g, '-')
-    //                 .replace(/\^/g, '**')
-    //                 .replace(/²/g, '**2');
-
-    //             const result = Function('"use strict";return (' + expression + ')')();
-
-    //             return result.toString();
-    //         } catch (error) {
-    //             return 'Error';
-    //         }
-    //     };
-
-    //     const handleModePress = () => {
-    //         modeState++;
-
-    //         switch (modeState) {
-    //             case 1:
-    //                 updateScreen(null, "COMP 1  :  SD 2  :  REG 3");
-    //                 break;
-    //             case 2:
-    //                 updateScreen(null, "Deg 1  :  Rad 2  :  Gra 3");
-    //                 break;
-    //             case 3:
-    //                 updateScreen(null, "Fix 1  :  Sci 2  :  Norm 3");
-    //                 break;
-    //             default:
-    //                 modeState = 1;
-    //                 updateScreen(null, "COMP 1   SD 2   REG 3");
-    //                 break;
-    //         }
-    //     };
-    //     calculator3.querySelectorAll(".btn").forEach((button) => {
-    //         button.addEventListener("click", () => {
-    //             const value = button.getAttribute('data-value') || button.textContent.split('\n')[0].trim();
-
-    //             if (button.id === 'mode-clear') {
-    //                 handleModePress();
-    //                 return;
-    //             }
-
-    //             if (modeState === 3 && value === '1') {
-    //                 modeState = 4;
-    //                 updateScreen(null, "FIX 0~9?");
-    //                 return;
-    //             }
-
-    //             if (modeState === 4 && button.classList.contains('number')) {
-    //                 const numDecimals = parseInt(value);
-    //                 if (numDecimals >= 0 && numDecimals <= 9) {
-    //                     fixedDecimals = numDecimals;
-    //                     modeState = 0;
-    //                     const displayValue = shouldResetScreen ? formatResult(currentInput) : currentInput || '0';
-    //                     updateScreen(displayValue);
-    //                     return;
-    //                 }
-    //             }
-
-    //             if (modeState >= 3) {
-    //                 modeState = 0;
-    //                 updateScreen(currentInput || '0');
-    //             }
-
-
-    //             switch (button.id) {
-    //                 case 'all-clear':
-    //                     clearCalculator();
-    //                     modeState = 0;
-    //                     break;
-
-    //                 case 'equals':
-    //                     if (currentInput) {
-    //                         const rawResult = evaluateExpression(currentInput);
-    //                         const finalResult = formatResult(rawResult);
-    //                         currentInput = rawResult;
-    //                         updateScreen(finalResult);
-    //                         shouldResetScreen = true;
-    //                     }
-    //                     break;
-
-    //                 case 'delete':
-    //                     currentInput = currentInput.slice(0, -1);
-    //                     updateScreen(currentInput);
-    //                     shouldResetScreen = false;
-    //                     break;
-
-    //                 default:
-    //                     const isOperator = button.classList.contains('operator');
-    //                     const isNumber = button.classList.contains('number') || button.id === 'decimal';
-
-    //                     if (isNumber || isOperator || button.classList.contains('parentesis')) {
-    //                         if (shouldResetScreen && isNumber) {
-    //                             currentInput = '';
-    //                             shouldResetScreen = false;
-    //                         }
-
-    //                         currentInput += value;
-    //                         updateScreen(currentInput);
-    //                     }
-    //             }
-    //         });
-    //     });
-    //     document.addEventListener('keydown', (event) => {
-    //         const key = event.key;
-
-    //         const isInputFocused = document.activeElement.tagName === 'INPUT';
-
-    //         if (isInputFocused) {
-    //             return;
-    //         }
-    //         const keyMapping = {
-    //             'Enter': 'equals',
-    //             'Escape': 'all-clear',
-    //             '+': 'add',
-    //             '-': 'subtract',
-    //             '*': 'multiply',
-    //             '/': 'divide',
-    //             '(': 'open-parenthesis',
-    //             ')': 'close-parenthesis',
-    //             '^': 'power',
-    //             '.': 'decimal',
-    //             '0': 'zero',
-    //             '1': 'one',
-    //             '2': 'two',
-    //             '3': 'three',
-    //             '4': 'four',
-    //             '5': 'five',
-    //             '6': 'six',
-    //             '7': 'seven',
-    //             '8': 'eight',
-    //             '9': 'nine'
-    //         };
-
-    //         if (/^[0-9.]$/.test(key) || key in keyMapping) {
-    //             event.preventDefault();
-    //             const buttonId = keyMapping[key] || key;
-    //             const button = calculator3.querySelector(`#${buttonId}`) ||
-    //                 calculator3.querySelector(`.btn.number:not([id]):contains('${key}')`);
-    //             if (button) button.click();
-    //         }
-    //     });
-
-    // }
 
     function initializeCalculator(calculator) {
 
@@ -680,10 +498,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayInput += '^';
                 evalInput += '**';
             }
-            else if (isNumber || isOperator || isParen) {
+          else if (isNumber || isOperator || isParen) {
+
+                const lastEvalChar = evalInput.slice(-1);
+
+                const incomingIsNumber = /^[0-9.]$/.test(value);
+                const incomingIsParenOpen = value === '(';
+
+                const lastIsNumber = /[0-9.]$/.test(lastEvalChar);
+                const lastIsParenClose = lastEvalChar === ')';
+
+                if (
+                    (lastIsParenClose && incomingIsParenOpen) ||   
+                    (lastIsParenClose && incomingIsNumber) ||      
+                    (lastIsNumber && incomingIsParenOpen)          
+                ) {
+                    evalInput += '*'; 
+                }
+
                 displayInput += value;
+
                 evalInput += value;
             }
+
 
             updateScreen(displayInput);
         });
@@ -716,155 +553,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     observer.observe(section);
 }
-
-
-//   function initializeCalculator(calculator) {
-
-//     // ===================== ESTADO =====================
-//     let displayInput = '';
-//     let evalInput = '';
-//     let currentInput = '';
-//     let shouldResetScreen = false;
-//     let modeState = 0;
-//     let fixedDecimals = null;
-
-//     const screen = calculator.querySelector('#screen');
-
-//     // ===================== UTILIDADES =====================
-//     const updateScreen = (value, overrideMessage = null) => {
-//         if (overrideMessage) {
-//             screen.textContent = overrideMessage;
-//         } else {
-//             screen.textContent = value || '0';
-//         }
-//     };
-
-//     const clearCalculator = () => {
-//         displayInput = '';
-//         evalInput = '';
-//         currentInput = '';
-//         shouldResetScreen = false;
-//         updateScreen('0');
-//     };
-
-//     const truncateDecimals = (value, max = 4) => {
-//         if (!value.includes('.')) return value;
-//         const [i, d] = value.split('.');
-//         return `${i}.${d.slice(0, max)}`;
-//     };
-
-//     const formatResult = (value) => {
-//         if (value === 'Error') return 'Error';
-//         return truncateDecimals(value.toString(), 4);
-//     };
-
-//     const evaluateExpression = () => {
-//         try {
-//             return Function('"use strict";return (' + evalInput + ')')().toString();
-//         } catch {
-//             return 'Error';
-//         }
-//     };
-
-//     // ===================== BOTONES =====================
-//     calculator.querySelectorAll('.btn').forEach((button) => {
-//         button.addEventListener('click', () => {
-
-//             const value = button.getAttribute('data-value')
-//                 || button.textContent.split('\n')[0].trim();
-
-//             if (button.id === 'all-clear') {
-//                 clearCalculator();
-//                 return;
-//             }
-
-//             if (button.id === 'delete') {
-//                 displayInput = displayInput.slice(0, -1);
-//                 evalInput = evalInput.slice(0, -1);
-//                 updateScreen(displayInput);
-//                 return;
-//             }
-
-//             if (button.id === 'equals') {
-//                 if (evalInput) {
-//                     const raw = evaluateExpression();
-//                     const final = formatResult(raw);
-//                     displayInput = final;
-//                     evalInput = final;
-//                     updateScreen(final);
-//                     shouldResetScreen = true;
-//                 }
-//                 return;
-//             }
-
-//             const isNumber = button.classList.contains('number') || button.id === 'decimal';
-//             const isOperator = button.classList.contains('operator');
-//             const isParen = button.classList.contains('parentesis');
-
-//             if (shouldResetScreen && isNumber) {
-//                 displayInput = '';
-//                 evalInput = '';
-//                 shouldResetScreen = false;
-//             }
-
-//             if (value === '^2' || value === '²') {
-//                 displayInput += '²';
-//                 evalInput += '**2';
-//             }
-//             else if (value === '×') {
-//                 displayInput += '×';
-//                 evalInput += '*';
-//             }
-//             else if (value === '÷') {
-//                 displayInput += '÷';
-//                 evalInput += '/';
-//             }
-//             else if (value === '−') {
-//                 displayInput += '−';
-//                 evalInput += '-';
-//             }
-//             else if (value === '^') {
-//                 displayInput += '^';
-//                 evalInput += '**';
-//             }
-//             else if (isNumber || isOperator || isParen) {
-//                 displayInput += value;
-//                 evalInput += value;
-//             }
-
-//             updateScreen(displayInput);
-//         });
-//     });
-
-
-//     // Buscar la sección padre (.content-section)
-//     const section = calculator.closest('.content-section');
-//     if (!section) return;
-
-//     let wasVisible = false;
-
-//     const observer = new IntersectionObserver((entries) => {
-//         entries.forEach(entry => {
-
-//             // Cuando la sección ENTRA en pantalla
-//             if (entry.isIntersecting && !wasVisible) {
-//                 clearCalculator();
-//                 wasVisible = true;
-//             }
-
-//             // Cuando SALE de pantalla
-//             if (!entry.isIntersecting) {
-//                 wasVisible = false;
-//             }
-//         });
-//     }, {
-//         threshold: 0.3 // suficiente para detectar cambio real
-//     });
-
-//     observer.observe(section);
-// }
-
-    
 
     // ================= FIN CALCULADORA =================
 
@@ -1387,6 +1075,7 @@ function showSolution(type, id) {
 //     }, 400);
 // }
 
+
 function showExampleGlobal(type, qNum, calculatorId) {
 
     const exercise = currentExercises[type][qNum - 1];
@@ -1396,6 +1085,9 @@ function showExampleGlobal(type, qNum, calculatorId) {
     if (!calculator) return;
 
     window.__reproduciendoEjemplo = true;
+
+    const screen = calculator.querySelector('.screen');
+    if (screen) screen.textContent = '0';
 
     const clearBtn = calculator.querySelector('#all-clear');
     if (clearBtn) clearBtn.click();
@@ -1430,6 +1122,7 @@ function showExampleGlobal(type, qNum, calculatorId) {
 
     const clickSequence = async (sequence) => {
         for (const key of sequence) {
+
             await new Promise(r => setTimeout(r, 700));
 
             const btnId = keyMap[key];
@@ -1447,108 +1140,10 @@ function showExampleGlobal(type, qNum, calculatorId) {
         window.__reproduciendoEjemplo = false;
     };
 
-    const normalizedSequence = normalizeSequenceForStudentCalculator(
-        exercise.CALCULADORA_MATH.sequence
-    );
-
-    clickSequence(normalizedSequence);
+    clickSequence(exercise.CALCULADORA_MATH.sequence);
 }
 
-// function showExampleGlobal(type, qNum, calculatorId) {
 
-//     const exercise = currentExercises[type][qNum - 1];
-//     if (!exercise || !exercise.CALCULADORA_MATH) return;
-
-//     const calculator = document.getElementById(calculatorId);
-//     if (!calculator) return;
-
-//     window.__reproduciendoEjemplo = true;
-
-//     const screen = calculator.querySelector('.screen');
-//     if (screen) screen.textContent = '0';
-
-//     const clearBtn = calculator.querySelector('#all-clear');
-//     if (clearBtn) clearBtn.click();
-
-//     const keyMap = {
-//         '×': 'multiply',
-//         '*': 'multiply',
-//         '÷': 'divide',
-//         '/': 'divide',
-//         '+': 'add',
-//         '-': 'subtract',
-//         '−': 'subtract',
-//         '^': 'power',
-//         '^2': 'square',
-//         '²': 'square',
-//         '(' : 'open-parenthesis',
-//         ')' : 'close-parenthesis',
-//         '0': 'zero',
-//         '1': 'one',
-//         '2': 'two',
-//         '3': 'three',
-//         '4': 'four',
-//         '5': 'five',
-//         '6': 'six',
-//         '7': 'seven',
-//         '8': 'eight',
-//         '9': 'nine',
-//         '.': 'decimal',
-//         ',': 'decimal',
-//         '=': 'equals'
-//     };
-
-//     const clickSequence = async (sequence) => {
-//         for (const key of sequence) {
-
-//             await new Promise(r => setTimeout(r, 700));
-
-//             const btnId = keyMap[key];
-//             if (!btnId) continue;
-
-//             const btn = calculator.querySelector(`#${btnId}`);
-//             if (!btn) continue;
-
-//             btn.classList.add('btn-pressed');
-//             btn.click();
-
-//             setTimeout(() => btn.classList.remove('btn-pressed'), 400);
-//         }
-
-//         window.__reproduciendoEjemplo = false;
-//     };
-
-//     clickSequence(exercise.CALCULADORA_MATH.sequence);
-// }
-
-
-function normalizeSequenceForStudentCalculator(sequence) {
-    const result = [];
-
-    for (let i = 0; i < sequence.length; i++) {
-        const current = sequence[i];
-        const prev = result[result.length - 1];
-
-        // )(
-        if (prev === ')' && current === '(') {
-            result.push('×');
-        }
-
-        // ) número
-        if (prev === ')' && /^[0-9]/.test(current)) {
-            result.push('×');
-        }
-
-        // número (
-        if (/^[0-9]$/.test(prev) && current === '(') {
-            result.push('×');
-        }
-
-        result.push(current);
-    }
-
-    return result;
-}
 
 
 

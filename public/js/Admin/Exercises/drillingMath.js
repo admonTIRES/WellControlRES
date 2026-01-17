@@ -166,16 +166,13 @@ $(document).ready(function () {
             document.querySelector(".calculator-container").appendChild(fieldJson);
         }
 
-        // 🔹 Lo que VE el usuario
         window.displayInput = "";
 
 
-        // 🔹 Lo que se EVALÚA
         window.evalInput = "";
 
             window.pressedKeys = [];
             
-        // Operadores para evaluación
         const operators = {
             "×": "*",
             "÷": "/",
@@ -194,7 +191,6 @@ $(document).ready(function () {
             "EXP": "e"
         };
 
-        // Lo que se muestra en pantalla
         const displayOverrides = {
             "^2": "²",
             "^3": "³",
@@ -211,7 +207,6 @@ $(document).ready(function () {
             screen.textContent = value || "0";
         }
 
-        // 🔥 TRUNCADO REAL (SIN REDONDEO)
         function formatResult(value) {
             if (!Number.isFinite(value)) return value;
 

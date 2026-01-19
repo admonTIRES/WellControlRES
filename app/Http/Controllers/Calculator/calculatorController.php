@@ -31,6 +31,7 @@ class calculatorController extends Controller
             'audioRoundingPath' => 'calculator_formula_10.mp3',
 
         ];
+
         $math = Math::all();
         $despejes = $math->filter(fn($item) => $item->TIPO_MATH == 1)->values()->all();
         $jerarquia = $math->filter(fn($item) => $item->TIPO_MATH == 2)->values()->all();
@@ -46,7 +47,6 @@ class calculatorController extends Controller
         }
         
         
-        // return view('Calculator.menuCalculator', $audioPaths);
         $enteAcreditador = 3;
 
         return view('Calculator.menuCalculator', compact('audioPaths', 'enteAcreditador', 'math', 'fracciones', 'despejes', 'jerarquia', 'elevacion', 'redondeos'));

@@ -836,13 +836,22 @@ function quitarBorde() {
 }
 
 
-let currentExercises1 = getRandomExercises(allFracciones);
-renderExercises(currentExercises1);
+let currentExercises1 = getNonRepeatingExercises(
+    'fracciones',
+    allFracciones,
+    5
+);
 
+renderExercises(currentExercises1);
 document.getElementById('reset_btn').addEventListener('click', function () {
-    currentExercises1 = getRandomExercises(allFracciones);
+    currentExercises1 = getNonRepeatingExercises(
+        'fracciones',
+        allFracciones,
+        5
+    );
     renderExercises(currentExercises1);
 });
+
 
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', function () {
@@ -927,14 +936,18 @@ function loadExercises(type, containerId) {
         return;
     }
 
-    const shuffled = allExercises.sort(() => 0.5 - Math.random());
-    currentExercises[type] = shuffled.slice(0, Math.min(5, allExercises.length));
+   currentExercises[type] = getNonRepeatingExercises(
+    type,
+    allExercises,
+    5
+    );
 
-   const calculatorIdMap = {
-    'cuadrado': 'calculator4',
-    'jerarquias': 'calculator5',
-    'despejes': 'calculator6'
-};
+
+    const calculatorIdMap = {
+        'cuadrado': 'calculator4',
+        'jerarquias': 'calculator5',
+        'despejes': 'calculator6'
+    };
 
     const calculatorButtonHTML = (type !== 'redondeos')
         ? (qNum) => `
@@ -1022,6 +1035,29 @@ function showSolution(type, id) {
 }
 
 
+function getNonRepeatingExercises(type, allExercises, count = 5) {
+
+    if (!window.exercisePool) window.exercisePool = {};
+    if (!window.usedPool) window.usedPool = {};
+
+    if (!exercisePool[type] || exercisePool[type].length === 0) {
+        exercisePool[type] = [...allExercises];
+        usedPool[type] = [];
+    }
+
+    if (exercisePool[type].length < count) {
+        exercisePool[type] = [...allExercises];
+        usedPool[type] = [];
+    }
+
+    exercisePool[type].sort(() => 0.5 - Math.random());
+
+    const selected = exercisePool[type].splice(0, count);
+
+    usedPool[type].push(...selected);
+
+    return selected;
+}
 
 
 
@@ -1057,7 +1093,7 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '(' : 'open-parenthesis',
         ')': 'close-parenthesis',
         'ab/c': 'fraction',
-        '√': 'square-root',   // ✅ ID REAL DEL BOTÓN
+        '√': 'square-root',  
         '0': 'zero',
         '1': 'one',
         '2': 'two',

@@ -380,17 +380,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
     function initializeCalculator(calculator) {
 
     // ===================== ESTADO =====================
     let displayInput = '';
     let evalInput = '';
-    let currentInput = ''; // se conserva
+    let currentInput = ''; 
     let shouldResetScreen = false;
     let modeState = 0;
     let fixedDecimals = null;
 
     const screen = calculator.querySelector('#screen');
+
+    const FRACTION_SYMBOL = '⁄';
 
     // ===================== UTILIDADES =====================
     const updateScreen = (value, overrideMessage = null) => {
@@ -409,11 +412,17 @@ document.addEventListener("DOMContentLoaded", function () {
         updateScreen('0');
     };
 
-    const truncateDecimals = (value, max = 4) => {
-        if (!value.includes('.')) return value;
-        const [i, d] = value.split('.');
-        return `${i}.${d.slice(0, max)}`;
+   const truncateDecimals = (value, max = 4) => {
+    if (!value.includes('.')) return value;
+
+    const [i, d] = value.split('.');
+    const truncated = d.slice(0, max);
+
+    const cleaned = truncated.replace(/0+$/, '');
+
+    return cleaned ? `${i}.${cleaned}` : i;
     };
+
 
     const formatResult = (value) => {
         if (value === 'Error') return 'Error';
@@ -463,21 +472,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const isOperator = button.classList.contains('operator');
             const isParen = button.classList.contains('parentesis');
 
-            // if (shouldResetScreen && isNumber) {
-            //     displayInput = '';
-            //     evalInput = '';
-            //     shouldResetScreen = false;
-            // }
-
-          
             if (shouldResetScreen && isNumber) {
                 if (!window.__reproduciendoEjemplo) {
                     displayInput = '';
-                    evalInput = '';                }
+                    evalInput = '';
+                }
                 shouldResetScreen = false;
             }
 
-            
             if (value === '^2' || value === '²') {
                 displayInput += '²';
                 evalInput += '**2';
@@ -498,7 +500,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayInput += '^';
                 evalInput += '**';
             }
-          else if (isNumber || isOperator || isParen) {
+
+                else if (value === 'ab/c') {
+
+                    const lastEvalChar = evalInput.slice(-1);
+
+                    if (!lastEvalChar || /[+\-*/(]$/.test(lastEvalChar)) {
+                        displayInput += '1' + FRACTION_SYMBOL;
+                        evalInput += '1/';
+                    } 
+                    else {
+                        displayInput += FRACTION_SYMBOL;
+                        evalInput += '/';
+                    }
+                }
+
+
+            else if (isNumber || isOperator || isParen) {
 
                 const lastEvalChar = evalInput.slice(-1);
 
@@ -509,18 +527,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 const lastIsParenClose = lastEvalChar === ')';
 
                 if (
-                    (lastIsParenClose && incomingIsParenOpen) ||   
-                    (lastIsParenClose && incomingIsNumber) ||      
-                    (lastIsNumber && incomingIsParenOpen)          
+                    (lastIsParenClose && incomingIsParenOpen) ||
+                    (lastIsParenClose && incomingIsNumber) ||
+                    (lastIsNumber && incomingIsParenOpen)
                 ) {
-                    evalInput += '*'; 
+                    evalInput += '*';
                 }
 
                 displayInput += value;
-
                 evalInput += value;
             }
-
 
             updateScreen(displayInput);
         });
@@ -531,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!section) return;
 
     let wasVisible = false;
-    calculator.__isPlayingExample = false; 
+    calculator.__isPlayingExample = false;
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -995,85 +1011,6 @@ function showSolution(type, id) {
 }
 
 
-// function showExampleGlobal(type, qNum, calculatorId) {
-
-//     const exercise = currentExercises[type][qNum - 1];
-//     if (!exercise || !exercise.CALCULADORA_MATH) {
-//         console.warn('Ejercicio sin datos de calculadora');
-//         return;
-//     }
-
-//     const calculator = document.getElementById(calculatorId);
-//     if (!calculator) {
-//         console.warn('Calculadora no encontrada:', calculatorId);
-//         return;
-//     }
-
-//     calculator.__isPlayingExample = true;
-
-//     const screen = calculator.querySelector('.screen');
-//     if (screen) screen.textContent = '0';
-
-//     const clearBtn = calculator.querySelector('#all-clear');
-//     if (clearBtn) clearBtn.click();
-
-//     const keyMap = {
-//         '×': 'multiply',
-//         '*': 'multiply',
-//         '÷': 'divide',
-//         '/': 'divide',
-//         '+': 'add',
-//         '-': 'subtract',
-//         '−': 'subtract',
-//         '^': 'power',
-//         '^2': 'square',
-//         '²': 'square',
-//         '(' : 'open-parenthesis',
-//         ')' : 'close-parenthesis',
-//         '0': 'zero',
-//         '1': 'one',
-//         '2': 'two',
-//         '3': 'three',
-//         '4': 'four',
-//         '5': 'five',
-//         '6': 'six',
-//         '7': 'seven',
-//         '8': 'eight',
-//         '9': 'nine',
-//         '.': 'decimal',
-//         ',': 'decimal',
-//         '=': 'equals',
-//         'DEL': 'delete',
-//         'AC': 'all-clear'
-//     };
-
-//     const clickSequence = async (sequence) => {
-//         for (const key of sequence) {
-//             await new Promise(resolve => setTimeout(resolve, 300));
-
-//             const btnId = keyMap[key];
-//             if (!btnId) {
-//                 console.warn('Tecla sin mapeo:', key);
-//                 continue;
-//             }
-
-//             const btn = calculator.querySelector(`#${btnId}`);
-//             if (btn) {
-//                 btn.click();
-//             } else {
-//                 console.warn('Botón no encontrado:', btnId);
-//             }
-//         }
-
-//         calculator.__isPlayingExample = false;
-//     };
-
-//     calculator.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-//     setTimeout(() => {
-//         clickSequence(exercise.CALCULADORA_MATH.sequence);
-//     }, 400);
-// }
 
 
 function showExampleGlobal(type, qNum, calculatorId) {
@@ -1092,11 +1029,14 @@ function showExampleGlobal(type, qNum, calculatorId) {
     const clearBtn = calculator.querySelector('#all-clear');
     if (clearBtn) clearBtn.click();
 
+    const FRACTION_SYMBOL = '⁄';
+
     const keyMap = {
         '×': 'multiply',
         '*': 'multiply',
         '÷': 'divide',
         '/': 'divide',
+        '⁄': 'divide',        
         '+': 'add',
         '-': 'subtract',
         '−': 'subtract',
@@ -1104,7 +1044,8 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '^2': 'square',
         '²': 'square',
         '(' : 'open-parenthesis',
-        ')' : 'close-parenthesis',
+        ')': 'close-parenthesis',
+        'ab/c': 'fraction',
         '0': 'zero',
         '1': 'one',
         '2': 'two',
@@ -1121,20 +1062,45 @@ function showExampleGlobal(type, qNum, calculatorId) {
     };
 
     const clickSequence = async (sequence) => {
+
+        let prevKey = null; 
+
         for (const key of sequence) {
 
             await new Promise(r => setTimeout(r, 700));
 
+            if (
+                prevKey &&
+                (
+                    (prevKey === ')' && key === '(') ||
+                    (prevKey === ')' && /^[0-9.]$/.test(key)) ||
+                    (/^[0-9.]$/.test(prevKey) && key === '(')
+                )
+            ) {
+                const mulBtn = calculator.querySelector('#multiply');
+                if (mulBtn) {
+                    mulBtn.click();
+                }
+            }
+
             const btnId = keyMap[key];
-            if (!btnId) continue;
+            if (!btnId) {
+                prevKey = key;
+                continue;
+            }
 
             const btn = calculator.querySelector(`#${btnId}`);
-            if (!btn) continue;
+            if (!btn) {
+                prevKey = key;
+                continue;
+            }
 
             btn.classList.add('btn-pressed');
             btn.click();
 
             setTimeout(() => btn.classList.remove('btn-pressed'), 400);
+
+            prevKey = key; 
         }
 
         window.__reproduciendoEjemplo = false;
@@ -1142,8 +1108,6 @@ function showExampleGlobal(type, qNum, calculatorId) {
 
     clickSequence(exercise.CALCULADORA_MATH.sequence);
 }
-
-
 
 
 
@@ -1284,6 +1248,7 @@ function showExampleFromFraction(calculatorData, exerciseIndex) {
         // Paréntesis
         '(': 'open-parenthesis',
         ')': 'close-parenthesis',
+        'ab/c': 'fraction',
 
         // Números
         '0': 'zero',

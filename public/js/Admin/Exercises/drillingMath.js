@@ -39,267 +39,155 @@ $(document).ready(function () {
 
 
 
-    // RESET MODALS - END
-    /////////   CALCULADORA  /////////
-    // const screen = document.getElementById("screen");
-    // const buttons = document.querySelectorAll(".calculator .btn");
 
-    // let fieldJson = document.getElementById("CALCULADORA_MATH");
-    // if (!fieldJson) {
-    //     fieldJson = document.createElement("input");
-    //     fieldJson.type = "hidden";
-    //     fieldJson.name = "CALCULADORA_MATH";
-    //     fieldJson.id = "CALCULADORA_MATH";
-    //     document.querySelector(".calculator-container").appendChild(fieldJson);
-    // }
-
-    // let currentInput = "";
-    // let pressedKeys = [];
-
-    // const operators = {
-    //     "×": "*",
-    //     "÷": "÷",
-    //     "−": "-",
-    //     "+": "+",
-    //     "^": "^", 
-    //     "log": "log(",
-    //     "ln": "log(",
-    //     "sin": "sin(",
-    //     "cos": "cos(",
-    //     "tan": "tan(",
-    //     "√": "sqrt(",
-    //     "x²": "^2",
-    //     "x³": "^3",
-    //     "x⁻¹": "^(-1)",
-    //     "EXP": "e",
-    // };
-    // const constants = {
-    //     "π": "pi"
-    // };
-
-    // function updateScreen(value) {
-    //     screen.textContent = value || "0";
-    // }
-
-    // function updateJson() {
-    //     const jsonValue = {
-    //         sequence: pressedKeys,
-    //         final: currentInput
-    //     };
-    //     fieldJson.value = JSON.stringify(jsonValue);
-    //     console.log("JSON calculadora:", jsonValue);
-    // }
-
-    // buttons.forEach(btn => {
-    //     btn.addEventListener("click", (e) => {
-    //         e.preventDefault();
-    //         // const value = btn.textContent.trim();
-    //         const value = btn.getAttribute('data-value') || btn.textContent.trim();
-    //         if (btn.id === "all-clear") {
-    //             currentInput = "";
-    //             // pressedKeys.push("C");
-    //             pressedKeys = [];
-    //             updateScreen(currentInput);
-    //         }
-    //         else if (btn.id === "delete") {
-    //             if (currentInput.length > 0) {
-    //                 currentInput = currentInput.slice(0, -1);
-    //                 pressedKeys.push("DEL");
-    //                 updateScreen(currentInput);
-    //             }
-    //         }
-    //         else if (btn.id === "equals") {
-    //             try {
-
-    //                 let finalExpression = currentInput.replace(/[×÷−]/g, m => operators[m]);
-
-    //                 finalExpression = finalExpression
-    //                     .replace(/log/g, 'log10(')
-    //                     .replace(/ln/g, 'log(')
-    //                     .replace(/sin/g, 'sin(')
-    //                     .replace(/cos/g, 'cos(')
-    //                     .replace(/tan/g, 'tan(')
-    //                     .replace(/√/g, 'sqrt(')
-    //                     .replace(/\^/g, '^')
-    //                     .replace(/÷/g, '/')
-
-    //                 const result = math.evaluate(finalExpression);
-
-    //                 currentInput = result.toString();
-    //                 pressedKeys.push("=");
-    //                 updateScreen(currentInput);
-    //             } catch (err) {
-    //                 updateScreen("Error");
-    //                 console.error("Invalid expression:", err);
-    //             }
-    //         }
-    //         else {
-    //             const cleanedValue = value.replace(/\s(.*?)\s/g, '').trim();
-
-    //             if (operators[cleanedValue]) {
-    //                 currentInput += operators[cleanedValue];
-    //             } else {
-    //                 currentInput += cleanedValue;
-    //             }
-
-    //             pressedKeys.push(value);
-    //             updateScreen(currentInput);
-    //         }
-    //         updateJson();
-    //     });
-    // });
-    
-  
-            
-            
         // ================= CALCULADORA =================
 
-        const screen = document.getElementById("screen");
-        const buttons = document.querySelectorAll(".calculator .btn");
+            const screen = document.getElementById("screen");
+            const buttons = document.querySelectorAll(".calculator .btn");
 
-        let fieldJson = document.getElementById("CALCULADORA_MATH");
-        if (!fieldJson) {
-            fieldJson = document.createElement("input");
-            fieldJson.type = "hidden";
-            fieldJson.name = "CALCULADORA_MATH";
-            fieldJson.id = "CALCULADORA_MATH";
-            document.querySelector(".calculator-container").appendChild(fieldJson);
-        }
-
-        window.displayInput = "";
-
-
-        window.evalInput = "";
-
-            window.pressedKeys = [];
-            
-        const operators = {
-            "×": "*",
-            "÷": "/",
-            "−": "-",
-            "+": "+",
-            "^": "^",
-            "log": "log(",
-            "ln": "log(",
-            "sin": "sin(",
-            "cos": "cos(",
-            "tan": "tan(",
-            "√": "sqrt(",
-            "^2": "^2",
-            "^3": "^3",
-            "^(-1)": "^(-1)",
-            "EXP": "e"
-        };
-
-        const displayOverrides = {
-            "^2": "²",
-            "^3": "³",
-            "^(-1)": "⁻¹"
-        };
-
-        const constants = {
-            "π": "pi"
-        };
-
-        // ---------------- FUNCIONES ----------------
-
-        function updateScreen(value) {
-            screen.textContent = value || "0";
-        }
-
-        function formatResult(value) {
-            if (!Number.isFinite(value)) return value;
-
-            const str = value.toString();
-
-            if (!str.includes('.')) return value;
-
-            const [entero, decimales] = str.split('.');
-
-            if (decimales.length > 4) {
-                return Number(`${entero}.${decimales.slice(0, 4)}`);
+            let fieldJson = document.getElementById("CALCULADORA_MATH");
+            if (!fieldJson) {
+                fieldJson = document.createElement("input");
+                fieldJson.type = "hidden";
+                fieldJson.name = "CALCULADORA_MATH";
+                fieldJson.id = "CALCULADORA_MATH";
+                document.querySelector(".calculator-container").appendChild(fieldJson);
             }
 
-            return value;
-        }
+            window.displayInput = "";
+            window.evalInput = "";
+            window.pressedKeys = [];
 
-        function updateJson() {
-            const jsonValue = {
-                sequence: pressedKeys,
-                display: displayInput,
-                evaluated: evalInput
+            const FRACTION_SYMBOL = '⁄'; 
+
+            const operators = {
+                "×": "*",
+                "÷": "/",
+                "−": "-",
+                "+": "+",
+                "^": "^",
+                "log": "log(",
+                "ln": "log(",
+                "sin": "sin(",
+                "cos": "cos(",
+                "tan": "tan(",
+                "√": "sqrt(",
+                "^2": "^2",
+                "^3": "^3",
+                "^(-1)": "^(-1)",
+                "EXP": "e"
             };
-            fieldJson.value = JSON.stringify(jsonValue);
-            console.log("JSON calculadora:", jsonValue);
-        }
 
-        // ---------------- EVENTOS ----------------
+            const displayOverrides = {
+                "^2": "²",
+                "^3": "³",
+                "^(-1)": "⁻¹"
+            };
 
-        buttons.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault();
+            const constants = {
+                "π": "pi"
+            };
 
-                const value = btn.getAttribute("data-value") || btn.textContent.trim();
-                const cleanedValue = value.replace(/\s+/g, "").trim();
 
-                // -------- AC --------
-                if (btn.id === "all-clear") {
-                    displayInput = "";
-                    evalInput = "";
-                    pressedKeys = [];
-                    updateScreen(displayInput);
+            function updateScreen(value) {
+                screen.textContent = value || "0";
+            }
+
+            function formatResult(value) {
+                if (!Number.isFinite(value)) return value;
+
+                const str = value.toString();
+                if (!str.includes('.')) return value;
+
+                const [entero, decimales] = str.split('.');
+                if (decimales.length > 4) {
+                    return Number(`${entero}.${decimales.slice(0, 4)}`);
                 }
+                return value;
+            }
 
-                // -------- DEL --------
-                else if (btn.id === "delete") {
-                    displayInput = displayInput.slice(0, -1);
-                    evalInput = evalInput.slice(0, -1);
-                    pressedKeys.push("DEL");
-                    updateScreen(displayInput);
-                }
+            function updateJson() {
+                const jsonValue = {
+                    sequence: pressedKeys,
+                    display: displayInput,
+                    evaluated: evalInput
+                };
+                fieldJson.value = JSON.stringify(jsonValue);
+                console.log("JSON calculadora:", jsonValue);
+            }
 
-                // -------- = --------
-                else if (btn.id === "equals") {
-                    try {
-                        let result = math.evaluate(evalInput);
-                        result = formatResult(result);
 
-                        displayInput = result.toString();
-                        evalInput = displayInput;
+            buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
 
-                        pressedKeys.push("=");
+                    const value = btn.getAttribute("data-value") || btn.textContent.trim();
+                    const cleanedValue = value.replace(/\s+/g, "").trim();
+
+                    if (btn.id === "all-clear") {
+                        displayInput = "";
+                        evalInput = "";
+                        pressedKeys = [];
                         updateScreen(displayInput);
-                    } catch (err) {
-                        updateScreen("Error");
-                        console.error("Invalid expression:", err);
-                    }
-                }
-
-                // -------- OTROS BOTONES --------
-                else {
-                    // DISPLAY
-                    if (displayOverrides[cleanedValue]) {
-                        displayInput += displayOverrides[cleanedValue];
-                    } else {
-                        displayInput += cleanedValue;
                     }
 
-                    // EVALUACIÓN
-                    if (operators[cleanedValue]) {
-                        evalInput += operators[cleanedValue];
-                    } else if (constants[cleanedValue]) {
-                        evalInput += constants[cleanedValue];
-                    } else {
-                        evalInput += cleanedValue;
+                    else if (btn.id === "delete") {
+                        displayInput = displayInput.slice(0, -1);
+                        evalInput = evalInput.slice(0, -1);
+                        pressedKeys.push("DEL");
+                        updateScreen(displayInput);
                     }
 
-                    pressedKeys.push(value);
-                    updateScreen(displayInput);
-                }
+                    else if (btn.id === "equals") {
+                        try {
+                            let result = math.evaluate(evalInput);
+                            result = formatResult(result);
 
-                updateJson();
+                            displayInput = result.toString();
+                            evalInput = displayInput;
+
+                            pressedKeys.push("=");
+                            updateScreen(displayInput);
+                        } catch (err) {
+                            updateScreen("Error");
+                            console.error("Invalid expression:", err);
+                        }
+                    }
+
+                    else if (cleanedValue === "ab/c") {
+
+                        displayInput += FRACTION_SYMBOL;
+
+                        evalInput += "/";
+
+                        pressedKeys.push("ab/c");
+                        updateScreen(displayInput);
+                    }
+
+                    else {
+                        if (displayOverrides[cleanedValue]) {
+                            displayInput += displayOverrides[cleanedValue];
+                        } else {
+                            displayInput += cleanedValue;
+                        }
+
+                        if (operators[cleanedValue]) {
+                            evalInput += operators[cleanedValue];
+                        } else if (constants[cleanedValue]) {
+                            evalInput += constants[cleanedValue];
+                        } else {
+                            evalInput += cleanedValue;
+                        }
+
+                        pressedKeys.push(value);
+                        updateScreen(displayInput);
+                    }
+
+                    updateJson();
+                });
             });
-        });
+
+
 
         // ================= FIN CALCULADORA =================
 
@@ -307,8 +195,6 @@ $(document).ready(function () {
             
     
     
-    
-    // CALCULADORA END
     
     $('#TIPO_MATH').on('change', function () {
         var valor = $(this).val();

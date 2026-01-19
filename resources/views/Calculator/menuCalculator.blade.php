@@ -35,7 +35,6 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
         background: linear-gradient(145deg, #00e5ff, #0097a7) !important;
         color: #000 !important;
     }
-    
 </style>
 
 <div class="main-container">
@@ -129,6 +128,12 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                     <div class="nav-item-content">
                         <span class="nav-item-title">{{ __('Rounding') }}</span>
                         <span class="nav-item-subtitle">{{ __('Rounding rules in the course.') }}</span>
+                    </div>
+                </li>
+                <li class="nav-item" data-section="glosario">
+                    <span class="star-icon"></span>
+                    <div class="nav-item-content">
+                        <span class="nav-item-title">{{ __('Glossary') }}</span>
                     </div>
                 </li>
             </ul>
@@ -719,7 +724,7 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
             <div class="math-drilling-section">
                 <h2 class="math-drilling-subtitle">{{ __('Rounding rules book in the well control course - IADC') }}</h2>
             </div>
-            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe"
+            <iframe allowfullscreen="allowfullscreen" scrolling="auto" class="fp-iframe"
                 src="{{ $iframeSrcFormuleIADC }}"
                 style="border: 0px; width: 100%; height: 100%; min-height: 625px;">
             </iframe>
@@ -823,6 +828,15 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
             @endswitch
         </div>
 
+
+        <div id="glosario" class="content-section scrollable-content">
+            <div class="content-title-voice">
+                <h1 class="math-drilling-title">{{ __('Glossary') }}</h1>
+            </div>
+            <iframe allowfullscreen="allowfullscreen" allow="clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/6c712d95c7.html" style="border: 0px; width: 100%; height: 149%; min-height: 625px;"></iframe>
+        </div>
+
+
         <!-- exercices section -->
         <div id="fracciones" class="content-section scrollable-content">
             <div class="math-drilling-section">
@@ -922,6 +936,17 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
     const allJerarquia = @json($jerarquia);
     const allRedondeos = @json($redondeos);
 </script>
+
+<script>
+    window.addEventListener('load', function() {
+        document.querySelectorAll('iframe.fp-iframe').forEach((iframe) => {
+            iframe.style.display = 'none';
+            iframe.offsetHeight;
+            iframe.style.display = 'block';
+        });
+    });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

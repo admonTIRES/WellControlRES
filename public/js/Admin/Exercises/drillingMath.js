@@ -94,14 +94,13 @@ $(document).ready(function () {
     function formatResult(value) {
         if (!Number.isFinite(value)) return value;
 
-        const str = value.toString();
-        if (!str.includes('.')) return value;
+        const factor = Math.pow(10, 4);
 
-        const [i, d] = str.split('.');
-        return d.length > 4
-            ? Number(`${i}.${d.slice(0, 4)}`)
-            : value;
+        const cleaned = Math.round(value * 1e12) / 1e12;
+
+        return Math.trunc(cleaned * factor) / factor;
     }
+
 
     function closePendingSqrtIfNeeded(nextValue) {
 

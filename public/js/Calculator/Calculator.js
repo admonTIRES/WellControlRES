@@ -415,10 +415,21 @@ function initializeCalculator(calculator) {
             return cleaned ? `${i}.${cleaned}` : i;
         };
 
-        const formatResult = (value) => {
+       const formatResult = (value) => {
             if (value === 'Error') return 'Error';
-            return truncateDecimals(value.toString(), 4);
+
+            const num = Number(value);
+            if (!Number.isFinite(num)) return 'Error';
+
+            const cleaned = Math.round(num * 1e12) / 1e12;
+
+            const factor = 10 ** 4;
+
+            const truncated = Math.trunc(cleaned * factor) / factor;
+
+            return truncated.toString();
         };
+
 
         const evaluateExpression = () => {
             try {

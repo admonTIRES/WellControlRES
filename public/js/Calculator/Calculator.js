@@ -380,69 +380,79 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+function initializeCalculator(calculator) {
 
-    function initializeCalculator(calculator) {
+        let displayInput = '';
+        let evalInput = '';
+        let currentInput = '';
+        let shouldResetScreen = false;
+        let modeState = 0;
+        let fixedDecimals = null;
 
-    // ===================== ESTADO =====================
-    let displayInput = '';
-    let evalInput = '';
-    let currentInput = ''; 
-    let shouldResetScreen = false;
-    let modeState = 0;
-    let fixedDecimals = null;
-
-    const screen = calculator.querySelector('#screen');
-
-    const FRACTION_SYMBOL = '⁄';
-
-    // ===================== UTILIDADES =====================
-    const updateScreen = (value, overrideMessage = null) => {
-        if (overrideMessage) {
-            screen.textContent = overrideMessage;
-        } else {
-            screen.textContent = value || '0';
-        }
-    };
-
-    const clearCalculator = () => {
-        displayInput = '';
-        evalInput = '';
-        currentInput = '';
-        shouldResetScreen = false;
-        updateScreen('0');
-    };
-
-   const truncateDecimals = (value, max = 4) => {
-    if (!value.includes('.')) return value;
-
-    const [i, d] = value.split('.');
-    const truncated = d.slice(0, max);
-
-    const cleaned = truncated.replace(/0+$/, '');
-
-    return cleaned ? `${i}.${cleaned}` : i;
-    };
+        const screen = calculator.querySelector('#screen');
+        const FRACTION_SYMBOL = '⁄';
 
 
-    const formatResult = (value) => {
-        if (value === 'Error') return 'Error';
-        return truncateDecimals(value.toString(), 4);
-    };
+        const updateScreen = (value, overrideMessage = null) => {
+            screen.textContent = overrideMessage ?? (value || '0');
+        };
 
-    const evaluateExpression = () => {
-        try {
-            return Function('"use strict";return (' + evalInput + ')')().toString();
-        } catch {
-            return 'Error';
-        }
-    };
+        const clearCalculator = () => {
+            displayInput = '';
+            evalInput = '';
+            currentInput = '';
+            shouldResetScreen = false;
+            updateScreen('0');
+        };
 
-    // ===================== BOTONES =====================
-    calculator.querySelectorAll('.btn').forEach((button) => {
-        button.addEventListener('click', () => {
+        const truncateDecimals = (value, max = 4) => {
+            if (!value.includes('.')) return value;
+
+            const [i, d] = value.split('.');
+            const truncated = d.slice(0, max);
+            const cleaned = truncated.replace(/0+$/, '');
+
+            return cleaned ? `${i}.${cleaned}` : i;
+        };
+
+        const formatResult = (value) => {
+            if (value === 'Error') return 'Error';
+            return truncateDecimals(value.toString(), 4);
+        };
+
+        const evaluateExpression = () => {
+            try {
+                return Function('"use strict";return (' + evalInput + ')')().toString();
+            } catch (e) {
+                console.error('❌ ERROR eval:', e.message);
+                return 'Error';
+            }
+        };
+
+        const closePendingSqrtIfNeeded = (incomingValue) => {
+
+            const hasOpenSqrt = /sqrt\([^)]*$/.test(evalInput);
+
+            if (!hasOpenSqrt) return;
+
+            if (/^[0-9.]$/.test(incomingValue)) {
+                return;
+            }
+
+            if (
+                incomingValue === '=' ||
+                /^[+\-×÷*/^)]$/.test(incomingValue)
+            ) {
+                evalInput += ')';
+            }
+        };
+
+        calculator.querySelectorAll('.btn').forEach((button) => {
+            button.addEventListener('click', () => {
 
             const value = button.getAttribute('data-value')
                 || button.textContent.split('\n')[0].trim();
+
 
             if (button.id === 'all-clear') {
                 clearCalculator();
@@ -458,8 +468,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (button.id === 'equals') {
                 if (evalInput) {
+                    closePendingSqrtIfNeeded('=');
+
                     const raw = evaluateExpression();
                     const final = formatResult(raw);
+
                     displayInput = final;
                     evalInput = final;
                     updateScreen(final);
@@ -484,36 +497,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 displayInput += '²';
                 evalInput += '**2';
             }
-            else if (value === '×') {
-                displayInput += '×';
-                evalInput += '*';
-            }
-            else if (value === '÷') {
-                displayInput += '÷';
-                evalInput += '/';
-            }
-            else if (value === '−') {
-                displayInput += '−';
-                evalInput += '-';
-            }
             else if (value === '^') {
                 displayInput += '^';
                 evalInput += '**';
             }
 
-                else if (value === 'ab/c') {
+            else if (value === '×') {
+                closePendingSqrtIfNeeded(value);
+                displayInput += '×';
+                evalInput += '*';
+            }
+            else if (value === '÷') {
+                closePendingSqrtIfNeeded(value);
+                displayInput += '÷';
+                evalInput += '/';
+            }
+            else if (value === '−') {
+                closePendingSqrtIfNeeded(value);
+                displayInput += '−';
+                evalInput += '-';
+            }
 
-                    const lastEvalChar = evalInput.slice(-1);
+            else if (value === 'ab/c') {
+                const lastEvalChar = evalInput.slice(-1);
 
-                    if (!lastEvalChar || /[+\-*/(]$/.test(lastEvalChar)) {
-                        displayInput += '1' + FRACTION_SYMBOL;
-                        evalInput += '1/';
-                    } 
-                    else {
-                        displayInput += FRACTION_SYMBOL;
-                        evalInput += '/';
-                    }
+                if (!lastEvalChar || /[+\-*/(]$/.test(lastEvalChar)) {
+                    displayInput += '1' + FRACTION_SYMBOL;
+                    evalInput += '1/';
+                } else {
+                    displayInput += FRACTION_SYMBOL;
+                    evalInput += '/';
                 }
+            }
+
+            else if (value === '√') {
+                    displayInput += '√';
+                    evalInput += 'Math.sqrt(';
+            }
 
 
             else if (isNumber || isOperator || isParen) {
@@ -534,6 +554,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     evalInput += '*';
                 }
 
+                closePendingSqrtIfNeeded(value);
+
                 displayInput += value;
                 evalInput += value;
             }
@@ -542,33 +564,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // =====================  RESET POR SECCIÓN =====================
-    const section = calculator.closest('.content-section');
-    if (!section) return;
-
-    let wasVisible = false;
-    calculator.__isPlayingExample = false;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-
-            if (calculator.__isPlayingExample) return;
-
-            if (entry.isIntersecting && !wasVisible) {
-                clearCalculator();
-                wasVisible = true;
-            }
-
-            if (!entry.isIntersecting) {
-                wasVisible = false;
-            }
-        });
-    }, {
-        threshold: 0.3
-    });
-
-    observer.observe(section);
 }
+
+    
+
+
 
     // ================= FIN CALCULADORA =================
 
@@ -1013,6 +1013,9 @@ function showSolution(type, id) {
 
 
 
+
+
+
 function showExampleGlobal(type, qNum, calculatorId) {
 
     const exercise = currentExercises[type][qNum - 1];
@@ -1029,14 +1032,11 @@ function showExampleGlobal(type, qNum, calculatorId) {
     const clearBtn = calculator.querySelector('#all-clear');
     if (clearBtn) clearBtn.click();
 
-    const FRACTION_SYMBOL = '⁄';
-
     const keyMap = {
         '×': 'multiply',
         '*': 'multiply',
         '÷': 'divide',
         '/': 'divide',
-        '⁄': 'divide',        
         '+': 'add',
         '-': 'subtract',
         '−': 'subtract',
@@ -1046,6 +1046,7 @@ function showExampleGlobal(type, qNum, calculatorId) {
         '(' : 'open-parenthesis',
         ')': 'close-parenthesis',
         'ab/c': 'fraction',
+        '√': 'square-root',   // ✅ ID REAL DEL BOTÓN
         '0': 'zero',
         '1': 'one',
         '2': 'two',
@@ -1063,44 +1064,20 @@ function showExampleGlobal(type, qNum, calculatorId) {
 
     const clickSequence = async (sequence) => {
 
-        let prevKey = null; 
-
         for (const key of sequence) {
 
             await new Promise(r => setTimeout(r, 700));
 
-            if (
-                prevKey &&
-                (
-                    (prevKey === ')' && key === '(') ||
-                    (prevKey === ')' && /^[0-9.]$/.test(key)) ||
-                    (/^[0-9.]$/.test(prevKey) && key === '(')
-                )
-            ) {
-                const mulBtn = calculator.querySelector('#multiply');
-                if (mulBtn) {
-                    mulBtn.click();
-                }
-            }
-
             const btnId = keyMap[key];
-            if (!btnId) {
-                prevKey = key;
-                continue;
-            }
+            if (!btnId) continue;
 
             const btn = calculator.querySelector(`#${btnId}`);
-            if (!btn) {
-                prevKey = key;
-                continue;
-            }
+            if (!btn) continue;
 
             btn.classList.add('btn-pressed');
             btn.click();
 
             setTimeout(() => btn.classList.remove('btn-pressed'), 400);
-
-            prevKey = key; 
         }
 
         window.__reproduciendoEjemplo = false;
@@ -1108,6 +1085,10 @@ function showExampleGlobal(type, qNum, calculatorId) {
 
     clickSequence(exercise.CALCULADORA_MATH.sequence);
 }
+
+
+
+
 
 
 

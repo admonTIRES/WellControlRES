@@ -208,7 +208,7 @@
                             </h4>
                             <div class="d-flex justify-content-center flex-wrap gap-3 mb-3">
                                 <!-- Ente Acreditador -->
-                                <div class="col-md-2 text-start">
+                                <!-- <div class="col-md-2 text-start">
                                     <label> {{ __('Accrediting Entity*') }}</label>
                                     <select class="form-select selectize-multiple" id="ENTE_KILLSHEET"
                                         name="ENTE_KILLSHEET[]" multiple>
@@ -216,7 +216,7 @@
                                         <option value="{{ $ente->ID_CATALOGO_ENTE }}">{{ $ente->NOMBRE_ENTE }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> -->
 
                                 <!-- Niveles -->
                                 <div class="col-md-2 text-start">
@@ -757,8 +757,8 @@
               
                 
                 {{-- IWCF – Vertical – Surface – Español --}}
-                <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
-                    @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.spanish', ['id' => 'iwcf-v-sur-es'])
+                    <form id="killsheet-1" enctype="multipart/form-data" class="wizard-step d-none">
+                        @include('Admin.content.Instructor.exercises.killsheetsComponents.IWCF.vertical.Surface.spanish', ['id' => 'iwcf-v-sur-es'])
                     <button type="button" class="btn btn-secondary prev-step" data-step="2">Atrás</button>
                     <button type="button" class="btn btn-primary next-step" data-step="2"
                         id="btn-iwcf-v-sur-es">Continuar</button>

@@ -30,7 +30,8 @@
 // IADC – Desviado – Subsea – Inglés
 // IADC – Desviado – Subsea – Portugués
 // IADC – Desviado – Subsea – Árabe
-//hola, el numero de linea que ocupa cada uno de los tipoHoja son sus id
+
+//HOLA, el numero de linea que ocupa cada uno de los tipoHoja son sus id
 
 ID_KILLSHEET = 0
 
@@ -47,18 +48,7 @@ $(document).ready(function () {
     });
     // RESET MODALS - END
 
-    var $select = $('#ENTE_KILLSHEET').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        maxItems: null,
-        create: false,
-        onInitialize: function () {
-            // Desactiva la escritura del input interno
-            this.$control_input.prop('readonly', true);
-        }
-    });
-    var selectizeInstance = $select[0].selectize;
+
     var $select2 = $('#NIVELES_KILLSHEET').selectize({
         plugins: ['remove_button'],
         delimiter: ',',

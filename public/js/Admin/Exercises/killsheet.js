@@ -131,6 +131,14 @@ $(document).on('click', '#btn-continuar-sec-2', function () {
 ///// CERRAR MODAL 
 $('#killsheet_modal').on('hidden.bs.modal', function () {
 
+
+
+    ID_INFORMACION_KILLSHEET = 0
+
+    
+    document.getElementById('killsheet_fomr').reset();
+
+    
     $('#btn-continuar-sec-2').removeClass('d-none');
 
     $('#killsheet-views-container').addClass('d-none');
@@ -260,9 +268,6 @@ $(document).on('click', '.btn-remove-question', function () {
 });
 
 //// GUARDAR HOJA DE MATAR COMPLETA
-
-
-
     function buildDatosEjercicioJSON() {
 
         const data = {};
@@ -308,14 +313,15 @@ function buildPreguntasJSON() {
 }
 
 
+
+
 $("#guardakillsheet").click(function (e) {
     e.preventDefault();
 
     const datosEjercicio = buildDatosEjercicioJSON();
     const preguntas = buildPreguntasJSON();
 
-    console.log('DATOS_EJERCICIO_JSON:', datosEjercicio);
-    console.log('PREGUNTAS_JSON:', preguntas);
+ 
 
     alertMensajeConfirm({
         title: "¿Desea guardar la hoja de matar?",
@@ -348,6 +354,7 @@ $("#guardakillsheet").click(function (e) {
             },
 
             function (data) {
+
                 alertMensaje(
                     'success',
                     'Killsheet guardado correctamente',
@@ -357,7 +364,12 @@ $("#guardakillsheet").click(function (e) {
                     1500
                 );
 
-                console.log('ID INFO KILLSHEET:', data.id);
+
+                $('#killsheet_modal').modal('hide');
+                 document.getElementById('killsheet_fomr').reset();
+                    killsheetsDatatable.ajax.reload()
+
+
             }
         );
 
@@ -436,10 +448,8 @@ $('#killsheetsDatatable tbody').on('click', 'td>button.EDITAR', function () {
 
     editarDatoTabla(data, 'killsheet_fomr', 'killsheet_modal');
 
-  mostrarVistaKillsheet(data);
-    
-        obtenerDatosKillsheet(ID_INFORMACION_KILLSHEET);
-
+    mostrarVistaKillsheet(data);
+    obtenerDatosKillsheet(ID_INFORMACION_KILLSHEET);
     initSelectizeNiveles();
     cargarNivelesEdit(data);
     cargarDatosEjercicioEdit(data);

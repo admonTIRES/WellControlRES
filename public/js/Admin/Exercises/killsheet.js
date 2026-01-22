@@ -1,4 +1,4 @@
-
+ID_INFORMACION_KILLSHEET = 0
 
 ////////   SELECCIONAR TIPOS 
 $('#btnOpenPreKillsheet').on('click', function () {

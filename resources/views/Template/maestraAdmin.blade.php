@@ -778,7 +778,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.28"></script>
     @endif
     @if(request()->is('killsheets'))
-    <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.1"></script>
+    <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.2"></script>
     @endif
     @if(request()->is('projectsAdmin'))
     <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.66"></script>

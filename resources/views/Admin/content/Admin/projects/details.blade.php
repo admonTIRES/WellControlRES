@@ -14,12 +14,26 @@
                                 <span>Inicio</span>
                             </a>
                         </li>
+                        @if(
+                        (session('ROLES_USER')['logistica'] ?? false)
+                        || (session('ROLES_USER')['admin'] ?? false)
+                        || (session('ROLES_USER')['superusuario'] ?? false)
+                        )
                         <li>
                             <a href="{{ route('projectsAdmin') }}">
                                 <i class="ri-folder-2-line"></i>
                                 <span>Proyectos</span>
                             </a>
                         </li>
+                        @else
+                        <li>
+                            <a href="{{ route('projectsInstructor') }}">
+                                <i class="ri-folder-2-line"></i>
+                                <span>Proyectos</span>
+                            </a>
+                        </li>
+                        @endif
+
                         <li>
                             <a href="#" aria-current="page" class="current">
                                 <i class="ri-slideshow-line"></i>
@@ -97,15 +111,15 @@
                                 <div class="card-content">
                                     <span class="card-label">{{ __('Accreditation Levels') }}</span>
                                     @if($nivelesAcreditacion->isNotEmpty())
-                                        <div class="badges-container">
-                                            @foreach($nivelesAcreditacion as $nivel)
-                                                <span class="badge badge-modern badge-primary">
-                                                    <i class="fas fa-check-circle"></i> {{ $nivel }}
-                                                </span>
-                                            @endforeach
-                                        </div>
+                                    <div class="badges-container">
+                                        @foreach($nivelesAcreditacion as $nivel)
+                                        <span class="badge badge-modern badge-primary">
+                                            <i class="fas fa-check-circle"></i> {{ $nivel }}
+                                        </span>
+                                        @endforeach
+                                    </div>
                                     @else
-                                        <h5 class="card-value text-muted">{{ __('N/A') }}</h5>
+                                    <h5 class="card-value text-muted">{{ __('N/A') }}</h5>
                                     @endif
                                 </div>
                             </div>
@@ -116,15 +130,15 @@
                                 <div class="card-content">
                                     <span class="card-label">{{ __('BOP Types') }}</span>
                                     @if($tiposBop->isNotEmpty())
-                                        <div class="badges-container">
-                                            @foreach($tiposBop as $bop)
-                                                <span class="badge badge-modern badge-warning">
-                                                    {{ $bop }}
-                                                </span>
-                                            @endforeach
-                                        </div>
+                                    <div class="badges-container">
+                                        @foreach($tiposBop as $bop)
+                                        <span class="badge badge-modern badge-warning">
+                                            {{ $bop }}
+                                        </span>
+                                        @endforeach
+                                    </div>
                                     @else
-                                        <h5 class="card-value text-muted">{{ __('N/A') }}</h5>
+                                    <h5 class="card-value text-muted">{{ __('N/A') }}</h5>
                                     @endif
                                 </div>
                             </div>
@@ -145,15 +159,15 @@
                                     <span class="card-label">{{ __('Course Type') }}</span>
                                     <h5 class="card-value">
                                         @if($proyect->COURSE_TYPE_PROJECT == 1)
-                                            <span class="badge badge-soft-success">{{ __('Open') }}</span>
+                                        <span class="badge badge-soft-success">{{ __('Open') }}</span>
                                         @elseif($proyect->COURSE_TYPE_PROJECT == 2)
-                                            <span class="badge badge-soft-warning">{{ __('Closed') }}</span>
+                                        <span class="badge badge-soft-warning">{{ __('Closed') }}</span>
                                         @else
-                                            {{ __('N/A') }}
+                                        {{ __('N/A') }}
                                         @endif
                                     </h5>
                                 </div>
-                            </div>     
+                            </div>
                             <div class="modern-card gradient-primary card-wide">
                                 <div class="card-icon-wrapper">
                                     <i class="fas fa-calendar-alt" style="color:white"></i>
@@ -186,7 +200,7 @@
                                     <span class="card-label">{{ __('Location') }}</span>
                                     <h5 class="card-value">{{ $ubicacion->LUGAR_UBICACION ?? __('N/A') }}</h5>
                                     @if($ubicacion->CIUDAD_UBICACION)
-                                        <span class="card-meta">{{ $ubicacion->CIUDAD_UBICACION }}</span>
+                                    <span class="card-meta">{{ $ubicacion->CIUDAD_UBICACION }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -205,7 +219,7 @@
                                                 <span class="exam-type">{{ __('Examen práctico') }}</span>
                                                 <div class="date-value">{{ $proyect->PRACTICAL_EXAM_DATE_PROJECT ? \Carbon\Carbon::parse($proyect->PRACTICAL_EXAM_DATE_PROJECT)->format('d/m/Y') : __('N/A') }}</div>
                                                 @if($proyect->PRACTICAL_EXAM_TIME_PROJECT)
-                                                    <span class="exam-time"><i class="fas fa-clock"></i> {{ $proyect->PRACTICAL_EXAM_TIME_PROJECT }}</span>
+                                                <span class="exam-time"><i class="fas fa-clock"></i> {{ $proyect->PRACTICAL_EXAM_TIME_PROJECT }}</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -217,11 +231,11 @@
                                                 <span class="exam-type">{{ __('Examen teórico') }}</span>
                                                 <div class="date-value">{{ $proyect->EXAM_DATE_PROJECT ? \Carbon\Carbon::parse($proyect->EXAM_DATE_PROJECT)->format('d/m/Y') : __('N/A') }}</div>
                                                 @if($proyect->EXAM_TIME_PROJECT)
-                                                    <span class="exam-time"><i class="fas fa-clock"></i> {{ $proyect->EXAM_TIME_PROJECT }}</span>
+                                                <span class="exam-time"><i class="fas fa-clock"></i> {{ $proyect->EXAM_TIME_PROJECT }}</span>
                                                 @endif
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -242,9 +256,9 @@
                                     <span class="card-label">{{ __('Asesores') }}</span>
                                     <h5 class="card-value">{{ $NOMBRE_INSTRUCTOR }}</h5>
                                     @if($proyect->INSTRUCTOR_EMAIL_PROJECT)
-                                        <span class="card-meta">
-                                            <i class="fas fa-envelope"></i> {{ $proyect->INSTRUCTOR_EMAIL_PROJECT }}
-                                        </span>
+                                    <span class="card-meta">
+                                        <i class="fas fa-envelope"></i> {{ $proyect->INSTRUCTOR_EMAIL_PROJECT }}
+                                    </span>
                                     @endif
                                 </div>
                             </div>
@@ -285,50 +299,50 @@
 
                                         {{-- Centro primario --}}
                                         @if($centroPrimario)
-                                            <div class="exam-item">
-                                                <div class="exam-icon">
-                                                    <i class="fas fa-building" style="color:white"></i>
-                                                </div>
-                                                <div>
-                                                    <span class="exam-type">
-                                                        {{ __('Centro primario') }}
-                                                    </span>
-
-                                                    <div class="date-value">
-                                                        {{ $centroPrimario->NOMBRE_COMERCIAL_CENTRO }}
-                                                    </div>
-
-                                                    <span class="exam-time">
-                                                        <i class="fas fa-id-card"></i>
-                                                        {{ __('Centro #') }} {{ $centroPrimario->NUMERO_CENTRO }}
-                                                    </span>
-                                                </div>
+                                        <div class="exam-item">
+                                            <div class="exam-icon">
+                                                <i class="fas fa-building" style="color:white"></i>
                                             </div>
+                                            <div>
+                                                <span class="exam-type">
+                                                    {{ __('Centro primario') }}
+                                                </span>
+
+                                                <div class="date-value">
+                                                    {{ $centroPrimario->NOMBRE_COMERCIAL_CENTRO }}
+                                                </div>
+
+                                                <span class="exam-time">
+                                                    <i class="fas fa-id-card"></i>
+                                                    {{ __('Centro #') }} {{ $centroPrimario->NUMERO_CENTRO }}
+                                                </span>
+                                            </div>
+                                        </div>
                                         @endif
 
                                         {{-- Centro asociado --}}
                                         @if($centroCertificacion && $centroCertificacion->TIPO_CENTRO == 1)
-                                            <div class="exam-item">
-                                                <div class="exam-icon">
-                                                    <i class="fas fa-link" style="color:white"></i>
-                                                </div>
-                                                <div>
-                                                    <span class="exam-type">
-                                                        {{ __('Centro asociado') }}
-                                                    </span>
-
-                                                    <div class="date-value">
-                                                        {{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO }}
-                                                    </div>
-
-                                                    @if($proyect->CENTER_NUMBER_PROJECT)
-                                                        <span class="exam-time">
-                                                            <i class="fas fa-id-card"></i>
-                                                            {{ __('Centro #') }} {{ $proyect->CENTER_NUMBER_PROJECT }}
-                                                        </span>
-                                                    @endif
-                                                </div>
+                                        <div class="exam-item">
+                                            <div class="exam-icon">
+                                                <i class="fas fa-link" style="color:white"></i>
                                             </div>
+                                            <div>
+                                                <span class="exam-type">
+                                                    {{ __('Centro asociado') }}
+                                                </span>
+
+                                                <div class="date-value">
+                                                    {{ $centroCertificacion->NOMBRE_COMERCIAL_CENTRO }}
+                                                </div>
+
+                                                @if($proyect->CENTER_NUMBER_PROJECT)
+                                                <span class="exam-time">
+                                                    <i class="fas fa-id-card"></i>
+                                                    {{ __('Centro #') }} {{ $proyect->CENTER_NUMBER_PROJECT }}
+                                                </span>
+                                                @endif
+                                            </div>
+                                        </div>
                                         @endif
 
                                     </div>
@@ -342,9 +356,9 @@
                                     <span class="card-label">{{ __('Contacto') }}</span>
                                     <h5 class="card-value">{{ $proyect->CONTACT_NAME_PROJEC ?? __('N/A') }}</h5>
                                     @if($proyect->CONTACT_PHONE_PROJECT)
-                                        <span class="card-meta">
-                                            <i class="fas fa-phone"></i> {{ $proyect->CONTACT_PHONE_PROJECT }}
-                                        </span>
+                                    <span class="card-meta">
+                                        <i class="fas fa-phone"></i> {{ $proyect->CONTACT_PHONE_PROJECT }}
+                                    </span>
                                     @endif
                                 </div>
                             </div>
@@ -379,12 +393,12 @@
                 </div>
             </div>
             {{-- onclick="window.location.href='/exportProjectExcel/'+ID_PROJECT" --}}
-            <button class="btn btn-info btn-roster"  onclick="descargarRoster('{{ $ID_PROJECT }}')"> 
-                                    📊 Descargar ROSTER excel
-                                </button>
-                                <button class="btn btn-danger" onclick="descargarRosterPdf('{{ $ID_PROJECT }}')">
-    📄 Descargar ROSTER (PDF)
-</button>
+            <button class="btn btn-info btn-roster" onclick="descargarRoster('{{ $ID_PROJECT }}')">
+                📊 Descargar ROSTER excel
+            </button>
+            <button class="btn btn-danger" onclick="descargarRosterPdf('{{ $ID_PROJECT }}')">
+                📄 Descargar ROSTER (PDF)
+            </button>
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
@@ -403,17 +417,21 @@
                     </div>
                 </div>
             </div>
-             <div class="col-sm-12">
+
+            @if( (session('ROLES_USER')['logistica'] ?? false)
+            || (session('ROLES_USER')['admin'] ?? false)
+            || (session('ROLES_USER')['superusuario'] ?? false))
+            <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="w-100 h-100">
                             <h4>Tabla de calificaciones del curso</h4>
                             <div class="header-title d-flex justify-content-end align-items-center w-100 mb-4">
-                                     <button class="btn btn-warning" style="margin-right: 1rem" onclick="editarCurso()">
+                                <button class="btn btn-warning" style="margin-right: 1rem" onclick="editarCurso()">
                                     Editar tabla
                                 </button>
                             </div>
-                             <div id="messages"></div>
+                            <div id="messages"></div>
                             <div>
                                 <table id="course-list-table" class="table" role="grid">
                                 </table>
@@ -422,7 +440,7 @@
                     </div>
                 </div>
             </div>
-            
+            @endif
         </div>
     </div>
 </div>
@@ -454,17 +472,17 @@
                                 <span id="rowCount">0 candidatos</span>
                             </div>
                         </div>
-                         <button class="btn btn-warning btn-save" id="candidatebtnModal">
-                        <i class="fas fa-save me-2"></i>Guardar Cambios
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-2"></i>Cerrar
-                    </button>
+                        <button class="btn btn-warning btn-save" id="candidatebtnModal">
+                            <i class="fas fa-save me-2"></i>Guardar Cambios
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-modern" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Cerrar
+                        </button>
                     </div>
                 </div>
                 <div class="table-container">
                     <form id="candidateForm">
-                         {!! csrf_field() !!}  
+                        {!! csrf_field() !!}
                         <table class="table table-modern" id="edit-candidate-table">
                             <thead>
                                 <tr>
@@ -528,11 +546,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
-                                <tr>
-                                    <td colspan="3" class="text-center">No hay notas disponibles</td>
-                                </tr>
-                           
+
+                            <tr>
+                                <td colspan="3" class="text-center">No hay notas disponibles</td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -551,19 +569,19 @@
                 <h5 class="modal-title" id="crearNotaModalLabel">Crear Nueva Nota</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-           
-              
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="contenido" class="form-label">Contenido de la Nota</label>
-                        <textarea class="form-control" id="contenido" name="contenido" rows="5" placeholder="Escribe tu nota aquí..." required></textarea>
-                    </div>
+
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="contenido" class="form-label">Contenido de la Nota</label>
+                    <textarea class="form-control" id="contenido" name="contenido" rows="5" placeholder="Escribe tu nota aquí..." required></textarea>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Nota</button>
-                </div>
-           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Nota</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -580,21 +598,21 @@
                 </div> --}}
                 <div style="padding: 1vw;">
                     <form id="coursesForm">
-                        {!! csrf_field() !!}  
+                        {!! csrf_field() !!}
                         <table class="table table-modern" id="edit-course-table">
                             <thead>
                                 <tr>
-                                    <th  colspan="5" class="text-center">Estudiante</th>
-                                    <th  colspan="1" class="text-center">Evaluación inicial</th>
-                                    <th  colspan="2" class="text-center">Re-sits / re-test</th>
-                                    <th  colspan="4" class="text-center" >Certificados</th>
+                                    <th colspan="5" class="text-center">Estudiante</th>
+                                    <th colspan="1" class="text-center">Evaluación inicial</th>
+                                    <th colspan="2" class="text-center">Re-sits / re-test</th>
+                                    <th colspan="4" class="text-center">Certificados</th>
                                 </tr>
                                 <tr>
                                     <th width="50px" class="text-center">#</th>
                                     <th class="col-180" width="140px">Estudiante</th>
-                                    <th  class="col-180" width="180px">Nivel</th>
-                                    <th  width="180px">BOP</th>
-                                    <th  width="180px">Idioma</th>
+                                    <th class="col-180" width="180px">Nivel</th>
+                                    <th width="180px">BOP</th>
+                                    <th width="180px">Idioma</th>
                                     <th class="col-180" width="180px">Práctico</th>
                                     <th class="col-180" width="180px">Equipos</th>
                                     <th class="col-180" width="180px" id="pypTh">P&P</th>
@@ -603,24 +621,24 @@
                                     <th class="col-180" width="180px" id="d2Th">D2</th>
                                     <th class="col-180" width="180px" id="d3Th">D3</th>
                                     <th class="col-180" width="180px">Estatus</th>
-                                    <th  width="180px">Resit</th>
-                                    <th  width="180px">No. Intentos permitidos</th>
-                                    <th  width="180px">Periodo</th>
-                                    <th  width="180px">Dias restantes</th>
-                                    <th  width="180px">Fecha límite</th>
+                                    <th width="180px">Resit</th>
+                                    <th width="180px">No. Intentos permitidos</th>
+                                    <th width="180px">Periodo</th>
+                                    <th width="180px">Dias restantes</th>
+                                    <th width="180px">Fecha límite</th>
                                     <th class="col-180" width="180px">Resit módulo</th>
-                                    <th  width="180px">Sí</th>
+                                    <th width="180px">Sí</th>
                                     <th class="col-180" width="180px">Fecha</th>
                                     <th class="col-180" width="180px">Puntaje</th>
                                     <th class="col-180" width="180px">Estatus</th>
-                                    <th  width="180px">Sí</th>
-                                    <th  width="180px">Requiere entrenamiento adicional</th>
-                                    <th  width="180px">Folio de proyecto para entrenamiento</th>
+                                    <th width="180px">Sí</th>
+                                    <th width="180px">Requiere entrenamiento adicional</th>
+                                    <th width="180px">Folio de proyecto para entrenamiento</th>
                                     <th class="col-180" width="180px">Fecha</th>
                                     <th class="col-180" width="180px">Puntaje</th>
                                     <th class="col-180" width="180px">Estatus</th>
                                     <th class="col-180" width="180px">Estatus</th>
-                                    <th  width="180px">Sí</th>
+                                    <th width="180px">Sí</th>
                                     <th class="col-180" width="180px">Expiración</th>
                                     <th class="col-180" width="180px">Vigencia</th>
                                     <th class="col-250" width="180px">Correo</th>
@@ -672,9 +690,9 @@
                         <span class="sr-only">Cargando PDF...</span>
                     </div>
                 </div>
-                
+
                 <iframe id="pdfCandidateFrame" src="" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                
+
                 <div id="pdfCandidateError" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-white text-danger" style="z-index: 20; display: none;">
                     <div class="text-center">
                         <i class="fas fa-exclamation-circle fa-3x mb-3"></i>

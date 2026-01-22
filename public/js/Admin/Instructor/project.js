@@ -44,7 +44,7 @@ var proyectoDatatable = $("#project-list-table").DataTable({
         { data: 'COURSE_NAME_ES_PROJECT' },
         { data: 'COURSE_START_DATE_PROJECT' },
         { data: 'COURSE_END_DATE_PROJECT' },
-        { data: 'GESTIONAR' }
+        { data: 'BTN_VER' }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },

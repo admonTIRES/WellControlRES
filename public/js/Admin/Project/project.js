@@ -1302,7 +1302,18 @@ var proyectoDatatable = $("#proyecto-list-table").DataTable({
         { data: 'nombreProyecto' },
         { data: 'COURSE_START_DATE_PROJECT' },
         { data: 'COURSE_END_DATE_PROJECT' },
-        { data: 'BTN_EDITAR' }
+        {
+            data: null,
+            orderable: false,
+            searchable: false,
+            className: 'text-center',
+            render: function (data, type, row) {
+                return `
+                    ${row.BTN_VER}
+                    ${row.BTN_EDITAR}
+                `;
+            }
+        }
     ],
     columnDefs: [
         { targets: 0, title: '#', className: 'text-center' },

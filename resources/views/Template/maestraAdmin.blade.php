@@ -3,6 +3,7 @@ use Illuminate\Support\Str;
 @endphp
 <!doctype html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,13 +14,13 @@ use Illuminate\Support\Str;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     @if(request()->is('exercises'))
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endif
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/75445732ea.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">  
+    <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">
     <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
@@ -27,38 +28,38 @@ use Illuminate\Support\Str;
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
-    
-    {{--     
+
+    {{--
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css"> --}}
 
 
     @if (isset($css_identifier))
-        @switch($css_identifier)
-            @case('exercises')
-                <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.2" media="(min-width: 1024px)">
-            @break
-            @case('math')
-                <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">
-            @break
-            @case('catalogs')
-                <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}?v=1.1" media="(min-width: 1024px)">
-            @break
-            @case('projectsAdmin')
-                <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-                <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
-                <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
-            @break
-            @case('detailsProject')
-                <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-                <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.22" media="(min-width: 1024px)">
-            @break
-        @endswitch
+    @switch($css_identifier)
+    @case('exercises')
+    <link rel="stylesheet" href="{{ asset('css/admin/exam/exercises.css') }}?v=1.2" media="(min-width: 1024px)">
+    @break
+    @case('math')
+    <link rel="stylesheet" href="{{ asset('css/admin/math/math.css') }}?v=1.1" media="(min-width: 1024px)">
+    @break
+    @case('catalogs')
+    <link rel="stylesheet" href="{{ asset('css/admin/catalogs/catalogs.css') }}?v=1.1" media="(min-width: 1024px)">
+    @break
+    @case('projectsAdmin')
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('css/admin/project/project.css') }}?v=1.1" media="(min-width: 1024px)">
+    @break
+    @case('detailsProject')
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/admin/project/details.css') }}?v=1.22" media="(min-width: 1024px)">
+    @break
+    @endswitch
     @endif
 </head>
 
 
-<body >
+<body>
     <!-- loader Start -->
     <div id="loading">
         <div class="loader simple-loader">
@@ -85,7 +86,7 @@ use Illuminate\Support\Str;
         <div class="sidebar-body pt-0 data-scrollbar">
             <div class="collapse navbar-collapse" id="sidebar-parent">
                 <ul class="navbar-nav iq-main-menu py-4">
-                   @if( (session('ROLES_USER')['logistica'] ?? false)
+                    @if( (session('ROLES_USER')['logistica'] ?? false)
                     || (session('ROLES_USER')['admin'] ?? false)
                     || (session('ROLES_USER')['superusuario'] ?? false))
                     <li class="nav-item">
@@ -160,7 +161,7 @@ use Illuminate\Support\Str;
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('studentsList') ? 'active' : '' }}"
                                     aria-current="page" href="{{ route('studentsList') }}">
-                                    <i class="icon"> 
+                                    <i class="icon">
                                         <svg width="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -199,7 +200,7 @@ use Illuminate\Support\Str;
                                 </svg>
                             </i>
                         </a>
-                         <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-parent">
+                        <ul class="sub-nav collapse" id="sidebar-auth" data-bs-parent="#sidebar-parent">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('roles') ? 'active' : '' }}"
                                     aria-current="page" href="{{ route('roles') }}">
@@ -397,9 +398,9 @@ use Illuminate\Support\Str;
                                 <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" aria-current="page"
                                     href="{{ route('math') }}">
 
-                                    {{-- <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}" 
-                                        href="#" 
-                                        onclick="alertaDesarrollo(event)"> --}}
+                                    {{-- <a class="nav-link {{ request()->routeIs('math') ? 'active' : '' }}"
+                                    href="#"
+                                    onclick="alertaDesarrollo(event)"> --}}
                                     <i class="icon">
                                         <svg width="20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -468,6 +469,9 @@ use Illuminate\Support\Str;
                             </li>
                         </ul>
                     </li>
+                    @if( (session('ROLES_USER')['logistica'] ?? false)
+                    || (session('ROLES_USER')['admin'] ?? false)
+                    || (session('ROLES_USER')['superusuario'] ?? false))
                     <li class="nav-item instructorNav">
                         <a class="nav-link {{ request()->routeIs('catalogs') ? 'active' : '' }}" aria-current="page"
                             href="{{ route('catalogs') }}">
@@ -484,15 +488,17 @@ use Illuminate\Support\Str;
                             <span class="item-name">{{ __('Catalogs') }}</span>
                         </a>
                     </li>
+                    @endif
+
                 </ul>
             </div>
-            <a href="{{ route('test.student') }}" 
-                type="button" 
-                class="btn btn-secondary botton-slidebar" 
+            <a href="{{ route('test.student') }}"
+                type="button"
+                class="btn btn-secondary botton-slidebar"
                 style="margin-left: 1vw; border-radius:20px;">
-                    <i class="fas fa-chalkboard-user me-2"></i> 
-                    <span>{{ __('View the student panel') }}</span>
-             </a>
+                <i class="fas fa-chalkboard-user me-2"></i>
+                <span>{{ __('View the student panel') }}</span>
+            </a>
             <div id="sidebar-footer" class="position-relative sidebar-footer sidebar-footer-default">
                 <div class="sidebar-footer-main pb-2">
                     <img src="/assets/images/principal/pasto.png" alt="icon" class="img-fluid">
@@ -732,25 +738,8 @@ use Illuminate\Support\Str;
             <!--Nav End-->
         </div>
         @yield('contenido')
-        <footer class="footer">
-            <div class="footer-body">
-                <ul class="left-panel list-inline mb-0 p-0">
-                    <li class="list-inline-item"><a
-                            href="https://results-in-performance.com/images/2024/Aviso_privacidad.pdf">Politica de
-                            privacidad</a></li>
-                </ul>
-                <div class="right-panel">
-                    ©
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script>
-                    <span class="text-gray">
-                    </span><a href="https://results-in-performance.com/">Results In Performance</a>.
-                </div>
-            </div>
-        </footer>
     </main>
-    
+
     <script src="/assets/js/libs.min.js"></script>
     <script src="/assets/js/charts/widgetcharts.js"></script>
     <script src="/assets/js/charts/vectore-chart.js"></script>
@@ -777,35 +766,36 @@ use Illuminate\Support\Str;
     {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script> --}}
 
-    <script src="/js/Admin/admin.js?v=1.53"></script>
+    <script src="/js/Admin/admin.js?v=1.54"></script>
     @if(request()->is('catalogs'))
-        <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.41"></script>
+    <script src="{{ asset('js/Admin/Catalogs/catalogs.js') }}?v=1.41"></script>
     @endif
     @if(request()->is('math'))
-        <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.45"></script>
+    <script src="{{ asset('js/Admin/Exercises/drillingMath.js') }}?v=1.45"></script>
     @endif
     @if(request()->is('exercises'))
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.28"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/Admin/Exercises/exam.js') }}?v=2.28"></script>
     @endif
     @if(request()->is('killsheets'))
-        <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.0"></script>
+    <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.1"></script>
     @endif
     @if(request()->is('projectsAdmin'))
-        <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.65"></script>
+    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.66"></script>
     @endif
-     @if(request()->is('studentsList'))
-        <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.19"></script>
+    @if(request()->is('studentsList'))
+    <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.19"></script>
     @endif
     @if(request()->is('projectsInstructor'))
-        <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.14"></script>
+    <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.15"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-        <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.48"></script>
+    <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.48"></script>
     @endif
     @if(request()->is('roles'))
-     <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
+    <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>
     @endif
     @yield('scripts')
 </body>
+
 </html>

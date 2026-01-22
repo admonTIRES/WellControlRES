@@ -53,7 +53,14 @@ class ProjectManagementController extends Controller
                 ->get();
 
             foreach ($tabla as $value) {
-                $value->BTN_EDITAR = '<button type="button"
+                $value->BTN_EDITAR = '
+                                    <button type="button" class="btn btn-sm btn-icon btn-action1 EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
+                                       <span class="btn-inner">
+                                           <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
+                                       </span>
+                                    </button>';
+
+                $value->BTN_VER = '<button type="button"
                                             class="btn btn-sm btn-icon btn-action1"
                                             data-toggle="tooltip"
                                             data-placement="top"
@@ -62,11 +69,6 @@ class ProjectManagementController extends Controller
                                         <span class="btn-inner">
                                            <i class="ri-eye-line" style="font-size: 1.4rem; line-height: 1;"></i> Ver
                                         </span>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-icon btn-action1 EDITAR" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#entesModal">
-                                       <span class="btn-inner">
-                                           <i class="ri-file-edit-line" style="font-size: 1.4rem; line-height: 1;"></i> Editar
-                                       </span>
                                     </button>';
 
                 $value->GESTIONAR = '';

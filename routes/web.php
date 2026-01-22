@@ -175,11 +175,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mathSave', [MathController::class, 'store']);
     Route::get('/mathActive', [MathController::class, 'store']);
 
-    // --------------------------KILLSHEETS-------------------------------------- //
+    // --------------------------KILLSHEETS ADMIN-------------------------------------- //
     Route::get('/killsheets', [adminController::class, 'killsheets'])->name('killsheets');
     Route::get('/killsheetsDatatable', [KillsheetsController::class, 'killsheetsDatatable']);
     Route::post('/killsheetsSave', [KillsheetsController::class, 'store']);
     Route::get('/killsheetsActive', [KillsheetsController::class, 'store']);
+
+
+    Route::post('/KillsheetSave', [KillsheetsController::class, 'store']);
+    Route::get('/obtenerKillsheet', [KillsheetsController::class, 'obtenerKillsheet']);
+
 
     Route::get('/get-iadc-form-content', function (Request $request) {
         $id = $request->get('id', 'default-id');

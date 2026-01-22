@@ -663,3 +663,43 @@ function editarDatoTablaSinAbrirModal(data, form = 'OnlyForm', modalID = 'ModalI
   }
 
 }
+
+
+
+
+function validarFormulario3(form) {
+  var formulario = form;
+
+  formulario.find('input[required]:not([disabled]):visible, textarea[required]:not([disabled]):visible, select[required]:not([disabled]):visible')
+    .addClass('validar')
+    .removeClass('error');
+
+  var campos = formulario.find('.validar');
+  var formularioValido = true;
+
+  campos.each(function () { 
+    var tipoCampo = $(this).attr('type');
+    var valorCampo = $(this).val();
+
+    // Verifica si el campo es un radio o checkbox
+    if (tipoCampo === 'radio' || tipoCampo === 'checkbox') {
+      var nombreGrupo = $(this).attr('name');
+      if ($('input[name="' + nombreGrupo + '"]:checked').length === 0 && $(this).is(':visible')) {
+        $('input[name="' + nombreGrupo + '"]').addClass('error');
+        formularioValido = false;
+      } else {
+        $('input[name="' + nombreGrupo + '"]').removeClass('error');
+      }
+    } 
+    // Valida otros campos visibles
+    else if ((valorCampo === '' || valorCampo === null) && $(this).is(':visible')) {
+      $(this).addClass('error');
+      formularioValido = false;
+    } else {
+      $(this).removeClass('error');
+    }
+  });
+
+  return formularioValido;
+}
+

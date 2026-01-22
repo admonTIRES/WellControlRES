@@ -301,7 +301,7 @@
                     </div>
                     <div class="input-box-iwcf">
                         <span>(A)</span>
-                        <input type="text">
+                        <input type="text" name="PRESION_FUGAR_SEC1" id="PRESION_FUGAR_SEC1">
                     </div>
 
                     <div class="unit-iwcf">psi</div>
@@ -312,7 +312,7 @@
                     </div>
                     <div class="input-box-iwcf">
                         <span>(B)</span>
-                        <input type="text">
+                        <input type="text" name="DENSIDAD_LODO_SEC1" id="DENSIDAD_LODO_SEC1">
                     </div>
                     <div class="unit-iwcf">ppg</div>
                 </div>
@@ -333,7 +333,7 @@
                     <div class="form-text-iwcf-v-sur">=</div>
                     <div class="input-box-iwcf">
                         <span>(C)</span>
-                        <input type="text">
+                        <input type="text" name="PROFUNDIADA_ZAPATA_SEC1" id="PROFUNDIADA_ZAPATA_SEC1">
                     </div>
                     <div class="unit-iwcf">ppg</div>
                 </div>
@@ -351,7 +351,7 @@
                     <div class="form-text-iwcf-v-sur"></div>
                     =
                     <div class="input-box-iwcf">
-                        <input type="text">
+                        <input type="text" name="PRESION_ANULAR_SEC1" id="PRESION_ANULAR_SEC1">
                     </div>
                     <div class="unit-iwcf">psi</div>
                 </div>
@@ -401,11 +401,11 @@
                 </tr>
                 <tr>
                     <td class="td-iwcf-center">
-                        <input type="text" class="input-iwcf">
+                        <input type="text" class="input-iwcf" name="DESPLAZAMIENTO_BOMBA1_SEC1" id="DESPLAZAMIENTO_BOMBA1_SEC1">
                         <div class="label-iwcf">bbls / emboladas (Estroques)</div>
                     </td>
                     <td class="td-iwcf-center">
-                        <input type="text" class="input-iwcf">
+                        <input type="text" class="input-iwcf" name="DESPLAZAMIENTO_BOMBA2_SEC1" id="DESPLAZAMIENTO_BOMBA2_SEC1">
                         <div class="label-iwcf">bbls / emboladas (Estroques)</div>
                     </td>
                 </tr>
@@ -501,26 +501,26 @@
                 </tr>
                 <tr>
                     <td class="td-spm-iwcf">
-                        <input type="text" class="input-spm-iwcf">
+                        <input type="text" class="input-spm-iwcf" name="DATOS_TASA_BOMBA1_SEC1" id="DATOS_TASA_BOMBA1_SEC1">
                         <span class="spm-text">SPM</span>
                     </td>
                     <td class="td-center-iwcf">
-                        <input type="text" class="input-bomba-iwcf">
+                        <input type="text" class="input-bomba-iwcf" name="CAIDA_PRESION_BOMABA1_SEC1" id="CAIDA_PRESION_BOMABA1_SEC1">
                     </td>
                     <td class="td-center-iwcf">
-                        <input type="text" class="input-bomba-iwcf">
+                        <input type="text" class="input-bomba-iwcf" name="CAIDA_DINAMICA_BOMA1_SEC1" id="CAIDA_DINAMICA_BOMA1_SEC1">
                     </td>
                 </tr>
                 <tr>
                     <td class="td-spm-iwcf">
-                        <input type="text" class="input-spm-iwcf">
+                        <input type="text" class="input-spm-iwcf" name="DATOS_TASA_BOMBA2_SEC1" id="DATOS_TASA_BOMBA2_SEC1">
                         <span class="spm-text">SPM</span>
                     </td>
                     <td class="td-center-iwcf">
-                        <input type="text" class="input-bomba-iwcf">
+                        <input type="text" class="input-bomba-iwcf" name="CAIDA_PRESION_BOMABA2_SEC1" id="CAIDA_PRESION_BOMABA2_SEC1">
                     </td>
                     <td class="td-center-iwcf">
-                        <input type="text" class="input-bomba-iwcf">
+                        <input type="text" class="input-bomba-iwcf" name="CAIDA_DINAMICA_BOMA2_SEC1" id="CAIDA_DINAMICA_BOMA2_SEC1">
                     </td>
                 </tr>
             </table>
@@ -598,41 +598,41 @@
                 <div class="section-title-iwcf-v-sur">Lado de perforación actual:</div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Densidad</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="DENSIDAD_POZO_SEC1" id="DENSIDAD_POZO_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">ppg</div>
                 </div>
 
                 <div class="section-title-iwcf-v-sur">Datos de la zapata del revestidor (revestimiento):</div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Tamaño</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="TAMANIO_ZAPATA_SEC1" id="TAMANIO_ZAPATA_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pulg.</div>
                 </div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Profundidad medida</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="PROFUNDIADA_MEDIDA_SEC1" id="PROFUNDIADA_MEDIDA_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pies</div>
                 </div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="PROFUNDIAD_VERTICAL_SEC1" id="PROFUNDIAD_VERTICAL_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pies</div>
                 </div>
 
                 <div class="section-title-iwcf-v-sur">Datos del hoyo:</div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Tamaño</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="TAMANIO_HOYO_SEC1" id="TAMANIO_HOYO_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pulg.</div>
                 </div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Profundidad medida</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="PROFUNDIDAD_MEDIDA_HOYO_SEC1" id="PROFUNDIDAD_MEDIDA_HOYO_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pies</div>
                 </div>
                 <div class="form-row-iwcf-v-sur">
                     <div class="form-label-iwcf-v-sur">Profundidad vertical verdadera</div>
-                    <div class="form-input-iwcf-v-sur"><input type="text"></div>
+                    <div class="form-input-iwcf-v-sur"><input type="text" name="PROFUNDIDAD_VERTICAL_HOYO_SEC1" id="PROFUNDIDAD_VERTICAL_HOYO_SEC1"></div>
                     <div class="form-unit-iwcf-v-sur">pies</div>
                 </div>
             </div>
@@ -859,15 +859,15 @@
                 Tubería de perforación
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT1_SEC2" id="INPUT1_SEC2">
             </td>
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT2_SEC2" id="INPUT2_SEC2">
             </td>
             <td class="col-op">=</td>
             <td class="col-volumen">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT3_SEC2" id="INPUT3_SEC2">
             </td>
             <td class="col-emboladas bloque" rowspan="3">
                 <strong>Volumen</strong>
@@ -886,17 +886,17 @@
                 Tubería de perforación extra pesada
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT4_SEC2" id="INPUT4_SEC2">
             </td>
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT5_SEC2" id="INPUT5_SEC2">
             </td>
             <td class="col-op">=</td>
 
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT6_SEC2" id="INPUT6_SEC2">
                     <span class="op-suma">+</span>
                 </div>
             </td>
@@ -907,16 +907,16 @@
                 Collares (Portamechas) de perforación
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT7_SEC2" id="INPUT7_SEC2">
             </td>
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT8_SEC2" id="INPUT8_SEC2">
             </td>
             <td class="col-op">=</td>
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT9_SEC2" id="INPUT9_SEC2">
                     <span class="op-suma">+</span>
                 </div>
             </td>
@@ -929,20 +929,20 @@
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
                     <strong>(D)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT10_SEC2" id="INPUT10_SEC2">
                     bbls
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
                     <strong>(E)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT11_SEC2" id="INPUT11_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
             <td class="col-tiempo">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT12_SEC2" id="INPUT12_SEC2">
                     Min
                 </div>
             </td>
@@ -953,14 +953,14 @@
                 Collares de perforación en el hoyo (Hueco) abierto
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT13_SEC2" id="INPUT13_SEC2">
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT14_SEC2" id="INPUT14_SEC2">
             </td>
             <td class="col-op">=</td>
             <td class="col-volumen">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT15_SEC2" id="INPUT15_SEC2">
             </td>
         </tr>
 
@@ -969,17 +969,17 @@
                 Tubería de perforación / tubería extra pesada en el hoyo (Hueco) abierto
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT16_SEC2" id="INPUT16_SEC2">
             </td>
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT17_SEC2" id="INPUT17_SEC2">
             </td>
             <td class="col-op">=</td>
 
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT18_SEC2" id="INPUT18_SEC2">
                     <span class="op-suma">+</span>
                 </div>
             </td>
@@ -993,19 +993,19 @@
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
                     <strong>(F)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT19_SEC2" id="INPUT19_SEC2">
                     bbls
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT20_SEC2" id="INPUT20_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
             <td class="col-tiempo">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT21_SEC2" id="INPUT21_SEC2">
                     Min
                 </div>
             </td>
@@ -1016,29 +1016,29 @@
                 Tubería de perforación en el revestidor (Revestimiento)
             </td>
             <td class="col-longitud">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT22_SEC2" id="INPUT22_SEC2">
             </td>
             <td class="col-op">x</td>
             <td class="col-capacidad">
-                <input type="text" class="iwcf-input">
+                <input type="text" class="iwcf-input" name="INPUT23_SEC2" id="INPUT23_SEC2">
             </td>
             <td class="col-op">=</td>
             <td class="col-volumen">
                 <div class="iwcf-inline-group">
                     <strong>(G)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT24_SEC2" id="INPUT24_SEC2">
                     <span class="op-suma">+</span>
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT25_SEC2" id="INPUT25_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
             <td class="col-tiempo">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT26_SEC2" id="INPUT26_SEC2">
                     Min
                 </div>
             </td>
@@ -1051,19 +1051,19 @@
             <td colspan="4" class="col-volumen-total">
                 <div class="iwcf-inline-group">
                     <strong>(F + G) = (H)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT27_SEC2" id="INPUT27_SEC2">
                     <span>bbls</span>
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT28_SEC2" id="INPUT28_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
             <td class="col-tiempo">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT29_SEC2" id="INPUT29_SEC2">
                     Min
                 </div>
             </td>
@@ -1076,19 +1076,19 @@
             <td colspan="4" class="col-volumen-total">
                 <div class="iwcf-inline-group">
                     <strong>(D + H) = (I)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT30_SEC2" id="INPUT30_SEC2">
                     <span>bbls</span>
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT31_SEC2" id="INPUT31_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
             <td class="col-tiempo">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT32_SEC2" id="INPUT32_SEC2">
                     Min
                 </div>
             </td>
@@ -1101,13 +1101,13 @@
             <td colspan="4" class="col-volumen-total">
                 <div class="iwcf-inline-group">
                     (J)
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT33_SEC2" id="INPUT33_SEC2">
                     <span>bbls</span>
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT34_SEC2" id="INPUT34_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
@@ -1120,13 +1120,13 @@
             <td colspan="4" class="col-volumen-total">
                 <div class="iwcf-inline-group">
                     <strong>(I +J)</strong>
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT35_SEC2" id="INPUT35_SEC2">
                     <span>bbls</span>
                 </div>
             </td>
             <td class="col-emboladas">
                 <div class="iwcf-inline-group">
-                    <input type="text" class="iwcf-input-inline">
+                    <input type="text" class="iwcf-input-inline" name="INPUT36_SEC2" id="INPUT36_SEC2">
                     Emb. (Estr.)
                 </div>
             </td>
@@ -1275,7 +1275,7 @@
                         SIDPP (Presión de cierre en la tubería de perforación)
                     </td>
                     <td class="iwcf-input-cell">
-                        <input type="text" class="iwcf-input">
+                        <input type="text" class="iwcf-input" name="PRESION_PERFORACION_SEC3" id="PRESION_PERFORACION_SEC3">
                     </td>
                     <td class="iwcf-unit">
                         psi
@@ -1284,7 +1284,7 @@
                         SICP (Presión de cierre en revestimiento)
                     </td>
                     <td class="iwcf-input-cell">
-                        <input type="text" class="iwcf-input">
+                        <input type="text" class="iwcf-input" name="PRESION_REVESTIMIENTO_SEC3" id="PRESION_REVESTIMIENTO_SEC3">
                     </td>
                     <td class="iwcf-unit">
                         psi
@@ -1294,7 +1294,7 @@
                         (Ganancia en superficie)
                     </td>
                     <td class="iwcf-input-cell">
-                        <input type="text" class="iwcf-input">
+                        <input type="text" class="iwcf-input" name="AUMENTO_VOLUMEN_SEC3" id="AUMENTO_VOLUMEN_SEC3">
                     </td>
                     <td class="iwcf-unit">
                         bbls
@@ -1491,22 +1491,22 @@
                         <div class="kmd-line-bottom">
                             <div class="iwcf-op-base">
                                 <div class="kmd-dotted-stack">
-                                    <input type="text" class="kmd-input">
+                                    <input type="text" class="kmd-input" name="INPUT1_SEC3" id="INPUT1_SEC3">
                                     <div class="kmd-dotted-line"></div>
                                 </div>
                                 <span class="kmd-plus">+</span>
 
                                 <div class="kmd-fraction">
                                     <div class="kmd-numerator">
-                                        <input type="text" class="kmd-input">
+                                        <input type="text" class="kmd-input" name="INPUT2_SEC3" id="INPUT2_SEC3">
                                     </div>
                                     <div class="kmd-denominator">
-                                        <input type="text" class="kmd-input small">
+                                        <input type="text" class="kmd-input small" name="INPUT3_SEC3" id="INPUT3_SEC3">
                                         <span>x 0.052</span>
                                     </div>
                                 </div>
                                 <span class="kmd-equals">=</span>
-                                <input type="text" class="kmd-input result">
+                                <input type="text" class="kmd-input result" name="INPUT4_SEC3" id="INPUT4_SEC3">
                                 <span class="kmd-unit">ppg</span>
                             </div>
                         </div>
@@ -1636,16 +1636,16 @@
                         <div class="icp-operation">
                             <div class="iwcf-op-base">
                                 <div class="icp-line-stack">
-                                    <input type="text" class="icp-input">
+                                    <input type="text" class="icp-input" name="INPUT5_SEC3" id="INPUT5_SEC3">
                                     <div class="icp-line-solid"></div>
                                 </div>
                                 <span class="op">+</span>
                                 <div class="icp-line-stack">
-                                    <input type="text" class="icp-input">
+                                    <input type="text" class="icp-input" name="INPUT6_SEC3" id="INPUT6_SEC3">
                                     <div class="icp-line-dotted"></div>
                                 </div>
                                 <span class="op">=</span>
-                                <input type="text" class="icp-input result">
+                                <input type="text" class="icp-input result" name="INPUT7_SEC3" id="INPUT7_SEC3">
                                 <span class="unit">psi</span>
 
                             </div>
@@ -1805,17 +1805,17 @@
                         </div>
                         <div class="fcp-line fcp-line-bottom">
                             <div class="fcp-stack">
-                                <input type="text" class="fcp-input top">
+                                <input type="text" class="fcp-input top" name="INPUT8_SEC3" id="INPUT8_SEC3">
                                 <div class="fcp-line"></div>
-                                <input type="text" class="fcp-input bottom">
+                                <input type="text" class="fcp-input bottom" name="INPUT9_SEC3" id="INPUT9_SEC3">
                             </div>
                             <span class="fcp-op">x</span>
                             <div class="fcp-dotted-stack">
-                                <input type="text" class="fcp-input dotted-top">
+                                <input type="text" class="fcp-input dotted-top" name="INPUT10_SEC3" id="INPUT10_SEC3">
                                 <div class="fcp-dotted-line"></div>
                             </div>
                             <span class="fcp-op">=</span>
-                            <input type="text" class="fcp-input result">
+                            <input type="text" class="fcp-input result" name="INPUT11_SEC3" id="INPUT11_SEC3">
                             <span class="fcp-unit">psi</span>
                         </div>
                     </td>
@@ -1913,15 +1913,15 @@
             <div class="k-box">
                 <span class="k-text">(K) = ICP - FCP =</span>
                 <div class="k-input-wrapper dotted">
-                    <input class="k-input">
+                    <input type="text" class="k-input" name="INPUT12_SEC3" id="INPUT12_SEC3">
                 </div>
                 <span class="k-text">-</span>
                 <div class="k-input-wrapper dotted">
-                    <input class="k-input">
+                    <input type="text" class="k-input" name="INPUT13_SEC3" id="INPUT13_SEC3">
                 </div>
                 <span class="k-text">=</span>
                 <div class="k-input-wrapper dotted">
-                    <input class="k-input">
+                    <input type="text" class="k-input" name="INPUT14_SEC3" id="INPUT14_SEC3">
                 </div>
                 <span class="k-unit">psi</span>
             </div>
@@ -1934,18 +1934,18 @@
                 <div class="k-fraction">
                     <div class="k-num">
                         <div class="k-input-wrapper solid">
-                            <input class="k-input">
+                            <input type="text" class="k-input" name="INPUT15_SEC3" id="INPUT15_SEC3">
                         </div>
                         x 100
                     </div>
                     <div class="k-den">
                         <div class="k-input-wrapper solid">
-                            <input class="k-input">
+                            <input type="text" class="k-input" name="INPUT16_SEC3" id="INPUT16_SEC3">
                         </div>
                     </div>
                 </div>
                 <span class="k-text">=</span>
-                <input class="k-input">
+                <input type="text" class="k-input" name="INPUT17_SEC3" id="INPUT17_SEC3">
                 <div class="k-fraction wide">
                     <div class="k-num">
                         psi
@@ -2079,10 +2079,12 @@
                 width: 100%;
                 height: 100%;
             }
+
             .graph-grid {
                 width: 100%;
                 height: 100%;
             }
+
             .axis-x {
                 position: absolute;
                 bottom: -28px;
@@ -2127,80 +2129,80 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS1_GRAFICA" id="EMBOLADAS1_GRAFICA"></td>
+                            <td><input type="text" name="PRESION1_GRAFICA" id="PRESION1_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS2_GRAFICA" id="EMBOLADAS2_GRAFICA"></td>
+                            <td><input type="text" name="PRESION2_GRAFICA" id="PRESION2_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS3_GRAFICA" id="EMBOLADAS3_GRAFICA"></td>
+                            <td><input type="text" name="PRESION3_GRAFICA" id="PRESION3_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS4_GRAFICA" id="EMBOLADAS4_GRAFICA"></td>
+                            <td><input type="text" name="PRESION4_GRAFICA" id="PRESION4_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS5_GRAFICA" id="EMBOLADAS5_GRAFICA"></td>
+                            <td><input type="text" name="PRESION5_GRAFICA" id="PRESION5_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS6_GRAFICA" id="EMBOLADAS6_GRAFICA"></td>
+                            <td><input type="text" name="PRESION6_GRAFICA" id="PRESION6_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS7_GRAFICA" id="EMBOLADAS7_GRAFICA"></td>
+                            <td><input type="text" name="PRESION7_GRAFICA" id="PRESION7_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS8_GRAFICA" id="EMBOLADAS8_GRAFICA"></td>
+                            <td><input type="text" name="PRESION8_GRAFICA" id="PRESION8_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS9_GRAFICA" id="EMBOLADAS9_GRAFICA"></td>
+                            <td><input type="text" name="PRESION9_GRAFICA" id="PRESION9_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS10_GRAFICA" id="EMBOLADAS10_GRAFICA"></td>
+                            <td><input type="text" name="PRESION10_GRAFICA" id="PRESION10_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS11_GRAFICA" id="EMBOLADAS11_GRAFICA"></td>
+                            <td><input type="text" name="PRESION11_GRAFICA" id="PRESION11_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS12_GRAFICA" id="EMBOLADAS12_GRAFICA"></td>
+                            <td><input type="text" name="PRESION12_GRAFICA" id="PRESION12_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS13_GRAFICA" id="EMBOLADAS13_GRAFICA"></td>
+                            <td><input type="text" name="PRESION13_GRAFICA" id="PRESION13_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS14_GRAFICA" id="EMBOLADAS14_GRAFICA"></td>
+                            <td><input type="text" name="PRESION14_GRAFICA" id="PRESION14_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS15_GRAFICA" id="EMBOLADAS15_GRAFICA"></td>
+                            <td><input type="text" name="PRESION15_GRAFICA" id="PRESION15_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS16_GRAFICA" id="EMBOLADAS16_GRAFICA"></td>
+                            <td><input type="text" name="PRESION16_GRAFICA" id="PRESION16_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS17_GRAFICA" id="EMBOLADAS17_GRAFICA"></td>
+                            <td><input type="text" name="PRESION17_GRAFICA" id="PRESION17_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS18_GRAFICA" id="EMBOLADAS18_GRAFICA"></td>
+                            <td><input type="text" name="PRESION18_GRAFICA" id="PRESION18_GRAFICA"></td>
                         </tr>
                         <tr>
-                            <td><input></td>
-                            <td><input></td>
+                            <td><input type="text" name="EMBOLADAS19_GRAFICA" id="EMBOLADAS19_GRAFICA"></td>
+                            <td><input type="text" name="PRESION19_GRAFICA" id="PRESION19_GRAFICA"></td>
                         </tr>
                     </tbody>
                 </table>

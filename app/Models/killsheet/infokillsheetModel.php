@@ -21,6 +21,7 @@ class infokillsheetModel extends Model
         'NIVELES_KILLSHEET',
         'DATOS_EJERCICIO_JSON',
         'PREGUNTAS_JSON',
+        'INDICACIONES_KILL',
         'ACTIVO'
 
 

@@ -310,6 +310,17 @@
                         </div>
                     </div>
 
+                    <div class="col-12">
+                        <div class="row">
+
+                            <div class="mb-4">
+                                <label>Instrucciones *</label>
+                                <textarea class="form-control" id="INDICACIONES_KILL" name="INDICACIONES_KILL" rows="5" ></textarea>
+                            </div>
+
+
+                        </div>
+                    </div>
                     <div class="row g-4" id="exercise-containers">
 
                         <div class="col-md-6">

@@ -187,10 +187,12 @@ class KillsheetsController extends Controller
                 );
 
                 $info->update([
-                    'TIPO_ENTE_KILL'            => $request->TIPO_ENTE_KILL,
-                    'TIPO_POZO_KILL'            => $request->TIPO_POZO_KILL,
-                    'TIPO_BOP_KILL'             => $request->TIPO_BOP_KILL,
-                    'TIPO_IDIOMA_KILL'          => $request->TIPO_IDIOMA_KILL,
+                    'TIPO_ENTE_KILL'   => $request->TIPO_ENTE_KILL,
+                    'TIPO_POZO_KILL'   => $request->TIPO_POZO_KILL,
+                    'TIPO_BOP_KILL'    => $request->TIPO_BOP_KILL,
+                    'TIPO_IDIOMA_KILL'  => $request->TIPO_IDIOMA_KILL,
+                    'INDICACIONES_KILL'  => $request->INDICACIONES_KILL,
+
                     'NIVELES_KILLSHEET'    => $request->NIVELES_KILLSHEET ?? [],
                     'DATOS_EJERCICIO_JSON' => $request->DATOS_EJERCICIO_JSON
                         ? json_decode($request->DATOS_EJERCICIO_JSON, true)
@@ -202,10 +204,11 @@ class KillsheetsController extends Controller
             } else {
 
                 $info = infokillsheetModel::create([
-                    'TIPO_ENTE_KILL'            => $request->TIPO_ENTE_KILL,
-                    'TIPO_POZO_KILL'            => $request->TIPO_POZO_KILL,
-                    'TIPO_BOP_KILL'             => $request->TIPO_BOP_KILL,
-                    'TIPO_IDIOMA_KILL'          => $request->TIPO_IDIOMA_KILL,
+                    'TIPO_ENTE_KILL'  => $request->TIPO_ENTE_KILL,
+                    'TIPO_POZO_KILL'  => $request->TIPO_POZO_KILL,
+                    'TIPO_BOP_KILL'   => $request->TIPO_BOP_KILL,
+                    'TIPO_IDIOMA_KILL' => $request->TIPO_IDIOMA_KILL,
+                    'INDICACIONES_KILL'  => $request->INDICACIONES_KILL,
                     'NIVELES_KILLSHEET'    => $request->NIVELES_KILLSHEET ?? [],
                     'DATOS_EJERCICIO_JSON' => $request->DATOS_EJERCICIO_JSON
                         ? json_decode($request->DATOS_EJERCICIO_JSON, true)

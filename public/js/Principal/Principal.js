@@ -1,22 +1,11 @@
 
-document.addEventListener('DOMContentLoaded', function () {
+ document.getElementById('calculadoraDiv').addEventListener('click', function () {
+        window.location.href = '/Calculator';
+    });
 
-    const calculadora = document.getElementById('calculadoraDiv');
-    if (calculadora) {
-        calculadora.addEventListener('click', function () {
-            window.location.href = '/Calculator';
-        });
-    }
-
-    const hojas = document.getElementById('hojasDiv');
-    if (hojas) {
-        hojas.addEventListener('click', function () {
-            window.location.href = '/Killsheet';
-        });
-    }
-
-});
-
+ document.getElementById('hojasDiv').addEventListener('click', function () {
+        window.location.href = '/Killsheet';
+ });
     
 document.addEventListener("DOMContentLoaded", function() {
     const navItems = document.querySelectorAll(".nav-item");

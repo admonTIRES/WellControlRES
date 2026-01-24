@@ -149,7 +149,7 @@ use Illuminate\Support\Str;
     </div>
 </body>
 <!-- SCRIPTS -->
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.11"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.12"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/index.js') }}?v=1.2"></script>

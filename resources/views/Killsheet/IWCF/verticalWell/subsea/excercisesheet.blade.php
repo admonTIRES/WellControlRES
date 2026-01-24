@@ -5,7 +5,7 @@
 <div class="info-container">
     <!-- Header -->
     <div class="header-section">
-        <h1><i class="fas fa-oil-well"></i> Mi primer hoja de matar IWCF para pozos verticales - superficie</h1>
+        <h1><i class="fas fa-oil-well"></i> Práctica de ejercicio de hoja de matar IWCF para pozos verticales - superficie</h1>
     </div>
 
     <style>
@@ -2295,7 +2295,6 @@
                     color: #7a7a7a;
                     font-weight: 600;
                 }
-
             </style>
 
 

@@ -1833,14 +1833,12 @@
                     color: #000;
                 }
 
-                /* TABLA */
                 .iwcf-fcp-table {
                     width: 100%;
                     border-collapse: collapse;
                     table-layout: fixed;
                 }
 
-                /* COLUMNA IZQUIERDA */
                 .fcp-label {
                     width: 24%;
                     padding: 10px;
@@ -1849,17 +1847,14 @@
                     vertical-align: middle;
                 }
 
-                /* COLUMNA FORMULA */
                 .fcp-formula {
                     width: 76%;
                     padding: 8px 12px;
                     display: flex;
                     flex-direction: column;
                     min-height: 110px;
-                    /* 👈 CONTROL PDF */
                 }
 
-                /* LINEAS */
                 .fcp-line {
                     display: flex;
                     align-items: center;
@@ -1867,12 +1862,10 @@
                     gap: 12px;
                 }
 
-                /* PEGA LA LINEA INFERIOR ABAJO */
                 .fcp-line-bottom {
                     margin-top: auto;
                 }
 
-                /* FRACCIÓN */
                 .fcp-fraction {
                     width: 300px;
                     text-align: center;
@@ -2124,6 +2117,71 @@
 
 
             <style>
+                .bloque-preguntas {
+                    margin-top: 30px;
+                    padding: 20px;
+                    border: 2px solid #ccc;
+                    background: #f9f9f9;
+                }
+
+                .titulo-preguntas {
+                    margin-bottom: 20px;
+                }
+
+                .pregunta-item {
+                    margin-bottom: 20px;
+                }
+
+                .pregunta-texto {
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+
+                .respuesta-linea {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .input-pregunta {
+                    border: none;
+                    border-bottom: 2px dotted #000;
+                    width: 200px;
+                    font-size: 16px;
+                    outline: none;
+                }
+
+                .unidad {
+                    font-weight: bold;
+                }
+
+                .pregunta-correcta {
+                    border-bottom: 2px solid #28a745 !important;
+                    background: #eaffea;
+                }
+
+                .pregunta-incorrecta {
+                    border-bottom: 2px solid #dc3545 !important;
+                    background: #ffecec;
+                }
+
+                .pregunta-vacia {
+                    border-bottom: 2px solid #ffc107 !important;
+                    background: #fff8e1;
+                }
+            </style>
+
+
+            <div id="bloque-preguntas" class="bloque-preguntas d-none">
+                <h3 class="titulo-preguntas">Preguntas del ejercicio</h3>
+                <div id="lista-preguntas"></div>
+            </div>
+
+
+
+
+
+            <style>
                 #control-hoja {
                     width: 100%;
                     text-align: center;
@@ -2193,6 +2251,51 @@
                 .d-none {
                     display: none;
                 }
+
+                .resultado-tiempo {
+                    margin-top: 12px;
+                    padding: 10px;
+                    background: #f0f4ff;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                .resultado-box {
+                    background: #e6e6e6;
+                    border-top: 3px solid #3aa757;
+                    padding: 16px 20px;
+                    margin: 12px auto;
+                    max-width: 420px;
+                    text-align: center;
+                    border-radius: 4px;
+                }
+
+                .resultado-box h4 {
+                    margin-bottom: 12px;
+                    font-weight: bold;
+                }
+
+                .res-line {
+                    font-size: 16px;
+                    margin: 6px 0;
+                }
+
+                .res-line.correcta {
+                    color: #1b7f3a;
+                    font-weight: 600;
+                }
+
+                .res-line.incorrecta {
+                    color: #b3261e;
+                    font-weight: 600;
+                }
+
+                .res-line.vacia {
+                    color: #7a7a7a;
+                    font-weight: 600;
+                }
+
             </style>
 
 
@@ -2208,6 +2311,33 @@
                 <div id="resultado-tiempo" class="resultado-tiempo d-none">
                     ⏱ Tiempo total: <span id="tiempo-final"></span>
                 </div>
+
+                <div id="resultado-hoja" class="resultado-box d-none">
+                    <h4>Resultado hoja de matar</h4>
+
+                    <div class="res-line correcta">
+                        ✔ Correctas: <span id="res-correctas">0</span>
+                    </div>
+
+                    <div class="res-line incorrecta">
+                        ✖ Incorrectas: <span id="res-incorrectas">0</span>
+                    </div>
+                </div>
+
+
+                <div id="resultado-preguntas" class="resultado-box d-none">
+                    <h4>Resultado preguntas</h4>
+
+                    <div class="res-line correcta">
+                        ✔ Correctas: <span id="preg-correctas">0</span>
+                    </div>
+
+                    <div class="res-line incorrecta">
+                        ✖ Incorrectas: <span id="preg-incorrectas">0</span>
+                    </div>
+                </div>
+
+
 
                 <button id="btn-nueva-hoja" class="d-none">
                     🔄 Nueva hoja de matar

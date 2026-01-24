@@ -162,7 +162,7 @@ use Illuminate\Support\Str;
 @endif
 
 @if(request()->is('Killsheet/panel/iwcfVertical/surface/exercise'))
-<script src="{{ asset('js/killsheet/iwcf/vertical/excercise.js') }}?v=1.0"></script>
+<script src="{{ asset('js/killsheet/iwcf/vertical/excercise.js') }}?v=1.1"></script>
 @endif
 
 <!-- /SCRIPTS -->

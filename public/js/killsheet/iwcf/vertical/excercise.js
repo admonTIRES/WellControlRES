@@ -67,6 +67,7 @@ function cargarKillsheetsEstudiante() {
             );
 
             cargarRespuestasTecnicas(resp.data.ANSWERS);
+            renderizarPreguntas(resp.data.PREGUNTAS_JSON);
 
         },
     });
@@ -320,32 +321,6 @@ function hojaCompleta() {
 
 
 
-let toastTimer = null;
-
-$(document).on('blur', 'input', function () {
-
-    const $input = $(this);
-
-    const correcto = ($input.data('answer') || '').toString().trim();
-    if (!correcto) return;
-
-    const escrito = $input.val().toString().trim();
-    if (!escrito) return;
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-
-        if (escrito === correcto) {
-            alertToast('Respuesta correcta', 'success', 1500);
-        } else {
-            alertToast('Respuesta incorrecta', 'error', 2000);
-            $input.val('');
-            $input.focus();
-        }
-
-    }, 300);
-});
 
 
 
@@ -374,24 +349,160 @@ $(document).ready(function () {
 
 
 
+
+function evaluarResultadosFinales() {
+
+    let correctas = 0;
+    let incorrectas = 0;
+    let vacias = 0;
+
+    INPUTS_EVALUABLES.forEach(id => {
+
+        const $input = $('#' + id);
+        if (!$input.length || !$input.is(':visible')) return;
+
+        const correcto = ($input.data('answer') || '').toString().trim();
+        const escrito  = ($input.val() || '').toString().trim();
+
+        if (escrito === '') {
+            vacias++;
+            $input.addClass('input-error');
+            return;
+        }
+
+        if (escrito === correcto) {
+            correctas++;
+            $input.removeClass('input-error');
+        } else {
+            incorrectas++;
+            $input.addClass('input-error');
+        }
+    });
+
+    return {
+        correctas,
+        incorrectas,
+        vacias,
+        total: correctas + incorrectas + vacias
+    };
+}
+
+
+
+
+
+function renderizarPreguntas(preguntasJson) {
+
+    if (!preguntasJson) return;
+
+    let preguntas = [];
+
+    if (typeof preguntasJson === 'string') {
+        try {
+            preguntas = JSON.parse(preguntasJson);
+        } catch (e) {
+            console.error('❌ Error parseando PREGUNTAS_JSON', e);
+            return;
+        }
+    } else {
+        preguntas = preguntasJson;
+    }
+
+    if (!Array.isArray(preguntas) || preguntas.length === 0) return;
+
+    const $lista = $('#lista-preguntas');
+    $lista.empty();
+
+    preguntas.forEach((item, index) => {
+
+        const id = `pregunta_${index}`;
+
+        $lista.append(`
+            <div class="pregunta-item">
+                <p class="pregunta-texto">
+                    ${index + 1}. ${item.pregunta}
+                </p>
+
+                <div class="respuesta-linea">
+                    <input 
+                        type="text"
+                        id="${id}"
+                        class="input-pregunta"
+                        data-respuesta="${item.respuesta}"
+                    />
+                    <span class="unidad">${item.unidad}</span>
+                </div>
+            </div>
+        `);
+    });
+
+    $('#bloque-preguntas').removeClass('d-none');
+}
+
+
+
+function evaluarPreguntas() {
+
+    let correctas = 0;
+    let incorrectas = 0;
+    let vacias = 0;
+
+    $('.input-pregunta').each(function () {
+
+        const $input = $(this);
+        const esperado = ($input.data('respuesta') || '').toString().trim();
+        const escrito  = ($input.val() || '').toString().trim();
+
+        $input.removeClass(
+            'pregunta-correcta pregunta-incorrecta pregunta-vacia'
+        );
+
+        if (!escrito) {
+            vacias++;
+            $input.addClass('pregunta-vacia');
+            return;
+        }
+
+        if (escrito === esperado) {
+            correctas++;
+            $input.addClass('pregunta-correcta');
+        } else {
+            incorrectas++;
+            $input.addClass('pregunta-incorrecta');
+        }
+    });
+
+    return {
+        correctas,
+        incorrectas,
+        vacias
+    };
+}
+
+
+
 $('#btn-finalizar-hoja').on('click', function () {
 
     if (cronometroFinalizado) return;
 
-    const resultado = hojaCompleta();
+    const resultadoHoja = hojaCompleta();
 
-    if (resultado.faltantes.includes('NO_INICIADA')) {
+    if (!resultadoHoja.completa) {
         alertToast(
-            'Completa la hoja antes de finalizar',
+            `Faltan ${resultadoHoja.faltantes.length} datos en la hoja`,
             'error',
             2500
         );
         return;
     }
 
-    if (!resultado.completa) {
+
+    const resumenHoja = evaluarResultadosFinales();
+    const resumenPreguntas = evaluarPreguntas();
+
+    if (resumenPreguntas.vacias > 0) {
         alertToast(
-            `Faltan ${resultado.faltantes.length} respuestas por completar`,
+            `Faltan ${resumenPreguntas.vacias} preguntas por responder`,
             'error',
             2500
         );
@@ -399,20 +510,35 @@ $('#btn-finalizar-hoja').on('click', function () {
     }
 
     cronometroFinalizado = true;
-
     clearInterval(cronometroInterval);
     cronometroInterval = null;
 
     const tiempo = $('#cronometro-hoja').text();
 
+
     $('#tiempo-final').text(tiempo);
     $('#resultado-tiempo').removeClass('d-none');
+
+    $('#res-correctas').text(resumenHoja.correctas);
+    $('#res-incorrectas').text(resumenHoja.incorrectas);
+    $('#resultado-hoja').removeClass('d-none');
+
+    $('#preg-correctas').text(resumenPreguntas.correctas);
+    $('#preg-incorrectas').text(resumenPreguntas.incorrectas);
+    $('#preg-vacias').text(resumenPreguntas.vacias);
+    $('#resultado-preguntas').removeClass('d-none');
 
     $('#btn-finalizar-hoja').addClass('d-none');
     $('#btn-nueva-hoja').removeClass('d-none');
 
     alertToast('Hoja finalizada correctamente', 'success', 1500);
+
 });
+
+
+
+
+
 
 
 

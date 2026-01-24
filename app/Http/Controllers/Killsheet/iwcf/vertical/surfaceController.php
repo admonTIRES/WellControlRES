@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 
 class surfaceController extends Controller
 {
-  
+
     public function obtenerKillsheetsfirst()
     {
         try {
@@ -30,189 +30,80 @@ class surfaceController extends Controller
                 ], 401);
             }
 
-            $candidate = DB::table('candidate')
-                ->where('EMAIL_PROJECT', $user->email)
-                ->first();
-
-            if (!$candidate) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No existe registro de candidato'
-                ]);
-            }
-
            
-            $project = DB::table('proyect')
-                ->where('ID_PROJECT', $candidate->ID_PROJECT)
-                ->first();
+            if ((int)$user->rol === 2) {
 
-            if (!$project || !$project->ACCREDITATION_LEVELS_PROJECT) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'El proyecto no tiene niveles asignados'
-                ]);
-            }
+                $killsheet = DB::table('informacion_killsheet')
+                    ->inRandomOrder()
+                    ->first();
 
-            $nivelesProyecto = json_decode(
-                $project->ACCREDITATION_LEVELS_PROJECT,
-                true
-            );
+                if (!$killsheet) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No hay hojas de matar disponibles'
+                    ]);
+                }
+            } else {
 
-       
-            $killsheet = DB::table('informacion_killsheet')->get()
-                ->filter(function ($item) use ($nivelesProyecto) {
+              
 
-                    $nivelesKillsheet = json_decode(
-                        $item->NIVELES_KILLSHEET,
-                        true
-                    );
+                $candidate = DB::table('candidate')
+                    ->where('EMAIL_PROJECT', $user->email)
+                    ->first();
 
-                    if (!is_array($nivelesKillsheet)) return false;
+                if (!$candidate) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No existe registro de candidato'
+                    ]);
+                }
 
-                    return count(array_intersect(
-                        $nivelesProyecto,
-                        $nivelesKillsheet
-                    )) > 0;
-                })
-                ->random(1)
-                ->first();
+                $project = DB::table('proyect')
+                    ->where('ID_PROJECT', $candidate->ID_PROJECT)
+                    ->first();
 
-            if (!$killsheet) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No hay hojas de matar disponibles para tu nivel'
-                ]);
-            }
+                if (!$project || !$project->ACCREDITATION_LEVELS_PROJECT) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'El proyecto no tiene niveles asignados'
+                    ]);
+                }
 
-            $killsheetTecnica = DB::table('killsheet_iwcf_vertical_surface')
-                ->where('INFOKILLSHEET_ID', $killsheet->ID_INFORMACION_KILLSHEET)
-                ->first();
+                $nivelesProyecto = json_decode(
+                    $project->ACCREDITATION_LEVELS_PROJECT,
+                    true
+                );
 
-         
-            $answers = [];
+                $killsheet = DB::table('informacion_killsheet')->get()
+                    ->filter(function ($item) use ($nivelesProyecto) {
 
-            if ($killsheetTecnica) {
+                        $nivelesKillsheet = json_decode(
+                            $item->NIVELES_KILLSHEET,
+                            true
+                        );
 
-                $camposExcluidos = [
-                    'ID_KILLSHEET_IWCF_VERTICAL_SURFACE',
-                    'INFOKILLSHEET_ID',
-                    'ACTIVO',
-                    'created_at',
-                    'updated_at',
-                ];
+                        if (!is_array($nivelesKillsheet)) return false;
 
-                foreach ((array) $killsheetTecnica as $campo => $valor) {
+                        return count(array_intersect(
+                            $nivelesProyecto,
+                            $nivelesKillsheet
+                        )) > 0;
+                    })
+                    ->random(1)
+                    ->first();
 
-                    if (in_array($campo, $camposExcluidos)) {
-                        continue;
-                    }
-
-                    if ($valor === null || $valor === '') {
-                        continue;
-                    }
-
-                    $answers[$campo] = (string) $valor;
+                if (!$killsheet) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No hay hojas de matar disponibles para tu nivel'
+                    ]);
                 }
             }
 
         
-            session([
-                'killsheet_tecnica_' . $user->id => $answers
-            ]);
-
-           
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'ID_INFORMACION_KILLSHEET' => $killsheet->ID_INFORMACION_KILLSHEET,
-                    'DATOS_EJERCICIO_JSON'     => $killsheet->DATOS_EJERCICIO_JSON,
-                    'INDICACIONES_KILL'        => $killsheet->INDICACIONES_KILL ?? '',
-                    'PREGUNTAS_JSON'           => $killsheet->PREGUNTAS_JSON ?? [],
-                    'ANSWERS'                  => $answers, 
-                ]
-            ]);
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al consultar hojas',
-                'error'   => $e->getMessage()
-            ], 500);
-        }
-    }
-
-
-    public function obtenerKillsheetsexercise()
-    {
-        try {
-
-            $user = Auth::user();
-
-            if (!$user) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Usuario no autenticado'
-                ], 401);
-            }
-
-            $candidate = DB::table('candidate')
-                ->where('EMAIL_PROJECT', $user->email)
-                ->first();
-
-            if (!$candidate) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No existe registro de candidato'
-                ]);
-            }
-
-
-            $project = DB::table('proyect')
-                ->where('ID_PROJECT', $candidate->ID_PROJECT)
-                ->first();
-
-            if (!$project || !$project->ACCREDITATION_LEVELS_PROJECT) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'El proyecto no tiene niveles asignados'
-                ]);
-            }
-
-            $nivelesProyecto = json_decode(
-                $project->ACCREDITATION_LEVELS_PROJECT,
-                true
-            );
-
-
-            $killsheet = DB::table('informacion_killsheet')->get()
-                ->filter(function ($item) use ($nivelesProyecto) {
-
-                    $nivelesKillsheet = json_decode(
-                        $item->NIVELES_KILLSHEET,
-                        true
-                    );
-
-                    if (!is_array($nivelesKillsheet)) return false;
-
-                    return count(array_intersect(
-                        $nivelesProyecto,
-                        $nivelesKillsheet
-                    )) > 0;
-                })
-                ->random(1)
-                ->first();
-
-            if (!$killsheet) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No hay hojas de matar disponibles para tu nivel'
-                ]);
-            }
-
             $killsheetTecnica = DB::table('killsheet_iwcf_vertical_surface')
                 ->where('INFOKILLSHEET_ID', $killsheet->ID_INFORMACION_KILLSHEET)
                 ->first();
-
 
             $answers = [];
 
@@ -240,12 +131,11 @@ class surfaceController extends Controller
                 }
             }
 
-
             session([
                 'killsheet_tecnica_' . $user->id => $answers
             ]);
 
-
+          
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -265,4 +155,148 @@ class surfaceController extends Controller
             ], 500);
         }
     }
+
+
+
+    public function obtenerKillsheetsexercise()
+    {
+        try {
+
+            $user = Auth::user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+
+          
+            if ((int)$user->rol === 2) {
+
+                $killsheet = DB::table('informacion_killsheet')
+                    ->inRandomOrder()
+                    ->first();
+
+                if (!$killsheet) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No hay hojas de matar disponibles'
+                    ]);
+                }
+            } else {
+
+              
+
+                $candidate = DB::table('candidate')
+                    ->where('EMAIL_PROJECT', $user->email)
+                    ->first();
+
+                if (!$candidate) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No existe registro de candidato'
+                    ]);
+                }
+
+                $project = DB::table('proyect')
+                    ->where('ID_PROJECT', $candidate->ID_PROJECT)
+                    ->first();
+
+                if (!$project || !$project->ACCREDITATION_LEVELS_PROJECT) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'El proyecto no tiene niveles asignados'
+                    ]);
+                }
+
+                $nivelesProyecto = json_decode(
+                    $project->ACCREDITATION_LEVELS_PROJECT,
+                    true
+                );
+
+                $killsheet = DB::table('informacion_killsheet')->get()
+                    ->filter(function ($item) use ($nivelesProyecto) {
+
+                        $nivelesKillsheet = json_decode(
+                            $item->NIVELES_KILLSHEET,
+                            true
+                        );
+
+                        if (!is_array($nivelesKillsheet)) return false;
+
+                        return count(array_intersect(
+                            $nivelesProyecto,
+                            $nivelesKillsheet
+                        )) > 0;
+                    })
+                    ->random(1)
+                    ->first();
+
+                if (!$killsheet) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No hay hojas de matar disponibles para tu nivel'
+                    ]);
+                }
+            }
+
+           
+            $killsheetTecnica = DB::table('killsheet_iwcf_vertical_surface')
+                ->where('INFOKILLSHEET_ID', $killsheet->ID_INFORMACION_KILLSHEET)
+                ->first();
+
+            $answers = [];
+
+            if ($killsheetTecnica) {
+
+                $camposExcluidos = [
+                    'ID_KILLSHEET_IWCF_VERTICAL_SURFACE',
+                    'INFOKILLSHEET_ID',
+                    'ACTIVO',
+                    'created_at',
+                    'updated_at',
+                ];
+
+                foreach ((array) $killsheetTecnica as $campo => $valor) {
+
+                    if (in_array($campo, $camposExcluidos)) {
+                        continue;
+                    }
+
+                    if ($valor === null || $valor === '') {
+                        continue;
+                    }
+
+                    $answers[$campo] = (string) $valor;
+                }
+            }
+
+            session([
+                'killsheet_tecnica_' . $user->id => $answers
+            ]);
+
+           
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'ID_INFORMACION_KILLSHEET' => $killsheet->ID_INFORMACION_KILLSHEET,
+                    'DATOS_EJERCICIO_JSON'     => $killsheet->DATOS_EJERCICIO_JSON,
+                    'INDICACIONES_KILL'        => $killsheet->INDICACIONES_KILL ?? '',
+                    'PREGUNTAS_JSON'           => $killsheet->PREGUNTAS_JSON ?? [],
+                    'ANSWERS'                  => $answers,
+                ]
+            ]);
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al consultar hojas',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
 }

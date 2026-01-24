@@ -1,15 +1,23 @@
-document.getElementById('calculadoraDiv').addEventListener('click', function() {
-    window.location.href = '/Calculator';
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const calculadora = document.getElementById('calculadoraDiv');
+    if (calculadora) {
+        calculadora.addEventListener('click', function () {
+            window.location.href = '/Calculator';
+        });
+    }
+
+    const hojas = document.getElementById('hojasDiv');
+    if (hojas) {
+        hojas.addEventListener('click', function () {
+            window.location.href = '/Killsheet';
+        });
+    }
+
 });
 
-document.getElementById('hojasDiv').addEventListener('click', function() {
-    window.location.href = '/Killsheet';
-});
-
-// document.getElementById('evaluacionesDiv').addEventListener('click', function() {
-//     window.location.href = '/Evaluation';
-// });
-
+    
 document.addEventListener("DOMContentLoaded", function() {
     const navItems = document.querySelectorAll(".nav-item");
     const tooltip = document.getElementById("tooltip");
@@ -134,6 +142,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+let position = 'top';
 
+if (window.innerWidth > 768) {
+    position = 'top';
+}
 
+if (typeof Swal !== 'undefined') {
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: position,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+
+    window.alertToast = function (
+        msj = 'No ha seleccionado ningún registro',
+        icon = 'error',
+        timer = 3000
+    ) {
+        Toast.fire({
+            icon: icon,
+            title: msj,
+            timer: timer
+        });
+    };
+
+} else {
+
+    window.alertToast = function (msj = 'No ha seleccionado ningún registro') {
+        console.warn('SweetAlert2 no está cargado:', msj);
+    };
+
+}

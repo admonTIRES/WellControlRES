@@ -28,9 +28,8 @@
         <a href="{{ route('home') }}" class="nav-element alert-development" data-title="Modelos 3D">
             <img src="/assets/images/principal/iconModelo3D.png" alt="Átomo" class="nav-icon">
         </a>
-        <a href="{{ route('home') }}" class="nav-element notification alert-development" data-title="Notificaciones">
+        <a  class="nav-element notification alert-development" data-title="Notificaciones">
             <img src="/assets/images/principal/bell3.png" alt="campana" class="nav-icon">
-            <span class="notification-count">3</span>
         </a>
         <!-- Menú desplegable -->
         <div class=" dropdown-menu-container no-tooltip">

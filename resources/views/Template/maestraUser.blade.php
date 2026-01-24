@@ -26,40 +26,39 @@ use Illuminate\Support\Str;
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipbook.js/0.0.1/flipbook.min.css">
-    <link rel="preload" href="../../assets/images/logogif1.gif" as="image">
 
     <link rel="stylesheet" href="{{ asset('css/web.css') }}?v=1.31" media="(min-width: 1024px)">
     <link rel="stylesheet" href="{{ asset('css/mobile.css') }}?v=1.4" media="(max-width: 1023px)">
 
     @if (isset($css_identifier))
-        @switch($css_identifier)
-            @case('principal')
-                <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.22" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
-            @break
-            @case('calculator')
-                <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.4" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}?v=1.6" media="(max-width: 1023px)">
-            @break
-            @case('killSheets')
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.1" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.31" media="(max-width: 1023px)">
-            @break
-            @case('killSheetsPanel')
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.3" media="(max-width: 1023px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.1" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.1" media="(max-width: 1023px)">
-            @break
-            @case('evaluation')
-                <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.1" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.2" media="(max-width: 1023px)">
-            @break
-            @case('IADC_VW_FE')
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/IADC/verticalWell/firstExercise.css') }}?v=1.2" media="(min-width: 1024px)">
-                <link rel="stylesheet" href="{{ asset('css/killsheetsModule/IADC/verticalWell/firstExercise.css') }}?v=1.21" media="(max-width: 1023px)">
-            @break
-        @endswitch
+    @switch($css_identifier)
+    @case('principal')
+    <link rel="stylesheet" href="{{ asset('css/principal/webprincipal.css') }}?v=1.22" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/principal/mobprincipal.css') }}?v=1.11" media="(max-width: 1023px)">
+    @break
+    @case('calculator')
+    <link rel="stylesheet" href="{{ asset('css/calculatorModule/webcalculatorModule.css') }}?v=1.4" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/calculatorModule/mobcalculatorModule.css') }}?v=1.6" media="(max-width: 1023px)">
+    @break
+    @case('killSheets')
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.1" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.31" media="(max-width: 1023px)">
+    @break
+    @case('killSheetsPanel')
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/webkillsheet.css') }}?v=1.0" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/mobkillsheet.css') }}?v=1.3" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.2" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/killsheetPanel/webkillsheetpanel.css') }}?v=1.2" media="(max-width: 1023px)">
+    @break
+    @case('evaluation')
+    <link rel="stylesheet" href="{{ asset('css/evaluationModule/webevaluation.css') }}?v=1.1" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="{{ asset('css/evaluationModule/mobevaluation.css') }}?v=1.2" media="(max-width: 1023px)">
+    @break
+    @case('IADC_VW_FE')
+    <link rel="stylesheet" href="{{ asset('css/killsheetsModule/IADC/verticalWell/firstExercise.css') }}?v=1.4" media="(min-width: 1024px)">
+    @break
+
+    @endswitch
     @endif
     <title>WellControlLearningExperience </title>
     <style>
@@ -82,7 +81,7 @@ use Illuminate\Support\Str;
         </div>
     </div>
     <script>
-        const MAX_LOADING_TIME = 2000; 
+        const MAX_LOADING_TIME = 2000;
         const loadingTimeout = setTimeout(() => {
             const loaderWrapper = document.getElementById('loading');
             if (loaderWrapper) {
@@ -115,11 +114,11 @@ use Illuminate\Support\Str;
             <div class="container-fluid">
                 <div id="contenido_pag">
                     @yield('contenido')
-                    
+
                 </div>
-                 @if (session()->has('original_admin_id'))
-                   <a href="{{ route('test.leave') }}" 
-                            style="
+                @if (session()->has('original_admin_id'))
+                <a href="{{ route('test.leave') }}"
+                    style="
                                 display: inline-flex;
                                 align-items: center;
                                 gap: 8px;
@@ -135,26 +134,37 @@ use Illuminate\Support\Str;
                                 transition: all 0.25s ease-in-out;
                                 margin-top:0.5vw;
                             "
-                            onmouseover="this.style.backgroundColor='#A4D65E'"
-                            onmouseout="this.style.backgroundColor='#236192'">
-                            <i class="fas fa-sign-out-alt" style="font-size: 1rem;"></i>
-                        Salir de la vista de Estudiante (Volver al panel Administrador)
-                    </a>
+                    onmouseover="this.style.backgroundColor='#A4D65E'"
+                    onmouseout="this.style.backgroundColor='#236192'">
+                    <i class="fas fa-sign-out-alt" style="font-size: 1rem;"></i>
+                    Salir de la vista de Estudiante (Volver al panel Administrador)
+                </a>
                 @endif
             </div>
-            <footer class="footer">   
-               
+            <footer class="footer">
+
             </footer>
         </div>
         <!-- /CONTENIDO Y FOOTER -->
     </div>
 </body>
 <!-- SCRIPTS -->
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.11"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/index.js') }}?v=1.2"></script>
 @if(request()->is('Calculator'))
-    <script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.30"></script>
+<script src="{{ asset('js/Calculator/Calculator.js') }}?v=1.30"></script>
 @endif
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.9"></script>  
+
+@if(request()->is('Killsheet/panel/iwcfVertical/surface/firstsheet'))
+<script src="{{ asset('js/killsheet/iwcf/vertical/surface.js') }}"></script>
+@endif
+
+@if(request()->is('Killsheet/panel/iwcfVertical/surface/exercise'))
+<script src="{{ asset('js/killsheet/iwcf/vertical/excercise.js') }}"></script>
+@endif
+
 <!-- /SCRIPTS -->
+
 </html>

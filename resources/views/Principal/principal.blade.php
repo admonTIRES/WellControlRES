@@ -117,6 +117,7 @@
                 </svg>
             </a>
         </div>
+        
     </section>
     <section class="cards-container-bottom">
         <div id="modelsDiv" class="card alert-development">
@@ -183,7 +184,6 @@
 }
 </style>
 
-<script src="/js/Principal/Principal.js?v=1.1"></script>
 @endsection
 
 @php

@@ -41,6 +41,10 @@ use App\Models\Admin\catalogs\Ubicaciones;
 
 use App\Http\Controllers\CertificateController;
 
+//// CONTROLLER KILLSHEET IWCF VERTICAL SURFACE
+
+use App\Http\Controllers\killsheet\iwcf\vertical\surfaceController;
+
 
 use App\Mail\NotificacionVencimientoEstudiante;
 use App\Mail\NotificacionVencimientoCliente;
@@ -78,6 +82,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/Killsheet/practiceExercise/{TIPO}', [KillsheetController::class, 'practiceExercise'])->name('killsheet.practiceExercise');
     Route::get('/Killsheet/exerciseSimulator/{TIPO}', [KillsheetController::class, 'exerciseSimulator'])->name('killsheet.exerciseSimulator');
     Route::get('/Killsheet/quickExercise/{TIPO}', [KillsheetController::class, 'quickExercise'])->name('killsheet.quickExercise');
+
+
+    ///  KILLSHEET IWCF VERTICAL SURFACE
+
+    Route::get('/Killsheet/panel/iwcfVertical/surface/firstsheet', function () {  return view('Killsheet.IWCF.verticalWell.subsea.myfirstsheet'); });
+    Route::get('/obtenerKillsheetsfirst', [surfaceController::class, 'obtenerKillsheetsfirst']);
+
+    Route::get('/Killsheet/panel/iwcfVertical/surface/exercise', function () {return view('Killsheet.IWCF.verticalWell.subsea.excercisesheet');});
+    Route::get('/obtenerKillsheetsexercise', [surfaceController::class, 'obtenerKillsheetsexercise']);
+
+
+    
 });
 
 

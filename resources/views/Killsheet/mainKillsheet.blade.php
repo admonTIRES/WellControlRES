@@ -36,41 +36,41 @@
             <img src="/assets/images/principal/logoSmithMasonCO.png" />
         </h2>
         @if(session('simulating') || session('ACCREDITING_ENTITY_PROJECT') === 'Entidad de Prueba')
-            {{-- Mostrar ambos ítems en modo simulación --}}
-            <div class="options">
-                <div class="option-card">
-                    <img class="option-image" src="/assets/images/iadc.png" alt="IADC logo" />
-                </div>
-                <div class="option-card" data-company="iwcf">
-                    <img class="option-image" src="/assets/images/iwcflogo.png" alt="IWCF logo" />
-                </div>
+        {{-- Mostrar ambos ítems en modo simulación --}}
+        <div class="options">
+            <div class="option-card">
+                <img class="option-image" src="/assets/images/iadc.png" alt="IADC logo" />
             </div>
+            <div class="option-card" data-company="iwcf">
+                <img class="option-image" src="/assets/images/iwcflogo.png" alt="IWCF logo" />
+            </div>
+        </div>
         @else
-            @if((int) session('ACCREDITING_ENTITY_PROJECT') === 1)
-                <div class="options">
-                    <div class="option-card">
-                        <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
-                        <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
-                        <!-- <button class="select-btn">
+        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 1)
+        <div class="options">
+            <div class="option-card">
+                <!-- <p class="option-text">{{ __('Practice kill sheets based on IADC guidelines. Understand how to calculate pressures and volumes for well control.') }}</p> -->
+                <img class="option-image" src="/assets/images/iadc.png" alt="Check icon" />
+                <!-- <button class="select-btn">
                             <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
                         </button> -->
-                    </div>
-                </div>
-            @endif
-            @if((int) session('ACCREDITING_ENTITY_PROJECT') === 2)
-            <div class="container2">
-                <div class="options">             
-                    <div class="option-card" data-company="iwcf">
-                        <!-- <h3 class="option-title">IWCF</h3> -->
-                        <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
-                        <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
-                        <!-- <button class="select-btn">
+            </div>
+        </div>
+        @endif
+        @if((int) session('ACCREDITING_ENTITY_PROJECT') === 2)
+        <div class="container2">
+            <div class="options">
+                <div class="option-card" data-company="iwcf">
+                    <!-- <h3 class="option-title">IWCF</h3> -->
+                    <!-- <p class="option-text">{{ __('Practice IWCF-format kill sheets. Strengthen your well control skills with real-world scenarios and calculations.') }}</p> -->
+                    <img class="option-image" src="/assets/images/iwcflogo.png" alt="Check icon" />
+                    <!-- <button class="select-btn">
                             <img src="/assets/images/principal/flecha.png" alt="Check icon" /> {{ __('Go') }}
                         </button> -->
-                    </div>
                 </div>
             </div>
-            @endif
+        </div>
+        @endif
         @endif
 
     </div>
@@ -78,19 +78,105 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const beaver = document.querySelector('.beaver');
-        beaver.addEventListener('mouseover', function () {
+        beaver.addEventListener('mouseover', function() {
             this.style.animation = 'wave 0.5s infinite alternate';
         });
 
-        beaver.addEventListener('mouseout', function () {
+        beaver.addEventListener('mouseout', function() {
             this.style.animation = 'wave 2s infinite alternate';
         });
 
         const selectButtons = document.querySelectorAll('.option-card');
         selectButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
+                const card = this.closest('.option-card');
+                const companyName = card.dataset.company;
+                const companyLogo = card.querySelector('.option-image').src;
+
+                if (companyName === "iwcf") {
+                    Swal.fire({
+                        html: `
+                            <div class="modal-content">
+                                <img src="${companyLogo}" alt="${companyName} Logo" class="modal-logo">
+                                <h3 class="modal-subtitle">Hoja de matar por IWCF</h3>
+                                <p class="modal-text">Hoja de matar para pozos verticales y desviados.</p>
+                                <div class="modal-buttons">
+                                    <button class="modal-btn modal-btn-secondary" id="iwcfVertical">
+                                        <img src="/assets/images/principal/flecha.png" alt="Icon"> Pozo Vertical
+                                    </button>
+                                    
+                                </div>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        width: '600px',
+                        customClass: {
+                            container: 'custom-swal-container',
+                            popup: 'custom-swal-popup'
+                        },
+                        didOpen: () => {
+                            document.getElementById('iwcfVertical').addEventListener('click', function() {
+                                window.location.href = "{{ route('killsheet.panel', ['TIPO' => 'iwcfVertical']) }}";
+                            });
+
+                          
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        html: `
+                            <div class="modal-content">
+                                <img src="/assets/images/iadc.png" alt="${companyName} Logo" class="modal-logo">
+                                <h3 class="modal-subtitle">Hoja de matar por Smith Mason & Co</h3>
+                                <p class="modal-text">Hoja de matar para pozos verticales.</p>
+                                <div class="modal-buttons">
+                                    <button class="modal-btn modal-btn-primary" id="smithButton">
+                                        <img src="/assets/images/principal/flecha.png" alt="Check icon"> Pozo Vertical
+                                    </button>
+                                </div>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        width: '600px',
+                        customClass: {
+                            container: 'custom-swal-container',
+                            popup: 'custom-swal-popup'
+                        },
+                        didOpen: () => {
+                            document.getElementById('smithButton').addEventListener('click', function() {
+                                // Muestra mensaje de confirmación antes de redireccionar
+
+                                window.location.href = "{{ route('killsheet.panel', ['TIPO' => 'iadcVertical']) }}";
+
+
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const beaver = document.querySelector('.beaver');
+        beaver.addEventListener('mouseover', function() {
+            this.style.animation = 'wave 0.5s infinite alternate';
+        });
+
+        beaver.addEventListener('mouseout', function() {
+            this.style.animation = 'wave 2s infinite alternate';
+        });
+
+        const selectButtons = document.querySelectorAll('.option-card');
+        selectButtons.forEach(button => {
+            button.addEventListener('click', function() {
                 const card = this.closest('.option-card');
                 const companyName = card.dataset.company;
                 const companyLogo = card.querySelector('.option-image').src;
@@ -120,11 +206,11 @@
                             popup: 'custom-swal-popup'
                         },
                         didOpen: () => {
-                            document.getElementById('iwcfVertical').addEventListener('click', function () {
+                            document.getElementById('iwcfVertical').addEventListener('click', function() {
                                 window.location.href = "{{ route('killsheet.panel', ['TIPO' => 'iwcfVertical']) }}";
                             });
 
-                            document.getElementById('iwcfDesviado').addEventListener('click', function () {
+                            document.getElementById('iwcfDesviado').addEventListener('click', function() {
                                 window.location.href = "{{ route('killsheet.panel', ['TIPO' => 'iwcfDeviated']) }}";
                             });
                         }
@@ -151,12 +237,12 @@
                             popup: 'custom-swal-popup'
                         },
                         didOpen: () => {
-                            document.getElementById('smithButton').addEventListener('click', function () {
+                            document.getElementById('smithButton').addEventListener('click', function() {
                                 // Muestra mensaje de confirmación antes de redireccionar
-                               
-                                        window.location.href =  "{{ route('killsheet.panel', ['TIPO' => 'iadcVertical']) }}";
-                                  
-                               
+
+                                window.location.href = "{{ route('killsheet.panel', ['TIPO' => 'iadcVertical']) }}";
+
+
                             });
                         }
                     });
@@ -164,7 +250,8 @@
             });
         });
     });
-</script>
+</script> -->
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

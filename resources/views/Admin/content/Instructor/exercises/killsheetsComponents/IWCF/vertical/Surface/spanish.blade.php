@@ -1960,7 +1960,7 @@
 
 
 
-        <style>
+        <!-- <style>
             /* CONTENEDOR GENERAL */
             .iwcf-graph-section {
                 display: grid;
@@ -2229,7 +2229,7 @@
             </div>
 
             <br>
-        </div>
+        </div> -->
 
 
 

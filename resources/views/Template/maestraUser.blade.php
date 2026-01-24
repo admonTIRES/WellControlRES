@@ -149,7 +149,7 @@ use Illuminate\Support\Str;
     </div>
 </body>
 <!-- SCRIPTS -->
-<script src="{{ asset('js/Principal/Principal.js') }}?v=1.12"></script>
+<script src="{{ asset('js/Principal/Principal.js') }}?v=1.13"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/index.js') }}?v=1.2"></script>
@@ -158,11 +158,11 @@ use Illuminate\Support\Str;
 @endif
 
 @if(request()->is('Killsheet/panel/iwcfVertical/surface/firstsheet'))
-<script src="{{ asset('js/killsheet/iwcf/vertical/surface.js') }}"></script>
+<script src="{{ asset('js/killsheet/iwcf/vertical/surface.js') }}?v=1.0"></script>
 @endif
 
 @if(request()->is('Killsheet/panel/iwcfVertical/surface/exercise'))
-<script src="{{ asset('js/killsheet/iwcf/vertical/excercise.js') }}"></script>
+<script src="{{ asset('js/killsheet/iwcf/vertical/excercise.js') }}?v=1.0"></script>
 @endif
 
 <!-- /SCRIPTS -->

@@ -9,6 +9,12 @@
     </div>
 
     <style>
+        .input-error {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff0f0;
+        }
+
+
         #hoja-matar-card {
             position: fixed;
             z-index: 9999;
@@ -143,6 +149,7 @@
     </div>
 
 
+
     <div class="hoja-fab-wrapper">
         <div class="fab-label">Datos <br>del<br> ejercicio</div>
 
@@ -150,6 +157,8 @@
             📄
         </div>
     </div>
+
+
 
 
 
@@ -2184,19 +2193,22 @@
                 .d-none {
                     display: none;
                 }
-                
             </style>
+
 
 
             <div id="control-hoja">
 
                 <div id="cronometro-hoja" class="cronometro-oculto">00:00:00</div>
+
                 <button id="btn-finalizar-hoja">
                     ✔ Finalizar hoja de matar
                 </button>
+
                 <div id="resultado-tiempo" class="resultado-tiempo d-none">
                     ⏱ Tiempo total: <span id="tiempo-final"></span>
                 </div>
+
                 <button id="btn-nueva-hoja" class="d-none">
                     🔄 Nueva hoja de matar
                 </button>

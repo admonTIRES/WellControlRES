@@ -1,3 +1,47 @@
+
+
+let position = 'top';
+
+if (window.innerWidth > 768) {
+    position = 'top';
+}
+
+if (typeof Swal !== 'undefined') {
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: position,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+
+    window.alertToast = function (
+        msj = 'No ha seleccionado ningún registro',
+        icon = 'error',
+        timer = 3000
+    ) {
+        Toast.fire({
+            icon: icon,
+            title: msj,
+            timer: timer
+        });
+    };
+
+} else {
+
+    window.alertToast = function (msj = 'No ha seleccionado ningún registro') {
+        console.warn('SweetAlert2 no está cargado:', msj);
+    };
+
+}
+
+
+
+
 $(document).ready(function () {
     cargarKillsheetsEstudiante();
 
@@ -197,8 +241,16 @@ $(document).on('mouseup', function () {
 
 ///// LLENAR HOJA DE MATAR
 
+let INPUTS_EVALUABLES = [];
+let hojaIniciada = false;
+
+
+
 
 function cargarRespuestasTecnicas(answers) {
+
+    INPUTS_EVALUABLES = [];
+    hojaIniciada = false;
 
     if (!answers) return;
 
@@ -209,10 +261,62 @@ function cargarRespuestasTecnicas(answers) {
         if ($input.length) {
             $input
                 .data('answer', String(answers[inputId]).trim())
-                .val(''); 
+                .val('');
+
+            INPUTS_EVALUABLES.push(inputId);
         }
     });
+
 }
+
+$(document).on('input', 'input', function () {
+
+    if ($(this).data('answer') !== undefined) {
+        hojaIniciada = true;
+    }
+
+    $(this).removeClass('input-error');
+});
+
+
+
+function hojaCompleta() {
+
+    let faltantes = [];
+    let evaluados = [];
+
+    if (!hojaIniciada) {
+        return {
+            completa: false,
+            faltantes: ['NO_INICIADA']
+        };
+    }
+
+    INPUTS_EVALUABLES.forEach(id => {
+
+        const $input = $('#' + id);
+
+        if (!$input.length || !$input.is(':visible')) return;
+
+        const correcto = ($input.data('answer') || '').toString().trim();
+        const escrito  = ($input.val() || '').toString().trim();
+
+        evaluados.push(id);
+
+        if (correcto !== '' && escrito === '') {
+            faltantes.push(id);
+            $input.addClass('input-error');
+        }
+    });
+
+   
+
+    return {
+        completa: faltantes.length === 0,
+        faltantes
+    };
+}
+
 
 
 
@@ -233,15 +337,10 @@ $(document).on('blur', 'input', function () {
     toastTimer = setTimeout(() => {
 
         if (escrito === correcto) {
-
             alertToast('Respuesta correcta', 'success', 1500);
-
         } else {
-
             alertToast('Respuesta incorrecta', 'error', 2000);
-
             $input.val('');
-
             $input.focus();
         }
 
@@ -250,7 +349,6 @@ $(document).on('blur', 'input', function () {
 
 
 
-//// CRONOMETRO
 let segundos = 0;
 let cronometroInterval = null;
 let cronometroFinalizado = false;
@@ -269,15 +367,36 @@ function iniciarCronometro() {
     }, 1000);
 }
 
-// Arranca al cargar la vista
 $(document).ready(function () {
     iniciarCronometro();
 });
 
 
+
+
 $('#btn-finalizar-hoja').on('click', function () {
 
-    if (cronometroFinalizado) return; // 🔒 evita doble click
+    if (cronometroFinalizado) return;
+
+    const resultado = hojaCompleta();
+
+    if (resultado.faltantes.includes('NO_INICIADA')) {
+        alertToast(
+            'Completa la hoja antes de finalizar',
+            'error',
+            2500
+        );
+        return;
+    }
+
+    if (!resultado.completa) {
+        alertToast(
+            `Faltan ${resultado.faltantes.length} respuestas por completar`,
+            'error',
+            2500
+        );
+        return;
+    }
 
     cronometroFinalizado = true;
 
@@ -286,20 +405,16 @@ $('#btn-finalizar-hoja').on('click', function () {
 
     const tiempo = $('#cronometro-hoja').text();
 
-    // Mostrar resultado
     $('#tiempo-final').text(tiempo);
     $('#resultado-tiempo').removeClass('d-none');
 
-    // Ocultar finalizar
     $('#btn-finalizar-hoja').addClass('d-none');
-
-    // Mostrar nueva hoja
     $('#btn-nueva-hoja').removeClass('d-none');
 
-    console.log('⏱ Tiempo total HH:MM:SS:', tiempo);
-
-    alertToast('Tiempo registrado correctamente', 'success', 1500);
+    alertToast('Hoja finalizada correctamente', 'success', 1500);
 });
+
+
 
 
 $('#btn-nueva-hoja').on('click', function () {

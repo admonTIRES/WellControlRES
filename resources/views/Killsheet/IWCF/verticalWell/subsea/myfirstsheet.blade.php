@@ -9,6 +9,12 @@
     </div>
 
     <style>
+        .input-error {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff0f0;
+        }
+
+        
         #hoja-matar-card {
             position: fixed;
             z-index: 9999;

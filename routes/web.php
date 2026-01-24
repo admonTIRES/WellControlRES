@@ -43,8 +43,7 @@ use App\Http\Controllers\CertificateController;
 
 //// CONTROLLER KILLSHEET IWCF VERTICAL SURFACE
 
-use App\Http\Controllers\killsheet\iwcf\vertical\surfaceController;
-
+use App\Http\Controllers\Killsheet\iwcf\vertical\surfaceController;
 
 use App\Mail\NotificacionVencimientoEstudiante;
 use App\Mail\NotificacionVencimientoCliente;

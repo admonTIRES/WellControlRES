@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\killsheet\iwcf\vertical;
+namespace App\Http\Controllers\Killsheet\iwcf\vertical;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Hash;
 
 
 class surfaceController extends Controller
+
+
+
 {
 
     public function obtenerKillsheetsfirst()

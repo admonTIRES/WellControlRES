@@ -701,18 +701,10 @@ class WizardManager {
                     <input type="text" class="form-control empresa-name" 
                         name="empresa_${empresaId}" value="${empresaName}" readonly />
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Cantidad de estudiantes: *</label>
-                    <input type="number" class="form-control student-count" 
-                        name="studentCount_${empresaId}"
-                        placeholder="Número de estudiantes" min="1" max="50" 
-                        value="${studentCount || ''}" />
-                    <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-                </div>
                 <div class="col-md-3 mt-3 d-flex align-items-center">
                     <button type="button" class="btn btn-info action-button generate-students"
                             data-empresa="${empresaId}">
-                        <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+                        <i class="ri-user-add-line me-2"></i>Agregar estudiantes
                     </button>
                 </div>
             </div>
@@ -726,6 +718,7 @@ class WizardManager {
                                 <th>#</th>
                                 <th>Empresa</th>
                                 <th style="min-width: 200px;">Razón Social *</th>
+                                <th>Nivel *</th>
                                 <th>Apellidos *</th>
                                 <th>Nombre *</th>
                                 <th>Segundo nombre</th>
@@ -757,18 +750,11 @@ class WizardManager {
                     <input type="text" class="form-control empresa-name" 
                         name="empresa_${empresaId}" value="${empresaName}" readonly />
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">Cantidad de estudiantes: *</label>
-                    <input type="number" class="form-control student-count" 
-                        name="studentCount_${empresaId}"
-                        placeholder="Número de estudiantes" min="1" max="50" 
-                        value="${studentCount || ''}" />
-                    <div class="error-message">Ingresa una cantidad válida (1-50)</div>
-                </div>
+               
                 <div class="col-md-3 mt-3 d-flex align-items-center">
                     <button type="button" class="btn btn-info action-button generate-students"
                             data-empresa="${empresaId}">
-                        <i class="ri-user-add-line me-2"></i>Generar Estudiantes
+                        <i class="ri-user-add-line me-2"></i>Agregar estudiantes
                     </button>
                 </div>
             </div>
@@ -782,6 +768,7 @@ class WizardManager {
                                 <th>#</th>
                                 <th>Empresa *</th>
                                 <th style="min-width: 200px;">Razón Social *</th>
+                                <th>Nivel *</th>
                                 <th>CR *</th>
                                 <th>Apellidos *</th>
                                 <th>Nombre *</th>
@@ -813,89 +800,129 @@ class WizardManager {
             section.querySelector(`.generate-students`).addEventListener('click', () => {
                 this.generateStudentsForEmpresa(empresaId);
             });
+
             section.querySelector(`.regenerate-passwords`).addEventListener('click', () => {
                 this.regenerateAllPasswordsForEmpresa(empresaId);
             });
 
-            if (students.length > 0) {
+               if (students.length > 0) {
 
-                if (!this.students[empresaId]) {
-                    this.students[empresaId] = [];
+                    this.students[empresaId] = students.map((student, index) => ({
+                        id: index + 1,
+                        idCandidate: student.ID_CANDIDATE || null,
+                        empresa: empresaName,
+                        empresaId: empresaId,
+                        companyId: student.COMPANY_ID_PROJECT || empresaRealId,
+                        razonSocial: student.RAZON_SOCIAL_PROJECT || '',
+                        cr: student.CR_PROJECT || '',
+                        levelstudents: student.LEVEL || '',
+                        lastName: student.LAST_NAME_PROJECT || '',
+                        firstName: student.FIRST_NAME_PROJECT || '',
+                        mdName: student.MIDDLE_NAME_PROJECT || '',
+                        dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
+                        idExp: student.ID_NUMBER_PROJECT || '',
+                        cargo: student.POSITION_PROJECT || '',
+                        membresia: student.MEMBERSHIP_PROJECT || '',
+                        email: student.EMAIL_PROJECT || '',
+                        password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
+                        USER_ID_PROJECT: student.USER_ID_PROJECT || null
+                    }));
+
+                    this.renderStudentsTableForEmpresa(empresaId);
+                    document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
                 }
+            });
 
-                this.students[empresaId] = students.map((student, index) => ({
-                    id: index + 1,
-                    idCandidate: student.ID_CANDIDATE || null,
-                    empresa: empresaName,
-                    empresaId: empresaId,
-                    companyId: student.COMPANY_ID_PROJECT || empresaRealId,
-                    razonSocial: student.RAZON_SOCIAL_PROJECT || '',
-                    cr: student.CR_PROJECT || '',
-                    lastName: student.LAST_NAME_PROJECT || '',
-                    firstName: student.FIRST_NAME_PROJECT || '',
-                    mdName: student.MIDDLE_NAME_PROJECT || '',
-                    dob: student.BIRTH_DATE_PROJECT || student.DOB_PROJECT || '',
-                    idExp: student.ID_NUMBER_PROJECT || '',
-                    cargo: student.POSITION_PROJECT || '',
-                    membresia: student.MEMBERSHIP_PROJECT || '',
-                    email: student.EMAIL_PROJECT || '',
-                    password: student.PASSWORD_PROJECT || this.generateRandomPassword(),
-                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
-                }));
-
-                this.renderStudentsTableForEmpresa(empresaId);
-            } else {
-            }
-        });
     }
-    generateStudentsForEmpresa(empresaId) {
+    // generateStudentsForEmpresa(empresaId) {
+    //     const empresaSection = document.getElementById(`empresa-${empresaId}`);
+    //     const countInput = empresaSection.querySelector('.student-count');
+    //     const count = parseInt(countInput.value);
+    //     const empresa = empresaSection.dataset.empresa;
+    //     const empresaRealId = empresaSection.dataset.empresaRealId ||
+    //         empresaSection.querySelector('.empresa-real-id')?.value || '0';
+
+
+    //     if (!count || count < 1 || count > 50) {
+    //         this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
+    //         return;
+    //     }
+
+    //     this.clearError(countInput);
+
+    //     if (!this.students[empresaId]) {
+    //         this.students[empresaId] = [];
+    //     }
+
+    //     this.students[empresaId] = [];
+
+    //     for (let i = 0; i < count; i++) {
+    //         this.students[empresaId].push({
+    //             id: i + 1,
+    //             empresa: empresa,
+    //             empresaId: empresaId,
+    //             companyId: empresaRealId, 
+    //             razonSocial: '',
+    //             cr: '',
+    //             levelstudents: '',
+    //             lastName: '',
+    //             firstName: '',
+    //             mdName: '',
+    //             dob: '',
+    //             idExp: '',
+    //             cargo: '',
+    //             membresia: '',
+    //             email: '',
+    //             password: this.generateRandomPassword()
+    //         });
+    //     }
+
+
+    //     this.renderStudentsTableForEmpresa(empresaId);
+    //     document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
+    // }
+
+
+        generateStudentsForEmpresa(empresaId) {
         const empresaSection = document.getElementById(`empresa-${empresaId}`);
-        const countInput = empresaSection.querySelector('.student-count');
-        const count = parseInt(countInput.value);
         const empresa = empresaSection.dataset.empresa;
         const empresaRealId = empresaSection.dataset.empresaRealId ||
             empresaSection.querySelector('.empresa-real-id')?.value || '0';
-
-
-        if (!count || count < 1 || count > 50) {
-            this.showError(countInput, 'Ingresa una cantidad válida entre 1 y 50');
-            return;
-        }
-
-        this.clearError(countInput);
 
         if (!this.students[empresaId]) {
             this.students[empresaId] = [];
         }
 
-        this.students[empresaId] = [];
+        this.syncStudentsFromDOM(empresaId);
 
-        for (let i = 0; i < count; i++) {
-            this.students[empresaId].push({
-                id: i + 1,
-                empresa: empresa,
-                empresaId: empresaId,
-                companyId: empresaRealId, 
-                razonSocial: '',
-                cr: '',
-                lastName: '',
-                firstName: '',
-                mdName: '',
-                dob: '',
-                idExp: '',
-                cargo: '',
-                membresia: '',
-                email: '',
-                password: this.generateRandomPassword()
-            });
-        }
+            
+        const nextIndex = this.students[empresaId].length + 1;
 
+        this.students[empresaId].push({
+            id: nextIndex,
+            empresa: empresa,
+            empresaId: empresaId,
+            companyId: empresaRealId,
+            razonSocial: '',
+            cr: '',
+            levelstudents: '',
+            lastName: '',
+            firstName: '',
+            mdName: '',
+            dob: '',
+            idExp: '',
+            cargo: '',
+            membresia: '',
+            email: '',
+            password: this.generateRandomPassword()
+        });
 
+        // Render normal (NO SE TOCA)
         this.renderStudentsTableForEmpresa(empresaId);
         document.getElementById(`studentsContainer_${empresaId}`).style.display = 'block';
     }
 
-
+    
     renderStudentsTableForEmpresa(empresaId) {
         const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
         tbody.innerHTML = '';
@@ -919,6 +946,24 @@ class WizardManager {
                 optionsHTML += `<option value="${razonSocialValue}" ${selected}>${razonSocialValue}</option>`;
             });
 
+            let nivelesOptionsHTML = '<option value="">Seleccione un nivel</option>';
+
+            window.niveles.forEach(nivel => {
+                const value = nivel.ID_CATALOGO_NIVELACREDITACION;
+                const text  = nivel.NOMBRE_NIVEL;
+
+                const selected = String(student.levelstudents) === String(value)
+                    ? 'selected'
+                    : '';
+
+                nivelesOptionsHTML += `
+                    <option value="${value}" ${selected}>
+                        ${text}
+                    </option>
+                `;
+            });
+
+
             const acreditacionElegida = $('#ACCREDITING_ENTITY_PROJECT').val() || '0';
 
             if (acreditacionElegida === '1') { // IADC
@@ -941,6 +986,12 @@ class WizardManager {
                         ${optionsHTML}
                     </select>
                     <div class="error-message">La razón social es requerida</div>
+                </td>
+                <td>
+                   <select class="form-select input-lg" name="levelstudents"  style="min-width: 200px;">
+                        ${nivelesOptionsHTML}
+                    </select>
+                    <div class="error-message">El nivel es requerido</div>
                 </td>
                 <td>
                     <input type="text" class="form-control input-lg" 
@@ -1021,6 +1072,12 @@ class WizardManager {
                         ${optionsHTML}
                     </select>
                     <div class="error-message">La razón social es requerida</div>
+                </td>
+                <td>
+                   <select class="form-select input-lg" name="levelstudents"  style="min-width: 200px;">
+                        ${nivelesOptionsHTML}
+                    </select>
+                    <div class="error-message">El nivel es requerido</div>
                 </td>
                 <td>
                     <input type="text" class="form-control input-lg" 
@@ -1094,6 +1151,33 @@ class WizardManager {
         this.addDateFormatting(empresaId);
     }
 
+
+    syncStudentsFromDOM(empresaId) {
+        const tbody = document.getElementById(`studentsTableBody_${empresaId}`);
+        if (!tbody || !this.students[empresaId]) return;
+
+        const rows = tbody.querySelectorAll('tr');
+
+        rows.forEach((row, index) => {
+            const student = this.students[empresaId][index];
+            if (!student) return;
+
+            student.razonSocial = row.querySelector('[name="razonSocial"]')?.value || '';
+            student.levelstudents = row.querySelector('[name="levelstudents"]')?.value || '';
+            student.cr = row.querySelector('[name="cr"]')?.value || '';
+            student.lastName = row.querySelector('[name="lastName"]')?.value || '';
+            student.firstName = row.querySelector('[name="firstName"]')?.value || '';
+            student.mdName = row.querySelector('[name="mdName"]')?.value || '';
+            student.dob = row.querySelector('[name="dob"]')?.value || '';
+            student.idExp = row.querySelector('[name="idExp"]')?.value || '';
+            student.cargo = row.querySelector('[name="cargo"]')?.value || '';
+            student.membresia = row.querySelector('[name="membresia"]')?.value || '';
+            student.email = row.querySelector('[name="email"]')?.value || '';
+        });
+    }
+
+    
+    
     addDateFormatting(empresaId) {
         const dobInputs = document.querySelectorAll(`#studentsTableBody_${empresaId} .dob-input`);
 
@@ -1101,7 +1185,6 @@ class WizardManager {
             input.addEventListener('input', function (e) {
                 let value = e.target.value.replace(/\D/g, '');
 
-                // Aplicar formato dd/mm/aaaa
                 if (value.length > 2) {
                     value = value.substring(0, 2) + '/' + value.substring(2);
                 }
@@ -1236,6 +1319,7 @@ class WizardManager {
                             ID_NUMBER_PROJECT: row.querySelector('input[name="idExp"]')?.value || '',
                             POSITION_PROJECT: row.querySelector('input[name="cargo"]')?.value || '',
                             MEMBERSHIP_PROJECT: row.querySelector('input[name="membresia"]')?.value || '',
+                            LEVEL: row.querySelector('select[name="levelstudents"]')?.value || '',
                             EMAIL_PROJECT: row.querySelector('input[name="email"]')?.value || '',
                             PASSWORD_PROJECT: student.password,
                             USER_ID_PROJECT: student.USER_ID_PROJECT
@@ -1728,6 +1812,10 @@ function limpiarModal() {
     selectize.clear();
 
     generarFolioProject();
+
+        $('#proyectoModal .modal-title').html('Nuevo proyecto');
+
+    
 }
 
 
@@ -2295,7 +2383,9 @@ $('#proyecto-list-table tbody').on('click', 'td>button.EDITAR', function () {
                     MEMBERSHIP_PROJECT: student.MEMBERSHIP_PROJECT || '',
                     EMAIL_PROJECT: student.EMAIL_PROJECT || '',
                     PASSWORD_PROJECT: student.PASSWORD_PROJECT || '',
-                    USER_ID_PROJECT: student.USER_ID_PROJECT || null
+                    USER_ID_PROJECT: student.USER_ID_PROJECT || null,
+                    LEVEL: student.LEVEL || '',
+
                 }))
             };
 

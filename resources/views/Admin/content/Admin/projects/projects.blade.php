@@ -904,7 +904,7 @@
                                         <div class="form-card">
                                             <div class="row">
                                                 <div class="col-7">
-                                                    <h3 class="mb-4">{{ __('Instructor')}}</h3>
+                                                    <h3 class="mb-4">{{ __('Students')}}</h3>
                                                 </div>
                                                 <div class="col-5">
                                                     <h2 class="steps"> {{ __('Step 4 of 6')}}</h2>
@@ -1088,6 +1088,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.niveles = @json($niveles);
+</script>
 
 @endsection
 @php

@@ -1494,7 +1494,7 @@ function loadTableCursoModal() {
             programRules = proyecto.PROGRAMA;
             projectProgramId = proyecto.PROGRAM_PROJECT;
             projectExamDate = proyecto.EXAM_DATE_PROJECT; // Falta esta línea
-    projectAccreditingEntity = proyecto.ACCREDITING_ENTITY_PROJECT;
+            projectAccreditingEntity = proyecto.ACCREDITING_ENTITY_PROJECT;
 
             renderDynamicTable(response, programRules);
         },
@@ -1504,39 +1504,97 @@ function loadTableCursoModal() {
     });
 }
 
+// function renderNivelColumn(candidato, proyecto, key) {
+//     const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
+//     const nivelGuardado = candidato.LEVEL || null;
+//     let html = `<td><div class="levels-container">`;
+
+//     if (niveles.length === 0) {
+//         html += `<span class="text-muted">N/A</span>`;
+//     } else if(nivelGuardado){
+//         html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
+//         if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
+//         niveles.forEach(nivel => {
+//             const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
+//             html += `<option value="${nivel.id}" ${selected}>${nivel.nombre}</option>`;
+//         });
+//         html += `</select>`;
+
+//     }else if (niveles.length === 1) {
+//         const unico = niveles[0];
+//         html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">
+//             <option value="${unico.id}" selected>${unico.nombre}</option>
+//         </select>`;
+//     } else {
+//         html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
+//         if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
+//         niveles.forEach(nivel => {
+//             const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
+//             html += `<option value="${nivel.id}" ${selected}>${nivel.nombre}</option>`;
+//         });
+//         html += `</select>`;
+//     }
+
+//     html += `</div></td>`;
+//     return html;
+// }
+
+
 function renderNivelColumn(candidato, proyecto, key) {
+
     const niveles = proyecto.ACCREDITATION_LEVELS_PROJECT || [];
-    const nivelGuardado = candidato.LEVEL || null;
+    const nivelGuardado = candidato?.LEVEL ?? null;
+
     let html = `<td><div class="levels-container">`;
 
+    // 🔹 No hay niveles configurados en el proyecto
     if (niveles.length === 0) {
-        html += `<span class="text-muted">N/A</span>`;
-    } else if(nivelGuardado){
-        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
-        if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
+
+        if (nivelGuardado) {
+            html += `
+                <select class="form-select form-select-sm level-select"
+                        name="courses[${key}][LEVEL]" disabled>
+                    <option value="${nivelGuardado}" selected>
+                        Nivel asignado
+                    </option>
+                </select>
+            `;
+        } else {
+            html += `<span class="text-muted">N/A</span>`;
+        }
+
+    } 
+    // 🔹 Sí hay niveles → select editable
+    else {
+
+        html += `
+            <select class="form-select form-select-sm level-select"
+                    name="courses[${key}][LEVEL]">
+                <option value="">Seleccione nivel</option>
+        `;
+
         niveles.forEach(nivel => {
-            const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
-            html += `<option value="${nivel.id}" ${selected}>${nivel.nombre}</option>`;
+            const selected =
+                String(nivel.id) === String(nivelGuardado)
+                    ? 'selected'
+                    : '';
+
+            html += `
+                <option value="${nivel.id}" ${selected}>
+                    ${nivel.nombre}
+                </option>
+            `;
         });
-        html += `</select>`;
-    }else if (niveles.length === 1) {
-        const unico = niveles[0];
-        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">
-            <option value="${unico.id}" selected>${unico.nombre}</option>
-        </select>`;
-    } else {
-        html += `<select class="form-select form-select-sm level-select" name="courses[${key}][LEVEL]">`;
-        if (!candidato.LEVEL) html += `<option value="">Seleccione nivel</option>`;
-        niveles.forEach(nivel => {
-            const selected = (nivel.id == candidato.LEVEL) ? "selected" : "";
-            html += `<option value="${nivel.id}" ${selected}>${nivel.nombre}</option>`;
-        });
+
         html += `</select>`;
     }
 
     html += `</div></td>`;
     return html;
 }
+
+
+
 
 function renderBOPColumn(proyecto) {
     let html = `<td><div class="bops-container">`;

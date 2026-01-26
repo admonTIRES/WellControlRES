@@ -257,6 +257,7 @@ class ProjectManagementController extends Controller
                                             'PASSWORD_PROJECT'  => $password,
                                             'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
                                             'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                                            'LEVEL'       => $estudiante['LEVEL'] ?? '',
                                             'ACTIVO'            => 1,
                                             'updated_at'        => now()
                                         ]);
@@ -276,6 +277,7 @@ class ProjectManagementController extends Controller
                                         'PASSWORD_PROJECT'  => $password,
                                         'POSITION_PROJECT'  => $estudiante['POSITION_PROJECT'] ?? '',
                                         'MEMBERSHIP_PROJECT' => $estudiante['MEMBERSHIP_PROJECT'] ?? '',
+                                        'LEVEL'       => $estudiante['LEVEL'] ?? '',
                                         'STATUS_MAIL_PROJECT' => 0,
                                         'ACTIVO'            => 1,
                                         'created_at'        => now(),
@@ -312,13 +314,18 @@ class ProjectManagementController extends Controller
                                 'COMPANY_ID_PROJECT' => $candidate->COMPANY_ID_PROJECT,
                                 'EMAIL_PROJECT' => $candidate->EMAIL_PROJECT,
                                 'FIRST_NAME_PROJECT' => $candidate->FIRST_NAME_PROJECT,
-                                'LAST_NAME_PROJECT' => $candidate->LAST_NAME_PROJECT
+                                'LAST_NAME_PROJECT' => $candidate->LAST_NAME_PROJECT,
+
                             ];
                         })
                     ];
                     return response()->json($response);
                     break;
+
+
+
                 case 2:
+
                     DB::beginTransaction();
                     try {
                         $coursesInput = $request->input('courses');
@@ -464,6 +471,8 @@ class ProjectManagementController extends Controller
                         return response()->json(['code' => 0, 'msj' => 'Error: ' . $e->getMessage()]);
                     }
                     break;
+
+
                 case 3:
                     $data = $request->all();
                     foreach ($data['courses'] as $candidateId => $courseData) {
@@ -1276,8 +1285,9 @@ class ProjectManagementController extends Controller
                     'c.EMAIL_PROJECT',
                     'c.ASISTENCIA', // Global
                     'c.ACTIVO',
+                    'c.LEVEL',
 
-                    // --- CURSO GENERAL ---
+                // --- CURSO GENERAL ---
                     'co.ID_COURSE as curso_id',
                     'co.PRACTICAL',
                     'co.PRACTICAL_PASS',
@@ -1356,6 +1366,10 @@ class ProjectManagementController extends Controller
                     'co.EXPIRATION',
                     'co.LEVEL',
 
+                    DB::raw('COALESCE(co.LEVEL, c.LEVEL) as LEVEL_EFECTIVO'),
+                    'co.LEVEL as COURSE_LEVEL',
+                    'c.LEVEL as CANDIDATE_LEVEL',
+
                     // --- EXTRAS ---
                     'co.ENABLE_NOTIFICATIONS', // Nuevo
                     'co.EMAILS_SENT',         // Nuevo
@@ -1381,7 +1395,7 @@ class ProjectManagementController extends Controller
                         'MIDDLE_NAME_PROJECT' => $estudiante->MIDDLE_NAME_PROJECT,
                         'EMAIL_PROJECT' => $estudiante->EMAIL_PROJECT,
                         'ACTIVO' => $estudiante->ACTIVO,
-                        'LEVEL' => $estudiante->LEVEL,
+                        'LEVEL' => $estudiante->LEVEL_EFECTIVO,
                         'ASISTENCIA' => $estudiante->ASISTENCIA // Global del candidato
                     ],
                     'datos_curso' => [

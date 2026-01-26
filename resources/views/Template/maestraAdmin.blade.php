@@ -781,7 +781,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Exercises/killsheet.js') }}?v=1.3"></script>
     @endif
     @if(request()->is('projectsAdmin'))
-    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.66"></script>
+    <script src="{{ asset('js/Admin/Project/project.js') }}?v=1.67"></script>
     @endif
     @if(request()->is('studentsList'))
     <script src="{{ asset('js/Admin/Project/students.js') }}?v=1.19"></script>
@@ -790,7 +790,7 @@ use Illuminate\Support\Str;
     <script src="{{ asset('js/Admin/Instructor/project.js') }}?v=1.15"></script>
     @endif
     @if (Route::currentRouteName() === 'projectsAdmin.details')
-    <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.48"></script>
+    <script src="{{ asset('js/Admin/Project/details.js') }}?v=1.49"></script>
     @endif
     @if(request()->is('roles'))
     <script src="{{ asset('js/Admin/Access/access.js') }}?v=1.5"></script>

@@ -74,8 +74,8 @@ Route::get('/exercise/image/{path}', [MathController::class, 'showImage'])
 //----------------------------KILLSHEET-------------------------------//
 Route::middleware(['auth'])->group(function () {
     Route::get('/Killsheet', [killsheetController::class, 'index'])->name('killsheet');
-    Route::get('/Killsheet/panel/{TIPO}', [KillsheetController::class, 'panel'])->name('killsheet.panel');
-    Route::get('/Killsheet/video/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.video');
+    // Route::get('/Killsheet/panel/{TIPO}', [KillsheetController::class, 'panel'])->name('killsheet.panel');
+    // Route::get('/Killsheet/video/{TIPO}', [KillsheetController::class, 'video'])->name('killsheet.video');
     Route::get('/Killsheet/info/{TIPO}', [KillsheetController::class, 'info'])->name('killsheet.info');
     Route::get('/Killsheet/firstExercise/{TIPO}', [KillsheetController::class, 'firstExercise'])->name('killsheet.firstExercise');
     Route::get('/Killsheet/practiceExercise/{TIPO}', [KillsheetController::class, 'practiceExercise'])->name('killsheet.practiceExercise');
@@ -92,7 +92,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/obtenerKillsheetsexercise', [surfaceController::class, 'obtenerKillsheetsexercise']);
 
 
-    
+    Route::get('/Killsheet/panel/iwcfVertical', function () { return view('Killsheet.IWCF.panel');});
+    Route::get('/Killsheet/video/iwcfVertical', function () {return view('Killsheet.IWCF.video');});
+
+    // IADC
+
+    Route::get('/Killsheet/panel/iadcVertical', function () {return view('Killsheet.IADC.panel');});
+
+    Route::get('/Killsheet/video/iadcVertical', function () { return view('Killsheet.IADC.video');});
+
 });
 
 

@@ -74,13 +74,14 @@ function cargarKillsheetsEstudiante() {
 
 
 const SECCIONES_ORDEN = [
-    { key: 'datos_pozo',          title: 'Datos del pozo' },
-    { key: 'capacidades_internas',title: 'Capacidades internas' },
-    { key: 'capacidades_anulares',title: 'Capacidades anulares' },
-    { key: 'bomba_lodo',          title: 'Datos de la bomba de lodo' },
-    { key: 'tasa_reducida_bomba', title: 'Datos de la tasa reducida de circulación de la bomba' },
-    { key: 'otra_informacion',    title: 'Otra información' },
-    { key: 'influjo',             title: 'Datos del influjo' }
+    { key: 'datos_pozo',            title: 'Datos del pozo' },
+    { key: 'capacidades_internas',  title: 'Capacidades internas' },
+    { key: 'capacidades_anulares',  title: 'Capacidades anulares' },
+    { key: 'bomba_lodo',            title: 'Datos de la bomba de lodo' },
+    { key: 'tasa_reducida_bomba',   title: 'Datos de la tasa reducida de circulación de la bomba' },
+    { key: 'otra_informacion',      title: 'Otra información' },
+    { key: 'prueba_formacion',      title: 'Datos de la prueba de formación' },
+    { key: 'influjo',               title: 'Datos del influjo' }
 ];
 
 function mostrarHojaMatar(datosJSON, indicaciones = '') {

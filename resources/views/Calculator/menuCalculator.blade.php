@@ -264,35 +264,15 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
             <p class="math-drilling-text">
                 {{ __('For a detailed visual guide, check the following video:') }}
             </p>
-            <!-- <div class="math-drilling-video">
-                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-                        <iframe id="js_video_iframe" src="https://jumpshare.com/embed/KkcH9kNSZnBbTnctAHs5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div> -->
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/1z51pKTGFzarlraTEUrW0bK-B9e3WCtS_/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- Los iframe de jumpshare son cuando la app crezca mucho y decidan pagar el servicio, por el momento se hace mediante drive, alojado en la cuenta de admonti@results-in-performance.com --}}
-                {{-- <iframe src="https://jumpshare.com/embed/bTdvEi46L5OGGd6rLTQO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/BConfiguración Calculadora.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+
 
             </div>
-            <!-- <div id="secure-video-container" class="video-container">
-                    <div id="video-frame-container"></div>
-                    
-                    <div class="controls-overlay"></div>
-                    
-                    <div class="logo-blocker"></div>
-                    <div class="right-click-blocker" id="right-click-blocker"></div>
-                    <div class="watermark">Contenido exclusivo</div>
-                    <div class="custom-controls">
-                    </div>
-
-                </div> -->
         </div>
 
         <div id="partes" class="content-section scrollable-content">
@@ -519,14 +499,11 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
 
 
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/1_pX_zIn3wWDViPsTRtj6ZF90KLSxZti4/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- <iframe src="https://jumpshare.com/embed/uNRQiIePuyvhQjQijZAS" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/Conversión Pies a Metros.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+
 
             </div>
         </div>
@@ -583,14 +560,11 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                 {{ __('For a more detailed explanation, watch the following video:') }}
             </p>
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/16pzyARzbNT6kTn7AKJqoAZPdbTNPRVf4/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- <iframe src="https://jumpshare.com/embed/K1VSrjl4E7BgbmhnHnI9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/Conversión Fracción a Decimal.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
 
             </div>
         </div>
@@ -615,14 +589,11 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                 {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
             </p>
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/15HG64dFbimzNOwaA0usD0DL6SLRLikqJ/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- <iframe src="https://jumpshare.com/embed/R5Qw6JyAYze0Gzu4gpCO" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/Jerarquía de operaciones.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+
 
             </div>
         </div>
@@ -664,15 +635,10 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                     <li><strong>{{ __('Hydrostatic pressure') }}</strong>: {{ __('Isolate depth (h) in the formula P = ρ * g * h.') }}</li>
                 </ul>
                 <div class="math-drilling-video">
-                    <iframe
-                        src="https://drive.google.com/file/d/10QiPiCGmhYKqil35ojhgrSLKxUJzPf3W/preview"
-                        width="100%"
-                        height="700px"
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                    {{-- <iframe src="https://jumpshare.com/embed/2HzPpi9PVCZAtQt6xeVz" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
-
+                    <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                        <source src="assets/video_calculadora/Despeje Presión Hidrostática.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
                 </div>
                 <li><strong>{{ __('Fluid volume') }}</strong>: {{ __('Isolate radius (r) in the formula V = π * r² * h.') }}</li>
                 <li><strong>{{ __('Pressure gradient') }}</strong>: {{ __('Isolate density (ρ) in the formula GP = ρ * g.') }}</li>
@@ -690,14 +656,10 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                 {{ __('For a more detailed explanation, watch the following video:') }}
             </p>
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/1Owe9uXOW9UPTnU0ysnBEjMw84mJUJh5T/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- <iframe src="https://jumpshare.com/embed/fjO2C8xBC4sBIuZW98OC" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/Despejes.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
 
             </div>
 
@@ -763,14 +725,11 @@ $iframeSrcConversion = $pdfLinksConversion[$locale] ?? $pdfLinksConversion['en']
                 {{ __('For a more detailed explanation about measurement units in well control, watch the following video:') }}
             </p>
             <div class="math-drilling-video">
-                <iframe
-                    src="https://drive.google.com/file/d/142huz725I8d3QUbbZQ8GCfHjm_7ips9w/preview"
-                    width="100%"
-                    height="700px"
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-                {{-- <iframe src="https://jumpshare.com/embed/os27wDIgvEH4jp5AVyw7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="top: 0; left: 0; width: 100%; height: 700px;"></iframe> --}}
+
+                <video class="video-player" oncontextmenu="return false;" controlslist="nodownload" id="videoPlayer" controls style="width: 100%;height:700px">
+                    <source src="assets/video_calculadora/Redondeo.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
 
             </div>
 

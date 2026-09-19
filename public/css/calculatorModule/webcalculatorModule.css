@@ -741,7 +741,6 @@ scrollbar        .hero-button {
 }
 
 .math-drilling-list li:hover {
-    transform: scale(1.1);
     font-weight: bold;
 }
 
@@ -779,12 +778,6 @@ scrollbar        .hero-button {
     height: auto;
     margin-bottom: 5px;
     cursor: pointer; /* Hace que parezca interactivo */
-}
-
-/* Efecto al pasar el mouse o hacer clic */
-.calculator-part:hover,
-.calculator-part:active {
-    transform: scale(1.1); /* Agranda el li */
 }
 
 /* Estilo para el span (descripción) */

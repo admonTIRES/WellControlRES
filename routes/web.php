@@ -437,24 +437,18 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/simulate/student', [AdminController::class, 'simulateStudentPanel'])->name('test.student');
-
-    Route::get('/simulate/leave', [AdminController::class, 'leaveSimulatedPanel'])->name('test.leave');
-
-    
+Route::get('/simulate/student', [AdminController::class, 'simulateStudentPanel'])->name('test.student');
+Route::get('/simulate/leave', [AdminController::class, 'leaveSimulatedPanel'])->name('test.leave');    
 Route::get('/users', [adminController::class, 'users'])->name('users');
 Route::get('/enterprise', [adminController::class, 'enterprise'])->name('enterprise');
 Route::get('/individual', [adminController::class, 'individual'])->name('individual');
 Route::get('/membership', [adminController::class, 'membership'])->name('membership');
 
-
 Route::get('/instructors', [adminController::class, 'instructors'])->name('instructors');
 Route::get('/external', [adminController::class, 'external'])->name('external');
 Route::get('/roles', [adminController::class, 'roles'])->name('roles');
 Route::get('/recovery', [adminController::class, 'recovery'])->name('recovery');
-
 Route::get('/reports', [adminController::class, 'reports'])->name('reports');
-
 Route::get('/profile', [adminController::class, 'profile'])->name('profile');
 Route::get('/configuration', [adminController::class, 'configuration'])->name('configuration');
 Route::get('/notifications', [adminController::class, 'notifications'])->name('notifications');

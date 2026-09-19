@@ -320,8 +320,9 @@ var projectCourseDatatable = $("#course-list-table").DataTable({
         {
             data: 'datos_curso',
             render: function (data) {
-                const expiration = data.EXPIRATION || '';
-                return expiration ? formatDateForDisplay(expiration) : '<span class="text-muted">N/A</span>';
+                // const expiration = data.EXPIRATION || '';
+                // return expiration ? formatDateForDisplay(expiration) : '<span class="text-muted">N/A</span>';
+                return data.EXPIRATION || '<span class="text-muted">N/A</span>';
             }
         },
         {
